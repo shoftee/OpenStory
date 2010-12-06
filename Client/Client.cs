@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenMaple.Client
 {
-    class MapleClient
+    class Client
     {
     }
 }

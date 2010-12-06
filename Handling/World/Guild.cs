@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenMaple.Client;
 
 namespace OpenMaple.Handling.World
 {
+    enum GuildRank
+    {
+        Master = 1,
+        JrMaster = 2,
+        HighMember = 3,
+        MediumMember = 4,
+        LowMember = 5
+    }
+
     struct GuildEmblem
     {
         public int ForegroundId { get; set; }
@@ -14,20 +22,28 @@ namespace OpenMaple.Handling.World
         public byte BackgroundColor { get; set; }
     }
 
-    enum GuildRank
-    {
-        Unknown = 0,
-        Master = 1,
-        JrMaster = 2,
-        HighMember = 3,
-        MediumMember = 4,
-        LowMember = 5
-    }
-
     class Guild
     {
-        private List<GuildCharacter> members;
-        private readonly string[] RankTitles = new string[5];
+        private static readonly Dictionary<GuildRank, string> DefaultRankTitles = new Dictionary<GuildRank, string> {
+            {GuildRank.Master, "Master"},
+            {GuildRank.JrMaster, "JrMaster"},
+            {GuildRank.HighMember, "Member"},
+            {GuildRank.MediumMember, "Member"},
+            {GuildRank.LowMember, "Member"}
+        };
+
+        public static string GetDefaultRankTitle(GuildRank rank)
+        {
+            string value;
+            if (!DefaultRankTitles.TryGetValue(rank, out value))
+            {
+                throw new ArgumentOutOfRangeException("rank");
+            }
+            return value;
+        }
+
+        private List<GuildMember> members;
+        private readonly Dictionary<GuildRank, string> rankTitles;
         public string Name { get; private set; }
         public string Notice { get; private set; }
 
@@ -39,35 +55,28 @@ namespace OpenMaple.Handling.World
         public int Signature { get; private set; }
         public int MasterCharacterId { get; private set; }
         public int Capacity { get; private set; }
-    }
 
-    class GuildCharacter
-    {
-        public int GuildId { get; private set; }
-
-        public int CharacterId { get; private set; }
-        public string Name { get; private set; }
-        public short Level { get; private set; }
-        public int JobId { get; private set; }
-        public GuildRank Rank { get; private set; }
-
-        public bool IsOnline { get; private set; }
-        public byte ChannelId { get; private set; }
-        
-        public GuildCharacter(Character character)
+        public Guild()
         {
-            if (character == null) throw new ArgumentNullException("character");
-            if (character.GuildId == -1)
+            rankTitles = new Dictionary<GuildRank, string>(5);
+        }
+
+        public string GetRankTitle(GuildRank rank)
+        {
+            string value;
+            if (!this.rankTitles.TryGetValue(rank, out value))
             {
-                throw new InvalidOperationException("This character doesn't belong to a guild.");
+                throw new ArgumentOutOfRangeException("rank");
             }
-            this.CharacterId = character.Id;
-            this.Name = character.Name;
-            this.Level = character.Level;
-            this.JobId = character.JobId;
-            this.Rank = character.GuildRank;
-            this.ChannelId = character.Client.CurrentChannelId;
-            this.GuildId = character.GuildId;
+            return value;
+        }
+        public void SetRankTitle(GuildRank rank, string title)
+        {
+            if (!this.rankTitles.ContainsKey(rank))
+            {
+                throw new ArgumentOutOfRangeException("rank");
+            }
+            this.rankTitles[rank] = title;
         }
     }
 }

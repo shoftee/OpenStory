@@ -50,9 +50,12 @@
     <Compile Include="Client\Inventory.cs" />
     <Compile Include="Client\Item.cs" />
     <Compile Include="Client\Character.cs" />
-    <Compile Include="Client\MapleClient.cs" />
+    <Compile Include="Client\Client.cs" />
     <Compile Include="Client\PlayerStore.cs" />
+    <Compile Include="Handling\World\GuildUnion.cs" />
     <Compile Include="Handling\World\Guild.cs" />
+    <Compile Include="Handling\World\GuildMember.cs" />
+    <Compile Include="Handling\World\Party.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
