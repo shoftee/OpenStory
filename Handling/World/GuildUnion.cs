@@ -7,7 +7,7 @@ namespace OpenMaple.Handling.World
 {
     class GuildUnion
     {
-        private List<Guild> guilds;
+        private List<IGuild> guilds;
         private readonly Dictionary<GuildRank, string> rankTitles;
 
         public int Id { get; private set; }

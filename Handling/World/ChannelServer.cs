@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenMaple.Client;
 
-namespace OpenMaple.Client
+namespace OpenMaple.Handling.World
 {
-    class ChannelServer
+    sealed class ChannelServer
     {
-        public const int MaxChannels = 32;
+        public const int MaxChannels = 16;
 
         #region Static shit
 
@@ -36,8 +37,13 @@ namespace OpenMaple.Client
         public bool IsRunning { get; private set; }
 
         public PlayerStore Players { get; private set; }
-        private string Key { get; set; }
         public int ChannelId { get; private set; }
+
+        public int ExpRate { get; private set; }
+        public int DropRate { get; private set; }
+        public int MesoRate { get; private set; }
+
+        private string Key { get; set; }
 
         private ChannelServer(string key)
         {
@@ -55,7 +61,7 @@ namespace OpenMaple.Client
             this.Players.UnregisterPlayer(character);
         }
 
-        public void ShutDown(int time)
+        public void ShutDown(TimeSpan time)
         {
             // TODO: Schedule shutdown 
         }

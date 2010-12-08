@@ -52,10 +52,11 @@
     <Compile Include="Client\Character.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\PlayerStore.cs" />
+    <Compile Include="Handling\World\GuildManager.cs" />
     <Compile Include="Handling\World\GuildUnion.cs" />
-    <Compile Include="Handling\World\Guild.cs" />
     <Compile Include="Handling\World\GuildMember.cs" />
-    <Compile Include="Handling\World\Party.cs" />
+    <Compile Include="Handling\World\PartyManager.cs" />
+    <Compile Include="Handling\World\PartyMember.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
