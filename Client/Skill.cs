@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenMaple.Handling.World
+namespace OpenMaple.Client
 {
-    class LoginServer
+    class Skill : ISkill
     {
     }
+
+    interface ISkill { }
 }

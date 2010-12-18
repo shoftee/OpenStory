@@ -92,14 +92,11 @@ namespace OpenMaple.Client
             {
                 return -1;
             }
-            lock (items)
+            for (short i = 1; i <= this.Capacity; i++)
             {
-                for (short i = 1; i <= this.Capacity; i ++)
+                if (!items.ContainsKey(i))
                 {
-                    if (!items.ContainsKey(i))
-                    {
-                        return i;
-                    }
+                    return i;
                 }
             }
             // We should never reach this point, so if we do something is very wrong.

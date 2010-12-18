@@ -7,20 +7,16 @@ using OpenMaple.Networking;
 
 namespace OpenMaple.Client
 {
-    class Client
+    // TODO: Rename to ChannelClient and move to a better namespace :/
+    class Client : ClientBase
     {
-        public Session Session { get; private set; }
+        public int ChannelId { get; set; }
 
-        public MapleAesEncryption SendCrypto { get; private set; }
-        public MapleAesEncryption ReceiveCrypto { get; private set; }
-
-        public Client(MapleAesEncryption send, MapleAesEncryption receive, Session session)
+        public Client(ISession session)
+            : base(session)
         {
-            this.SendCrypto = send;
-            this.ReceiveCrypto = receive;
-            this.Session = session;
         }
 
-        public void Disconnect() {}
+        public void Disconnect() { }
     }
 }

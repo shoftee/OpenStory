@@ -13,7 +13,7 @@ namespace OpenMaple.Client
         public short Quantity { get; set; }
         public int ItemId { get; set; }
         public int UniqueId { get; set; }
-        public long Expiration { get; set; }
+        public DateTime Expiration { get; set; }
 
         public Item(int itemId, short position, short quantity, byte flag)
         {
@@ -32,12 +32,13 @@ namespace OpenMaple.Client
         short Quantity { get; set; }
         int ItemId { get; set; }
         int UniqueId { get; set; }
-        long Expiration { get; set; }
+        DateTime Expiration { get; set; }
     }
 
     public enum ItemType
     {
         Unknown = 0,
+        Equip = 1,
         Item = 2
     }
 }

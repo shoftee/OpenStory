@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenMaple.Client;
+using OpenMaple.Handling.World;
 
-namespace OpenMaple.Handling.World
+namespace OpenMaple.Networking
 {
     sealed class ChannelServer
     {
@@ -16,7 +17,7 @@ namespace OpenMaple.Handling.World
 
         public static IEnumerable<IChannelServer> Instances
         {
-            get { InstancesInternal.Values.Cast<IChannelServer>(); }
+            get { return InstancesInternal.Values.Cast<IChannelServer>(); }
         }
 
         static ChannelServer()
@@ -36,7 +37,7 @@ namespace OpenMaple.Handling.World
 
         public bool IsRunning { get; private set; }
 
-        public PlayerStore Players { get; private set; }
+        public CharacterManager Characters { get; private set; }
         public int ChannelId { get; private set; }
 
         public int ExpRate { get; private set; }
@@ -52,13 +53,14 @@ namespace OpenMaple.Handling.World
 
         public void AddPlayer(Character character)
         {
-            this.Players.RegisterPlayer(character);
-            character.Client.Session.Write(MaplePacketCreator.ServerMessage(serverMessage));
+            this.Characters.RegisterPlayer(character);
+            // TODO: For later :P
+            //Character.Client.Session.Write(MaplePacketCreator.ServerMessage(serverMessage));
         }
 
         public void RemovePlayer(Character character)
         {
-            this.Players.UnregisterPlayer(character);
+            this.Characters.UnregisterPlayer(character);
         }
 
         public void ShutDown(TimeSpan time)
@@ -66,5 +68,10 @@ namespace OpenMaple.Handling.World
             // TODO: Schedule shutdown 
         }
 
+    }
+
+    interface IChannelServer
+    {
+        
     }
 }

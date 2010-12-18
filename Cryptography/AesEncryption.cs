@@ -4,8 +4,9 @@ using OpenMaple.Tools;
 
 namespace OpenMaple.Cryptography
 {
-    class MapleAesEncryption
+    class AesEncryption
     {
+        // TODO: Load these from somewhere?
         // Magic!
         private static readonly byte[] TransformTable = new byte[] 
         { 
@@ -36,19 +37,19 @@ namespace OpenMaple.Cryptography
             0x33, 0x00, 0x00, 0x00,  0x52, 0x00, 0x00, 0x00 
         };
 
-        public byte[] Iv { get; private set; }
-        public short Version { get; private set; }
+        private byte[] iv;
+        private short version;
 
-        public MapleAesEncryption(byte[] iv, short version)
+        public AesEncryption(byte[] iv, short gameVersion)
         {
             if (iv.Length != 4)
             {
                 throw new ArgumentException("Argument iv does not have exactly 4 elements.");
             }
-            this.Iv = iv;
+            this.iv = iv;
 
             // Flip the version back to little-endian.
-            this.Version = (short) (((version >> 8) & 0xFF) | ((version & 0xFF) << 8));
+            this.version = (short) (((gameVersion >> 8) & 0xFF) | ((gameVersion & 0xFF) << 8));
         }
 
         public byte[] Encrypt(byte[] data)
@@ -72,7 +73,7 @@ namespace OpenMaple.Cryptography
             while (remaining > 0)
             {
                 // The AES IV has to be 128 bits or more.
-                byte[] myIv = ByteUtils.MultiplyBytes(this.Iv, 4, 4);
+                byte[] myIv = ByteUtils.MultiplyBytes(this.iv, 4, 4);
                 int ivLength = myIv.Length;
                 if (remaining < llength) llength = remaining;
                 for (int i = start; i < (start + llength); i++)
@@ -98,15 +99,15 @@ namespace OpenMaple.Cryptography
 
         private void Update()
         {
-            this.Iv = TransformIv(this.Iv);
+            this.iv = TransformIv(this.iv);
         }
 
         public byte[] GetPacketHeader(int length)
         {
             // Kinky packet header transformations.
-            uint iiv = (uint) ((this.Iv[3] & 0xFF) | (this.Iv[2] << 8) & 0xFF00);
+            uint iiv = (uint) ((this.iv[3] & 0xFF) | (this.iv[2] << 8) & 0xFF00);
 
-            iiv ^= (uint) this.Version;
+            iiv ^= (uint) this.version;
             uint mlength = (((uint) length << 8) & 0xFF00) | ((uint) length >> 8);
             uint xoredIv = iiv ^ mlength;
 
@@ -129,11 +130,10 @@ namespace OpenMaple.Cryptography
                 (((packetHeader[1] ^ packetHeader[3]) << 8) & 0xFF00));
         }
 
-        // Uh. I don't even use this?
         public bool CheckPacket(byte[] packet)
         {
-            bool first = ((packet[0] ^ this.Iv[2]) & 0xFF) == ((Version >> 8) & 0xFF);
-            bool second = (((packet[1] ^ this.Iv[3]) & 0xFF) == (Version & 0xFF));
+            bool first = ((packet[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
+            bool second = (((packet[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF));
             return first && second;
         }
 

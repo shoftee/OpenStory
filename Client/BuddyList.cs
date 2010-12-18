@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using OpenMaple.Tools;
 
 namespace OpenMaple.Client
 {
@@ -22,6 +25,14 @@ namespace OpenMaple.Client
 
     class BuddyList
     {
+        private const string SelectBuddies =
+            "SELECT * " +
+            "FROM BuddyListEntry " +
+            "WHERE [CharacterId]=@characterId";
+
+        public const int DefaultCapacity = 20;
+        public const int MaxCapacity = 100;
+
         private IDictionary<int, BuddyListEntry> items;
         private LinkedList<CharacterSimpleInfo> pendingRequests;
 
@@ -35,11 +46,46 @@ namespace OpenMaple.Client
             get { return items.Values; }
         }
 
-        public BuddyList()
+        private BuddyList(int capacity = DefaultCapacity)
         {
-            this.Capacity = 20;
-            this.items = new Dictionary<int, BuddyListEntry>();
+            if (capacity < DefaultCapacity || MaxCapacity < capacity)
+            {
+                throw new ArgumentOutOfRangeException("capacity");
+            }
+            this.Capacity = capacity;
+
+            this.items = new Dictionary<int, BuddyListEntry>(capacity);
             this.pendingRequests = new LinkedList<CharacterSimpleInfo>();
+        }
+
+        public static BuddyList LoadFromDb(int characterId, int capacity)
+        {
+            BuddyList buddyList = new BuddyList(capacity);
+            SqlCommand query = new SqlCommand(SelectBuddies);
+            query.AddParameter("@characterId", SqlDbType.Int, characterId);
+            using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.OpenMapleConnectionString))
+            {
+                query.Connection = connection;
+                connection.Open();
+                using (SqlDataReader reader = query.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int buddyCharacterId = (int) reader["BuddyCharacterId"];
+                        string buddyName = (string) reader["BuddyName"];
+                        string groupName = (string) reader["GroupName"];
+                        BuddyListEntryStatus status = (BuddyListEntryStatus) reader["Status"];
+                        if (status == BuddyListEntryStatus.PendingRequest)
+                        {
+                            buddyList.pendingRequests.AddLast(new CharacterSimpleInfo(buddyCharacterId, buddyName));
+                        }
+
+                        BuddyListEntry entry = new BuddyListEntry(buddyCharacterId, buddyName, status, groupName);
+                        buddyList.AddEntry(entry);
+                    }
+                }
+            }
+            return buddyList;
         }
 
         public bool ContainsId(int characterId)
@@ -62,11 +108,6 @@ namespace OpenMaple.Client
             return null;
         }
 
-        public int[] GetBuddyIds()
-        {
-            return items.Keys.ToArray();
-        }
-
         public BuddyListEntry GetByName(string characterName)
         {
             return items.Values.FirstOrDefault(
@@ -87,7 +128,15 @@ namespace OpenMaple.Client
 
     struct CharacterSimpleInfo
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+
+        public CharacterSimpleInfo(int id, string name)
+            : this()
+        {
+            this.Id = id;
+            this.Name = name;
+        }
     }
+
 }

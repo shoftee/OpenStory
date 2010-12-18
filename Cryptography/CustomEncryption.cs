@@ -1,7 +1,7 @@
 ﻿using OpenMaple.Tools;
 
 namespace OpenMaple.Cryptography {
-    class MapleCustomEncryption {
+    class CustomEncryption {
 
         public static byte[] Encrypt(byte[] data) {
             for (int j = 0; j < 6; j++) {

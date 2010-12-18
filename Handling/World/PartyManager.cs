@@ -70,14 +70,9 @@ namespace OpenMaple.Handling.World
             private List<PartyMember> members;
             public int Id { get; private set; }
 
-            private Party()
+            public Party(int id, PartyMember leader)
             {
                 this.members = new List<PartyMember>(6);
-            }
-
-            public Party(int id, PartyMember leader)
-                : this()
-            {
                 this.Id = id;
                 this.Leader = leader;
                 this.members.Add(leader);
@@ -85,7 +80,10 @@ namespace OpenMaple.Handling.World
 
             public void AddMember(PartyMember member)
             {
-                if (member == null) throw new ArgumentNullException("member");
+                if (member == null)
+                {
+                    throw new ArgumentNullException("member");
+                }
                 if (members.Count == 6)
                 {
                     throw new InvalidOperationException("This party is full.");
@@ -95,7 +93,10 @@ namespace OpenMaple.Handling.World
 
             public void RemoveMember(PartyMember member)
             {
-                if (member == null) throw new ArgumentNullException("member");
+                if (member == null)
+                {
+                    throw new ArgumentNullException("member");
+                }
                 if (member == this.Leader)
                 {
                     throw new InvalidOperationException("You can't remove the leader. Disband the party instead.");
@@ -114,7 +115,7 @@ namespace OpenMaple.Handling.World
 
             public PartyMember GetMemberById(int characterId)
             {
-                return this.members.FirstOrDefault(member => member.CharacterId == characterId);
+                return this.members.FirstOrDefault(member => member.PlayerId == characterId);
             }
 
             #region Implementation of IEquatable<IParty>

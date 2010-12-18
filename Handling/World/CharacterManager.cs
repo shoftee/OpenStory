@@ -6,21 +6,22 @@ using OpenMaple.Networking;
 
 namespace OpenMaple.Handling.World
 {
-    sealed class PlayerStore
+    sealed class CharacterManager
     {
-        public const int MaxCharacters = 1200;
+        // TODO: Get from DB later
+        public const int UserLimit = 12;
 
         private readonly Dictionary<string, Character> charactersByName;
         private readonly Dictionary<int, Character> charactersById;
 
         public int ClientCount { get { return charactersById.Count; } }
 
-        public PlayerStore()
+        public CharacterManager()
         {
-            // TODO: Pruning task
+            // TODO: Pruning task?
             // TODO: Localization?
-            charactersByName = new Dictionary<string, Character>(MaxCharacters, StringComparer.OrdinalIgnoreCase);
-            charactersById = new Dictionary<int, Character>(MaxCharacters);
+            charactersByName = new Dictionary<string, Character>(UserLimit, StringComparer.OrdinalIgnoreCase);
+            charactersById = new Dictionary<int, Character>(UserLimit);
         }
 
         public void RegisterPlayer(Character character)
@@ -50,7 +51,7 @@ namespace OpenMaple.Handling.World
             foreach (var client in charactersById.Values.Where(c => !c.IsGameMaster).Select(c => c.Client))
             {
                 client.Disconnect();
-                client.Session.Close();
+                client.Session.Release();
             }
         }
 

@@ -8,7 +8,8 @@ namespace OpenMaple.Client
 
         public int CharacterId { get; private set; }
         public string Name { get; private set; }
-        public string Group { get; private set; }
+        public string GroupName { get; private set; }
+        public BuddyListEntryStatus Status { get; set; }
         public bool IsOnline { get; set; }
         public bool IsVisible { get; set; }
 
@@ -34,14 +35,23 @@ namespace OpenMaple.Client
 
         #endregion
 
-        public BuddyListEntry(int characterId, string characterName, string buddyGroup, bool isOnline = false, int channel = -1, bool isVisible = false)
+        public BuddyListEntry(int characterId, string characterName, BuddyListEntryStatus status, string groupName, bool isOnline = false, int channel = -1, bool isVisible = false)
         {
             this.CharacterId = characterId;
             this.Name = characterName;
-            this.Group = buddyGroup;
+            this.GroupName = groupName;
+            this.Status = status;
             this.IsOnline = isOnline;
             this.Channel = channel;
             this.IsVisible = isVisible;
         }
+    }
+
+    enum BuddyListEntryStatus
+    {
+        None = 0,
+        PendingRequest = 1,
+        Active = 2,
+        Inactive = 3
     }
 }
