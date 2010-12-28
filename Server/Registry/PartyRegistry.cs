@@ -21,7 +21,7 @@ namespace OpenMaple.Server.Registry
         public static IParty CreateParty(Player leader)
         {
             if (leader == null) throw new ArgumentNullException("leader");
-            if (leader.Party != null) throw new InvalidOperationException("The player is already in a party.");
+            if (leader.PartyMember != null) throw new InvalidOperationException("The player is already in a party.");
 
             PartyMember leaderMember = new PartyMember(leader);
             int newPartyId = GetNewId();

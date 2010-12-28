@@ -15,6 +15,13 @@ namespace OpenMaple.Networking
         {
             private static readonly short MapleVersion = Properties.Settings.Default.MapleVersion;
 
+            private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
+
+            /// <summary>
+            /// A unique ID for the current session.
+            /// </summary>
+            public int SessionId { get; private set; }
+
             /// <summary>
             /// The rolling AES encryption for the output stream.
             /// </summary>
@@ -39,7 +46,16 @@ namespace OpenMaple.Networking
                 set
                 {
                     this.socket = value;
-                    this.RemoteAddress = value == null ? string.Empty : ((IPEndPoint) this.socket.RemoteEndPoint).Address.ToString();
+                    if (value == null)
+                    {
+                        this.SessionId = -1;
+                        this.RemoteAddress = String.Empty;
+                    }
+                    else
+                    {
+                        this.SessionId = RollingSessionId.Increment();
+                        this.RemoteAddress = ((IPEndPoint) this.socket.RemoteEndPoint).Address.ToString();
+                    }
                 }
             }
 
@@ -57,6 +73,8 @@ namespace OpenMaple.Networking
 
                 byte[] receiveIv = ByteUtils.GetFreshIv();
                 this.ReceiveCrypto = new AesEncryption(receiveIv, version);
+
+                this.Socket = null;
             }
 
             /// <summary>

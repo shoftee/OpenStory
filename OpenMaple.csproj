@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\GuildOperationResult.cs" />
+    <Compile Include="Data\CharacterEngine.cs" />
     <Compile Include="Data\GuildMember.cs" />
     <Compile Include="Constants\BuddyListOperationResult.cs" />
     <Compile Include="Constants\MapObjectType.cs" />

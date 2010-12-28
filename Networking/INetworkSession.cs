@@ -5,6 +5,8 @@ namespace OpenMaple.Networking
 {
     interface INetworkSession
     {
+        int SessionId { get; }
+
         AesEncryption SendCrypto { get; }
         AesEncryption ReceiveCrypto { get; }
 

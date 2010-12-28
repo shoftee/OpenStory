@@ -26,14 +26,14 @@ namespace OpenMaple.Server.Registry
 
         public void RegisterPlayer(Player player)
         {
-            this.playersByName.Add(player.Character.Name.ToLowerInvariant(), player);
-            this.playersById.Add(player.Character.Id, player);
+            this.playersByName.Add(player.CharacterName.ToLowerInvariant(), player);
+            this.playersById.Add(player.CharacterId, player);
         }
 
         public void UnregisterPlayer(Player character)
         {
-            this.playersByName.Remove(character.Character.Name.ToLowerInvariant());
-            this.playersById.Remove(character.Character.Id);
+            this.playersByName.Remove(character.CharacterName.ToLowerInvariant());
+            this.playersById.Remove(character.CharacterId);
         }
 
         public Player GetById(int characterId)

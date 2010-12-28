@@ -14,7 +14,7 @@ namespace OpenMaple.Server
 
         public IWorld GetWorldById(int worldId)
         {
-            return this.worlds.FirstOrDefault(w => w.Id == worldId);
+            return this.worlds.First(w => w.Id == worldId);
         }
     }
 }

@@ -111,10 +111,7 @@ namespace OpenMaple.Server.Login
             {
                 throw new InvalidOperationException("The client state should be 'WorldSelect' or 'ChannelSelect' at world selection time.");
             }
-            if (worldId < 0 || loginServer.ActiveWorldCount <= worldId)
-            {
-                throw new ArgumentOutOfRangeException("worldId", worldId, "'worldId' must be a valid 0-based world ID.");
-            }
+            return loginServer.GetWorldById(worldId);
         }
 
         public void SelectChannel(int worldId)

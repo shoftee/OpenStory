@@ -21,7 +21,7 @@ namespace OpenMaple.Server.Login
         public string EventMessage { get; set; }
 
         private static readonly LoginServer InternalInstance = new LoginServer();
-        public static LoginServer Instance { get { return InternalInstance; } }
+        public static ILoginServer Instance { get { return InternalInstance; } }
 
         private WorldManager worldManager;
         private LoginHandler loginHandler;
@@ -50,6 +50,5 @@ namespace OpenMaple.Server.Login
     public interface ILoginServer
     {
         IWorld GetWorldById(int worldId);
-
     }
 }

@@ -19,7 +19,7 @@ namespace OpenMaple.Server.Registry
         public static IMessenger CreateMessenger(Player initiator)
         {
             if (initiator == null) throw new ArgumentNullException("initiator");
-            if (initiator.MessengerId != -1) throw new InvalidOperationException("This player already has a messenger started.");
+            if (initiator.MessengerMember != null) throw new InvalidOperationException("This player already has a messenger started.");
 
             int messengerId = Instance.rollingMessengerId.Increment();
             MessengerMember initiatorMember = new MessengerMember(initiator);
