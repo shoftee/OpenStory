@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using OpenMaple.Client;
+using OpenMaple.Game;
 using OpenMaple.Tools;
 
 namespace OpenMaple.Server.Maps

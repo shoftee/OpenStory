@@ -57,11 +57,11 @@ namespace OpenMaple.Cryptography
             int length = data.Length;
 
             RijndaelManaged cipher = new RijndaelManaged
-                                         {
-                                             Padding = PaddingMode.None,
-                                             Mode = CipherMode.ECB,
-                                             Key = Key
-                                         };
+            {
+                Padding = PaddingMode.None,
+                Mode = CipherMode.ECB,
+                Key = Key
+            };
 
             ICryptoTransform decryptor = cipher.CreateEncryptor();
             int remaining = length;
@@ -126,8 +126,7 @@ namespace OpenMaple.Cryptography
                 throw new ArgumentException("Argument packetHeader does not have 4 elements.");
             }
             // More kinky packet header transformations.
-            return (((packetHeader[0] ^ packetHeader[2]) & 0xFF) |
-                (((packetHeader[1] ^ packetHeader[3]) << 8) & 0xFF00));
+            return (((packetHeader[0] ^ packetHeader[2]) & 0xFF) | (((packetHeader[1] ^ packetHeader[3]) << 8) & 0xFF00));
         }
 
         public bool CheckPacket(byte[] packet)

@@ -68,41 +68,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\BuddyList.cs" />
-    <Compile Include="Client\BuddyListEntry.cs" />
-    <Compile Include="Client\IPacketData.cs" />
-    <Compile Include="Client\IPlayerExtension.cs" />
-    <Compile Include="Client\KeyLayout.cs" />
-    <Compile Include="Client\Mount.cs" />
-    <Compile Include="Client\Npc.cs" />
-    <Compile Include="Client\PacketWriter.cs" />
-    <Compile Include="Client\Pet.cs" />
-    <Compile Include="Client\Skill.cs" />
+    <Compile Include="Constants\GuildOperationResult.cs" />
+    <Compile Include="Data\GuildMember.cs" />
+    <Compile Include="Constants\BuddyListOperationResult.cs" />
+    <Compile Include="Constants\MapObjectType.cs" />
+    <Compile Include="Constants\LoginClientState.cs" />
+    <Compile Include="Constants\Gender.cs" />
+    <Compile Include="Constants\JobClass.cs" />
+    <Compile Include="Constants\InventoryType.cs" />
+    <Compile Include="Constants\Element.cs" />
+    <Compile Include="Game\BuddyList.cs" />
+    <Compile Include="Game\BuddyListEntry.cs" />
+    <Compile Include="Game\IItem.cs" />
+    <Compile Include="Game\IPacketData.cs" />
+    <Compile Include="IO\PacketReader.cs" />
+    <Compile Include="Server\BanManager.cs" />
+    <Compile Include="Server\IPlayerExtension.cs" />
+    <Compile Include="Game\ISkill.cs" />
+    <Compile Include="Constants\ItemType.cs" />
+    <Compile Include="Game\KeyLayout.cs" />
+    <Compile Include="Game\Mount.cs" />
+    <Compile Include="Game\Npc.cs" />
+    <Compile Include="IO\PacketWriter.cs" />
+    <Compile Include="Game\Pet.cs" />
+    <Compile Include="Game\Skill.cs" />
     <Compile Include="Cryptography\AesEncryption.cs" />
     <Compile Include="Cryptography\CustomEncryption.cs" />
+    <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
-    <Compile Include="Networking\Channel.cs" />
-    <Compile Include="Networking\ChannelServer.cs" />
-    <Compile Include="Client\Equip.cs" />
-    <Compile Include="Client\Inventory.cs" />
+    <Compile Include="Data\Account.cs" />
+    <Compile Include="Networking\INetworkSession.cs" />
+    <Compile Include="Server\AccountSession.cs" />
+    <Compile Include="Server\Channel.cs" />
+    <Compile Include="Server\ChannelServer.cs" />
+    <Compile Include="Game\Equip.cs" />
+    <Compile Include="Game\Inventory.cs" />
     <Compile Include="Networking\Acceptor.cs" />
-    <Compile Include="Networking\ClientBase.cs" />
-    <Compile Include="Networking\LoginClient.cs" />
-    <Compile Include="Networking\LoginHandler.cs" />
-    <Compile Include="Networking\LoginServer.cs" />
+    <Compile Include="Server\AbstractClient.cs" />
+    <Compile Include="Server\Login\LoginClient.cs" />
+    <Compile Include="Server\Login\LoginHandler.cs" />
+    <Compile Include="Server\Login\LoginServer.cs" />
     <Compile Include="Networking\IPacket.cs" />
-    <Compile Include="Client\Item.cs" />
-    <Compile Include="Client\Character.cs" />
-    <Compile Include="Client\Client.cs" />
-    <Compile Include="Handling\World\CharacterManager.cs" />
-    <Compile Include="Handling\World\GuildManager.cs" />
-    <Compile Include="Handling\World\GuildUnion.cs" />
-    <Compile Include="Handling\World\GuildMember.cs" />
-    <Compile Include="Handling\World\PartyManager.cs" />
-    <Compile Include="Handling\World\PartyMember.cs" />
+    <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\Character.cs" />
+    <Compile Include="Server\ChannelClient.cs" />
+    <Compile Include="Server\Player.cs" />
+    <Compile Include="Constants\GuildRank.cs" />
+    <Compile Include="Constants\BuddyListOperation.cs" />
+    <Compile Include="Constants\GuildOperation.cs" />
+    <Compile Include="Server\Registry\GuildRegistry.Guild.cs" />
+    <Compile Include="Server\Registry\PartyRegistry.Party.cs" />
+    <Compile Include="Server\Registry\PlayerManager.cs" />
+    <Compile Include="Server\Registry\GuildRegistry.cs" />
+    <Compile Include="Server\Registry\GuildMember.cs" />
+    <Compile Include="Server\Registry\GuildUnion.cs" />
+    <Compile Include="Server\Registry\MessengerRegistry.Messenger.cs" />
+    <Compile Include="Server\Registry\MessengerMember.cs" />
+    <Compile Include="Server\Registry\MessengerRegistry.cs" />
+    <Compile Include="Constants\PartyOperation.cs" />
+    <Compile Include="Server\Registry\PartyRegistry.cs" />
+    <Compile Include="Server\Registry\PartyMember.cs" />
     <Compile Include="Networking\SessionManager.cs" />
-    <Compile Include="Networking\World.cs" />
-    <Compile Include="Networking\WorldManager.cs" />
+    <Compile Include="Server\TimedScheduler.cs" />
+    <Compile Include="Server\TimedScheduler.Timeline.cs" />
+    <Compile Include="Server\World.cs" />
+    <Compile Include="Server\WorldManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -116,12 +146,15 @@
     <Compile Include="Server\Maps\ISpawnPoint.cs" />
     <Compile Include="Server\Maps\Map.cs" />
     <Compile Include="Server\Maps\MapEffect.cs" />
+    <Compile Include="Constants\WorldStatus.cs" />
     <Compile Include="Tools\AtomicInteger.cs" />
     <Compile Include="Tools\ByteUtils.cs" />
+    <Compile Include="Tools\DateUtils.cs" />
     <Compile Include="Tools\DbUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Networking\SessionManager.NetworkSession.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -130,9 +163,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="PacketDefinitions.xml" />
   </ItemGroup>

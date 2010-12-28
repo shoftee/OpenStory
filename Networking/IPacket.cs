@@ -1,4 +1,7 @@
 ﻿namespace OpenMaple.Networking
 {
-    interface IPacket {}
+    interface IPacket
+    {
+        
+    }
 }

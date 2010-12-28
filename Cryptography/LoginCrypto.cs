@@ -9,7 +9,12 @@ namespace OpenMaple.Cryptography
 {
     static class LoginCrypto
     {
-        private static readonly MD5CryptoServiceProvider MD5CryptoProvider = new MD5CryptoServiceProvider();
+        private static readonly MD5CryptoServiceProvider MD5CryptoProvider;
+    
+        static LoginCrypto()
+        {
+            MD5CryptoProvider = new MD5CryptoServiceProvider();
+        }
 
         public static string GetAuthenticationHash(string username, string password)
         {
@@ -23,5 +28,6 @@ namespace OpenMaple.Cryptography
             byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);
             return ByteUtils.ByteToHex(hashBytes);
         }
+
     }
 }

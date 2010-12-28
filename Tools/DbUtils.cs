@@ -8,10 +8,15 @@ using System.Text;
 
 namespace OpenMaple.Tools
 {
-    public delegate void ReadRecordHandler(IDataRecord record);
-
     static class DbUtils
     {
+        private static readonly string OpenMapleConnectionString = Properties.Settings.Default.OpenMapleConnectionString;
+
+        public static SqlConnection GetConnection()
+        {
+            return new SqlConnection(OpenMapleConnectionString);
+        }
+
         /// <summary>
         /// Adds a new parameter object to the SqlCommand parameters collection.
         /// </summary>
@@ -40,10 +45,16 @@ namespace OpenMaple.Tools
             sqlCommand.Parameters.Add(parameter);
         }
 
-        public static bool GetSingleRecord(SqlCommand query, ReadRecordHandler handler)
+        /// <summary>
+        /// Executes the given query and calls the given handler for the first row of the result set.
+        /// </summary>
+        /// <param name="query">The SqlCommand to execute.</param>
+        /// <param name="handler">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
+        /// <returns>true if there was a result; otherwise, false.</returns>
+        public static bool GetSingleRecord(SqlCommand query, Action<IDataRecord> handler)
         {
             // I actually feel quite awesome about this method, it saves me a lot of writing.
-            using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.OpenMapleConnectionString))
+            using (SqlConnection connection = GetConnection())
             {
                 query.Connection = connection;
                 connection.Open();
@@ -59,6 +70,68 @@ namespace OpenMaple.Tools
                         return false;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns an iterator for the result set of the given query.
+        /// </summary>
+        /// <param name="query">The SqlCommand to execute.</param>
+        /// <returns>An IEnumerator for the result set of the query.</returns>
+        public static IEnumerator<IDataRecord> GetRecordSetIterator(SqlCommand query)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                query.Connection = connection;
+                connection.Open();
+                using (SqlDataReader reader = query.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        yield return reader;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Executes the given query and returns the first column of the first row of the result set, casted to <typeparamref name="TResult"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The type to cast the result to.</typeparam>
+        /// <param name="scalarQuery">The SqlCommand to execute.</param>
+        /// <returns>The result from the query, casted to <typeparamref name="TResult"/>.</returns>
+        public static TResult GetScalar<TResult>(SqlCommand scalarQuery)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                scalarQuery.Connection = connection;
+                connection.Open();
+                return (TResult) scalarQuery.ExecuteScalar();
+            }
+        }
+
+        /// <summary>
+        /// Executes the given query and returns the first column of the first row of the result set.
+        /// </summary>
+        /// <param name="scalarQuery">The SqlCommand to execute.</param>
+        /// <returns>The result from the query.</returns>
+        public static object GetScalar(SqlCommand scalarQuery)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                scalarQuery.Connection = connection;
+                connection.Open();
+                return scalarQuery.ExecuteScalar();
+            }
+        }
+
+        public static int ExecuteNonQuery(SqlCommand command)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                command.Connection = connection;
+                connection.Open();
+                return command.ExecuteNonQuery();
             }
         }
     }

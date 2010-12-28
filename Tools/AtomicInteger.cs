@@ -71,5 +71,15 @@ namespace OpenMaple.Tools
         {
             return Interlocked.CompareExchange(ref this.value, newValue, comparand);
         }
+
+        public static implicit operator AtomicInteger(int value)
+        {
+            return new AtomicInteger(value);
+        }
+
+        public static explicit operator int(AtomicInteger atomicInteger)
+        {
+            return atomicInteger.value;
+        }
     }
 }

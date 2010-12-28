@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenMaple.Constants;
 
 namespace OpenMaple.Server.Maps
 {
@@ -8,22 +9,7 @@ namespace OpenMaple.Server.Maps
         MapObjectType Type { get; }
         Point Position { get; }
 
-        void SendSpawnData(Client.Client client);
-        void SendDestroyData(Client.Client client);
-    }
-
-    enum MapObjectType
-    {
-        Unknown = 0,
-        Player,
-        Summon,
-        Npc,
-        Reactor,
-        HiredMerchant,
-        PlayerShop,
-        Monster,
-        Item,
-        Door,
-        Mist
+        void SendSpawnData(ChannelClient client);
+        void SendDestroyData(ChannelClient client);
     }
 }
