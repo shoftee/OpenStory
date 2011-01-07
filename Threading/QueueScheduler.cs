@@ -37,20 +37,20 @@ namespace OpenMaple.Threading
 
         private void ExecutePending()
         {
-            if (this.isWorking.CompareExchange(false, true)) return;
-
             ISchedulable scheduled;
             Action action;
             while (objectOrder.TryDequeue(out scheduled))
             {
                 executionQueue.Enqueue(scheduled.GetPendingAction());
             }
-            this.isWorking.Exchange(false);
+
+            if (this.isWorking.CompareExchange(comparand: false, newValue: true)) return;
 
             while (executionQueue.TryDequeue(out action))
             {
                 Task.Factory.StartNew(action, TaskCreationOptions.PreferFairness);
             }
+            this.isWorking.Exchange(false);
         }
     }
 

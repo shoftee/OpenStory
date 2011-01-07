@@ -43,7 +43,7 @@ namespace OpenMaple.Server.Registry
 
         public Guild()
         {
-            rankTitles = new Dictionary<GuildRank, string>(DefaultCapacity);
+            rankTitles = new Dictionary<GuildRank, string>(5);
             members = new HashSet<GuildMember>();
         }
 
