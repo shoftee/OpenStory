@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Threading;
 
-namespace OpenMaple.Server
+namespace OpenMaple.Threading
 {
-    sealed partial class TimedScheduler
+    sealed partial class TimeScheduler
     {
-        private static readonly TimedScheduler Instance = new TimedScheduler();
-        private TimedScheduler()
+        private static readonly TimeScheduler Instance = new TimeScheduler();
+        private TimeScheduler()
         {
             timeline = new Timeline();
         }
+
+        private IScheduler scheduler;
 
         private Timeline timeline;
 
@@ -20,17 +22,6 @@ namespace OpenMaple.Server
         public void ExecuteAsap(Action action)
         {
             this.InsertTask(action, DateTime.Now);
-        }
-
-        /// <summary>
-        /// Schedules an action for execution at the given time.
-        /// </summary>
-        /// <param name="action">The action to schedule.</param>
-        /// <param name="dateTime">The execution time for the <paramref name="action"/>.</param>
-        /// <returns>A <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
-        public CancellationTokenSource ExecuteAt(Action action, DateTime dateTime)
-        {
-            return this.InsertTask(action, dateTime);
         }
 
         /// <summary>
@@ -60,16 +51,14 @@ namespace OpenMaple.Server
 
         private ScheduledTask GetRepeatingTask(Action action, TimeSpan repeatPeriod, CancellationToken token)
         {
-            Action executeAndInsert = () => ExecuteRepeatingTask(action, repeatPeriod, token);
+            // This isn't actually recursion, as insane as it sounds.
+            Action executeAndInsert = () =>
+            {
+                action();
+                var task = GetNewTask(() => this.GetRepeatingTask(action, repeatPeriod, token), DateTime.Now + repeatPeriod, token);
+                timeline.Insert(task);
+            };
             return GetNewTask(executeAndInsert, DateTime.Now + repeatPeriod, token);
-        }
-
-        private void ExecuteRepeatingTask(Action action, TimeSpan repeatPeriod, CancellationToken token)
-        {
-            action();
-            var task = GetNewTask(() => this.GetRepeatingTask(action, repeatPeriod, token), DateTime.Now + repeatPeriod,
-                                  token);
-            timeline.Insert(task);
         }
 
         private CancellationTokenSource InsertTask(Action action, DateTime time)

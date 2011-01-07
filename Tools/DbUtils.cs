@@ -110,21 +110,6 @@ namespace OpenMaple.Tools
             }
         }
 
-        /// <summary>
-        /// Executes the given query and returns the first column of the first row of the result set.
-        /// </summary>
-        /// <param name="scalarQuery">The SqlCommand to execute.</param>
-        /// <returns>The result from the query.</returns>
-        public static object GetScalar(SqlCommand scalarQuery)
-        {
-            using (SqlConnection connection = GetConnection())
-            {
-                scalarQuery.Connection = connection;
-                connection.Open();
-                return scalarQuery.ExecuteScalar();
-            }
-        }
-
         public static int ExecuteNonQuery(SqlCommand command)
         {
             using (SqlConnection connection = GetConnection())

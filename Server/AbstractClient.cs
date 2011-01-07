@@ -13,7 +13,7 @@ namespace OpenMaple.Server
         /// <summary>
         /// The client's network session.
         /// </summary>
-        public INetworkSession NetworkSession { get; private set; }
+        private NetworkSession NetworkSession { get; set; }
 
         public abstract IAccount AccountInfo { get; }
 
@@ -22,9 +22,11 @@ namespace OpenMaple.Server
         /// </summary>
         /// <param name="session">The network session object for this client.</param>
         /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="session"/> is null.</exception>
-        protected AbstractClient(INetworkSession session)
+        /// <exception cref="InvalidOperationException">The exception is thrown when <paramref name="session"/> is not open.</exception>
+        protected AbstractClient(NetworkSession session)
         {
             if (session == null) throw new ArgumentNullException("session");
+            if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
             this.NetworkSession = session;
         }
 

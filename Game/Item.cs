@@ -8,20 +8,21 @@ namespace OpenMaple.Game
 {
     class Item : IItem
     {
-        public ItemType Type { get; set; }
-        public byte Flag { get; set; }
+        public ItemType Type { get; private set; }
+        public int UniqueId { get; private set; }
+        public int ItemId { get; private set; }
+        public bool AllowZero { get; private set; }
+
         public short Position { get; set; }
         public short Quantity { get; set; }
-        public int ItemId { get; set; }
-        public int UniqueId { get; set; }
         public DateTime Expiration { get; set; }
 
-        public Item(int itemId, short position, short quantity, byte flag)
+        public Item(int itemId, short position, short quantity, bool allowZero = false)
         {
             this.ItemId = itemId;
+            this.AllowZero = allowZero;
             this.Position = position;
             this.Quantity = quantity;
-            this.Flag = flag;
         }
     }
 }

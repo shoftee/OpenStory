@@ -13,6 +13,9 @@ namespace OpenMaple.Server.Login
     /// </summary>
     class LoginClient : AbstractClient
     {
+        private AccountSession accountSession;
+        private ILoginServer loginServer;
+
         /// <summary>
         /// Denotes the maximum number of allowed failed login attempts before the client is disconnected.
         /// </summary>
@@ -38,9 +41,6 @@ namespace OpenMaple.Server.Login
         /// </summary>
         public RSA RSAKey { get; private set; }
 
-        private AccountSession accountSession;
-        private ILoginServer loginServer;
-
         public override IAccount AccountInfo
         {
             get { return this.accountSession; }
@@ -50,9 +50,12 @@ namespace OpenMaple.Server.Login
         /// Initializes a new instance of LoginClient and binds it with a network session.
         /// </summary>
         /// <param name="networkSession">The network session to bind the new LoginClient to.</param>
-        public LoginClient(INetworkSession networkSession, ILoginServer loginServer)
+        /// <param name="loginServer">The login server instance which is handling this client.</param>
+        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="loginServer"/> is null.</exception>
+        public LoginClient(NetworkSession networkSession, ILoginServer loginServer)
             : base(networkSession)
         {
+            if (loginServer == null) throw new ArgumentNullException("loginServer");
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
             this.State = LoginClientState.PreAuthentication;
@@ -130,13 +133,17 @@ namespace OpenMaple.Server.Login
         /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="characterName"/> is null.</exception>
         public bool CheckName(string characterName)
         {
+            // Now that I look at it, this method is pretty damn brutal, lol. Exceptions, exceptions, and then BAN. :D
             if (this.State != LoginClientState.CharacterSelect)
             {
                 throw new InvalidOperationException("The client state should be 'CharacterSelect' at name check time.");
             }
 
             if (characterName == null) throw new ArgumentNullException("characterName");
-            if (characterName.Length < 4 || 12 < characterName.Length) return false;
+            if (characterName.Length < 4 || 12 < characterName.Length)
+            {
+                throw new ArgumentException("The name to be checked must be between 4 and 12 characters in length.");
+            }
 
             // TODO: Check for bad names.
             // Actually, the client checks for bad names, 

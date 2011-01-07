@@ -1,16 +1,16 @@
 ﻿using System.Threading;
 
-namespace OpenMaple.Tools
+namespace OpenMaple.Threading
 {
     /// <summary>
-    /// Represents a thread-safe <see cref="int"/> value.
+    /// Represents a thread-safe <see cref="T:System.Int32"/> value.
     /// </summary>
-    public struct AtomicInteger
+    public class AtomicInteger
     {
         private int value;
 
         /// <summary>
-        /// The current value of this AtomicInteger instance.
+        /// The current value of the AtomicInteger.
         /// </summary>
         public int Value { get { return this.value; } }
 
@@ -24,17 +24,7 @@ namespace OpenMaple.Tools
         }
 
         /// <summary>
-        /// Adds <paramref name="increment"/> to this AtomicInteger's value as an atomic operation, and replaces it with the result.
-        /// </summary>
-        /// <param name="increment">The value to add to the AtomicInteger.</param>
-        /// <returns>The new value of the AtomicInteger.</returns>
-        public int Add(int increment)
-        {
-            return Interlocked.Add(ref this.value, increment);
-        }
-
-        /// <summary>
-        /// Increments the value of this AtomicInteger by one as an atomic operation and returns the new value.
+        /// Increments the value of this AtomicInteger by one and returns the new value.
         /// </summary>
         /// <returns>The value after being incremented.</returns>
         public int Increment()
@@ -43,7 +33,7 @@ namespace OpenMaple.Tools
         }
 
         /// <summary>
-        /// Decrements the value of this AtomicInteger by one as an atomic operation, and returns the new value.
+        /// Decrements the value of this AtomicInteger by one and returns the new value.
         /// </summary>
         /// <returns>The value after being decremented.</returns>
         public int Decrement()
@@ -52,7 +42,7 @@ namespace OpenMaple.Tools
         }
 
         /// <summary>
-        /// Exchanges the value of this AtomicInteger by with <paramref name="newValue"/> as an atomic operation, and returns the original value.
+        /// Exchanges the value of this AtomicInteger by with <paramref name="newValue"/> and returns the original value.
         /// </summary>
         /// <param name="newValue">The new value for the AtomicInteger.</param>
         /// <returns>The original value of the AtomicInteger.</returns>
@@ -62,7 +52,7 @@ namespace OpenMaple.Tools
         }
 
         /// <summary>
-        /// Compares the value of this AtomicInteger with <paramref name="comparand"/> and assigns <paramref name="newValue"/> if they are equal, as an atomic operation.
+        /// Compares the value of this AtomicInteger with <paramref name="comparand"/> and assigns <paramref name="newValue"/> if they are equal.
         /// </summary>
         /// <param name="comparand">The value to compare for equality with.</param>
         /// <param name="newValue">The value to assign if the AtomicInteger and comparand are equal.</param>

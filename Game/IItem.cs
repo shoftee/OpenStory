@@ -5,12 +5,13 @@ namespace OpenMaple.Game
 {
     interface IItem
     {
-        ItemType Type { get; set; }
-        byte Flag { get; set; }
+        ItemType Type { get; }
         short Position { get; set; }
         short Quantity { get; set; }
-        int ItemId { get; set; }
-        int UniqueId { get; set; }
+        int ItemId { get; }
+        int UniqueId { get; }
+
+        bool AllowZero { get; }
         DateTime Expiration { get; set; }
     }
 }

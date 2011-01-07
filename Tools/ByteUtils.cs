@@ -25,18 +25,6 @@ namespace OpenMaple.Tools
             return (byte) ((tmp & 0xFF) | (tmp >> 8));
         }
 
-        // Makes an array that contains the first count bytes in input repeated mul times.
-        public static byte[] MultiplyBytes(byte[] input, int byteCount, int repeat)
-        {
-            int length = byteCount * repeat;
-            byte[] bytes = new byte[length];
-            for (int i = 0; i < length; i++)
-            {
-                bytes[i] = input[i % byteCount];
-            }
-            return bytes;
-        }
-
         // Zero-fill right shift, deprecated
         public static int ZeroFillRightShift(int i, int j)
         {
@@ -50,9 +38,9 @@ namespace OpenMaple.Tools
                 throw new ArgumentException("The string must have even length.", "str");
             }
             byte[] bytes = new byte[str.Length / 2];
-
+            int arrayLength = bytes.Length;
             string uppercase = str.ToUpperInvariant();
-            for (int i = 0; i < bytes.Length; i++)
+            for (int i = 0; i < arrayLength; i++)
             {
                 char first = uppercase[i * 2], second = uppercase[i * 2 + 1];
                 byte d = 0;
@@ -95,14 +83,17 @@ namespace OpenMaple.Tools
             return data;
         }
 
-        public static byte[] GetFreshIv()
+        /// <summary>
+        /// Returns a new non-zero 4-byte IV.
+        /// </summary>
+        /// <returns>A 4-byte IV.</returns>
+        public static byte[] GetNewIV()
         {
-            // Just in case we hit that 1 in 2^32 chance F3
+            // Just in case we hit that 1 in 2^32 chance.
+            // Things go very bad if the IV is 0.
             int number;
-            do
-            {
-                number = Rng.Next();
-            } while (number != 0);
+            do number = Rng.Next();
+            while (number != 0);
 
             var iv = BitConverter.GetBytes(number);
             return iv;

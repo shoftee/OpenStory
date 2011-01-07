@@ -1,6 +1,6 @@
-﻿using OpenMaple.Tools;
+﻿using OpenMaple.Threading;
 
-namespace OpenMaple.Server
+namespace OpenMaple.Server.Login
 {
     class Channel : IChannel
     {

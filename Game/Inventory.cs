@@ -67,12 +67,12 @@ namespace OpenMaple.Game
             return slotId;
         }
 
-        public void RemoveItem(short slot, int quantity = 1, bool allowZero = false)
+        public void RemoveItem(short slot, int quantity)
         {
             IItem item;
             if (!items.TryGetValue(slot, out item))
             {
-                throw new InvalidOperationException("The slot is empty.");
+                throw GetSlotIsEmptyException(slot);
             }
             if (item.Quantity < quantity)
             {
@@ -80,7 +80,22 @@ namespace OpenMaple.Game
             }
 
             item.Quantity -= (short) quantity;
-            if (item.Quantity == 0 && !allowZero)
+            if (item.Quantity == 0 && !item.AllowZero)
+            {
+                items.Remove(slot);
+            }
+        }
+
+        public void RemoveSingleItem(short slot)
+        {
+            IItem item;
+            if (!items.TryGetValue(slot, out item))
+            {
+                throw GetSlotIsEmptyException(slot);
+            }
+
+            item.Quantity--;
+            if (item.Quantity == 0 && !item.AllowZero)
             {
                 items.Remove(slot);
             }
@@ -99,6 +114,7 @@ namespace OpenMaple.Game
                     return i;
                 }
             }
+
             // We should never reach this point, so if we do something is very wrong.
             throw new Exception("Something very fucked up happened.");
         }
@@ -116,5 +132,10 @@ namespace OpenMaple.Game
         }
 
         #endregion
+
+        private static InvalidOperationException GetSlotIsEmptyException(short slot)
+        {
+            return new InvalidOperationException("Slot " + slot + " is empty.");
+        }
     }
 }

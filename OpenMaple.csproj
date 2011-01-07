@@ -82,7 +82,13 @@
     <Compile Include="Game\BuddyListEntry.cs" />
     <Compile Include="Game\IItem.cs" />
     <Compile Include="Game\IPacketData.cs" />
+    <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="IO\PacketReader.cs" />
+    <Compile Include="Emulator.cs" />
+    <Compile Include="Networking\NetworkSession.ReceiveDescriptor.cs" />
+    <Compile Include="Networking\NetworkSession.SendDescriptor.cs" />
+    <Compile Include="ServerModuleAttribute.cs" />
+    <Compile Include="Server\AbstractPacketHandler.cs" />
     <Compile Include="Server\BanManager.cs" />
     <Compile Include="Server\IPlayerExtension.cs" />
     <Compile Include="Game\ISkill.cs" />
@@ -98,42 +104,43 @@
     <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
     <Compile Include="Data\Account.cs" />
-    <Compile Include="Networking\INetworkSession.cs" />
     <Compile Include="Server\AccountSession.cs" />
-    <Compile Include="Server\Channel.cs" />
     <Compile Include="Server\ChannelServer.cs" />
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Networking\Acceptor.cs" />
     <Compile Include="Server\AbstractClient.cs" />
+    <Compile Include="Server\Login\Channel.cs" />
     <Compile Include="Server\Login\LoginClient.cs" />
-    <Compile Include="Server\Login\LoginHandler.cs" />
     <Compile Include="Server\Login\LoginServer.cs" />
     <Compile Include="Networking\IPacket.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\Character.cs" />
     <Compile Include="Server\ChannelClient.cs" />
+    <Compile Include="Server\Login\World.cs" />
+    <Compile Include="Server\Login\WorldManager.cs" />
     <Compile Include="Server\Player.cs" />
     <Compile Include="Constants\GuildRank.cs" />
     <Compile Include="Constants\BuddyListOperation.cs" />
     <Compile Include="Constants\GuildOperation.cs" />
-    <Compile Include="Server\Registry\GuildRegistry.Guild.cs" />
-    <Compile Include="Server\Registry\PartyRegistry.Party.cs" />
+    <Compile Include="Server\Registry\Guild.cs" />
+    <Compile Include="Server\Registry\Party.cs" />
     <Compile Include="Server\Registry\PlayerManager.cs" />
     <Compile Include="Server\Registry\GuildRegistry.cs" />
     <Compile Include="Server\Registry\GuildMember.cs" />
-    <Compile Include="Server\Registry\GuildUnion.cs" />
-    <Compile Include="Server\Registry\MessengerRegistry.Messenger.cs" />
+    <Compile Include="Server\Registry\Messenger.cs" />
     <Compile Include="Server\Registry\MessengerMember.cs" />
     <Compile Include="Server\Registry\MessengerRegistry.cs" />
     <Compile Include="Constants\PartyOperation.cs" />
     <Compile Include="Server\Registry\PartyRegistry.cs" />
     <Compile Include="Server\Registry\PartyMember.cs" />
-    <Compile Include="Networking\SessionManager.cs" />
-    <Compile Include="Server\TimedScheduler.cs" />
-    <Compile Include="Server\TimedScheduler.Timeline.cs" />
-    <Compile Include="Server\World.cs" />
-    <Compile Include="Server\WorldManager.cs" />
+    <Compile Include="Threading\AtomicBoolean.cs" />
+    <Compile Include="Threading\AtomicInteger.cs" />
+    <Compile Include="Threading\QueueScheduler.cs" />
+    <Compile Include="Threading\Synchronizer.cs" />
+    <Compile Include="Threading\Synchronizer.Synchronized.cs" />
+    <Compile Include="Threading\TimeScheduler.cs" />
+    <Compile Include="Threading\TimeScheduler.Timeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -148,14 +155,16 @@
     <Compile Include="Server\Maps\Map.cs" />
     <Compile Include="Server\Maps\MapEffect.cs" />
     <Compile Include="Constants\WorldStatus.cs" />
-    <Compile Include="Tools\AtomicInteger.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Tools\ByteUtils.cs" />
     <Compile Include="Tools\DateUtils.cs" />
     <Compile Include="Tools\DbUtils.cs" />
+    <Compile Include="Tools\Log.cs" />
+    <Compile Include="Tools\ReflectionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="Networking\SessionManager.NetworkSession.cs" />
+    <Compile Include="Networking\NetworkSession.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -165,9 +174,6 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="PacketDefinitions.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

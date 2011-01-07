@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenMaple.Constants;
 
-namespace OpenMaple.Server
+namespace OpenMaple.Server.Login
 {
     class World : IWorld
     {

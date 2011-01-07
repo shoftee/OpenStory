@@ -7,7 +7,7 @@ using OpenMaple.Game;
 
 namespace OpenMaple.Server.Registry
 {
-    sealed partial class PartyRegistry
+    sealed class PartyRegistry
     {
         private static readonly PartyRegistry Instance = new PartyRegistry();
         private PartyRegistry()

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenMaple.Server
+namespace OpenMaple.Server.Login
 {
     class WorldManager
     {

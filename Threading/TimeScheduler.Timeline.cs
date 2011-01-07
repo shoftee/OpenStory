@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace OpenMaple.Server
+namespace OpenMaple.Threading
 {
-    partial class TimedScheduler
+    partial class TimeScheduler
     {
         /// <summary>
         /// Represents a cancellable scheduled task.
@@ -122,7 +122,7 @@ namespace OpenMaple.Server
             /// Polls all <see cref="ScheduledTask">ScheduledTask</see> objects which are due for exectution, and removes them from the front of the timeline.
             /// </summary>
             /// <returns>A list of all scheduled tasks which are due for exectuion.</returns>
-            public IEnumerable<ScheduledTask> PopAllDue()
+            public IEnumerable<ScheduledTask> GetAllDue()
             {
                 List<ScheduledTask> tasks = new List<ScheduledTask>();
 

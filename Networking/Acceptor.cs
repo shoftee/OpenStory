@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OpenMaple.Networking
 {
-    delegate void SocketAcceptHandler(Socket socket);
+    delegate void SocketAcceptCallback(Socket socket);
 
     /// <summary>
     /// Represents a simple connection acceptor.
@@ -19,18 +19,18 @@ namespace OpenMaple.Networking
         /// </summary>
         public int Port { get; private set; }
 
-        private readonly SocketAcceptHandler acceptHandler;
+        private readonly SocketAcceptCallback acceptCallback;
         private readonly Socket socket;
 
         /// <summary>
         /// Initializes a new instance of Acceptor and binds it to the given port.
         /// </summary>
         /// <param name="port">The port to bind this Acceptor to.</param>
-        /// <param name="acceptHandler">The function to call when a new connection is made.</param>
-        public Acceptor(int port, SocketAcceptHandler acceptHandler)
+        /// <param name="acceptCallback">The function to call when a new connection is made.</param>
+        public Acceptor(int port, SocketAcceptCallback acceptCallback)
         {
             this.Port = port;
-            this.acceptHandler = acceptHandler;
+            this.acceptCallback = acceptCallback;
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress localhostAddress = IPAddress.Any;
             IPEndPoint localEndPoint = new IPEndPoint(localhostAddress, Port);
@@ -44,19 +44,19 @@ namespace OpenMaple.Networking
         public void Start()
         {
             this.socket.Listen(100);
-            this.StartAccept(null);
+            this.BeginAccept(null);
         }
 
         /// <summary>
         /// Does the asynchronous accept, in a very nice and efficient manner :D
         /// </summary>
         /// <param name="args">The SocketAsyncEventArgs object to use or reuse.</param>
-        private void StartAccept(SocketAsyncEventArgs args)
+        private void BeginAccept(SocketAsyncEventArgs args)
         {
             if (args == null)
             {
                 args = new SocketAsyncEventArgs();
-                args.Completed += (sender, eventArgs) => ProcessAccept(eventArgs);
+                args.Completed += (sender, eventArgs) => this.EndAccept(eventArgs);
             }
             else
             {
@@ -66,15 +66,15 @@ namespace OpenMaple.Networking
             bool isAsynchronous = this.socket.AcceptAsync(args);
             if (!isAsynchronous)
             {
-                this.ProcessAccept(args);
+                this.EndAccept(args);
             }
         }
 
-        private void ProcessAccept(SocketAsyncEventArgs eventArgs)
+        private void EndAccept(SocketAsyncEventArgs eventArgs)
         {
             Socket clientSocket = eventArgs.AcceptSocket;
-            this.acceptHandler(clientSocket);
-            this.StartAccept(eventArgs);
+            this.acceptCallback(clientSocket);
+            this.BeginAccept(eventArgs);
         }
     }
 }

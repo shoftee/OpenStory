@@ -1,15 +1,16 @@
-﻿using System.Net.Sockets;
+﻿using System.Collections.Generic;
+using System.Net.Sockets;
 using OpenMaple.Networking;
 
 namespace OpenMaple.Server.Login
 {
-    class LoginServer : ILoginServer
+    public class LoginServer : ILoginServer
     {
         // TODO: Loading from property file?... or DB?
         public const int Port = 8484;
 
         /// <summary>
-        /// Maximum number of characters on a single account.
+        /// Initial maximum number of characters on a single account.
         /// </summary>
         public const int MaxCharacters = 3;
 
@@ -24,21 +25,23 @@ namespace OpenMaple.Server.Login
         public static ILoginServer Instance { get { return InternalInstance; } }
 
         private WorldManager worldManager;
-        private LoginHandler loginHandler;
         private Acceptor acceptor;
+
+        private List<LoginClient> clients;
 
         private LoginServer()
         {
             this.worldManager = new WorldManager();
-            this.loginHandler = new LoginHandler();
-            this.acceptor = new Acceptor(Port, AcceptHandler);
+            this.acceptor = new Acceptor(Port, this.AcceptCallback);
+            this.clients = new List<LoginClient>();
         }
 
         // TODO: FINISH THIS F5
-        private static void AcceptHandler(Socket socket)
+        private void AcceptCallback(Socket socket)
         {
-            INetworkSession networkSession = SessionManager.GetNewSession(socket);
-            LoginClient newClient = new LoginClient(networkSession, InternalInstance);
+            NetworkSession networkSession = NetworkSession.New(socket);
+            LoginClient newClient = new LoginClient(networkSession, this);
+            this.clients.Add(newClient);
         }
 
         public IWorld GetWorldById(int worldId)

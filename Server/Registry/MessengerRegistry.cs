@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using OpenMaple.Tools;
+using OpenMaple.Threading;
 
 namespace OpenMaple.Server.Registry
 {
-    partial class MessengerRegistry
+    sealed class MessengerRegistry
     {
         private static readonly MessengerRegistry Instance = new MessengerRegistry();
         private MessengerRegistry()
@@ -46,14 +46,5 @@ namespace OpenMaple.Server.Registry
             Messenger messenger;
             Instance.messengers.TryRemove(messengerId, out messenger);
         }
-    }
-
-    interface IMessenger
-    {
-        int Id { get; }
-        int MemberCount { get; }
-
-        void AddMember(MessengerMember member);
-        void RemoveMember(MessengerMember member);
     }
 }

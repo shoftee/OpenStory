@@ -14,7 +14,7 @@ namespace OpenMaple.Server
             get { return this.account; }
         }
 
-        public ChannelClient(INetworkSession networkSession)
+        public ChannelClient(NetworkSession networkSession)
             : base(networkSession)
         {
         }

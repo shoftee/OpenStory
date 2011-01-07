@@ -12,7 +12,7 @@ namespace OpenMaple.IO
 
         public PacketReader(Stream stream)
         {
-            this.reader = new BinaryReader(stream, Encoding.ASCII);
+            this.reader = new BinaryReader(stream, Encoding.UTF8);
         }
 
         public string ReadMapleAsciiString()

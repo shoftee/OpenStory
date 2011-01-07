@@ -1,4 +1,8 @@
 ﻿namespace OpenMaple.Server.Maps
 {
-    interface IPortal { }
+    interface IPortal
+    {
+        int Id { get; }
+        string Name { get; }
+    }
 }

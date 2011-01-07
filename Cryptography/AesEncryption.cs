@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography;
-using OpenMaple.Tools;
 
 namespace OpenMaple.Cryptography
 {
@@ -8,7 +7,7 @@ namespace OpenMaple.Cryptography
     {
         // TODO: Load these from somewhere?
         // Magic!
-        private static readonly byte[] TransformTable = new byte[] 
+        private static readonly byte[] MagicTable = 
         { 
             0xEC, 0x3F, 0x77, 0xA4, 0x45, 0xD0,	0x71, 0xBF,  0xB7, 0x98, 0x20, 0xFC, 0x4B, 0xE9, 0xB3, 0xE1, 
             0x5C, 0x22, 0xF7, 0x0C, 0x44, 0x1B, 0x81, 0xBD,  0x63, 0x8D, 0xD4, 0xC3, 0xF2, 0x10, 0x19, 0xE0, 
@@ -29,6 +28,8 @@ namespace OpenMaple.Cryptography
         };
 
         // More magic!
+        private static readonly byte[] MagicIvArray = { 0xF2, 0x53, 0x50, 0xC6 };
+
         private static readonly byte[] Key = 
         {
             0x13, 0x00, 0x00, 0x00,  0x08, 0x00, 0x00, 0x00,
@@ -37,25 +38,14 @@ namespace OpenMaple.Cryptography
             0x33, 0x00, 0x00, 0x00,  0x52, 0x00, 0x00, 0x00 
         };
 
+
         private byte[] iv;
         private short version;
 
-        public AesEncryption(byte[] iv, short gameVersion)
+        private static readonly ICryptoTransform AesTransform;
+
+        static AesEncryption()
         {
-            if (iv.Length != 4)
-            {
-                throw new ArgumentException("Argument iv does not have exactly 4 elements.");
-            }
-            this.iv = iv;
-
-            // Flip the version back to little-endian.
-            this.version = (short) (((gameVersion >> 8) & 0xFF) | ((gameVersion & 0xFF) << 8));
-        }
-
-        public byte[] Encrypt(byte[] data)
-        {
-            int length = data.Length;
-
             RijndaelManaged cipher = new RijndaelManaged
             {
                 Padding = PaddingMode.None,
@@ -63,125 +53,149 @@ namespace OpenMaple.Cryptography
                 Key = Key
             };
 
-            ICryptoTransform decryptor = cipher.CreateEncryptor();
-            int remaining = length;
-            int llength = 0x05B0;
-            int start = 0;
+            AesTransform = cipher.CreateEncryptor();
+        }
 
-            byte[] transformed = new byte[length];
-            Buffer.BlockCopy(data, 0, transformed, 0, length);
-            while (remaining > 0)
+        public AesEncryption(byte[] iv, short version)
+        {
+            if (iv == null) throw new ArgumentNullException("iv");
+            if (iv.Length != 4)
             {
-                // The AES IV has to be 128 bits or more.
-                byte[] myIv = ByteUtils.MultiplyBytes(this.iv, 4, 4);
-                int ivLength = myIv.Length;
-                if (remaining < llength) llength = remaining;
-                for (int i = start; i < (start + llength); i++)
+                throw new ArgumentException("Argument 'iv' does not have exactly 4 elements.");
+            }
+            this.iv = iv;
+
+            // Flip the version.
+            this.version = (short) (((version >> 8) & 0xFF) | ((version & 0xFF) << 8));
+        }
+
+        public void Transform(byte[] data)
+        {
+            int length = data.Length;
+
+            // 128-bit (16 byte) AES IV
+            const int IvLength = 16;
+            byte[] rollingIv = new byte[IvLength];
+
+            int blockStart = 0;
+            int blockLength = 0x05B0;
+            while (blockStart < length)
+            {
+                for (int i = 0; i < 16; i += 4)
                 {
-                    if ((i - start) % ivLength == 0)
+                    Buffer.BlockCopy(this.iv, 0, rollingIv, i, 4);
+                }
+
+                int blockEnd = blockStart + blockLength;
+                if (blockEnd > length) blockEnd = length;
+                for (int position = blockStart, i = 0; position < blockEnd; position++, i++)
+                {
+                    if (i % IvLength == 0)
                     {
-                        byte[] newIv = decryptor.TransformFinalBlock(myIv, 0, ivLength);
-                        for (int j = 0; j < ivLength; j++)
-                        {
-                            myIv[j] = newIv[j];
-                        }
+                        byte[] newIv = AesTransform.TransformFinalBlock(rollingIv, 0, IvLength);
+                        Buffer.BlockCopy(newIv, 0, rollingIv, 0, IvLength);
                     }
                     // xor the data against the IV
-                    transformed[i] = (byte) (data[i] ^ (myIv[(i - start) % ivLength]));
+                    data[position] ^= rollingIv[i % IvLength];
                 }
-                start += llength;
-                remaining -= llength;
-                llength = 0x05B4;
+                blockStart += blockLength;
+                blockLength = 0x05B4;
             }
-            this.Update();
-            return data;
+            this.UpdateIV();
         }
 
-        private void Update()
+        private void UpdateIV()
         {
-            this.iv = TransformIv(this.iv);
+            this.iv = TransformIV(this.iv);
         }
 
-        public byte[] GetPacketHeader(int length)
+        public byte[] ConstructHeader(int length)
         {
-            // Kinky packet header transformations.
-            uint iiv = (uint) ((this.iv[3] & 0xFF) | (this.iv[2] << 8) & 0xFF00);
-
-            iiv ^= (uint) this.version;
-            uint mlength = (((uint) length << 8) & 0xFF00) | ((uint) length >> 8);
-            uint xoredIv = iiv ^ mlength;
-
-            byte[] ret = new byte[4];
-            ret[0] = (byte) ((iiv >> 8) & 0xFF);
-            ret[1] = (byte) (iiv & 0xFF);
-            ret[2] = (byte) ((xoredIv >> 8) & 0xFF);
-            ret[3] = (byte) (xoredIv & 0xFF);
-            return ret;
-        }
-
-        public static int GetPacketLength(byte[] packetHeader)
-        {
-            if (packetHeader.Length < 4)
+            if (length < 2)
             {
-                throw new ArgumentException("Argument packetHeader does not have 4 elements.");
+                throw new ArgumentOutOfRangeException("length", length, "The packet length must be at least 2.");
             }
-            // More kinky packet header transformations.
-            return (((packetHeader[0] ^ packetHeader[2]) & 0xFF) | (((packetHeader[1] ^ packetHeader[3]) << 8) & 0xFF00));
+            // Kinky packet header transformations.
+            int invertedIV = (((this.iv[2] << 8) | this.iv[3]) ^ this.version);
+            int xoredIV = invertedIV ^ (((length & 0xFF) << 8) | (length >> 8));
+
+            return new[]
+            {
+                (byte) ((invertedIV >> 8) & 0xFF),
+                (byte) (invertedIV & 0xFF),
+                (byte) ((xoredIV >> 8) & 0xFF),
+                (byte) (xoredIV & 0xFF)
+            };
         }
 
-        public bool CheckPacket(byte[] packet)
+        /// <summary>
+        /// Reads the first 4 bytes of a packet (the header) and determines its length.
+        /// </summary>
+        /// <param name="data">The raw packet data.</param>
+        /// <returns>The length of the packet.</returns>
+        /// <exception cref="ArgumentException">The exception is thrown if <paramref name="data"/> has less than 4 elements.</exception>
+        public static int GetPacketLength(byte[] data)
         {
-            bool first = ((packet[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
-            bool second = (((packet[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF));
-            return first && second;
+            if (data.Length < 4)
+            {
+                throw GetArrayTooShortException(4, "data");
+            }
+
+            return ((data[1] ^ data[3]) << 8) | (data[0] ^ data[2]);
         }
 
-        private static byte[] TransformIv(byte[] oldIv)
+        /// <summary>
+        /// Reads the first 4 bytes of an array and determines if the array is a valid packet.
+        /// </summary>
+        /// <param name="data">The raw packet data to validate.</param>
+        /// <returns>true if the header is valid; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="data"/> is null.</exception>
+        public bool CheckPacket(byte[] data)
         {
-            byte[] magic = { 0xf2, 0x53, 0x50, 0xc6 }; // magic byte array
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length < 4)
+            {
+                throw GetArrayTooShortException(4, "data");
+            }
+            bool first = ((data[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
+            bool second = (((data[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF));
+
+            bool lengthCheck = GetPacketLength(data) == data.Length - 4;
+            return first && second && lengthCheck;
+        }
+
+        private static byte[] TransformIV(byte[] oldIV)
+        {
+            byte[] iv = new byte[4];
+            Buffer.BlockCopy(MagicIvArray, 0, iv, 0, 4);
 
             for (int i = 0; i < 4; i++)
             {
-                TransformMagic(oldIv[i], ref magic);
+                byte input = oldIV[i];
+                DoTransformMagic(input, iv);
             }
-            return magic;
+            return iv;
         }
 
-        // Transforms the IV for the next packet, takes the magic array as a reference for convenience.
-        private static void TransformMagic(byte input, ref byte[] magic)
+        private static void DoTransformMagic(byte input, byte[] iv)
         {
-            byte elina = magic[1];
-            byte anna = input;
-            byte moritz = TransformTable[elina];
-            moritz -= input;
-            magic[0] += moritz; // magic[0] setto!
+            byte tableInput = MagicTable[input];
+            iv[0] += (byte) (MagicTable[iv[1]] - input);
+            iv[1] -= (byte) ((iv[2] ^ tableInput));
+            iv[2] ^= (byte) ((MagicTable[iv[3]] + input));
+            iv[3] = (byte) ((iv[3] - iv[0]) + tableInput);
 
-            moritz = magic[2];
-            moritz ^= TransformTable[anna];
-            elina -= moritz;
-            magic[1] = elina; // magic[1] setto!
+            uint merged = (uint) ((iv[0]) | (iv[1] << 8) | (iv[2] << 16) | (iv[3] << 24));
+            uint last = (merged >> 0x1D) | (merged << 3);
+            iv[0] = (byte) (last & 0xFF);
+            iv[1] = (byte) ((last >> 8) & 0xFF);
+            iv[2] = (byte) ((last >> 16) & 0xFF);
+            iv[3] = (byte) ((last >> 24) & 0xFF);
+        }
 
-            elina = magic[3];
-            moritz = elina;
-            elina -= magic[0];
-            moritz = TransformTable[moritz];
-            moritz += input;
-            moritz ^= magic[2];
-            magic[2] = moritz; // magic[2] setto!
-
-            elina += TransformTable[anna];
-            magic[3] = elina; // magic[3] setto!
-
-            // Gattai!
-            uint merry = (uint) ((magic[0]) | (magic[1] << 8) | (magic[2] << 16) | (magic[3] << 24));
-            uint returnValue = merry;
-            returnValue >>= 0x1D;
-            merry <<= 3;
-            returnValue |= merry;
-            magic[0] = (byte) (returnValue & 0xFF);
-            magic[1] = (byte) ((returnValue >> 8) & 0xFF);
-            magic[2] = (byte) ((returnValue >> 16) & 0xFF);
-            magic[3] = (byte) ((returnValue >> 24) & 0xFF);
+        private static ArgumentException GetArrayTooShortException(int lowBound, string parameterName)
+        {
+            return new ArgumentException("The array must have at least " + lowBound + " elements.", parameterName);
         }
     }
 }

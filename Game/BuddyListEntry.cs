@@ -8,15 +8,21 @@ namespace OpenMaple.Game
 
         public int CharacterId { get; private set; }
         public string Name { get; private set; }
-        public string GroupName { get; private set; }
         public BuddyListEntryStatus Status { get; set; }
+        public string GroupName { get; set; }
+        public int Channel { get; set; }
         public bool IsOnline { get; set; }
         public bool IsVisible { get; set; }
 
-        public int Channel
+        public BuddyListEntry(int characterId, string characterName, BuddyListEntryStatus status, string groupName, int channel = -1, bool isVisible = false)
         {
-            get { return IsOnline ? this.channel : -1; }
-            private set { this.channel = value; }
+            this.CharacterId = characterId;
+            this.Name = characterName;
+            this.GroupName = groupName;
+            this.Status = status;
+            this.IsOnline = (channel == -1);
+            this.Channel = channel;
+            this.IsVisible = isVisible;
         }
 
         #region Implementation of IEquatable<BuddyListEntry>
@@ -34,24 +40,22 @@ namespace OpenMaple.Game
         }
 
         #endregion
-
-        public BuddyListEntry(int characterId, string characterName, BuddyListEntryStatus status, string groupName, bool isOnline = false, int channel = -1, bool isVisible = false)
-        {
-            this.CharacterId = characterId;
-            this.Name = characterName;
-            this.GroupName = groupName;
-            this.Status = status;
-            this.IsOnline = isOnline;
-            this.Channel = channel;
-            this.IsVisible = isVisible;
-        }
     }
 
     enum BuddyListEntryStatus
     {
         None = 0,
+        /// <summary>
+        /// This buddy list entry is still awaiting authorization by the target.
+        /// </summary>
         PendingRequest = 1,
+        /// <summary>
+        /// This buddy list entry is active, both characters are in each other's buddy lists.
+        /// </summary>
         Active = 2,
+        /// <summary>
+        /// The remote character has deleted the entry from their buddy list, the buddy list entry with this status will never appear online.
+        /// </summary>
         Inactive = 3
     }
 }

@@ -9,15 +9,7 @@ using OpenMaple.Tools;
 
 namespace OpenMaple.Server.Registry
 {
-    struct GuildEmblem
-    {
-        public int ForegroundId { get; set; }
-        public byte ForegroundColor { get; set; }
-        public int BackgroundId { get; set; }
-        public byte BackgroundColor { get; set; }
-    }
-
-    sealed partial class GuildRegistry
+    sealed class GuildRegistry
     {
         private static readonly Dictionary<GuildRank, string> DefaultRankTitles = new Dictionary<GuildRank, string>
             {
@@ -64,21 +56,4 @@ namespace OpenMaple.Server.Registry
         }
     }
 
-    internal interface IGuild
-    {
-        int Id { get; }
-        string Name { get; }
-        int MasterCharacterId { get; }
-        GuildEmblem Emblem { get; }
-
-        string Notice { get; set; }
-        int GuildPoints { get; set; }
-        int Capacity { get; set; }
-
-        bool IsFull { get; }
-
-        string GetRankTitle(GuildRank rank);
-        void SetRankTitle(GuildRank rank, string newTitle);
-        bool AddGuildMember(Player player);
-    }
 }

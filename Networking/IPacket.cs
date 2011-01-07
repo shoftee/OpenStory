@@ -2,6 +2,6 @@
 {
     interface IPacket
     {
-        
+        byte[] ToArray();
     }
 }
