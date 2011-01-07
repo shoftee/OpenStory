@@ -11,8 +11,8 @@ namespace OpenMaple.Server.Registry
         // TODO: Get from DB later
         public const int UserLimit = 12;
 
-        private readonly Dictionary<string, Player> playersByName;
-        private readonly Dictionary<int, Player> playersById;
+        private readonly Dictionary<string, IPlayer> playersByName;
+        private readonly Dictionary<int, IPlayer> playersById;
 
         public int ClientCount { get { return this.playersById.Count; } }
 
@@ -20,25 +20,25 @@ namespace OpenMaple.Server.Registry
         {
             // TODO: Pruning task?
             // TODO: Localization?
-            this.playersByName = new Dictionary<string, Player>(UserLimit, StringComparer.OrdinalIgnoreCase);
-            this.playersById = new Dictionary<int, Player>(UserLimit);
+            this.playersByName = new Dictionary<string, IPlayer>(UserLimit, StringComparer.OrdinalIgnoreCase);
+            this.playersById = new Dictionary<int, IPlayer>(UserLimit);
         }
 
-        public void RegisterPlayer(Player player)
+        public void RegisterPlayer(IPlayer player)
         {
             this.playersByName.Add(player.CharacterName.ToLowerInvariant(), player);
             this.playersById.Add(player.CharacterId, player);
         }
 
-        public void UnregisterPlayer(Player character)
+        public void UnregisterPlayer(IPlayer player)
         {
-            this.playersByName.Remove(character.CharacterName.ToLowerInvariant());
-            this.playersById.Remove(character.CharacterId);
+            this.playersByName.Remove(player.CharacterName.ToLowerInvariant());
+            this.playersById.Remove(player.CharacterId);
         }
 
-        public Player GetById(int characterId)
+        public IPlayer GetById(int characterId)
         {
-            Player value;
+            IPlayer value;
             if (!this.playersById.TryGetValue(characterId, out value))
             {
                 return null;

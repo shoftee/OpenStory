@@ -7,7 +7,7 @@ using OpenMaple.IO;
 
 namespace OpenMaple.Game
 {
-    class KeyLayout : IPacketData
+    class KeyLayout
     {
         private const int KeyCount = 90;
 
@@ -86,7 +86,7 @@ namespace OpenMaple.Game
             throw new NotImplementedException();
         }
 
-        void IPacketData.WriteData(PacketWriter writer)
+        void WriteData(PacketWriter writer)
         {
             KeyBinding binding;
             for (int i = 0; i < KeyCount; i++)

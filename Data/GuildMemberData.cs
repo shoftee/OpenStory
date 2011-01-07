@@ -7,7 +7,7 @@ using OpenMaple.Server.Registry;
 
 namespace OpenMaple.Data
 {
-    class GuildMember
+    class GuildMemberData
     {
         private bool hasChanged;
 

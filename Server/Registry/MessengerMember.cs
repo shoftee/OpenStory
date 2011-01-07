@@ -6,7 +6,7 @@ using OpenMaple.Game;
 
 namespace OpenMaple.Server.Registry
 {
-    class MessengerMember : IPlayerExtension, IEquatable<MessengerMember>
+    class MessengerMember : IPlayerExtension<IPlayer>, IEquatable<MessengerMember>
     {
         public int PlayerId { get; private set; }
 

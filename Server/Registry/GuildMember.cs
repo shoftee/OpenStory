@@ -3,7 +3,7 @@ using OpenMaple.Constants;
 
 namespace OpenMaple.Server.Registry
 {
-    class GuildMember : IPlayerExtension
+    class GuildMember : IPlayerExtension<IPlayer>
     {
         public int PlayerId { get; private set; }
         public int GuildId { get; private set; }

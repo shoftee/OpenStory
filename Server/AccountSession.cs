@@ -22,15 +22,15 @@ namespace OpenMaple.Server
         public Gender Gender { get; private set; }
         public GameMasterLevel GameMasterLevel { get; private set; }
 
-        public AccountSession(Account account)
+        public AccountSession(AccountData accountData)
         {
-            if (account.AccountId == -1)
+            if (accountData.AccountId == -1)
             {
-                throw new ArgumentException("You must provide a valid account.", "account");
+                throw new ArgumentException("You must provide a valid account.", "accountData");
             }
-            this.AccountId = account.AccountId;
-            this.UserName = account.UserName;
-            this.GameMasterLevel = account.GameMasterLevel;
+            this.AccountId = accountData.AccountId;
+            this.UserName = accountData.UserName;
+            this.GameMasterLevel = accountData.GameMasterLevel;
         }
     }
 }

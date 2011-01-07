@@ -81,11 +81,11 @@ namespace OpenMaple.Server.Login
             if (userName == null) throw new ArgumentNullException("userName");
             if (password == null) throw new ArgumentNullException("password");
 
-            Account account = new Account(userName);
-            if (account.AccountId != -1)
+            AccountData accountData = new AccountData(userName);
+            if (accountData.AccountId != -1)
             {
                 string hash = LoginCrypto.GetAuthenticationHash(userName, password);
-                if (account.PasswordHash == hash)
+                if (accountData.PasswordHash == hash)
                 {
                     this.IsAuthenticated = true;
                 }
@@ -94,7 +94,7 @@ namespace OpenMaple.Server.Login
             bool success = this.IsAuthenticated;
             if (success)
             {
-                this.accountSession = new AccountSession(account);
+                this.accountSession = new AccountSession(accountData);
 
             }
             else

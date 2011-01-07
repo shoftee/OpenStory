@@ -9,7 +9,7 @@ using OpenMaple.Tools;
 
 namespace OpenMaple.Data
 {
-    class Account
+    class AccountData
     {
         // From the game server's perspective, the account data is read-only.
         // If I ever make another perspective for it, I'll make another class.-
@@ -23,12 +23,12 @@ namespace OpenMaple.Data
         public Gender Gender { get; private set; }
         public AccountStatus Status { get; private set; }
 
-        public Account()
+        public AccountData()
         {
             this.AccountId = -1;
         }
 
-        public Account(string userName) : this()
+        public AccountData(string userName) : this()
         {
             this.LoadByUserName(userName);
         }

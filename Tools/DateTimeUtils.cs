@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenMaple.Tools
 {
-    static class DateUtils
+    static class DateTimeUtils
     {
         private static readonly DateTimeOffset Epoch = new DateTimeOffset(new DateTime(1970, 1, 1), TimeSpan.Zero);
 

@@ -10,11 +10,11 @@ namespace OpenMaple.Server.Registry
     class GuildEmblem
     {
         public int ForegroundId { get; set; }
-        public int ForegroundColor { get; set; }
+        public byte ForegroundColor { get; set; }
         public int BackgroundId { get; set; }
-        public int BackgroundColor { get; set; }
+        public byte BackgroundColor { get; set; }
 
-        public GuildEmblem(int foregroundId, int foregroundColor, int backgroundId, int backgroundColor)
+        public GuildEmblem(int foregroundId, byte foregroundColor, int backgroundId, byte backgroundColor)
         {
             this.ForegroundId = foregroundId;
             this.ForegroundColor = foregroundColor;
@@ -25,6 +25,8 @@ namespace OpenMaple.Server.Registry
 
     class Guild : IGuild
     {
+        public const int DefaultCapacity = 10;
+
         private HashSet<GuildMember> members;
         private readonly Dictionary<GuildRank, string> rankTitles;
         public int Id { get; private set; }
@@ -33,38 +35,37 @@ namespace OpenMaple.Server.Registry
 
         public GuildEmblem Emblem { get; private set; }
 
+        public bool IsFull { get { return this.members.Count == this.Capacity; } }
+
         public string Notice { get; set; }
         public int GuildPoints { get; set; }
         public int Capacity { get; set; }
 
-        public bool IsFull { get { return this.members.Count == this.Capacity; } }
-
         public Guild()
         {
-            rankTitles = new Dictionary<GuildRank, string>(5);
+            rankTitles = new Dictionary<GuildRank, string>(DefaultCapacity);
             members = new HashSet<GuildMember>();
         }
 
         public string GetRankTitle(GuildRank rank)
         {
-            string value;
-            if (!this.rankTitles.TryGetValue(rank, out value))
+            if (!Enum.IsDefined(typeof(GuildRank), rank))
             {
-                Debug.Fail("'rank' doesn't have a valid GuildRank enumeration value.");
+                throw new ArgumentOutOfRangeException("rank");
             }
-            return value;
+            return this.rankTitles[rank];
         }
 
         public void SetRankTitle(GuildRank rank, string newTitle)
         {
-            if (!this.rankTitles.ContainsKey(rank))
+            if (!Enum.IsDefined(typeof(GuildRank), rank))
             {
-                Debug.Fail("'rank' doesn't have a valid GuildRank enumeration value.");
+                throw new ArgumentOutOfRangeException("rank");
             }
             this.rankTitles[rank] = newTitle;
         }
 
-        public bool AddGuildMember(Player player)
+        public bool AddGuildMember(IPlayer player)
         {
             if (this.IsFull) return false;
             GuildMember member = new GuildMember(player, this.Id, player.ChannelId);
@@ -78,15 +79,15 @@ namespace OpenMaple.Server.Registry
         string Name { get; }
         int MasterCharacterId { get; }
         GuildEmblem Emblem { get; }
+        bool IsFull { get; }
 
         string Notice { get; set; }
         int GuildPoints { get; set; }
         int Capacity { get; set; }
 
-        bool IsFull { get; }
-
         string GetRankTitle(GuildRank rank);
         void SetRankTitle(GuildRank rank, string newTitle);
-        bool AddGuildMember(Player player);
+
+        bool AddGuildMember(IPlayer player);
     }
 }

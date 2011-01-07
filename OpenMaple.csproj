@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Constants\GuildOperationResult.cs" />
     <Compile Include="Data\CharacterEngine.cs" />
-    <Compile Include="Data\GuildMember.cs" />
+    <Compile Include="Data\GuildMemberData.cs" />
     <Compile Include="Constants\BuddyListOperationResult.cs" />
     <Compile Include="Constants\MapObjectType.cs" />
     <Compile Include="Constants\LoginClientState.cs" />
@@ -81,7 +81,6 @@
     <Compile Include="Game\BuddyList.cs" />
     <Compile Include="Game\BuddyListEntry.cs" />
     <Compile Include="Game\IItem.cs" />
-    <Compile Include="Game\IPacketData.cs" />
     <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Emulator.cs" />
@@ -103,7 +102,7 @@
     <Compile Include="Cryptography\CustomEncryption.cs" />
     <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RSAUtils.cs" />
-    <Compile Include="Data\Account.cs" />
+    <Compile Include="Data\AccountData.cs" />
     <Compile Include="Server\AccountSession.cs" />
     <Compile Include="Server\ChannelServer.cs" />
     <Compile Include="Game\Equip.cs" />
@@ -157,7 +156,7 @@
     <Compile Include="Constants\WorldStatus.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Tools\ByteUtils.cs" />
-    <Compile Include="Tools\DateUtils.cs" />
+    <Compile Include="Tools\DateTimeUtils.cs" />
     <Compile Include="Tools\DbUtils.cs" />
     <Compile Include="Tools\Log.cs" />
     <Compile Include="Tools\ReflectionUtils.cs" />

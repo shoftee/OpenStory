@@ -3,7 +3,7 @@ using OpenMaple.Game;
 
 namespace OpenMaple.Server.Registry
 {
-    class PartyMember : IPlayerExtension, IEquatable<PartyMember>
+    class PartyMember : IPlayerExtension<IPlayer>, IEquatable<PartyMember>
     {
         public int PlayerId { get; private set; }
         public string Name { get; private set; }
