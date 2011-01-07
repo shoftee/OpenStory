@@ -85,8 +85,8 @@
     <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Emulator.cs" />
-    <Compile Include="Networking\NetworkSession.ReceiveDescriptor.cs" />
-    <Compile Include="Networking\NetworkSession.SendDescriptor.cs" />
+    <Compile Include="Networking\ReceiveDescriptor.cs" />
+    <Compile Include="Networking\SendDescriptor.cs" />
     <Compile Include="ServerModuleAttribute.cs" />
     <Compile Include="Server\AbstractPacketHandler.cs" />
     <Compile Include="Server\BanManager.cs" />
@@ -165,6 +165,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Networking\NetworkSession.cs" />
+    <None Include="PacketFormat.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -173,7 +176,9 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="PacketDefinitions.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

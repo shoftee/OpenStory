@@ -5,15 +5,12 @@ namespace OpenMaple.Threading
 {
     sealed partial class TimeScheduler
     {
-        private static readonly TimeScheduler Instance = new TimeScheduler();
-        private TimeScheduler()
-        {
-            timeline = new Timeline();
-        }
-
-        private IScheduler scheduler;
-
         private Timeline timeline;
+
+        public TimeScheduler()
+        {
+            this.timeline = new Timeline();
+        }
 
         /// <summary>
         /// Schedules the given <paramref name="action"/> for immediate execution.

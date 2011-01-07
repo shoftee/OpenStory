@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using OpenMaple.Cryptography;
@@ -11,7 +10,7 @@ namespace OpenMaple.Networking
 {
     internal delegate void OnDataDelegate(byte[] data);
 
-    sealed partial class NetworkSession
+    sealed class NetworkSession : IDescriptorContainer
     {
         #region Factory
 
@@ -56,7 +55,7 @@ namespace OpenMaple.Networking
         /// </summary>
         private AtomicBoolean isDisconnected;
 
-        private Socket socketInternal;
+        private Socket socket;
         private ReceiveDescriptor receiveDescriptor;
         private SendDescriptor sendDescriptor;
 
@@ -81,11 +80,6 @@ namespace OpenMaple.Networking
         /// When the session is not active, this is <see cref="String.Empty"/>.
         /// </summary>
         public string RemoteAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the socket instance for this NetworkSession object. 
-        /// </summary>
-        private Socket Socket { get { return this.socketInternal; } }
 
         #endregion
 
@@ -123,6 +117,7 @@ namespace OpenMaple.Networking
             // TODO: BufferPool
             var receiveBuffer = new ArraySegment<byte>();
             this.receiveDescriptor.SetBuffer(receiveBuffer);
+            this.receiveDescriptor.OnData += this.ReceiveData;
 
             this.sendDescriptor.Open();
 
@@ -139,11 +134,11 @@ namespace OpenMaple.Networking
                 return;
             }
 
-            this.socketInternal.Dispose();
+            this.socket.Dispose();
             this.SetSocket(null);
 
             this.receiveDescriptor.Close();
-            // this.receiveHandler = null;
+            this.receiveDescriptor.OnData -= this.ReceiveData;
 
             this.sendDescriptor.Close();
 
@@ -165,7 +160,7 @@ namespace OpenMaple.Networking
         /// <param name="newSocket">The new socket.</param>
         private void SetSocket(Socket newSocket)
         {
-            this.socketInternal = newSocket;
+            this.socket = newSocket;
             if (newSocket == null)
             {
                 this.SessionId = null;
@@ -174,18 +169,13 @@ namespace OpenMaple.Networking
             else
             {
                 this.SessionId = RollingSessionId.Increment();
-                this.RemoteAddress = ((IPEndPoint) this.Socket.RemoteEndPoint).Address.ToString();
+                this.RemoteAddress = ((IPEndPoint) this.socket.RemoteEndPoint).Address.ToString();
             }
         }
 
         private static InvalidOperationException GetSessionNotOpenException()
         {
             return new InvalidOperationException("This session is not open.");
-        }
-
-        private static InvalidOperationException GetBufferNotSetException()
-        {
-            return new InvalidOperationException("Buffer not set, call SetBuffer for this descriptor before you use it.");
         }
 
         #endregion
@@ -200,7 +190,7 @@ namespace OpenMaple.Networking
         /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="data"/> is null.</exception>
         public void Write(byte[] data)
         {
-            if (this.Socket == null) throw GetSessionNotOpenException();
+            if (this.socket == null) throw GetSessionNotOpenException();
             if (data == null) throw new ArgumentNullException("data");
 
             // This is the only method that modifies SendCrypto.
@@ -232,9 +222,29 @@ namespace OpenMaple.Networking
 
         #endregion
 
+        #region IDescriptorContainer explicit implementation
+
+        bool IDescriptorContainer.IsDisconnected { get { return this.isDisconnected.Value; } }
+        Socket IDescriptorContainer.Socket { get { return this.socket; } }
+        
+        void IDescriptorContainer.Close()
+        {
+            this.Close();
+        }
+
+        #endregion
+
         private void ReceiveData(byte[] receivedBlock)
         {
             // TODO: data concatenation...
         }
+    }
+
+    internal interface IDescriptorContainer
+    {
+        Socket Socket { get; }
+        bool IsDisconnected { get; }
+
+        void Close();
     }
 }
