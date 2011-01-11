@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenMaple.Server.Registry
 {
     class Messenger : IMessenger
     {
-        private Action deletionCallback;
-        public int Id { get; private set; }
         private MessengerMember[] members;
-        private bool[] freePositions;
-
         private int memberCount;
+        private Action onClose;
+
+        public int Id { get; private set; }
         public int MemberCount
         {
             get { return this.memberCount; }
@@ -21,7 +17,7 @@ namespace OpenMaple.Server.Registry
                 this.memberCount = value;
                 if (value == 0)
                 {
-                    this.deletionCallback();
+                    this.onClose.Invoke();
                 }
             }
         }
@@ -29,24 +25,26 @@ namespace OpenMaple.Server.Registry
         private Messenger()
         {
             this.members = new MessengerMember[] { null, null, null };
-            this.freePositions = new[] { false, false, false };
         }
 
-        public Messenger(int id, MessengerMember initiator, Action deleteAction)
+        public Messenger(int id, MessengerMember initiator, Action onClose)
             : this()
         {
             if (initiator == null) throw new ArgumentNullException("initiator");
-            if (deleteAction == null) throw new ArgumentNullException("deleteAction");
+            if (onClose == null) throw new ArgumentNullException("onClose");
+
             this.Id = id;
             this.SetPosition(0, initiator);
-            this.deletionCallback = deleteAction;
+            this.onClose = onClose;
         }
 
         public void AddMember(MessengerMember member)
         {
             if (member == null) throw new ArgumentNullException("member");
+            
             int position = GetFreePosition();
             if (position == -1) throw new InvalidOperationException("This messenger is full.");
+
             this.SetPosition(position, member);
             this.MemberCount++;
         }
@@ -62,7 +60,7 @@ namespace OpenMaple.Server.Registry
         {
             for (int i = 0; i < 3; i++)
             {
-                if (this.freePositions[i]) return i;
+                if (this.members[i] == null) return i;
             }
             return -1;
         }
@@ -70,22 +68,12 @@ namespace OpenMaple.Server.Registry
         private void SetPosition(int i, MessengerMember member)
         {
             members[i] = member;
-            this.freePositions[i] = member == null;
         }
 
-        public bool Equals(Messenger other)
+        public bool Equals(IMessenger other)
         {
             if (other == null) return false;
             return this.Id == other.Id;
         }
-    }
-
-    interface IMessenger : IEquatable<Messenger>
-    {
-        int Id { get; }
-        int MemberCount { get; }
-
-        void AddMember(MessengerMember member);
-        void RemoveMember(MessengerMember member);
     }
 }

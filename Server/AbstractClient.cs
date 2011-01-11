@@ -15,6 +15,11 @@ namespace OpenMaple.Server
         /// </summary>
         private NetworkSession NetworkSession { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RemoteAddress { get; private set; }
+
         public abstract IAccount AccountInfo { get; }
 
         /// <summary>

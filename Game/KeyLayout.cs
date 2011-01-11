@@ -1,81 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
-using System.Text;
+using OpenMaple.Data;
 using OpenMaple.IO;
+using OpenMaple.Tools;
 
 namespace OpenMaple.Game
 {
     class KeyLayout
     {
-        private const int KeyCount = 90;
+        public const int KeyCount = 90;
 
-        private bool hasChanged;
-        private KeyBinding[] bindings;
+        private List<KeyBinding> bindings;
 
         public int OwnerId { get; private set; }
 
         private KeyLayout()
         {
-            this.bindings = new KeyBinding[KeyCount];
+            this.bindings = new List<KeyBinding>(KeyCount);
         }
 
-        private KeyLayout(int ownerId) : this()
+        private KeyLayout(int ownerId)
+            : this()
         {
             this.OwnerId = ownerId;
-            this.hasChanged = false;
         }
 
-        public KeyBinding GetKeyBinding(int keyId)
+        public KeyBinding GetKeyBinding(byte keyId)
         {
             return this.bindings[keyId];
         }
 
-        public void SetKeyBinding(int keyId, byte type, int action)
+        public void SetKeyBinding(byte keyId, byte type, int action)
         {
-            KeyBinding newBinding = new KeyBinding(type, action);
-            SetKeyBinding(keyId, newBinding);
-        }
-
-        public void SetKeyBinding(int keyId, KeyBinding keyBinding)
-        {
-            if (!keyBinding.Equals(this.bindings[keyId]))
-            {
-                this.bindings[keyId] = keyBinding;
-                this.hasChanged = true;
-            }
+            this.bindings[keyId].Change(type, action);
         }
 
         public void SaveToDb()
         {
-
+            CharacterEngine.SaveKeyBindings(this.OwnerId, bindings);
         }
 
         public static KeyLayout LoadFromDb(int ownerId)
         {
             // NOTE: Consider moving this to a more DB-centric class
-            KeyLayout layout = new KeyLayout(ownerId);
-            const string Query = "SELECT [KeyId],[ActionTypeId],[ActionId] FROM [KeyLayoutEntry] WHERE [CharacterId]=@ownerId";
-            SqlCommand command = new SqlCommand(Query);
-            using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.OpenMapleConnectionString))
+            var layout = new KeyLayout(ownerId);
+
+            int loaded = CharacterEngine.SelectKeyBindings(ownerId, layout.ReadKeyBinding);
+            if (loaded < KeyCount)
             {
-                command.Connection = connection;
-                connection.Open();
-                using(SqlDataReader reader = command.ExecuteReader())
-                {
-                    int loaded = 0;
-                    while (reader.Read())
-                    {
-                        KeyBinding binding = new KeyBinding((byte) reader["ActionTypeId"], (int) reader["ActionId"]);
-                        layout.bindings[(int) reader["KeyId"]] = binding;
-                        loaded++;
-                    }
-                    if (loaded < KeyCount)
-                    {
-                        // TODO: Error logging :<
-                    }
-                }
+                Log.WriteError("Character {0} has only {1} out of {2} key bindings set.", ownerId, loaded, KeyCount);
+                return null;
             }
             return layout;
         }
@@ -86,33 +62,24 @@ namespace OpenMaple.Game
             throw new NotImplementedException();
         }
 
-        void WriteData(PacketWriter writer)
+        private void ReadKeyBinding(IDataRecord record)
+        {
+            var keyId = (byte) record["KeyId"];
+            var actionTypeId = (byte) record["ActionTypeId"];
+            var actionId = (int) record["ActionId"];
+
+            bindings[keyId] = new KeyBinding(actionTypeId, actionId);
+        }
+
+        void WriteData(PacketBuilder builder)
         {
             KeyBinding binding;
             for (int i = 0; i < KeyCount; i++)
             {
                 binding = this.bindings[i];
-                writer.WriteByte(binding.Type);
-                writer.WriteInt32(binding.Action);
+                builder.WriteByte(binding.ActionTypeId);
+                builder.WriteInt(binding.ActionId);
             }
-        }
-    }
-
-    struct KeyBinding : IEquatable<KeyBinding>
-    {
-        public byte Type { get; private set; }
-        public int Action { get; private set; }
-
-        public KeyBinding(byte type, int action)
-            : this()
-        {
-            this.Type = type;
-            this.Action = action;
-        }
-
-        public bool Equals(KeyBinding other)
-        {
-            return this.Type == other.Type && this.Action == other.Action;
         }
     }
 }

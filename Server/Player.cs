@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenMaple.Constants;
 using OpenMaple.Game;
 using OpenMaple.Server.Maps;
 using OpenMaple.Server.Registry;
 
 namespace OpenMaple.Server
 {
-    class Player : IPlayer
+    partial class Player : IPlayer
     {
         #region Visible info
 
         public int CharacterId { get; private set; }
         public string CharacterName { get; private set; }
         public int WorldId { get; private set; }
-        public Gender Gender { get; private set; }
 
+        public Gender Gender { get; private set; }
         public int HairId { get; private set; }
         public int FaceId { get; private set; }
         public int SkinColor { get; private set; }
@@ -46,19 +45,31 @@ namespace OpenMaple.Server
 
         private Dictionary<int, Skill> skills;
         private KeyLayout layout;
-
-        public BuddyList BuddyList { get; private set; }
+        private BuddyList buddyList;
 
         public int Experience { get; private set; }
-    }
 
-    interface IPlayer
-    {
-        int CharacterId { get; }
-        string CharacterName { get; }
-        int ChannelId { get; }
-        int JobId { get; }
-        int Level { get; }
-        int MapId { get; }
+        private Player(Character character)
+        {
+            // Get what we can from the transfer object.
+            this.CharacterId = character.Id;
+            this.CharacterName = character.Name;
+            this.WorldId = character.WorldId;
+
+            this.Gender = character.Gender;
+            this.HairId = character.HairId;
+            this.FaceId = character.FaceId;
+            this.SkinColor = character.SkinColor;
+
+            this.JobId = character.JobId;
+            this.Fame = character.Fame;
+            this.Level = character.Level;
+
+            // TODO: There are still more things to add to Character
+
+            // Get the rest from the database.
+            this.layout = KeyLayout.LoadFromDb(this.CharacterId);
+            //this.buddyList = BuddyList.LoadFromDb(this.CharacterId, capacity);
+        }
     }
 }

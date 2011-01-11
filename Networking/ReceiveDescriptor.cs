@@ -6,6 +6,10 @@ namespace OpenMaple.Networking
     sealed class ReceiveDescriptor
     {
         public event EventHandler<SocketErrorEventArgs> OnError;
+
+        /// <summary>
+        /// The event used to handle incoming data.
+        /// </summary>
         public event OnDataDelegate OnData
         {
             add
@@ -128,16 +132,6 @@ namespace OpenMaple.Networking
         {
             this.socketArgs.SetBuffer(null, 0, 0);
             this.ClearBuffer();
-        }
-    }
-
-    class SocketErrorEventArgs : EventArgs
-    {
-        public SocketError Error { get; private set; }
-
-        public SocketErrorEventArgs(SocketError error)
-        {
-            this.Error = error;
         }
     }
 }

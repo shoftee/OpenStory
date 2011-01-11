@@ -7,22 +7,6 @@ using OpenMaple.Constants;
 
 namespace OpenMaple.Server.Registry
 {
-    class GuildEmblem
-    {
-        public int ForegroundId { get; set; }
-        public byte ForegroundColor { get; set; }
-        public int BackgroundId { get; set; }
-        public byte BackgroundColor { get; set; }
-
-        public GuildEmblem(int foregroundId, byte foregroundColor, int backgroundId, byte backgroundColor)
-        {
-            this.ForegroundId = foregroundId;
-            this.ForegroundColor = foregroundColor;
-            this.BackgroundId = backgroundId;
-            this.BackgroundColor = backgroundColor;
-        }
-    }
-
     class Guild : IGuild
     {
         public const int DefaultCapacity = 10;
@@ -68,26 +52,8 @@ namespace OpenMaple.Server.Registry
         public bool AddGuildMember(IPlayer player)
         {
             if (this.IsFull) return false;
-            GuildMember member = new GuildMember(player, this.Id, player.ChannelId);
+            var member = new GuildMember(player, this.Id);
             return members.Add(member);
         }
-    }
-
-    interface IGuild
-    {
-        int Id { get; }
-        string Name { get; }
-        int MasterCharacterId { get; }
-        GuildEmblem Emblem { get; }
-        bool IsFull { get; }
-
-        string Notice { get; set; }
-        int GuildPoints { get; set; }
-        int Capacity { get; set; }
-
-        string GetRankTitle(GuildRank rank);
-        void SetRankTitle(GuildRank rank, string newTitle);
-
-        bool AddGuildMember(IPlayer player);
     }
 }

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenMaple.Synchronization;
 using OpenMaple.Threading;
 
 namespace OpenMaple.Server.Registry
 {
-    sealed class MessengerRegistry
+    sealed class MessengerRegistry : IMessengerRegistry
     {
         /// <summary>
         /// Synchronized entry point for MessengerRegistry.
         /// </summary>
-        public static ISynchronized<MessengerRegistry> Synchronized { get { return SynchronizedInstance; } }
+        public static ISynchronized<IMessengerRegistry> Synchronized { get { return SynchronizedInstance; } }
 
         private static readonly MessengerRegistry Instance;
         private static readonly ISynchronized<MessengerRegistry> SynchronizedInstance;
@@ -55,23 +56,19 @@ namespace OpenMaple.Server.Registry
         private MessengerMember GetMember(IPlayer player)
         {
             MessengerMember member;
-            if (!this.members.TryGetValue(player.CharacterId, out member))
-            {
-                return null;
-            }
-            return member;
+            return this.members.TryGetValue(player.CharacterId, out member) ? member : null;
         }
 
         private MessengerMember AddMember(IPlayer player, int position = 0)
         {
-            MessengerMember member = new MessengerMember(player, position);
+            var member = new MessengerMember(player, position);
             this.members.Add(player.CharacterId, member);
             return member;
         }
 
         private Messenger AddMessenger(int messengerId, MessengerMember initiatorMember)
         {
-            Messenger messenger = new Messenger(messengerId, initiatorMember, () => RemoveById(messengerId));
+            var messenger = new Messenger(messengerId, initiatorMember, () => RemoveById(messengerId));
             this.messengers.Add(messengerId, messenger);
             return messenger;
         }
@@ -79,11 +76,7 @@ namespace OpenMaple.Server.Registry
         public IMessenger GetById(int messengerId)
         {
             Messenger messenger;
-            if (!Instance.messengers.TryGetValue(messengerId, out messenger))
-            {
-                return null;
-            }
-            return messenger;
+            return Instance.messengers.TryGetValue(messengerId, out messenger) ? messenger : null;
         }
 
         private void RemoveById(int messengerId)

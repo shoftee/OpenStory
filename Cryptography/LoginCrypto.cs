@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using OpenMaple.Tools;
 
 namespace OpenMaple.Cryptography
 {
@@ -22,7 +21,7 @@ namespace OpenMaple.Cryptography
             return GetMD5HashString(str);
         }
 
-        public static string GetMD5HashString(string str)
+        private static string GetMD5HashString(string str)
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
             byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);

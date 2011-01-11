@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using OpenMaple.Constants;
+using OpenMaple.Game;
 using OpenMaple.Tools;
 
 namespace OpenMaple.Data
@@ -23,27 +23,23 @@ namespace OpenMaple.Data
         public Gender Gender { get; private set; }
         public AccountStatus Status { get; private set; }
 
-        public AccountData()
-        {
-            this.AccountId = -1;
-        }
-
-        public AccountData(string userName) : this()
-        {
-            this.LoadByUserName(userName);
-        }
+        private AccountData() { }
 
         /// <summary>
         /// Attempts to load the account information for the given user name.
         /// </summary>
         /// <param name="userName">The user name to query.</param>
         /// <returns>true if the account information was loaded successfully; otherwise, false.</returns>
-        public bool LoadByUserName(string userName)
+        public static AccountData LoadByUserName(string userName)
         {
-            SqlCommand query = new SqlCommand("SELECT * FROM Account WHERE UserName=@userName");
-            query.AddParameter("@userName", SqlDbType.VarChar, 12, userName);
+            using (var query = new SqlCommand("SELECT * FROM Account WHERE UserName=@userName"))
+            {
+                query.AddParameter("@userName", SqlDbType.VarChar, 12, userName);
+                var accountData = new AccountData();
+                bool result = DbUtils.InvokeForSingle(query, accountData.ReadInfo);
 
-            return DbUtils.GetSingleRecord(query, ReadInfo);
+                return result ? accountData : null;
+            }
         }
 
         private void ReadInfo(IDataRecord reader)

@@ -1,6 +1,6 @@
 ﻿namespace OpenMaple.Constants
 {
-    enum GuildRank : byte
+    public enum GuildRank : byte
     {
         Master = 1,
         JrMaster = 2,

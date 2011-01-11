@@ -20,31 +20,26 @@ namespace OpenMaple.Server.Registry
         {
             // TODO: Pruning task?
             // TODO: Localization?
-            this.playersByName = new Dictionary<string, IPlayer>(UserLimit, StringComparer.OrdinalIgnoreCase);
-            this.playersById = new Dictionary<int, IPlayer>(UserLimit);
+            this.playersByName = new Dictionary<string, IPlayer>(StringComparer.OrdinalIgnoreCase);
+            this.playersById = new Dictionary<int, IPlayer>();
         }
 
         public void RegisterPlayer(IPlayer player)
         {
-            this.playersByName.Add(player.CharacterName.ToLowerInvariant(), player);
+            this.playersByName.Add(player.CharacterName, player);
             this.playersById.Add(player.CharacterId, player);
         }
 
         public void UnregisterPlayer(IPlayer player)
         {
-            this.playersByName.Remove(player.CharacterName.ToLowerInvariant());
+            this.playersByName.Remove(player.CharacterName);
             this.playersById.Remove(player.CharacterId);
         }
 
         public IPlayer GetById(int characterId)
         {
             IPlayer value;
-            if (!this.playersById.TryGetValue(characterId, out value))
-            {
-                return null;
-            }
-            return value;
+            return this.playersById.TryGetValue(characterId, out value) ? value : null;
         }
-
     }
 }

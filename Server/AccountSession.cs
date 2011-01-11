@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenMaple.Constants;
 using OpenMaple.Cryptography;
 using OpenMaple.Data;
+using OpenMaple.Game;
 
 namespace OpenMaple.Server
 {

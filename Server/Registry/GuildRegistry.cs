@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using OpenMaple.Constants;
-using OpenMaple.Threading;
+using OpenMaple.Synchronization;
 
 namespace OpenMaple.Server.Registry
 {
-    sealed class GuildRegistry
+    sealed class GuildRegistry : IGuildRegistry
     {
-        const string InsertGuildQuery = "INSERT INTO Guild (WorldId, Name, MasterCharacterId, TimeSignature) " +
-                                   "VALUES(@worldId, @name, @masterId, @timeSignature)\r\n" +
-                                   "SELECT CAST(@@IDENTITY AS INT)";
+        private static readonly GuildRegistry Instance;
+        private static readonly ISynchronized<GuildRegistry> SynchronizedInstance;
+        public static ISynchronized<IGuildRegistry> Synchronized
+        {
+            get { return SynchronizedInstance; }
+        }
 
-        private static readonly GuildRegistry Instance = new GuildRegistry();
-        private static readonly ISynchronized<GuildRegistry> SynchronizedInstance = Synchronizer.Synchronize(Instance);
         private static readonly Dictionary<GuildRank, string> DefaultRankTitles;
         static GuildRegistry()
         {
             Instance = new GuildRegistry();
+            SynchronizedInstance = Synchronizer.Synchronize(Instance);
+
             DefaultRankTitles = new Dictionary<GuildRank, string>
             {
                 {GuildRank.Master, "Master"},
@@ -27,7 +28,6 @@ namespace OpenMaple.Server.Registry
                 {GuildRank.MediumMember, "Member"},
                 {GuildRank.LowMember, "Member"}
             };
-
         }
 
         private Dictionary<int, Guild> guildCache;
@@ -42,7 +42,7 @@ namespace OpenMaple.Server.Registry
             throw new NotImplementedException();
         }
 
-        public IGuild CreateGuild(Player master, string guildName)
+        public IGuild CreateGuild(IPlayer master, string guildName)
         {
             // TODO: Finish this when I start doing the database crap.
             throw new NotImplementedException();

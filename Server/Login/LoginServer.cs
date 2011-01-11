@@ -23,21 +23,22 @@ namespace OpenMaple.Server.Login
 
         private static readonly LoginServer InternalInstance = new LoginServer();
         public static ILoginServer Instance { get { return InternalInstance; } }
-
-        private WorldManager worldManager;
-        private Acceptor acceptor;
-
-        private List<LoginClient> clients;
-
         private LoginServer()
         {
             this.worldManager = new WorldManager();
-            this.acceptor = new Acceptor(Port, this.AcceptCallback);
+            this.acceptor = new Acceptor(Port, this.HandleAccept);
             this.clients = new List<LoginClient>();
+
+            this.acceptor.Start();
         }
 
+        private readonly WorldManager worldManager;
+        private readonly Acceptor acceptor;
+
+        private readonly List<LoginClient> clients;
+
         // TODO: FINISH THIS F5
-        private void AcceptCallback(Socket socket)
+        private void HandleAccept(Socket socket)
         {
             NetworkSession networkSession = NetworkSession.New(socket);
             LoginClient newClient = new LoginClient(networkSession, this);
@@ -48,10 +49,5 @@ namespace OpenMaple.Server.Login
         {
             return this.worldManager.GetWorldById(worldId);
         }
-    }
-
-    public interface ILoginServer
-    {
-        IWorld GetWorldById(int worldId);
     }
 }

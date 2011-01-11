@@ -39,7 +39,7 @@ namespace OpenMaple.Networking
             {
                 throw new InvalidOperationException("Buffer not set, call SetBuffer for this descriptor before you use it.");
             }
-            ArraySegment<byte> segment = new ArraySegment<byte>(data);
+            var segment = new ArraySegment<byte>(data);
             this.queue.Enqueue(segment);
 
             // For the confused: isSending.CompareExchange 

@@ -1,40 +1,21 @@
-﻿using System;
-using OpenMaple.Tools;
-
-namespace OpenMaple.Cryptography
+﻿namespace OpenMaple.Cryptography
 {
-    class CustomEncryption
+    public static class CustomEncryption
     {
         public static void Encrypt(byte[] data)
         {
+            int length = data.Length;
             for (int j = 0; j < 6; j++)
             {
                 byte remember = 0;
-                byte dataLength = (byte) (data.Length & 0xFF);
-                if ((j & 1) == 0)
+                byte lengthByte = unchecked((byte) length);
+                byte current;
+                if ((j & 1) != 0)
                 {
-                    for (int i = 0; i < data.Length; i++)
+                    for (int i = length - 1; i >= 0; i--)
                     {
-                        byte current = ByteUtils.RollLeft(data[i], 3);
-                        current += dataLength;
-
-                        current ^= remember;
-                        remember = current;
-
-                        current = ByteUtils.RollRight(current, dataLength & 0xFF);
-                        current = (byte) (~current & 0xFF);
-                        current += 0x48;
-                        data[i] = current;
-
-                        dataLength--;
-                    }
-                }
-                else
-                {
-                    for (int i = data.Length - 1; i >= 0; i--)
-                    {
-                        byte current = ByteUtils.RollLeft(data[i], 4);
-                        current += dataLength;
+                        current = ByteUtils.RollLeft(data[i], 4);
+                        current += lengthByte;
 
                         current ^= remember;
                         remember = current;
@@ -43,7 +24,25 @@ namespace OpenMaple.Cryptography
                         current = ByteUtils.RollRight(current, 3);
                         data[i] = current;
 
-                        dataLength--;
+                        lengthByte--;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < length; i++)
+                    {
+                        current = ByteUtils.RollLeft(data[i], 3);
+                        current += lengthByte;
+
+                        current ^= remember;
+                        remember = current;
+
+                        current = ByteUtils.RollRight(current, lengthByte);
+                        current = (byte) (~current & 0xFF);
+                        current += 0x48;
+                        data[i] = current;
+
+                        lengthByte--;
                     }
                 }
             }
@@ -51,44 +50,44 @@ namespace OpenMaple.Cryptography
 
         public static void Decrypt(byte[] data)
         {
+            int length = data.Length;
             for (int j = 1; j <= 6; j++)
             {
                 byte remember = 0;
-                byte dataLength = (byte) (data.Length & 0xFF);
-                byte tmp;
-
-                if ((j & 1) == 0)
+                byte dataLength = unchecked((byte) length);
+                byte current;
+                if ((j & 1) != 0)
                 {
-                    for (int i = 0; i < data.Length; i++)
+                    for (int i = length - 1; i >= 0; i--)
                     {
-                        byte current = data[i];
-                        current -= 0x48;
-                        current = (byte) (~current & 0xFF);
-                        current = ByteUtils.RollLeft(current, dataLength & 0xFF);
+                        current = ByteUtils.RollLeft(data[i], 3);
+                        current ^= 0x13;
 
-                        tmp = current;
+                        byte tmp = current;
                         current ^= remember;
                         remember = tmp;
 
                         current -= dataLength;
-                        data[i] = ByteUtils.RollRight(current, 3);
+                        data[i] = ByteUtils.RollRight(current, 4);
 
                         dataLength--;
                     }
                 }
                 else
                 {
-                    for (int i = data.Length - 1; i >= 0; i--)
+                    for (int i = 0; i < length; i++)
                     {
-                        byte current = ByteUtils.RollLeft(data[i], 3);
-                        current ^= 0x13;
+                        current = data[i];
+                        current -= 0x48;
+                        current = unchecked((byte) (~current));
+                        current = ByteUtils.RollLeft(current, dataLength);
 
-                        tmp = current;
+                        byte tmp = current;
                         current ^= remember;
                         remember = tmp;
 
                         current -= dataLength;
-                        data[i] = ByteUtils.RollRight(current, 4);
+                        data[i] = ByteUtils.RollRight(current, 3);
 
                         dataLength--;
                     }

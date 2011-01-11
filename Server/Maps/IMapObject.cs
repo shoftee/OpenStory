@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using OpenMaple.Constants;
 
 namespace OpenMaple.Server.Maps
 {

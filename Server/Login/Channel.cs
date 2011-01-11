@@ -17,13 +17,4 @@ namespace OpenMaple.Server.Login
             this.channelLoad = 0;
         }
     }
-
-    public interface IChannel
-    {
-        byte Id { get; }
-        byte WorldId { get; }
-        string Name { get; }
-
-        int ChannelLoad { get; }
-    }
 }

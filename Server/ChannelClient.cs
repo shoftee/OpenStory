@@ -1,6 +1,6 @@
 ﻿using System;
-using OpenMaple.Constants;
 using OpenMaple.Data;
+using OpenMaple.Game;
 using OpenMaple.Networking;
 
 namespace OpenMaple.Server

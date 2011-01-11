@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenMaple.Constants;
 
 namespace OpenMaple.Game
 {
