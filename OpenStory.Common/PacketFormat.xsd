@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="PacketFormat" targetNamespace="PacketFormat" elementFormDefault="qualified" xmlns="PacketFormat" xmlns:mstns="http://tempuri.org/PacketFormat.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="PacketOrigin">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Client" />
+      <xs:enumeration value="Server" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="PacketAttributes">
+    <xs:attribute name="Name" type="NameAttribute" use="required" />
+    <xs:attribute name="Origin" type="PacketOrigin" use="required" />
+    <xs:attribute name="Version" type="xs:integer" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="NamedObject" block="restriction">
+    <xs:attribute name="Name" type="NameAttribute" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="IntegerObject">
+    <xs:complexContent>
+      <xs:restriction base="NamedObject" />
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="NameAttribute">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z][a-zA-Z]*" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="Definitions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Global" type="PacketList" />
+        <xs:element name="Login" type="PacketList" />
+        <xs:element name="Channel" type="PacketList" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="PacketList">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="Packet" type="Packet" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Packet">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:choice>
+        <xs:element name="Int32" type="NamedObject" />
+        <xs:element name="Int16" type="NamedObject" />
+      </xs:choice>
+    </xs:sequence>
+    <xs:attributeGroup ref="PacketAttributes" />
+  </xs:complexType>
+</xs:schema>

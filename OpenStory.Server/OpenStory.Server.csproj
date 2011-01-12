@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenStory.Server</RootNamespace>
+    <AssemblyName>OpenStory.Server</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractClient.cs" />
+    <Compile Include="AbstractPacketHandler.cs" />
+    <Compile Include="AccountSession.cs" />
+    <Compile Include="ChannelClient.cs" />
+    <Compile Include="ChannelServer.cs" />
+    <Compile Include="Data\AccountData.cs" />
+    <Compile Include="Data\AccountStatus.cs" />
+    <Compile Include="Data\BanEngine.cs" />
+    <Compile Include="Data\BanType.cs" />
+    <Compile Include="Data\BuddyListEngine.cs" />
+    <Compile Include="Data\CharacterEngine.cs" />
+    <Compile Include="Data\DbUtils.cs" />
+    <Compile Include="Data\GameMasterLevel.cs" />
+    <Compile Include="Data\GuildEngine.cs" />
+    <Compile Include="Data\OpCodeStore.cs" />
+    <Compile Include="Emulator.cs" />
+    <Compile Include="Game\Character.cs" />
+    <Compile Include="Game\Element.cs" />
+    <Compile Include="Game\Equip.cs" />
+    <Compile Include="Game\IEquip.cs" />
+    <Compile Include="Game\IItem.cs" />
+    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\InventoryType.cs" />
+    <Compile Include="Game\ISkill.cs" />
+    <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\ItemType.cs" />
+    <Compile Include="Game\JobClass.cs" />
+    <Compile Include="Game\KeyBinding.cs" />
+    <Compile Include="Game\KeyLayout.cs" />
+    <Compile Include="Game\Mount.cs" />
+    <Compile Include="Game\Npc.cs" />
+    <Compile Include="Game\Pet.cs" />
+    <Compile Include="Game\Skill.cs" />
+    <Compile Include="InitializationMethodAttribute.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="Login\AuthenticationResult.cs" />
+    <Compile Include="Login\Channel.cs" />
+    <Compile Include="Login\IChannel.cs" />
+    <Compile Include="Login\ILoginServer.cs" />
+    <Compile Include="Login\IWorld.cs" />
+    <Compile Include="Login\LoginClient.cs" />
+    <Compile Include="Login\LoginClientState.cs" />
+    <Compile Include="Login\LoginPackets.cs" />
+    <Compile Include="Login\LoginServer.cs" />
+    <Compile Include="Login\World.cs" />
+    <Compile Include="Login\WorldManager.cs" />
+    <Compile Include="Maps\FieldLimitFlags.cs" />
+    <Compile Include="Maps\FootholdTree.cs" />
+    <Compile Include="Maps\IMapObject.cs" />
+    <Compile Include="Maps\IPortal.cs" />
+    <Compile Include="Maps\ISpawnPoint.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\MapEffect.cs" />
+    <Compile Include="Maps\MapObjectConstructor.cs" />
+    <Compile Include="Maps\MapObjectType.cs" />
+    <Compile Include="Networking\Acceptor.cs" />
+    <Compile Include="Networking\IDescriptorContainer.cs" />
+    <Compile Include="Networking\NetworkSession.cs" />
+    <Compile Include="Networking\ReceiveDescriptor.cs" />
+    <Compile Include="Networking\SendDescriptor.cs" />
+    <Compile Include="Networking\SocketErrorEventArgs.cs" />
+    <Compile Include="Player.BuddyList.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Registry\BuddyList.cs" />
+    <Compile Include="Registry\BuddyListEntry.cs" />
+    <Compile Include="Registry\BuddyListEntryStatus.cs" />
+    <Compile Include="Registry\BuddyOperation.cs" />
+    <Compile Include="Registry\BuddyOperationResult.cs" />
+    <Compile Include="Registry\CharacterSimpleInfo.cs" />
+    <Compile Include="Registry\Guild.cs" />
+    <Compile Include="Registry\GuildEmblem.cs" />
+    <Compile Include="Registry\GuildMember.cs" />
+    <Compile Include="Registry\GuildOperation.cs" />
+    <Compile Include="Registry\GuildOperationResult.cs" />
+    <Compile Include="Registry\GuildRegistry.cs" />
+    <Compile Include="Registry\IGuild.cs" />
+    <Compile Include="Registry\IGuildRegistry.cs" />
+    <Compile Include="Registry\IMessenger.cs" />
+    <Compile Include="Registry\IMessengerRegistry.cs" />
+    <Compile Include="Registry\IParty.cs" />
+    <Compile Include="Registry\IPartyRegistry.cs" />
+    <Compile Include="Registry\Messenger.cs" />
+    <Compile Include="Registry\MessengerMember.cs" />
+    <Compile Include="Registry\MessengerRegistry.cs" />
+    <Compile Include="Registry\Party.cs" />
+    <Compile Include="Registry\PartyMember.cs" />
+    <Compile Include="Registry\PartyOperation.cs" />
+    <Compile Include="Registry\PartyRegistry.cs" />
+    <Compile Include="Registry\PlayerManager.cs" />
+    <Compile Include="ServerModuleAttribute.cs" />
+    <Compile Include="SimpleAccount.cs" />
+    <Compile Include="SimplePackets.cs" />
+    <Compile Include="Synchronization\IRunnable.cs" />
+    <Compile Include="Synchronization\IScheduler.cs" />
+    <Compile Include="Synchronization\ISynchronized.cs" />
+    <Compile Include="Synchronization\QueueScheduler.cs" />
+    <Compile Include="Synchronization\Synchronizer.cs" />
+    <Compile Include="Synchronization\Synchronizer.Synchronized.cs" />
+    <Compile Include="Synchronization\TimeScheduler.cs" />
+    <Compile Include="Synchronization\TimeScheduler.Timeline.cs" />
+    <Compile Include="WorldStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
+      <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
+      <Name>OpenStory.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory\OpenStory.Common.csproj">
+      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
+      <Name>OpenStory.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
