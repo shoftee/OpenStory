@@ -1,86 +1,72 @@
 ﻿using System;
 using System.Net.Sockets;
+using OpenStory.Common.IO;
+using OpenStory.Cryptography;
 
 namespace OpenStory.Server.Networking
 {
     sealed class ReceiveDescriptor
     {
-        private ArraySegment<byte> buffer;
-        private IDescriptorContainer container;
-        private int remaining;
+        private const int BufferSize = 1460;
 
-        private SocketAsyncEventArgs socketArgs;
+        /// <summary>The event used to handle connection errors.</summary>
+        public event EventHandler<SocketErrorEventArgs> OnError;
 
-        private int start;
+        private readonly IReceiveDescriptorContainer container;
+        private readonly AesEncryption receiveCrypto;
+        private readonly SocketAsyncEventArgs socketArgs;
 
-        public ReceiveDescriptor(IDescriptorContainer container)
+        private byte[] receiveBuffer;
+
+        private BoundedBuffer packetBuffer;
+
+        /// <summary>Initializes a new instance of ReceiveDescriptor.</summary>
+        /// <param name="container">The <see cref="IReceiveDescriptorContainer"/> containing this instance.</param>
+        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="container"/> is null.</exception>
+        public ReceiveDescriptor(IReceiveDescriptorContainer container)
         {
+            if (container == null) throw new ArgumentNullException("container");
+
             this.container = container;
+            this.receiveCrypto = container.ReceiveCrypto;
 
             this.socketArgs = new SocketAsyncEventArgs();
             this.socketArgs.Completed += this.EndReceive;
 
+            this.packetBuffer = new BoundedBuffer();
+
             this.ClearBuffer();
         }
 
-        public event EventHandler<SocketErrorEventArgs> OnError;
+        #region Buffer methods
 
-        /// <summary>
-        /// The event used to handle incoming data.
-        /// </summary>
-        public event Action<byte[]> OnData
+        private void SetFreshBuffer()
         {
-            add
-            {
-                if (this.OnDataInternal != null)
-                    throw new InvalidOperationException("OnData can't have more than one subscriber.");
-                this.OnDataInternal += value;
-            }
-            remove
-            {
-                if (this.OnDataInternal == null) throw new InvalidOperationException("OnData has no subscribers.");
-                this.OnDataInternal -= value;
-            }
-        }
-
-        private event Action<byte[]> OnDataInternal;
-
-        public void SetBuffer(ArraySegment<byte> newBuffer)
-        {
-            this.buffer = newBuffer;
-            this.socketArgs.SetBuffer(this.buffer.Array, this.buffer.Offset, this.buffer.Offset);
+            this.receiveBuffer = new byte[BufferSize];
             this.ResetPositions();
         }
 
         private void ClearBuffer()
         {
-            this.buffer = default(ArraySegment<byte>);
-            this.ResetPositions();
+            this.receiveBuffer = null;
+            this.socketArgs.SetBuffer(null, 0, 0);
+            this.packetBuffer.Reset(0);
         }
+
+        private void ResetPositions()
+        {
+            this.socketArgs.SetBuffer(this.receiveBuffer, 0, BufferSize);
+        }
+
+        #endregion
+
+        #region Async receive methods
 
         public void StartReceive()
         {
-            if (this.OnDataInternal == null)
-            {
-                throw new InvalidOperationException("OnData needs to have a subscriber.");
-            }
-            if (this.buffer.Array == null)
-            {
-                throw new InvalidOperationException(
-                    "Buffer not set, call SetBuffer for this descriptor before you use it.");
-            }
+            this.SetFreshBuffer();
 
             this.BeginReceive();
-        }
-
-        private void ResetPositions(bool resetBufferPositions = false)
-        {
-            this.start = this.buffer.Offset;
-            this.remaining = this.buffer.Count;
-            if (resetBufferPositions)
-            {
-                this.socketArgs.SetBuffer(this.start, this.remaining);
-            }
         }
 
         private void BeginReceive()
@@ -107,32 +93,76 @@ namespace OpenStory.Server.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                if (args.SocketError != SocketError.Success &&
-                    args.SocketError != SocketError.ConnectionReset &&
-                    this.OnError != null)
-                {
-                    this.OnError(this, new SocketErrorEventArgs(args.SocketError));
-                }
-                this.container.Close();
+                HandleError(args);
                 return;
             }
 
-            var receivedBlock = new byte[transferred];
-            Buffer.BlockCopy(this.buffer.Array, this.start, receivedBlock, 0, transferred);
-            this.OnDataInternal(receivedBlock);
-
-            this.start += transferred;
-            this.remaining -= transferred;
-
-            if (this.remaining == 0)
+            int remaining = this.ProcessReceivedSegment(transferred);
+            if (remaining > 0)
             {
-                this.ResetPositions(true);
+                Buffer.BlockCopy(this.receiveBuffer, transferred - remaining, this.receiveBuffer, 0, remaining);
             }
+            this.socketArgs.SetBuffer(remaining, BufferSize - remaining);
+
+            this.BeginReceive();
+        }
+
+        private void HandleError(SocketAsyncEventArgs args)
+        {
+            if (args.SocketError != SocketError.Success &&
+                args.SocketError != SocketError.ConnectionReset &&
+                this.OnError != null)
+            {
+                this.OnError(this, new SocketErrorEventArgs(args.SocketError));
+            }
+            this.container.Close();
+        }
+
+        #endregion
+
+        private int ProcessReceivedSegment(int transferred)
+        {
+            int position = 0, remaining = transferred;
+
+            if (packetBuffer.FreeSpace > 0)
+            {
+                int bufferred = packetBuffer.AppendFill(receiveBuffer, position, remaining);
+                position += bufferred;
+                remaining -= bufferred;
+            }
+
+            // For the confused: if FreeSpace is not 0 at this point,
+            // AppendFill() couldn't fill the buffer so we don't have any more data.
+            if (this.packetBuffer.FreeSpace != 0) return 0;
+
+            byte[] rawData = this.packetBuffer.Extract();
+            this.DecryptAndHandle(rawData);
+
+            if (remaining < 4)
+            {
+                // If there are less than 4 elements ahead, the header validation will blow up.
+                // Tell the caller we have stuff left for next time.
+                return remaining;
+            }
+            if (!this.receiveCrypto.CheckSegmentHeader(this.receiveBuffer, position))
+            {
+                this.container.Close();
+                return 0;
+            }
+            int packetLength = AesEncryption.GetSegmentPacketLength(this.receiveBuffer, position);
+            this.packetBuffer.Reset(packetLength);
+            return 0;
+        }
+
+        private void DecryptAndHandle(byte[] rawData)
+        {
+            CustomEncryption.Decrypt(rawData);
+            this.receiveCrypto.Transform(rawData);
+            // TODO: send packet on its way...
         }
 
         public void Close()
         {
-            this.socketArgs.SetBuffer(null, 0, 0);
             this.ClearBuffer();
         }
     }

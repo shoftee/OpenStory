@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.Threading;
 using OpenStory.Cryptography;
@@ -9,7 +8,7 @@ using OpenStory.Server.Synchronization;
 
 namespace OpenStory.Server.Networking
 {
-    public sealed class NetworkSession : IDescriptorContainer
+    public sealed class NetworkSession : IReceiveDescriptorContainer, ISendDescriptorContainer
     {
         #region Factory
 
@@ -59,12 +58,6 @@ namespace OpenStory.Server.Networking
         /// <summary>The rolling AES encryption for the input stream.</summary>
         public AesEncryption ReceiveCrypto { get; private set; }
 
-        /// <summary>
-        /// The IPv4 dotted-quad for the remote end-point of this session's socket.
-        /// When the session is not active, this is <see cref="String.Empty"/>.
-        /// </summary>
-        public string RemoteAddress { get; private set; }
-
         /// <summary> Denotes whether the socket is currently disconnected or not.</summary>
         /// <remarks> The condition for the name is inverted because connected-ness is common.</remarks>
         public bool IsDisconnected
@@ -84,12 +77,10 @@ namespace OpenStory.Server.Networking
                 if (value == null)
                 {
                     this.SessionId = null;
-                    this.RemoteAddress = String.Empty;
                 }
                 else
                 {
                     this.SessionId = RollingSessionId.Increment();
-                    this.RemoteAddress = ((IPEndPoint) this.socket.RemoteEndPoint).Address.ToString();
                 }
             }
         }
@@ -122,12 +113,6 @@ namespace OpenStory.Server.Networking
             this.Socket = clientSocket;
 
             this.isDisconnected = new AtomicBoolean(false);
-
-            // TODO: BufferPool
-            var receiveBuffer = new ArraySegment<byte>();
-            this.receiveDescriptor.SetBuffer(receiveBuffer);
-            this.receiveDescriptor.OnData += this.ReceiveData;
-
             Synchronizer.ScheduleAction(this.InitializeConnection);
         }
 
@@ -135,6 +120,8 @@ namespace OpenStory.Server.Networking
         {
             this.sendDescriptor.Open();
             // TODO: Send hello packet
+
+            throw new NotImplementedException();
             this.receiveDescriptor.StartReceive();
         }
 
@@ -152,8 +139,6 @@ namespace OpenStory.Server.Networking
             this.socket.Dispose();
 
             this.receiveDescriptor.Close();
-            this.receiveDescriptor.OnData -= this.ReceiveData;
-
             this.sendDescriptor.Close();
 
             this.Release();
@@ -167,65 +152,25 @@ namespace OpenStory.Server.Networking
             }
         }
 
-        private static InvalidOperationException GetSessionNotOpenException()
-        {
-            return new InvalidOperationException("This session is not open.");
-        }
-
         #endregion
 
-        #region IO methods
-
-        /// <summary>Encrypts a packet, adds a header to it, and writes it to the output stream.</summary>
-        /// <param name="data">The packet data to write.</param>
-        /// <exception cref="InvalidOperationException">The exception is thrown if this session is not open.</exception>
-        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="data"/> is null.</exception>
         public void Write(byte[] data)
         {
-            if (this.socket == null) throw GetSessionNotOpenException();
-            if (data == null) throw new ArgumentNullException("data");
-
-            // This is the only method that modifies SendCrypto.
-            Synchronizer.ScheduleAction(() => this.EncryptAndWrite(data));
+            this.sendDescriptor.Write(data);
         }
 
-        /// <summary>
-        /// Encrypts the given data as a packet and writes it to the network stream.
-        /// This method is to be used only within synchronization queues.
-        /// </summary>
-        /// <param name="packet">The data to send.</param>
-        private void EncryptAndWrite(byte[] packet)
+        #region IDescriptorContainer explicit implementations
+
+        void IReceiveDescriptorContainer.Close()
         {
-            int length = packet.Length;
-            var rawData = new byte[length + 4];
-
-            byte[] header = this.SendCrypto.ConstructHeader(length);
-            Buffer.BlockCopy(header, 0, rawData, 0, 4);
-
-            var encrypted = new byte[length];
-            Buffer.BlockCopy(packet, 0, encrypted, 0, length);
-            this.SendCrypto.Transform(encrypted);
-            CustomEncryption.Encrypt(encrypted);
-
-            Buffer.BlockCopy(encrypted, 0, rawData, 4, length);
-
-            this.sendDescriptor.Send(rawData);
+            this.Close();
         }
 
-        #endregion
-
-        #region IDescriptorContainer explicit implementation
-
-        void IDescriptorContainer.Close()
+        void ISendDescriptorContainer.Close()
         {
             this.Close();
         }
 
         #endregion
-
-        private void ReceiveData(byte[] receivedBlock)
-        {
-            // TODO: data concatenation...
-        }
     }
 }

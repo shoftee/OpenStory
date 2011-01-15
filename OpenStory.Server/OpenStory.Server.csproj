@@ -97,7 +97,8 @@
     <Compile Include="Maps\MapObjectConstructor.cs" />
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Networking\Acceptor.cs" />
-    <Compile Include="Networking\IDescriptorContainer.cs" />
+    <Compile Include="Networking\IReceiveDescriptorContainer.cs" />
+    <Compile Include="Networking\ISendDescriptorContainer.cs" />
     <Compile Include="Networking\NetworkSession.cs" />
     <Compile Include="Networking\ReceiveDescriptor.cs" />
     <Compile Include="Networking\SendDescriptor.cs" />
@@ -151,13 +152,13 @@
     <Compile Include="WorldStatus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
+      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
+      <Name>OpenStory.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
       <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
       <Name>OpenStory.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory\OpenStory.Common.csproj">
-      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
-      <Name>OpenStory.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -74,6 +74,7 @@
     <Compile Include="GuildRank.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="IO\BigEndianBitConverter.cs" />
+    <Compile Include="IO\BoundedBuffer.cs" />
     <Compile Include="IO\PacketBuilder.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Threading\AtomicBoolean.cs" />

@@ -8,7 +8,7 @@ namespace OpenStory.Server.Login
     /// <summary>
     /// Represents a client for the Login Server.
     /// </summary>
-    internal class LoginClient : AbstractClient
+    internal partial class LoginClient : AbstractClient
     {
         /// <summary>Denotes the maximum number of allowed failed login attempts before the client is disconnected.</summary>
         public const int MaxLoginAttempts = 3;

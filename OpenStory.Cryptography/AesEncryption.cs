@@ -102,29 +102,33 @@ namespace OpenStory.Cryptography
             }
         }
 
-        /// <summary>Transforms the given data in-place.</summary>
+        /// <summary>
+        /// Transforms the given data in-place.
+        /// </summary>
         /// <param name="data">The array to transform. This array will be directly modified.</param>
         public void Transform(byte[] data)
         {
-            int length = data.Length;
+            this.TransformSegment(data, 0, data.Length);
+        }
 
-            // 128-bit (16 byte) AES IV
-            var rollingIv = new byte[IvLength];
+        private void TransformSegment(byte[] data, int segmentStart, int segmentEnd)
+        {
+            var xorBlock = new byte[IvLength];
 
             // First block is 4 elements shorter because of the header.
             const int FirstBlockLength = BlockLength - 4;
 
-            int blockStart = 0;
-            int blockEnd = Math.Min(blockStart + FirstBlockLength, length);
+            int blockStart = segmentStart;
+            int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
 
-            this.TransformBlock(data, blockStart, blockEnd, rollingIv);
+            this.TransformBlock(data, blockStart, blockEnd, xorBlock);
 
             blockStart += FirstBlockLength;
-            while (blockStart < length)
+            while (blockStart < segmentEnd)
             {
-                blockEnd = Math.Min(blockStart + BlockLength, length);
+                blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-                this.TransformBlock(data, blockStart, blockEnd, rollingIv);
+                this.TransformBlock(data, blockStart, blockEnd, xorBlock);
 
                 blockStart += BlockLength;
             }
@@ -132,9 +136,34 @@ namespace OpenStory.Cryptography
             this.UpdateIV();
         }
 
-        /// <summary>Constructs a packet header.</summary>
+        private void TransformBlock(byte[] data, int blockStart, int blockEnd, byte[] xorBlock)
+        {
+            for (int i = 0; i < IvLength; i += 4)
+            {
+                Buffer.BlockCopy(this.iv, 0, xorBlock, i, 4);
+            }
+
+            int xorBlockPosition = 0;
+            for (int position = blockStart; position < blockEnd; position++)
+            {
+                if (xorBlockPosition == 0)
+                {
+                    xorBlock = AesTransform.TransformFinalBlock(xorBlock, 0, IvLength);
+                }
+
+                data[position] ^= xorBlock[xorBlockPosition++];
+
+                if (xorBlockPosition == IvLength) xorBlockPosition = 0;
+            }
+        }
+
+        /// <summary>
+        /// Constructs a packet header.
+        /// </summary>
         /// <param name="length">The length of the packet to make a header for.</param>
-        /// <exception cref="ArgumentOutOfRangeException">The exception is thrown if <paramref name="length"/> is less than 2.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// The exception is thrown if <paramref name="length"/> is less than 2.
+        /// </exception>
         /// <returns>The 4-byte header for a packet with the given length.</returns>
         public byte[] ConstructHeader(int length)
         {
@@ -155,58 +184,102 @@ namespace OpenStory.Cryptography
                    };
         }
 
-        /// <summary>Reads the first 4 bytes of a packet (the header) and determines the packet length.</summary>
-        /// <param name="data">The raw packet data.</param>
-        /// <returns>The length of the packet.</returns>
-        /// <exception cref="ArgumentException">The exception is thrown if <paramref name="data"/> has less than 4 elements.</exception>
+        /// <summary>
+        /// Reads a packet header from an array and extracts the packet's length.
+        /// </summary>
+        /// <param name="data">The array to read from.</param>
+        /// <exception cref="ArgumentNullException">
+        /// The exception is thrown if <paramref name="data"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The exception is thrown if <paramref name="data"/> has less than 4 elements.
+        /// </exception>
+        /// <returns>The length of the packet which was extracted from the array.</returns>
         public static int GetPacketLength(byte[] data)
-        {
-            if (data.Length < 4)
-            {
-                throw GetArrayTooShortException(4, "data");
-            }
-
-            return ((data[1] ^ data[3]) << 8) | (data[0] ^ data[2]);
-        }
-
-        /// <summary>Reads the first 4 bytes of an array and determines if the array is a valid packet.</summary>
-        /// <param name="data">The raw packet data to validate.</param>
-        /// <returns>true if the header is valid; otherwise, false.</returns>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="data"/> is null.</exception>
-        /// <exception cref="ArgumentException">The exception is thrown if <paramref name="data"/> has less than 4 elements.</exception>
-        public bool CheckPacket(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (data.Length < 4)
             {
-                throw GetArrayTooShortException(4, "data");
+                throw GetSegmentTooShortException(4, "data");
             }
-            bool first = ((data[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
-            bool second = (((data[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF));
 
-            bool lengthCheck = GetPacketLength(data) == data.Length - 4;
-            return first && second && lengthCheck;
+            return 
+                ((data[1] ^ data[3]) << 8) | 
+                (data[0] ^ data[2]);
         }
 
-        private void TransformBlock(byte[] data, int blockStart, int blockEnd, byte[] rollingIv)
+        /// <summary>
+        /// Reads a packet header from an array segment and extracts the packet's length.
+        /// </summary>
+        /// <param name="buffer">The array to read from.</param>
+        /// <param name="offset">The start of the segment.</param>
+        /// <exception cref="ArgumentNullException">
+        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The exception is thrown if the segment has less than 4 elements.
+        /// </exception>
+        /// <returns>The length of the packet which was extracted from the segment.</returns>
+        public static int GetSegmentPacketLength(byte[] buffer, int offset)
         {
-            for (int i = 0; i < IvLength; i += 4)
+            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer.Length - offset < 4)
             {
-                Buffer.BlockCopy(this.iv, 0, rollingIv, i, 4);
+                throw GetSegmentTooShortException(4, "buffer");
             }
 
-            int ivPosition = 0;
-            for (int position = blockStart; position < blockEnd; position++)
+            return
+                ((buffer[offset + 1] ^ buffer[offset + 3]) << 8) |
+                (buffer[offset] ^ buffer[offset + 2]);
+        }
+
+        /// <summary>
+        /// Determines whether the start of an array is a valid packet header.
+        /// </summary>
+        /// <param name="data">The raw packet data to validate.</param>
+        /// <exception cref="ArgumentNullException">
+        /// The exception is thrown if <paramref name="data"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The exception is thrown if <paramref name="data"/> has less than 4 elements.
+        /// </exception>
+        /// <returns>true if the header is valid; otherwise, false.</returns>
+        public bool CheckHeader(byte[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length < 4)
             {
-                if (ivPosition == 0)
-                {
-                    rollingIv = AesTransform.TransformFinalBlock(rollingIv, 0, IvLength);
-                }
-
-                data[position] ^= rollingIv[ivPosition++];
-
-                if (ivPosition == IvLength) ivPosition = 0;
+                throw GetSegmentTooShortException(4, "data");
             }
+            bool first = ((data[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
+            bool second = ((data[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF);
+
+            return first && second;
+        }
+
+        /// <summary>
+        /// Determines whether the start of an array segment is a valid packet header.
+        /// </summary>
+        /// <param name="buffer">The array to read from.</param>
+        /// <param name="offset">The start of the segment.</param>
+        /// <exception cref="ArgumentNullException">
+        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The exception is thrown if the given segment has less than 4 elements.
+        /// </exception>
+        /// <returns>true if the header is valid; otherwise, false.</returns>
+        public bool CheckSegmentHeader(byte[] buffer, int offset)
+        {
+            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer.Length - offset < 4)
+            {
+                throw GetSegmentTooShortException(4, "buffer");
+            }
+            bool first = ((buffer[offset] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
+            bool second = ((buffer[offset + 1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF);
+
+            return first && second;
         }
 
         private void UpdateIV()
@@ -234,9 +307,9 @@ namespace OpenStory.Cryptography
             this.iv = newIV;
         }
 
-        private static ArgumentException GetArrayTooShortException(int lowBound, string parameterName)
+        private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
         {
-            return new ArgumentException("The array must have at least " + lowBound + " elements.", parameterName);
+            return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
         }
     }
 }

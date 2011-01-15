@@ -7,8 +7,5 @@ namespace OpenStory.Server.Maps
         int ObjectId { get; }
         MapObjectType Type { get; }
         Point Position { get; }
-
-        void SendSpawnData(ChannelClient client);
-        void SendDestroyData(ChannelClient client);
     }
 }

@@ -2,21 +2,29 @@
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 using OpenStory.Common.Threading;
+using OpenStory.Cryptography;
+using OpenStory.Server.Synchronization;
 
 namespace OpenStory.Server.Networking
 {
-    internal class SendDescriptor
+    class SendDescriptor
     {
-        private IDescriptorContainer container;
+        public event EventHandler<SocketErrorEventArgs> OnError;
+
+        private readonly ISendDescriptorContainer container;
+        private readonly AesEncryption sendCrypto;
 
         private AtomicBoolean isSending;
         private ConcurrentQueue<ArraySegment<byte>> queue;
         private int sentBytes;
         private SocketAsyncEventArgs socketArgs;
 
-        public SendDescriptor(IDescriptorContainer container)
+        public SendDescriptor(ISendDescriptorContainer container)
         {
+            if (container == null) throw new ArgumentNullException("container");
+
             this.container = container;
+            this.sendCrypto = container.SendCrypto;
 
             this.socketArgs = new SocketAsyncEventArgs();
             this.socketArgs.Completed += this.EndSend;
@@ -24,45 +32,78 @@ namespace OpenStory.Server.Networking
             this.Open();
         }
 
-        public event EventHandler<SocketErrorEventArgs> OnError;
+        public void Open()
+        {
+            this.isSending = new AtomicBoolean(false);
+            this.queue = new ConcurrentQueue<ArraySegment<byte>>();
+        }
 
-        /// <summary>
-        /// Writes data to the network stream.
-        /// </summary>
-        /// <param name="data">The data to send.</param>
+        /// <summary>Encrypts a packet, adds a header to it, and writes it to the output stream.</summary>
+        /// <param name="data">The packet data to write.</param>
+        /// <exception cref="InvalidOperationException">The exception is thrown if this session is not open.</exception>
         /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="data"/> is null.</exception>
-        /// <exception cref="InvalidOperationException">The exception is thrown when this method is called on an inactive connection.</exception>
-        public void Send(byte[] data)
+        public void Write(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");
-            if (this.container.IsDisconnected)
-            {
-                throw new InvalidOperationException(
-                    "Buffer not set, call SetBuffer for this descriptor before you use it.");
-            }
+
+            // This is the only method that modifies SendCrypto.
+            Synchronizer.ScheduleAction(() => this.EncryptAndWrite(data));
+        }
+
+        public void WriteDirectly(byte[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+
+            this.Send(data);
+        }
+
+        /// <summary>Encrypts the given data as a packet and writes it to the network stream.</summary>
+        /// <remarks>This method is to be used only within synchronization queues.</remarks>
+        /// <param name="packet">The data to send.</param>
+        private void EncryptAndWrite(byte[] packet)
+        {
+            int length = packet.Length;
+            var rawData = new byte[length + 4];
+
+            byte[] header = this.sendCrypto.ConstructHeader(length);
+            Buffer.BlockCopy(header, 0, rawData, 0, 4);
+
+            var encrypted = new byte[length];
+            Buffer.BlockCopy(packet, 0, encrypted, 0, length);
+            this.sendCrypto.Transform(encrypted);
+            CustomEncryption.Encrypt(encrypted);
+
+            Buffer.BlockCopy(encrypted, 0, rawData, 4, length);
+
+            this.Send(rawData);
+        }
+
+        #region Async send methods
+
+        private void Send(byte[] data)
+        {
             var segment = new ArraySegment<byte>(data);
             this.queue.Enqueue(segment);
 
             // For the confused: isSending.CompareExchange 
             // will return true if we're currently sending
-            if (!this.isSending.CompareExchange(false, true))
-            {
-                this.sentBytes = 0;
-                this.BeginSend();
-            }
+            if (this.isSending.CompareExchange(false, newValue: true)) return;
+
+            this.sentBytes = 0;
+            this.BeginSend();
         }
 
         private void BeginSend()
         {
-            ArraySegment<byte> segment;
-            if (!this.queue.TryPeek(out segment))
+            ArraySegment<byte> bufferSegment;
+            if (!this.queue.TryPeek(out bufferSegment))
             {
                 throw new InvalidOperationException("The send queue is empty.");
             }
 
-            this.socketArgs.SetBuffer(segment.Array,
-                                      segment.Offset + this.sentBytes,
-                                      segment.Count - this.sentBytes);
+            this.socketArgs.SetBuffer(bufferSegment.Array,
+                                      bufferSegment.Offset + this.sentBytes,
+                                      bufferSegment.Count - this.sentBytes);
             try
             {
                 // For the confused: Socket.SendAsync() returns false
@@ -83,11 +124,7 @@ namespace OpenStory.Server.Networking
             int bytes = args.BytesTransferred;
             if (bytes <= 0)
             {
-                if (args.SocketError != SocketError.Success && this.OnError != null)
-                {
-                    this.OnError(this, new SocketErrorEventArgs(args.SocketError));
-                }
-                this.container.Close();
+                HandleError(args);
                 return;
             }
 
@@ -105,19 +142,24 @@ namespace OpenStory.Server.Networking
             }
             else
             {
-                this.isSending.Exchange(false);
+                this.isSending.Exchange(newValue: false);
             }
         }
+
+        private void HandleError(SocketAsyncEventArgs args)
+        {
+            if (args.SocketError != SocketError.Success && this.OnError != null)
+            {
+                this.OnError(this, new SocketErrorEventArgs(args.SocketError));
+            }
+            this.container.Close();
+        }
+
+        #endregion
 
         public void Close()
         {
             this.queue = null;
-        }
-
-        public void Open()
-        {
-            this.isSending = new AtomicBoolean(false);
-            this.queue = new ConcurrentQueue<ArraySegment<byte>>();
         }
     }
 }
