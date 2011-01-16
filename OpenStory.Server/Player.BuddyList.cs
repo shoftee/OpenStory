@@ -7,7 +7,7 @@ using OpenStory.Server.Registry;
 
 namespace OpenStory.Server
 {
-    internal partial class Player
+    partial class Player
     {
         public void HandleBuddyOperation(PacketReader reader, NetworkSession session)
         {

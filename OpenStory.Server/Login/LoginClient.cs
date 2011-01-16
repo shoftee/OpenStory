@@ -19,7 +19,7 @@ namespace OpenStory.Server.Login
         /// <summary>Initializes a new instance of LoginClient and binds it with a network session.</summary>
         /// <param name="networkSession">The network session to bind the new LoginClient to.</param>
         /// <param name="loginServer">The login server instance which is handling this client.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="loginServer"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="loginServer"/> is null.</exception>
         public LoginClient(NetworkSession networkSession, ILoginServer loginServer)
             : base(networkSession)
         {
@@ -49,8 +49,8 @@ namespace OpenStory.Server.Login
         /// <param name="userName">The user name of the account.</param>
         /// <param name="password">The password for the account.</param>
         /// <returns>true if login was successful; otherwise, false.</returns>
-        /// <exception cref="InvalidOperationException">The exception is thrown if this method is called when <see cref="State" /> is not set to <see cref="LoginClientState.PreAuthentication"/>.</exception>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="userName"/> or <paramref name="password"/> are null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if this method is called when <see cref="State" /> is not set to <see cref="LoginClientState.PreAuthentication"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="userName"/> or <paramref name="password"/> are null.</exception>
         public bool TryLogin(string userName, string password)
         {
             if (this.State != LoginClientState.PreAuthentication)
@@ -105,7 +105,7 @@ namespace OpenStory.Server.Login
         /// <summary>Checks if a character name is available for use.</summary>
         /// <param name="characterName">The name to check the availablitiy of.</param>
         /// <returns>true if the name is available for use. If the name is shorter than 4 or longer than 12 characters, or if it is already in use, false.</returns>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="characterName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="characterName"/> is null.</exception>
         public bool CheckName(string characterName)
         {
             // Now that I look at it, this method is pretty damn brutal, lol. Exceptions, exceptions, and then BAN. :D

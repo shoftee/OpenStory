@@ -77,8 +77,8 @@ namespace OpenStory.Cryptography
         /// <summary>Initializes a new instance of AesEncryption.</summary>
         /// <param name="iv">The initialization vector for this instance.</param>
         /// <param name="version">The MapleStory version.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="iv"/> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">The exception is thrown if <paramref name="iv"/> has more than or less than 4 elements.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="iv"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="iv"/> has more than or less than 4 elements.</exception>
         public AesEncryption(byte[] iv, short version)
         {
             if (iv == null) throw new ArgumentNullException("iv");
@@ -108,10 +108,10 @@ namespace OpenStory.Cryptography
         /// <param name="data">The array to transform. This array will be directly modified.</param>
         public void Transform(byte[] data)
         {
-            this.TransformSegment(data, 0, data.Length);
+            this.TransformArraySegment(data, 0, data.Length);
         }
 
-        private void TransformSegment(byte[] data, int segmentStart, int segmentEnd)
+        private void TransformArraySegment(byte[] data, int segmentStart, int segmentEnd)
         {
             var xorBlock = new byte[IvLength];
 
@@ -162,7 +162,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="length">The length of the packet to make a header for.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// The exception is thrown if <paramref name="length"/> is less than 2.
+        /// Thrown if <paramref name="length"/> is less than 2.
         /// </exception>
         /// <returns>The 4-byte header for a packet with the given length.</returns>
         public byte[] ConstructHeader(int length)
@@ -189,10 +189,10 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="data">The array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="data"/> is null.
+        /// Thrown if <paramref name="data"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The exception is thrown if <paramref name="data"/> has less than 4 elements.
+        /// Thrown if <paramref name="data"/> has less than 4 elements.
         /// </exception>
         /// <returns>The length of the packet which was extracted from the array.</returns>
         public static int GetPacketLength(byte[] data)
@@ -214,10 +214,10 @@ namespace OpenStory.Cryptography
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The exception is thrown if the segment has less than 4 elements.
+        /// Thrown if the segment has less than 4 elements.
         /// </exception>
         /// <returns>The length of the packet which was extracted from the segment.</returns>
         public static int GetSegmentPacketLength(byte[] buffer, int offset)
@@ -238,10 +238,10 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="data">The raw packet data to validate.</param>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="data"/> is null.
+        /// Thrown if <paramref name="data"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The exception is thrown if <paramref name="data"/> has less than 4 elements.
+        /// Thrown if <paramref name="data"/> has less than 4 elements.
         /// </exception>
         /// <returns>true if the header is valid; otherwise, false.</returns>
         public bool CheckHeader(byte[] data)
@@ -263,10 +263,10 @@ namespace OpenStory.Cryptography
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The exception is thrown if the given segment has less than 4 elements.
+        /// Thrown if the given segment has less than 4 elements.
         /// </exception>
         /// <returns>true if the header is valid; otherwise, false.</returns>
         public bool CheckSegmentHeader(byte[] buffer, int offset)

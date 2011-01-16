@@ -8,22 +8,31 @@ using OpenStory.Server.Synchronization;
 
 namespace OpenStory.Server.Networking
 {
+    /// <summary>
+    /// Represents a network session used for sending and receiving data.
+    /// </summary>
     public sealed class NetworkSession : IReceiveDescriptorContainer, ISendDescriptorContainer
     {
         #region Factory
 
         private const int PoolCapacity = 200;
 
-        /// <summary>An AtomicInteger used for getting valid new session IDs.</summary>
+        /// <summary>
+        /// An AtomicInteger used for getting valid new session IDs.
+        /// </summary>
         private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
 
         private static readonly ConcurrentBag<NetworkSession> SessionPool =
             new ConcurrentBag<NetworkSession>();
 
-        /// <summary>Provides a new session instance for the given socket.</summary>
+        /// <summary>
+        /// Provides a new session instance for the given socket.
+        /// </summary>
         /// <param name="socket">The socket to bind the new session instance to.</param>
         /// <returns>A new session bound to <paramref name="socket"/>.</returns>
-        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="socket"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="socket"/> is null.
+        /// </exception>
         public static NetworkSession New(Socket socket)
         {
             if (socket == null) throw new ArgumentNullException("socket");
@@ -87,7 +96,9 @@ namespace OpenStory.Server.Networking
 
         #endregion
 
-        /// <summary>Initializes a new NetworkSession.</summary>
+        /// <summary>
+        /// Initializes a new NetworkSession.
+        /// </summary>
         private NetworkSession()
         {
             short version = MapleVersion;
@@ -154,6 +165,10 @@ namespace OpenStory.Server.Networking
 
         #endregion
 
+        /// <summary>
+        /// Writes a byte array to the network stream.
+        /// </summary>
+        /// <param name="data">The data to write.</param>
         public void Write(byte[] data)
         {
             this.sendDescriptor.Write(data);

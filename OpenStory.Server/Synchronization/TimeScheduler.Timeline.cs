@@ -11,25 +11,27 @@ namespace OpenStory.Server.Synchronization
         /// <summary>
         /// Represents a cancellable scheduled task.
         /// </summary>
-        private class ScheduledTask
+        private class ScheduledTask : IDisposable
         {
             private Action action;
             private CancellationToken token;
+            public CancellationTokenSource CancellationTokenSource { get; private set; }
 
             /// <summary>
             /// Initializes a new ScheduledTask, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken">CancellationToken</see>.
             /// </summary>
             /// <param name="action">The action to schedule for execution.</param>
             /// <param name="scheduledTime">The time to execute the action at.</param>
-            /// <param name="token">A CancellationToken used to cancel the action.</param>
-            /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="action"/>is null.</exception>
-            public ScheduledTask(Action action, DateTime scheduledTime, CancellationToken token)
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is null.</exception>
+            public ScheduledTask(Action action, DateTime scheduledTime)
             {
                 if (action == null) throw new ArgumentNullException("action");
                 this.action = action;
                 this.ScheduledTime = scheduledTime;
-                this.token = token;
                 this.TimeCancelled = null;
+
+                this.CancellationTokenSource = new CancellationTokenSource();
+                this.token = this.CancellationTokenSource.Token;
                 this.token.Register(() => { this.TimeCancelled = DateTime.Now; });
             }
 
@@ -42,6 +44,17 @@ namespace OpenStory.Server.Synchronization
             /// Gets the timestamp for when the task was cancelled.
             /// </summary>
             public DateTime? TimeCancelled { get; private set; }
+
+            public void Execute()
+            {
+                this.action.Invoke();
+            }
+
+            public void Dispose()
+            {
+                this.CancellationTokenSource.Dispose();
+                GC.SuppressFinalize(this);
+            }
         }
 
         #endregion
@@ -67,8 +80,8 @@ namespace OpenStory.Server.Synchronization
             /// Inserts the given task into the Timeline, after the first task which is strictly chronologically before it.
             /// </summary>
             /// <param name="task">The task to insert.</param>
-            /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="task"/> is null.</exception>
-            /// <exception cref="InvalidOperationException">The exception is thrown if <paramref name="task"/> is already cancelled.</exception>
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="task"/> is null.</exception>
+            /// <exception cref="InvalidOperationException">Thrown if <paramref name="task"/> is already cancelled.</exception>
             public void Insert(ScheduledTask task)
             {
                 if (task == null) throw new ArgumentNullException("task");

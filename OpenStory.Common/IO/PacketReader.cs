@@ -28,16 +28,16 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The start of the buffer segment.</param>
         /// <param name="length">The length of the buffer segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// The exception is thrown 
+        /// Thrown 
         /// if <paramref name="length"/> is non-positive, 
         /// OR, 
         /// if <paramref name="offset"/> is outside the array bounds.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The exception is thrown if the end of the segment doesn't fit the array bounds.
+        /// Thrown if the end of the segment doesn't fit the array bounds.
         /// </exception>
         public PacketReader(byte[] buffer, int offset, int length)
         {
@@ -90,7 +90,7 @@ namespace OpenStory.Common.IO
         /// <param name="count">The number of positions to advance.</param>
         /// <returns>The position of the stream before advancing.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         private int CheckedAdvance(int count)
         {
@@ -151,7 +151,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="offset">The new position to assign.</param>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if <paramref name="offset"/> 
+        /// Thrown if <paramref name="offset"/> 
         /// is behind the current position.
         /// </exception>
         /// <returns>
@@ -347,22 +347,17 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="count">The number of bytes to skip.</param>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public void Skip(int count)
         {
             this.CheckedAdvance(count);
         }
 
-        public void SkipTo(int offset)
-        {
-            
-        }
-
         /// <summary>Reads a <see cref="System.Byte"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public byte ReadByte()
         {
@@ -372,7 +367,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a <see cref="System.Int16"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public short ReadInt16()
         {
@@ -382,7 +377,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a <see cref="System.Int32"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public int ReadInt32()
         {
@@ -392,7 +387,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a <see cref="System.UInt32"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public uint ReadUInt32()
         {
@@ -402,7 +397,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public long ReadInt64()
         {
@@ -412,7 +407,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public ulong ReadUInt64()
         {
@@ -422,7 +417,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a length and a string from the stream.</summary>
         /// <returns>The string that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public string ReadLengthString()
         {
@@ -433,7 +428,7 @@ namespace OpenStory.Common.IO
         /// <summary>Reads a null-terminated string and advances the position past the padding.</summary>
         /// <returns>The string that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the position will fall outside the bounds of the underlying array segment.
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
         public string ReadPaddedString(int length)
         {

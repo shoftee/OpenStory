@@ -11,8 +11,8 @@ namespace OpenStory.Server.Synchronization
         /// </summary>
         /// <typeparam name="T">The type of the object to wrap.</typeparam>
         /// <param name="obj">The object to wrap.</param>
-        /// <returns>A <see cref="T:OpenStory.Server.Synchronization.ISynchronized`1"/> wrapper around <paramref name="obj"/>.</returns>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="obj"/> is null.</exception>
+        /// <returns>A <see cref="ISynchronized{T}"/> wrapper around <paramref name="obj"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
         public static ISynchronized<T> Synchronize<T>(T obj)
             where T : class
         {
@@ -28,7 +28,7 @@ namespace OpenStory.Server.Synchronization
         /// This method may cause synchronization problems if <paramref name="action"/> accesses dependent objects.
         /// </remarks>
         /// <param name="action">The action to schedule for execution.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="action"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is null.</exception>
         public static void ScheduleAction(Action action)
         {
             if (action == null) throw new ArgumentNullException("action");

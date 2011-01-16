@@ -48,12 +48,12 @@ namespace OpenStory.Common.IO
         /// <param name="buffer">The array to read bytes from.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the given array segment 
+        /// Thrown if the given array segment 
         /// has more bytes than the BoundedBuffer expects 
         /// (which is denoted by the <see cref="FreeSpace"/> property).
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is null.
         /// </exception>
         /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
         public bool Append(byte[] buffer, int count)
@@ -74,12 +74,12 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The offset at which to start reading.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="InvalidOperationException">
-        /// The exception is thrown if the given array segment 
+        /// Thrown if the given array segment 
         /// has more bytes than the BoundedBuffer can store.
         /// (which is denoted by the <see cref="FreeSpace"/> property).
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// The exception is thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is null.
         /// </exception>
         /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
         public bool Append(byte[] buffer, int offset, int count)
@@ -214,6 +214,10 @@ namespace OpenStory.Common.IO
             return new ArgumentOutOfRangeException("offset", offset, "'offset' falls outside of the array bounds.");
         }
 
+        /// <summary>
+        /// Disposes of the underlying <see cref="MemoryStream"/>.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
             this.memoryStream.Dispose();

@@ -1,13 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Net.Sockets;
 using OpenStory.Server.Networking;
+using OpenStory.Server.Synchronization;
 
 namespace OpenStory.Server.Login
 {
+    /// <summary>
+    /// Represents a server that handles the log-on process.
+    /// </summary>
     public class LoginServer : ILoginServer
     {
+
+        private static readonly LoginServer InternalInstance;
+        private static readonly ISynchronized<LoginServer> SynchronizedInstance;
+        static LoginServer()
+        {
+            InternalInstance = new LoginServer();
+            SynchronizedInstance = Synchronizer.Synchronize(InternalInstance);
+        }
+
+        /// <summary>
+        /// Synchronized entry point for the LoginServer.
+        /// </summary>
+        public static ISynchronized<ILoginServer> Instance
+        {
+            get { return SynchronizedInstance; }
+        }
+
         // TODO: Loading from property file?... or DB?
-        public const int Port = 8484;
+        private const int Port = 8484;
 
         /// <summary>
         /// Initial maximum number of characters on a single account.
@@ -18,8 +39,6 @@ namespace OpenStory.Server.Login
         /// The name of the server.
         /// </summary>
         public const string ServerName = "OpenMS";
-
-        private static readonly LoginServer InternalInstance = new LoginServer();
 
         private readonly Acceptor acceptor;
 
@@ -35,17 +54,15 @@ namespace OpenStory.Server.Login
             this.acceptor.Start();
         }
 
-        public string EventMessage { get; set; }
-
-        public static ILoginServer Instance
-        {
-            get { return InternalInstance; }
-        }
-
         // TODO: FINISH THIS F5
 
         #region ILoginServer Members
 
+        /// <summary>
+        /// Gets a <see cref="IWorld"/> instance by the World's ID.
+        /// </summary>
+        /// <param name="worldId">The ID of the world.</param>
+        /// <returns>An <see cref="IWorld"/> object which represents the world with the given ID.</returns>
         public IWorld GetWorldById(int worldId)
         {
             return this.worldManager.GetWorldById(worldId);

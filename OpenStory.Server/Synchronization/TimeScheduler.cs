@@ -40,37 +40,35 @@ namespace OpenStory.Server.Synchronization
         /// <returns>A <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
         public CancellationTokenSource ExecuteEvery(Action action, TimeSpan timeSpan)
         {
-            var source = new CancellationTokenSource();
-            ScheduledTask task = this.GetRepeatingTask(action, timeSpan, source.Token);
+            ScheduledTask task = this.GetRepeatingTask(action, timeSpan);
             this.timeline.Insert(task);
-            return source;
+            return task.CancellationTokenSource;
         }
 
-        private ScheduledTask GetRepeatingTask(Action action, TimeSpan repeatPeriod, CancellationToken token)
+        private ScheduledTask GetRepeatingTask(Action action, TimeSpan repeatPeriod)
         {
             // This isn't actually recursion, as insane as it sounds.
             Action executeAndInsert = () =>
                                       {
                                           action();
                                           ScheduledTask task =
-                                              GetNewTask(() => this.GetRepeatingTask(action, repeatPeriod, token),
-                                                         DateTime.Now + repeatPeriod, token);
+                                              GetNewTask(() => this.GetRepeatingTask(action, repeatPeriod),
+                                                         DateTime.Now + repeatPeriod);
                                           this.timeline.Insert(task);
                                       };
-            return GetNewTask(executeAndInsert, DateTime.Now + repeatPeriod, token);
+            return GetNewTask(executeAndInsert, DateTime.Now + repeatPeriod);
         }
 
         private CancellationTokenSource InsertTask(Action action, DateTime time)
         {
-            var source = new CancellationTokenSource();
-            ScheduledTask task = GetNewTask(action, time, source.Token);
+            ScheduledTask task = GetNewTask(action, time);
             this.timeline.Insert(task);
-            return source;
+            return task.CancellationTokenSource;
         }
 
-        private static ScheduledTask GetNewTask(Action action, DateTime time, CancellationToken cancellationToken)
+        private static ScheduledTask GetNewTask(Action action, DateTime time)
         {
-            return new ScheduledTask(action, time, cancellationToken);
+            return new ScheduledTask(action, time);
         }
     }
 }

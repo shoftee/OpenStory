@@ -41,95 +41,173 @@ namespace OpenStory.Common.IO
 
         #region Conversion to primitive types
 
-        public static ulong ToUInt64(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.UInt64"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static ulong ToUInt64(byte[] array, int startIndex)
         {
-            return unchecked((ulong) FromBytes(value, startIndex, 8));
+            return unchecked((ulong) FromBytes(array, startIndex, 8));
         }
 
-        public static long ToInt64(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.Int64"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static long ToInt64(byte[] array, int startIndex)
         {
-            return FromBytes(value, startIndex, 8);
+            return FromBytes(array, startIndex, 8);
         }
 
-        public static double ToDouble(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.Double"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static double ToDouble(byte[] array, int startIndex)
         {
-            return BitConverter.Int64BitsToDouble(FromBytes(value, startIndex, 8));
+            return BitConverter.Int64BitsToDouble(FromBytes(array, startIndex, 8));
         }
 
-        public static uint ToUInt32(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.UInt32"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static uint ToUInt32(byte[] array, int startIndex)
         {
-            return unchecked((uint) FromBytes(value, startIndex, 4));
+            return unchecked((uint) FromBytes(array, startIndex, 4));
         }
 
-        public static int ToInt32(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.Int32"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static int ToInt32(byte[] array, int startIndex)
         {
-            return unchecked((int) FromBytes(value, startIndex, 4));
+            return unchecked((int) FromBytes(array, startIndex, 4));
         }
 
-        public static char ToChar(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.UInt16"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static ushort ToUInt16(byte[] array, int startIndex)
         {
-            return unchecked((char) FromBytes(value, startIndex, 2));
+            return unchecked((ushort) FromBytes(array, startIndex, 2));
         }
 
-        public static ushort ToUInt16(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.Int16"/> from bytes at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the bytes to use.</param>
+        /// <param name="startIndex">The offset at which the number starts.</param>
+        /// <returns>The constructed number.</returns>
+        public static short ToInt16(byte[] array, int startIndex)
         {
-            return unchecked((ushort) FromBytes(value, startIndex, 2));
+            return unchecked((short) FromBytes(array, startIndex, 2));
         }
 
-        public static short ToInt16(byte[] value, int startIndex)
+        /// <summary>
+        /// Constructs a <see cref="System.Boolean"/> from a byte at a given offset in a byte array.
+        /// </summary>
+        /// <param name="array">The array with the byte to use.</param>
+        /// <param name="startIndex">The offset of the byte.</param>
+        /// <returns>The boolean.</returns>
+        public static bool ToBoolean(byte[] array, int startIndex)
         {
-            return unchecked((short) FromBytes(value, startIndex, 2));
-        }
-
-        public static bool ToBoolean(byte[] value, int startIndex)
-        {
-            return BitConverter.ToBoolean(value, startIndex);
+            return BitConverter.ToBoolean(array, startIndex);
         }
 
         #endregion
 
         #region GetBytes overload~
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.UInt64"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(ulong value)
         {
             return GetBytes(unchecked((long) value), 8);
         }
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.UInt64"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(long value)
         {
             return GetBytes(value, 8);
         }
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.Int64"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(double value)
         {
             return GetBytes(BitConverter.DoubleToInt64Bits(value), 8);
         }
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.UInt32"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(uint value)
         {
             return GetBytes(value, 4);
         }
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.Int32"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(int value)
         {
             return GetBytes(value, 4);
         }
 
-        public static byte[] GetBytes(char value)
-        {
-            return GetBytes(value, 2);
-        }
-
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.UInt16"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(ushort value)
         {
             return GetBytes(value, 2);
         }
 
+        /// <summary>
+        /// Gets the big-endian byte representation of a <see cref="System.Int16"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The big-endian byte representation.</returns>
         public static byte[] GetBytes(short value)
         {
             return GetBytes(value, 2);
         }
 
+        /// <summary>
+        /// Gets the byte representation of a <see cref="System.Byte"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>The byte representation.</returns>
         public static byte[] GetBytes(bool value)
         {
             return BitConverter.GetBytes(value);

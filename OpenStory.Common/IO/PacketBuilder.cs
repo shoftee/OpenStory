@@ -4,6 +4,9 @@ using System.Text;
 
 namespace OpenStory.Common.IO
 {
+    /// <summary>
+    /// Represents a class for constructing packets.
+    /// </summary>
     public class PacketBuilder : IDisposable
     {
         private bool isDisposed;
@@ -38,7 +41,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a <see cref="System.Int64"/> to the end of the packet.</summary>
         /// <param name="value">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteLong(long value)
         {
             this.CheckDisposed();
@@ -47,7 +50,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a <see cref="System.Int32"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteInt(int value)
         {
             this.CheckDisposed();
@@ -56,7 +59,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a <see cref="System.Int16"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteShort(short value)
         {
             this.CheckDisposed();
@@ -65,7 +68,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a <see cref="System.Byte"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteByte(byte value)
         {
             this.CheckDisposed();
@@ -74,7 +77,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a <see cref="System.Boolean"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteBool(bool value)
         {
             this.CheckDisposed();
@@ -84,8 +87,8 @@ namespace OpenStory.Common.IO
         /// <summary>Writes a string and its length to the stream.</summary>
         /// <remarks>The length of the stream is written first.</remarks>
         /// <param name="str">The string to write.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="str"/> is null.</exception>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteLengthString(string str)
         {
             if (str == null) throw new ArgumentNullException("str");
@@ -97,13 +100,13 @@ namespace OpenStory.Common.IO
         /// <param name="str">The string to write.</param>
         /// <param name="padLength">The length to pad the string to.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// The exception is thrown 
+        /// Thrown 
         /// if <paramref name="padLength"/> is a non-positive number, 
         /// OR, 
         /// if <paramref name="str"/> is not shorter than padLength.
         /// </exception>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="str"/> is null.</exception>
-        /// <exception cref="ObjectDisposedException">The exception is thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WritePaddedString(string str, int padLength)
         {
             this.CheckDisposed();
@@ -135,6 +138,10 @@ namespace OpenStory.Common.IO
             }
         }
 
+        /// <summary>
+        /// Gets a copy of the internal byte buffer of the PacketBuilder.
+        /// </summary>
+        /// <returns>The copy of the byte buffer.</returns>
         public byte[] ToByteArray()
         {
             byte[] buffer = this.stream.GetBuffer();

@@ -65,12 +65,41 @@ namespace OpenStory.Common.Threading
             return Interlocked.CompareExchange(ref this.value, newValue, comparand);
         }
 
+        /// <summary>
+        /// Creates a new AtomicInteger instance from a given <see cref="System.Int32"/>.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>An AtomicInteger with the given value.</returns>
         public static implicit operator AtomicInteger(int value)
         {
             return new AtomicInteger(value);
         }
 
+        /// <summary>
+        /// Extracts a <see cref="System.Int32"/> from an AtomicInteger instance.
+        /// </summary>
+        /// <param name="atomicInteger">The AtomicInteger to extract the value of.</param>
+        /// <returns>The value of the AtomicInteger.</returns>
         public static explicit operator int(AtomicInteger atomicInteger)
+        {
+            return atomicInteger.value;
+        }
+
+        /// <summary>
+        /// Extracts a <see cref="System.Int32"/> from an AtomicInteger instance.
+        /// </summary>
+        /// <returns>The value of the AtomicInteger.</returns>
+        public int ToInt32()
+        {
+            return this.value;
+        }
+
+        /// <summary>
+        /// Extracts a <see cref="System.Int32"/> from an AtomicInteger instance.
+        /// </summary>
+        /// <param name="atomicInteger">The AtomicInteger to extract the value of.</param>
+        /// <returns>The value of the AtomicInteger.</returns>
+        public static int ToInt32(AtomicInteger atomicInteger)
         {
             return atomicInteger.value;
         }

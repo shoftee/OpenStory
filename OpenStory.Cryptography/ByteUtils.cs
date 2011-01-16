@@ -37,7 +37,7 @@ namespace OpenStory.Cryptography
         /// Constructs a byte array from a string of hexadecimal digits.
         /// </summary>
         /// <param name="str">The string to translate to bytes.</param>
-        /// <exception cref="ArgumentException">The exception is thrown 
+        /// <exception cref="ArgumentException">Thrown 
         /// if <paramref name="str"/> is not of even length,
         /// OR,
         /// if <paramref name="str"/> contains characters that don't correspond to hexadecimal digits.

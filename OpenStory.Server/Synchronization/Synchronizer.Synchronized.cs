@@ -25,7 +25,7 @@ namespace OpenStory.Server.Synchronization
             /// <param name="item">The item to wrap around.</param>
             /// <param name="scheduler">An execution scheduler to use for this Synchronized(T).</param>
             /// <exception cref="ArgumentNullException">
-            /// The exception is thrown if <paramref name="item"/> or <paramref name="scheduler"/> are null.
+            /// Thrown if <paramref name="item"/> or <paramref name="scheduler"/> are null.
             /// </exception>
             public Synchronized(T item, IScheduler scheduler)
             {
@@ -44,7 +44,7 @@ namespace OpenStory.Server.Synchronization
             /// Runs a pending action for the Synchronized(T).
             /// </summary>
             /// <exception cref="InvalidOperationException">
-            /// The exception is thrown when there is no pending action.
+            /// Thrown if there is no pending action.
             /// </exception>
             public void Run()
             {
@@ -66,7 +66,7 @@ namespace OpenStory.Server.Synchronization
             /// </summary>
             /// <param name="action">The action to execute.</param>
             /// <exception cref="ArgumentNullException">
-            /// The exception is thrown if <paramref name="action"/> is null.
+            /// Thrown if <paramref name="action"/> is null.
             /// </exception>
             public void Schedule(Action<T> action)
             {

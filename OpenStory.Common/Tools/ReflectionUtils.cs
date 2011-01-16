@@ -3,7 +3,10 @@ using System.Reflection;
 
 namespace OpenStory.Common.Tools
 {
-    public class ReflectionUtils
+    /// <summary>
+    /// Contains helper methods for Reflection routines.
+    /// </summary>
+    public static class ReflectionUtils
     {
         private static readonly object[] EmptyObjectArray = new object[0];
 
@@ -44,7 +47,7 @@ namespace OpenStory.Common.Tools
     }
 
     /// <summary>
-    /// Represents a {<see cref="T:System.Reflection.MemberInfo">MemberInfo</see>, <see cref="T:System.Attribute">Attribute</see>} pair.
+    /// Represents a {<see cref="MemberInfo"/>, <see cref="Attribute"/>} pair.
     /// </summary>
     /// <typeparam name="TMemberInfo">The type of the member in the pair.</typeparam>
     /// <typeparam name="TAttribute">The type of the attribute in the pair.</typeparam>
@@ -52,13 +55,25 @@ namespace OpenStory.Common.Tools
         where TMemberInfo : MemberInfo
         where TAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of MetadataPair.
+        /// </summary>
+        /// <param name="memberInfo">The <see cref="MemberInfo"/> object for this pair.</param>
+        /// <param name="attribute">The <see cref="Attribute"/> object for this pair.</param>
         public MetadataPair(TMemberInfo memberInfo, TAttribute attribute)
         {
             this.MemberInfo = memberInfo;
             this.Attribute = attribute;
         }
 
+        /// <summary>
+        /// Gets the <see cref="MemberInfo"/> object for this pair.
+        /// </summary>
         public TMemberInfo MemberInfo { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="Attribute"/> object for this pair.
+        /// </summary>
         public TAttribute Attribute { get; private set; }
     }
 }

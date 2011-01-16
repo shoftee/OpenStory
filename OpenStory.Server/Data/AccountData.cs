@@ -4,19 +4,48 @@ using OpenStory.Common;
 
 namespace OpenStory.Server.Data
 {
+    /// <summary>
+    /// Represents a read-only account.
+    /// </summary>
     public class AccountData
     {
         // From the game server's perspective, the account data is read-only.
         // If I ever make another perspective for it, I'll make another class.-
         private AccountData() {}
+
+        /// <summary>
+        /// Gets the Account ID.
+        /// </summary>
         public int AccountId { get; private set; }
+
+        /// <summary>
+        /// Gets the user name.
+        /// </summary>
         public string UserName { get; private set; }
+        /// <summary>
+        /// Gets the password hash.
+        /// </summary>
         public string PasswordHash { get; private set; }
+
+        /// <summary>
+        /// Gets the e-mail address for the account.
+        /// </summary>
         public string EmailAddress { get; private set; }
 
         // TODO: Not in the DB yet.   
+        /// <summary>
+        /// Gets the game master access level for the account.
+        /// </summary>
         public GameMasterLevel GameMasterLevel { get; private set; }
+
+        /// <summary>
+        /// Gets the gender for the account.
+        /// </summary>
         public Gender Gender { get; private set; }
+
+        /// <summary>
+        /// Gets the account's status.
+        /// </summary>
         public AccountStatus Status { get; private set; }
 
         /// <summary>
@@ -28,7 +57,7 @@ namespace OpenStory.Server.Data
         {
             using (var query = new SqlCommand("SELECT * FROM Account WHERE UserName=@userName"))
             {
-                DbUtils.AddParameter(query, "@userName", SqlDbType.VarChar, 12, userName);
+                query.Parameters.Add("@userName", SqlDbType.VarChar, 12).Value = userName;
                 var accountData = new AccountData();
                 bool result = DbUtils.InvokeForSingle(query, accountData.ReadInfo);
 

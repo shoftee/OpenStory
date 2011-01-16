@@ -15,7 +15,7 @@ namespace OpenStory.Server.Data
         {
             using (var query = new SqlCommand(SelectBuddiesQuery))
             {
-                DbUtils.AddParameter(query, "@characterId", SqlDbType.Int, characterId);
+                query.AddParameter("@characterId", SqlDbType.Int, characterId);
                 foreach (IDataRecord record in DbUtils.GetRecordSetIterator(query))
                 {
                     recordCallback(record);

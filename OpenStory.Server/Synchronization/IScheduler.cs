@@ -1,7 +1,7 @@
 ﻿namespace OpenStory.Server.Synchronization
 {
     /// <summary>
-    /// Provides methods for scheduling operations on <see cref="ISchedulable"/> objects..
+    /// Provides methods for scheduling operations on <see cref="IRunnable"/> objects..
     /// </summary>
     public interface IScheduler
     {

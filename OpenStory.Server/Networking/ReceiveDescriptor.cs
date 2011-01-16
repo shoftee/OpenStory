@@ -22,7 +22,7 @@ namespace OpenStory.Server.Networking
 
         /// <summary>Initializes a new instance of ReceiveDescriptor.</summary>
         /// <param name="container">The <see cref="IReceiveDescriptorContainer"/> containing this instance.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown when <paramref name="container"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="container"/> is null.</exception>
         public ReceiveDescriptor(IReceiveDescriptorContainer container)
         {
             if (container == null) throw new ArgumentNullException("container");
@@ -135,8 +135,14 @@ namespace OpenStory.Server.Networking
             // AppendFill() couldn't fill the buffer so we don't have any more data.
             if (this.packetBuffer.FreeSpace != 0) return 0;
 
+            // More for the confused: if we extract an empty array, 
+            // it means the packet buffer was not initialized.
+            // This happens when we receive the first packet.
             byte[] rawData = this.packetBuffer.Extract();
-            this.DecryptAndHandle(rawData);
+            if (rawData.Length > 0)
+            {
+                this.DecryptAndHandle(rawData);
+            }
 
             if (remaining < 4)
             {

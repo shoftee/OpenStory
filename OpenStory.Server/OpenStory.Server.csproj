@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\OpenStory.Server.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\OpenStory.Server.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,9 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
-    <Compile Include="AbstractPacketHandler.cs" />
     <Compile Include="AccountSession.cs" />
-    <Compile Include="ChannelClient.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Data\AccountData.cs" />
     <Compile Include="Data\AccountStatus.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Data\OpCodeStore.cs" />
     <Compile Include="Emulator.cs" />
     <Compile Include="Game\Character.cs" />
-    <Compile Include="Game\Element.cs" />
+    <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\IEquip.cs" />
     <Compile Include="Game\IItem.cs" />

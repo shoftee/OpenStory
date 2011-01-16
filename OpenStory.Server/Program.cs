@@ -1,4 +1,4 @@
-﻿namespace OpenMaple
+﻿namespace OpenStory.Server
 {
     internal class Program
     {

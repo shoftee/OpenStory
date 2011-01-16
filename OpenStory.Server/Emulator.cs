@@ -4,13 +4,19 @@ using System.Linq;
 using System.Reflection;
 using OpenStory.Common.Tools;
 
-namespace OpenMaple
+namespace OpenStory.Server
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ServerModule(InitializationStage.StartUp)]
     public sealed class Emulator
     {
         private IEnumerable<MetadataPair<Type, ServerModuleAttribute>> serverModulesInternal;
 
+        /// <summary>
+        /// Initializes the Emulator.
+        /// </summary>
         public Emulator()
         {
             if (!this.Initialize())
@@ -28,6 +34,9 @@ namespace OpenMaple
             get { return this.serverModulesInternal ?? (this.serverModulesInternal = GetServerModules()); }
         }
 
+        /// <summary>
+        /// Denotes whether the emulator is running or not.
+        /// </summary>
         public bool IsRunning { get; private set; }
 
         private bool Initialize()
@@ -42,11 +51,10 @@ namespace OpenMaple
 
                 ParallelQuery<MethodInfo> query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
-                if (!query.All(ReflectionUtils.InvokeFunc<bool>))
-                {
-                    Log.WriteError("Initialization failed, an initialization method returned 'false'.");
-                    return false;
-                }
+                if (query.All(ReflectionUtils.InvokeFunc<bool>)) continue;
+
+                Log.WriteError("Initialization failed, an initialization method returned 'false'.");
+                return false;
             }
             return true;
         }

@@ -32,7 +32,7 @@ namespace OpenStory.Server.Maps
         /// Constructs a new object with the given constructor delegate, giving it a proper map object ID.
         /// </summary>
         /// <param name="constructor">An (int) => (IMapObject) delegate used to construct the map object.</param>
-        /// <exception cref="ArgumentNullException">The exception is thrown if <paramref name="constructor"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is null.</exception>
         public void AddMapObject(MapObjectConstructor constructor)
         {
             if (constructor == null) throw new ArgumentNullException("constructor");

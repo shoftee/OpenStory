@@ -6,7 +6,7 @@ using OpenStory.Server.Registry;
 
 namespace OpenStory.Server
 {
-    internal partial class Player : IPlayer
+    sealed partial class Player : IPlayer
     {
         #region Visible info
 
