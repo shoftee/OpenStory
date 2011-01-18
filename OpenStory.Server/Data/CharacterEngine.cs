@@ -33,14 +33,12 @@ namespace OpenStory.Server.Data
             SqlCommand query = new SqlCommand(SelectCharacterById);
             query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
             return DbHelpers.InvokeForSingle(query, recordCallback);
-        }
 
         public static int SelectKeyBindings(int characterId, Action<IDataRecord> recordCallback)
         {
             SqlCommand query = new SqlCommand(SelectBindingsByCharacterId);
             query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
             return DbHelpers.InvokeForAll(query, recordCallback);
-        }
 
         /// <summary>
         /// Determines which bindings have changed and updates the database accordingly.
