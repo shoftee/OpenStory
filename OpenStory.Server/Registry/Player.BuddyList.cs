@@ -3,9 +3,8 @@ using System.Linq;
 using OpenStory.Common.IO;
 using OpenStory.Server.Data;
 using OpenStory.Server.Networking;
-using OpenStory.Server.Registry;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Registry
 {
     partial class Player
     {
@@ -45,7 +44,7 @@ namespace OpenStory.Server
             }
 
             BuddyListEntry entry = this.buddyList.FirstOrDefault(
-                buddy => buddy.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                buddy => buddy.CharacterName.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             if (entry != null)
             {

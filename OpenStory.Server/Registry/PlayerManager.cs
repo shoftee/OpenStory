@@ -41,5 +41,11 @@ namespace OpenStory.Server.Registry
             IPlayer value;
             return this.playersById.TryGetValue(characterId, out value) ? value : null;
         }
+
+        public IPlayer GetById(string name)
+        {
+            IPlayer value;
+            return this.playersByName.TryGetValue(name, out value) ? value : null;
+        }
     }
 }

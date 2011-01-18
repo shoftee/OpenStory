@@ -22,7 +22,7 @@ namespace OpenStory.Server.Networking
 
         /// <summary>Initializes a new instance of ReceiveDescriptor.</summary>
         /// <param name="container">The <see cref="IReceiveDescriptorContainer"/> containing this instance.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="container"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="container"/> is <c>null</c>.</exception>
         public ReceiveDescriptor(IReceiveDescriptorContainer container)
         {
             if (container == null) throw new ArgumentNullException("container");

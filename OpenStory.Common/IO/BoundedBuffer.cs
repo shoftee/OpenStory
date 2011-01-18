@@ -6,7 +6,7 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Represents a byte buffer with a maximum capacity.
     /// </summary>
-    public class BoundedBuffer : IDisposable
+    public sealed class BoundedBuffer : IDisposable
     {
         private MemoryStream memoryStream;
 
@@ -53,7 +53,7 @@ namespace OpenStory.Common.IO
         /// (which is denoted by the <see cref="FreeSpace"/> property).
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
         /// </exception>
         /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
         public bool Append(byte[] buffer, int count)
@@ -79,7 +79,13 @@ namespace OpenStory.Common.IO
         /// (which is denoted by the <see cref="FreeSpace"/> property).
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArraySegmentException">
+        /// Thrown if the array segment given by the 
+        /// <paramref name="offset"/> and <paramref 
+        /// name="count"/> parameters falls outside 
+        /// of the given array's bounds.
         /// </exception>
         /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
         public bool Append(byte[] buffer, int offset, int count)
@@ -90,14 +96,11 @@ namespace OpenStory.Common.IO
             if (buffer == null) 
                 throw new ArgumentNullException("buffer");
 
-            if (offset < 0 || buffer.Length <= offset) 
-                throw GetOffsetOutOfBoundsException(offset);
-
-            if (count < 1) 
-                throw GetCountMustBePositiveException(count);
-
-            if (offset + count > buffer.Length) 
-                throw GetSegmentOutOfBoundsException();
+            if (offset < 0 || buffer.Length < offset ||
+                count <= 0 || offset + count > buffer.Length)
+            {
+                throw ArraySegmentException.GetByStartAndLength(offset, count);
+            }
 
             this.AppendInternal(buffer, offset, count);
             return this.FreeSpace == 0;
@@ -129,19 +132,22 @@ namespace OpenStory.Common.IO
         /// The number of bytes that were stored. If there was 
         /// enough space, this is equal to <paramref name="count"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer" /> is <c>null</c>.</exception>
+        /// <exception cref="ArraySegmentException">
+        /// Thrown if the array segment given by the 
+        /// <paramref name="offset"/> and <paramref 
+        /// name="count"/> parameters falls outside 
+        /// of the given array's bounds.
+        /// </exception>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) 
-                throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException("buffer");
 
-            if (offset < 0 || buffer.Length <= offset) 
-                throw GetOffsetOutOfBoundsException(offset);
-
-            if (count < 1) 
-                throw GetCountMustBePositiveException(count);
-
-            if (offset + count > buffer.Length) 
-                throw GetSegmentOutOfBoundsException();
+            if (offset < 0 || buffer.Length < offset ||
+                count <= 0 || offset + count > buffer.Length)
+            {
+                throw ArraySegmentException.GetByStartAndLength(offset, count);
+            }
 
             int actualCount = Math.Min(this.FreeSpace, count);
             this.AppendInternal(buffer, offset, actualCount);
@@ -171,6 +177,9 @@ namespace OpenStory.Common.IO
         /// Prepares the BoundedBuffer for new data.
         /// </summary>
         /// <param name="newCapacity">The new capacity for the BoundedBuffer.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="newCapacity"/> is negative.
+        /// </exception>
         public void Reset(int newCapacity)
         {
             if (newCapacity < 0)

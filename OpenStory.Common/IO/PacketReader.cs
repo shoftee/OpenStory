@@ -28,31 +28,21 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The start of the buffer segment.</param>
         /// <param name="length">The length of the buffer segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown 
-        /// if <paramref name="length"/> is non-positive, 
-        /// OR, 
-        /// if <paramref name="offset"/> is outside the array bounds.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if the end of the segment doesn't fit the array bounds.
+        /// <exception cref="ArraySegmentException">
+        /// Thrown if the array segment given by the 
+        /// <paramref name="offset"/> and <paramref 
+        /// name="length"/> parameters falls outside 
+        /// of the array's bounds.
         /// </exception>
         public PacketReader(byte[] buffer, int offset, int length)
         {
             if (buffer == null) throw new ArgumentNullException("buffer");
-            if (offset < 0 || buffer.Length < offset)
+            if (offset < 0 || buffer.Length < offset ||
+                length <= 0 || offset + length > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("offset");
-            }
-            if (length <= 0)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            } 
-            if (offset + length > buffer.Length)
-            {
-                throw new ArgumentException("length");
+                throw ArraySegmentException.GetByStartAndLength(offset, length);
             }
 
             this.buffer = buffer;
@@ -62,7 +52,15 @@ namespace OpenStory.Common.IO
 
         /// <summary>Initializes a new instance of PacketReader over the given byte array.</summary>
         /// <param name="buffer">The byte array to read from.</param>
-        public PacketReader(byte[] buffer) : this(buffer, 0, buffer.Length) { }
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer" /> is <c>null</c>.</exception>
+        public PacketReader(byte[] buffer)
+        {
+            if (buffer == null) throw new ArgumentNullException("buffer");
+
+            this.buffer = buffer;
+            this.currentOffset = this.segmentStart = 0;
+            this.segmentEnd = buffer.Length;
+        }
 
         #region Private methods
 

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Reflection;
 using OpenStory.Common.Tools;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
-    /// 
+    /// The entry-point class for the server.
     /// </summary>
-    [ServerModule(InitializationStage.StartUp)]
     public sealed class Emulator
     {
         private IEnumerable<MetadataPair<Type, ServerModuleAttribute>> serverModulesInternal;
@@ -25,6 +24,7 @@ namespace OpenStory.Server
             }
             else
             {
+                Log.WriteInfo("Startup successful.");
                 this.IsRunning = true;
             }
         }
@@ -51,7 +51,7 @@ namespace OpenStory.Server
 
                 ParallelQuery<MethodInfo> query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
-                if (query.All(ReflectionUtils.InvokeFunc<bool>)) continue;
+                if (query.All(ReflectionHelpers.InvokeFunc<bool>)) continue;
 
                 Log.WriteError("Initialization failed, an initialization method returned 'false'.");
                 return false;
@@ -59,26 +59,12 @@ namespace OpenStory.Server
             return true;
         }
 
-        [InitializationMethod]
-        private static bool TestInit1()
-        {
-            Log.WriteInfo("Initialization test method #1.");
-            return true;
-        }
-
-        [InitializationMethod]
-        private static bool TestInit2()
-        {
-            Log.WriteInfo("Initialization test method #2.");
-            return false;
-        }
-
         private static IEnumerable<MetadataPair<Type, ServerModuleAttribute>> GetServerModules()
         {
             return (from assembly in AppDomain.CurrentDomain.GetAssemblies()
                     where !assembly.GlobalAssemblyCache
                     from type in assembly.GetTypes()
-                    let moduleAttribute = ReflectionUtils.GetAttribute<ServerModuleAttribute>(type)
+                    let moduleAttribute = ReflectionHelpers.GetAttribute<ServerModuleAttribute>(type)
                     where moduleAttribute != null
                     select new MetadataPair<Type, ServerModuleAttribute>(type, moduleAttribute));
         }
@@ -86,7 +72,7 @@ namespace OpenStory.Server
         private static IEnumerable<MethodInfo> GetInitializationMethodsByType(Type type)
         {
             return type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic).
-                Where(ReflectionUtils.HasAttribute<InitializationMethodAttribute>);
+                Where(ReflectionHelpers.HasAttribute<InitializationMethodAttribute>);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace OpenStory.Server.Networking
         /// <summary>Initializes a new instance of Acceptor and binds it to the given port.</summary>
         /// <param name="port">The port to bind this Acceptor to.</param>
         /// <param name="onAccept">The function to call when a new connection is made.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="onAccept"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="onAccept"/> is <c>null</c>.</exception>
         public Acceptor(int port, Action<Socket> onAccept)
         {
             if (onAccept == null) throw new ArgumentNullException("onAccept");

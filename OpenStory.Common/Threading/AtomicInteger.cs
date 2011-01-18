@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace OpenStory.Common.Threading
 {
@@ -80,8 +81,10 @@ namespace OpenStory.Common.Threading
         /// </summary>
         /// <param name="atomicInteger">The AtomicInteger to extract the value of.</param>
         /// <returns>The value of the AtomicInteger.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="atomicInteger" /> is <c>null</c>.</exception>
         public static explicit operator int(AtomicInteger atomicInteger)
         {
+            if (atomicInteger == null) throw new ArgumentNullException("atomicInteger");
             return atomicInteger.value;
         }
 
@@ -99,8 +102,10 @@ namespace OpenStory.Common.Threading
         /// </summary>
         /// <param name="atomicInteger">The AtomicInteger to extract the value of.</param>
         /// <returns>The value of the AtomicInteger.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="atomicInteger" /> is <c>null</c>.</exception>
         public static int ToInt32(AtomicInteger atomicInteger)
         {
+            if (atomicInteger == null) throw new ArgumentNullException("atomicInteger");
             return atomicInteger.value;
         }
     }

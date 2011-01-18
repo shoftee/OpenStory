@@ -31,7 +31,7 @@ namespace OpenStory.Server.Networking
         /// <param name="socket">The socket to bind the new session instance to.</param>
         /// <returns>A new session bound to <paramref name="socket"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket"/> is null.
+        /// Thrown if <paramref name="socket"/> is <c>null</c>.
         /// </exception>
         public static NetworkSession New(Socket socket)
         {
@@ -58,7 +58,7 @@ namespace OpenStory.Server.Networking
         private SendDescriptor sendDescriptor;
         private Socket socket;
 
-        /// <summary> A unique ID for the current session. When the session is not active, this is null.</summary>
+        /// <summary> A unique ID for the current session. When the session is not active, this is <c>null</c>.</summary>
         public int? SessionId { get; private set; }
 
         /// <summary> The rolling AES encryption for the output stream.</summary>
@@ -75,7 +75,7 @@ namespace OpenStory.Server.Networking
         }
 
         /// <summary>
-        /// Gets the socket being used for this session. If the session is inactive, this is null.
+        /// Gets the socket being used for this session. If the session is inactive, this is <c>null</c>.
         /// </summary>
         public Socket Socket
         {
@@ -103,10 +103,10 @@ namespace OpenStory.Server.Networking
         {
             short version = MapleVersion;
 
-            byte[] sendIv = ByteUtils.GetNewIV();
+            byte[] sendIv = ByteHelpers.GetNewIV();
             this.SendCrypto = new AesEncryption(sendIv, (short) (0xFFFF - version));
 
-            byte[] receiveIv = ByteUtils.GetNewIV();
+            byte[] receiveIv = ByteHelpers.GetNewIV();
             this.ReceiveCrypto = new AesEncryption(receiveIv, version);
 
             this.receiveDescriptor = new ReceiveDescriptor(this);

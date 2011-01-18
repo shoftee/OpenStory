@@ -22,7 +22,7 @@ namespace OpenStory.Server.Registry
             DefaultRankTitles = new Dictionary<GuildRank, string>
                                 {
                                     { GuildRank.Master, "Master" },
-                                    { GuildRank.JrMaster, "Jr.Master" },
+                                    { GuildRank.JuniorMaster, "Jr.Master" },
                                     { GuildRank.HighMember, "Member" },
                                     { GuildRank.MediumMember, "Member" },
                                     { GuildRank.LowMember, "Member" }

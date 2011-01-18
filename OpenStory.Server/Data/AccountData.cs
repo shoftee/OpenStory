@@ -59,7 +59,7 @@ namespace OpenStory.Server.Data
             {
                 query.Parameters.Add("@userName", SqlDbType.VarChar, 12).Value = userName;
                 var accountData = new AccountData();
-                bool result = DbUtils.InvokeForSingle(query, accountData.ReadInfo);
+                bool result = DbHelpers.InvokeForSingle(query, accountData.ReadInfo);
 
                 return result ? accountData : null;
             }

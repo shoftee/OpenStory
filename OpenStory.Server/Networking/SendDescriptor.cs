@@ -41,7 +41,7 @@ namespace OpenStory.Server.Networking
         /// <summary>Encrypts a packet, adds a header to it, and writes it to the output stream.</summary>
         /// <param name="data">The packet data to write.</param>
         /// <exception cref="InvalidOperationException">Thrown if this session is not open.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data"/> is <c>null</c>.</exception>
         public void Write(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");

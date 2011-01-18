@@ -7,7 +7,7 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Represents a class for constructing packets.
     /// </summary>
-    public class PacketBuilder : IDisposable
+    public sealed class PacketBuilder : IDisposable
     {
         private bool isDisposed;
         private MemoryStream stream;
@@ -86,40 +86,40 @@ namespace OpenStory.Common.IO
 
         /// <summary>Writes a string and its length to the stream.</summary>
         /// <remarks>The length of the stream is written first.</remarks>
-        /// <param name="str">The string to write.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null.</exception>
+        /// <param name="value">The string to write.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteLengthString(string str)
+        public void WriteLengthString(string value)
         {
-            if (str == null) throw new ArgumentNullException("str");
-            this.WriteShort((short) str.Length);
-            this.WriteDirect(Encoding.UTF8.GetBytes(str));
+            if (value == null) throw new ArgumentNullException("value");
+            this.WriteShort((short) value.Length);
+            this.WriteDirect(Encoding.UTF8.GetBytes(value));
         }
 
         /// <summary>Writes a padded string to the stream.</summary>
-        /// <param name="str">The string to write.</param>
+        /// <param name="value">The string to write.</param>
         /// <param name="padLength">The length to pad the string to.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown 
         /// if <paramref name="padLength"/> is a non-positive number, 
         /// OR, 
-        /// if <paramref name="str"/> is not shorter than padLength.
+        /// if <paramref name="value"/> is not shorter than padLength.
         /// </exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WritePaddedString(string str, int padLength)
+        public void WritePaddedString(string value, int padLength)
         {
             this.CheckDisposed();
-            if (str == null) throw new ArgumentNullException("str");
+            if (value == null) throw new ArgumentNullException("value");
             if (padLength <= 0)
                 throw new ArgumentOutOfRangeException("padLength", padLength,
                                                       "The pad length must be a positive number.");
-            if (str.Length >= padLength)
-                throw new ArgumentOutOfRangeException("str", "The string is not shorter than the pad length.");
+            if (value.Length >= padLength)
+                throw new ArgumentOutOfRangeException("value", "The string is not shorter than the pad length.");
 
             var stringBytes = new byte[padLength];
-            Encoding.UTF8.GetBytes(str, 0, str.Length, stringBytes, 0);
-            stringBytes[str.Length] = 0;
+            Encoding.UTF8.GetBytes(value, 0, value.Length, stringBytes, 0);
+            stringBytes[value.Length] = 0;
             this.WriteDirect(stringBytes);
         }
 
