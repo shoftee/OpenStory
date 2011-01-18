@@ -66,7 +66,7 @@ namespace OpenStory.Server.Synchronization
             /// </summary>
             /// <param name="action">The action to execute.</param>
             /// <exception cref="ArgumentNullException">
-            /// Thrown if <paramref name="action"/> is null.
+            /// Thrown if <paramref name="action"/> is <c>null</c>.
             /// </exception>
             public void Schedule(Action<T> action)
             {

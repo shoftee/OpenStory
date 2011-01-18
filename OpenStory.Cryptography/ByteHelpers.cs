@@ -3,7 +3,10 @@ using System.Text;
 
 namespace OpenStory.Cryptography
 {
-    public static class ByteUtils
+    /// <summary>
+    /// Provides convenient methods for manipulating binary data.
+    /// </summary>
+    public static class ByteHelpers
     {
         private const string HexUppercase = "0123456789ABCDEF";
         private const string HexLowercase = "0123456789abcdef";
@@ -13,11 +16,11 @@ namespace OpenStory.Cryptography
         /// Performs a bit-wise left roll on a byte.
         /// </summary>
         /// <param name="b">The byte to roll left.</param>
-        /// <param name="n">The number of bit positions to roll.</param>
+        /// <param name="count">The number of bit positions to roll.</param>
         /// <returns>The resulting byte.</returns>
-        public static byte RollLeft(byte b, int n)
+        public static byte RollLeft(byte b, int count)
         {
-            int tmp = b << (n & 7);
+            int tmp = b << (count & 7);
             return unchecked((byte) (tmp | (tmp >> 8)));
         }
 
@@ -25,47 +28,47 @@ namespace OpenStory.Cryptography
         /// Performs a bit-wise right roll on a byte.
         /// </summary>
         /// <param name="b">The byte to roll right.</param>
-        /// <param name="n">The number of bit positions to roll.</param>
+        /// <param name="count">The number of bit positions to roll.</param>
         /// <returns>The resulting byte.</returns>
-        public static byte RollRight(byte b, int n)
+        public static byte RollRight(byte b, int count)
         {
-            int tmp = b << (8 - (n & 7));
+            int tmp = b << (8 - (count & 7));
             return unchecked((byte) (tmp | (tmp >> 8)));
         }
 
         /// <summary>
         /// Constructs a byte array from a string of hexadecimal digits.
         /// </summary>
-        /// <param name="str">The string to translate to bytes.</param>
-        /// <exception cref="ArgumentException">Thrown 
-        /// if <paramref name="str"/> is not of even length,
-        /// OR,
-        /// if <paramref name="str"/> contains characters that don't correspond to hexadecimal digits.
+        /// <param name="hex">The string to translate to bytes.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="hex" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="hex"/> is not of even length,
+        /// OR, if <paramref name="hex"/> contains characters that don't correspond to hexadecimal digits.
         /// </exception>
         /// <returns>The resulting byte array.</returns>
-        public static byte[] HexToByte(string str)
+        public static byte[] HexToByte(string hex)
         {
-            if ((str.Length & 1) != 0)
+            if (hex == null) throw new ArgumentNullException("hex");
+            if ((hex.Length & 1) != 0)
             {
-                throw new ArgumentException("The string must have event length", "str");
+                throw new ArgumentException("The string must have event length", "hex");
             }
-            var bytes = new byte[str.Length >> 1];
+            var bytes = new byte[hex.Length >> 1];
             int arrayLength = bytes.Length;
-            string uppercase = str.ToUpperInvariant();
+            string uppercase = hex.ToUpperInvariant();
             for (int i = 0; i < arrayLength; i++)
             {
                 int index = i << 1;
                 int position = HexUppercase.IndexOf(uppercase[index]);
                 if (position == -1)
                 {
-                    throw new ArgumentException("The string must consist only of hex digits.", "str");
+                    throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
                 var b = (byte) (position << 4);
 
                 position = HexUppercase.IndexOf(uppercase[index | 1]);
                 if (position == -1)
                 {
-                    throw new ArgumentException("The string must consist only of hex digits.", "str");
+                    throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
                 b |= (byte) position;
                 bytes[i] = b;
@@ -73,15 +76,31 @@ namespace OpenStory.Cryptography
             return bytes;
         }
 
-        /// <summary>Constructs a hexadecimal digit string from a byte array.</summary>
-        /// <param name="bytes">The byte array to translate to hexadecimal characters.</param>
+        /// <summary>
+        /// Constructs an uppercase hexadecimal digit string from a byte array.
+        /// </summary>
+        /// <param name="array">The byte array to translate to hexadecimal characters.</param>
+        /// <returns>The byte array as a hex-digit string.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
+        public static string ByteToHex(byte[] array)
+        {
+            return ByteToHex(array, false);
+        }
+
+        /// <summary>
+        /// Constructs a hexadecimal digit string from a byte array.
+        /// </summary>
+        /// <param name="array">The byte array to translate to hexadecimal characters.</param>
         /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
         /// <returns>The byte array as a hex-digit string.</returns>
-        public static string ByteToHex(byte[] bytes, bool lowercase = false)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
+        public static string ByteToHex(byte[] array, bool lowercase)
         {
+            if (array == null) throw new ArgumentNullException("array");
+
             string hex = lowercase ? HexLowercase : HexUppercase;
             var builder = new StringBuilder();
-            foreach (byte b in bytes)
+            foreach (byte b in array)
             {
                 builder.Append(hex[b >> 4]);
                 builder.Append(hex[b & 0x0F]);

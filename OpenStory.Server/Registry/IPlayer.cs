@@ -1,7 +1,7 @@
-﻿namespace OpenStory.Server
+﻿namespace OpenStory.Server.Registry
 {
     /// <summary>
-    /// Provides properties for accessing Player information.
+    /// Provides properties of a Player.
     /// </summary>
     public interface IPlayer
     {

@@ -9,6 +9,7 @@ namespace OpenStory.Server.Registry
     {
         private static readonly PartyRegistry Instance;
         private static readonly ISynchronized<PartyRegistry> SynchronizedInstance;
+
         private Dictionary<int, PartyMember> members;
         private Dictionary<int, Party> parties;
         private AtomicInteger rollingPartyId = new AtomicInteger(0);

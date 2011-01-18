@@ -1,8 +1,11 @@
-﻿namespace OpenStory.Common
+﻿using System;
+
+namespace OpenStory.Common
 {
     /// <summary>
     /// The gender of a user.
     /// </summary>
+    [Serializable]
     public enum Gender : byte
     {
         /// <summary>

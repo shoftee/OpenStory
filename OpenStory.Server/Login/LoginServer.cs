@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using OpenStory.Server.Networking;
 using OpenStory.Server.Synchronization;
@@ -8,7 +9,7 @@ namespace OpenStory.Server.Login
     /// <summary>
     /// Represents a server that handles the log-on process.
     /// </summary>
-    public class LoginServer : ILoginServer
+    public sealed class LoginServer : AbstractServer, ILoginServer
     {
 
         private static readonly LoginServer InternalInstance;
@@ -40,18 +41,13 @@ namespace OpenStory.Server.Login
         /// </summary>
         public const string ServerName = "OpenMS";
 
-        private readonly Acceptor acceptor;
-
         private readonly List<LoginClient> clients;
-        private readonly WorldManager worldManager;
+        private readonly List<World> worlds;
 
-        private LoginServer()
+        private LoginServer() : base(Port)
         {
-            this.worldManager = new WorldManager();
-            this.acceptor = new Acceptor(Port, this.HandleAccept);
+            this.worlds = new List<World>();
             this.clients = new List<LoginClient>();
-
-            this.acceptor.Start();
         }
 
         // TODO: FINISH THIS F5
@@ -65,12 +61,16 @@ namespace OpenStory.Server.Login
         /// <returns>An <see cref="IWorld"/> object which represents the world with the given ID.</returns>
         public IWorld GetWorldById(int worldId)
         {
-            return this.worldManager.GetWorldById(worldId);
+            return this.worlds.First(w => w.Id == worldId);
         }
 
         #endregion
 
-        private void HandleAccept(Socket socket)
+        /// <summary>
+        /// This method is called when a socket connection is accepted.
+        /// </summary>
+        /// <param name="socket">The socket for the new connection.</param>
+        protected override void HandleAccept(Socket socket)
         {
             NetworkSession networkSession = NetworkSession.New(socket);
             var newClient = new LoginClient(networkSession, this);

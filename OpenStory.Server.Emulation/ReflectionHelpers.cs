@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Contains helper methods for Reflection routines.
     /// </summary>
-    public static class ReflectionUtils
+    public static class ReflectionHelpers
     {
         private static readonly object[] EmptyObjectArray = new object[0];
 
@@ -15,10 +15,12 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute to look for.</typeparam>
         /// <param name="memberInfo">The <see cref="T:System.Reflection.MemberInfo"/> to inspect.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="memberInfo" /> is <c>null</c>.</exception>
         /// <returns>The attribute if there is one, otherwise null.</returns>
         public static TAttribute GetAttribute<TAttribute>(MemberInfo memberInfo)
             where TAttribute : Attribute
         {
+            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
             return Attribute.GetCustomAttribute(memberInfo, typeof (TAttribute)) as TAttribute;
         }
 
@@ -27,10 +29,12 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute to look for.</typeparam>
         /// <param name="memberInfo">The <see cref="T:System.Reflection.MemberInfo"/> to inspect.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="memberInfo" /> is <c>null</c>.</exception>
         /// <returns>true if <paramref name="memberInfo"/> has the attribute; otherwise, false.</returns>
         public static bool HasAttribute<TAttribute>(MemberInfo memberInfo)
         {
-            return memberInfo.IsDefined(typeof (TAttribute), false);
+            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
+            return memberInfo.IsDefined(typeof(TAttribute), false);
         }
 
         /// <summary>
@@ -39,9 +43,11 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <typeparam name="T">The return type of the reflected method.</typeparam>
         /// <param name="method">The <see cref="T:System.Reflection.MemberInfo"/> to invoke.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="method" /> is <c>null</c>.</exception>
         /// <returns>The result from the invocation of <paramref name="method"/>.</returns>
-        public static T InvokeFunc<T>(MethodInfo method)
+        public static T InvokeFunc<T>(MethodBase method)
         {
+            if (method == null) throw new ArgumentNullException("method");
             return (T) method.Invoke(null, EmptyObjectArray);
         }
     }

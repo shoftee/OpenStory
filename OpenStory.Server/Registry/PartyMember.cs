@@ -69,7 +69,7 @@ namespace OpenStory.Server.Registry
         /// </remarks>
         /// <returns>
         /// true if the current PartyMember is based on the same player as <paramref name="other"/>; otherwise, false.
-        /// If <paramref name="other"/> is null, this method returns false.
+        /// If <paramref name="other"/> is <c>null</c>, this method returns false.
         /// </returns>
         /// <param name="other">A PartyMember instance to compare with.</param>
         public bool Equals(PartyMember other)

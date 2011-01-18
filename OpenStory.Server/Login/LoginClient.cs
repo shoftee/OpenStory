@@ -19,7 +19,7 @@ namespace OpenStory.Server.Login
         /// <summary>Initializes a new instance of LoginClient and binds it with a network session.</summary>
         /// <param name="networkSession">The network session to bind the new LoginClient to.</param>
         /// <param name="loginServer">The login server instance which is handling this client.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="loginServer"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="loginServer"/> is <c>null</c>.</exception>
         public LoginClient(NetworkSession networkSession, ILoginServer loginServer)
             : base(networkSession)
         {
@@ -105,7 +105,7 @@ namespace OpenStory.Server.Login
         /// <summary>Checks if a character name is available for use.</summary>
         /// <param name="characterName">The name to check the availablitiy of.</param>
         /// <returns>true if the name is available for use. If the name is shorter than 4 or longer than 12 characters, or if it is already in use, false.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="characterName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="characterName"/> is <c>null</c>.</exception>
         public bool CheckName(string characterName)
         {
             // Now that I look at it, this method is pretty damn brutal, lol. Exceptions, exceptions, and then BAN. :D

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server", "OpenSto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Common", "OpenStory.Common\OpenStory.Common.csproj", "{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Emulation", "OpenStory.Server.Emulation\OpenStory.Server.Emulation.csproj", "{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,16 @@ Global
 		{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}.Release|x86.ActiveCfg = Release|x86
 		{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}.Release|x86.Build.0 = Release|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|x86.ActiveCfg = Debug|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|x86.Build.0 = Debug|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Any CPU.ActiveCfg = Release|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.ActiveCfg = Release|x86
+		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

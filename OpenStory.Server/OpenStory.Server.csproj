@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\OpenStory.Server.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>OpenStory_StrongNameKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,19 +51,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
+    <Compile Include="AbstractServer.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Data\AccountData.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
-    <Compile Include="Data\BanType.cs" />
     <Compile Include="Data\BuddyListEngine.cs" />
     <Compile Include="Data\CharacterEngine.cs" />
-    <Compile Include="Data\DbUtils.cs" />
+    <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
     <Compile Include="Data\GuildEngine.cs" />
     <Compile Include="Data\OpCodeStore.cs" />
-    <Compile Include="Emulator.cs" />
+    <Compile Include="Data\WorldData.cs" />
+    <Compile Include="Data\WorldDataEngine.cs" />
     <Compile Include="Game\Character.cs" />
     <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Equip.cs" />
@@ -75,19 +82,14 @@
     <Compile Include="Game\Npc.cs" />
     <Compile Include="Game\Pet.cs" />
     <Compile Include="Game\Skill.cs" />
-    <Compile Include="InitializationMethodAttribute.cs" />
-    <Compile Include="IPlayer.cs" />
     <Compile Include="Login\AuthenticationResult.cs" />
     <Compile Include="Login\Channel.cs" />
-    <Compile Include="Login\IChannel.cs" />
     <Compile Include="Login\ILoginServer.cs" />
-    <Compile Include="Login\IWorld.cs" />
     <Compile Include="Login\LoginClient.cs" />
     <Compile Include="Login\LoginClientState.cs" />
     <Compile Include="Login\LoginPackets.cs" />
     <Compile Include="Login\LoginServer.cs" />
     <Compile Include="Login\World.cs" />
-    <Compile Include="Login\WorldManager.cs" />
     <Compile Include="Maps\FieldLimitFlags.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
     <Compile Include="Maps\IMapObject.cs" />
@@ -104,9 +106,6 @@
     <Compile Include="Networking\ReceiveDescriptor.cs" />
     <Compile Include="Networking\SendDescriptor.cs" />
     <Compile Include="Networking\SocketErrorEventArgs.cs" />
-    <Compile Include="Player.BuddyList.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -118,6 +117,7 @@
     <Compile Include="Registry\BuddyListEntryStatus.cs" />
     <Compile Include="Registry\BuddyOperation.cs" />
     <Compile Include="Registry\BuddyOperationResult.cs" />
+    <Compile Include="Registry\BuddyRegistry.cs" />
     <Compile Include="Registry\CharacterSimpleInfo.cs" />
     <Compile Include="Registry\Guild.cs" />
     <Compile Include="Registry\GuildEmblem.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="Registry\IMessengerRegistry.cs" />
     <Compile Include="Registry\IParty.cs" />
     <Compile Include="Registry\IPartyRegistry.cs" />
+    <Compile Include="Registry\IPlayer.cs" />
     <Compile Include="Registry\Messenger.cs" />
     <Compile Include="Registry\MessengerMember.cs" />
     <Compile Include="Registry\MessengerRegistry.cs" />
@@ -138,8 +139,9 @@
     <Compile Include="Registry\PartyMember.cs" />
     <Compile Include="Registry\PartyOperation.cs" />
     <Compile Include="Registry\PartyRegistry.cs" />
+    <Compile Include="Registry\Player.BuddyList.cs" />
+    <Compile Include="Registry\Player.cs" />
     <Compile Include="Registry\PlayerManager.cs" />
-    <Compile Include="ServerModuleAttribute.cs" />
     <Compile Include="SimpleAccount.cs" />
     <Compile Include="SimplePackets.cs" />
     <Compile Include="Synchronization\IRunnable.cs" />
@@ -164,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="OpenStory_StrongNameKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

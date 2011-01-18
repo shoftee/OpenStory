@@ -8,13 +8,21 @@ namespace OpenStory.Server.Registry
                               int channel = -1, bool isVisible = false)
         {
             this.CharacterId = characterId;
-            this.Name = characterName;
+            this.CharacterName = characterName;
             this.GroupName = groupName;
             this.Status = status;
             this.IsOnline = (channel == -1);
-            this.Channel = channel;
+            this.ChannelId = channel;
             this.IsVisible = isVisible;
         }
+
+        public int CharacterId { get; private set; }
+        public string CharacterName { get; private set; }
+        public BuddyListEntryStatus Status { get; set; }
+        public string GroupName { get; set; }
+        public int ChannelId { get; set; }
+        public bool IsOnline { get; set; }
+        public bool IsVisible { get; set; }
 
         #region Implementation of IEquatable<BuddyListEntry>
 
@@ -32,12 +40,5 @@ namespace OpenStory.Server.Registry
 
         #endregion
 
-        public int CharacterId { get; private set; }
-        public string Name { get; private set; }
-        public BuddyListEntryStatus Status { get; set; }
-        public string GroupName { get; set; }
-        public int Channel { get; set; }
-        public bool IsOnline { get; set; }
-        public bool IsVisible { get; set; }
     }
 }

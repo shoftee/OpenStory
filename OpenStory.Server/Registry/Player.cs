@@ -2,9 +2,8 @@
 using OpenStory.Common;
 using OpenStory.Server.Game;
 using OpenStory.Server.Maps;
-using OpenStory.Server.Registry;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Registry
 {
     sealed partial class Player : IPlayer
     {

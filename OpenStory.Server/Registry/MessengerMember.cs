@@ -52,7 +52,7 @@ namespace OpenStory.Server.Registry
         /// </remarks>
         /// <returns>
         /// true if the current MessengerMember is based on the same player as <paramref name="other"/>; otherwise, false.
-        /// If <paramref name="other"/> is null, this method returns false.
+        /// If <paramref name="other"/> is <c>null</c>, this method returns false.
         /// </returns>
         /// <param name="other">A MessengerMember instance to compare with.</param>
         public bool Equals(MessengerMember other)

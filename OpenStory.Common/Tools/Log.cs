@@ -27,10 +27,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
-        /// <param name="info">The string to write.</param>
-        public static void WriteInfo(string info)
+        /// <param name="infoString">The string to write.</param>
+        public static void WriteInfo(string infoString)
         {
-            InternalInstance.WriteInfo(info);
+            InternalInstance.WriteInfo(infoString);
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
-        /// <param name="warning">The string to write.</param>
-        public static void WriteWarning(string warning)
+        /// <param name="warningString">The string to write.</param>
+        public static void WriteWarning(string warningString)
         {
-            InternalInstance.WriteWarning(warning);
+            InternalInstance.WriteWarning(warningString);
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>
-        /// <param name="error">The string to write.</param>
-        public static void WriteError(string error)
+        /// <param name="errorString">The string to write.</param>
+        public static void WriteError(string errorString)
         {
-            InternalInstance.WriteError(error);
+            InternalInstance.WriteError(errorString);
         }
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace OpenStory.Common.Tools
 
         #region Explicit ILogger implementation
 
-        void ILogger.WriteInfo(string info)
+        void ILogger.WriteInfo(string infoString)
         {
-            lock (this.writer) this.writer.WriteLine("[Info] {0}", info);
+            lock (this.writer) this.writer.WriteLine("[Info] {0}", infoString);
         }
 
         void ILogger.WriteInfo(string format, params object[] args)
@@ -93,9 +93,9 @@ namespace OpenStory.Common.Tools
             lock (this.writer) this.writer.WriteLine("[Info] " + format, args);
         }
 
-        void ILogger.WriteWarning(string warning)
+        void ILogger.WriteWarning(string warningString)
         {
-            lock (this.writer) this.writer.WriteLine("[Warning] {0}", warning);
+            lock (this.writer) this.writer.WriteLine("[Warning] {0}", warningString);
         }
 
         void ILogger.WriteWarning(string format, params object[] args)
@@ -103,9 +103,9 @@ namespace OpenStory.Common.Tools
             lock (this.writer) this.writer.WriteLine("[Warning] " + format, args);
         }
 
-        void ILogger.WriteError(string error)
+        void ILogger.WriteError(string errorString)
         {
-            lock (this.writer) this.writer.WriteLine("[Warning] {0}", error);
+            lock (this.writer) this.writer.WriteLine("[Warning] {0}", errorString);
         }
 
         void ILogger.WriteError(string format, params object[] args)
@@ -124,8 +124,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
-        /// <param name="info">The string to write.</param>
-        void WriteInfo(string info);
+        /// <param name="infoString">The string to write.</param>
+        void WriteInfo(string infoString);
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
@@ -136,8 +136,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
-        /// <param name="warning">The string to write.</param>
-        void WriteWarning(string warning);
+        /// <param name="warningString">The string to write.</param>
+        void WriteWarning(string warningString);
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
@@ -148,8 +148,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>
-        /// <param name="error">The string to write.</param>
-        void WriteError(string error);
+        /// <param name="errorString">The string to write.</param>
+        void WriteError(string errorString);
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>

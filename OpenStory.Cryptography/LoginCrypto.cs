@@ -1,28 +1,40 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OpenStory.Cryptography
 {
+    /// <summary>
+    /// Provides methods for the login password encryption.
+    /// </summary>
     public static class LoginCrypto
     {
-        private static readonly MD5CryptoServiceProvider MD5CryptoProvider;
+        private static readonly MD5CryptoServiceProvider MD5CryptoProvider =
+            new MD5CryptoServiceProvider();
 
-        static LoginCrypto()
+        /// <summary>
+        /// Gets an MD5 hash of the user name and password.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <param name="password">The password</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="userName"/> or <paramref name="password" /> are <c>null</c>.
+        /// </exception>
+        /// <returns>A string of 32 uppercase hexadecimal digits representing the MD5 hash.</returns>
+        public static string GetAuthenticationHash(string userName, string password)
         {
-            MD5CryptoProvider = new MD5CryptoServiceProvider();
-        }
+            if (userName == null) throw new ArgumentNullException("userName");
+            if (password == null) throw new ArgumentNullException("password");
 
-        public static string GetAuthenticationHash(string username, string password)
-        {
-            string str = username.ToLowerInvariant() + " " + password;
+            string str = userName.ToLowerInvariant() + " " + password;
             return GetMD5HashString(str);
         }
 
-        private static string GetMD5HashString(string str)
+        private static string GetMD5HashString(string str, bool lowercase = false)
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
             byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);
-            return ByteUtils.ByteToHex(hashBytes);
+            return ByteHelpers.ByteToHex(hashBytes, lowercase);
         }
     }
 }

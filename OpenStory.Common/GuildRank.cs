@@ -1,10 +1,17 @@
-﻿namespace OpenStory.Common
+﻿using System;
+
+namespace OpenStory.Common
 {
     /// <summary>
     /// A guild rank.
     /// </summary>
+    [Serializable]
     public enum GuildRank : byte
     {
+        /// <summary>
+        /// Default value
+        /// </summary>
+        None = 0,
         /// <summary>
         /// The rank given to the leader of a guild.
         /// </summary>
@@ -12,7 +19,7 @@
         /// <summary>
         /// The rank given to the assistants of a guild's leader.
         /// </summary>
-        JrMaster = 2,
+        JuniorMaster = 2,
         /// <summary>
         /// Generic high-ranked member.
         /// </summary>

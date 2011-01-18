@@ -22,7 +22,7 @@ namespace OpenStory.Server.Synchronization
             /// </summary>
             /// <param name="action">The action to schedule for execution.</param>
             /// <param name="scheduledTime">The time to execute the action at.</param>
-            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is null.</exception>
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <c>null</c>.</exception>
             public ScheduledTask(Action action, DateTime scheduledTime)
             {
                 if (action == null) throw new ArgumentNullException("action");
@@ -80,7 +80,7 @@ namespace OpenStory.Server.Synchronization
             /// Inserts the given task into the Timeline, after the first task which is strictly chronologically before it.
             /// </summary>
             /// <param name="task">The task to insert.</param>
-            /// <exception cref="ArgumentNullException">Thrown if <paramref name="task"/> is null.</exception>
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="task"/> is <c>null</c>.</exception>
             /// <exception cref="InvalidOperationException">Thrown if <paramref name="task"/> is already cancelled.</exception>
             public void Insert(ScheduledTask task)
             {
@@ -155,7 +155,7 @@ namespace OpenStory.Server.Synchronization
                 /// Initializes a new instance of the TimelineNode class, with the given scheduled task.
                 /// </summary>
                 /// <param name="task">The task for this TimelineNode.</param>
-                /// <param name="next">Optional. The TimelineNode to use as a next node reference. The default value is null.</param>
+                /// <param name="next">Optional. The TimelineNode to use as a next node reference. The default value is <c>null</c>.</param>
                 public TimelineNode(ScheduledTask task, TimelineNode next = null)
                 {
                     this.Task = task;

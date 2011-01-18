@@ -54,30 +54,30 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// A readonly RijndaelManaged transformer.
         /// </summary>
-        private static readonly ICryptoTransform AesTransform;
-
+        private static readonly ICryptoTransform AesTransform = GetAesTransform();
         private byte[] iv;
 
         private short version;
 
-        static AesEncryption()
+        private static ICryptoTransform GetAesTransform()
         {
             var cipher = new RijndaelManaged
                          {
-                             Padding = PaddingMode.None,
-                             Mode = CipherMode.ECB,
+                             Padding = PaddingMode.None, 
+                             Mode = CipherMode.ECB, 
                              Key = AesKey
                          };
-
-            AesTransform = cipher.CreateEncryptor();
-
-            cipher.Dispose();
+            using (cipher)
+            {
+                var transform = cipher.CreateEncryptor();
+                return transform;
+            }
         }
 
         /// <summary>Initializes a new instance of AesEncryption.</summary>
         /// <param name="iv">The initialization vector for this instance.</param>
         /// <param name="version">The MapleStory version.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="iv"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="iv"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="iv"/> has more than or less than 4 elements.</exception>
         public AesEncryption(byte[] iv, short version)
         {
@@ -92,22 +92,14 @@ namespace OpenStory.Cryptography
             this.version = (short) (((version >> 8) & 0xFF) | ((version & 0xFF) << 8));
         }
 
-        public byte[] IV
-        {
-            get
-            {
-                var copy = new byte[4];
-                Buffer.BlockCopy(this.iv, 0, copy, 0, 4);
-                return copy;
-            }
-        }
-
         /// <summary>
         /// Transforms the given data in-place.
         /// </summary>
         /// <param name="data">The array to transform. This array will be directly modified.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
         public void Transform(byte[] data)
         {
+            if (data == null) throw new ArgumentNullException("data");
             this.TransformArraySegment(data, 0, data.Length);
         }
 
@@ -189,7 +181,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="data">The array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is null.
+        /// Thrown if <paramref name="data"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="data"/> has less than 4 elements.
@@ -203,8 +195,8 @@ namespace OpenStory.Cryptography
                 throw GetSegmentTooShortException(4, "data");
             }
 
-            return 
-                ((data[1] ^ data[3]) << 8) | 
+            return
+                ((data[1] ^ data[3]) << 8) |
                 (data[0] ^ data[2]);
         }
 
@@ -214,7 +206,7 @@ namespace OpenStory.Cryptography
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if the segment has less than 4 elements.
@@ -238,7 +230,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="data">The raw packet data to validate.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is null.
+        /// Thrown if <paramref name="data"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="data"/> has less than 4 elements.
@@ -263,7 +255,7 @@ namespace OpenStory.Cryptography
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is null.
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if the given segment has less than 4 elements.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Indicates that the class is a server module which needs initialization.
@@ -50,8 +50,12 @@ namespace OpenStory.Server
         /// </summary>
         Settings = 1,
         /// <summary>
-        /// Will be initialized after <see cref="Settings"/>.
+        /// Will be initialized after <see cref="Settings"/> and before <see cref="Worlds"/>.
         /// </summary>
         Storage = 2,
+        /// <summary>
+        /// Will be initialized after <see cref="Storage"/>.
+        /// </summary>
+        Worlds = 3,
     }
 }
