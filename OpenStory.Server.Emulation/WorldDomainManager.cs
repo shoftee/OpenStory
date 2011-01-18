@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using OpenStory.Common.Tools;
@@ -17,30 +18,35 @@ namespace OpenStory.Server.Emulation
                 LoaderOptimization = LoaderOptimization.SingleDomain
             };
 
-        private static AppDomainManager manager;
-        private static AppDomain[] worldAppDomains;
+        private static readonly WorldDomainManager Instance = new WorldDomainManager();
 
-        private const int WorldCount = 1;
+        private AppDomainManager manager;
+        private List<AppDomain> worldAppDomains;
 
         [InitializationMethod]
         private static bool Initialize()
         {
-            manager = new AppDomainManager();
-            worldAppDomains = new AppDomain[WorldCount];
-            return LoadWorlds();
+            return Instance.LoadWorlds();
         }
 
-        private static bool LoadWorlds()
+        private bool LoadWorlds()
         {
+            manager = new AppDomainManager();
+            worldAppDomains = new List<AppDomain>();
+            
             return WorldDataEngine.GetAllWorlds().All(InitializeWorld);
         }
 
-        private static bool InitializeWorld(WorldData world)
+        private bool InitializeWorld(WorldData world)
         {
-            var evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
-            AppDomain newWorldDomain = manager.CreateDomain("AppDomain-" + world.WorldName, evidence, DefaultAppDomainSetup);
+            Evidence evidence = AppDomain.CurrentDomain.Evidence;
+            AppDomain newWorldDomain = 
+                manager.CreateDomain("AppDomain-" + world.WorldName, evidence, DefaultAppDomainSetup);
+
             newWorldDomain.UnhandledException += UnhandledExceptionHandler;
             newWorldDomain.DomainUnload += DomainUnloadHandler;
+            worldAppDomains.Add(newWorldDomain);
+
             Log.WriteInfo("Loaded world {0}({1}) into new domain '{2}'.", world.WorldName, world.WorldId, newWorldDomain.FriendlyName);
             return true;
         }
