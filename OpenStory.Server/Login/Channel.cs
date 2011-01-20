@@ -1,4 +1,4 @@
-﻿using OpenStory.Common.Threading;
+﻿using OpenStory.Common;
 
 namespace OpenStory.Server.Login
 {

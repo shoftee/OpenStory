@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenStory.Common;
-using OpenStory.Server.Synchronization;
+using OpenStory.Synchronization;
 
 namespace OpenStory.Server.Registry
 {

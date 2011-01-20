@@ -33,3 +33,4 @@ _ReSharper*/
 *.rise
 Database/*
 *.png
+*.pfx

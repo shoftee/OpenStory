@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("OpenStory.Cryptography")]
-[assembly: AssemblyDescription("Cryptography assembly for MapleStory")]
+[assembly: AssemblyDescription("Cryptography tools for MapleStory")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("shoftee® Corporation")]
 [assembly: AssemblyProduct("OpenStory")]

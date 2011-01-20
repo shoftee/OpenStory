@@ -50,10 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractClient.cs" />
-    <Compile Include="AbstractServer.cs" />
-    <Compile Include="AccountSession.cs" />
-    <Compile Include="ChannelServer.cs" />
     <Compile Include="Data\AccountData.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
@@ -66,16 +62,12 @@
     <Compile Include="Data\WorldData.cs" />
     <Compile Include="Data\WorldDataEngine.cs" />
     <Compile Include="Game\Character.cs" />
-    <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\IEquip.cs" />
     <Compile Include="Game\IItem.cs" />
     <Compile Include="Game\Inventory.cs" />
-    <Compile Include="Game\InventoryType.cs" />
     <Compile Include="Game\ISkill.cs" />
     <Compile Include="Game\Item.cs" />
-    <Compile Include="Game\ItemType.cs" />
-    <Compile Include="Game\JobClass.cs" />
     <Compile Include="Game\KeyBinding.cs" />
     <Compile Include="Game\KeyLayout.cs" />
     <Compile Include="Game\Mount.cs" />
@@ -84,12 +76,8 @@
     <Compile Include="Game\Skill.cs" />
     <Compile Include="Login\AuthenticationResult.cs" />
     <Compile Include="Login\Channel.cs" />
-    <Compile Include="Login\ILoginServer.cs" />
-    <Compile Include="Login\LoginClient.cs" />
-    <Compile Include="Login\LoginClientState.cs" />
-    <Compile Include="Login\LoginPackets.cs" />
-    <Compile Include="Login\LoginServer.cs" />
     <Compile Include="Login\World.cs" />
+    <Compile Include="Login\WorldStatus.cs" />
     <Compile Include="Maps\FieldLimitFlags.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
     <Compile Include="Maps\IMapObject.cs" />
@@ -99,13 +87,6 @@
     <Compile Include="Maps\MapEffect.cs" />
     <Compile Include="Maps\MapObjectConstructor.cs" />
     <Compile Include="Maps\MapObjectType.cs" />
-    <Compile Include="Networking\Acceptor.cs" />
-    <Compile Include="Networking\IReceiveDescriptorContainer.cs" />
-    <Compile Include="Networking\ISendDescriptorContainer.cs" />
-    <Compile Include="Networking\NetworkSession.cs" />
-    <Compile Include="Networking\ReceiveDescriptor.cs" />
-    <Compile Include="Networking\SendDescriptor.cs" />
-    <Compile Include="Networking\SocketErrorEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -113,8 +94,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Registry\BuddyList.cs" />
-    <Compile Include="Registry\BuddyListEntry.cs" />
-    <Compile Include="Registry\BuddyListEntryStatus.cs" />
+    <Compile Include="Registry\Buddy.cs" />
+    <Compile Include="Registry\BuddyStatus.cs" />
     <Compile Include="Registry\BuddyOperation.cs" />
     <Compile Include="Registry\BuddyOperationResult.cs" />
     <Compile Include="Registry\BuddyRegistry.cs" />
@@ -142,17 +123,6 @@
     <Compile Include="Registry\Player.BuddyList.cs" />
     <Compile Include="Registry\Player.cs" />
     <Compile Include="Registry\PlayerManager.cs" />
-    <Compile Include="SimpleAccount.cs" />
-    <Compile Include="SimplePackets.cs" />
-    <Compile Include="Synchronization\IRunnable.cs" />
-    <Compile Include="Synchronization\IScheduler.cs" />
-    <Compile Include="Synchronization\ISynchronized.cs" />
-    <Compile Include="Synchronization\QueueScheduler.cs" />
-    <Compile Include="Synchronization\Synchronizer.cs" />
-    <Compile Include="Synchronization\Synchronizer.Synchronized.cs" />
-    <Compile Include="Synchronization\TimeScheduler.cs" />
-    <Compile Include="Synchronization\TimeScheduler.Timeline.cs" />
-    <Compile Include="WorldStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
@@ -163,6 +133,14 @@
       <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
       <Name>OpenStory.Cryptography</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
+      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
+      <Name>OpenStory.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
+      <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
+      <Name>OpenStory.Synchronization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -172,6 +150,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

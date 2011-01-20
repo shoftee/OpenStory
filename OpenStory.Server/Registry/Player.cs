@@ -33,7 +33,6 @@ namespace OpenStory.Server.Registry
 
         private BuddyList buddyList;
         private KeyLayout layout;
-        private Dictionary<int, Skill> skills;
 
         private Player(Character character)
         {

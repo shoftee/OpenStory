@@ -8,19 +8,27 @@ using OpenStory.Server.Game;
 
 namespace OpenStory.Server.Data
 {
-    static class CharacterEngine
+    /// <summary>
+    /// Provides static methods for Character-related database operations.
+    /// </summary>
+    public static class CharacterEngine
     {
         private const string SelectName =
-            "SELECT Name FROM Character WHERE Name=@name";
+            "SELECT Name FROM Character WHERE Name = @name";
 
         private const string SelectCharacterById =
-            "SELECT TOP 1 * FROM Character WHERE CharacterId=@characterId";
+            "SELECT TOP 1 * FROM Character WHERE CharacterId = @characterId";
 
         private const string SelectBindingsByCharacterId =
-            "SELECT KeyId,ActionTypeId,ActionId " +
+            "SELECT KeyId, ActionTypeId, ActionId " +
             "FROM KeyLayoutEntry " +
-            "WHERE CharacterId=@characterId";
+            "WHERE CharacterId = @characterId";
 
+        /// <summary>
+        /// Checks if a name is available for use.
+        /// </summary>
+        /// <param name="name">The name to check.</param>
+        /// <returns>true if the name is not in use; otherwise, false.</returns>
         public static bool IsNameAvailable(string name)
         {
             SqlCommand query = new SqlCommand(SelectName);
@@ -28,6 +36,12 @@ namespace OpenStory.Server.Data
             return DbHelpers.GetRecordSetIterator(query).Any();
         }
 
+        /// <summary>
+        /// Invokes a callback for a data record of a Character with the given character ID.
+        /// </summary>
+        /// <param name="characterId">The character ID to query.</param>
+        /// <param name="recordCallback">The callback to invoke.</param>
+        /// <returns>true if the character was found; otherwise, false.</returns>
         public static bool SelectCharacter(int characterId, Action<IDataRecord> recordCallback)
         {
             SqlCommand query = new SqlCommand(SelectCharacterById);
@@ -35,6 +49,12 @@ namespace OpenStory.Server.Data
             return DbHelpers.InvokeForSingle(query, recordCallback);
         }
 
+        /// <summary>
+        /// Invokes a callback for the data records of all key bindings belonging to the given character ID.
+        /// </summary>
+        /// <param name="characterId">The character ID to query.</param>
+        /// <param name="recordCallback">The callback to invoke.</param>
+        /// <returns>The number of records in the result set.</returns>
         public static int SelectKeyBindings(int characterId, Action<IDataRecord> recordCallback)
         {
             SqlCommand query = new SqlCommand(SelectBindingsByCharacterId);
@@ -58,10 +78,23 @@ namespace OpenStory.Server.Data
                 throw new ArgumentException("There must be exactly " + KeyLayout.KeyCount +
                                             " bindings in the given list.");
             }
-            int count = 0;
 
-            // Write the new bindings to a buffer.
-            int length;
+            byte[] binaryData = BufferNewBindings(bindings);
+            if (binaryData.Length == 0) return 0;
+
+            SaveKeyBindings(binaryData, characterId);
+
+            // Don't forget to set HasChanged to false.);
+            foreach (KeyBinding binding in bindings.Where(b => b.HasChanged))
+            {
+                binding.HasChanged = false;
+            }
+            return binaryData.Length / 6;
+        }
+
+        private static byte[] BufferNewBindings(List<KeyBinding> bindings)
+        {
+            int length = 0;
             byte[] binaryData;
             using (var buffer = new MemoryStream(KeyLayout.KeyCount * 6))
             {
@@ -69,32 +102,26 @@ namespace OpenStory.Server.Data
                 {
                     KeyBinding binding = bindings[i];
                     if (!binding.HasChanged) continue;
-                    count++;
+                    length += 6;
                     buffer.WriteByte(i);
                     buffer.WriteByte(binding.ActionTypeId);
                     buffer.Write(BitConverter.GetBytes(binding.ActionId), 0, 4);
                 }
 
-                if (count == 0) return 0;
-
                 // Copy the binary data to a new array.
-                length = count * 6;
                 binaryData = new byte[length];
                 Buffer.BlockCopy(buffer.GetBuffer(), 0, binaryData, 0, length);
             }
+            return binaryData;
+        }
 
-            // Update with the stored proc <3
+        private static void SaveKeyBindings(byte[] binaryData, int characterId)
+        {
+            int length = binaryData.Length;
             SqlCommand command = new SqlCommand("up_SaveKeyBindings");
             command.Parameters.Add("@CharacterId", SqlDbType.Int).Value = characterId;
             command.Parameters.Add("@BinaryData", SqlDbType.VarBinary, length).Value = binaryData;
             DbHelpers.ExecuteStoredProcedure(command);
-
-            // Don't forget to set HasChanged to false.);
-            foreach (KeyBinding binding in bindings.Where(b => b.HasChanged))
-            {
-                binding.HasChanged = false;
-            }
-            return count;
         }
     }
 }

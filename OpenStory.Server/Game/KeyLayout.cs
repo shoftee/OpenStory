@@ -38,6 +38,9 @@ namespace OpenStory.Server.Game
         /// </summary>
         /// <param name="keyId">The key to query the key binding of.</param>
         /// <returns>A KeyBinding object representing the binding for the key.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="KeyCount"/>.
+        /// </exception>
         public KeyBinding GetKeyBinding(byte keyId)
         {
             if (keyId < 0 || KeyCount < keyId)
@@ -53,6 +56,9 @@ namespace OpenStory.Server.Game
         /// <param name="keyId">The key to set the key binding of.</param>
         /// <param name="type">The new action type for the key binding.</param>
         /// <param name="action">The new action for the key binding.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="KeyCount"/>.
+        /// </exception>
         public void SetKeyBinding(byte keyId, byte type, int action)
         {
             if (keyId < 0 || KeyCount < keyId)

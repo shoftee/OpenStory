@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using OpenStory.Common.IO;
+using OpenStory.Networking;
 using OpenStory.Server.Data;
-using OpenStory.Server.Networking;
 
 namespace OpenStory.Server.Registry
 {
@@ -43,7 +43,7 @@ namespace OpenStory.Server.Registry
                 return;
             }
 
-            BuddyListEntry entry = this.buddyList.FirstOrDefault(
+            Buddy entry = this.buddyList.FirstOrDefault(
                 buddy => buddy.CharacterName.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             if (entry != null)

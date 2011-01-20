@@ -6,24 +6,19 @@ using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Registry
 {
-    internal sealed class BuddyList : IEnumerable<BuddyListEntry>
+    internal sealed class BuddyList : IEnumerable<Buddy>
     {
         public const int DefaultCapacity = 20;
         public const int MaxCapacity = 100;
 
-        private Dictionary<int, BuddyListEntry> items;
+        private Dictionary<int, Buddy> items;
         private LinkedList<CharacterSimpleInfo> pendingRequests;
 
         private BuddyList(int capacity = DefaultCapacity)
         {
-            if (capacity < DefaultCapacity || MaxCapacity < capacity)
-            {
-                throw new ArgumentOutOfRangeException("capacity");
-            }
-
             this.Capacity = capacity;
 
-            this.items = new Dictionary<int, BuddyListEntry>(capacity);
+            this.items = new Dictionary<int, Buddy>(capacity);
             this.pendingRequests = new LinkedList<CharacterSimpleInfo>();
         }
 
@@ -34,9 +29,9 @@ namespace OpenStory.Server.Registry
             get { return this.items.Count == this.Capacity; }
         }
 
-        #region IEnumerable<BuddyListEntry> Members
+        #region IEnumerable<Buddy> Members
 
-        public IEnumerator<BuddyListEntry> GetEnumerator()
+        public IEnumerator<Buddy> GetEnumerator()
         {
             return this.items.Values.GetEnumerator();
         }
@@ -60,14 +55,14 @@ namespace OpenStory.Server.Registry
             var buddyCharacterId = (int) record["BuddyCharacterId"];
             var buddyName = (string) record["BuddyName"];
             var groupName = (string) record["GroupName"];
-            var status = (BuddyListEntryStatus) record["Status"];
-            if (status == BuddyListEntryStatus.Pending)
+            var status = (BuddyStatus) record["Status"];
+            if (status == BuddyStatus.Pending)
             {
                 // TODO: Move this to a better place.
                 this.pendingRequests.AddLast(new CharacterSimpleInfo(buddyCharacterId, buddyName));
             }
 
-            var entry = new BuddyListEntry(buddyCharacterId, buddyName, status, groupName);
+            var entry = new Buddy(buddyCharacterId, buddyName, status, groupName);
             this.AddEntry(entry);
         }
 
@@ -76,18 +71,18 @@ namespace OpenStory.Server.Registry
             return this.items.ContainsKey(characterId);
         }
 
-        public bool TryGetById(int characterId, out BuddyListEntry entry)
+        public bool TryGetById(int characterId, out Buddy entry)
         {
             return this.items.TryGetValue(characterId, out entry);
         }
 
-        public BuddyListEntry GetById(int characterId)
+        public Buddy GetById(int characterId)
         {
-            BuddyListEntry entry;
+            Buddy entry;
             return this.items.TryGetValue(characterId, out entry) ? entry : null;
         }
 
-        public void AddEntry(BuddyListEntry entry)
+        public void AddEntry(Buddy entry)
         {
             this.items.Add(entry.CharacterId, entry);
         }

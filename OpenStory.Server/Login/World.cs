@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Login
 {
@@ -33,25 +34,49 @@ namespace OpenStory.Server.Login
         IEnumerable<IChannel> Channels { get; }
     }
 
-    class World : IWorld
+    /// <summary>
+    /// Represents a game World.
+    /// </summary>
+    public class World : IWorld
     {
         private List<Channel> channels;
 
-        public World(int id, string name, int channelCount)
+        /// <summary>
+        /// Initializes a new instance of the World class.
+        /// </summary>
+        public World(WorldData worldData)
         {
-            this.Id = id;
-            this.Name = name;
-            this.ChannelCount = channelCount;
-            this.channels = new List<Channel>(channelCount);
+            this.Id = worldData.WorldId;
+            this.Name = worldData.WorldName;
+            this.ChannelCount = worldData.ChannelCount;
+            this.channels = new List<Channel>(this.ChannelCount);
         }
 
         #region IWorld Members
 
+        /// <summary>
+        /// Gets the internal ID of the World.
+        /// </summary>
         public int Id { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the World.
+        /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="WorldStatus"/> for the World.
+        /// </summary>
         public WorldStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets the number of channels in the World.
+        /// </summary>
         public int ChannelCount { get; private set; }
 
+        /// <summary>
+        /// Gets an enumerable list of channels for the World.
+        /// </summary>
         public IEnumerable<IChannel> Channels
         {
             get { return this.channels; }

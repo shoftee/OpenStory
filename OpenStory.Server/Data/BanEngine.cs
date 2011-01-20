@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using OpenStory.Common;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Data
 {
-    internal class BanEngine
+    /// <summary>
+    /// Provides static methods for ban-related database operations.
+    /// </summary>
+    public class BanEngine
     {
-        public static readonly DateTimeOffset NoExpiration = DateTimeOffset.MaxValue;
+        private static readonly DateTimeOffset NoExpiration = DateTimeOffset.MaxValue;
 
+        /// <summary>
+        /// Permanently blocks an account ID.
+        /// </summary>
+        /// <param name="accountId">The account ID to ban.</param>
+        /// <param name="reason">The reason for the ban.</param>
         public static void BanByAccountId(int accountId, string reason)
         {
             BanByAccountId(accountId, reason, NoExpiration);
         }
 
+        /// <summary>
+        /// Temporarily blocks an account ID.
+        /// </summary>
+        /// <param name="accountId">The account ID to ban.</param>
+        /// <param name="reason">The reason for the ban.</param>
+        /// <param name="expiration">The expiration of the ban.</param>
         public static void BanByAccountId(int accountId, string reason, DateTimeOffset expiration)
         {
             using (SqlCommand command = new SqlCommand("up_BanAccountById"))
