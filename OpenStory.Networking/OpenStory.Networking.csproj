@@ -48,9 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptor.cs" />
-    <Compile Include="IReceiveDescriptorContainer.cs" />
-    <Compile Include="ISendDescriptorContainer.cs" />
+    <Compile Include="DataArrivedEventArgs.cs" />
+    <Compile Include="Descriptor.cs" />
+    <Compile Include="EncryptedNetworkSession.cs" />
+    <Compile Include="IncomingPacketEventArgs.cs" />
+    <Compile Include="SocketAcceptor.cs" />
+    <Compile Include="IDescriptorContainer.cs" />
     <Compile Include="NetworkSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -61,6 +64,7 @@
     <Compile Include="ReceiveDescriptor.cs" />
     <Compile Include="SendDescriptor.cs" />
     <Compile Include="SocketErrorEventArgs.cs" />
+    <Compile Include="SocketEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
@@ -70,10 +74,6 @@
     <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
       <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
       <Name>OpenStory.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
-      <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
-      <Name>OpenStory.Synchronization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

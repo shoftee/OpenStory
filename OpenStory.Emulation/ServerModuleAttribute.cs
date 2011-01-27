@@ -54,8 +54,13 @@ namespace OpenStory.Emulation
         /// </summary>
         Storage = 2,
         /// <summary>
-        /// Will be initialized after <see cref="Storage"/>.
+        /// Will be initialized after <see cref="Storage"/> and before <see cref="Login"/>.
         /// </summary>
         Worlds = 3,
+        /// <summary>
+        /// Will be initialized after <see cref="Worlds"/>.
+        /// </summary>
+        Login = 4,
+
     }
 }

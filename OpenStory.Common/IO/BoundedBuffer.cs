@@ -4,24 +4,26 @@ using System.IO;
 namespace OpenStory.Common.IO
 {
     /// <summary>
-    /// Represents a byte buffer with a maximum capacity.
+    /// Represents a moderate-performance byte buffer with a maximum capacity.
     /// </summary>
     public sealed class BoundedBuffer : IDisposable
     {
         private MemoryStream memoryStream;
 
         /// <summary>
-        /// The number of free bytes at the end of this buffer.
+        /// Gets the number of useable bytes at the end of the BoundedBuffer.
         /// </summary>
         public int FreeSpace { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of BoundedBuffer with no capacity.
+        /// Initializes a new instance of the 
+        /// BoundedBuffer class with no capacity.
         /// </summary>
         /// <remarks>
-        /// A BoundedBuffer with no capacity is unusable, 
-        /// any consumer of this class must call <see cref="Reset(System.Int32)"/> 
-        /// to assign a buffer capacity before they can use it.</remarks>
+        /// A BoundedBuffer with no capacity is unusable. 
+        /// Any consumer of this class must call <see cref="Reset(int)"/> 
+        /// to assign a capacity before they can use it.
+        /// </remarks>
         public BoundedBuffer()
         {
             this.FreeSpace = 0;
@@ -31,87 +33,45 @@ namespace OpenStory.Common.IO
         /// Initializes a new instance of BoundedBuffer with a maximum capacity.
         /// </summary>
         /// <param name="capacity">The maximum capacity to assign.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// The exception is thrown if <paramref name="capacity"/> 
+        /// is non-positive.
+        /// </exception>
         public BoundedBuffer(int capacity)
         {
+            if (capacity <= 0)
+            {
+                throw new ArgumentOutOfRangeException("capacity", capacity, "'capacity' must be a positive integer. Call the default constructor instead.");
+            }
+
             this.Reset(capacity);
         }
 
         /// <summary>
-        /// Appends a number of bytes to the BoundedBuffer 
-        /// starting from the beginning of an array.
-        /// </summary>
-        /// <remarks>
-        /// If this method returns true, <see cref="Extract()"/> or 
-        /// <see cref="ExtractAndReset(System.Int32)"/> should be called to 
-        /// get the data from the buffer.
-        /// </remarks>
-        /// <param name="buffer">The array to read bytes from.</param>
-        /// <param name="count">The number of bytes to read.</param>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the given array segment 
-        /// has more bytes than the BoundedBuffer expects 
-        /// (which is denoted by the <see cref="FreeSpace"/> property).
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
-        /// </exception>
-        /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
-        public bool Append(byte[] buffer, int count)
-        {
-            return this.Append(buffer, 0, count);
-        }
-
-        /// <summary>
-        /// Appends a number of bytes to the BoundedBuffer 
-        /// starting from a given offset in an array.
-        /// </summary>
-        /// <remarks>
-        /// If this method returns true, <see cref="Extract()"/> or 
-        /// <see cref="ExtractAndReset(System.Int32)"/> should be called to 
-        /// get the data from the buffer.
-        /// </remarks>
-        /// <param name="buffer">The array to read bytes from.</param>
-        /// <param name="offset">The offset at which to start reading.</param>
-        /// <param name="count">The number of bytes to read.</param>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the given array segment 
-        /// has more bytes than the BoundedBuffer can store.
-        /// (which is denoted by the <see cref="FreeSpace"/> property).
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArraySegmentException">
-        /// Thrown if the array segment given by the 
-        /// <paramref name="offset"/> and <paramref 
-        /// name="count"/> parameters falls outside 
-        /// of the given array's bounds.
-        /// </exception>
-        /// <returns>true if the buffer is full after the append operation; otherwise, false.</returns>
-        public bool Append(byte[] buffer, int offset, int count)
-        {
-            if (this.FreeSpace < count)
-                throw new InvalidOperationException("The given segment is too large to store.");
-
-            if (buffer == null) 
-                throw new ArgumentNullException("buffer");
-
-            if (offset < 0 || buffer.Length < offset ||
-                count <= 0 || offset + count > buffer.Length)
-            {
-                throw ArraySegmentException.GetByStartAndLength(offset, count);
-            }
-
-            this.AppendInternal(buffer, offset, count);
-            return this.FreeSpace == 0;
-        }
-
-        /// <summary>
         /// Takes bytes from the start of an array and 
-        /// appends as much as possible to the BoundedBuffer.
+        /// appends as many as possible to the BoundedBuffer.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This method will append a maximum of <paramref name="count"/> elements from the 
+        /// start of <paramref name="buffer"/> to the end of the BoundedBuffer.
+        /// If there is not enough space for <c>count</c> elements, 
+        /// it will fill the remaining BoundedBuffer space with bytes from the start of
+        /// <c>buffer</c>.
+        /// </para><para>
+        /// Calling this method is equivalent to calling 
+        /// <see cref="AppendFill(byte[],int,int)"/> with offset set to 0.
+        /// </para>
+        /// </remarks>
         /// <param name="buffer">The array to read from.</param>
         /// <param name="count">The number of bytes to append.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="buffer" /> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArraySegmentException">
+        /// Thrown if <paramref name="buffer"/> has 
+        /// less than <paramref name="count"/> elements.
+        /// </exception>
         /// <returns>
         /// The number of bytes that were stored. If there was 
         /// enough space, this is equal to <paramref name="count"/>.
@@ -125,20 +85,27 @@ namespace OpenStory.Common.IO
         /// Takes bytes from the start of an array segment and 
         /// appends as much as possible to the BoundedBuffer.
         /// </summary>
+        /// <remarks>
+        /// This method will append a maximum of <paramref name="count"/> elements 
+        /// to the end of the BoundedBuffer, starting at 
+        /// <paramref name="offset"/> in <paramref name="buffer"/> .
+        /// </remarks>
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <param name="count">The number of bytes to append.</param>
-        /// <returns>
-        /// The number of bytes that were stored. If there was 
-        /// enough space, this is equal to <paramref name="count"/>.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="buffer" /> is <c>null</c>.
+        /// </exception>
         /// <exception cref="ArraySegmentException">
         /// Thrown if the array segment given by the 
         /// <paramref name="offset"/> and <paramref 
         /// name="count"/> parameters falls outside 
         /// of the given array's bounds.
         /// </exception>
+        /// <returns>
+        /// The number of bytes that were stored. If there was 
+        /// enough space, this is equal to <paramref name="count"/>.
+        /// </returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
             if (buffer == null) throw new ArgumentNullException("buffer");
@@ -164,7 +131,7 @@ namespace OpenStory.Common.IO
         /// Extracts the data from the BoundedBuffer.
         /// </summary>
         /// <remarks>
-        /// After calling this method, <see cref="Reset(System.Int32)"/> 
+        /// After calling this method, <see cref="Reset(int)"/> 
         /// should be called to prepare the buffer for the next segment.
         /// </remarks>
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>
@@ -194,7 +161,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <remarks>
         /// Calling this method is equivalent to calling <see cref="Extract()"/> and then
-        /// <see cref="Reset(System.Int32)"/> with the same parameter.
+        /// <see cref="Reset(int)"/> with the same parameter.
         /// </remarks>
         /// <param name="newCapacity">The new capacity for the BoundedBuffer.</param>
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>

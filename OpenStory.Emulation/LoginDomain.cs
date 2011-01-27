@@ -6,16 +6,16 @@ namespace OpenStory.Emulation
 {
     class LoginDomain
     {
-        private AppDomain loginDomain;
+        private AppDomain domain;
 
-        public LoginDomain()
+        private LoginDomain()
         {
-            this.loginDomain = AppDomainHelpers.GetNewDomain("OpenStory-Login");
-            this.loginDomain.DoCallBack(() =>
-                                        {
-                                            LoginServer loginServer = new LoginServer();
-                                            loginServer.Start();
-                                        });
+            domain = AppDomainHelpers.GetNewDomain("OpenStory-Login");
+            domain.DoCallBack(() =>
+            {
+                LoginServer loginServer = new LoginServer();
+                loginServer.Start();
+            });
         }
     }
 }

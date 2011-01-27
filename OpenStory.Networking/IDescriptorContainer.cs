@@ -3,12 +3,10 @@ using OpenStory.Cryptography;
 
 namespace OpenStory.Networking
 {
-    interface ISendDescriptorContainer
+    interface IDescriptorContainer
     {
         Socket Socket { get; }
         bool IsDisconnected { get; }
-
-        AesEncryption SendCrypto { get; }
 
         void Close();
     }

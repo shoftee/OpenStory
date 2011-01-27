@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OpenStory.Server.Properties {
+namespace OpenStory.Networking.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,12 +25,10 @@ namespace OpenStory.Server.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SHOFTBOX;Initial Catalog=OpenStory;Persist Security Info=True;User ID" +
-            "=OpenStoryUser;Password=.@c#8sharp")]
-        public string OpenStoryConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("66")]
+        public short MapleVersion {
             get {
-                return ((string)(this["OpenStoryConnectionString"]));
+                return ((short)(this["MapleVersion"]));
             }
         }
     }

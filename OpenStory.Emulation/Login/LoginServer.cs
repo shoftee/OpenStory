@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using OpenStory.Networking;
+using Session = OpenStory.Networking.EncryptedNetworkSession;
 using OpenStory.Server.Login;
 
 namespace OpenStory.Emulation.Login
@@ -9,7 +8,7 @@ namespace OpenStory.Emulation.Login
     /// <summary>
     /// Represents a server that handles the log-on process.
     /// </summary>
-    public sealed class LoginServer : AbstractServer, ILoginServer
+    sealed class LoginServer : AbstractServer, ILoginServer
     {
         // TODO: Loading from property file?... or DB?
         private const int Port = 8484;
@@ -30,7 +29,8 @@ namespace OpenStory.Emulation.Login
         /// <summary>
         /// Initializes a new instance of the LoginServer class.
         /// </summary>
-        public LoginServer() : base(Port)
+        public LoginServer()
+            : base(Port)
         {
             this.worlds = new List<World>();
             this.clients = new List<LoginClient>();
@@ -53,15 +53,11 @@ namespace OpenStory.Emulation.Login
 
         #endregion
 
-        /// <summary>
-        /// This method is called when a socket connection is accepted.
-        /// </summary>
-        /// <param name="socket">The socket for the new connection.</param>
-        protected override void HandleAccept(Socket socket)
+        protected override void HandleSession(Session session)
         {
-            NetworkSession networkSession = NetworkSession.New(socket);
-            var newClient = new LoginClient(networkSession, this);
+            LoginClient newClient = new LoginClient(session, this);
             this.clients.Add(newClient);
         }
+
     }
 }

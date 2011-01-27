@@ -11,10 +11,10 @@ namespace OpenStory.Emulation.Helpers
         private static readonly object[] EmptyObjectArray = new object[0];
 
         /// <summary>
-        /// Inspects <paramref name="memberInfo"/> for an attribute of type <typeparamref name="TAttribute"/>.
+        /// Inspects a <see cref="MemberInfo"/> object for an attribute of a specific type.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute to look for.</typeparam>
-        /// <param name="memberInfo">The <see cref="T:System.Reflection.MemberInfo"/> to inspect.</param>
+        /// <param name="memberInfo">The <see cref="MemberInfo"/> to inspect.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="memberInfo" /> is <c>null</c>.</exception>
         /// <returns>The attribute if there is one, otherwise null.</returns>
         public static TAttribute GetAttribute<TAttribute>(MemberInfo memberInfo)
@@ -25,11 +25,13 @@ namespace OpenStory.Emulation.Helpers
         }
 
         /// <summary>
-        /// Determines whether <paramref name="memberInfo"/> has an attribute of type <typeparamref name="TAttribute"/>.
+        /// Determines whether a <see cref="MemberInfo"/> has an attribute of a specific type.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute to look for.</typeparam>
-        /// <param name="memberInfo">The <see cref="T:System.Reflection.MemberInfo"/> to inspect.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="memberInfo" /> is <c>null</c>.</exception>
+        /// <param name="memberInfo">The <see cref="MemberInfo"/> to inspect.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="memberInfo" /> is <c>null</c>.
+        /// </exception>
         /// <returns>true if <paramref name="memberInfo"/> has the attribute; otherwise, false.</returns>
         public static bool HasAttribute<TAttribute>(MemberInfo memberInfo)
         {
@@ -38,14 +40,16 @@ namespace OpenStory.Emulation.Helpers
         }
 
         /// <summary>
-        /// Executes the method reflected in the given <see cref="T:System.Reflection.MemberInfo"/> as a Func(T) delegate.
-        /// This method is equivalent to the expression (T) method.Invoke(null, new object[0]).
+        /// Executes the method reflected in the given <see cref="MethodBase"/> as a Func(T) delegate.
+        /// This method is equivalent to the expression <c>(T) <paramref name="method"/>.Invoke(null, new object[0])</c>.
         /// </summary>
         /// <typeparam name="T">The return type of the reflected method.</typeparam>
-        /// <param name="method">The <see cref="T:System.Reflection.MemberInfo"/> to invoke.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="method" /> is <c>null</c>.</exception>
+        /// <param name="method">The <see cref="MethodBase"/> to invoke.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="method" /> is <c>null</c>.
+        /// </exception>
         /// <returns>The result from the invocation of <paramref name="method"/>.</returns>
-        public static T InvokeFunc<T>(MethodBase method)
+        public static T InvokeStaticFunc<T>(MethodBase method)
         {
             if (method == null) throw new ArgumentNullException("method");
             return (T) method.Invoke(null, EmptyObjectArray);
@@ -66,19 +70,25 @@ namespace OpenStory.Emulation.Helpers
         /// </summary>
         /// <param name="memberInfo">The <see cref="MemberInfo"/> object for this pair.</param>
         /// <param name="attribute">The <see cref="Attribute"/> object for this pair.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="memberInfo"/> 
+        /// or <paramref name="attribute"/> are null.
+        /// </exception>
         public MetadataPair(TMemberInfo memberInfo, TAttribute attribute)
         {
+            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
+            if (attribute == null) throw new ArgumentNullException("attribute");
             this.MemberInfo = memberInfo;
             this.Attribute = attribute;
         }
 
         /// <summary>
-        /// Gets the <see cref="MemberInfo"/> object for this pair.
+        /// Gets the <see cref="MemberInfo"/> object of this pair.
         /// </summary>
         public TMemberInfo MemberInfo { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="Attribute"/> object for this pair.
+        /// Gets the <see cref="Attribute"/> object of this pair.
         /// </summary>
         public TAttribute Attribute { get; private set; }
     }

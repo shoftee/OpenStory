@@ -9,8 +9,5 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=SHOFTBOX;Initial Catalog=OpenStory;Persist Security Info=True;User ID=OpenStoryUser;Password=.@c#8sharp</Value>
     </Setting>
-    <Setting Name="MapleVersion" Type="System.Int16" Scope="Application">
-      <Value Profile="(Default)">66</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

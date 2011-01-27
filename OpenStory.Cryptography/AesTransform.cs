@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 namespace OpenStory.Cryptography
 {
     /// <summary>
-    /// Represents an active AES encryption transformer.
+    /// Represents an AES encryption transformer.
     /// </summary>
-    public class AesEncryption
+    public sealed class AesTransform
     {
         private const int IvLength = 16;
 
@@ -54,12 +54,12 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// A readonly RijndaelManaged transformer.
         /// </summary>
-        private static readonly ICryptoTransform AesTransform = GetAesTransform();
+        private static readonly ICryptoTransform Transformer = GetTransformer();
         private byte[] iv;
 
         private short version;
 
-        private static ICryptoTransform GetAesTransform()
+        private static ICryptoTransform GetTransformer()
         {
             var cipher = new RijndaelManaged
                          {
@@ -74,12 +74,12 @@ namespace OpenStory.Cryptography
             }
         }
 
-        /// <summary>Initializes a new instance of AesEncryption.</summary>
+        /// <summary>Initializes a new instance of AesTransform.</summary>
         /// <param name="iv">The initialization vector for this instance.</param>
         /// <param name="version">The MapleStory version.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="iv"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="iv"/> has more than or less than 4 elements.</exception>
-        public AesEncryption(byte[] iv, short version)
+        public AesTransform(byte[] iv, short version)
         {
             if (iv == null) throw new ArgumentNullException("iv");
             if (iv.Length != 4)
@@ -140,7 +140,7 @@ namespace OpenStory.Cryptography
             {
                 if (xorBlockPosition == 0)
                 {
-                    xorBlock = AesTransform.TransformFinalBlock(xorBlock, 0, IvLength);
+                    xorBlock = Transformer.TransformFinalBlock(xorBlock, 0, IvLength);
                 }
 
                 data[position] ^= xorBlock[xorBlockPosition++];

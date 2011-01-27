@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using OpenStory.Common.IO;
-using OpenStory.Networking;
 using OpenStory.Server.Data;
+using Session = OpenStory.Networking.EncryptedNetworkSession;
 
 namespace OpenStory.Server.Registry
 {
     partial class Player
     {
-        public void HandleBuddyOperation(PacketReader reader, NetworkSession session)
+        public void HandleBuddyOperation(PacketReader reader, Session session)
         {
             var operation = (BuddyOperation) reader.ReadByte();
 
@@ -27,7 +27,7 @@ namespace OpenStory.Server.Registry
             session.Close();
         }
 
-        private void HandleAddBuddy(PacketReader reader, NetworkSession session)
+        private void HandleAddBuddy(PacketReader reader, Session session)
         {
             string name;
             if (!reader.TryReadLengthString(out name) || name.Length > 12)
@@ -61,13 +61,13 @@ namespace OpenStory.Server.Registry
             // TODO: Check the target buddy list stuff.
         }
 
-        private static void SendBuddyListOperationResult(NetworkSession session, BuddyOperationResult buddyOperationResult)
+        private static void SendBuddyListOperationResult(Session session, BuddyOperationResult buddyOperationResult)
         {
             using (var builder = new PacketBuilder(3))
             {
                 builder.WriteOpCode("BuddyListOperationResponse");
                 builder.WriteByte((byte) buddyOperationResult);
-                session.Write(builder.ToByteArray());
+                session.WritePacket(builder.ToByteArray());
             }
         }
     }
