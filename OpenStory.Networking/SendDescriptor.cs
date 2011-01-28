@@ -11,7 +11,7 @@ namespace OpenStory.Networking
     sealed class SendDescriptor : Descriptor
     {
         private AtomicBoolean isSending;
-        private ConcurrentQueue<ArraySegment<byte>> queue;
+        private ConcurrentQueue<byte[]> queue;
         private int sentBytes;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace OpenStory.Networking
             base.SocketArgs.Completed += this.EndSend;
 
             this.isSending = new AtomicBoolean(false);
-            this.queue = new ConcurrentQueue<ArraySegment<byte>>();
+            this.queue = new ConcurrentQueue<byte[]>();
         }
 
         /// <summary>
@@ -38,18 +38,10 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data"/> is <c>null</c>.</exception>
         public void Write(byte[] data)
         {
-            if (base.Container.IsDisconnected) throw new InvalidOperationException("The network session is not open.");
+            if (!base.Container.IsActive) throw new InvalidOperationException("The network session is not open.");
             if (data == null) throw new ArgumentNullException("data");
 
-            this.Send(data);
-        }
-
-        #region Async send methods
-
-        private void Send(byte[] data)
-        {
-            var segment = new ArraySegment<byte>(data);
-            this.queue.Enqueue(segment);
+            this.queue.Enqueue(data);
 
             // For the confused: isSending.CompareExchange 
             // will return true if we're currently sending
@@ -62,14 +54,16 @@ namespace OpenStory.Networking
             this.BeginSend();
         }
 
+        #region Async send methods
+
         private void BeginSend()
         {
-            ArraySegment<byte> segment;
+            byte[] segment;
             this.queue.TryPeek(out segment);
 
-            base.SocketArgs.SetBuffer(segment.Array,
-                                      segment.Offset + this.sentBytes,
-                                      segment.Count - this.sentBytes);
+            base.SocketArgs.SetBuffer(segment,
+                                      this.sentBytes,
+                                      segment.Length - this.sentBytes);
             try
             {
                 // For the confused: Socket.SendAsync() returns false
@@ -95,8 +89,8 @@ namespace OpenStory.Networking
             }
 
             this.sentBytes += transferred;
-            ArraySegment<byte> segment;
-            if (this.queue.TryPeek(out segment) && segment.Count == this.sentBytes)
+            byte[] segment;
+            if (this.queue.TryPeek(out segment) && segment.Length == this.sentBytes)
             {
                 this.queue.TryDequeue(out segment);
                 this.sentBytes = 0;

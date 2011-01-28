@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Net.Sockets;
 using OpenStory.Common;
-using OpenStory.Common.Tools;
 
 namespace OpenStory.Networking
 {
     /// <summary>
     /// Represents a network session used for sending and receiving data.
     /// </summary>
-    public abstract class NetworkSession : IDescriptorContainer
+    public sealed class NetworkSession : IDescriptorContainer
     {
-        private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
-
         /// <summary>
         /// The event is raised just before the NetworkSession is closed.
         /// </summary>
-        public event EventHandler OnClose;
+        public event EventHandler OnClosing;
+
+        /// <summary>
+        /// The event is raised when a data segment arrives.
+        /// </summary>
+        /// <remarks>
+        /// This event doesn't support more than 1 subscriber.
+        /// Attempts to subscribe more than 1 method to this event 
+        /// will throw an <see cref="InvalidOperationException"/>.
+        /// </remarks>
+        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        {
+            add { this.receiveDescriptor.OnDataArrived += value; }
+            remove { this.receiveDescriptor.OnDataArrived -= value; }
+        }
 
         /// <summary>
         /// The event used to handle socket errors.
@@ -40,17 +51,9 @@ namespace OpenStory.Networking
         private SendDescriptor sendDescriptor;
 
         /// <summary>
-        /// Gets the unique ID for the NetworkSession.
-        /// </summary>
-        public int SessionId { get; private set; }
-
-        /// <summary>
         /// Gets whether the socket is currently disconnected or not.
         /// </summary>
-        /// <remarks>
-        /// The condition for the name is inverted because connected-ness is common.
-        /// </remarks>
-        protected AtomicBoolean IsDisconnected { get; private set; }
+        private AtomicBoolean isActive;
 
         /// <summary>
         /// Gets the socket being used for this session.
@@ -66,7 +69,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="socket" /> is <c>null</c>.
         /// </exception>
-        protected NetworkSession(Socket socket)
+        public NetworkSession(Socket socket)
         {
             if (socket == null) throw new ArgumentNullException("socket");
 
@@ -75,8 +78,7 @@ namespace OpenStory.Networking
 
             this.Socket = socket;
 
-            this.IsDisconnected = new AtomicBoolean(false);
-            this.SessionId = RollingSessionId.Increment();
+            this.isActive = new AtomicBoolean(false);
         }
 
         #region Connection methods
@@ -86,28 +88,26 @@ namespace OpenStory.Networking
         /// </summary>
         public void Start()
         {
-            this.StartImpl();
+            if (this.isActive.CompareExchange(comparand: false, newValue: true))
+            {
+                throw new InvalidOperationException("This session is already active.");
+            }
+
             this.receiveDescriptor.StartReceive();
         }
-
-        /// <summary>
-        /// A hook to the beginning of the 
-        /// publicly exposed <see cref="Start()"/> method.
-        /// </summary>
-        protected abstract void StartImpl();
 
         /// <summary>
         /// Releases the session so it can be reused with a new socket.
         /// </summary>
         public void Close()
         {
-            if (this.OnClose != null)
+            if (this.OnClosing != null)
             {
-                this.OnClose(this, EventArgs.Empty);
+                this.OnClosing(this, EventArgs.Empty);
             }
 
-            this.OnClose = null;
-            if (this.IsDisconnected.CompareExchange(false, true))
+            this.OnClosing = null;
+            if (!this.isActive.CompareExchange(comparand: true, newValue: false))
             {
                 return;
             }
@@ -116,15 +116,7 @@ namespace OpenStory.Networking
 
             this.receiveDescriptor.Close();
             this.sendDescriptor.Close();
-
-            this.CloseImpl();
         }
-
-        /// <summary>
-        /// A hook to the end of the publicly 
-        /// exposed <see cref="Close()"/> method.
-        /// </summary>
-        protected abstract void CloseImpl();
 
         #endregion
 
@@ -132,7 +124,7 @@ namespace OpenStory.Networking
         /// Writes a byte array to the network stream.
         /// </summary>
         /// <param name="data">The data to write.</param>
-        protected void Write(byte[] data)
+        public void Write(byte[] data)
         {
             lock (sendDescriptor)
             {
@@ -140,17 +132,11 @@ namespace OpenStory.Networking
             }
         }
 
-        /// <summary>
-        /// Processes a received data segment.
-        /// </summary>
-        /// <param name="data">The data segment to process.</param>
-        protected abstract void HandleIncomingData(byte[] data);
-
         #region IDescriptorContainer explicit implementations
 
-        bool IDescriptorContainer.IsDisconnected
+        bool IDescriptorContainer.IsActive
         {
-            get { return this.IsDisconnected.Value; }
+            get { return this.isActive.Value; }
         }
 
         void IDescriptorContainer.Close()

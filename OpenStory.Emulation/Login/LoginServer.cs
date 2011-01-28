@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Session = OpenStory.Networking.EncryptedNetworkSession;
+using OpenStory.Networking;
+using OpenStory.Server;
 using OpenStory.Server.Login;
 
 namespace OpenStory.Emulation.Login
@@ -53,9 +54,9 @@ namespace OpenStory.Emulation.Login
 
         #endregion
 
-        protected override void HandleSession(Session session)
+        protected override void HandleSession(ServerSession serverSession)
         {
-            LoginClient newClient = new LoginClient(session, this);
+            LoginClient newClient = new LoginClient(serverSession, this);
             this.clients.Add(newClient);
         }
 

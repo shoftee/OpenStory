@@ -13,16 +13,21 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// Gets the AES transform object for this Packer.
         /// </summary>
-        public AesTransform AesTransform { get; private set; }
+        private AesTransform aesTransform;
 
         /// <summary>
+        /// Gets a copy of the current IV of the internal AES transform object.
+        /// </summary>
+        public byte[] IV { get { return aesTransform.IV; } }
+
+            /// <summary>
         /// Initializes a new instance of the Packer class.
         /// </summary>
         /// <param name="iv">The IV for the internal AES transformation.</param>
         /// <param name="version">The game version.</param>
         public Packer(byte[] iv, short version)
         {
-            this.AesTransform = new AesTransform(iv, (short) (0xFFFF - version));
+            this.aesTransform = new AesTransform(iv, (short) (0xFFFF - version));
         }
 
         /// <summary>
@@ -37,12 +42,12 @@ namespace OpenStory.Cryptography
         {
             int length = packetData.Length;
             byte[] rawData = new byte[length + 4];
-            lock (this.AesTransform)
+            lock (this.aesTransform)
             {
-                byte[] header = this.AesTransform.ConstructHeader(length);
+                byte[] header = this.aesTransform.ConstructHeader(length);
                 Buffer.BlockCopy(header, 0, rawData, 0, 4);
 
-                this.AesTransform.Transform(packetData);
+                this.aesTransform.Transform(packetData);
                 CustomEncryption.Encrypt(packetData);
             }
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);

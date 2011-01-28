@@ -6,9 +6,12 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Represents a moderate-performance byte buffer with a maximum capacity.
     /// </summary>
-    public sealed class BoundedBuffer : IDisposable
+    public class BoundedBuffer : IDisposable
     {
-        private MemoryStream memoryStream;
+        /// <summary>
+        /// Gets the internal MemoryStream object of the BoundedBuffer
+        /// </summary>
+        protected MemoryStream MemoryStream { get; private set; }
 
         /// <summary>
         /// Gets the number of useable bytes at the end of the BoundedBuffer.
@@ -123,7 +126,7 @@ namespace OpenStory.Common.IO
 
         private void AppendInternal(byte[] buffer, int offset, int count)
         {
-            this.memoryStream.Write(buffer, offset, count);
+            this.MemoryStream.Write(buffer, offset, count);
             this.FreeSpace -= count;
         }
 
@@ -137,7 +140,7 @@ namespace OpenStory.Common.IO
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>
         public byte[] Extract()
         {
-            return this.memoryStream.GetBuffer();
+            return this.MemoryStream.GetBuffer();
         }
 
         /// <summary>
@@ -150,9 +153,11 @@ namespace OpenStory.Common.IO
         public void Reset(int newCapacity)
         {
             if (newCapacity < 0)
-                throw new ArgumentOutOfRangeException("newCapacity", newCapacity, "'newCapacity' must be a non-negative number.");
-            
-            this.memoryStream = new MemoryStream(newCapacity);
+            {
+                throw new ArgumentOutOfRangeException("newCapacity", newCapacity,
+                                                      "'newCapacity' must be a non-negative number.");
+            }
+            this.MemoryStream = new MemoryStream(newCapacity);
             this.FreeSpace = newCapacity;
         }
 
@@ -167,27 +172,12 @@ namespace OpenStory.Common.IO
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>
         public byte[] ExtractAndReset(int newCapacity)
         {
-            byte[] data = this.memoryStream.GetBuffer();
+            byte[] data = this.MemoryStream.GetBuffer();
 
-            this.memoryStream = new MemoryStream(newCapacity);
+            this.MemoryStream = new MemoryStream(newCapacity);
             this.FreeSpace = newCapacity;
 
             return data;
-        }
-
-        private static ArgumentException GetSegmentOutOfBoundsException()
-        {
-            return new ArgumentException("The array bounds cannot contain the given segment.");
-        }
-
-        private static ArgumentOutOfRangeException GetCountMustBePositiveException(int count)
-        {
-            return new ArgumentOutOfRangeException("count", count, "'count' must be a positive number.");
-        }
-
-        private static ArgumentOutOfRangeException GetOffsetOutOfBoundsException(int offset)
-        {
-            return new ArgumentOutOfRangeException("offset", offset, "'offset' falls outside of the array bounds.");
         }
 
         /// <summary>
@@ -196,8 +186,31 @@ namespace OpenStory.Common.IO
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            this.memoryStream.Dispose();
+            this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Virtual dispose method. When overriding, call the base implementation before your logic.
+        /// </summary>
+        /// <param name="disposing">
+        /// A parameter to denote whether the method 
+        /// is being called during Disposal or Finalization.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.MemoryStream.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~BoundedBuffer()
+        {
+            this.Dispose(false);
         }
     }
 }

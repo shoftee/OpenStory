@@ -92,7 +92,7 @@ namespace OpenStory.Networking
 
         private void BeginReceive()
         {
-            if (base.Container.IsDisconnected) return;
+            if (!base.Container.IsActive) return;
 
             try
             {
@@ -109,7 +109,7 @@ namespace OpenStory.Networking
 
         private void EndReceive(object sender, SocketAsyncEventArgs args)
         {
-            if (base.Container.IsDisconnected) return;
+            if (!base.Container.IsActive) return;
 
             int transferred = args.BytesTransferred;
             if (transferred <= 0)

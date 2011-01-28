@@ -123,6 +123,7 @@
     <Compile Include="Registry\Player.BuddyList.cs" />
     <Compile Include="Registry\Player.cs" />
     <Compile Include="Registry\PlayerManager.cs" />
+    <Compile Include="ServerSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">

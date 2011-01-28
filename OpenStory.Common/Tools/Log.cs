@@ -105,12 +105,12 @@ namespace OpenStory.Common.Tools
 
         void ILogger.WriteError(string errorString)
         {
-            lock (this.writer) this.writer.WriteLine("[Warning] {0}", errorString);
+            lock (this.writer) this.writer.WriteLine("[Error] {0}", errorString);
         }
 
         void ILogger.WriteError(string format, params object[] args)
         {
-            lock (this.writer) this.writer.WriteLine("[Warning] " + format, args);
+            lock (this.writer) this.writer.WriteLine("[Error] " + format, args);
         }
 
         #endregion

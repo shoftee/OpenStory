@@ -20,7 +20,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="packet" /> is <c>null</c>.
         /// </exception>
-        internal IncomingPacketEventArgs(byte[] packet)
+        public IncomingPacketEventArgs(byte[] packet)
         {
             if (packet == null) throw new ArgumentNullException("packet");
 

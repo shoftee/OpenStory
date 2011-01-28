@@ -57,14 +57,30 @@ namespace OpenStory.Cryptography
         private static readonly ICryptoTransform Transformer = GetTransformer();
         private byte[] iv;
 
+        /// <summary>
+        /// Gets a copy of the current IV for this AesTransform object
+        /// </summary>
+        public byte[] IV
+        {
+            get
+            {
+                byte[] copy = new byte[4];
+                lock (this.iv)
+                {
+                    Buffer.BlockCopy(this.iv, 0, copy, 0, 4);
+                }
+                return copy;
+            }
+        }
+
         private short version;
 
         private static ICryptoTransform GetTransformer()
         {
             var cipher = new RijndaelManaged
                          {
-                             Padding = PaddingMode.None, 
-                             Mode = CipherMode.ECB, 
+                             Padding = PaddingMode.None,
+                             Mode = CipherMode.ECB,
                              Key = AesKey
                          };
             using (cipher)

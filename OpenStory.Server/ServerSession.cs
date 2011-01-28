@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Net.Sockets;
+using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
+using OpenStory.Networking;
 
-namespace OpenStory.Networking
+namespace OpenStory.Server
 {
     /// <summary>
     /// Represents an encrypted network session.
     /// </summary>
-    public sealed class EncryptedNetworkSession : NetworkSession
+    public sealed class ServerSession
     {
+        private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
+
         /// <summary>
         /// The event used to handle incoming packets.
         /// </summary>
-        public event EventHandler<IncomingPacketEventArgs> OnIncomingPacket;
+        public event EventHandler<IncomingPacketEventArgs> OnPacketReceived;
+
+        /// <summary>
+        /// The event raised when the session is closed.
+        /// </summary>
+        public event EventHandler OnClosing
+        {
+            add { session.OnClosing += value; }
+            remove { session.OnClosing -= value; }
+        }
+
+        /// <summary>
+        /// A unique 32-bit session ID.
+        /// </summary>
+        public int SessionId { get; private set; }
+
+        private NetworkSession session;
 
         private BoundedBuffer packetBuffer;
         private BoundedBuffer headerBuffer;
@@ -29,38 +49,47 @@ namespace OpenStory.Networking
         public Unpacker Unpacker { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the EncryptedNetworkSession class.
+        /// Initializes a new instance of the Session class.
         /// </summary>
-        /// <param name="clientSocket">The underlying socket for this network session.</param>
-        /// <param name="packer">A <see cref="Packer"/> to use for outgoing data.</param>
+        /// <param name="socket">The underlying socket for this network session.</param>
         /// <param name="unpacker">An <see cref="Unpacker"/> to use for incoming data.</param>
+        /// <param name="packer">A <see cref="Packer"/> to use for outgoing data.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the parameters is <c>null</c>.
         /// </exception>
-        public EncryptedNetworkSession(Socket clientSocket, Packer packer, Unpacker unpacker)
-            : base(clientSocket)
+        public ServerSession(Socket socket, Unpacker unpacker, Packer packer)
         {
-            if (clientSocket == null) throw new ArgumentNullException("clientSocket");
+            if (socket == null) throw new ArgumentNullException("socket");
             if (packer == null) throw new ArgumentNullException("packer");
             if (unpacker == null) throw new ArgumentNullException("unpacker");
+
+            this.session = new NetworkSession(socket);
+            this.session.OnDataArrived += this.HandleIncomingData;
 
             this.Packer = packer;
             this.Unpacker = unpacker;
 
             this.packetBuffer = new BoundedBuffer();
             this.headerBuffer = new BoundedBuffer(4);
+
+            this.SessionId = RollingSessionId.Increment();
         }
 
         /// <summary>
-        /// Checks if the OnIncomingPacket event has subscribers.
+        /// Initiates the session operations.
         /// </summary>
-        protected override void StartImpl()
+        /// <param name="helloPacket">The hello packet to send for the handshake.</param>
+        public void Start(byte[] helloPacket)
         {
-            if (this.OnIncomingPacket == null)
+            if (this.OnPacketReceived == null)
             {
-                throw new InvalidOperationException("'OnIncomingPacket' has no subscribers.");
+                throw new InvalidOperationException("'OnPacketReceived' has no subscribers.");
             }
+
+            session.Start();
+            this.WriteRaw(helloPacket);
         }
+
 
         #region Outgoing logic
 
@@ -74,7 +103,7 @@ namespace OpenStory.Networking
         public void WriteRaw(byte[] raw)
         {
             if (raw == null) throw new ArgumentNullException("raw");
-            base.Write(raw);
+            session.Write(raw);
         }
 
         /// <summary>
@@ -91,19 +120,16 @@ namespace OpenStory.Networking
 
             byte[] rawData = this.Packer.EncryptAndPack(packet);
 
-            base.Write(rawData);
+            session.Write(rawData);
         }
 
         #endregion
 
         #region Incoming logic
 
-        /// <summary>
-        /// Implementation of the hook for handling incoming data.
-        /// </summary>
-        /// <param name="data">The incoming data.</param>
-        protected override void HandleIncomingData(byte[] data)
+        private void HandleIncomingData(object sender, DataArrivedEventArgs args)
         {
+            byte[] data = args.Data;
             int position = 0, remaining = data.Length;
             while (packetBuffer.FreeSpace == 0)
             {
@@ -146,17 +172,18 @@ namespace OpenStory.Networking
             this.Unpacker.Decrypt(data);
 
             var args = new IncomingPacketEventArgs(data);
-            this.OnIncomingPacket(this, args);
+            this.OnPacketReceived(this, args);
         }
 
         #endregion
 
         /// <summary>
-        /// Removes the subscribers to the OnIncomingPacket event.
+        /// Closes the session.
         /// </summary>
-        protected override void CloseImpl()
+        public void Close()
         {
-            this.OnIncomingPacket = null;
+            this.OnPacketReceived = null;
+            session.Close();
         }
     }
 }

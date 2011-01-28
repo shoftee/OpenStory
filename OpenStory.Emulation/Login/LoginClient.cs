@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server;
 using OpenStory.Server.Data;
 
 namespace OpenStory.Emulation.Login
@@ -28,7 +29,7 @@ namespace OpenStory.Emulation.Login
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="loginServer"/> is <c>null</c>.
         /// </exception>
-        public LoginClient(NetworkSession networkSession, ILoginServer loginServer)
+        public LoginClient(ServerSession networkSession, ILoginServer loginServer)
             : base(networkSession)
         {
             if (loginServer == null) throw new ArgumentNullException("loginServer");

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Networking.Properties;
+using OpenStory.Server;
 using OpenStory.Synchronization;
-using Session = OpenStory.Networking.EncryptedNetworkSession;
 
 namespace OpenStory.Emulation
 {
@@ -75,14 +77,39 @@ namespace OpenStory.Emulation
         /// An internal reference to the session is not kept, when 
         /// overriding this method be sure to save a reference to it.
         /// </remarks>
-        /// <param name="session">The new session to process.</param>
-        protected abstract void HandleSession(Session session);
+        /// <param name="serverSession">The new session to process.</param>
+        protected abstract void HandleSession(ServerSession serverSession);
 
         private void HandleAccept(Socket socket)
         {
-            Session session = new Session(socket, GetPacker(), GetUnpacker());
-            session.OnClose += ReclaimCryptos;
-            this.HandleSession(session);
+            ServerSession serverSession = new ServerSession(socket, GetUnpacker(), GetPacker());
+            serverSession.OnClosing += HandleSessionClose;
+
+            var receiveIV = serverSession.Unpacker.IV;
+            var sendIV = serverSession.Packer.IV;
+            byte[] helloPacket = ConstructHelloPacket(receiveIV, sendIV);
+            this.HandleSession(serverSession);
+
+            Log.WriteInfo("Session {0} started : RIV {1} SIV {2}.", serverSession.SessionId, BitConverter.ToString(receiveIV), BitConverter.ToString(sendIV));
+
+            serverSession.Start(helloPacket);
+        }
+
+        private byte[] ConstructHelloPacket(byte[] recvIV, byte[] sendIV)
+        {
+            using (var builder = new PacketBuilder())
+            {
+                builder.WriteShort(0x0E);
+                builder.WriteShort(MapleVersion);
+                builder.WriteShort(0);
+                builder.WriteBytes(recvIV);
+                builder.WriteBytes(sendIV);
+
+                // Test server flag.
+                builder.WriteByte(0x05);
+
+                return builder.ToByteArray();
+            }
         }
 
         #region Static crypto pooling
@@ -118,18 +145,24 @@ namespace OpenStory.Emulation
             return crypto;
         }
 
-        private static void ReclaimCryptos(object sender, EventArgs args)
+        private static void HandleSessionClose(object sender, EventArgs args)
         {
-            Session session = sender as Session;
-            if (session == null) return;
+            ServerSession serverSession = sender as ServerSession;
+            if (serverSession == null) return;
 
+            Log.WriteInfo("Session {0} closed.", serverSession.SessionId);
+
+            ReclaimCryptos(serverSession);
+        }
+
+        private static void ReclaimCryptos(ServerSession serverSession) {
             if (PackerPool.Count < CryptoPoolingCapacity)
             {
-                PackerPool.Enqueue(session.Packer);
+                PackerPool.Enqueue(serverSession.Packer);
             }
             if (UnpackerPool.Count < CryptoPoolingCapacity)
             {
-                UnpackerPool.Enqueue(session.Unpacker);
+                UnpackerPool.Enqueue(serverSession.Unpacker);
             }
         }
 

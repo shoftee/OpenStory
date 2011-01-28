@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="DataArrivedEventArgs.cs" />
     <Compile Include="Descriptor.cs" />
-    <Compile Include="EncryptedNetworkSession.cs" />
     <Compile Include="IncomingPacketEventArgs.cs" />
     <Compile Include="SocketAcceptor.cs" />
     <Compile Include="IDescriptorContainer.cs" />

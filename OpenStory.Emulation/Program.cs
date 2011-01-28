@@ -5,6 +5,7 @@
         static void Main(string[] args)
         {
             Emulator emulator = new Emulator();
+            emulator.Start();
         }
     }
 }

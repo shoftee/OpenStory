@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     interface IDescriptorContainer
     {
         Socket Socket { get; }
-        bool IsDisconnected { get; }
+        bool IsActive { get; }
 
         void Close();
     }

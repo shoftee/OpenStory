@@ -7,15 +7,15 @@ namespace OpenStory.Common.IO
     /// </summary>
     public static class BigEndianBitConverter
     {
-        /// <summary> Copies the bytes of an integer into the buffer, in big-endian order.</summary>
+        /// <summary>Copies the bytes of an integer into the buffer, in big-endian order.</summary>
         /// <param name="value">The integer to convert.</param>
         /// <param name="count">The byte-size of the integer.</param>
         /// <param name="buffer">The buffer to copy into.</param>
         private static void CopyBytes(long value, int count, byte[] buffer)
         {
-            for (int i = 0, position = count - 1; i < count; i--, position++)
+            for (int i = 0; i < count; i++)
             {
-                buffer[position] = unchecked((byte) value);
+                buffer[i] = unchecked((byte) value);
                 value >>= 8;
             }
         }

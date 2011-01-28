@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using OpenStory.Common.Tools;
-using OpenStory.Emulation.Helpers;
 
 namespace OpenStory.Emulation
 {
     /// <summary>
     /// The entry-point class for the server.
     /// </summary>
-    public sealed class Emulator
+    sealed class Emulator
     {
         /// <summary>
         /// Denotes whether the emulator is running or not.
@@ -25,6 +23,12 @@ namespace OpenStory.Emulation
         /// </summary>
         public Emulator()
         {
+            this.worldManager = new WorldDomainManager();
+            this.loginDomain = new LoginDomain();
+        }
+
+        public void Start()
+        {
             if (!Initializer.Run())
             {
                 Log.WriteError("Server startup failed.");
@@ -35,10 +39,7 @@ namespace OpenStory.Emulation
                 this.IsRunning = true;
             }
 
-            this.worldManager = new WorldDomainManager();
             worldManager.Initialize();
-
-            this.loginDomain = new LoginDomain();
             loginDomain.StartLoginServer();
         }
     }

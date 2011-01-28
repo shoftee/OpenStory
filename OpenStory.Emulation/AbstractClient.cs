@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenStory.Networking;
+using OpenStory.Server;
 
 namespace OpenStory.Emulation
 {
@@ -12,23 +13,29 @@ namespace OpenStory.Emulation
         /// <summary>
         /// Initializes a new client with the given network session object.
         /// </summary>
-        /// <param name="session">The network session object for this client.</param>
+        /// <param name="session">The session object for this client.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="session"/> is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="session"/> is not open.</exception>
-        protected AbstractClient(NetworkSession session)
+        protected AbstractClient(ServerSession session)
         {
             if (session == null) throw new ArgumentNullException("session");
             if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
-            this.NetworkSession = session;
+            this.Session = session;
+            session.OnPacketReceived += this.HandlePacket;
+        }
+
+        void HandlePacket(object sender, IncomingPacketEventArgs e)
+        {
+            
         }
 
         /// <summary>
-        /// The client's network session.
+        /// Gets the client's session object.
         /// </summary>
-        private NetworkSession NetworkSession { get; set; }
+        protected ServerSession Session { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets the remote address for this session.
         /// </summary>
         public string RemoteAddress { get; private set; }
 
@@ -36,7 +43,7 @@ namespace OpenStory.Emulation
 
         public void Disconnect()
         {
-            this.NetworkSession.Close();
+            this.Session.Close();
         }
     }
 }

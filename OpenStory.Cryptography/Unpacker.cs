@@ -13,7 +13,12 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// Gets the AES transform object for this Unpacker.
         /// </summary>
-        public AesTransform AesTransform { get; private set; }
+        private AesTransform aesTransform;
+
+        /// <summary>
+        /// Gets a copy of the current IV of the internal AES transform object.
+        /// </summary>
+        public byte[] IV { get { return aesTransform.IV; } }
 
         /// <summary>
         /// Initializes a new instance of the Unpacker class.
@@ -22,7 +27,7 @@ namespace OpenStory.Cryptography
         /// <param name="version">The game version.</param>
         public Unpacker(byte[] iv, short version)
         {
-            this.AesTransform = new AesTransform(iv, version);
+            this.aesTransform = new AesTransform(iv, version);
         }
 
         /// <summary>
@@ -32,7 +37,7 @@ namespace OpenStory.Cryptography
         public void Decrypt(byte[] packetRawData)
         {
             CustomEncryption.Decrypt(packetRawData);
-            this.AesTransform.Transform(packetRawData);
+            this.aesTransform.Transform(packetRawData);
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace OpenStory.Cryptography
         /// <returns>true if the header is valid; otherwise, false.</returns>
         public bool CheckHeader(byte[] header)
         {
-            return this.AesTransform.CheckHeader(header);
+            return this.aesTransform.CheckHeader(header);
         }
 
         /// <summary>

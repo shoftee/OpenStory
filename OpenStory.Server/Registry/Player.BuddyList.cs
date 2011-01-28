@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq;
 using OpenStory.Common.IO;
+using OpenStory.Networking;
 using OpenStory.Server.Data;
-using Session = OpenStory.Networking.EncryptedNetworkSession;
 
 namespace OpenStory.Server.Registry
 {
     partial class Player
     {
-        public void HandleBuddyOperation(PacketReader reader, Session session)
+        public void HandleBuddyOperation(PacketReader reader, ServerSession serverSession)
         {
             var operation = (BuddyOperation) reader.ReadByte();
 
             switch (operation)
             {
                 case BuddyOperation.AddBuddy:
-                    this.HandleAddBuddy(reader, session);
+                    this.HandleAddBuddy(reader, serverSession);
                     return;
                 case BuddyOperation.AcceptRequest:
                     return;
@@ -24,22 +24,22 @@ namespace OpenStory.Server.Registry
             }
 
             // If the operation is undefined...
-            session.Close();
+            serverSession.Close();
         }
 
-        private void HandleAddBuddy(PacketReader reader, Session session)
+        private void HandleAddBuddy(PacketReader reader, ServerSession serverSession)
         {
             string name;
             if (!reader.TryReadLengthString(out name) || name.Length > 12)
             {
-                session.Close();
+                serverSession.Close();
                 return;
             }
 
             string groupName;
             if (!reader.TryReadLengthString(out groupName) || groupName.Length > 15)
             {
-                session.Close();
+                serverSession.Close();
                 return;
             }
 
@@ -48,26 +48,26 @@ namespace OpenStory.Server.Registry
 
             if (entry != null)
             {
-                SendBuddyListOperationResult(session, BuddyOperationResult.AlreadyOnList);
+                SendBuddyListOperationResult(serverSession, BuddyOperationResult.AlreadyOnList);
                 return;
             }
 
             if (this.buddyList.IsFull)
             {
-                SendBuddyListOperationResult(session, BuddyOperationResult.BuddyListFull);
+                SendBuddyListOperationResult(serverSession, BuddyOperationResult.BuddyListFull);
                 return;
             }
 
             // TODO: Check the target buddy list stuff.
         }
 
-        private static void SendBuddyListOperationResult(Session session, BuddyOperationResult buddyOperationResult)
+        private static void SendBuddyListOperationResult(ServerSession serverSession, BuddyOperationResult buddyOperationResult)
         {
             using (var builder = new PacketBuilder(3))
             {
                 builder.WriteOpCode("BuddyListOperationResponse");
                 builder.WriteByte((byte) buddyOperationResult);
-                session.WritePacket(builder.ToByteArray());
+                serverSession.WritePacket(builder.ToByteArray());
             }
         }
     }

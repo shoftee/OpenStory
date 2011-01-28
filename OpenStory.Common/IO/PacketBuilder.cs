@@ -75,6 +75,15 @@ namespace OpenStory.Common.IO
             this.stream.WriteByte(value);
         }
 
+        /// <summary>Writes an array of bytes to the stream.</summary>
+        /// <param name="bytes">The bytes to write.</param>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        public void WriteBytes(byte[] bytes)
+        {
+            this.CheckDisposed();
+            this.stream.Write(bytes, 0, bytes.Length);
+        }
+
         /// <summary>Writes a <see cref="System.Boolean"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
@@ -125,9 +134,8 @@ namespace OpenStory.Common.IO
 
         private void WriteDirect(byte[] bytes)
         {
-            byte[] buffer = this.stream.GetBuffer();
-            Buffer.BlockCopy(bytes, 0, buffer, (int) this.stream.Position, bytes.Length);
-            this.stream.Position += bytes.Length;
+            int length = bytes.Length;
+            this.stream.Write(bytes, 0, length);
         }
 
         private void CheckDisposed()
@@ -145,7 +153,7 @@ namespace OpenStory.Common.IO
         public byte[] ToByteArray()
         {
             byte[] buffer = this.stream.GetBuffer();
-            int length = buffer.Length;
+            int length = (int) this.stream.Position;
             var array = new byte[length];
             Buffer.BlockCopy(buffer, 0, array, 0, length);
             return array;

@@ -117,7 +117,7 @@ namespace OpenStory.Cryptography
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Random.Next(); while (number != 0);
+            do number = Random.Next(); while (number == 0);
 
             byte[] iv = BitConverter.GetBytes(number);
             return iv;

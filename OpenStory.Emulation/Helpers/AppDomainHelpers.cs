@@ -59,6 +59,7 @@ namespace OpenStory.Emulation.Helpers
             {
                 Log.WriteError("[{0}] Fatal unhandled exception: {1} ", domain.FriendlyName, args.ExceptionObject.ToString());
                 Log.WriteError("The process will now terminate.");
+                Console.ReadLine();
             }
         }
 
