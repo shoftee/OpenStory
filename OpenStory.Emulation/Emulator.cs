@@ -18,14 +18,13 @@ namespace OpenStory.Emulation
         public bool IsRunning { get; private set; }
 
         private WorldDomainManager worldManager;
-        
+        private LoginDomain loginDomain;
+
         /// <summary>
         /// Initializes the Emulator.
         /// </summary>
         public Emulator()
         {
-            this.worldManager = new WorldDomainManager();
-            worldManager.Initialize();
             if (!Initializer.Run())
             {
                 Log.WriteError("Server startup failed.");
@@ -35,6 +34,12 @@ namespace OpenStory.Emulation
                 Log.WriteInfo("Startup successful.");
                 this.IsRunning = true;
             }
+
+            this.worldManager = new WorldDomainManager();
+            worldManager.Initialize();
+
+            this.loginDomain = new LoginDomain();
+            loginDomain.StartLoginServer();
         }
     }
 }
