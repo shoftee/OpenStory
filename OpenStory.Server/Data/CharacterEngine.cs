@@ -28,7 +28,7 @@ namespace OpenStory.Server.Data
         /// Checks if a name is available for use.
         /// </summary>
         /// <param name="name">The name to check.</param>
-        /// <returns>true if the name is not in use; otherwise, false.</returns>
+        /// <returns>true if the name is not taken; otherwise, false.</returns>
         public static bool IsNameAvailable(string name)
         {
             SqlCommand query = new SqlCommand(SelectName);
@@ -37,11 +37,11 @@ namespace OpenStory.Server.Data
         }
 
         /// <summary>
-        /// Invokes a callback for a data record of a Character with the given character ID.
+        /// Invokes a callback for a Character record.
         /// </summary>
         /// <param name="characterId">The character ID to query.</param>
         /// <param name="recordCallback">The callback to invoke.</param>
-        /// <returns>true if the character was found; otherwise, false.</returns>
+        /// <returns>True if there was a character record found; otherwise, false.</returns>
         public static bool SelectCharacter(int characterId, Action<IDataRecord> recordCallback)
         {
             SqlCommand query = new SqlCommand(SelectCharacterById);

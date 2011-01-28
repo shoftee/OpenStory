@@ -79,32 +79,27 @@ namespace OpenStory.Server
         /// Initiates the session operations.
         /// </summary>
         /// <param name="helloPacket">The hello packet to send for the handshake.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="helloPacket"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the method is called when the 
+        /// <see cref="OnPacketReceived"/> received 
+        /// event has no subscribers.
+        /// </exception>
         public void Start(byte[] helloPacket)
         {
+            if (helloPacket == null) throw new ArgumentNullException("helloPacket");
             if (this.OnPacketReceived == null)
             {
                 throw new InvalidOperationException("'OnPacketReceived' has no subscribers.");
             }
 
             session.Start();
-            this.WriteRaw(helloPacket);
+            session.Write(helloPacket);
         }
-
 
         #region Outgoing logic
-
-        /// <summary>
-        /// Bypasses encryption and sends a raw packet.
-        /// </summary>
-        /// <param name="raw">The data to send.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="raw" /> is <c>null</c>.
-        /// </exception>
-        public void WriteRaw(byte[] raw)
-        {
-            if (raw == null) throw new ArgumentNullException("raw");
-            session.Write(raw);
-        }
 
         /// <summary>
         /// Encrypts the given data as a packet 

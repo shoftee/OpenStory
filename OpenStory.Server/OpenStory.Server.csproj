@@ -34,10 +34,11 @@
     <DocumentationFile>bin\Release\OpenStory.Server.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>OpenStory_StrongNameKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,6 +55,7 @@
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
     <Compile Include="Data\BuddyListEngine.cs" />
+    <Compile Include="Data\CharacterData.cs" />
     <Compile Include="Data\CharacterEngine.cs" />
     <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
@@ -61,7 +63,6 @@
     <Compile Include="Data\OpCodeStore.cs" />
     <Compile Include="Data\WorldData.cs" />
     <Compile Include="Data\WorldDataEngine.cs" />
-    <Compile Include="Game\Character.cs" />
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\IEquip.cs" />
     <Compile Include="Game\IItem.cs" />
@@ -93,36 +94,36 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Registry\BuddyList.cs" />
-    <Compile Include="Registry\Buddy.cs" />
-    <Compile Include="Registry\BuddyStatus.cs" />
-    <Compile Include="Registry\BuddyOperation.cs" />
-    <Compile Include="Registry\BuddyOperationResult.cs" />
-    <Compile Include="Registry\BuddyRegistry.cs" />
-    <Compile Include="Registry\CharacterSimpleInfo.cs" />
-    <Compile Include="Registry\Guild.cs" />
-    <Compile Include="Registry\GuildEmblem.cs" />
-    <Compile Include="Registry\GuildMember.cs" />
-    <Compile Include="Registry\GuildOperation.cs" />
-    <Compile Include="Registry\GuildOperationResult.cs" />
-    <Compile Include="Registry\GuildRegistry.cs" />
-    <Compile Include="Registry\IGuild.cs" />
-    <Compile Include="Registry\IGuildRegistry.cs" />
-    <Compile Include="Registry\IMessenger.cs" />
-    <Compile Include="Registry\IMessengerRegistry.cs" />
-    <Compile Include="Registry\IParty.cs" />
-    <Compile Include="Registry\IPartyRegistry.cs" />
+    <Compile Include="Registry\Buddy\Buddy.cs" />
+    <Compile Include="Registry\Buddy\BuddyList.cs" />
+    <Compile Include="Registry\Buddy\BuddyOperation.cs" />
+    <Compile Include="Registry\Buddy\BuddyOperationResult.cs" />
+    <Compile Include="Registry\Buddy\BuddyRegistry.cs" />
+    <Compile Include="Registry\Buddy\BuddyStatus.cs" />
+    <Compile Include="Registry\Buddy\BuddyEntryInfo.cs" />
+    <Compile Include="Registry\Guild\Guild.cs" />
+    <Compile Include="Registry\Guild\GuildEmblem.cs" />
+    <Compile Include="Registry\Guild\GuildMember.cs" />
+    <Compile Include="Registry\Guild\GuildOperation.cs" />
+    <Compile Include="Registry\Guild\GuildOperationResult.cs" />
+    <Compile Include="Registry\Guild\GuildRegistry.cs" />
+    <Compile Include="Registry\Guild\IGuild.cs" />
+    <Compile Include="Registry\Guild\IGuildRegistry.cs" />
     <Compile Include="Registry\IPlayer.cs" />
-    <Compile Include="Registry\Messenger.cs" />
-    <Compile Include="Registry\MessengerMember.cs" />
-    <Compile Include="Registry\MessengerRegistry.cs" />
-    <Compile Include="Registry\Party.cs" />
-    <Compile Include="Registry\PartyMember.cs" />
-    <Compile Include="Registry\PartyOperation.cs" />
-    <Compile Include="Registry\PartyRegistry.cs" />
+    <Compile Include="Registry\Messenger\IMessenger.cs" />
+    <Compile Include="Registry\Messenger\IMessengerRegistry.cs" />
+    <Compile Include="Registry\Messenger\Messenger.cs" />
+    <Compile Include="Registry\Messenger\MessengerMember.cs" />
+    <Compile Include="Registry\Messenger\MessengerRegistry.cs" />
+    <Compile Include="Registry\Party\IParty.cs" />
+    <Compile Include="Registry\Party\IPartyRegistry.cs" />
+    <Compile Include="Registry\Party\Party.cs" />
+    <Compile Include="Registry\Party\PartyMember.cs" />
+    <Compile Include="Registry\Party\PartyOperation.cs" />
+    <Compile Include="Registry\Party\PartyRegistry.cs" />
     <Compile Include="Registry\Player.BuddyList.cs" />
     <Compile Include="Registry\Player.cs" />
-    <Compile Include="Registry\PlayerManager.cs" />
+    <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="ServerSession.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="OpenStory_StrongNameKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

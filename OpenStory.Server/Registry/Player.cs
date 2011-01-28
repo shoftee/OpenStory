@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
 using OpenStory.Common;
+using OpenStory.Server.Data;
 using OpenStory.Server.Game;
 using OpenStory.Server.Maps;
+using OpenStory.Server.Registry.Buddy;
+using OpenStory.Server.Registry.Guild;
+using OpenStory.Server.Registry.Messenger;
+using OpenStory.Server.Registry.Party;
 
 namespace OpenStory.Server.Registry
 {
@@ -34,27 +39,28 @@ namespace OpenStory.Server.Registry
         private BuddyList buddyList;
         private KeyLayout layout;
 
-        private Player(Character character)
+        private Player(CharacterData characterData)
         {
             // Get what we can from the transfer object.
-            this.CharacterId = character.Id;
-            this.CharacterName = character.Name;
-            this.WorldId = character.WorldId;
+            this.CharacterId = characterData.Id;
+            this.CharacterName = characterData.Name;
+            this.WorldId = characterData.WorldId;
 
-            this.Gender = character.Gender;
-            this.HairId = character.HairId;
-            this.FaceId = character.FaceId;
-            this.SkinColor = character.SkinColor;
+            this.Gender = characterData.Gender;
+            this.HairId = characterData.HairId;
+            this.FaceId = characterData.FaceId;
+            this.SkinColor = characterData.SkinColor;
 
-            this.JobId = character.JobId;
-            this.Fame = character.Fame;
-            this.Level = character.Level;
+            this.JobId = characterData.JobId;
+            this.Fame = characterData.Fame;
+            this.Level = characterData.Level;
 
             // TODO: There are still more things to add to Character
 
             // Get the rest from the database.
             this.layout = KeyLayout.LoadFromDb(this.CharacterId);
-            //this.buddyList = BuddyList.LoadFromDb(this.CharacterId, capacity);
+
+            this.buddyList = BuddyList.LoadFromDb(this.CharacterId, characterData.BuddyListCapacity);
         }
 
         public Map Map { get; private set; }
