@@ -18,6 +18,8 @@ namespace OpenStory.Emulation
     {
         private SocketAcceptor acceptor;
 
+        protected abstract string ServerName { get; }
+
         /// <summary>
         /// Gets whether the server is running or not.
         /// </summary>
@@ -29,6 +31,8 @@ namespace OpenStory.Emulation
         /// <param name="port">The port to listen on.</param>
         protected AbstractServer(int port)
         {
+            this.IsRunning = false;
+
             this.acceptor = new SocketAcceptor(port);
             this.acceptor.OnSocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
@@ -38,12 +42,14 @@ namespace OpenStory.Emulation
         /// </summary>
         public void Start()
         {
+            this.ThrowIfRunning();
             this.IsRunning = true;
             this.StartAccepting();
         }
 
         private void StartAccepting()
         {
+            Log.WriteInfo("[{0}] Listening on port {1}.", this.ServerName, acceptor.Port);
             this.acceptor.Start();
         }
 
@@ -53,6 +59,7 @@ namespace OpenStory.Emulation
         /// <param name="delay">The time to wait before initiating the shut down procedure.</param>
         public void ShutDown(TimeSpan delay)
         {
+            this.ThrowIfNotRunning();
             throw new NotImplementedException();
         }
 
@@ -64,9 +71,23 @@ namespace OpenStory.Emulation
         /// </exception>
         protected void ThrowIfNotRunning()
         {
-            if (!IsRunning)
+            if (!this.IsRunning)
             {
                 throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
+            }
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="IsRunning"/> property is true and throws and exception if it is.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the server is running.
+        /// </exception>
+        protected void ThrowIfRunning()
+        {
+            if (this.IsRunning)
+            {
+                throw new InvalidOperationException("The server is already running.");
             }
         }
 

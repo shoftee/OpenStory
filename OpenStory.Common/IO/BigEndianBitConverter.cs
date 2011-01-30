@@ -32,7 +32,7 @@ namespace OpenStory.Common.IO
             }
             long result = 0;
             int end = startIndex + count;
-            for (int position = startIndex; position < end; position++)
+            for (int position = end - 1; position >= startIndex; position--)
             {
                 result = unchecked((result << 8) | buffer[position]);
             }

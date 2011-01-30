@@ -22,11 +22,7 @@ namespace OpenStory.Server
         /// <summary>
         /// The event raised when the session is closed.
         /// </summary>
-        public event EventHandler OnClosing
-        {
-            add { session.OnClosing += value; }
-            remove { session.OnClosing -= value; }
-        }
+        public event EventHandler OnClosing;
 
         /// <summary>
         /// A unique 32-bit session ID.
@@ -65,6 +61,7 @@ namespace OpenStory.Server
 
             this.session = new NetworkSession(socket);
             this.session.OnDataArrived += this.HandleIncomingData;
+            this.session.OnClosing += this.HandleClosing;
 
             this.Packer = packer;
             this.Unpacker = unpacker;
@@ -73,6 +70,14 @@ namespace OpenStory.Server
             this.headerBuffer = new BoundedBuffer(4);
 
             this.SessionId = RollingSessionId.Increment();
+        }
+
+        private void HandleClosing(object sender, EventArgs e)
+        {
+            if (this.OnClosing != null)
+            {
+                this.OnClosing(this, e);
+            }
         }
 
         /// <summary>

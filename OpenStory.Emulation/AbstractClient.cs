@@ -11,6 +11,18 @@ namespace OpenStory.Emulation
     internal abstract class AbstractClient
     {
         /// <summary>
+        /// Gets the client's session object.
+        /// </summary>
+        protected ServerSession Session { get; private set; }
+
+        /// <summary>
+        /// Gets the remote address for this session.
+        /// </summary>
+        public string RemoteAddress { get; private set; }
+
+        public abstract IAccount AccountInfo { get; }
+
+        /// <summary>
         /// Initializes a new client with the given network session object.
         /// </summary>
         /// <param name="session">The session object for this client.</param>
@@ -28,18 +40,6 @@ namespace OpenStory.Emulation
         {
             
         }
-
-        /// <summary>
-        /// Gets the client's session object.
-        /// </summary>
-        protected ServerSession Session { get; private set; }
-
-        /// <summary>
-        /// Gets the remote address for this session.
-        /// </summary>
-        public string RemoteAddress { get; private set; }
-
-        public abstract IAccount AccountInfo { get; }
 
         public void Disconnect()
         {

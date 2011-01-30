@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Emulation
@@ -41,6 +42,8 @@ namespace OpenStory.Emulation
 
             worldManager.Initialize();
             loginDomain.StartLoginServer();
+
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }

@@ -19,10 +19,7 @@ namespace OpenStory.Emulation.Login
         /// </summary>
         public const int MaxCharacters = 3;
 
-        /// <summary>
-        /// The name of the server.
-        /// </summary>
-        public const string ServerName = "OpenStory";
+        protected override string ServerName { get { return "Login"; } }
 
         private readonly List<LoginClient> clients;
         private readonly List<World> worlds;

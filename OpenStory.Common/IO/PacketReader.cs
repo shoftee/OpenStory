@@ -183,6 +183,7 @@ namespace OpenStory.Common.IO
             if (!this.CanAdvance(count)) goto Fail;
             array = new byte[count];
             Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(count), array, 0, count);
+            return true;
 
         Fail:
             array = null;

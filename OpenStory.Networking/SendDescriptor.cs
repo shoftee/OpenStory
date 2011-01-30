@@ -84,7 +84,7 @@ namespace OpenStory.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                base.RaiseErrorEvent(args);
+                base.HandleError(args);
                 return;
             }
 

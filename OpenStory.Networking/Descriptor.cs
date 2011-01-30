@@ -40,7 +40,7 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// This method raises the <see cref="OnError"/> event.
+        /// Raises the <see cref="OnError"/> event and closes the connection.
         /// </summary>
         /// <remarks>
         /// The event will be raised only if it has subscribers and the 
@@ -54,7 +54,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="args" /> is <c>null</c>.
         /// </exception>
-        protected void RaiseErrorEvent(SocketAsyncEventArgs args)
+        protected void HandleError(SocketAsyncEventArgs args)
         {
             if (args == null) throw new ArgumentNullException("args");
 
@@ -62,6 +62,7 @@ namespace OpenStory.Networking
             {
                 this.OnError(this, new SocketErrorEventArgs(args.SocketError));
             }
+            this.Container.Close();
         }
 
         /// <summary>
