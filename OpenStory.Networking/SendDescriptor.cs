@@ -61,8 +61,7 @@ namespace OpenStory.Networking
             byte[] segment;
             this.queue.TryPeek(out segment);
 
-            base.SocketArgs.SetBuffer(segment,
-                                      this.sentBytes,
+            base.SocketArgs.SetBuffer(segment, this.sentBytes,
                                       segment.Length - this.sentBytes);
             try
             {

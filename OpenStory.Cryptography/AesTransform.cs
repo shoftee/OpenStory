@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography;
-using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
 {
@@ -298,8 +297,6 @@ namespace OpenStory.Cryptography
                 newIV[3] = unchecked((byte) (shifted >> 24));
             }
             this.iv = newIV;
-
-            Log.WriteInfo("New IV: {0}", BitConverter.ToString(newIV));
         }
 
         private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)

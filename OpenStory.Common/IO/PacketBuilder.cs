@@ -102,6 +102,18 @@ namespace OpenStory.Common.IO
             this.stream.WriteByte(value);
         }
 
+        /// <summary>Writes a number of 0 bytes to the stream.</summary>
+        /// <param name="count">The number of bytes to write.</param>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        public void WriteZeroes(int count)
+        {
+            this.CheckDisposed();
+            for(int i = 0; i < count; i ++)
+            {
+                this.stream.WriteByte(0);
+            }
+        }
+
         /// <summary>Writes an array of bytes to the stream.</summary>
         /// <param name="bytes">The bytes to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
