@@ -48,14 +48,15 @@ namespace OpenStory.Synchronization
         private ScheduledTask GetRepeatingTask(Action action, TimeSpan repeatPeriod)
         {
             // This isn't actually recursion, as insane as it sounds.
-            Action executeAndInsert = () =>
-                                      {
-                                          action();
-                                          ScheduledTask task =
-                                              GetNewTask(() => this.GetRepeatingTask(action, repeatPeriod),
-                                                         DateTime.Now + repeatPeriod);
-                                          this.timeline.Insert(task);
-                                      };
+            Action executeAndInsert =
+                () =>
+                {
+                    action();
+                    ScheduledTask task = GetNewTask(
+                        () => this.GetRepeatingTask(action, repeatPeriod),
+                        DateTime.Now + repeatPeriod);
+                    this.timeline.Insert(task);
+                };
             return GetNewTask(executeAndInsert, DateTime.Now + repeatPeriod);
         }
 

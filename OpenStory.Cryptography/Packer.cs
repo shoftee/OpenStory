@@ -25,9 +25,10 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="iv">The IV for the internal AES transformation.</param>
         /// <param name="version">The game version.</param>
-        public Packer(byte[] iv, short version)
+        /// <param name="versionType">The internal representation of the game version.</param>
+        public Packer(byte[] iv, ushort version, VersionType versionType)
         {
-            this.aesTransform = new AesTransform(iv, (short) (0xFFFF - version));
+            this.aesTransform = new AesTransform(iv, version, versionType);
         }
 
         /// <summary>
@@ -47,8 +48,8 @@ namespace OpenStory.Cryptography
                 byte[] header = this.aesTransform.ConstructHeader(length);
                 Buffer.BlockCopy(header, 0, rawData, 0, 4);
 
-                this.aesTransform.Transform(packetData);
                 CustomEncryption.Encrypt(packetData);
+                this.aesTransform.Transform(packetData);
             }
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);
             return rawData;

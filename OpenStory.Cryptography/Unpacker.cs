@@ -25,9 +25,10 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="iv">The IV for the internal AES transformation.</param>
         /// <param name="version">The game version.</param>
-        public Unpacker(byte[] iv, short version)
+        /// <param name="versionType">The internal representation of the game version.</param>
+        public Unpacker(byte[] iv, ushort version, VersionType versionType)
         {
-            this.aesTransform = new AesTransform(iv, version);
+            this.aesTransform = new AesTransform(iv, version, versionType);
         }
 
         /// <summary>
@@ -36,28 +37,18 @@ namespace OpenStory.Cryptography
         /// <param name="packetRawData">The raw data to decrypt.</param>
         public void Decrypt(byte[] packetRawData)
         {
-            CustomEncryption.Decrypt(packetRawData);
             this.aesTransform.Transform(packetRawData);
+            CustomEncryption.Decrypt(packetRawData);
         }
 
         /// <summary>
-        /// Checks if an array is a valid packet header.
+        /// Checks the validity of a header and extracts the packet length from it.
         /// </summary>
-        /// <param name="header">The array to check.</param>
-        /// <returns>true if the header is valid; otherwise, false.</returns>
-        public bool CheckHeader(byte[] header)
+        /// <param name="header">The byte array to check.</param>
+        /// <returns>if the header is not valid, -1; otherwise, the packet length.</returns>
+        public int CheckHeaderAndGetLength(byte[] header)
         {
-            return this.aesTransform.CheckHeader(header);
-        }
-
-        /// <summary>
-        /// Gets the length of a packet from its header.
-        /// </summary>
-        /// <param name="header">The array to get the packet information from.</param>
-        /// <returns>The length of the packet.</returns>
-        public int GetLength(byte[] header)
-        {
-            return AesTransform.GetPacketLength(header);
+            return this.aesTransform.CheckHeaderAndGetLength(header);
         }
     }
 }

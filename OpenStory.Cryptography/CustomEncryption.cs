@@ -15,25 +15,25 @@ namespace OpenStory.Cryptography
         public static void Encrypt(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");
-           
+
             int length = data.Length;
+            byte truncatedLength = unchecked((byte) length);
             for (int j = 0; j < 6; j++)
             {
-                byte remember = 0;
-                byte lengthByte = unchecked((byte) length);
                 if ((j & 1) != 0)
                 {
-                    OddEncryptTransform(data, length, ref lengthByte, ref remember);
+                    OddEncryptTransform(data, length, truncatedLength);
                 }
                 else
                 {
-                    EvenEncryptTransform(data, length, ref lengthByte, ref remember);
+                    EvenEncryptTransform(data, length, truncatedLength);
                 }
             }
         }
 
-        private static void EvenEncryptTransform(byte[] data, int length, ref byte lengthByte, ref byte remember)
+        private static void EvenEncryptTransform(byte[] data, int length, byte lengthByte)
         {
+            byte remember = 0;
             for (int i = 0; i < length; i++)
             {
                 byte current = ByteHelpers.RollLeft(data[i], 3);
@@ -51,8 +51,9 @@ namespace OpenStory.Cryptography
             }
         }
 
-        private static void OddEncryptTransform(byte[] data, int length, ref byte lengthByte, ref byte remember)
+        private static void OddEncryptTransform(byte[] data, int length, byte lengthByte)
         {
+            byte remember = 0;
             for (int i = length - 1; i >= 0; i--)
             {
                 byte current = ByteHelpers.RollLeft(data[i], 4);
@@ -79,23 +80,23 @@ namespace OpenStory.Cryptography
             if (data == null) throw new ArgumentNullException("data");
            
             int length = data.Length;
+            byte truncatedLength = unchecked((byte) length);
             for (int j = 1; j <= 6; j++)
             {
-                byte remember = 0;
-                var lengthByte = unchecked((byte) length);
                 if ((j & 1) != 0)
                 {
-                    OddDecryptTransform(data, length, ref lengthByte, ref remember);
+                    OddDecryptTransform(data, length, truncatedLength);
                 }
                 else
                 {
-                    EvenDecryptTransform(data, length, ref lengthByte, ref remember);
+                    EvenDecryptTransform(data, length, truncatedLength);
                 }
             }
         }
 
-        private static void EvenDecryptTransform(byte[] data, int length, ref byte lengthByte, ref byte remember)
+        private static void EvenDecryptTransform(byte[] data, int length, byte lengthByte)
         {
+            byte remember = 0;
             for (int i = 0; i < length; i++)
             {
                 byte current = data[i];
@@ -114,8 +115,9 @@ namespace OpenStory.Cryptography
             }
         }
 
-        private static void OddDecryptTransform(byte[] data, int length, ref byte lengthByte, ref byte remember)
+        private static void OddDecryptTransform(byte[] data, int length, byte lengthByte)
         {
+            byte remember = 0;
             for (int i = length - 1; i >= 0; i--)
             {
                 byte current = ByteHelpers.RollLeft(data[i], 3);

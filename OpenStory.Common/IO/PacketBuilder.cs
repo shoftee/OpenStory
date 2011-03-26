@@ -48,6 +48,15 @@ namespace OpenStory.Common.IO
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
         }
 
+        /// <summary>Writes a <see cref="System.UInt64"/> to the end of the packet.</summary>
+        /// <param name="value">The value to write.</param>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        public void WriteLong(ulong value)
+        {
+            this.CheckDisposed();
+            this.WriteDirect(BigEndianBitConverter.GetBytes(value));
+        }
+
         /// <summary>Writes a <see cref="System.Int32"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
@@ -57,10 +66,28 @@ namespace OpenStory.Common.IO
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
         }
 
+        /// <summary>Writes a <see cref="System.UInt32"/> to the stream.</summary>
+        /// <param name="value">The value to write.</param>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        public void WriteInt(uint value)
+        {
+            this.CheckDisposed();
+            this.WriteDirect(BigEndianBitConverter.GetBytes(value));
+        }
+
         /// <summary>Writes a <see cref="System.Int16"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
         public void WriteShort(short value)
+        {
+            this.CheckDisposed();
+            this.WriteDirect(BigEndianBitConverter.GetBytes(value));
+        }
+
+        /// <summary>Writes a <see cref="System.UInt16"/> to the stream.</summary>
+        /// <param name="value">The value to write.</param>
+        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        public void WriteShort(ushort value)
         {
             this.CheckDisposed();
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));

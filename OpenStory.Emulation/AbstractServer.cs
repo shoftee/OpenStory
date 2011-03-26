@@ -5,9 +5,7 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
-using OpenStory.Networking.Properties;
 using OpenStory.Server;
-using OpenStory.Synchronization;
 
 namespace OpenStory.Emulation
 {
@@ -106,25 +104,26 @@ namespace OpenStory.Emulation
             ServerSession serverSession = new ServerSession(socket, GetUnpacker(), GetPacker());
             serverSession.OnClosing += HandleSessionClose;
 
-            var receiveIV = serverSession.Unpacker.IV;
-            var sendIV = serverSession.Packer.IV;
-            byte[] helloPacket = ConstructHelloPacket(receiveIV, sendIV);
+            var clientIV = serverSession.Unpacker.IV;
+            var serverIV = serverSession.Packer.IV;
+            byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV);
             this.HandleSession(serverSession);
 
-            Log.WriteInfo("Session {0} started : RIV {1} SIV {2}.", serverSession.SessionId, BitConverter.ToString(receiveIV), BitConverter.ToString(sendIV));
+            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId, BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
 
             serverSession.Start(helloPacket);
         }
 
-        private byte[] ConstructHelloPacket(byte[] recvIV, byte[] sendIV)
+        private byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV)
         {
-            using (var builder = new PacketBuilder())
+            using (var builder = new PacketBuilder(16))
             {
                 builder.WriteShort(0x0E);
                 builder.WriteShort(MapleVersion);
-                builder.WriteShort(0);
-                builder.WriteBytes(recvIV);
-                builder.WriteBytes(sendIV);
+                builder.WriteShort(1); // No idea :/
+                builder.WriteByte(0x32); // No idea either ;/
+                builder.WriteBytes(clientIV);
+                builder.WriteBytes(serverIV);
 
                 // Test server flag.
                 builder.WriteByte(0x05);
@@ -135,10 +134,12 @@ namespace OpenStory.Emulation
 
         #region Static crypto pooling
 
-        private static readonly short MapleVersion = Settings.Default.MapleVersion;
+        private static readonly ushort MapleVersion = Properties.Settings.Default.MapleVersion;
 
+        // Server-side specific, packers use regular version representation.
         private static readonly ConcurrentQueue<Packer> PackerPool =
             new ConcurrentQueue<Packer>();
+        // Server-side specific, unpackers use two's complement of the version.
         private static readonly ConcurrentQueue<Unpacker> UnpackerPool =
             new ConcurrentQueue<Unpacker>();
 
@@ -150,7 +151,7 @@ namespace OpenStory.Emulation
             if (!PackerPool.TryDequeue(out crypto))
             {
                 byte[] iv = ByteHelpers.GetNewIV();
-                crypto = new Packer(iv, MapleVersion);
+                crypto = new Packer(iv, MapleVersion, VersionType.Complement);
             }
             return crypto;
         }
@@ -161,7 +162,7 @@ namespace OpenStory.Emulation
             if (!UnpackerPool.TryDequeue(out crypto))
             {
                 byte[] iv = ByteHelpers.GetNewIV();
-                crypto = new Unpacker(iv, MapleVersion);
+                crypto = new Unpacker(iv, MapleVersion, VersionType.Regular);
             }
             return crypto;
         }

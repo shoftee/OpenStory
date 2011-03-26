@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
 {
@@ -51,9 +52,6 @@ namespace OpenStory.Cryptography
                 0x33, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00
             };
 
-        /// <summary>
-        /// A readonly RijndaelManaged transformer.
-        /// </summary>
         private static readonly ICryptoTransform Transformer = GetTransformer();
         private byte[] iv;
 
@@ -73,7 +71,7 @@ namespace OpenStory.Cryptography
             }
         }
 
-        private short version;
+        private ushort version;
 
         private static ICryptoTransform GetTransformer()
         {
@@ -93,19 +91,31 @@ namespace OpenStory.Cryptography
         /// <summary>Initializes a new instance of AesTransform.</summary>
         /// <param name="iv">The initialization vector for this instance.</param>
         /// <param name="version">The MapleStory version.</param>
+        /// <param name="versionType">The representation of the version.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="iv"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="iv"/> has more than or less than 4 elements.</exception>
-        public AesTransform(byte[] iv, short version)
+        public AesTransform(byte[] iv, ushort version, VersionType versionType)
         {
             if (iv == null) throw new ArgumentNullException("iv");
+            if (!Enum.IsDefined(typeof(VersionType), versionType))
+            {
+                throw new ArgumentOutOfRangeException("versionType", "Argument 'versionType' has an invalid value.");
+            }
             if (iv.Length != 4)
             {
                 throw new ArgumentOutOfRangeException("iv", "Argument 'iv' does not have exactly 4 elements.");
             }
-            this.iv = iv;
+
+            this.iv = new byte[4];
+            Buffer.BlockCopy(iv, 0, this.iv, 0, 4);
+
+            if (versionType == VersionType.Complement)
+            {
+                version = (ushort) (0xFFFF - version);
+            }
 
             // Flip the version.
-            this.version = (short) (((version >> 8) & 0xFF) | ((version & 0xFF) << 8));
+            this.version = (ushort) ((version >> 8) | ((version & 0xFF) << 8));
         }
 
         /// <summary>
@@ -217,77 +227,52 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Reads a packet header from an array segment and extracts the packet's length.
-        /// </summary>
-        /// <param name="buffer">The array to read from.</param>
-        /// <param name="offset">The start of the segment.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if the segment has less than 4 elements.
-        /// </exception>
-        /// <returns>The length of the packet which was extracted from the segment.</returns>
-        public static int GetSegmentPacketLength(byte[] buffer, int offset)
-        {
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (buffer.Length - offset < 4)
-            {
-                throw GetSegmentTooShortException(4, "buffer");
-            }
-
-            return
-                ((buffer[offset + 1] ^ buffer[offset + 3]) << 8) |
-                (buffer[offset] ^ buffer[offset + 2]);
-        }
-
-        /// <summary>
         /// Determines whether the start of an array is a valid packet header.
         /// </summary>
-        /// <param name="data">The raw packet data to validate.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="data"/> has less than 4 elements.
-        /// </exception>
+        /// <param name="header">The raw packet data to validate.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
         /// <returns>true if the header is valid; otherwise, false.</returns>
-        public bool CheckHeader(byte[] data)
+        public bool CheckHeader(byte[] header)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            if (data.Length < 4)
+            if (header == null) throw new ArgumentNullException("header");
+            if (header.Length < 4)
             {
-                throw GetSegmentTooShortException(4, "data");
+                throw GetSegmentTooShortException(4, "header");
             }
-            bool first = ((data[0] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
-            bool second = ((data[1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF);
 
-            return first && second;
+            int encodedVersion = ((header[0] << 8) | header[1]);
+            int xorSegment = ((this.iv[2] << 8) | this.iv[3]);
+
+            return (encodedVersion ^ xorSegment) == this.version;
         }
 
         /// <summary>
-        /// Determines whether the start of an array segment is a valid packet header.
+        /// Checks the validity of a header and extracts the packet length from it.
         /// </summary>
-        /// <param name="buffer">The array to read from.</param>
-        /// <param name="offset">The start of the segment.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if the given segment has less than 4 elements.
-        /// </exception>
-        /// <returns>true if the header is valid; otherwise, false.</returns>
-        public bool CheckSegmentHeader(byte[] buffer, int offset)
+        /// <param name="header">The byte array to check.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
+        /// <returns>if the header is not valid, -1; otherwise, the packet length.</returns>
+        public int CheckHeaderAndGetLength(byte[] header)
         {
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (buffer.Length - offset < 4)
+            if (header == null) throw new ArgumentNullException("header");
+            if (header.Length < 4)
             {
-                throw GetSegmentTooShortException(4, "buffer");
+                throw GetSegmentTooShortException(4, "header");
             }
-            bool first = ((buffer[offset] ^ this.iv[2]) & 0xFF) == ((this.version >> 8) & 0xFF);
-            bool second = ((buffer[offset + 1] ^ this.iv[3]) & 0xFF) == (this.version & 0xFF);
 
-            return first && second;
+            int encodedVersion = ((header[0] << 8) | header[1]);
+            int xorSegment = ((this.iv[2] << 8) | this.iv[3]);
+
+            if ((encodedVersion ^ xorSegment) == this.version)
+            {
+                return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         private void UpdateIV()
@@ -304,8 +289,8 @@ namespace OpenStory.Cryptography
                 newIV[2] ^= (byte) (ShuffleTable[newIV[3]] + input);
                 newIV[3] -= (byte) (newIV[0] - tableInput);
 
-                int merged = unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0];
-                int shifted = unchecked(merged << 3) | (merged >> 0x1D);
+                uint merged = (uint) (unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0]);
+                uint shifted = (merged << 3) | (merged >> 0x1D);
 
                 newIV[0] = unchecked((byte) shifted);
                 newIV[1] = unchecked((byte) (shifted >> 8));
@@ -313,11 +298,28 @@ namespace OpenStory.Cryptography
                 newIV[3] = unchecked((byte) (shifted >> 24));
             }
             this.iv = newIV;
+
+            Log.WriteInfo("New IV: {0}", BitConverter.ToString(newIV));
         }
 
         private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
         {
             return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
         }
+    }
+
+    /// <summary>
+    /// Denotes the type of the version representation.
+    /// </summary>
+    public enum VersionType
+    {
+        /// <summary>
+        /// The version is used as-is.
+        /// </summary>
+        Regular = 0,
+        /// <summary>
+        /// The two's complement of the version is used.
+        /// </summary>
+        Complement = 1
     }
 }

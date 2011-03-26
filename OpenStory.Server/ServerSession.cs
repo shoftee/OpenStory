@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 
@@ -28,6 +30,10 @@ namespace OpenStory.Server
         /// A unique 32-bit session ID.
         /// </summary>
         public int SessionId { get; private set; }
+
+        private Timer keepAliveTimer;
+        private AtomicBoolean receivedPong;
+        private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
 
         private NetworkSession session;
 
@@ -69,7 +75,22 @@ namespace OpenStory.Server
             this.packetBuffer = new BoundedBuffer();
             this.headerBuffer = new BoundedBuffer(4);
 
+            this.keepAliveTimer = new Timer(5000);
+            this.keepAliveTimer.Elapsed += this.HandlePing;
+
+            this.receivedPong = new AtomicBoolean(true);
+
             this.SessionId = RollingSessionId.Increment();
+        }
+
+        private void HandlePing(object sender, ElapsedEventArgs e)
+        {
+            if (!receivedPong.Exchange(false))
+            {
+                this.session.Close();
+                return;
+            }
+            this.WritePacket(PingPacket);
         }
 
         private void HandleClosing(object sender, EventArgs e)
@@ -89,7 +110,7 @@ namespace OpenStory.Server
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the method is called when the 
-        /// <see cref="OnPacketReceived"/> received 
+        /// <see cref="OnPacketReceived"/> 
         /// event has no subscribers.
         /// </exception>
         public void Start(byte[] helloPacket)
@@ -102,6 +123,8 @@ namespace OpenStory.Server
 
             session.Start();
             session.Write(helloPacket);
+            packetBuffer.Reset(0);
+            this.keepAliveTimer.Start();
         }
 
         #region Outgoing logic
@@ -133,14 +156,22 @@ namespace OpenStory.Server
             int position = 0, remaining = data.Length;
             while (packetBuffer.FreeSpace == 0)
             {
-                int headerRemaining = this.headerBuffer.FreeSpace;
+                byte[] rawData = this.packetBuffer.ExtractAndReset(0);
+                if (rawData.Length > 0)
+                {
+                    this.DecryptAndHandle(rawData);
+                }
+
+                if (remaining == 0) break;
+
                 int bufferred;
+                int headerRemaining = this.headerBuffer.FreeSpace;
                 if (headerRemaining > 0)
                 {
-                    bufferred = this.headerBuffer.AppendFill(data, headerRemaining);
+                    bufferred = this.headerBuffer.AppendFill(data, position, headerRemaining);
 
                     // For the confused: if we didn't fill the header, it 
-                    // means the data array had less elements than we need.
+                    // means the data array didn't have enough elements.
                     // We move on.
                     if (bufferred < headerRemaining) break;
 
@@ -148,20 +179,19 @@ namespace OpenStory.Server
                     remaining -= bufferred;
                 }
 
+
                 byte[] header = this.headerBuffer.ExtractAndReset(4);
-                if (this.Unpacker.CheckHeader(header))
+                int length = this.Unpacker.CheckHeaderAndGetLength(header);
+                if (length == -1)
                 {
+                    Log.WriteError("Header {0} invalid, closing connection...", BitConverter.ToString(header));
                     this.Close();
+                    return;
                 }
 
-                int length = AesTransform.GetPacketLength(header);
-                byte[] rawData = packetBuffer.ExtractAndReset(length);
-                if (rawData.Length > 0)
-                {
-                    this.DecryptAndHandle(rawData);
-                }
+                this.packetBuffer.Reset(length);
 
-                bufferred = packetBuffer.AppendFill(data, position, remaining);
+                bufferred = this.packetBuffer.AppendFill(data, position, remaining);
                 position += bufferred;
                 remaining -= bufferred;
             }
@@ -182,6 +212,7 @@ namespace OpenStory.Server
         /// </summary>
         public void Close()
         {
+            this.keepAliveTimer.Dispose();
             this.OnPacketReceived = null;
             session.Close();
         }

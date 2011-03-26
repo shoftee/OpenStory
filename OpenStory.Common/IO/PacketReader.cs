@@ -373,6 +373,16 @@ namespace OpenStory.Common.IO
             return BigEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
         }
 
+        /// <summary>Reads a <see cref="System.UInt16"/> from the stream.</summary>
+        /// <returns>The value that was read from the stream.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
+        /// </exception>
+        public ushort ReadUInt16()
+        {
+            return BigEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
+        }
+
         /// <summary>Reads a <see cref="System.Int32"/> from the stream.</summary>
         /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
