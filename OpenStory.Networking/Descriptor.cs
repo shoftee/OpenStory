@@ -3,6 +3,9 @@ using System.Net.Sockets;
 
 namespace OpenStory.Networking
 {
+    /// <summary>
+    /// Represents an abstract asynchronous network operation buffer.
+    /// </summary>
     abstract class Descriptor
     {
         /// <summary>
@@ -44,8 +47,8 @@ namespace OpenStory.Networking
         /// </summary>
         /// <remarks>
         /// The event will be raised only if it has subscribers and the 
-        /// <see cref="SocketAsyncEventArgs.SocketError"/> 
-        /// property is different than <see cref="SocketError.Success"/>.
+        /// <see cref="SocketAsyncEventArgs.SocketError"/> property of 
+        /// <paramref name="args"/> is not <see cref="SocketError.Success"/>.
         /// </remarks>
         /// <param name="args">
         /// A <see cref="SocketAsyncEventArgs"/> object 

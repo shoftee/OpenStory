@@ -3,8 +3,14 @@ using System.Net.Sockets;
 
 namespace OpenStory.Networking
 {
+    /// <summary>
+    /// Represents an asynchronous network receive buffer.
+    /// </summary>
     sealed class ReceiveDescriptor : Descriptor
     {
+        /// <summary>
+        /// The default buffer size, set to match the AesTransform block size.
+        /// </summary>
         private const int BufferSize = 1460;
 
         /// <summary>
@@ -44,7 +50,7 @@ namespace OpenStory.Networking
         public ReceiveDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            base.SocketArgs.Completed += this.EndReceive;
+            base.SocketArgs.Completed += this.EndReceiveAsynchronous;
 
             this.ClearBuffer();
         }
@@ -96,9 +102,13 @@ namespace OpenStory.Networking
 
             try
             {
-                if (!base.Container.Socket.ReceiveAsync(base.SocketArgs))
+                // For the confused: ReceiveAsync will return false if
+                // the operation completed synchronously.
+                // As long as that is happening, this loop will handle
+                // the data transfer synchronously as well.
+                while (!base.Container.Socket.ReceiveAsync(base.SocketArgs))
                 {
-                    this.EndReceive(null, base.SocketArgs);
+                    if (!this.EndReceiveSynchronous(base.SocketArgs)) break;
                 }
             }
             catch (ObjectDisposedException)
@@ -107,15 +117,43 @@ namespace OpenStory.Networking
             }
         }
 
-        private void EndReceive(object sender, SocketAsyncEventArgs args)
+        /// <summary>
+        /// Synchronous EndReceive.
+        /// </summary>
+        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
+        /// <returns><c>true</c> if there is more data to send; otherwise, <c>false</c>.</returns>
+        private bool EndReceiveSynchronous(SocketAsyncEventArgs args)
         {
-            if (!base.Container.IsActive) return;
+            return this.HandleTransferredData(args);
+        }
 
+        /// <summary>
+        /// Asynchronous EndReceive method, also the callback for the Completed event.
+        /// </summary>
+        /// <param name="sender">The sender of the Completed event.</param>
+        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
+        private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
+        {
+            if (!HandleTransferredData(args)) return;
+
+            this.BeginReceive();
+        }
+        
+        /// <summary>
+        /// Handles the transferred data for the operation.
+        /// </summary>
+        /// <remarks>
+        /// This method returns <c>false</c> on connection errors.
+        /// </remarks>
+        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
+        /// <returns><c>true</c> if there is more data to send; otherwise, <c>false</c>.</returns>
+        private bool HandleTransferredData(SocketAsyncEventArgs args)
+        {
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
                 base.HandleError(args);
-                return;
+                return false;
             }
 
             byte[] dataCopy = new byte[transferred];
@@ -124,7 +162,7 @@ namespace OpenStory.Networking
 
             this.OnDataArrivedInternal.Invoke(this, eventArgs);
 
-            this.BeginReceive();
+            return true;
         }
 
         #endregion
