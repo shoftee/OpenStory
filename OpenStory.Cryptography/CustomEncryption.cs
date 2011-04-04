@@ -3,13 +3,16 @@
 namespace OpenStory.Cryptography
 {
     /// <summary>
-    /// Provides encryption and decryption logic for the MapleStory custom transformation.
+    /// Provides encryption and decryption static methods for the MapleStory custom data transformation.
     /// </summary>
     public static class CustomEncryption
     {
         /// <summary>
-        /// Encrypts an array in-place, that is, the data of the array will be modified.
+        /// Encrypts an array in-place.
         /// </summary>
+        /// <remarks>
+        /// The array given in <paramref name="data"/> will be modified.
+        /// </remarks>
         /// <param name="data">The array to encrypt.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
         public static void Encrypt(byte[] data)
@@ -31,6 +34,12 @@ namespace OpenStory.Cryptography
             }
         }
 
+        /// <summary>
+        /// Performs the encryption transform for the even case.
+        /// </summary>
+        /// <param name="data">The data to transform.</param>
+        /// <param name="length">The length of the data to transform.</param>
+        /// <param name="lengthByte">An initial length byte for the transformation.</param>
         private static void EvenEncryptTransform(byte[] data, int length, byte lengthByte)
         {
             byte remember = 0;
@@ -51,6 +60,12 @@ namespace OpenStory.Cryptography
             }
         }
 
+        /// <summary>
+        /// Performs the encryption transform for the odd case.
+        /// </summary>
+        /// <param name="data">The data to transform.</param>
+        /// <param name="length">The length of the data to transform.</param>
+        /// <param name="lengthByte">An initial length byte for the transformation.</param>
         private static void OddEncryptTransform(byte[] data, int length, byte lengthByte)
         {
             byte remember = 0;
@@ -71,8 +86,11 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Decrypts an array in-place, that is, the data of the array will be modified.
+        /// Decrypts an array in-place.
         /// </summary>
+        /// <remarks>
+        /// The array given in <paramref name="data"/> will be modified.
+        /// </remarks>
         /// <param name="data">The array to decrypt.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
         public static void Decrypt(byte[] data)
@@ -94,6 +112,12 @@ namespace OpenStory.Cryptography
             }
         }
 
+        /// <summary>
+        /// Performs the decryption transform for the even case.
+        /// </summary>
+        /// <param name="data">The data to transform.</param>
+        /// <param name="length">The length of the data to transform.</param>
+        /// <param name="lengthByte">An initial length byte for the transformation.</param>
         private static void EvenDecryptTransform(byte[] data, int length, byte lengthByte)
         {
             byte remember = 0;
@@ -115,6 +139,12 @@ namespace OpenStory.Cryptography
             }
         }
 
+        /// <summary>
+        /// Performs the decryption transform for the odd case.
+        /// </summary>
+        /// <param name="data">The data to transform.</param>
+        /// <param name="length">The length of the data to transform.</param>
+        /// <param name="lengthByte">An initial length byte for the transformation.</param>
         private static void OddDecryptTransform(byte[] data, int length, byte lengthByte)
         {
             byte remember = 0;

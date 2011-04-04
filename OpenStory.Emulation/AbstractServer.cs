@@ -118,10 +118,9 @@ namespace OpenStory.Emulation
         {
             using (var builder = new PacketBuilder(16))
             {
-                builder.WriteShort(0x0E);
-                builder.WriteShort(MapleVersion);
-                builder.WriteShort(1); // No idea :/
-                builder.WriteByte(0x32); // No idea either ;/
+                builder.WriteInt16(0x0E);
+                builder.WriteInt16(MapleVersion);
+                builder.WriteLengthString("2"); // supposedly some patch thing?
                 builder.WriteBytes(clientIV);
                 builder.WriteBytes(serverIV);
 
@@ -177,7 +176,8 @@ namespace OpenStory.Emulation
             ReclaimCryptos(serverSession);
         }
 
-        private static void ReclaimCryptos(ServerSession serverSession) {
+        private static void ReclaimCryptos(ServerSession serverSession)
+        {
             if (PackerPool.Count < CryptoPoolingCapacity)
             {
                 PackerPool.Enqueue(serverSession.Packer);

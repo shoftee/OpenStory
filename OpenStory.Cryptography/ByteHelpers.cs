@@ -10,7 +10,7 @@ namespace OpenStory.Cryptography
     {
         private const string HexUppercase = "0123456789ABCDEF";
         private const string HexLowercase = "0123456789abcdef";
-        private static readonly Random Random = new Random();
+        private static readonly Random Rng = new Random();
 
         /// <summary>
         /// Performs a bit-wise left roll on a byte.
@@ -109,6 +109,29 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
+        /// Extracts a segment from a given array.
+        /// </summary>
+        /// <param name="array">The source array.</param>
+        /// <param name="start">The start of the segment.</param>
+        /// <param name="length">The length of the segment.</param>
+        /// <returns>A copy of the segment.</returns>
+        public static byte[] SegmentFrom(byte[] array, int start, int length)
+        {
+            if (array == null) throw new ArgumentNullException("array");
+            if (start < 0 || array.Length <= start)
+            {
+                throw new ArgumentOutOfRangeException("start");
+            }
+            if (length < 0 || array.Length < start + length)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+            byte[] segment = new byte[length];
+            Buffer.BlockCopy(array, start, segment, 0, length);
+            return segment;
+        }
+
+        /// <summary>
         /// Returns a new non-zero 4-byte IV array.
         /// </summary>
         /// <returns>A 4-byte IV array.</returns>
@@ -117,7 +140,8 @@ namespace OpenStory.Cryptography
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Random.Next(); while (number == 0);
+            do number = Rng.Next();
+            while (number == 0);
 
             byte[] iv = BitConverter.GetBytes(number);
             return iv;

@@ -172,8 +172,7 @@ namespace OpenStory.Common.IO
 
         /// <summary>Attempts to read a number of bytes into a buffer.</summary>
         /// <remarks>
-        /// On failure to read all bytes, 
-        /// <paramref name="array"/> is assigned null.
+        /// On failure to read all bytes, <paramref name="array"/> is assigned <c>null</c>.
         /// </remarks>
         /// <param name="count">The number of bytes to read.</param>
         /// <param name="array">The buffer to store the bytes read in.</param>
@@ -191,7 +190,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.Byte"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadByte(out byte value)
@@ -206,7 +205,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.UInt32"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadUInt32(out uint value)
@@ -221,7 +220,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.Int32"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadInt32(out int value)
@@ -236,7 +235,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.UInt16"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadUInt16(out ushort value)
@@ -251,7 +250,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.Int16"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadInt16(out short value)
@@ -266,7 +265,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.Int64"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadInt64(out long value)
@@ -281,7 +280,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Attempts to read a <see cref="System.UInt64"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to 0.</remarks>
+        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
         /// <returns>true if the read was successful; otherwise, false.</returns>
         public bool TryReadUInt64(out ulong value)
@@ -454,8 +453,10 @@ namespace OpenStory.Common.IO
         /// <returns>An array with the buffer's remaining data.</returns>
         public byte[] ReadFully()
         {
-            byte[] remainingBytes = new byte[this.Remaining];
-            Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(this.Remaining), remainingBytes, 0, this.Remaining);
+            int remaining = this.Remaining;
+            byte[] remainingBytes = new byte[remaining];
+
+            Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(remaining), remainingBytes, 0, remaining);
             return remainingBytes;
         }
     }

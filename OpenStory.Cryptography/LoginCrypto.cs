@@ -1,40 +1,51 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace OpenStory.Cryptography
 {
     /// <summary>
-    /// Provides methods for the login password encryption.
+    /// Provides methods for the legacy login password encryption.
     /// </summary>
     public static class LoginCrypto
     {
         private static readonly MD5CryptoServiceProvider MD5CryptoProvider =
             new MD5CryptoServiceProvider();
 
-        /// <summary>
-        /// Gets an MD5 hash of the user name and password.
-        /// </summary>
-        /// <param name="userName">The user name.</param>
-        /// <param name="password">The password</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="userName"/> or <paramref name="password" /> are <c>null</c>.
-        /// </exception>
-        /// <returns>A string of 32 uppercase hexadecimal digits representing the MD5 hash.</returns>
-        public static string GetAuthenticationHash(string userName, string password)
+        private static RSA GetRsaWithParameters(RSAParameters parameters)
         {
-            if (userName == null) throw new ArgumentNullException("userName");
-            if (password == null) throw new ArgumentNullException("password");
-
-            string str = userName.ToLowerInvariant() + " " + password;
-            return GetMD5HashString(str);
+            RSA rsa = RSA.Create();
+            rsa.ImportParameters(parameters);
+            return rsa;
         }
 
-        private static string GetMD5HashString(string str, bool lowercase = false)
+        /// <summary>
+        /// Returns an MD5 hash string for a given string.
+        /// </summary>
+        /// <param name="str">The string to hash.</param>
+        /// <param name="lowercase">Whether to return lowercase hex digits or not. Default value is <c>false</c>.</param>
+        /// <returns>A string </returns>
+        public static string GetMD5HashString(string str, bool lowercase = false)
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
             byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);
             return ByteHelpers.ByteToHex(hashBytes, lowercase);
+        }
+
+        /// <summary>
+        /// Returns an RSA-encrypted MD5 hash of the given password, using the given <see cref="RSAParameters"/>.
+        /// </summary>
+        /// <param name="password">The password string to encrypt.</param>
+        /// <param name="parameters">The parameters to use for the encryption.</param>
+        /// <returns>The encrypted string.</returns>
+        public static string RsaEncryptPassword(string password, RSAParameters parameters)
+        {
+            RSA rsa = GetRsaWithParameters(parameters);
+
+            string passwordHash = GetMD5HashString(password, true);
+            byte[] passwordHashBytes = Encoding.UTF7.GetBytes(passwordHash);
+
+            byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);
+            return ByteHelpers.ByteToHex(encryptedHashBytes);
         }
     }
 }

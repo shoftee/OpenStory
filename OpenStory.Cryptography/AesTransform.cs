@@ -125,10 +125,22 @@ namespace OpenStory.Cryptography
         public void Transform(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");
-            this.TransformArraySegment(data, 0, data.Length);
+            TransformArraySegment(data, this.iv, 0, data.Length);
+
+            this.UpdateIV();
         }
 
-        private void TransformArraySegment(byte[] data, int segmentStart, int segmentEnd)
+        /// <summary>
+        /// Transforms a byte array segment in-place.
+        /// </summary>
+        /// <remarks>
+        /// The array given in the <paramref name="iv"/> parameter will not be modified.
+        /// </remarks>
+        /// <param name="data">The byte containing the segment.</param>
+        /// <param name="iv">The IV to use for the transformation.</param>
+        /// <param name="segmentStart">The offset of the start of the segment.</param>
+        /// <param name="segmentEnd">The offset of the end of the segment.</param>
+        private static void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
         {
             var xorBlock = new byte[IvLength];
 
@@ -138,27 +150,36 @@ namespace OpenStory.Cryptography
             int blockStart = segmentStart;
             int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
 
-            this.TransformBlock(data, blockStart, blockEnd, xorBlock);
+            TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
 
             blockStart += FirstBlockLength;
             while (blockStart < segmentEnd)
             {
                 blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-                this.TransformBlock(data, blockStart, blockEnd, xorBlock);
+                TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
 
                 blockStart += BlockLength;
             }
-
-            this.UpdateIV();
         }
 
-        private void TransformBlock(byte[] data, int blockStart, int blockEnd, byte[] xorBlock)
+        /// <summary>
+        /// Performs the AES transformation on a single block of the data.
+        /// </summary>
+        /// <remarks><para>
+        /// The parameter <paramref name="xorBlock"/> is given only for performance 
+        /// considerations, to avoid instantiating a new array every time a transformation has 
+        /// to be done. It should not be shorter than 16 elements, and it's unnecessary for 
+        /// it to be longer. Its contents will be overwritten.
+        /// </para></remarks>
+        /// <param name="data">The array containing the block.</param>
+        /// <param name="iv">The IV to use for the transformation.</param>
+        /// <param name="blockStart">The start offset of the block.</param>
+        /// <param name="blockEnd">The end offset of the block.</param>
+        /// <param name="xorBlock">An array to use for the internal xor operations.</param>
+        private static void TransformBlock(byte[] data, byte[] iv, int blockStart, int blockEnd, byte[] xorBlock)
         {
-            for (int i = 0; i < IvLength; i += 4)
-            {
-                Buffer.BlockCopy(this.iv, 0, xorBlock, i, 4);
-            }
+            FillXorBlock(iv, xorBlock);
 
             int xorBlockPosition = 0;
             for (int position = blockStart; position < blockEnd; position++)
@@ -171,6 +192,19 @@ namespace OpenStory.Cryptography
                 data[position] ^= xorBlock[xorBlockPosition++];
 
                 if (xorBlockPosition == IvLength) xorBlockPosition = 0;
+            }
+        }
+
+        /// <summary>
+        /// Fills a 16-element byte array with copies of the given IV.
+        /// </summary>
+        /// <param name="iv">The IV to copy.</param>
+        /// <param name="xorBlock">The block to use.</param>
+        private static void FillXorBlock(byte[] iv, byte[] xorBlock)
+        {
+            for (int i = 0; i < IvLength; i += 4)
+            {
+                Buffer.BlockCopy(iv, 0, xorBlock, i, 4);
             }
         }
 
@@ -274,6 +308,9 @@ namespace OpenStory.Cryptography
             }
         }
 
+        /// <summary>
+        /// Performs the IV shuffle on this instance of AesTransform.
+        /// </summary>
         private void UpdateIV()
         {
             var newIV = new byte[4];
@@ -302,6 +339,24 @@ namespace OpenStory.Cryptography
         private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
         {
             return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
+        }
+
+        /// <summary>
+        /// Transforms an array with a given IV.
+        /// </summary>
+        /// <remarks>
+        /// The given arrays are not modified.
+        /// </remarks>
+        /// <param name="data">The data to transform.</param>
+        /// <param name="iv">The IV to use for the transformation.</param>
+        /// <returns>A transformed copy of the array.</returns>
+        public static byte[] TransformWithIV(byte[] data, byte[] iv)
+        {
+            int length = data.Length;
+            byte[] transformedData = new byte[length];
+            Buffer.BlockCopy(data, 0, transformedData, 0, length);
+            TransformArraySegment(data, iv, 0, length);
+            return transformedData;
         }
     }
 

@@ -60,7 +60,7 @@ namespace OpenStory.Common.IO
         /// <summary>Writes a <see cref="System.Int32"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteInt(int value)
+        public void WriteInt32(int value)
         {
             this.CheckDisposed();
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
@@ -69,7 +69,7 @@ namespace OpenStory.Common.IO
         /// <summary>Writes a <see cref="System.UInt32"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteInt(uint value)
+        public void WriteInt32(uint value)
         {
             this.CheckDisposed();
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
@@ -78,7 +78,7 @@ namespace OpenStory.Common.IO
         /// <summary>Writes a <see cref="System.Int16"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteShort(short value)
+        public void WriteInt16(short value)
         {
             this.CheckDisposed();
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
@@ -87,7 +87,7 @@ namespace OpenStory.Common.IO
         /// <summary>Writes a <see cref="System.UInt16"/> to the stream.</summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteShort(ushort value)
+        public void WriteInt16(ushort value)
         {
             this.CheckDisposed();
             this.WriteDirect(BigEndianBitConverter.GetBytes(value));
@@ -140,7 +140,7 @@ namespace OpenStory.Common.IO
         public void WriteLengthString(string value)
         {
             if (value == null) throw new ArgumentNullException("value");
-            this.WriteShort((short) value.Length);
+            this.WriteInt16((short) value.Length);
             this.WriteDirect(Encoding.UTF8.GetBytes(value));
         }
 

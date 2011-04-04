@@ -29,7 +29,7 @@ namespace OpenStory.Server.Data
     {
         public static void WriteOpCode(this PacketBuilder packetBuilder, string opCodeName)
         {
-            packetBuilder.WriteShort(OpCodeStore.GetByName(opCodeName));
+            packetBuilder.WriteInt16(OpCodeStore.GetByName(opCodeName));
         }
     }
 }

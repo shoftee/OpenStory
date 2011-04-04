@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenStory.Cryptography
 {
@@ -11,7 +8,7 @@ namespace OpenStory.Cryptography
     public sealed class Packer
     {
         /// <summary>
-        /// Gets the AES transform object for this Packer.
+        /// The AES transform object for this Packer.
         /// </summary>
         private AesTransform aesTransform;
 
@@ -32,15 +29,20 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Encrypts a packet, constructs a header for it and packs them into a new array.
+        /// Encrypts a packet, constructs a header 
+        /// for it and packs them into a new array.
         /// </summary>
         /// <remarks>
         /// The array given as the <paramref name="packetData"/> parameter is transformed in-place.
         /// </remarks>
         /// <param name="packetData">The packet data to encrypt and pack.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="packetData"/> is <c>null</c>.
+        /// </exception>
         /// <returns>An array with the encrypted packet and its header.</returns>
         public byte[] EncryptAndPack(byte[] packetData)
         {
+            if (packetData == null) throw new ArgumentNullException("packetData");
             int length = packetData.Length;
             byte[] rawData = new byte[length + 4];
             lock (this.aesTransform)
