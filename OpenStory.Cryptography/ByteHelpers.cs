@@ -109,6 +109,23 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
+        /// Clones a byte array.
+        /// </summary>
+        /// <param name="array">The array to clone.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="array"/> is <c>null</c>.
+        /// </exception>
+        /// <returns>The new array.</returns>
+        public static byte[] CloneArray(byte[] array)
+        {
+            if (array == null) throw new ArgumentNullException("array");
+            int length = array.Length;
+            byte[] newArray = new byte[length];
+            Buffer.BlockCopy(array, 0, newArray, 0, length);
+            return newArray;
+        }
+
+        /// <summary>
         /// Extracts a segment from a given array.
         /// </summary>
         /// <param name="array">The source array.</param>

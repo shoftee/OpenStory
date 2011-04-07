@@ -54,20 +54,11 @@ namespace OpenStory.Cryptography
         private static readonly ICryptoTransform Transformer = GetTransformer();
         private byte[] iv;
 
-        /// <summary>
-        /// Gets a copy of the current IV for this AesTransform object
-        /// </summary>
+        /// <summary>Gets the current IV for this AesTransform object</summary>
+        /// <remarks>Modifying the elements of this array will be very bad.</remarks>
         public byte[] IV
         {
-            get
-            {
-                byte[] copy = new byte[4];
-                lock (this.iv)
-                {
-                    Buffer.BlockCopy(this.iv, 0, copy, 0, 4);
-                }
-                return copy;
-            }
+            get { return this.iv; }
         }
 
         private ushort version;
@@ -254,51 +245,31 @@ namespace OpenStory.Cryptography
                 throw GetSegmentTooShortException(4, "data");
             }
 
-            return
-                ((data[1] ^ data[3]) << 8) |
-                (data[0] ^ data[2]);
+            return ((data[1] ^ data[3]) << 8) | (data[0] ^ data[2]);
         }
 
         /// <summary>
         /// Determines whether the start of an array is a valid packet header.
         /// </summary>
         /// <param name="header">The raw packet data to validate.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
         /// <returns>true if the header is valid; otherwise, false.</returns>
-        public bool CheckHeader(byte[] header)
+        public bool ValidateHeader(byte[] header)
         {
-            if (header == null) throw new ArgumentNullException("header");
-            if (header.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "header");
-            }
+            ushort extractedVersion = GetVersion(header, this.iv);
 
-            int encodedVersion = ((header[0] << 8) | header[1]);
-            int xorSegment = ((this.iv[2] << 8) | this.iv[3]);
-
-            return (encodedVersion ^ xorSegment) == this.version;
+            return extractedVersion == this.version;
         }
 
         /// <summary>
-        /// Checks the validity of a header and extracts the packet length from it.
+        /// Attempts to extract the packet length from a header.
         /// </summary>
         /// <param name="header">The byte array to check.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
-        /// <returns>if the header is not valid, -1; otherwise, the packet length.</returns>
-        public int CheckHeaderAndGetLength(byte[] header)
+        /// <returns>if the header is valid, the packet length; otherwise, -1.</returns>
+        public int TryGetLength(byte[] header)
         {
-            if (header == null) throw new ArgumentNullException("header");
-            if (header.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "header");
-            }
-
-            int encodedVersion = ((header[0] << 8) | header[1]);
-            int xorSegment = ((this.iv[2] << 8) | this.iv[3]);
-
-            if ((encodedVersion ^ xorSegment) == this.version)
+            if (this.ValidateHeader(header))
             {
                 return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
             }
@@ -357,6 +328,28 @@ namespace OpenStory.Cryptography
             Buffer.BlockCopy(data, 0, transformedData, 0, length);
             TransformArraySegment(data, iv, 0, length);
             return transformedData;
+        }
+
+        /// <summary>
+        /// Extracts a version from the header using the given IV.
+        /// </summary>
+        /// <param name="header">The header byte array.</param>
+        /// <param name="iv">The IV to use for the decoding.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
+        /// <returns>A number representing the version encoded into the header.</returns>
+        public static ushort GetVersion(byte[] header, byte[] iv)
+        {
+            if (header == null) throw new ArgumentNullException("header");
+            if (header.Length < 4)
+            {
+                throw GetSegmentTooShortException(4, "header");
+            }
+
+            ushort encodedVersion = (ushort) ((header[0] << 8) | header[1]);
+            ushort xorSegment = (ushort) ((iv[2] << 8) | iv[3]);
+
+            return (ushort) (encodedVersion ^ xorSegment);
         }
     }
 

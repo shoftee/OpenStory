@@ -31,66 +31,39 @@ namespace OpenStory.Server
         /// </summary>
         public int SessionId { get; private set; }
 
-        private Timer keepAliveTimer;
-        private AtomicBoolean receivedPong;
-        private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
-
         private NetworkSession session;
 
         private BoundedBuffer packetBuffer;
         private BoundedBuffer headerBuffer;
 
         /// <summary>
-        /// Gets the <see cref="Packer"/> used to transform outgoing data.
+        /// The cryptographic transformer for this session.
         /// </summary>
-        public Packer Packer { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="Unpacker"/> used to transform incoming data.
-        /// </summary>
-        public Unpacker Unpacker { get; private set; }
+        public ServerCrypto Crypto { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the Session class.
         /// </summary>
-        /// <param name="socket">The underlying socket for this network session.</param>
-        /// <param name="unpacker">An <see cref="Unpacker"/> to use for incoming data.</param>
-        /// <param name="packer">A <see cref="Packer"/> to use for outgoing data.</param>
+        /// <param name="socket">The underlying socket for this session.</param>
+        /// <param name="serverCrypto">The <see cref="ServerCrypto"/> object for this session.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the parameters is <c>null</c>.
         /// </exception>
-        public ServerSession(Socket socket, Unpacker unpacker, Packer packer)
+        public ServerSession(Socket socket, ServerCrypto serverCrypto)
         {
             if (socket == null) throw new ArgumentNullException("socket");
-            if (packer == null) throw new ArgumentNullException("packer");
-            if (unpacker == null) throw new ArgumentNullException("unpacker");
+            if (serverCrypto == null) throw new ArgumentNullException("serverCrypto");
 
             this.session = new NetworkSession(socket);
             this.session.OnDataArrived += this.HandleIncomingData;
             this.session.OnClosing += this.HandleClosing;
 
-            this.Packer = packer;
-            this.Unpacker = unpacker;
+            this.Crypto = serverCrypto;
 
             this.packetBuffer = new BoundedBuffer();
             this.headerBuffer = new BoundedBuffer(4);
 
-            this.keepAliveTimer = new Timer(5000);
-            this.keepAliveTimer.Elapsed += this.HandlePing;
-
-            this.receivedPong = new AtomicBoolean(true);
-
             this.SessionId = RollingSessionId.Increment();
-        }
-
-        private void HandlePing(object sender, ElapsedEventArgs e)
-        {
-            if (!receivedPong.Exchange(false))
-            {
-                this.session.Close();
-                return;
-            }
-            this.WritePacket(PingPacket);
         }
 
         private void HandleClosing(object sender, EventArgs e)
@@ -124,7 +97,6 @@ namespace OpenStory.Server
             session.Start();
             session.Write(helloPacket);
             packetBuffer.Reset(0);
-            this.keepAliveTimer.Start();
         }
 
         #region Outgoing logic
@@ -141,9 +113,8 @@ namespace OpenStory.Server
         {
             if (packet == null) throw new ArgumentNullException("packet");
 
-            byte[] rawData = this.Packer.EncryptAndPack(packet);
-
-            session.Write(rawData);
+            byte[] rawData = this.Crypto.EncryptAndPack(packet);
+            if (session.Socket.Connected) session.Write(rawData);
         }
 
         #endregion
@@ -181,7 +152,7 @@ namespace OpenStory.Server
 
 
                 byte[] header = this.headerBuffer.ExtractAndReset(4);
-                int length = this.Unpacker.CheckHeaderAndGetLength(header);
+                int length = this.Crypto.TryGetLength(header);
                 if (length == -1)
                 {
                     Log.WriteError("Header {0} invalid, closing connection...", BitConverter.ToString(header));
@@ -199,7 +170,7 @@ namespace OpenStory.Server
 
         private void DecryptAndHandle(byte[] data)
         {
-            this.Unpacker.Decrypt(data);
+            this.Crypto.Decrypt(data);
 
             var args = new IncomingPacketEventArgs(data);
             this.OnPacketReceived(this, args);
@@ -212,7 +183,6 @@ namespace OpenStory.Server
         /// </summary>
         public void Close()
         {
-            this.keepAliveTimer.Dispose();
             this.OnPacketReceived = null;
             session.Close();
         }

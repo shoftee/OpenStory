@@ -64,12 +64,7 @@ namespace OpenStory.Server.Registry
 
         private static void SendBuddyListOperationResult(ServerSession serverSession, BuddyOperationResult buddyOperationResult)
         {
-            using (var builder = new PacketBuilder(3))
-            {
-                builder.WriteOpCode("BuddyListOperationResponse");
-                builder.WriteByte((byte) buddyOperationResult);
-                serverSession.WritePacket(builder.ToByteArray());
-            }
+            // TODO: Finish later.
         }
     }
 }

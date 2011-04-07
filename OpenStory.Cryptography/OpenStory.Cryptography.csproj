@@ -49,13 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractCrypto.cs" />
     <Compile Include="AesTransform.cs" />
     <Compile Include="ByteHelpers.cs" />
+    <Compile Include="ClientCrypto.cs" />
     <Compile Include="CustomEncryption.cs" />
-    <Compile Include="Packer.cs" />
     <Compile Include="LoginCrypto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unpacker.cs" />
+    <Compile Include="ServerCrypto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

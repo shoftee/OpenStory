@@ -60,7 +60,7 @@
     <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
     <Compile Include="Data\GuildEngine.cs" />
-    <Compile Include="Data\OpCodeStore.cs" />
+    <Compile Include="Data\SendOpCodeStore.cs" />
     <Compile Include="Data\WorldData.cs" />
     <Compile Include="Data\WorldDataEngine.cs" />
     <Compile Include="Game\Equip.cs" />

@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server;
@@ -9,7 +11,7 @@ namespace OpenStory.Emulation.Login
     /// <summary>
     /// Represents a client for the Login Server.
     /// </summary>
-    internal class LoginClient : AbstractClient
+    sealed class LoginClient : AbstractClient
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 
@@ -61,35 +63,36 @@ namespace OpenStory.Emulation.Login
             get { return this.accountSession; }
         }
 
-        /// <summary>
-        /// Attempts to log into the system with a user name and password.
-        /// </summary>
-        /// <param name="userName">The user name of the account.</param>
-        /// <param name="password">The password for the account.</param>
-        /// <returns>true if login was successful; otherwise, false.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if this method is called and <see cref="State" /> 
-        /// is not <see cref="LoginClientState.PreAuthentication"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="userName"/> or 
-        /// <paramref name="password"/> are <c>null</c>.
-        /// </exception>
-        public bool TryLogin(string userName, string password)
+        protected override void ProcessPacket(ushort opCode, PacketReader reader)
         {
-            // TODO: Needs more detailed return values.
+            switch (opCode)
+            {
+                case 1:
+                    this.HandleLoginAttempt(reader);
+                    break;
+                default:
+                    Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
+                        ByteHelpers.ByteToHex(reader.ReadFully()));
+                    break;
+            }
+        }
+        
+        private void HandleLoginAttempt(PacketReader reader)
+        {
             if (this.State != LoginClientState.PreAuthentication)
             {
-                throw new InvalidOperationException("The client state should be 'PreAthentication' at login time.");
+                this.Disconnect();
+                return;
             }
 
-            if (userName == null) throw new ArgumentNullException("userName");
-            if (password == null) throw new ArgumentNullException("password");
+            string userName = reader.ReadLengthString();
+            string password = reader.ReadLengthString();
+            // TODO: Needs more detailed return values.
 
             AccountData accountData = AccountData.LoadByUserName(userName);
             if (accountData != null)
             {
-                string hash = LoginCrypto.GetAuthenticationHash(userName, password);
+                string hash = LoginCrypto.GetMD5HashString(password, true);
                 if (accountData.PasswordHash == hash)
                 {
                     this.IsAuthenticated = true;
@@ -109,22 +112,9 @@ namespace OpenStory.Emulation.Login
                     base.Disconnect();
                 }
             }
-            return success;
         }
 
-        /// <summary>
-        /// Checks if a character name is available for use.
-        /// </summary>
-        /// <param name="characterName">The name to check the availablitiy of.</param>
-        /// <returns>true if the name is available for use.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="characterName"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if this method is called when <see cref="State"/> is not
-        /// <see cref="LoginClientState.CharacterSelect"/>.
-        /// </exception>
-        public bool CheckName(string characterName)
+        private bool CheckName(string characterName)
         {
             // TODO: Move this when I start doing packets.
             // Now that I look at it, this method is pretty damn brutal, lol. Exceptions, exceptions, and then BAN. :D

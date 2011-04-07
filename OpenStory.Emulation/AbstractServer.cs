@@ -14,6 +14,8 @@ namespace OpenStory.Emulation
     /// </summary>
     abstract class AbstractServer
     {
+        private static readonly ushort MapleVersion = Properties.Settings.Default.MapleVersion;
+
         private SocketAcceptor acceptor;
 
         protected abstract string ServerName { get; }
@@ -101,11 +103,12 @@ namespace OpenStory.Emulation
 
         private void HandleAccept(Socket socket)
         {
-            ServerSession serverSession = new ServerSession(socket, GetUnpacker(), GetPacker());
+            var clientIV = ByteHelpers.GetNewIV();
+            var serverIV = ByteHelpers.GetNewIV();
+            ServerCrypto crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
+            ServerSession serverSession = new ServerSession(socket, crypto);
             serverSession.OnClosing += HandleSessionClose;
 
-            var clientIV = serverSession.Unpacker.IV;
-            var serverIV = serverSession.Packer.IV;
             byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV);
             this.HandleSession(serverSession);
 
@@ -114,7 +117,7 @@ namespace OpenStory.Emulation
             serverSession.Start(helloPacket);
         }
 
-        private byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV)
+        private static byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV)
         {
             using (var builder = new PacketBuilder(16))
             {
@@ -131,63 +134,12 @@ namespace OpenStory.Emulation
             }
         }
 
-        #region Static crypto pooling
-
-        private static readonly ushort MapleVersion = Properties.Settings.Default.MapleVersion;
-
-        // Server-side specific, packers use regular version representation.
-        private static readonly ConcurrentQueue<Packer> PackerPool =
-            new ConcurrentQueue<Packer>();
-        // Server-side specific, unpackers use two's complement of the version.
-        private static readonly ConcurrentQueue<Unpacker> UnpackerPool =
-            new ConcurrentQueue<Unpacker>();
-
-        private const int CryptoPoolingCapacity = 100;
-
-        private static Packer GetPacker()
-        {
-            Packer crypto;
-            if (!PackerPool.TryDequeue(out crypto))
-            {
-                byte[] iv = ByteHelpers.GetNewIV();
-                crypto = new Packer(iv, MapleVersion, VersionType.Complement);
-            }
-            return crypto;
-        }
-
-        private static Unpacker GetUnpacker()
-        {
-            Unpacker crypto;
-            if (!UnpackerPool.TryDequeue(out crypto))
-            {
-                byte[] iv = ByteHelpers.GetNewIV();
-                crypto = new Unpacker(iv, MapleVersion, VersionType.Regular);
-            }
-            return crypto;
-        }
-
         private static void HandleSessionClose(object sender, EventArgs args)
         {
             ServerSession serverSession = sender as ServerSession;
             if (serverSession == null) return;
 
             Log.WriteInfo("Session {0} closed.", serverSession.SessionId);
-
-            ReclaimCryptos(serverSession);
         }
-
-        private static void ReclaimCryptos(ServerSession serverSession)
-        {
-            if (PackerPool.Count < CryptoPoolingCapacity)
-            {
-                PackerPool.Enqueue(serverSession.Packer);
-            }
-            if (UnpackerPool.Count < CryptoPoolingCapacity)
-            {
-                UnpackerPool.Enqueue(serverSession.Unpacker);
-            }
-        }
-
-        #endregion
     }
 }

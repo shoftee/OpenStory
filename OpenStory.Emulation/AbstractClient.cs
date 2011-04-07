@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Timers;
+using OpenStory.Common;
+using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
+using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server;
 
@@ -22,6 +27,11 @@ namespace OpenStory.Emulation
 
         public abstract IAccount AccountInfo { get; }
 
+        private const int PingsAllowed = 3;
+        private Timer keepAliveTimer;
+        private AtomicInteger sentPings;
+        private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
+
         /// <summary>
         /// Initializes a new client with the given network session object.
         /// </summary>
@@ -32,17 +42,47 @@ namespace OpenStory.Emulation
         {
             if (session == null) throw new ArgumentNullException("session");
             if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
+
             this.Session = session;
-            session.OnPacketReceived += this.HandlePacket;
+            this.Session.OnPacketReceived += this.HandlePacket;
+
+            this.keepAliveTimer = new Timer(5000);
+            this.keepAliveTimer.Elapsed += this.HandlePing;
+
+            this.sentPings = new AtomicInteger(0);
+            this.keepAliveTimer.Start();
+        }
+
+        private void HandlePing(object sender, ElapsedEventArgs e)
+        {
+            Log.WriteInfo("PING {0}", this.sentPings.Value);
+            if (this.sentPings.Increment() > PingsAllowed)
+            {
+                this.Disconnect();
+                return;
+            }
+            this.Session.WritePacket(ByteHelpers.CloneArray(PingPacket));
         }
 
         void HandlePacket(object sender, IncomingPacketEventArgs e)
         {
-            
+            PacketReader reader = e.Reader;
+            ushort opCode = reader.ReadUInt16();
+            if (opCode == 0x11)
+            {
+                this.sentPings.ExchangeWith(0);
+            }
+            else
+            {
+                this.ProcessPacket(opCode, reader);
+            }
         }
+
+        protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
 
         public void Disconnect()
         {
+            this.keepAliveTimer.Dispose();
             this.Session.Close();
         }
     }
