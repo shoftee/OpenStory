@@ -1,0 +1,7 @@
+h1. OpenStory
+
+h4. Hello. This is, simply put, a project to make a reusable, pretty, open-source class library for "MapleStory":http://www.maplestory.com emulators, be it client or server ones. Feel free to use it.
+
+h1. Contributing
+
+Pull, branch, code, and poke me for a merge. I'll review it mercilessly and probably throw it away, but you never know!
