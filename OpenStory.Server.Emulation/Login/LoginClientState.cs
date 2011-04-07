@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Emulation.Login
+﻿namespace OpenStory.Server.Emulation.Login
 {
     /// <summary>
     /// States (phases) of the login process.

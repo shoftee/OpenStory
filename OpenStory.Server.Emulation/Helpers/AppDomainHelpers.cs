@@ -2,7 +2,7 @@
 using System.Security.Policy;
 using OpenStory.Common.Tools;
 
-namespace OpenStory.Emulation.Helpers
+namespace OpenStory.Server.Emulation.Helpers
 {
     class AppDomainHelpers
     {

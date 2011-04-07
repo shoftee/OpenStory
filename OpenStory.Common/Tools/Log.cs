@@ -8,7 +8,7 @@ namespace OpenStory.Common.Tools
     /// </summary>
     public class Log : ILogger
     {
-        private static readonly ILogger InternalInstance = new Log();
+        private static readonly Log InternalInstance = new Log();
         private TextWriter writer;
 
         private Log()
@@ -17,12 +17,29 @@ namespace OpenStory.Common.Tools
         }
 
         /// <summary>
-        /// An <see cref="ILogger"/> instance of the singleton Log class.
+        /// Gets or sets the output stream for the Log.
+        /// </summary>
+        /// <remarks>
+        /// The default writer is <see cref="Console.Out"/>.</remarks>
+        public static TextWriter Writer
+        {
+            get { return InternalInstance.writer; }
+            set
+            {
+                if (value == null) throw new InvalidOperationException("The Log writer cannot be set to null.");
+                else InternalInstance.writer = value;
+            } 
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ILogger"/> instance of the singleton Log class.
         /// </summary>
         public static ILogger Instance
         {
             get { return InternalInstance; }
         }
+
+        #region Static methods
 
         /// <summary>
         /// Writes an informational message to the log.
@@ -30,7 +47,7 @@ namespace OpenStory.Common.Tools
         /// <param name="infoString">The string to write.</param>
         public static void WriteInfo(string infoString)
         {
-            InternalInstance.WriteInfo(infoString);
+            Instance.WriteInfo(infoString);
         }
 
         /// <summary>
@@ -40,7 +57,7 @@ namespace OpenStory.Common.Tools
         /// <param name="args">The arguments to fill into the message format.</param>
         public static void WriteInfo(string format, params object[] args)
         {
-            InternalInstance.WriteInfo(format, args);
+            Instance.WriteInfo(format, args);
         }
 
         /// <summary>
@@ -49,7 +66,7 @@ namespace OpenStory.Common.Tools
         /// <param name="warningString">The string to write.</param>
         public static void WriteWarning(string warningString)
         {
-            InternalInstance.WriteWarning(warningString);
+            Instance.WriteWarning(warningString);
         }
 
         /// <summary>
@@ -59,7 +76,7 @@ namespace OpenStory.Common.Tools
         /// <param name="args">The arguments to fill into the message format.</param>
         public static void WriteWarning(string format, params object[] args)
         {
-            InternalInstance.WriteWarning(format, args);
+            Instance.WriteWarning(format, args);
         }
 
         /// <summary>
@@ -68,7 +85,7 @@ namespace OpenStory.Common.Tools
         /// <param name="errorString">The string to write.</param>
         public static void WriteError(string errorString)
         {
-            InternalInstance.WriteError(errorString);
+            Instance.WriteError(errorString);
         }
 
         /// <summary>
@@ -78,8 +95,10 @@ namespace OpenStory.Common.Tools
         /// <param name="args">The arguments to fill into the message format.</param>
         public static void WriteError(string format, params object[] args)
         {
-            InternalInstance.WriteError(format, args);
+            Instance.WriteError(format, args);
         }
+
+        #endregion
 
         #region Explicit ILogger implementation
 

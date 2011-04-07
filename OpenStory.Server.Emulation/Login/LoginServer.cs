@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenStory.Networking;
-using OpenStory.Server;
 using OpenStory.Server.Login;
 
-namespace OpenStory.Emulation.Login
+namespace OpenStory.Server.Emulation.Login
 {
     /// <summary>
     /// Represents a server that handles the log-on process.

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common.Tools;
-using OpenStory.Emulation.Helpers;
 using OpenStory.Server.Data;
+using OpenStory.Server.Emulation.Helpers;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     sealed class WorldDomainManager
     {

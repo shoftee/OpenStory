@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace OpenStory.Emulation.Helpers
+namespace OpenStory.Server.Emulation.Helpers
 {
     /// <summary>
     /// Contains helper methods for Reflection routines.

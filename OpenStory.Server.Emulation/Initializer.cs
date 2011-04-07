@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using OpenStory.Common.Tools;
-using OpenStory.Emulation.Helpers;
+using OpenStory.Server.Emulation.Helpers;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Provides a method to initialize types marked with a <see cref="ServerModuleAttribute"/>

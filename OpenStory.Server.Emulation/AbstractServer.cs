@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
-using OpenStory.Server;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// A base class for Server instances.

@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Emulation
+﻿namespace OpenStory.Server.Emulation
 {
     class Program
     {

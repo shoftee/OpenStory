@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Indicates that the method is an initialization method 

@@ -2,11 +2,9 @@
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
-using OpenStory.Networking;
-using OpenStory.Server;
 using OpenStory.Server.Data;
 
-namespace OpenStory.Emulation.Login
+namespace OpenStory.Server.Emulation.Login
 {
     /// <summary>
     /// Represents a client for the Login Server.

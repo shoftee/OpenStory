@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using OpenStory.Common.Tools;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// The entry-point class for the server.

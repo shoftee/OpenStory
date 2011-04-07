@@ -5,9 +5,8 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
-using OpenStory.Server;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Represents a base class for all server clients.
@@ -15,6 +14,16 @@ namespace OpenStory.Emulation
     /// </summary>
     internal abstract class AbstractClient
     {
+        /// <summary>
+        /// The number of pings a client is allowed to miss before being disconnected.
+        /// </summary>
+        private const int PingsAllowed = 3;
+
+        /// <summary>
+        /// The period between pings, in milliseconds.
+        /// </summary>
+        private const int PingInterval = 15000;
+
         /// <summary>
         /// Gets the client's session object.
         /// </summary>
@@ -27,7 +36,6 @@ namespace OpenStory.Emulation
 
         public abstract IAccount AccountInfo { get; }
 
-        private const int PingsAllowed = 3;
         private Timer keepAliveTimer;
         private AtomicInteger sentPings;
         private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
@@ -46,7 +54,7 @@ namespace OpenStory.Emulation
             this.Session = session;
             this.Session.OnPacketReceived += this.HandlePacket;
 
-            this.keepAliveTimer = new Timer(5000);
+            this.keepAliveTimer = new Timer(PingInterval);
             this.keepAliveTimer.Elapsed += this.HandlePing;
 
             this.sentPings = new AtomicInteger(0);

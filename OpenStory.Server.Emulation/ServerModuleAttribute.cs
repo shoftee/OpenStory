@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     /// <summary>
     /// Indicates that the class is a server module which needs initialization.

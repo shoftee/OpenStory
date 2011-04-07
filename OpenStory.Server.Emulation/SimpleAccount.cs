@@ -2,7 +2,7 @@
 using OpenStory.Common;
 using OpenStory.Server.Data;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     class SimpleAccount : IAccount
     {

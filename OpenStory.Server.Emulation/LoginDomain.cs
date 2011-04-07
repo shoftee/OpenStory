@@ -1,8 +1,8 @@
 ﻿using System;
-using OpenStory.Emulation.Helpers;
-using OpenStory.Emulation.Login;
+using OpenStory.Server.Emulation.Helpers;
+using OpenStory.Server.Emulation.Login;
 
-namespace OpenStory.Emulation
+namespace OpenStory.Server.Emulation
 {
     class LoginDomain
     {

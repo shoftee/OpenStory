@@ -1,6 +1,6 @@
 ﻿using OpenStory.Server.Login;
 
-namespace OpenStory.Emulation.Login
+namespace OpenStory.Server.Emulation.Login
 {
     /// <summary>
     /// Provides methods for querying a login server.
