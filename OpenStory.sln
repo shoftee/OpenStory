@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Synchronization",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Networking", "OpenStory.Networking\OpenStory.Networking.csproj", "{11084911-8AAC-4F2D-B84E-FA01E4B32983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Emulation", "OpenStory.Emulation\OpenStory.Server.Emulation.csproj", "{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Emulation", "OpenStory.Server.Emulation\OpenStory.Server.Emulation.csproj", "{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
