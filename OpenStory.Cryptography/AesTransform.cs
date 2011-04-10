@@ -54,29 +54,7 @@ namespace OpenStory.Cryptography
         private static readonly ICryptoTransform Transformer = GetTransformer();
         private byte[] iv;
 
-        /// <summary>Gets the current IV for this AesTransform object</summary>
-        /// <remarks>Modifying the elements of this array will be very bad.</remarks>
-        public byte[] IV
-        {
-            get { return this.iv; }
-        }
-
         private ushort version;
-
-        private static ICryptoTransform GetTransformer()
-        {
-            var cipher = new RijndaelManaged
-                         {
-                             Padding = PaddingMode.None,
-                             Mode = CipherMode.ECB,
-                             Key = AesKey
-                         };
-            using (cipher)
-            {
-                var transform = cipher.CreateEncryptor();
-                return transform;
-            }
-        }
 
         /// <summary>Initializes a new instance of AesTransform.</summary>
         /// <param name="iv">The initialization vector for this instance.</param>
@@ -87,7 +65,7 @@ namespace OpenStory.Cryptography
         public AesTransform(byte[] iv, ushort version, VersionType versionType)
         {
             if (iv == null) throw new ArgumentNullException("iv");
-            if (!Enum.IsDefined(typeof(VersionType), versionType))
+            if (!Enum.IsDefined(typeof (VersionType), versionType))
             {
                 throw new ArgumentOutOfRangeException("versionType", "Argument 'versionType' has an invalid value.");
             }
@@ -106,6 +84,28 @@ namespace OpenStory.Cryptography
 
             // Flip the version.
             this.version = (ushort) ((version >> 8) | ((version & 0xFF) << 8));
+        }
+
+        /// <summary>Gets the current IV for this AesTransform object</summary>
+        /// <remarks>Modifying the elements of this array will be very bad.</remarks>
+        public byte[] IV
+        {
+            get { return this.iv; }
+        }
+
+        private static ICryptoTransform GetTransformer()
+        {
+            var cipher = new RijndaelManaged
+                         {
+                             Padding = PaddingMode.None,
+                             Mode = CipherMode.ECB,
+                             Key = AesKey
+                         };
+            using (cipher)
+            {
+                ICryptoTransform transform = cipher.CreateEncryptor();
+                return transform;
+            }
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace OpenStory.Cryptography
                 newIV[2] ^= (byte) (ShuffleTable[newIV[3]] + input);
                 newIV[3] -= (byte) (newIV[0] - tableInput);
 
-                uint merged = (uint) (unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0]);
+                var merged = (uint) (unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0]);
                 uint shifted = (merged << 3) | (merged >> 0x1D);
 
                 newIV[0] = unchecked((byte) shifted);
@@ -324,7 +324,7 @@ namespace OpenStory.Cryptography
         public static byte[] TransformWithIV(byte[] data, byte[] iv)
         {
             int length = data.Length;
-            byte[] transformedData = new byte[length];
+            var transformedData = new byte[length];
             Buffer.BlockCopy(data, 0, transformedData, 0, length);
             TransformArraySegment(data, iv, 0, length);
             return transformedData;
@@ -346,8 +346,8 @@ namespace OpenStory.Cryptography
                 throw GetSegmentTooShortException(4, "header");
             }
 
-            ushort encodedVersion = (ushort) ((header[0] << 8) | header[1]);
-            ushort xorSegment = (ushort) ((iv[2] << 8) | iv[3]);
+            var encodedVersion = (ushort) ((header[0] << 8) | header[1]);
+            var xorSegment = (ushort) ((iv[2] << 8) | iv[3]);
 
             return (ushort) (encodedVersion ^ xorSegment);
         }

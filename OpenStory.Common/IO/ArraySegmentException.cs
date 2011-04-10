@@ -23,7 +23,7 @@ namespace OpenStory.Common.IO
         /// <see cref="ArraySegmentException"/> 
         /// class with no error message.
         /// </summary>
-        public ArraySegmentException() { }
+        public ArraySegmentException() {}
 
         /// <summary>
         /// Initializes a new instance of the 
@@ -32,7 +32,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="message">The error message for this exception.</param>
         public ArraySegmentException(string message)
-            : base(message) { }
+            : base(message) {}
 
         /// <summary>
         /// Initializesa new instance of the
@@ -43,10 +43,10 @@ namespace OpenStory.Common.IO
         /// <param name="message"></param>
         /// <param name="innerException"></param>
         public ArraySegmentException(string message, Exception innerException)
-            : base(message, innerException) { }
+            : base(message, innerException) {}
 
         private ArraySegmentException(SerializationInfo info, StreamingContext context)
-            : base(info, context) { }
+            : base(info, context) {}
 
         /// <summary>
         /// Gets a new instance of <see cref="ArraySegmentException"/> with a message that
@@ -57,8 +57,9 @@ namespace OpenStory.Common.IO
         /// <returns>An instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
-            string formatted = String.Format("The array segment starting at {0} with length {1} does not fit into the array's bounds.",
-                          startOffset, length);
+            string formatted =
+                String.Format("The array segment starting at {0} with length {1} does not fit into the array's bounds.",
+                              startOffset, length);
             return new ArraySegmentException(formatted);
         }
 
@@ -72,8 +73,8 @@ namespace OpenStory.Common.IO
         public static ArraySegmentException GetByStartAndEnd(int startOffset, int endOffset)
         {
             string formatted = String.Format("The array segment [{0},{1}] does not fit into the array's bounds.",
-                          startOffset, endOffset);
-            return new ArraySegmentException(formatted);            
+                                             startOffset, endOffset);
+            return new ArraySegmentException(formatted);
         }
     }
 }

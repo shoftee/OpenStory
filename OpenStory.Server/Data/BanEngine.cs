@@ -29,7 +29,7 @@ namespace OpenStory.Server.Data
         /// <param name="expiration">The expiration of the ban.</param>
         public static void BanByAccountId(int accountId, string reason, DateTimeOffset expiration)
         {
-            using (SqlCommand command = new SqlCommand("up_BanAccountById"))
+            using (var command = new SqlCommand("up_BanAccountById"))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandTimeout = 60;

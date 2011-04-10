@@ -13,7 +13,7 @@ namespace OpenStory.Server.Data
 
         public static void LoadByCharacterId(int characterId, Action<IDataRecord> recordCallback)
         {
-            SqlCommand query = new SqlCommand(SelectBuddiesQuery);
+            var query = new SqlCommand(SelectBuddiesQuery);
             query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
             DbHelpers.InvokeForAll(query, recordCallback);
         }

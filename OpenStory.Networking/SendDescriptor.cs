@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network send buffer.
     /// </summary>
-    sealed class SendDescriptor : Descriptor
+    internal sealed class SendDescriptor : Descriptor
     {
         private AtomicBoolean isSending;
         private ConcurrentQueue<byte[]> queue;
@@ -54,11 +54,16 @@ namespace OpenStory.Networking
             this.BeginSend();
         }
 
+        protected override void CloseImpl()
+        {
+            this.queue = null;
+        }
+
         #region Async send methods
 
         private void BeginSend()
         {
-            ResetBuffer();
+            this.ResetBuffer();
 
             try
             {
@@ -164,10 +169,5 @@ namespace OpenStory.Networking
         }
 
         #endregion
-
-        protected override void CloseImpl()
-        {
-            this.queue = null;
-        }
     }
 }

@@ -84,7 +84,7 @@
     <Compile Include="Authentication\WorldStatus.cs" />
     <Compile Include="Data\IncomingOpCodeStore.cs" />
     <Compile Include="Data\OutgoingOpCodeStore.cs" />
-    <Compile Include="Game\Constants.cs" />
+    <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Gender.cs" />
     <Compile Include="Game\GuildRank.cs" />

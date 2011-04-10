@@ -1,0 +1,20 @@
+﻿using System;
+
+namespace OpenStory.Server
+{
+    /// <summary>
+    /// Provides information for an account session.
+    /// </summary>
+    public interface IAccountSession : IDisposable
+    {
+        /// <summary>
+        /// Gets the ID of the account.
+        /// </summary>
+        int AccountId { get; }
+
+        /// <summary>
+        /// Gets the name of the account.
+        /// </summary>
+        string AccountName { get; }
+    }
+}

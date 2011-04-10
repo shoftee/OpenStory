@@ -29,7 +29,7 @@ namespace OpenStory.Server.Data
         /// <returns>true if the name is not taken; otherwise, false.</returns>
         public static bool IsNameAvailable(string name)
         {
-            SqlCommand query = new SqlCommand(SelectName);
+            var query = new SqlCommand(SelectName);
             query.Parameters.Add("@name", SqlDbType.VarChar, 12).Value = name;
             return DbHelpers.GetRecordSetIterator(query).Any();
         }
@@ -42,7 +42,7 @@ namespace OpenStory.Server.Data
         /// <returns>True if there was a character record found; otherwise, false.</returns>
         public static bool SelectCharacter(int characterId, Action<IDataRecord> recordCallback)
         {
-            SqlCommand query = new SqlCommand(SelectCharacterById);
+            var query = new SqlCommand(SelectCharacterById);
             query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
             return DbHelpers.InvokeForSingle(query, recordCallback);
         }
@@ -55,7 +55,7 @@ namespace OpenStory.Server.Data
         /// <returns>The number of records in the result set.</returns>
         public static int SelectKeyBindings(int characterId, Action<IDataRecord> recordCallback)
         {
-            SqlCommand query = new SqlCommand(SelectBindingsByCharacterId);
+            var query = new SqlCommand(SelectBindingsByCharacterId);
             query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
             return DbHelpers.InvokeForAll(query, recordCallback);
         }
@@ -71,9 +71,9 @@ namespace OpenStory.Server.Data
         public static int SaveKeyBindings(int characterId, List<KeyBinding> bindings)
         {
             if (bindings == null) throw new ArgumentNullException("bindings");
-            if (bindings.Count != Constants.KeyCount)
+            if (bindings.Count != GameConstants.KeyCount)
             {
-                throw new ArgumentException("There must be exactly " + Constants.KeyCount +
+                throw new ArgumentException("There must be exactly " + GameConstants.KeyCount +
                                             " bindings in the given list.");
             }
 
@@ -94,9 +94,9 @@ namespace OpenStory.Server.Data
         {
             int length = 0;
             byte[] binaryData;
-            using (var buffer = new MemoryStream(Constants.KeyCount * 6))
+            using (var buffer = new MemoryStream(GameConstants.KeyCount * 6))
             {
-                for (byte i = 0; i < Constants.KeyCount; i++)
+                for (byte i = 0; i < GameConstants.KeyCount; i++)
                 {
                     KeyBinding binding = bindings[i];
                     if (!binding.HasChanged) continue;
@@ -116,7 +116,7 @@ namespace OpenStory.Server.Data
         private static void SaveKeyBindings(byte[] binaryData, int characterId)
         {
             int length = binaryData.Length;
-            SqlCommand command = new SqlCommand("up_SaveKeyBindings");
+            var command = new SqlCommand("up_SaveKeyBindings");
             command.Parameters.Add("@CharacterId", SqlDbType.Int).Value = characterId;
             command.Parameters.Add("@BinaryData", SqlDbType.VarBinary, length).Value = binaryData;
             DbHelpers.ExecuteStoredProcedure(command);

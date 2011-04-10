@@ -15,7 +15,6 @@ namespace OpenStory.Synchronization
         {
             private Action action;
             private CancellationToken token;
-            public CancellationTokenSource CancellationTokenSource { get; private set; }
 
             /// <summary>
             /// Initializes a new ScheduledTask, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken">CancellationToken</see>.
@@ -35,6 +34,8 @@ namespace OpenStory.Synchronization
                 this.token.Register(() => { this.TimeCancelled = DateTime.Now; });
             }
 
+            public CancellationTokenSource CancellationTokenSource { get; private set; }
+
             /// <summary>
             /// The time at which this task is scheduled to execute.
             /// </summary>
@@ -45,15 +46,19 @@ namespace OpenStory.Synchronization
             /// </summary>
             public DateTime? TimeCancelled { get; private set; }
 
-            public void Execute()
-            {
-                this.action.Invoke();
-            }
+            #region IDisposable Members
 
             public void Dispose()
             {
                 this.CancellationTokenSource.Dispose();
                 GC.SuppressFinalize(this);
+            }
+
+            #endregion
+
+            public void Execute()
+            {
+                this.action.Invoke();
             }
         }
 

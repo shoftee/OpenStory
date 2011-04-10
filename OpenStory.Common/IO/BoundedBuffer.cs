@@ -9,16 +9,6 @@ namespace OpenStory.Common.IO
     public class BoundedBuffer : IDisposable
     {
         /// <summary>
-        /// Gets the internal MemoryStream object of the BoundedBuffer
-        /// </summary>
-        protected MemoryStream MemoryStream { get; private set; }
-
-        /// <summary>
-        /// Gets the number of useable bytes at the end of the BoundedBuffer.
-        /// </summary>
-        public int FreeSpace { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the 
         /// BoundedBuffer class with no capacity.
         /// </summary>
@@ -44,11 +34,36 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", capacity, "'capacity' must be a positive integer. Call the default constructor instead.");
+                throw new ArgumentOutOfRangeException("capacity", capacity,
+                                                      "'capacity' must be a positive integer. Call the default constructor instead.");
             }
 
             this.Reset(capacity);
         }
+
+        /// <summary>
+        /// Gets the internal MemoryStream object of the BoundedBuffer
+        /// </summary>
+        protected MemoryStream MemoryStream { get; private set; }
+
+        /// <summary>
+        /// Gets the number of useable bytes at the end of the BoundedBuffer.
+        /// </summary>
+        public int FreeSpace { get; private set; }
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Disposes of the underlying <see cref="MemoryStream"/>.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
 
         /// <summary>
         /// Takes bytes from the start of an array and 
@@ -178,16 +193,6 @@ namespace OpenStory.Common.IO
             this.FreeSpace = newCapacity;
 
             return data;
-        }
-
-        /// <summary>
-        /// Disposes of the underlying <see cref="MemoryStream"/>.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Common.Game
+﻿namespace OpenStory.Common.Game
 {
     /// <summary>
     /// A collection of game constants.
     /// </summary>
-    public static class Constants
+    public static class GameConstants
     {
         /// <summary>
         /// The number of keys in a KeyLayout.

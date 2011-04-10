@@ -8,11 +8,6 @@ namespace OpenStory.Networking
     public class DataArrivedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the newly arrived data.
-        /// </summary>
-        public byte[] Data { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DataArrivedEventArgs"/> class.
         /// </summary>
         /// <param name="data">The data encapsulated in this instance.</param>
@@ -22,5 +17,10 @@ namespace OpenStory.Networking
             if (data == null) throw new ArgumentNullException("data");
             this.Data = data;
         }
+
+        /// <summary>
+        /// Gets the newly arrived data.
+        /// </summary>
+        public byte[] Data { get; private set; }
     }
 }

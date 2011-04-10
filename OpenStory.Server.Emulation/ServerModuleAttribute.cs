@@ -61,6 +61,5 @@ namespace OpenStory.Server.Emulation
         /// Will be initialized after <see cref="Worlds"/>.
         /// </summary>
         Login = 4,
-
     }
 }

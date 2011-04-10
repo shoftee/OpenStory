@@ -6,23 +6,8 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    abstract class Descriptor
+    internal abstract class Descriptor
     {
-        /// <summary>
-        /// The event is raised when there is a connection error.
-        /// </summary>
-        public event EventHandler<SocketErrorEventArgs> OnError;
-
-        /// <summary>
-        /// Gets the <see cref="IDescriptorContainer">Container</see> of this Descriptor.
-        /// </summary>
-        protected IDescriptorContainer Container { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="SocketAsyncEventArgs"/> object for this Descriptor.
-        /// </summary>
-        protected SocketAsyncEventArgs SocketArgs { get; private set; }
-
         /// <summary>
         /// Initializes a new Descriptor.
         /// </summary>
@@ -41,6 +26,21 @@ namespace OpenStory.Networking
             this.SocketArgs = new SocketAsyncEventArgs();
             this.Container = container;
         }
+
+        /// <summary>
+        /// Gets the <see cref="IDescriptorContainer">Container</see> of this Descriptor.
+        /// </summary>
+        protected IDescriptorContainer Container { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="SocketAsyncEventArgs"/> object for this Descriptor.
+        /// </summary>
+        protected SocketAsyncEventArgs SocketArgs { get; private set; }
+
+        /// <summary>
+        /// The event is raised when there is a connection error.
+        /// </summary>
+        public event EventHandler<SocketErrorEventArgs> OnError;
 
         /// <summary>
         /// Raises the <see cref="OnError"/> event and closes the connection.

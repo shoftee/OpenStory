@@ -9,11 +9,6 @@ namespace OpenStory.Networking
     public class SocketEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the socket of this SocketEventArgs object.
-        /// </summary>
-        public Socket Socket { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the SocketEventArgs class.
         /// </summary>
         /// <param name="socket">The socket for this instance.</param>
@@ -21,5 +16,10 @@ namespace OpenStory.Networking
         {
             this.Socket = socket;
         }
+
+        /// <summary>
+        /// Gets the socket of this SocketEventArgs object.
+        /// </summary>
+        public Socket Socket { get; private set; }
     }
 }

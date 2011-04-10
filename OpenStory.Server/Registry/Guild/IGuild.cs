@@ -1,5 +1,4 @@
-﻿using OpenStory.Common;
-using OpenStory.Common.Game;
+﻿using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Registry.Guild
 {
@@ -12,7 +11,7 @@ namespace OpenStory.Server.Registry.Guild
         /// Gets the internal ID for the Guild.
         /// </summary>
         int Id { get; }
-        
+
         /// <summary>
         /// Gets the guild name.
         /// </summary>

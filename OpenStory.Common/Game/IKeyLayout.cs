@@ -13,7 +13,7 @@ namespace OpenStory.Common.Game
         /// <param name="keyId">The key to query the key binding of.</param>
         /// <returns>A KeyBinding object representing the binding for the key.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="Constants.KeyCount"/>.
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="GameConstants.KeyCount"/>.
         /// </exception>
         IKeyBinding GetKeyBinding(byte keyId);
 
@@ -24,7 +24,7 @@ namespace OpenStory.Common.Game
         /// <param name="type">The new action type for the key binding.</param>
         /// <param name="action">The new action for the key binding.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="Constants.KeyCount"/>.
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="GameConstants.KeyCount"/>.
         /// </exception>
         void SetKeyBinding(byte keyId, byte type, int action);
     }

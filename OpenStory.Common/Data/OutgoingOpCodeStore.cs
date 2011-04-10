@@ -25,7 +25,7 @@ namespace OpenStory.Common.Data
         /// <returns>true if there was a packet with the label; otherwise, false.</returns>
         public bool TryGetValue(string label, out ushort value)
         {
-            return opCodeValues.TryGetValue(label, out value);
+            return this.opCodeValues.TryGetValue(label, out value);
         }
     }
 }

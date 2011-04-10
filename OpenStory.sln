@@ -17,7 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Networking", "Ope
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Emulation", "OpenStory.Server.Emulation\OpenStory.Server.Emulation.csproj", "{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.AccountService", "OpenStory.Server.AccountService\OpenStory.Server.AccountService.csproj", "{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.AccountService", "OpenStory.AccountService\OpenStory.AccountService.csproj", "{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.AuthService", "OpenStory.AuthService\OpenStory.AuthService.csproj", "{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,16 +91,26 @@ Global
 		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.ActiveCfg = Release|x86
 		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.Build.0 = Release|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Debug|x86.ActiveCfg = Debug|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Debug|x86.Build.0 = Debug|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Release|Any CPU.ActiveCfg = Release|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Release|Mixed Platforms.Build.0 = Release|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Release|x86.ActiveCfg = Release|x86
-		{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}.Release|x86.Build.0 = Release|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Debug|x86.ActiveCfg = Debug|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Debug|x86.Build.0 = Debug|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|Any CPU.ActiveCfg = Release|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|x86.ActiveCfg = Release|x86
+		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|x86.Build.0 = Release|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Debug|x86.ActiveCfg = Debug|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Debug|x86.Build.0 = Debug|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Release|Any CPU.ActiveCfg = Release|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Release|x86.ActiveCfg = Release|x86
+		{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

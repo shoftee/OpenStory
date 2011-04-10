@@ -5,7 +5,7 @@ namespace OpenStory.Common.Game
     /// <summary>
     /// Elemental attributes for a game skill.
     /// </summary>
-    [Flags]
+    [Flags, Serializable]
     public enum Elements
     {
         /// <summary>
@@ -49,5 +49,5 @@ namespace OpenStory.Common.Game
         /// The ice and lightning attributes.
         /// </summary>
         IceLightning = Ice | Ligtning,
-}
+    }
 }

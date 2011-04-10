@@ -9,11 +9,6 @@ namespace OpenStory.Networking
     public class IncomingPacketEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets a <see cref="PacketReader"/> over the packet.
-        /// </summary>
-        public PacketReader Reader { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the IncomingPacketEventArgs class.
         /// </summary>
         /// <param name="packet">The packet data.</param>
@@ -26,5 +21,10 @@ namespace OpenStory.Networking
 
             this.Reader = new PacketReader(packet);
         }
+
+        /// <summary>
+        /// Gets a <see cref="PacketReader"/> over the packet.
+        /// </summary>
+        public PacketReader Reader { get; private set; }
     }
 }

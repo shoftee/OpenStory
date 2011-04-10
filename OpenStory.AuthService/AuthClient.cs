@@ -3,14 +3,14 @@ using OpenStory.Common.Authentication;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
-using OpenStory.Server.AccountService;
+using OpenStory.Server;
 
-namespace OpenStory.Server.Emulation.Authentication
+namespace OpenStory.AuthService
 {
     /// <summary>
     /// Represents a client for the Authentication Server.
     /// </summary>
-    sealed class AuthClient : AbstractClient
+    internal sealed class AuthClient : AbstractClient
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 
@@ -65,7 +65,7 @@ namespace OpenStory.Server.Emulation.Authentication
                     break;
                 default:
                     Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
-                        ByteHelpers.ByteToHex(reader.ReadFully()));
+                                     ByteHelpers.ByteToHex(reader.ReadFully()));
                     break;
             }
         }
@@ -94,7 +94,7 @@ namespace OpenStory.Server.Emulation.Authentication
                 goto Disconnect;
             }
 
-            using (PacketBuilder builder = new PacketBuilder(8))
+            using (var builder = new PacketBuilder(8))
             {
                 // TODO: Proper op code storage.
                 builder.WriteInt16(0x0000);
@@ -104,7 +104,7 @@ namespace OpenStory.Server.Emulation.Authentication
             }
             return;
 
-        Disconnect:
+            Disconnect:
             base.Disconnect();
         }
     }

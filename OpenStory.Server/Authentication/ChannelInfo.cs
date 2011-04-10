@@ -3,7 +3,7 @@ using OpenStory.Common.Authentication;
 
 namespace OpenStory.Server.Authentication
 {
-    class ChannelInfo : IChannel
+    internal class ChannelInfo : IChannel
     {
         private AtomicInteger channelLoad;
 

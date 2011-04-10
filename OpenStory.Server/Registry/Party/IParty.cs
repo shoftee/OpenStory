@@ -11,6 +11,7 @@ namespace OpenStory.Server.Registry.Party
         /// The ID of the party.
         /// </summary>
         int Id { get; }
+
         /// <summary>
         /// Gets the leader of the party.
         /// </summary>

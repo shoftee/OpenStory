@@ -8,6 +8,17 @@ namespace OpenStory.Server.Data
     public partial class World
     {
         /// <summary>
+        /// Initializes this World object from a given <see cref="IDataRecord"/>.
+        /// </summary>
+        /// <param name="record">The record containing the data for this object.</param>
+        public World(IDataRecord record)
+        {
+            this.WorldId = (byte) record["WorldId"];
+            this.WorldName = (string) record["WorldName"];
+            this.ChannelCount = (byte) record["ChannelCount"];
+        }
+
+        /// <summary>
         /// Gets the world ID.
         /// </summary>
         public byte WorldId { get; private set; }
@@ -21,16 +32,5 @@ namespace OpenStory.Server.Data
         /// Gets the number of channels in the world.
         /// </summary>
         public byte ChannelCount { get; private set; }
-
-        /// <summary>
-        /// Initializes this World object from a given <see cref="IDataRecord"/>.
-        /// </summary>
-        /// <param name="record">The record containing the data for this object.</param>
-        public World(IDataRecord record)
-        {
-            this.WorldId = (byte) record["WorldId"];
-            this.WorldName = (string) record["WorldName"];
-            this.ChannelCount = (byte) record["ChannelCount"];
-        }
     }
 }

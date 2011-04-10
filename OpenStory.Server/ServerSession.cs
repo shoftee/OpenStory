@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -16,30 +15,9 @@ namespace OpenStory.Server
     {
         private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
 
-        /// <summary>
-        /// The event used to handle incoming packets.
-        /// </summary>
-        public event EventHandler<IncomingPacketEventArgs> OnPacketReceived;
-
-        /// <summary>
-        /// The event raised when the session is closed.
-        /// </summary>
-        public event EventHandler OnClosing;
-
-        /// <summary>
-        /// A unique 32-bit session ID.
-        /// </summary>
-        public int SessionId { get; private set; }
-
-        private NetworkSession session;
-
-        private BoundedBuffer packetBuffer;
         private BoundedBuffer headerBuffer;
-
-        /// <summary>
-        /// The cryptographic transformer for this session.
-        /// </summary>
-        public ServerCrypto Crypto { get; private set; }
+        private BoundedBuffer packetBuffer;
+        private NetworkSession session;
 
         /// <summary>
         /// Initializes a new instance of the Session class.
@@ -65,6 +43,26 @@ namespace OpenStory.Server
 
             this.SessionId = RollingSessionId.Increment();
         }
+
+        /// <summary>
+        /// A unique 32-bit session ID.
+        /// </summary>
+        public int SessionId { get; private set; }
+
+        /// <summary>
+        /// The cryptographic transformer for this session.
+        /// </summary>
+        public ServerCrypto Crypto { get; private set; }
+
+        /// <summary>
+        /// The event used to handle incoming packets.
+        /// </summary>
+        public event EventHandler<IncomingPacketEventArgs> OnPacketReceived;
+
+        /// <summary>
+        /// The event raised when the session is closed.
+        /// </summary>
+        public event EventHandler OnClosing;
 
         private void HandleClosing(object sender, EventArgs e)
         {
@@ -94,9 +92,18 @@ namespace OpenStory.Server
                 throw new InvalidOperationException("'OnPacketReceived' has no subscribers.");
             }
 
-            session.Start();
-            session.Write(helloPacket);
-            packetBuffer.Reset(0);
+            this.session.Start();
+            this.session.Write(helloPacket);
+            this.packetBuffer.Reset(0);
+        }
+
+        /// <summary>
+        /// Closes the session.
+        /// </summary>
+        public void Close()
+        {
+            this.OnPacketReceived = null;
+            this.session.Close();
         }
 
         #region Outgoing logic
@@ -114,7 +121,7 @@ namespace OpenStory.Server
             if (packet == null) throw new ArgumentNullException("packet");
 
             byte[] rawData = this.Crypto.EncryptAndPack(packet);
-            if (session.Socket.Connected) session.Write(rawData);
+            if (this.session.Socket.Connected) this.session.Write(rawData);
         }
 
         #endregion
@@ -125,7 +132,7 @@ namespace OpenStory.Server
         {
             byte[] data = args.Data;
             int position = 0, remaining = data.Length;
-            while (packetBuffer.FreeSpace == 0)
+            while (this.packetBuffer.FreeSpace == 0)
             {
                 byte[] rawData = this.packetBuffer.ExtractAndReset(0);
                 if (rawData.Length > 0)
@@ -149,7 +156,6 @@ namespace OpenStory.Server
                     position += bufferred;
                     remaining -= bufferred;
                 }
-
 
                 byte[] header = this.headerBuffer.ExtractAndReset(4);
                 int length = this.Crypto.TryGetLength(header);
@@ -177,14 +183,5 @@ namespace OpenStory.Server
         }
 
         #endregion
-
-        /// <summary>
-        /// Closes the session.
-        /// </summary>
-        public void Close()
-        {
-            this.OnPacketReceived = null;
-            session.Close();
-        }
     }
 }

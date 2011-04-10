@@ -10,7 +10,7 @@ namespace OpenStory.Server.Emulation
     /// <summary>
     /// Provides a method to initialize types marked with a <see cref="ServerModuleAttribute"/>
     /// </summary>
-    static class Initializer
+    internal static class Initializer
     {
         private static List<MetadataPair<Type, ServerModuleAttribute>> serverModulesInternal;
 
@@ -32,15 +32,15 @@ namespace OpenStory.Server.Emulation
                 serverModulesInternal = GetServerModules().ToList();
             }
 
-            var initializationList = serverModulesInternal
+            IOrderedEnumerable<IGrouping<InitializationStage, Type>> initializationList = serverModulesInternal
                 .GroupBy(pair => pair.Attribute.InitializationStage, pair => pair.MemberInfo)
                 .OrderBy(group => group.Key);
 
             foreach (var group in initializationList)
             {
-                Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof(InitializationStage), group.Key));
+                Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof (InitializationStage), group.Key));
 
-                var query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
+                ParallelQuery<MethodInfo> query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
                 if (query.All(ReflectionHelpers.InvokeStaticFunc<bool>)) continue;
 

@@ -7,7 +7,7 @@ namespace OpenStory.Server.Authentication
     /// <summary>
     /// Represents a game World.
     /// </summary>
-    class WorldInfo : IWorld
+    internal class WorldInfo : IWorld
     {
         private List<ChannelInfo> channels;
 

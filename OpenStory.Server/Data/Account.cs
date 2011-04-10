@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Runtime.Serialization;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Data
@@ -7,21 +8,34 @@ namespace OpenStory.Server.Data
     /// <summary>
     /// Represents a read-only account.
     /// </summary>
+    [DataContract]
     public class Account
     {
         // From the game server's perspective, the account data is read-only.
         // If I ever make another perspective for it, I'll make another class.
-        private Account() {}
+        private Account(IDataRecord record)
+        {
+            this.AccountId = (int) record["AccountId"];
+            this.UserName = (string) record["UserName"];
+            this.PasswordHash = (string) record["PasswordHash"];
+            this.EmailAddress = (string) record["EmailAddress"];
+            this.GameMasterLevel = (GameMasterLevel) record["GameMasterLevel"];
+            this.Gender = (Gender) record["record"];
+            this.Status = (AccountStatus) record["record"];
+        }
 
         /// <summary>
         /// Gets the Account ID.
         /// </summary>
+        [DataMember(IsRequired = true)]
         public int AccountId { get; private set; }
 
         /// <summary>
         /// Gets the user name.
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string UserName { get; private set; }
+
         /// <summary>
         /// Gets the password hash.
         /// </summary>
@@ -46,17 +60,6 @@ namespace OpenStory.Server.Data
         /// Gets the account's status.
         /// </summary>
         public AccountStatus Status { get; private set; }
-
-        private Account(IDataRecord record)
-        {
-            this.AccountId = (int) record["AccountId"];
-            this.UserName = (string) record["UserName"];
-            this.PasswordHash = (string) record["PasswordHash"];
-            this.EmailAddress = (string) record["EmailAddress"];
-            this.GameMasterLevel = (GameMasterLevel) record["GameMasterLevel"];
-            this.Gender = (Gender) record["record"];
-            this.Status = (AccountStatus) record["record"];
-        }
 
         /// <summary>
         /// Attempts to load the account information for the given user name.

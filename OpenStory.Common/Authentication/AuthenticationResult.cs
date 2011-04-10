@@ -1,8 +1,11 @@
-﻿namespace OpenStory.Common.Authentication
+﻿using System;
+
+namespace OpenStory.Common.Authentication
 {
     /// <summary>
     /// A response code for an authentication attempt.
     /// </summary>
+    [Serializable]
     public enum AuthenticationResult
     {
         /// <summary>

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using OpenStory.Common.IO;
-using OpenStory.Networking;
 using OpenStory.Server.Registry.Buddy;
 
 namespace OpenStory.Server.Registry
 {
-    partial class Player
+    internal partial class Player
     {
         public void HandleBuddyOperation(PacketReader reader, ServerSession serverSession)
         {
@@ -61,7 +60,8 @@ namespace OpenStory.Server.Registry
             // TODO: Check the target buddy list stuff.
         }
 
-        private static void SendBuddyListOperationResult(ServerSession serverSession, BuddyOperationResult buddyOperationResult)
+        private static void SendBuddyListOperationResult(ServerSession serverSession,
+                                                         BuddyOperationResult buddyOperationResult)
         {
             // TODO: Finish later.
         }

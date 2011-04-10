@@ -36,7 +36,7 @@ namespace OpenStory.Server.Emulation.Helpers
         public static bool HasAttribute<TAttribute>(MemberInfo memberInfo)
         {
             if (memberInfo == null) throw new ArgumentNullException("memberInfo");
-            return memberInfo.IsDefined(typeof(TAttribute), false);
+            return memberInfo.IsDefined(typeof (TAttribute), false);
         }
 
         /// <summary>

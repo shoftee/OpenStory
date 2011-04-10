@@ -14,10 +14,10 @@
         /// <param name="clientIV">The client's IV.</param>
         /// <param name="serverIV">The server's IV.</param>
         /// <param name="version">The version of the client.</param>
-        public ClientCrypto(byte[] clientIV, byte[] serverIV, ushort version) :
-            base(
-            encryptor: new AesTransform(clientIV, version, VersionType.Regular),
-            decryptor: new AesTransform(serverIV, version, VersionType.Complement))
-        { }
+        public ClientCrypto(byte[] clientIV, byte[] serverIV, ushort version)
+            :
+                base(
+                encryptor: new AesTransform(clientIV, version, VersionType.Regular),
+                decryptor: new AesTransform(serverIV, version, VersionType.Complement)) {}
     }
 }

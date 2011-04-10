@@ -1,5 +1,4 @@
-﻿using System;
-using OpenStory.Common.Game;
+﻿using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Game
 {
@@ -24,6 +23,8 @@ namespace OpenStory.Server.Game
         /// </summary>
         public bool HasChanged { get; set; }
 
+        #region IKeyBinding Members
+
         /// <summary>
         /// Gets the type of the action for the KeyBinding.
         /// </summary>
@@ -47,5 +48,7 @@ namespace OpenStory.Server.Game
             this.ActionTypeId = type;
             this.ActionId = action;
         }
+
+        #endregion
     }
 }

@@ -11,6 +11,7 @@ namespace OpenStory.Server.Registry.Messenger
         /// The ID of the messenger session.
         /// </summary>
         int Id { get; }
+
         /// <summary>
         /// The number of players in the messenger.
         /// </summary>
@@ -21,6 +22,7 @@ namespace OpenStory.Server.Registry.Messenger
         /// </summary>
         /// <param name="member">The member to add.</param>
         void AddMember(MessengerMember member);
+
         /// <summary>
         /// Removes a member from the messenger session.
         /// </summary>

@@ -2,7 +2,7 @@
 
 namespace OpenStory.Networking
 {
-    interface IDescriptorContainer
+    internal interface IDescriptorContainer
     {
         Socket Socket { get; }
         bool IsActive { get; }

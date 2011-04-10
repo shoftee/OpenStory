@@ -28,7 +28,7 @@ namespace OpenStory.Common.Tools
             {
                 if (value == null) throw new InvalidOperationException("The Log writer cannot be set to null.");
                 else InternalInstance.writer = value;
-            } 
+            }
         }
 
         /// <summary>
@@ -145,6 +145,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="infoString">The string to write.</param>
         void WriteInfo(string infoString);
+
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
@@ -157,6 +158,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="warningString">The string to write.</param>
         void WriteWarning(string warningString);
+
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
@@ -169,6 +171,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="errorString">The string to write.</param>
         void WriteError(string errorString);
+
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>

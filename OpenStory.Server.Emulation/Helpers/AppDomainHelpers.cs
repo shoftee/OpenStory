@@ -4,7 +4,7 @@ using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation.Helpers
 {
-    class AppDomainHelpers
+    internal class AppDomainHelpers
     {
         private static readonly AppDomainSetup DefaultAppDomainSetup =
             new AppDomainSetup
@@ -34,7 +34,7 @@ namespace OpenStory.Server.Emulation.Helpers
 
         private static void DomainUnloadHandler(object sender, EventArgs e)
         {
-            AppDomain domain = sender as AppDomain;
+            var domain = sender as AppDomain;
             if (domain == null)
             {
                 return;
@@ -45,7 +45,7 @@ namespace OpenStory.Server.Emulation.Helpers
 
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            AppDomain domain = sender as AppDomain;
+            var domain = sender as AppDomain;
             if (domain == null)
             {
                 return;
@@ -57,11 +57,11 @@ namespace OpenStory.Server.Emulation.Helpers
             }
             else
             {
-                Log.WriteError("[{0}] Fatal unhandled exception: {1} ", domain.FriendlyName, args.ExceptionObject.ToString());
+                Log.WriteError("[{0}] Fatal unhandled exception: {1} ", domain.FriendlyName,
+                               args.ExceptionObject.ToString());
                 Log.WriteError("The process will now terminate.");
                 Console.ReadLine();
             }
         }
-
     }
 }

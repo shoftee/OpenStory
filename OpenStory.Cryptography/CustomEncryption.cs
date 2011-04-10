@@ -5,7 +5,7 @@ namespace OpenStory.Cryptography
     /// <summary>
     /// Provides encryption and decryption static methods for the MapleStory custom data transformation.
     /// </summary>
-    static class CustomEncryption
+    internal static class CustomEncryption
     {
         /// <summary>
         /// Encrypts an array in-place.
@@ -20,7 +20,7 @@ namespace OpenStory.Cryptography
             if (data == null) throw new ArgumentNullException("data");
 
             int length = data.Length;
-            byte truncatedLength = unchecked((byte) length);
+            var truncatedLength = unchecked((byte) length);
             for (int j = 0; j < 6; j++)
             {
                 if ((j & 1) != 0)
@@ -96,9 +96,9 @@ namespace OpenStory.Cryptography
         public static void Decrypt(byte[] data)
         {
             if (data == null) throw new ArgumentNullException("data");
-           
+
             int length = data.Length;
-            byte truncatedLength = unchecked((byte) length);
+            var truncatedLength = unchecked((byte) length);
             for (int j = 1; j <= 6; j++)
             {
                 if ((j & 1) != 0)

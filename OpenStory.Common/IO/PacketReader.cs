@@ -8,17 +8,9 @@ namespace OpenStory.Common.IO
     {
         private byte[] buffer;
 
-        private int segmentStart;
-        private int segmentEnd;
         private int currentOffset;
-
-        /// <summary>
-        /// The number of remaining bytes until the end of the buffer segment.
-        /// </summary>
-        public int Remaining
-        {
-            get { return this.segmentEnd - this.currentOffset; }
-        }
+        private int segmentEnd;
+        private int segmentStart;
 
         /// <summary>
         /// Initializes a new instance of PacketReader 
@@ -184,7 +176,7 @@ namespace OpenStory.Common.IO
             Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(count), array, 0, count);
             return true;
 
-        Fail:
+            Fail:
             array = null;
             return false;
         }
@@ -199,7 +191,7 @@ namespace OpenStory.Common.IO
             value = this.buffer[this.UncheckedAdvance(1)];
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -214,7 +206,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToUInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -229,7 +221,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -244,7 +236,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToUInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -259,7 +251,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -274,7 +266,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -289,7 +281,7 @@ namespace OpenStory.Common.IO
             value = BigEndianBitConverter.ToUInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
-        Fail:
+            Fail:
             value = 0;
             return false;
         }
@@ -309,7 +301,7 @@ namespace OpenStory.Common.IO
             result = this.ReadString(this.UncheckedAdvance(length), length);
             return true;
 
-        Fail:
+            Fail:
             result = String.Empty;
             return false;
         }
@@ -331,7 +323,7 @@ namespace OpenStory.Common.IO
             result = this.ReadNullTerminatedString(this.UncheckedAdvance(length), length);
             return true;
 
-        Fail:
+            Fail:
             result = String.Empty;
             return false;
         }
@@ -447,6 +439,14 @@ namespace OpenStory.Common.IO
         #endregion
 
         /// <summary>
+        /// The number of remaining bytes until the end of the buffer segment.
+        /// </summary>
+        public int Remaining
+        {
+            get { return this.segmentEnd - this.currentOffset; }
+        }
+
+        /// <summary>
         /// Returns a byte array of the remaining data in the 
         /// stream and advances to the end of the stream.
         /// </summary>
@@ -454,7 +454,7 @@ namespace OpenStory.Common.IO
         public byte[] ReadFully()
         {
             int remaining = this.Remaining;
-            byte[] remainingBytes = new byte[remaining];
+            var remainingBytes = new byte[remaining];
 
             Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(remaining), remainingBytes, 0, remaining);
             return remainingBytes;

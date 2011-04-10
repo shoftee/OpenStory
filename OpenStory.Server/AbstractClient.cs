@@ -5,15 +5,14 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
-using OpenStory.Server.AccountService;
 
-namespace OpenStory.Server.Emulation
+namespace OpenStory.Server
 {
     /// <summary>
     /// Represents a base class for all server clients.
     /// This class is abstract.
     /// </summary>
-    internal abstract class AbstractClient
+    public abstract class AbstractClient
     {
         /// <summary>
         /// The number of pings a client is allowed to miss before being disconnected.
@@ -35,6 +34,12 @@ namespace OpenStory.Server.Emulation
         /// </summary>
         public string RemoteAddress { get; private set; }
 
+        /// <summary>
+        /// Gets the account session object.
+        /// </summary>
+        /// <remarks>
+        /// This object is null if the client has not logged in.
+        /// </remarks>
         public IAccountSession AccountSession { get; protected set; }
 
         private Timer keepAliveTimer;
@@ -89,8 +94,16 @@ namespace OpenStory.Server.Emulation
             }
         }
 
+        /// <summary>
+        /// When implemented in a derived class, processes the packet with the given op code.
+        /// </summary>
+        /// <param name="opCode">The op code of the packet to process.</param>
+        /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
         protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
 
+        /// <summary>
+        /// Immediately disconnects the client from the server.
+        /// </summary>
         public void Disconnect()
         {
             if (this.AccountSession != null)

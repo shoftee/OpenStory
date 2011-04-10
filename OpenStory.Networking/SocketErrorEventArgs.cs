@@ -9,11 +9,6 @@ namespace OpenStory.Networking
     public class SocketErrorEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the wrapped SocketError.
-        /// </summary>
-        public SocketError Error { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the SocketErrorEventArgs class.
         /// </summary>
         /// <param name="error">The SocketError to wrap around.</param>
@@ -22,5 +17,9 @@ namespace OpenStory.Networking
             this.Error = error;
         }
 
+        /// <summary>
+        /// Gets the wrapped SocketError.
+        /// </summary>
+        public SocketError Error { get; private set; }
     }
 }

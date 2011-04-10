@@ -1,40 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using OpenStory.AccountService;
 using OpenStory.Common.Authentication;
 using OpenStory.Cryptography;
-using OpenStory.Server.AccountService;
+using OpenStory.Server;
 using OpenStory.Server.Data;
 
-namespace OpenStory.Server.Emulation.Authentication
+namespace OpenStory.AuthService
 {
     /// <summary>
     /// Represents a server that handles the authentication process.
     /// </summary>
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     sealed class AuthServer : AbstractServer, IAuthServer
     {
-        /// <summary>
-        /// Initial maximum number of characters on a single account.
-        /// </summary>
-        public const int MaxCharacters = 3;
+        private const string ServerName = "Auth";
 
-        public override string Name { get { return "Auth"; } }
+        public override string Name { get { return ServerName; } }
 
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
-
-        private readonly HashSet<int> activeAccounts;
+        private readonly AccountServiceClient accountService;
 
         /// <summary>
         /// Initializes a new instance of the AuthServer class.
-        /// <param name="port">The port on which to listen for incoming connections. Default value is 8484.</param>
         /// </summary>
-        public AuthServer(int port = 8484)
-            : base(port)
+        public AuthServer()
+            : base(8484)
         {
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
-            this.activeAccounts = new HashSet<int>();
+            this.accountService = new AccountServiceClient();
         }
 
         // TODO: FINISH THIS F5
@@ -42,10 +40,10 @@ namespace OpenStory.Server.Emulation.Authentication
         #region IAuthServer Members
 
         /// <summary>
-        /// Gets a <see cref="IWorld"/> instance by the World's ID.
+        /// Gets a <see cref="OpenStory.Common.Authentication.IWorld"/> instance by the World's ID.
         /// </summary>
         /// <param name="worldId">The ID of the world.</param>
-        /// <returns>An <see cref="IWorld"/> object which represents the world with the given ID.</returns>
+        /// <returns>An <see cref="OpenStory.Common.Authentication.IWorld"/> object which represents the world with the given ID.</returns>
         public IWorld GetWorldById(int worldId)
         {
             base.ThrowIfNotRunning();
@@ -69,19 +67,20 @@ namespace OpenStory.Server.Emulation.Authentication
                 goto AuthenticationFailed;
             }
 
-            if (Universe.Accounts.IsActive(account.AccountId))
+            if (this.accountService.IsActive(account.AccountId))
             {
                 result = AuthenticationResult.AlreadyLoggedIn;
                 goto AuthenticationFailed;
             }
 
-            accountSession = Universe.Accounts.RegisterSession(account);
+            accountSession = this.accountService.RegisterSession(account);
             return AuthenticationResult.Success;
 
         AuthenticationFailed:
             accountSession = null;
             return result;
         }
+
 
         #endregion
 

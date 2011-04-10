@@ -5,7 +5,7 @@ namespace OpenStory.Server.Registry.Buddy
     internal class Buddy : IEquatable<Buddy>
     {
         public Buddy(int characterId, string characterName, BuddyStatus status, string groupName,
-                              int channel = -1, bool isVisible = false)
+                     int channel = -1, bool isVisible = false)
         {
             this.CharacterId = characterId;
             this.CharacterName = characterName;
@@ -39,6 +39,5 @@ namespace OpenStory.Server.Registry.Buddy
         }
 
         #endregion
-
     }
 }

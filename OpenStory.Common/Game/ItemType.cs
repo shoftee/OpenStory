@@ -1,8 +1,11 @@
-﻿namespace OpenStory.Common.Game
+﻿using System;
+
+namespace OpenStory.Common.Game
 {
     /// <summary>
     /// The type of an item.
     /// </summary>
+    [Serializable]
     public enum ItemType
     {
         /// <summary>

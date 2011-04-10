@@ -120,7 +120,7 @@ namespace OpenStory.Cryptography
         {
             if (array == null) throw new ArgumentNullException("array");
             int length = array.Length;
-            byte[] newArray = new byte[length];
+            var newArray = new byte[length];
             Buffer.BlockCopy(array, 0, newArray, 0, length);
             return newArray;
         }
@@ -143,7 +143,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentOutOfRangeException("length");
             }
-            byte[] segment = new byte[length];
+            var segment = new byte[length];
             Buffer.BlockCopy(array, start, segment, 0, length);
             return segment;
         }
@@ -157,8 +157,7 @@ namespace OpenStory.Cryptography
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Rng.Next();
-            while (number == 0);
+            do number = Rng.Next(); while (number == 0);
 
             byte[] iv = BitConverter.GetBytes(number);
             return iv;

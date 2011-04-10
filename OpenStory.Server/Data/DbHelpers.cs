@@ -8,7 +8,7 @@ namespace OpenStory.Server.Data
     /// <summary>
     /// Provides static methods for various useful database-related operations.
     /// </summary>
-    static class DbHelpers
+    internal static class DbHelpers
     {
         private const string ConnectionString =
             "Data Source=SHOFTBOX;Initial Catalog=OpenStory;Persist Security Info=True;User ID=OpenStoryUser;Password=.@c#8sharp";
@@ -28,16 +28,18 @@ namespace OpenStory.Server.Data
         {
             // I actually feel quite awesome about this method, it saves me a lot of writing.
             using (query)
-            using (SqlConnection connection = GetConnection())
             {
-                query.Connection = connection;
-                connection.Open();
-                using (SqlDataReader record = query.ExecuteReader(CommandBehavior.SingleRow))
+                using (SqlConnection connection = GetConnection())
                 {
-                    if (!record.Read()) return false;
+                    query.Connection = connection;
+                    connection.Open();
+                    using (SqlDataReader record = query.ExecuteReader(CommandBehavior.SingleRow))
+                    {
+                        if (!record.Read()) return false;
 
-                    recordCallback(record);
-                    return true;
+                        recordCallback(record);
+                        return true;
+                    }
                 }
             }
         }
@@ -48,15 +50,17 @@ namespace OpenStory.Server.Data
         public static IEnumerable<IDataRecord> GetRecordSetIterator(SqlCommand query)
         {
             using (query)
-            using (SqlConnection connection = GetConnection())
             {
-                query.Connection = connection;
-                connection.Open();
-                using (SqlDataReader record = query.ExecuteReader())
+                using (SqlConnection connection = GetConnection())
                 {
-                    while (record.Read())
+                    query.Connection = connection;
+                    connection.Open();
+                    using (SqlDataReader record = query.ExecuteReader())
                     {
-                        yield return record;
+                        while (record.Read())
+                        {
+                            yield return record;
+                        }
                     }
                 }
             }
@@ -84,11 +88,13 @@ namespace OpenStory.Server.Data
         public static TResult GetScalar<TResult>(SqlCommand scalarQuery)
         {
             using (scalarQuery)
-            using (SqlConnection connection = GetConnection())
             {
-                scalarQuery.Connection = connection;
-                connection.Open();
-                return (TResult) scalarQuery.ExecuteScalar();
+                using (SqlConnection connection = GetConnection())
+                {
+                    scalarQuery.Connection = connection;
+                    connection.Open();
+                    return (TResult) scalarQuery.ExecuteScalar();
+                }
             }
         }
 

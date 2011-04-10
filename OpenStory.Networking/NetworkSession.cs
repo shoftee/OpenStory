@@ -10,59 +10,6 @@ namespace OpenStory.Networking
     public sealed class NetworkSession : IDescriptorContainer
     {
         /// <summary>
-        /// The event is raised just before the NetworkSession is closed.
-        /// </summary>
-        public event EventHandler OnClosing;
-
-        /// <summary>
-        /// The event is raised when a data segment arrives.
-        /// </summary>
-        /// <remarks>
-        /// This event doesn't support more than 1 subscriber.
-        /// Attempts to subscribe more than 1 method to this event 
-        /// will throw an <see cref="InvalidOperationException"/>.
-        /// </remarks>
-        public event EventHandler<DataArrivedEventArgs> OnDataArrived
-        {
-            add { this.receiveDescriptor.OnDataArrived += value; }
-            remove { this.receiveDescriptor.OnDataArrived -= value; }
-        }
-
-        /// <summary>
-        /// The event used to handle socket errors.
-        /// </summary>
-        public event EventHandler<SocketErrorEventArgs> OnError
-        {
-            add
-            {
-                this.sendDescriptor.OnError += value;
-                this.receiveDescriptor.OnError += value;
-            }
-            remove
-            {
-                this.sendDescriptor.OnError -= value;
-                this.receiveDescriptor.OnError -= value;               
-            }
-        }
-
-        #region Fields and properties
-
-        private ReceiveDescriptor receiveDescriptor;
-        private SendDescriptor sendDescriptor;
-
-        /// <summary>
-        /// Gets whether the socket is currently disconnected or not.
-        /// </summary>
-        private AtomicBoolean isActive;
-
-        /// <summary>
-        /// Gets the socket being used for this session.
-        /// </summary>
-        public Socket Socket { get; private set; }
-
-        #endregion
-
-        /// <summary>
         /// Initializes a new instance of the NetworkSession class.
         /// </summary>
         /// <param name="socket">The underlying socket for the NetworkSession.</param>
@@ -121,12 +68,48 @@ namespace OpenStory.Networking
         #endregion
 
         /// <summary>
+        /// The event is raised just before the NetworkSession is closed.
+        /// </summary>
+        public event EventHandler OnClosing;
+
+        /// <summary>
+        /// The event is raised when a data segment arrives.
+        /// </summary>
+        /// <remarks>
+        /// This event doesn't support more than 1 subscriber.
+        /// Attempts to subscribe more than 1 method to this event 
+        /// will throw an <see cref="InvalidOperationException"/>.
+        /// </remarks>
+        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        {
+            add { this.receiveDescriptor.OnDataArrived += value; }
+            remove { this.receiveDescriptor.OnDataArrived -= value; }
+        }
+
+        /// <summary>
+        /// The event used to handle socket errors.
+        /// </summary>
+        public event EventHandler<SocketErrorEventArgs> OnError
+        {
+            add
+            {
+                this.sendDescriptor.OnError += value;
+                this.receiveDescriptor.OnError += value;
+            }
+            remove
+            {
+                this.sendDescriptor.OnError -= value;
+                this.receiveDescriptor.OnError -= value;
+            }
+        }
+
+        /// <summary>
         /// Writes a byte array to the network stream.
         /// </summary>
         /// <param name="data">The data to write.</param>
         public void Write(byte[] data)
         {
-            lock (sendDescriptor)
+            lock (this.sendDescriptor)
             {
                 this.sendDescriptor.Write(data);
             }
@@ -143,6 +126,23 @@ namespace OpenStory.Networking
         {
             this.Close();
         }
+
+        #endregion
+
+        #region Fields and properties
+
+        /// <summary>
+        /// Gets whether the socket is currently disconnected or not.
+        /// </summary>
+        private AtomicBoolean isActive;
+
+        private ReceiveDescriptor receiveDescriptor;
+        private SendDescriptor sendDescriptor;
+
+        /// <summary>
+        /// Gets the socket being used for this session.
+        /// </summary>
+        public Socket Socket { get; private set; }
 
         #endregion
     }

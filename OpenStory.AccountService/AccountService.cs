@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenStory.Server.Communication;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
+using OpenStory.Server;
 using OpenStory.Server.Data;
 
-namespace OpenStory.Server.AccountService
+namespace OpenStory.AccountService
 {
-    class AccountService : GameService, IAccountService, ISessionManager
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    class AccountService : IAccountService, ISessionManager
     {
-        private Dictionary<int, AccountSession> sessions;
+        private readonly Dictionary<int, AccountSession> sessions;
 
         public AccountService()
         {
@@ -22,17 +23,10 @@ namespace OpenStory.Server.AccountService
         public IAccountSession RegisterSession(Account account)
         {
             AccountSession session = new AccountSession(this, account);
-            this.sessions.Add(account.AccountId, session);
-
             return session;
         }
 
-        public void UnregisterSession(int accountId)
-        {
-            this.sessions.Remove(accountId);
-        }
-
-        class AccountSession : MarshalByRefObject, IAccountSession
+        class AccountSession : IAccountSession
         {
             private ISessionManager parent;
 
@@ -42,19 +36,21 @@ namespace OpenStory.Server.AccountService
 
             public AccountSession(ISessionManager parent, Account account)
             {
-                if (parent == null) throw new ArgumentNullException("parent");
-                if (account == null) throw new ArgumentNullException("account");
-
-                this.parent = parent;
-
                 this.AccountId = account.AccountId;
                 this.AccountName = account.UserName;
+
+                this.parent = parent;
             }
 
             public void Dispose()
             {
-                this.parent.UnregisterSession(this.AccountId);
+                parent.UnregisterSession(this.AccountId);
             }
+        }
+
+        public void UnregisterSession(int accountId)
+        {
+            this.sessions.Remove(accountId);
         }
     }
 }

@@ -10,17 +10,16 @@ namespace OpenStory.Server.Emulation
     /// <summary>
     /// A manager class for game worlds.
     /// </summary>
-    sealed class UniverseManager
+    internal sealed class UniverseManager
     {
-        private Dictionary<int, AppDomain> domains;
         private List<World> data;
+        private Dictionary<int, AppDomain> domains;
 
         private bool isInitialized;
 
         public UniverseManager()
         {
             this.isInitialized = false;
-
         }
 
         public bool Initialize()
@@ -31,7 +30,7 @@ namespace OpenStory.Server.Emulation
             }
             this.data = World.GetAllWorlds().ToList();
             this.domains = new Dictionary<int, AppDomain>(this.data.Count);
-            return this.data.All(InitializeWorld);
+            return this.data.All(this.InitializeWorld);
         }
 
         private bool InitializeWorld(World world)
@@ -40,7 +39,8 @@ namespace OpenStory.Server.Emulation
 
             this.domains.Add(world.WorldId, newWorldDomain);
 
-            Log.WriteInfo("Loaded world {0}({1}) into new domain '{2}'.", world.WorldName, world.WorldId, newWorldDomain.FriendlyName);
+            Log.WriteInfo("Loaded world {0}({1}) into new domain '{2}'.", world.WorldName, world.WorldId,
+                          newWorldDomain.FriendlyName);
             return true;
         }
 

@@ -1,9 +1,9 @@
-﻿namespace OpenStory.Server.Emulation.Authentication
+﻿namespace OpenStory.AuthService
 {
     /// <summary>
     /// Phase of the login process.
     /// </summary>
-    public enum AuthClientState
+    internal enum AuthClientState
     {
         /// <summary>
         /// Default value, not to be used.

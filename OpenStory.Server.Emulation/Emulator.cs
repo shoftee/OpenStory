@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using OpenStory.AuthService;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation
@@ -13,16 +13,17 @@ namespace OpenStory.Server.Emulation
         /// </summary>
         public bool IsRunning { get; private set; }
 
-        private UniverseManager worldManager;
-        private AuthenticationServerDomain authenticationServerDomain;
+        private UniverseManager universeManager;
+        private IAuthService authServer;
 
         /// <summary>
         /// Initializes the Emulator.
         /// </summary>
         public Emulator()
         {
-            this.worldManager = new UniverseManager();
-            this.authenticationServerDomain = new AuthenticationServerDomain();
+            this.universeManager = new UniverseManager();
+
+            this.authServer = new AuthServiceClient();
         }
 
         public void Start()
@@ -37,10 +38,7 @@ namespace OpenStory.Server.Emulation
                 this.IsRunning = true;
             }
 
-            worldManager.Initialize();
-            this.authenticationServerDomain.StartAuthenticationServer();
-
-            Thread.Sleep(Timeout.Infinite);
+            this.universeManager.Initialize();
         }
     }
 }

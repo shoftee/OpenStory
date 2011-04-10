@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OpenStory.Server.Emulation.Properties {
+namespace OpenStory.Server.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,24 @@ namespace OpenStory.Server.Emulation.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("67")]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SHOFTBOX;Initial Catalog=OpenStory;Persist Security Info=True;User ID" +
+            "=OpenStoryUser;Password=.@c#8sharp")]
+        public string OpenStoryConnectionString {
+            get {
+                return ((string)(this["OpenStoryConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("68")]
         public ushort MapleVersion {
             get {
                 return ((ushort)(this["MapleVersion"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8484")]
-        public int LoginPort {
-            get {
-                return ((int)(this["LoginPort"]));
+            set {
+                this["MapleVersion"] = value;
             }
         }
     }

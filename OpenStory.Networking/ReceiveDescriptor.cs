@@ -6,37 +6,12 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network receive buffer.
     /// </summary>
-    sealed class ReceiveDescriptor : Descriptor
+    internal sealed class ReceiveDescriptor : Descriptor
     {
         /// <summary>
         /// The default buffer size, set to match the AesTransform block size.
         /// </summary>
         private const int BufferSize = 1460;
-
-        /// <summary>
-        /// The event used to handle incoming data.
-        /// </summary>
-        public event EventHandler<DataArrivedEventArgs> OnDataArrived
-        {
-            add
-            {
-                if (OnDataArrivedInternal != null)
-                {
-                    throw new InvalidOperationException("The event should not have more than one subscriber.");
-                }
-                this.OnDataArrivedInternal += value;
-            }
-            remove
-            {
-                if (OnDataArrivedInternal == null)
-                {
-                    throw new InvalidOperationException("The event has no subscribers.");
-                }
-                this.OnDataArrivedInternal += value;
-            }
-        }
-
-        private event EventHandler<DataArrivedEventArgs> OnDataArrivedInternal;
 
         private byte[] receiveBuffer;
 
@@ -134,11 +109,11 @@ namespace OpenStory.Networking
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
         private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (!HandleTransferredData(args)) return;
+            if (!this.HandleTransferredData(args)) return;
 
             this.BeginReceive();
         }
-        
+
         /// <summary>
         /// Handles the transferred data for the operation.
         /// </summary>
@@ -156,7 +131,7 @@ namespace OpenStory.Networking
                 return false;
             }
 
-            byte[] dataCopy = new byte[transferred];
+            var dataCopy = new byte[transferred];
             Buffer.BlockCopy(args.Buffer, 0, dataCopy, 0, transferred);
             var eventArgs = new DataArrivedEventArgs(dataCopy);
 
@@ -166,6 +141,31 @@ namespace OpenStory.Networking
         }
 
         #endregion
+
+        /// <summary>
+        /// The event used to handle incoming data.
+        /// </summary>
+        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        {
+            add
+            {
+                if (this.OnDataArrivedInternal != null)
+                {
+                    throw new InvalidOperationException("The event should not have more than one subscriber.");
+                }
+                this.OnDataArrivedInternal += value;
+            }
+            remove
+            {
+                if (this.OnDataArrivedInternal == null)
+                {
+                    throw new InvalidOperationException("The event has no subscribers.");
+                }
+                this.OnDataArrivedInternal += value;
+            }
+        }
+
+        private event EventHandler<DataArrivedEventArgs> OnDataArrivedInternal;
 
         protected override void CloseImpl()
         {

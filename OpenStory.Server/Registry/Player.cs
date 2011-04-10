@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using OpenStory.Common;
-using OpenStory.Common.Game;
+﻿using OpenStory.Common.Game;
 using OpenStory.Server.Data;
 using OpenStory.Server.Game;
 using OpenStory.Server.Maps;
@@ -11,7 +9,7 @@ using OpenStory.Server.Registry.Party;
 
 namespace OpenStory.Server.Registry
 {
-    sealed partial class Player : IPlayer
+    internal sealed partial class Player : IPlayer
     {
         #region Visible info
 

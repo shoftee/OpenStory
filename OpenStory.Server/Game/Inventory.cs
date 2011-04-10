@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OpenStory.Common;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Game

@@ -108,7 +108,7 @@ namespace OpenStory.Common.IO
         public void WriteZeroes(int count)
         {
             this.CheckDisposed();
-            for(int i = 0; i < count; i ++)
+            for (int i = 0; i < count; i ++)
             {
                 this.stream.WriteByte(0);
             }
@@ -192,7 +192,7 @@ namespace OpenStory.Common.IO
         public byte[] ToByteArray()
         {
             byte[] buffer = this.stream.GetBuffer();
-            int length = (int) this.stream.Position;
+            var length = (int) this.stream.Position;
             var array = new byte[length];
             Buffer.BlockCopy(buffer, 0, array, 0, length);
             return array;

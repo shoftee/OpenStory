@@ -4,24 +4,21 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server.Properties;
 
-namespace OpenStory.Server.Emulation
+namespace OpenStory.Server
 {
     /// <summary>
-    /// A base class for servers which handle public communication.
+    /// A base class for services which handle public communication.
     /// </summary>
-    abstract class AbstractServer
+    public abstract class AbstractServer
     {
-        private static readonly ushort MapleVersion = Properties.Settings.Default.MapleVersion;
-
-        public abstract string Name { get; }
-
-        public bool IsRunning { get; protected set; }
+        private static readonly ushort MapleVersion = Settings.Default.MapleVersion;
 
         private SocketAcceptor acceptor;
 
         /// <summary>
-        /// Initializes a new instance of PublicService and binds the internal acceptor to the given port.
+        /// Initializes a new instance of AbstractServer and binds the internal acceptor to the given port.
         /// </summary>
         /// <param name="port">The port to listen on.</param>
         protected AbstractServer(int port)
@@ -32,15 +29,31 @@ namespace OpenStory.Server.Emulation
             this.acceptor.OnSocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
 
+        /// <summary>
+        /// Gets the name of the server.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
+        /// Gets whether the server is running or not.
+        /// </summary>
+        public bool IsRunning { get; protected set; }
+
+        /// <summary>
+        /// Starts the server.
+        /// </summary>
         public void Start()
         {
             this.ThrowIfRunning();
             this.IsRunning = true;
 
-            Log.WriteInfo("[{0}] Listening on port {1}.", this.Name, acceptor.Port);
+            Log.WriteInfo("[{0}] Listening on port {1}.", this.Name, this.acceptor.Port);
             this.acceptor.Start();
         }
 
+        /// <summary>
+        /// Stops the server.
+        /// </summary>
         public void Stop()
         {
             Log.WriteInfo("[{0}] Shutting down...", this.Name);
@@ -71,17 +84,18 @@ namespace OpenStory.Server.Emulation
 
         private void HandleAccept(Socket socket)
         {
-            var clientIV = ByteHelpers.GetNewIV();
-            var serverIV = ByteHelpers.GetNewIV();
-            ServerCrypto crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
+            byte[] clientIV = ByteHelpers.GetNewIV();
+            byte[] serverIV = ByteHelpers.GetNewIV();
+            var crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
 
-            ServerSession serverSession = new ServerSession(socket, crypto);
+            var serverSession = new ServerSession(socket, crypto);
             serverSession.OnClosing += HandleSessionClose;
 
             byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV);
             this.HandleSession(serverSession);
 
-            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId, BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
+            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,
+                          BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
 
             serverSession.Start(helloPacket);
         }
@@ -105,7 +119,7 @@ namespace OpenStory.Server.Emulation
 
         private static void HandleSessionClose(object sender, EventArgs args)
         {
-            ServerSession serverSession = sender as ServerSession;
+            var serverSession = sender as ServerSession;
             if (serverSession == null) return;
 
             Log.WriteInfo("Session {0} closed.", serverSession.SessionId);
@@ -121,7 +135,8 @@ namespace OpenStory.Server.Emulation
         {
             if (!this.IsRunning)
             {
-                throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
+                throw new InvalidOperationException(
+                    "The server has not been started. Call the Start method before using it.");
             }
         }
 

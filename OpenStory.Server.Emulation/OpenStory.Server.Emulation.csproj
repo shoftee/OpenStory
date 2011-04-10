@@ -46,34 +46,24 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractClient.cs" />
-    <Compile Include="AbstractServer.cs" />
     <Compile Include="Helpers\AppDomainHelpers.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="AuthenticationServerDomain.cs" />
-    <Compile Include="Authentication\IAuthServer.cs" />
-    <Compile Include="Authentication\AuthClient.cs" />
-    <Compile Include="Authentication\AuthClientState.cs" />
-    <Compile Include="Authentication\AuthServer.cs" />
     <Compile Include="Helpers\ReflectionHelpers.cs" />
     <Compile Include="Emulator.cs" />
     <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="ServerModuleAttribute.cs" />
-    <Compile Include="Universe.cs" />
     <Compile Include="UniverseManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.AuthService\OpenStory.AuthService.csproj">
+      <Project>{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}</Project>
+      <Name>OpenStory.AuthService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
@@ -86,10 +76,6 @@
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Server.AccountService\OpenStory.Server.AccountService.csproj">
-      <Project>{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}</Project>
-      <Name>OpenStory.Server.AccountService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
@@ -101,10 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

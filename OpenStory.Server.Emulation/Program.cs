@@ -1,14 +1,15 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 namespace OpenStory.Server.Emulation
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Emulator emulator = new Emulator();
+            var emulator = new Emulator();
             emulator.Start();
+
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }

@@ -44,15 +44,17 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractClient.cs" />
+    <Compile Include="AbstractServer.cs" />
     <Compile Include="Authentication\ChannelInfo.cs" />
     <Compile Include="Authentication\WorldInfo.cs" />
-    <Compile Include="Communication\GameService.cs" />
-    <Compile Include="Communication\RemotingHelpers.cs" />
+    <Compile Include="IAccountSession.cs" />
+    <Compile Include="ServerConstants.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
@@ -86,6 +88,11 @@
     <Compile Include="Maps\MapObjectConstructor.cs" />
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Registry\Buddy\Buddy.cs" />
     <Compile Include="Registry\Buddy\BuddyList.cs" />
     <Compile Include="Registry\Buddy\BuddyOperation.cs" />
@@ -117,6 +124,7 @@
     <Compile Include="Registry\Player.cs" />
     <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="ServerSession.cs" />
+    <Compile Include="ServiceHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
@@ -138,6 +146,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

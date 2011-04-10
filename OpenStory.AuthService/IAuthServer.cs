@@ -1,12 +1,12 @@
 ﻿using OpenStory.Common.Authentication;
-using OpenStory.Server.AccountService;
+using OpenStory.Server;
 
-namespace OpenStory.Server.Emulation.Authentication
+namespace OpenStory.AuthService
 {
     /// <summary>
     /// Provides methods for querying an auth server.
     /// </summary>
-    public interface IAuthServer
+    internal interface IAuthServer : IAuthService
     {
         /// <summary>
         /// Gets a <see cref="IWorld"/> instance by the World's ID.
@@ -20,7 +20,7 @@ namespace OpenStory.Server.Emulation.Authentication
         /// </summary>
         /// <param name="accountName">The name of the account.</param>
         /// <param name="password">The password for the account.</param>
-        /// <param name="accountInfo">An <see cref="OpenStory.Server.AccountService.IAccountSession"/> variable to hold the resulting session.</param>
+        /// <param name="accountInfo">An <see cref="IAccountSession"/> variable to hold the resulting session.</param>
         /// <returns>An <see cref="AuthenticationResult"/> for the operation.</returns>
         AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountInfo);
     }
