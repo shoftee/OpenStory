@@ -363,7 +363,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         Regular = 0,
         /// <summary>
-        /// The two's complement of the version is used.
+        /// The one's complement of the version is used.
         /// </summary>
         Complement = 1
     }

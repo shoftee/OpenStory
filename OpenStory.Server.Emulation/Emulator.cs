@@ -13,16 +13,16 @@ namespace OpenStory.Server.Emulation
         /// </summary>
         public bool IsRunning { get; private set; }
 
-        private WorldDomainManager worldManager;
-        private LoginDomain loginDomain;
+        private UniverseManager worldManager;
+        private AuthenticationServerDomain authenticationServerDomain;
 
         /// <summary>
         /// Initializes the Emulator.
         /// </summary>
         public Emulator()
         {
-            this.worldManager = new WorldDomainManager();
-            this.loginDomain = new LoginDomain();
+            this.worldManager = new UniverseManager();
+            this.authenticationServerDomain = new AuthenticationServerDomain();
         }
 
         public void Start()
@@ -38,7 +38,7 @@ namespace OpenStory.Server.Emulation
             }
 
             worldManager.Initialize();
-            loginDomain.StartLoginServer();
+            this.authenticationServerDomain.StartAuthenticationServer();
 
             Thread.Sleep(Timeout.Infinite);
         }

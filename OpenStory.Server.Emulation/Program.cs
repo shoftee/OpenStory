@@ -1,4 +1,7 @@
-﻿namespace OpenStory.Server.Emulation
+﻿using System;
+using System.Threading;
+
+namespace OpenStory.Server.Emulation
 {
     class Program
     {

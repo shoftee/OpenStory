@@ -8,23 +8,20 @@ using OpenStory.Networking;
 namespace OpenStory.Server.Emulation
 {
     /// <summary>
-    /// A base class for Server instances.
+    /// A base class for servers which handle public communication.
     /// </summary>
     abstract class AbstractServer
     {
         private static readonly ushort MapleVersion = Properties.Settings.Default.MapleVersion;
 
+        public abstract string Name { get; }
+
+        public bool IsRunning { get; protected set; }
+
         private SocketAcceptor acceptor;
 
-        protected abstract string ServerName { get; }
-
         /// <summary>
-        /// Gets whether the server is running or not.
-        /// </summary>
-        public bool IsRunning { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of AbstractServer and binds the internal acceptor to the given port.
+        /// Initializes a new instance of PublicService and binds the internal acceptor to the given port.
         /// </summary>
         /// <param name="port">The port to listen on.</param>
         protected AbstractServer(int port)
@@ -35,20 +32,21 @@ namespace OpenStory.Server.Emulation
             this.acceptor.OnSocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
 
-        /// <summary>
-        /// Starts the server.
-        /// </summary>
         public void Start()
         {
             this.ThrowIfRunning();
             this.IsRunning = true;
-            this.StartAccepting();
+
+            Log.WriteInfo("[{0}] Listening on port {1}.", this.Name, acceptor.Port);
+            this.acceptor.Start();
         }
 
-        private void StartAccepting()
+        public void Stop()
         {
-            Log.WriteInfo("[{0}] Listening on port {1}.", this.ServerName, acceptor.Port);
-            this.acceptor.Start();
+            Log.WriteInfo("[{0}] Shutting down...", this.Name);
+
+            this.ThrowIfNotRunning();
+            this.IsRunning = false;
         }
 
         /// <summary>
@@ -59,34 +57,6 @@ namespace OpenStory.Server.Emulation
         {
             this.ThrowIfNotRunning();
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="IsRunning"/> property is true and throws an exception if it is not.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the server is not running.
-        /// </exception>
-        protected void ThrowIfNotRunning()
-        {
-            if (!this.IsRunning)
-            {
-                throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
-            }
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="IsRunning"/> property is true and throws and exception if it is.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the server is running.
-        /// </exception>
-        protected void ThrowIfRunning()
-        {
-            if (this.IsRunning)
-            {
-                throw new InvalidOperationException("The server is already running.");
-            }
         }
 
         /// <summary>
@@ -104,6 +74,7 @@ namespace OpenStory.Server.Emulation
             var clientIV = ByteHelpers.GetNewIV();
             var serverIV = ByteHelpers.GetNewIV();
             ServerCrypto crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
+
             ServerSession serverSession = new ServerSession(socket, crypto);
             serverSession.OnClosing += HandleSessionClose;
 
@@ -138,6 +109,34 @@ namespace OpenStory.Server.Emulation
             if (serverSession == null) return;
 
             Log.WriteInfo("Session {0} closed.", serverSession.SessionId);
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="IsRunning"/> property is true and throws an exception if it is not.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the server is not running.
+        /// </exception>
+        protected void ThrowIfNotRunning()
+        {
+            if (!this.IsRunning)
+            {
+                throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
+            }
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="IsRunning"/> property is true and throws and exception if it is.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the server is running.
+        /// </exception>
+        protected void ThrowIfRunning()
+        {
+            if (this.IsRunning)
+            {
+                throw new InvalidOperationException("The server is already running.");
+            }
         }
     }
 }

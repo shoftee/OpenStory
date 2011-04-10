@@ -40,15 +40,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="DataArrivedEventArgs.cs" />
     <Compile Include="Descriptor.cs" />
     <Compile Include="IncomingPacketEventArgs.cs" />
@@ -67,10 +58,9 @@
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
-      <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
-      <Name>OpenStory.Cryptography</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

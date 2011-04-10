@@ -45,23 +45,20 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
-    <Compile Include="AccountSession.cs" />
     <Compile Include="Helpers\AppDomainHelpers.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="LoginDomain.cs" />
-    <Compile Include="Login\ILoginServer.cs" />
-    <Compile Include="Login\LoginClient.cs" />
-    <Compile Include="Login\LoginClientState.cs" />
-    <Compile Include="Login\LoginServer.cs" />
+    <Compile Include="AuthenticationServerDomain.cs" />
+    <Compile Include="Authentication\IAuthServer.cs" />
+    <Compile Include="Authentication\AuthClient.cs" />
+    <Compile Include="Authentication\AuthClientState.cs" />
+    <Compile Include="Authentication\AuthServer.cs" />
     <Compile Include="Helpers\ReflectionHelpers.cs" />
     <Compile Include="Emulator.cs" />
     <Compile Include="InitializationMethodAttribute.cs" />
@@ -73,8 +70,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ServerModuleAttribute.cs" />
-    <Compile Include="SimpleAccount.cs" />
-    <Compile Include="WorldDomainManager.cs" />
+    <Compile Include="Universe.cs" />
+    <Compile Include="UniverseManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
@@ -88,6 +85,10 @@
     <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Server.AccountService\OpenStory.Server.AccountService.csproj">
+      <Project>{0F3DD901-B2A7-49EE-8B3B-425EA3C6892C}</Project>
+      <Name>OpenStory.Server.AccountService</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>

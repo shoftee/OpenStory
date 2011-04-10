@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using OpenStory.Common.Game;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Game
 {
     /// <summary>
-    /// Represents a key mapping for game actions.
+    /// Represents a collection of key mappings for in-game actions.
     /// </summary>
-    public class KeyLayout
+    public class KeyLayout : IKeyLayout
     {
         /// <summary>
         /// The number of key bindings.
         /// </summary>
-        public const int KeyCount = 90;
         private List<KeyBinding> bindings;
 
         private KeyLayout()
         {
-            this.bindings = new List<KeyBinding>(KeyCount);
+            this.bindings = new List<KeyBinding>(Constants.KeyCount);
         }
 
         private KeyLayout(int playerId)
@@ -39,13 +39,13 @@ namespace OpenStory.Server.Game
         /// <param name="keyId">The key to query the key binding of.</param>
         /// <returns>A KeyBinding object representing the binding for the key.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="KeyCount"/>.
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="Constants.KeyCount"/>.
         /// </exception>
-        public KeyBinding GetKeyBinding(byte keyId)
+        public IKeyBinding GetKeyBinding(byte keyId)
         {
-            if (keyId < 0 || KeyCount < keyId)
+            if (keyId < 0 || Constants.KeyCount <= keyId)
             {
-                throw new ArgumentOutOfRangeException("keyId", keyId, "'keyId' must be between 0 and " + KeyCount + " inclusive.");
+                throw new ArgumentOutOfRangeException("keyId", keyId, "'keyId' must be in [0; " + Constants.KeyCount + ").");
             }
             return this.bindings[keyId];
         }
@@ -57,13 +57,13 @@ namespace OpenStory.Server.Game
         /// <param name="type">The new action type for the key binding.</param>
         /// <param name="action">The new action for the key binding.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="KeyCount"/>.
+        /// Thrown if <c>keyId</c> is negative or greater than <see cref="Constants.KeyCount"/>.
         /// </exception>
         public void SetKeyBinding(byte keyId, byte type, int action)
         {
-            if (keyId < 0 || KeyCount < keyId)
+            if (keyId < 0 || Constants.KeyCount <= keyId)
             {
-                throw new ArgumentOutOfRangeException("keyId", keyId, "'keyId' must be between 0 and " + KeyCount + " inclusive.");
+                throw new ArgumentOutOfRangeException("keyId", keyId, "'keyId' must be in [0; " + Constants.KeyCount + ").");
             }
             this.bindings[keyId].Change(type, action);
         }
@@ -73,7 +73,7 @@ namespace OpenStory.Server.Game
         /// </summary>
         public void SaveToDb()
         {
-            CharacterEngine.SaveKeyBindings(this.PlayerId, this.bindings);
+            Character.SaveKeyBindings(this.PlayerId, this.bindings);
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace OpenStory.Server.Game
             // NOTE: Consider moving this to a more DB-centric class
             var layout = new KeyLayout(playerId);
 
-            int loaded = CharacterEngine.SelectKeyBindings(playerId, layout.ReadKeyBinding);
-            if (loaded < KeyCount)
+            int loaded = Character.SelectKeyBindings(playerId, layout.ReadKeyBinding);
+            if (loaded < Constants.KeyCount)
             {
-                Log.WriteError("Character {0} has only {1} out of {2} key bindings set.", playerId, loaded, KeyCount);
+                Log.WriteError("Character {0} has only {1} out of {2} key bindings set.", playerId, loaded, Constants.KeyCount);
                 return null;
             }
             return layout;

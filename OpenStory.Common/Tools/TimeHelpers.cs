@@ -11,8 +11,10 @@ namespace OpenStory.Common.Tools
 
         /// <summary>
         /// Gets <see cref="DateTimeOffset.UtcNow"/> as Epoch time.
-        /// This method is equivalent to Java's System.currentTimeMillis().
         /// </summary>
+        /// <remarks>
+        /// This method is equivalent to Java's System.currentTimeMillis().
+        /// </remarks>
         /// <returns></returns>
         public static long GetMillisecondsSinceEpoch()
         {

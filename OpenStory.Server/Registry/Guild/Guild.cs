@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenStory.Common;
+using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Registry.Guild
 {

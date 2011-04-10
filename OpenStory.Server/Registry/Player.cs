@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OpenStory.Common;
+using OpenStory.Common.Game;
 using OpenStory.Server.Data;
 using OpenStory.Server.Game;
 using OpenStory.Server.Maps;
@@ -39,28 +40,28 @@ namespace OpenStory.Server.Registry
         private BuddyList buddyList;
         private KeyLayout layout;
 
-        private Player(CharacterData characterData)
+        private Player(Character character)
         {
             // Get what we can from the transfer object.
-            this.CharacterId = characterData.Id;
-            this.CharacterName = characterData.Name;
-            this.WorldId = characterData.WorldId;
+            this.CharacterId = character.Id;
+            this.CharacterName = character.Name;
+            this.WorldId = character.WorldId;
 
-            this.Gender = characterData.Gender;
-            this.HairId = characterData.HairId;
-            this.FaceId = characterData.FaceId;
-            this.SkinColor = characterData.SkinColor;
+            this.Gender = character.Gender;
+            this.HairId = character.HairId;
+            this.FaceId = character.FaceId;
+            this.SkinColor = character.SkinColor;
 
-            this.JobId = characterData.JobId;
-            this.Fame = characterData.Fame;
-            this.Level = characterData.Level;
+            this.JobId = character.JobId;
+            this.Fame = character.Fame;
+            this.Level = character.Level;
 
             // TODO: There are still more things to add to Character
 
             // Get the rest from the database.
             this.layout = KeyLayout.LoadFromDb(this.CharacterId);
 
-            this.buddyList = BuddyList.LoadFromDb(this.CharacterId, characterData.BuddyListCapacity);
+            this.buddyList = BuddyList.LoadFromDb(this.CharacterId, character.BuddyListCapacity);
         }
 
         public Map Map { get; private set; }

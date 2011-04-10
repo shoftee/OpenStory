@@ -44,25 +44,26 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\AccountData.cs" />
+    <Compile Include="Authentication\ChannelInfo.cs" />
+    <Compile Include="Authentication\WorldInfo.cs" />
+    <Compile Include="Communication\GameService.cs" />
+    <Compile Include="Communication\RemotingHelpers.cs" />
+    <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
     <Compile Include="Data\BuddyListEngine.cs" />
-    <Compile Include="Data\CharacterData.cs" />
-    <Compile Include="Data\CharacterEngine.cs" />
+    <Compile Include="Data\Character.cs" />
+    <Compile Include="Data\Character.Engine.cs" />
     <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
     <Compile Include="Data\GuildEngine.cs" />
-    <Compile Include="Data\SendOpCodeStore.cs" />
-    <Compile Include="Data\WorldData.cs" />
-    <Compile Include="Data\WorldDataEngine.cs" />
+    <Compile Include="Data\World.cs" />
+    <Compile Include="Data\World.Engine.cs" />
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\IEquip.cs" />
     <Compile Include="Game\IItem.cs" />
@@ -75,10 +76,6 @@
     <Compile Include="Game\Npc.cs" />
     <Compile Include="Game\Pet.cs" />
     <Compile Include="Game\Skill.cs" />
-    <Compile Include="Login\AuthenticationResult.cs" />
-    <Compile Include="Login\Channel.cs" />
-    <Compile Include="Login\World.cs" />
-    <Compile Include="Login\WorldStatus.cs" />
     <Compile Include="Maps\FieldLimitFlags.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
     <Compile Include="Maps\IMapObject.cs" />
@@ -89,11 +86,6 @@
     <Compile Include="Maps\MapObjectConstructor.cs" />
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Registry\Buddy\Buddy.cs" />
     <Compile Include="Registry\Buddy\BuddyList.cs" />
     <Compile Include="Registry\Buddy\BuddyOperation.cs" />
@@ -146,10 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

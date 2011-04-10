@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using OpenStory.Common.Tools;
-using OpenStory.Server.Properties;
 
 namespace OpenStory.Server.Data
 {
@@ -12,7 +10,8 @@ namespace OpenStory.Server.Data
     /// </summary>
     static class DbHelpers
     {
-        private static readonly string ConnectionString = Settings.Default.OpenStoryConnectionString;
+        private const string ConnectionString =
+            "Data Source=SHOFTBOX;Initial Catalog=OpenStory;Persist Security Info=True;User ID=OpenStoryUser;Password=.@c#8sharp";
 
         /// <summary>Gets a new SqlConnection with the default connection string.</summary>
         /// <returns>The SqlConnection instance.</returns>

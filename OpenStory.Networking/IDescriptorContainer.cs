@@ -1,5 +1,4 @@
 ﻿using System.Net.Sockets;
-using OpenStory.Cryptography;
 
 namespace OpenStory.Networking
 {

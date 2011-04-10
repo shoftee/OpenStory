@@ -2,7 +2,6 @@
 using System.Linq;
 using OpenStory.Common.IO;
 using OpenStory.Networking;
-using OpenStory.Server.Data;
 using OpenStory.Server.Registry.Buddy;
 
 namespace OpenStory.Server.Registry

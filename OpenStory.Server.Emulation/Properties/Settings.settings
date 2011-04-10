@@ -1,9 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OpenStory.Emulation.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OpenStory.Server.Emulation.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="MapleVersion" Type="System.UInt16" Scope="Application">
       <Value Profile="(Default)">67</Value>
+    </Setting>
+    <Setting Name="LoginPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">8484</Value>
     </Setting>
   </Settings>
 </SettingsFile>

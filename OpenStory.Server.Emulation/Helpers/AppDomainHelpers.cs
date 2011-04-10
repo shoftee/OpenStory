@@ -18,10 +18,10 @@ namespace OpenStory.Server.Emulation.Helpers
         /// </summary>
         /// <param name="friendlyName">The friendly name for the new AppDomain.</param>
         /// <returns>The new AppDomain object.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="friendlyName" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="friendlyName" /> is <c>null</c> or empty.</exception>
         public static AppDomain GetNewDomain(string friendlyName)
         {
-            if (friendlyName == null) throw new ArgumentNullException("friendlyName");
+            if (String.IsNullOrEmpty(friendlyName)) throw new ArgumentException("friendlyName");
 
             Evidence evidence = AppDomain.CurrentDomain.Evidence;
             AppDomain newDomain = AppDomain.CreateDomain(friendlyName, evidence, DefaultAppDomainSetup);

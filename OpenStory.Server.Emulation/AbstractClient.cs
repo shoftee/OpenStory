@@ -5,6 +5,7 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server.AccountService;
 
 namespace OpenStory.Server.Emulation
 {
@@ -34,7 +35,7 @@ namespace OpenStory.Server.Emulation
         /// </summary>
         public string RemoteAddress { get; private set; }
 
-        public abstract IAccount AccountInfo { get; }
+        public IAccountSession AccountSession { get; protected set; }
 
         private Timer keepAliveTimer;
         private AtomicInteger sentPings;
@@ -53,6 +54,8 @@ namespace OpenStory.Server.Emulation
 
             this.Session = session;
             this.Session.OnPacketReceived += this.HandlePacket;
+
+            this.AccountSession = null;
 
             this.keepAliveTimer = new Timer(PingInterval);
             this.keepAliveTimer.Elapsed += this.HandlePing;
@@ -90,6 +93,11 @@ namespace OpenStory.Server.Emulation
 
         public void Disconnect()
         {
+            if (this.AccountSession != null)
+            {
+                this.AccountSession.Dispose();
+                this.AccountSession = null;
+            }
             this.keepAliveTimer.Dispose();
             this.Session.Close();
         }

@@ -1,11 +1,12 @@
 ﻿using System;
+using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Game
 {
     /// <summary>
     /// Represents a key mapping for an in-game action.
     /// </summary>
-    public class KeyBinding
+    public class KeyBinding : IKeyBinding
     {
         /// <summary>
         /// Initializes a new instance of KeyBinding with an action type ID and an action ID.
