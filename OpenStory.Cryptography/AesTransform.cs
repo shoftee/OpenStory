@@ -65,7 +65,7 @@ namespace OpenStory.Cryptography
         public AesTransform(byte[] iv, ushort version, VersionType versionType)
         {
             if (iv == null) throw new ArgumentNullException("iv");
-            if (!Enum.IsDefined(typeof (VersionType), versionType))
+            if (!Enum.IsDefined(typeof(VersionType), versionType))
             {
                 throw new ArgumentOutOfRangeException("versionType", "Argument 'versionType' has an invalid value.");
             }
@@ -74,8 +74,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException("iv", "Argument 'iv' does not have exactly 4 elements.");
             }
 
-            this.iv = new byte[4];
-            Buffer.BlockCopy(iv, 0, this.iv, 0, 4);
+            this.iv = ByteHelpers.CloneArray(iv);
 
             if (versionType == VersionType.Complement)
             {
@@ -217,13 +216,15 @@ namespace OpenStory.Cryptography
             int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.version);
             int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
 
-            return new[]
-                   {
-                       unchecked((byte) (encodedVersion >> 8)),
-                       unchecked((byte) encodedVersion),
-                       unchecked((byte) (encodedLength >> 8)),
-                       unchecked((byte) encodedLength)
-                   };
+            byte[] header = new byte[4];
+            unchecked
+            {
+                header[0] = (byte) (encodedVersion >> 8);
+                header[1] = (byte) encodedVersion;
+                header[2] = (byte) (encodedLength >> 8);
+                header[3] = (byte) encodedLength;
+            }
+            return header;
         }
 
         /// <summary>
@@ -296,13 +297,16 @@ namespace OpenStory.Cryptography
                 newIV[2] ^= (byte) (ShuffleTable[newIV[3]] + input);
                 newIV[3] -= (byte) (newIV[0] - tableInput);
 
-                var merged = (uint) (unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0]);
+                uint merged = (uint) (unchecked(newIV[3] << 24) | (newIV[2] << 16) | (newIV[1] << 8) | newIV[0]);
                 uint shifted = (merged << 3) | (merged >> 0x1D);
 
-                newIV[0] = unchecked((byte) shifted);
-                newIV[1] = unchecked((byte) (shifted >> 8));
-                newIV[2] = unchecked((byte) (shifted >> 16));
-                newIV[3] = unchecked((byte) (shifted >> 24));
+                unchecked
+                {
+                    newIV[0] = (byte) shifted;
+                    newIV[1] = (byte) (shifted >> 8);
+                    newIV[2] = (byte) (shifted >> 16);
+                    newIV[3] = (byte) (shifted >> 24);
+                }
             }
             this.iv = newIV;
         }

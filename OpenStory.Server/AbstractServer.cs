@@ -79,8 +79,8 @@ namespace OpenStory.Server
 
         private void HandleAccept(Socket socket)
         {
-            byte[] clientIV = ByteHelpers.GetNewIV();
-            byte[] serverIV = ByteHelpers.GetNewIV();
+            byte[] clientIV = GetNewIV();
+            byte[] serverIV = GetNewIV();
             var crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
 
             var serverSession = new ServerSession(socket, crypto);
@@ -183,6 +183,22 @@ namespace OpenStory.Server
         protected IAccountSession GetSession(IAccountService parent, int sessionId, Account data)
         {
             return new AccountSession(parent, sessionId, data);
+        }
+
+        private static readonly Random Rng = new Random();
+
+        /// <summary>
+        /// Returns a new non-zero 4-byte IV array.
+        /// </summary>
+        /// <returns>A 4-byte IV array.</returns>
+        private static byte[] GetNewIV()
+        {
+            // Just in case we hit that 1 in 2147483648 chance.
+            // Things go very bad if the IV is 0.
+            int number;
+            do number = Rng.Next(); while (number == 0);
+
+            return BitConverter.GetBytes(number);
         }
     }
 }

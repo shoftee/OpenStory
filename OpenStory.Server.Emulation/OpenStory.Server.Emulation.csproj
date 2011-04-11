@@ -77,10 +77,6 @@
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Server.Common\OpenStory.Server.Common.csproj">
-      <Project>{65C8E08A-27E4-4B50-8DAE-AC63542F1741}</Project>
-      <Name>OpenStory.Server.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>

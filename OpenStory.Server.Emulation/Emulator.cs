@@ -15,14 +15,14 @@ namespace OpenStory.Server.Emulation
 
         private UniverseManager universeManager;
 
-        /// <summary>
-        /// Initializes the Emulator.
-        /// </summary>
         public Emulator()
         {
             this.universeManager = new UniverseManager();
         }
 
+        /// <summary>
+        /// Initializes the Emulator.
+        /// </summary>
         public void Start()
         {
             if (!Initializer.Run())

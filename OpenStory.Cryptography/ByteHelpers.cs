@@ -10,7 +10,6 @@ namespace OpenStory.Cryptography
     {
         private const string HexUppercase = "0123456789ABCDEF";
         private const string HexLowercase = "0123456789abcdef";
-        private static readonly Random Rng = new Random();
 
         /// <summary>
         /// Performs a bit-wise left roll on a byte.
@@ -58,19 +57,19 @@ namespace OpenStory.Cryptography
             for (int i = 0; i < arrayLength; i++)
             {
                 int index = i << 1;
-                int position = HexUppercase.IndexOf(uppercase[index]);
-                if (position == -1)
+                int nibble = HexUppercase.IndexOf(uppercase[index]);
+                if (nibble == -1)
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                var b = (byte) (position << 4);
+                var b = (byte) (nibble << 4);
 
-                position = HexUppercase.IndexOf(uppercase[index | 1]);
-                if (position == -1)
+                nibble = HexUppercase.IndexOf(uppercase[index | 1]);
+                if (nibble == -1)
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                b |= (byte) position;
+                b |= (byte) nibble;
                 bytes[i] = b;
             }
             return bytes;
@@ -100,10 +99,12 @@ namespace OpenStory.Cryptography
 
             string hex = lowercase ? HexLowercase : HexUppercase;
             var builder = new StringBuilder();
-            foreach (byte b in array)
+            int length = array.Length;
+            for (int i = 0; i < length; i++)
             {
-                builder.Append(hex[b >> 4]);
-                builder.Append(hex[b & 0x0F]);
+                builder
+                    .Append(hex[array[i] >> 4])
+                    .Append(hex[array[i] & 0x0F]);
             }
             return builder.ToString();
         }
@@ -131,6 +132,12 @@ namespace OpenStory.Cryptography
         /// <param name="array">The source array.</param>
         /// <param name="start">The start of the segment.</param>
         /// <param name="length">The length of the segment.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="array"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="start"/> is negative or outside the range of the array, 
+        /// or if <paramref name="length"/> is negative or the segment ends outside the array's bounds.</exception>
         /// <returns>A copy of the segment.</returns>
         public static byte[] SegmentFrom(byte[] array, int start, int length)
         {
@@ -146,21 +153,6 @@ namespace OpenStory.Cryptography
             var segment = new byte[length];
             Buffer.BlockCopy(array, start, segment, 0, length);
             return segment;
-        }
-
-        /// <summary>
-        /// Returns a new non-zero 4-byte IV array.
-        /// </summary>
-        /// <returns>A 4-byte IV array.</returns>
-        public static byte[] GetNewIV()
-        {
-            // Just in case we hit that 1 in 2147483648 chance.
-            // Things go very bad if the IV is 0.
-            int number;
-            do number = Rng.Next(); while (number == 0);
-
-            byte[] iv = BitConverter.GetBytes(number);
-            return iv;
         }
     }
 }
