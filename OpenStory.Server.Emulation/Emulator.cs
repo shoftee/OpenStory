@@ -14,7 +14,6 @@ namespace OpenStory.Server.Emulation
         public bool IsRunning { get; private set; }
 
         private UniverseManager universeManager;
-        private IAuthService authServer;
 
         /// <summary>
         /// Initializes the Emulator.
@@ -22,8 +21,6 @@ namespace OpenStory.Server.Emulation
         public Emulator()
         {
             this.universeManager = new UniverseManager();
-
-            this.authServer = new AuthServiceClient();
         }
 
         public void Start()

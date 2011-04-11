@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Server.Common
+﻿namespace OpenStory.ServiceModel
 {
     /// <summary>
     /// Provides methods for managing account sessions.

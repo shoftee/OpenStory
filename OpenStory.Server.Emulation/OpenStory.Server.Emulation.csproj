@@ -85,6 +85,10 @@
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.ServiceModel\OpenStory.ServiceModel.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
+      <Name>OpenStory.ServiceModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
       <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
       <Name>OpenStory.Synchronization</Name>

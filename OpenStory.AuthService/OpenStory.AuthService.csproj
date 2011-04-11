@@ -74,6 +74,10 @@
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.ServiceModel\OpenStory.ServiceModel.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
+      <Name>OpenStory.ServiceModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

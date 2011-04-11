@@ -1,5 +1,5 @@
 ﻿using OpenStory.Common.Authentication;
-using OpenStory.Server.Common;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService
 {
@@ -20,7 +20,7 @@ namespace OpenStory.AuthService
         /// </summary>
         /// <param name="accountName">The name of the account.</param>
         /// <param name="password">The password for the account.</param>
-        /// <param name="accountInfo">An <see cref="OpenStory.Server.Common.IAccountSession"/> variable to hold the resulting session.</param>
+        /// <param name="accountInfo">An <see cref="IAccountSession"/> variable to hold the resulting session.</param>
         /// <returns>An <see cref="AuthenticationResult"/> for the operation.</returns>
         AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountInfo);
     }

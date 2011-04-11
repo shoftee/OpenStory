@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Server.Common
+namespace OpenStory.ServiceModel
 {
     /// <summary>
     /// Provides information for an account session.

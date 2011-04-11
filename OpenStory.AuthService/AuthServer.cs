@@ -6,8 +6,8 @@ using OpenStory.AccountService;
 using OpenStory.Common.Authentication;
 using OpenStory.Cryptography;
 using OpenStory.Server;
-using OpenStory.Server.Common;
 using OpenStory.Server.Data;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService
 {

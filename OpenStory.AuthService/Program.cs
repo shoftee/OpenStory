@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.Threading;
 using OpenStory.Common.Tools;
 using OpenStory.Server;
-using OpenStory.Server.Common;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService
 {

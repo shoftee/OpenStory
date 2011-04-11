@@ -1,15 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OpenStory.Server.Common")]
+[assembly: AssemblyTitle("OpenStory.ServiceModel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("shoftee® Corporation")]
-[assembly: AssemblyProduct("OpenStory.Server.Common")]
+[assembly: AssemblyProduct("OpenStory.ServiceModel")]
 [assembly: AssemblyCopyright("Copyright © shoftee® Corporation 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ecd5dfc6-099d-4d91-beb5-ac6903791573")]
+[assembly: Guid("376984c1-d6f3-460d-87c5-c5fa41322895")]
 
 // Version information for an assembly consists of the following four values:
 //

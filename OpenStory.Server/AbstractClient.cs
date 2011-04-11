@@ -5,7 +5,7 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
-using OpenStory.Server.Common;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.Server
 {

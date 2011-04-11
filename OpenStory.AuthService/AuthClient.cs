@@ -4,7 +4,7 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
-using OpenStory.Server.Common;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService
 {
