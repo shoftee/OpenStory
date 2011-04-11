@@ -37,7 +37,7 @@ namespace OpenStory.Server.Emulation
                 Log.WriteInfo("Startup successful.");
                 this.IsRunning = true;
             }
-
+            
             this.universeManager.Initialize();
         }
     }

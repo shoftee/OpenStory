@@ -65,7 +65,11 @@ namespace OpenStory.Networking
             {
                 this.OnError(this, new SocketErrorEventArgs(args.SocketError));
             }
-            this.Container.Close();
+
+            if (args.SocketError != SocketError.OperationAborted)
+            {
+                this.Container.Close();
+            }
         }
 
         /// <summary>

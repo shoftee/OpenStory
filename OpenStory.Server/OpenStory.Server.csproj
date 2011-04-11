@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\OpenStory.Server.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\OpenStory.Server.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -53,8 +55,6 @@
     <Compile Include="AbstractServer.cs" />
     <Compile Include="Authentication\ChannelInfo.cs" />
     <Compile Include="Authentication\WorldInfo.cs" />
-    <Compile Include="IAccountSession.cs" />
-    <Compile Include="ServerConstants.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanEngine.cs" />
@@ -124,9 +124,12 @@
     <Compile Include="Registry\Player.cs" />
     <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="ServerSession.cs" />
-    <Compile Include="ServiceHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.AccountService\OpenStory.AccountService.csproj">
+      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
+      <Name>OpenStory.AccountService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
@@ -138,6 +141,10 @@
     <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Server.Common\OpenStory.Server.Common.csproj">
+      <Project>{65C8E08A-27E4-4B50-8DAE-AC63542F1741}</Project>
+      <Name>OpenStory.Server.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
       <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>

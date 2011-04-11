@@ -4,13 +4,14 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
+using OpenStory.Server.Common;
 
 namespace OpenStory.AuthService
 {
     /// <summary>
     /// Represents a client for the Authentication Server.
     /// </summary>
-    internal sealed class AuthClient : AbstractClient
+    sealed class AuthClient : AbstractClient
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 
@@ -25,7 +26,7 @@ namespace OpenStory.AuthService
         /// and binds it with a network session.
         /// </summary>
         /// <param name="networkSession">The network session to bind the new AuthenticationClient to.</param>
-        /// <param name="authServer">The authorization server instance which is handling this client.</param>
+        /// <param name="authServer">The authentication server instance which is handling this client.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="authServer"/> is <c>null</c>.
         /// </exception>

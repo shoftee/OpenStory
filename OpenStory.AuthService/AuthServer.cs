@@ -6,6 +6,7 @@ using OpenStory.AccountService;
 using OpenStory.Common.Authentication;
 using OpenStory.Cryptography;
 using OpenStory.Server;
+using OpenStory.Server.Common;
 using OpenStory.Server.Data;
 
 namespace OpenStory.AuthService
@@ -73,7 +74,8 @@ namespace OpenStory.AuthService
                 goto AuthenticationFailed;
             }
 
-            accountSession = this.accountService.RegisterSession(account);
+            int sessionId = this.accountService.RegisterSession(account.AccountId);
+            accountSession = base.GetSession(this.accountService, sessionId, account);
             return AuthenticationResult.Success;
 
         AuthenticationFailed:
@@ -81,14 +83,17 @@ namespace OpenStory.AuthService
             return result;
         }
 
-
         #endregion
 
-        protected override void HandleSession(ServerSession serverSession)
+        protected override void HandleConnectionOpen(ServerSession serverSession)
         {
             AuthClient newClient = new AuthClient(serverSession, this);
             this.clients.Add(newClient);
         }
 
+        public bool Ping()
+        {
+            return this.IsRunning;
+        }
     }
 }

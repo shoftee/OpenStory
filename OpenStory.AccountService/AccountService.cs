@@ -1,56 +1,88 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
-using OpenStory.Server;
-using OpenStory.Server.Data;
+using OpenStory.Common;
 
 namespace OpenStory.AccountService
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    class AccountService : IAccountService, ISessionManager
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    class AccountService : IAccountService
     {
-        private readonly Dictionary<int, AccountSession> sessions;
+        private readonly HashSet<int> activeAccounts;
+        private readonly Dictionary<int, int> sessionAccounts;
+        private readonly Dictionary<int, int> sessionCharacters;
+
+        private readonly AtomicInteger currentSessionId;
 
         public AccountService()
         {
-            this.sessions = new Dictionary<int, AccountSession>(256);
+            this.activeAccounts = new HashSet<int>();
+            this.sessionAccounts = new Dictionary<int, int>(256);
+            this.sessionCharacters = new Dictionary<int, int>(256);
+            this.currentSessionId = new AtomicInteger(0);
         }
 
         public bool IsActive(int accountId)
         {
-            return this.sessions.ContainsKey(accountId);
+            return this.activeAccounts.Contains(accountId);
         }
 
-        public IAccountSession RegisterSession(Account account)
+        public int RegisterSession(int accountId)
         {
-            AccountSession session = new AccountSession(this, account);
-            return session;
-        }
-
-        class AccountSession : IAccountSession
-        {
-            private ISessionManager parent;
-
-            public int AccountId { get; private set; }
-
-            public string AccountName { get; private set; }
-
-            public AccountSession(ISessionManager parent, Account account)
+            if (this.activeAccounts.Contains(accountId))
             {
-                this.AccountId = account.AccountId;
-                this.AccountName = account.UserName;
-
-                this.parent = parent;
+                throw new InvalidOperationException("Cannot register a session on an active account.");
             }
+            
+            this.activeAccounts.Add(accountId);
 
-            public void Dispose()
-            {
-                parent.UnregisterSession(this.AccountId);
-            }
+            int sessionId = currentSessionId.Increment();
+            this.sessionAccounts.Add(accountId, sessionId);
+            return sessionId;
         }
 
-        public void UnregisterSession(int accountId)
+        public void RegisterCharacter(int sessionId, int characterId)
         {
-            this.sessions.Remove(accountId);
+            if (!this.sessionAccounts.ContainsKey(sessionId))
+            {
+                throw new InvalidOperationException("The specified session is not registered.");
+            }
+            if (this.sessionCharacters.ContainsKey(sessionId))
+            {
+                throw new InvalidOperationException("The specified session already has an active character registered.");
+            }
+            this.sessionCharacters.Add(sessionId, characterId);
         }
+
+        public void UnregisterSession(int sessionId)
+        {
+            int accountId;
+            if (!this.sessionAccounts.TryGetValue(sessionId, out accountId))
+            {
+                throw new InvalidOperationException("The specified session is not registered.");
+            }
+            this.sessionCharacters.Remove(sessionId);
+            this.sessionAccounts.Remove(sessionId);
+            this.activeAccounts.Remove(accountId);
+        }
+
+        #region Implementation of IGameService
+
+        public void Start()
+        {
+            throw new InvalidOperationException("The AccountService is always running.");
+        }
+
+        public void Stop()
+        {
+            throw new InvalidOperationException("The AccountService is always running.");
+        }
+
+        public bool Ping()
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

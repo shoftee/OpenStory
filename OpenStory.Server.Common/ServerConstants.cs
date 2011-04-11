@@ -1,4 +1,6 @@
-﻿namespace OpenStory.Server
+﻿using System;
+
+namespace OpenStory.Server.Common
 {
     /// <summary>
     /// Constants for the server emulator.
@@ -8,11 +10,11 @@
         /// <summary>
         /// The URI of the Authentication server used for inter-process communication.
         /// </summary>
-        public const string AuthServiceUri = "net.pipe://localhost/OpenStory/AuthService";
+        public static readonly Uri AuthServiceUri = new Uri("net.pipe://localhost/OpenStory/AuthService");
 
         /// <summary>
         /// The URI of the Account service used for inter-process communication.
         /// </summary>
-        public const string AccountServiceUri = "net.pipe://localhost/OpenStory/AccountService";
+        public static readonly Uri AccountServiceUri = new Uri("net.pipe://localhost/OpenStory/AccountService");
     }
 }

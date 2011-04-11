@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Net.Sockets;
+using OpenStory.AccountService;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server.Common;
+using OpenStory.Server.Data;
 using OpenStory.Server.Properties;
 
 namespace OpenStory.Server
@@ -47,7 +50,7 @@ namespace OpenStory.Server
             this.ThrowIfRunning();
             this.IsRunning = true;
 
-            Log.WriteInfo("[{0}] Listening on port {1}.", this.Name, this.acceptor.Port);
+            Log.WriteInfo("Listening on port {1}.", this.Name, this.acceptor.Port);
             this.acceptor.Start();
         }
 
@@ -56,20 +59,12 @@ namespace OpenStory.Server
         /// </summary>
         public void Stop()
         {
-            Log.WriteInfo("[{0}] Shutting down...", this.Name);
-
             this.ThrowIfNotRunning();
+
+            Log.WriteInfo("Shutting down...", this.Name);
+
+            this.acceptor.Stop();
             this.IsRunning = false;
-        }
-
-        /// <summary>
-        /// Shuts down the server after the given delay.
-        /// </summary>
-        /// <param name="delay">The time to wait before initiating the shut down procedure.</param>
-        public void ShutDown(TimeSpan delay)
-        {
-            this.ThrowIfNotRunning();
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace OpenStory.Server
         /// overriding this method be sure to save a reference to it.
         /// </remarks>
         /// <param name="serverSession">The new session to process.</param>
-        protected abstract void HandleSession(ServerSession serverSession);
+        protected abstract void HandleConnectionOpen(ServerSession serverSession);
 
         private void HandleAccept(Socket socket)
         {
@@ -89,10 +84,10 @@ namespace OpenStory.Server
             var crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
 
             var serverSession = new ServerSession(socket, crypto);
-            serverSession.OnClosing += HandleSessionClose;
+            serverSession.OnClosing += HandleConnectionClose;
 
             byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV);
-            this.HandleSession(serverSession);
+            this.HandleConnectionOpen(serverSession);
 
             Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,
                           BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
@@ -117,12 +112,12 @@ namespace OpenStory.Server
             }
         }
 
-        private static void HandleSessionClose(object sender, EventArgs args)
+        private static void HandleConnectionClose(object sender, EventArgs args)
         {
             var serverSession = sender as ServerSession;
             if (serverSession == null) return;
 
-            Log.WriteInfo("Session {0} closed.", serverSession.SessionId);
+            Log.WriteInfo("Connection {0} closed.", serverSession.SessionId);
         }
 
         /// <summary>
@@ -152,6 +147,42 @@ namespace OpenStory.Server
             {
                 throw new InvalidOperationException("The server is already running.");
             }
+        }
+
+        class AccountSession : IAccountSession
+        {
+            private IAccountService parent;
+
+            public int SessionId { get; private set; }
+
+            public int AccountId { get; private set; }
+            public string AccountName { get; private set; }
+
+            public AccountSession(IAccountService parent, int sessionId, Account data)
+            {
+                this.SessionId = sessionId;
+                this.AccountId = data.AccountId;
+                this.AccountName = data.UserName;
+
+                this.parent = parent;
+            }
+
+            public void Dispose()
+            {
+                parent.UnregisterSession(this.SessionId);
+            }
+        }
+
+        /// <summary>
+        /// Provides an <see cref="IAccountSession"/> with the specified properties.
+        /// </summary>
+        /// <param name="parent">The account service handling this session.</param>
+        /// <param name="sessionId">The account session ID.</param>
+        /// <param name="data">The account data for this session.</param>
+        /// <returns>a reference to the constructed <see cref="IAccountSession"/>.</returns>
+        protected IAccountSession GetSession(IAccountService parent, int sessionId, Account data)
+        {
+            return new AccountSession(parent, sessionId, data);
         }
     }
 }

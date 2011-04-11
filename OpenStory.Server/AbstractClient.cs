@@ -5,6 +5,7 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server.Common;
 
 namespace OpenStory.Server
 {
@@ -98,7 +99,7 @@ namespace OpenStory.Server
         /// When implemented in a derived class, processes the packet with the given op code.
         /// </summary>
         /// <param name="opCode">The op code of the packet to process.</param>
-        /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
+        /// <param name="reader">A <see cref="OpenStory.Common.IO.PacketReader"/> object for the packet.</param>
         protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace OpenStory.Networking
     public class SocketAcceptor
     {
         private readonly IPEndPoint localEndPoint;
-        private readonly SocketAsyncEventArgs socketArgs;
+        private SocketAsyncEventArgs socketArgs;
         private Socket acceptSocket;
 
         /// <summary>
@@ -20,9 +20,6 @@ namespace OpenStory.Networking
         public SocketAcceptor(int port)
         {
             this.Port = port;
-
-            this.socketArgs = new SocketAsyncEventArgs();
-            this.socketArgs.Completed += (sender, eventArgs) => this.EndAcceptAsynchronous(eventArgs);
 
             this.localEndPoint = new IPEndPoint(IPAddress.Any, this.Port);
         }
@@ -48,6 +45,14 @@ namespace OpenStory.Networking
             {
                 this.acceptSocket.Dispose();
             }
+
+            if (this.socketArgs != null)
+            {
+                this.socketArgs.Dispose();
+            }
+
+            this.socketArgs = new SocketAsyncEventArgs();
+            this.socketArgs.Completed += (sender, eventArgs) => this.EndAcceptAsynchronous(eventArgs);
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(this.localEndPoint);
@@ -79,11 +84,7 @@ namespace OpenStory.Networking
         /// </summary>
         public void Stop()
         {
-            this.acceptSocket.Shutdown(SocketShutdown.Both);
-
-            this.acceptSocket.Disconnect(false);
-            this.acceptSocket.Dispose();
-
+            this.acceptSocket.Close();
             this.acceptSocket = null;
         }
 
@@ -113,9 +114,7 @@ namespace OpenStory.Networking
 
         private void EndAcceptAsynchronous(SocketAsyncEventArgs eventArgs)
         {
-            bool result = this.EndAcceptSynchronous(eventArgs);
-
-            if (result)
+            if (this.EndAcceptSynchronous(eventArgs))
             {
                 this.BeginAccept();
             }
@@ -128,7 +127,11 @@ namespace OpenStory.Networking
                 this.OnSocketError(this, new SocketErrorEventArgs(error));
             }
 
-            this.Stop();
+            // OperationAborted comes up when we closed the socket manually.
+            if (error != SocketError.OperationAborted)
+            {
+                this.Stop();
+            }
         }
     }
 }

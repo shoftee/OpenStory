@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Common
 {
     /// <summary>
     /// Provides helper methods for dealing with the long-name-ness of WCF.

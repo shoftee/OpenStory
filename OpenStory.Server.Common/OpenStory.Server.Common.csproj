@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{65C8E08A-27E4-4B50-8DAE-AC63542F1741}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.AuthService</RootNamespace>
-    <AssemblyName>OpenStory.AuthService</AssemblyName>
+    <RootNamespace>OpenStory.Server.Common</RootNamespace>
+    <AssemblyName>OpenStory.Server.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,56 +21,42 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OpenStory.AuthService.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\OpenStory.Server.Common.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\OpenStory.AuthService.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OpenStory.Server.Common.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthClient.cs" />
-    <Compile Include="AuthClientState.cs" />
-    <Compile Include="AuthServer.cs" />
-    <Compile Include="AuthServiceClient.cs" />
-    <Compile Include="IAuthServer.cs" />
-    <Compile Include="IAuthService.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GameServiceClient.cs" />
+    <Compile Include="IAccountSession.cs" />
+    <Compile Include="IGameService.cs" />
+    <Compile Include="ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerConstants.cs" />
+    <Compile Include="ServiceHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.AccountService\OpenStory.AccountService.csproj">
-      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
-      <Name>OpenStory.AccountService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
-      <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
-      <Name>OpenStory.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Server.Common\OpenStory.Server.Common.csproj">
-      <Project>{65C8E08A-27E4-4B50-8DAE-AC63542F1741}</Project>
-      <Name>OpenStory.Server.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
-      <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
-      <Name>OpenStory.Server</Name>
+    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
+      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
+      <Name>OpenStory.Networking</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

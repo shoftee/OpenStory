@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using OpenStory.Server;
+using System.Threading;
+using OpenStory.Common.Tools;
+using OpenStory.Server.Common;
 
 namespace OpenStory.AccountService
 {
@@ -12,13 +14,13 @@ namespace OpenStory.AccountService
 
             AccountService accountService = new AccountService();
 
-            Uri uri = new Uri(ServerConstants.AuthServiceUri);
             ServiceHost host = new ServiceHost(accountService);
-            host.AddServiceEndpoint(typeof(IAccountService), ServiceHelpers.GetBinding(), uri);
+            host.AddServiceEndpoint(typeof(IAccountService), ServiceHelpers.GetBinding(), ServerConstants.AccountServiceUri);
 
             host.Open();
-            Console.WriteLine("AccountService started.");
-            Console.ReadLine();
+            Log.WriteInfo("Service registered.");
+
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }

@@ -23,6 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\OpenStory.AccountService.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,30 +34,29 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\OpenStory.AccountService.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="AccountServiceClient.cs" />
     <Compile Include="IAccountService.cs" />
-    <Compile Include="ISessionManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
-      <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
-      <Name>OpenStory.Server</Name>
+    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
+      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
+      <Name>OpenStory.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Server.Common\OpenStory.Server.Common.csproj">
+      <Project>{65C8E08A-27E4-4B50-8DAE-AC63542F1741}</Project>
+      <Name>OpenStory.Server.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,17 @@
 ﻿using System;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Common
 {
     /// <summary>
     /// Provides information for an account session.
     /// </summary>
     public interface IAccountSession : IDisposable
     {
+        /// <summary>
+        /// Gets the ID for this session.
+        /// </summary>
+        int SessionId { get; }
+
         /// <summary>
         /// Gets the ID of the account.
         /// </summary>
