@@ -85,13 +85,6 @@ namespace OpenStory.Cryptography
             this.version = (ushort) ((version >> 8) | ((version & 0xFF) << 8));
         }
 
-        /// <summary>Gets the current IV for this AesTransform object</summary>
-        /// <remarks>Modifying the elements of this array will be very bad.</remarks>
-        public byte[] IV
-        {
-            get { return this.iv; }
-        }
-
         private static ICryptoTransform GetTransformer()
         {
             var cipher = new RijndaelManaged

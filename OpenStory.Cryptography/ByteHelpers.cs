@@ -12,30 +12,6 @@ namespace OpenStory.Cryptography
         private const string HexLowercase = "0123456789abcdef";
 
         /// <summary>
-        /// Performs a bit-wise left roll on a byte.
-        /// </summary>
-        /// <param name="b">The byte to roll left.</param>
-        /// <param name="count">The number of bit positions to roll.</param>
-        /// <returns>The resulting byte.</returns>
-        public static byte RollLeft(byte b, int count)
-        {
-            int tmp = b << (count & 7);
-            return unchecked((byte) (tmp | (tmp >> 8)));
-        }
-
-        /// <summary>
-        /// Performs a bit-wise right roll on a byte.
-        /// </summary>
-        /// <param name="b">The byte to roll right.</param>
-        /// <param name="count">The number of bit positions to roll.</param>
-        /// <returns>The resulting byte.</returns>
-        public static byte RollRight(byte b, int count)
-        {
-            int tmp = b << (8 - (count & 7));
-            return unchecked((byte) (tmp | (tmp >> 8)));
-        }
-
-        /// <summary>
         /// Constructs a byte array from a string of hexadecimal digits.
         /// </summary>
         /// <param name="hex">The string to translate to bytes.</param>

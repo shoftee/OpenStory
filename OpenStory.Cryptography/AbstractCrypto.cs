@@ -7,6 +7,9 @@ namespace OpenStory.Cryptography
     /// </summary>
     public abstract class AbstractCrypto
     {
+        private readonly AesTransform encryptor;
+        private readonly AesTransform decryptor;
+
         /// <summary>
         /// Initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
         /// </summary>
@@ -14,19 +17,25 @@ namespace OpenStory.Cryptography
         /// <param name="decryptor">The decryption transformer.</param>
         protected AbstractCrypto(AesTransform encryptor, AesTransform decryptor)
         {
-            this.Encryptor = encryptor;
-            this.Decryptor = decryptor;
+            this.encryptor = encryptor;
+            this.decryptor = decryptor;
         }
 
         /// <summary>
-        /// An <see cref="AesTransform"/> object used for the encryption transformations.
+        /// Gets the <see cref="AesTransform"/> object used for the encryption transformations.
         /// </summary>
-        protected AesTransform Encryptor { get; private set; }
+        protected AesTransform Encryptor
+        {
+            get { return this.encryptor; }
+        }
 
         /// <summary>
-        /// An <see cref="AesTransform"/> object used for the decryption transformations.
+        /// Gets the <see cref="AesTransform"/> object used for the decryption transformations.
         /// </summary>
-        protected AesTransform Decryptor { get; private set; }
+        protected AesTransform Decryptor
+        {
+            get { return this.decryptor; }
+        }
 
         /// <summary>
         /// Encrypts a packet, constructs a header for it and packs them into a new array.
@@ -87,7 +96,7 @@ namespace OpenStory.Cryptography
             this.Decrypt(decryptedData);
             return true;
 
-            Fail:
+        Fail:
             decryptedData = null;
             return false;
         }

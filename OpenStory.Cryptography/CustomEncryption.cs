@@ -45,13 +45,13 @@ namespace OpenStory.Cryptography
             byte remember = 0;
             for (int i = 0; i < length; i++)
             {
-                byte current = ByteHelpers.RollLeft(data[i], 3);
+                byte current = RollLeft(data[i], 3);
                 current += lengthByte;
 
                 current ^= remember;
                 remember = current;
 
-                current = ByteHelpers.RollRight(current, lengthByte);
+                current = RollRight(current, lengthByte);
                 current = (byte) (~current & 0xFF);
                 current += 0x48;
                 data[i] = current;
@@ -71,14 +71,14 @@ namespace OpenStory.Cryptography
             byte remember = 0;
             for (int i = length - 1; i >= 0; i--)
             {
-                byte current = ByteHelpers.RollLeft(data[i], 4);
+                byte current = RollLeft(data[i], 4);
                 current += lengthByte;
 
                 current ^= remember;
                 remember = current;
 
                 current ^= 0x13;
-                current = ByteHelpers.RollRight(current, 3);
+                current = RollRight(current, 3);
                 data[i] = current;
 
                 lengthByte--;
@@ -126,14 +126,14 @@ namespace OpenStory.Cryptography
                 byte current = data[i];
                 current -= 0x48;
                 current = unchecked((byte) (~current));
-                current = ByteHelpers.RollLeft(current, lengthByte);
+                current = RollLeft(current, lengthByte);
 
                 byte tmp = current;
                 current ^= remember;
                 remember = tmp;
 
                 current -= lengthByte;
-                data[i] = ByteHelpers.RollRight(current, 3);
+                data[i] = RollRight(current, 3);
 
                 lengthByte--;
             }
@@ -150,7 +150,7 @@ namespace OpenStory.Cryptography
             byte remember = 0;
             for (int i = length - 1; i >= 0; i--)
             {
-                byte current = ByteHelpers.RollLeft(data[i], 3);
+                byte current = RollLeft(data[i], 3);
                 current ^= 0x13;
 
                 byte tmp = current;
@@ -158,10 +158,34 @@ namespace OpenStory.Cryptography
                 remember = tmp;
 
                 current -= lengthByte;
-                data[i] = ByteHelpers.RollRight(current, 4);
+                data[i] = RollRight(current, 4);
 
                 lengthByte--;
             }
+        }
+
+        /// <summary>
+        /// Performs a bit-wise left roll on a byte.
+        /// </summary>
+        /// <param name="b">The byte to roll left.</param>
+        /// <param name="count">The number of bit positions to roll.</param>
+        /// <returns>The resulting byte.</returns>
+        private static byte RollLeft(byte b, int count)
+        {
+            int tmp = b << (count & 7);
+            return unchecked((byte) (tmp | (tmp >> 8)));
+        }
+
+        /// <summary>
+        /// Performs a bit-wise right roll on a byte.
+        /// </summary>
+        /// <param name="b">The byte to roll right.</param>
+        /// <param name="count">The number of bit positions to roll.</param>
+        /// <returns>The resulting byte.</returns>
+        private static byte RollRight(byte b, int count)
+        {
+            int tmp = b << (8 - (count & 7));
+            return unchecked((byte) (tmp | (tmp >> 8)));
         }
     }
 }
