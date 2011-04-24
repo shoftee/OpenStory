@@ -45,6 +45,8 @@ namespace OpenStory.Common
         /// <summary>
         /// Assigns <paramref name="newValue"/> to the AtomicBoolean if the current value and <paramref name="comparand"/> are equal, and returns the original value.
         /// </summary>
+        /// <remarks>
+        /// </remarks>
         /// <param name="comparand">The value to compare for equality with.</param>
         /// <param name="newValue">The new value.</param>
         /// <returns>The original value of the AtomicBoolean.</returns>

@@ -12,30 +12,30 @@ namespace OpenStory.Synchronization
         #region Nested type: Synchronized
 
         /// <summary>
-        /// Represents a synchronization context around another object.
+        /// Represents a synchronization wrapper around another object.
         /// </summary>
         /// <typeparam name="T">The type of the object to synchronize.</typeparam>
         private class Synchronized<T> : ISynchronized<T>, IRunnable
             where T : class
         {
             private ConcurrentQueue<Action<T>> actions;
-            private T item;
+            private T obj;
             private IScheduler scheduler;
 
             /// <summary>
-            /// Initializes a new Synchronized(T) wrapper around the given object.
+            /// Initializes a new Synchronized(T) wrapper around the specified object.
             /// </summary>
-            /// <param name="item">The item to wrap around.</param>
-            /// <param name="scheduler">An execution scheduler to use for this Synchronized(T).</param>
+            /// <param name="obj">The object to wrap.</param>
+            /// <param name="scheduler">An execution scheduler to use.</param>
             /// <exception cref="ArgumentNullException">
-            /// Thrown if <paramref name="item"/> or <paramref name="scheduler"/> are null.
+            /// Thrown if <paramref name="obj"/> or <paramref name="scheduler"/> are <c>null</c>.
             /// </exception>
-            public Synchronized(T item, IScheduler scheduler)
+            public Synchronized(T obj, IScheduler scheduler)
             {
-                if (item == null) throw new ArgumentNullException("item");
+                if (obj == null) throw new ArgumentNullException("obj");
                 if (scheduler == null) throw new ArgumentNullException("scheduler");
 
-                this.item = item;
+                this.obj = obj;
                 this.scheduler = scheduler;
 
                 this.actions = new ConcurrentQueue<Action<T>>();
@@ -89,13 +89,13 @@ namespace OpenStory.Synchronization
                 }
                 else
                 {
-                    return () => objectAction(this.item);
+                    return () => objectAction(this.obj);
                 }
             }
 
             private void ExecuteAndEnqueueAgain(Action<T> action)
             {
-                action(this.item);
+                action(this.obj);
                 this.scheduler.Schedule(this);
             }
         }

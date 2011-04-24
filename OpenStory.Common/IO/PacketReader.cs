@@ -3,7 +3,12 @@ using System.Text;
 
 namespace OpenStory.Common.IO
 {
-    /// <summary>Represents a big-endian stream reader.</summary>
+    /// <summary>
+    /// Represents a class for reading game packets.
+    /// </summary>
+    /// <remarks>
+    /// This class exclusively uses little-endian byte order.
+    /// </remarks>
     public class PacketReader
     {
         private byte[] buffer;
@@ -203,7 +208,7 @@ namespace OpenStory.Common.IO
         public bool TryReadUInt32(out uint value)
         {
             if (!this.CanAdvance(4)) goto Fail;
-            value = BigEndianBitConverter.ToUInt32(this.buffer, this.UncheckedAdvance(4));
+            value = LittleEndianBitConverter.ToUInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
             Fail:
@@ -218,7 +223,7 @@ namespace OpenStory.Common.IO
         public bool TryReadInt32(out int value)
         {
             if (!this.CanAdvance(4)) goto Fail;
-            value = BigEndianBitConverter.ToInt32(this.buffer, this.UncheckedAdvance(4));
+            value = LittleEndianBitConverter.ToInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
             Fail:
@@ -233,7 +238,7 @@ namespace OpenStory.Common.IO
         public bool TryReadUInt16(out ushort value)
         {
             if (!this.CanAdvance(2)) goto Fail;
-            value = BigEndianBitConverter.ToUInt16(this.buffer, this.UncheckedAdvance(2));
+            value = LittleEndianBitConverter.ToUInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
             Fail:
@@ -248,7 +253,7 @@ namespace OpenStory.Common.IO
         public bool TryReadInt16(out short value)
         {
             if (!this.CanAdvance(2)) goto Fail;
-            value = BigEndianBitConverter.ToInt16(this.buffer, this.UncheckedAdvance(2));
+            value = LittleEndianBitConverter.ToInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
             Fail:
@@ -263,7 +268,7 @@ namespace OpenStory.Common.IO
         public bool TryReadInt64(out long value)
         {
             if (!this.CanAdvance(8)) goto Fail;
-            value = BigEndianBitConverter.ToInt64(this.buffer, this.UncheckedAdvance(8));
+            value = LittleEndianBitConverter.ToInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
             Fail:
@@ -278,7 +283,7 @@ namespace OpenStory.Common.IO
         public bool TryReadUInt64(out ulong value)
         {
             if (!this.CanAdvance(8)) goto Fail;
-            value = BigEndianBitConverter.ToUInt64(this.buffer, this.UncheckedAdvance(8));
+            value = LittleEndianBitConverter.ToUInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
             Fail:
@@ -361,7 +366,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public short ReadInt16()
         {
-            return BigEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
+            return LittleEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
         }
 
         /// <summary>Reads a <see cref="System.UInt16"/> from the stream.</summary>
@@ -371,7 +376,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public ushort ReadUInt16()
         {
-            return BigEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
+            return LittleEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
         }
 
         /// <summary>Reads a <see cref="System.Int32"/> from the stream.</summary>
@@ -381,7 +386,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public int ReadInt32()
         {
-            return BigEndianBitConverter.ToInt32(this.buffer, this.CheckedAdvance(4));
+            return LittleEndianBitConverter.ToInt32(this.buffer, this.CheckedAdvance(4));
         }
 
         /// <summary>Reads a <see cref="System.UInt32"/> from the stream.</summary>
@@ -391,7 +396,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public uint ReadUInt32()
         {
-            return BigEndianBitConverter.ToUInt32(this.buffer, this.CheckedAdvance(4));
+            return LittleEndianBitConverter.ToUInt32(this.buffer, this.CheckedAdvance(4));
         }
 
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
@@ -401,7 +406,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public long ReadInt64()
         {
-            return BigEndianBitConverter.ToInt64(this.buffer, this.CheckedAdvance(8));
+            return LittleEndianBitConverter.ToInt64(this.buffer, this.CheckedAdvance(8));
         }
 
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
@@ -411,7 +416,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public ulong ReadUInt64()
         {
-            return BigEndianBitConverter.ToUInt64(this.buffer, this.CheckedAdvance(8));
+            return LittleEndianBitConverter.ToUInt64(this.buffer, this.CheckedAdvance(8));
         }
 
         /// <summary>Reads a length and a string from the stream.</summary>

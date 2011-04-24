@@ -196,7 +196,8 @@ namespace OpenStory.Server
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Rng.Next(); while (number == 0);
+            do number = Rng.Next(); 
+            while (number == 0);
 
             return BitConverter.GetBytes(number);
         }

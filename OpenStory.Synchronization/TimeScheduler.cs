@@ -16,7 +16,7 @@ namespace OpenStory.Synchronization
         /// Schedules the given <paramref name="action"/> for immediate execution.
         /// </summary>
         /// <param name="action">The action to schedule.</param>
-        public void ExecuteAsap(Action action)
+        public void ExecuteNow(Action action)
         {
             this.InsertTask(action, DateTime.Now);
         }

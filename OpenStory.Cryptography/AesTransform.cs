@@ -172,8 +172,8 @@ namespace OpenStory.Cryptography
                     xorBlock = Transformer.TransformFinalBlock(xorBlock, 0, IvLength);
                 }
 
-                data[position] ^= xorBlock[xorBlockPosition++];
-
+                data[position] ^= xorBlock[xorBlockPosition];
+                xorBlockPosition++;
                 if (xorBlockPosition == IvLength) xorBlockPosition = 0;
             }
         }

@@ -35,7 +35,7 @@ namespace OpenStory.Common.IO
             if (capacity <= 0)
             {
                 throw new ArgumentOutOfRangeException("capacity", capacity,
-                                                      "'capacity' must be a positive integer. Call the default constructor instead.");
+                    "'capacity' must be a positive integer. Call the default constructor instead.");
             }
 
             this.Reset(capacity);

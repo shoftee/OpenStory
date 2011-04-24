@@ -3,17 +3,33 @@
 namespace OpenStory.ServiceModel
 {
     /// <summary>
-    /// Provides helper methods for dealing with the long-name-ness of WCF.
+    /// Provides helper methods for game services.
     /// </summary>
     public static class ServiceHelpers
     {
         /// <summary>
-        /// God damn can't they just call it IPC like before?
+        /// Provides a named pipe binding.
         /// </summary>
-        /// <returns>Fucking long name.</returns>
-        public static NetNamedPipeBinding GetBinding()
+        /// <returns>
+        /// A new instance of <see cref="NetNamedPipeBinding"/>
+        /// with <see cref="NetNamedPipeSecurtyMode">security mode</see>
+        /// set to <see cref="NetNamedPipeSecurityMode.Transport"/>.
+        /// </returns>
+        public static NetNamedPipeBinding GetPipeBinding()
         {
             return new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport);
+        }
+
+        /// <summary>
+        /// Provides a tcp binding.
+        /// </summary>
+        /// <returns>
+        /// A new instance of <see cref="NetTcpBinding"/> with
+        /// <see cref="SecurtyMode"/> set to <see cref="SecurityMode.Transport"/>.
+        /// </returns>
+        public static NetTcpBinding GetTcpBinding()
+        {
+            return new NetTcpBinding(SecurityMode.Transport);
         }
     }
 }

@@ -5,7 +5,7 @@ using OpenStory.Synchronization;
 
 namespace OpenStory.Server.Registry.Party
 {
-    internal sealed class PartyRegistry : IPartyRegistry
+    sealed class PartyRegistry : IPartyRegistry
     {
         private static readonly PartyRegistry Instance;
         private static readonly ISynchronized<PartyRegistry> SynchronizedInstance;
