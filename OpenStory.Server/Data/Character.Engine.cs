@@ -13,10 +13,8 @@ namespace OpenStory.Server.Data
     {
         private const string SelectName =
             "SELECT Name FROM Character WHERE Name = @name";
-
         private const string SelectCharacterById =
             "SELECT TOP 1 * FROM Character WHERE CharacterId = @characterId";
-
         private const string SelectBindingsByCharacterId =
             "SELECT KeyId, ActionTypeId, ActionId " +
             "FROM KeyLayoutEntry " +
@@ -29,9 +27,11 @@ namespace OpenStory.Server.Data
         /// <returns>true if the name is not taken; otherwise, false.</returns>
         public static bool IsNameAvailable(string name)
         {
-            var query = new SqlCommand(SelectName);
-            query.Parameters.Add("@name", SqlDbType.VarChar, 12).Value = name;
-            return DbHelpers.GetRecordSetIterator(query).Any();
+            using (var query = new SqlCommand(SelectName))
+            {
+                query.Parameters.Add("@name", SqlDbType.VarChar, 12).Value = name;
+                return DbHelpers.GetRecordSetIterator(query).Any();
+            }
         }
 
         /// <summary>
@@ -42,9 +42,11 @@ namespace OpenStory.Server.Data
         /// <returns>True if there was a character record found; otherwise, false.</returns>
         public static bool SelectCharacter(int characterId, Action<IDataRecord> recordCallback)
         {
-            var query = new SqlCommand(SelectCharacterById);
-            query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
-            return DbHelpers.InvokeForSingle(query, recordCallback);
+            using (var query = new SqlCommand(SelectCharacterById))
+            {
+                query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
+                return DbHelpers.InvokeForSingle(query, recordCallback);
+            }
         }
 
         /// <summary>
@@ -55,9 +57,11 @@ namespace OpenStory.Server.Data
         /// <returns>The number of records in the result set.</returns>
         public static int SelectKeyBindings(int characterId, Action<IDataRecord> recordCallback)
         {
-            var query = new SqlCommand(SelectBindingsByCharacterId);
-            query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
-            return DbHelpers.InvokeForAll(query, recordCallback);
+            using (var query = new SqlCommand(SelectBindingsByCharacterId))
+            {
+                query.Parameters.Add("@characterId", SqlDbType.Int).Value = characterId;
+                return DbHelpers.InvokeForAll(query, recordCallback);
+            }
         }
 
         /// <summary>
@@ -70,7 +74,10 @@ namespace OpenStory.Server.Data
         /// <returns>The number of bindings that were saved.</returns>
         public static int SaveKeyBindings(int characterId, List<KeyBinding> bindings)
         {
-            if (bindings == null) throw new ArgumentNullException("bindings");
+            if (bindings == null)
+            {
+                throw new ArgumentNullException("bindings");
+            }
             if (bindings.Count != GameConstants.KeyCount)
             {
                 throw new ArgumentException("There must be exactly " + GameConstants.KeyCount +
@@ -78,7 +85,10 @@ namespace OpenStory.Server.Data
             }
 
             byte[] binaryData = BufferNewBindings(bindings);
-            if (binaryData.Length == 0) return 0;
+            if (binaryData.Length == 0)
+            {
+                return 0;
+            }
 
             SaveKeyBindings(binaryData, characterId);
 
@@ -99,7 +109,10 @@ namespace OpenStory.Server.Data
                 for (byte i = 0; i < GameConstants.KeyCount; i++)
                 {
                     KeyBinding binding = bindings[i];
-                    if (!binding.HasChanged) continue;
+                    if (!binding.HasChanged)
+                    {
+                        continue;
+                    }
                     length += 6;
                     buffer.WriteByte(i);
                     buffer.WriteByte(binding.ActionTypeId);
@@ -116,10 +129,12 @@ namespace OpenStory.Server.Data
         private static void SaveKeyBindings(byte[] binaryData, int characterId)
         {
             int length = binaryData.Length;
-            var command = new SqlCommand("up_SaveKeyBindings");
-            command.Parameters.Add("@CharacterId", SqlDbType.Int).Value = characterId;
-            command.Parameters.Add("@BinaryData", SqlDbType.VarBinary, length).Value = binaryData;
-            DbHelpers.ExecuteStoredProcedure(command);
+            using (var command = new SqlCommand("up_SaveKeyBindings"))
+            {
+                command.Parameters.Add("@CharacterId", SqlDbType.Int).Value = characterId;
+                command.Parameters.Add("@BinaryData", SqlDbType.VarBinary, length).Value = binaryData;
+                DbHelpers.ExecuteStoredProcedure(command);
+            }
         }
     }
 }

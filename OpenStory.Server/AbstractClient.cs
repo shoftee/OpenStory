@@ -26,6 +26,11 @@ namespace OpenStory.Server
         private const int PingInterval = 15000;
 
         /// <summary>
+        /// The op code for the pong packet.
+        /// </summary>
+        protected const int PongOpCode = 0x0011;
+
+        /// <summary>
         /// Gets the client's session object.
         /// </summary>
         protected ServerSession Session { get; private set; }
@@ -85,7 +90,7 @@ namespace OpenStory.Server
         {
             PacketReader reader = e.Reader;
             ushort opCode = reader.ReadUInt16();
-            if (opCode == 0x11)
+            if (opCode == PongOpCode)
             {
                 this.sentPings.ExchangeWith(0);
             }
@@ -99,7 +104,7 @@ namespace OpenStory.Server
         /// When implemented in a derived class, processes the packet with the given op code.
         /// </summary>
         /// <param name="opCode">The op code of the packet to process.</param>
-        /// <param name="reader">A <see cref="OpenStory.Common.IO.PacketReader"/> object for the packet.</param>
+        /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
         protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
 
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenStory.ServiceModel;
+﻿using OpenStory.ServiceModel;
 
 namespace OpenStory.AccountService
 {

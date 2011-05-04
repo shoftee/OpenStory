@@ -40,14 +40,5 @@ namespace OpenStory.Common.Game
         /// No elemental attributes, a physical attack.
         /// </summary>
         Physical = 0x40, // P
-
-        /// <summary>
-        /// The fire and poison attributes.
-        /// </summary>
-        FirePoison = Fire | Poison,
-        /// <summary>
-        /// The ice and lightning attributes.
-        /// </summary>
-        IceLightning = Ice | Ligtning,
     }
 }

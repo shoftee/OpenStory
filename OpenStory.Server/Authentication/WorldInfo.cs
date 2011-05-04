@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using OpenStory.Common.Authentication;
 using OpenStory.Server.Data;
 
@@ -14,7 +14,7 @@ namespace OpenStory.Server.Authentication
         /// <summary>
         /// Initializes a new instance of the WorldInfo class.
         /// </summary>
-        public WorldInfo(World world)
+        public WorldInfo (World world)
         {
             this.Id = world.WorldId;
             this.Name = world.WorldName;
@@ -35,9 +35,9 @@ namespace OpenStory.Server.Authentication
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="WorldStatus"/> for the World.
+        /// Gets the <see cref="ServerStatus"/> for the World.
         /// </summary>
-        public WorldStatus Status { get; set; }
+        public ServerStatus Status { get; set; }
 
         /// <summary>
         /// Gets the number of channels in the World.

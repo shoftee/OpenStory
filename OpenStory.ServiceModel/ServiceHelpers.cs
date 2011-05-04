@@ -12,7 +12,7 @@ namespace OpenStory.ServiceModel
         /// </summary>
         /// <returns>
         /// A new instance of <see cref="NetNamedPipeBinding"/>
-        /// with <see cref="NetNamedPipeSecurtyMode">security mode</see>
+        /// with <see cref="NetNamedPipeSecurityMode">security mode</see>
         /// set to <see cref="NetNamedPipeSecurityMode.Transport"/>.
         /// </returns>
         public static NetNamedPipeBinding GetPipeBinding()
@@ -25,7 +25,7 @@ namespace OpenStory.ServiceModel
         /// </summary>
         /// <returns>
         /// A new instance of <see cref="NetTcpBinding"/> with
-        /// <see cref="SecurtyMode"/> set to <see cref="SecurityMode.Transport"/>.
+        /// <see cref="SecurityMode"/> set to <see cref="SecurityMode.Transport"/>.
         /// </returns>
         public static NetTcpBinding GetTcpBinding()
         {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net.Sockets;
 using OpenStory.AccountService;
-using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
-using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Data;
 using OpenStory.Server.Properties;
 using OpenStory.ServiceModel;
+using OpenStory.Common.Data;
 
 namespace OpenStory.Server
 {
@@ -81,36 +80,18 @@ namespace OpenStory.Server
         {
             byte[] clientIV = GetNewIV();
             byte[] serverIV = GetNewIV();
-            var crypto = new ServerCrypto(clientIV, serverIV, MapleVersion);
 
-            var serverSession = new ServerSession(socket, crypto);
+            var serverSession = new ServerSession(socket);
             serverSession.OnClosing += HandleConnectionClose;
 
-            byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV);
             this.HandleConnectionOpen(serverSession);
 
             Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,
                           BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
 
-            serverSession.Start(helloPacket);
+            serverSession.Start(clientIV, serverIV, MapleVersion);
         }
 
-        private static byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV)
-        {
-            using (var builder = new PacketBuilder(16))
-            {
-                builder.WriteInt16(0x0E);
-                builder.WriteInt16(MapleVersion);
-                builder.WriteLengthString("2"); // supposedly some patch thing?
-                builder.WriteBytes(clientIV);
-                builder.WriteBytes(serverIV);
-
-                // Test server flag.
-                builder.WriteByte(0x05);
-
-                return builder.ToByteArray();
-            }
-        }
 
         private static void HandleConnectionClose(object sender, EventArgs args)
         {
@@ -196,7 +177,7 @@ namespace OpenStory.Server
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Rng.Next(); 
+            do number = Rng.Next();
             while (number == 0);
 
             return BitConverter.GetBytes(number);

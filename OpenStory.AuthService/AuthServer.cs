@@ -8,6 +8,7 @@ using OpenStory.Cryptography;
 using OpenStory.Server;
 using OpenStory.Server.Data;
 using OpenStory.ServiceModel;
+using OpenStory.Common.Data;
 
 namespace OpenStory.AuthService
 {
@@ -18,6 +19,9 @@ namespace OpenStory.AuthService
     sealed class AuthServer : AbstractServer, IAuthServer
     {
         private const string ServerName = "Auth";
+
+        private static readonly AuthServerPackets PacketTableInternal = new AuthServerPackets();
+        public static IOpCodeTable PacketTable { get { return PacketTableInternal; } }
 
         public override string Name { get { return ServerName; } }
 
@@ -35,6 +39,7 @@ namespace OpenStory.AuthService
             this.clients = new List<AuthClient>();
             this.accountService = new AccountServiceClient();
         }
+
 
         // TODO: FINISH THIS F5
 

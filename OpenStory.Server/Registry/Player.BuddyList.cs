@@ -26,6 +26,12 @@ namespace OpenStory.Server.Registry
             serverSession.Close();
         }
 
+        private static void SendBuddyListOperationResult(ServerSession serverSession,
+                                                         BuddyOperationResult buddyOperationResult)
+        {
+            // TODO: Finish later.
+        }
+
         private void HandleAddBuddy(PacketReader reader, ServerSession serverSession)
         {
             string name;
@@ -56,14 +62,7 @@ namespace OpenStory.Server.Registry
                 SendBuddyListOperationResult(serverSession, BuddyOperationResult.BuddyListFull);
                 return;
             }
-
             // TODO: Check the target buddy list stuff.
-        }
-
-        private static void SendBuddyListOperationResult(ServerSession serverSession,
-                                                         BuddyOperationResult buddyOperationResult)
-        {
-            // TODO: Finish later.
         }
     }
 }

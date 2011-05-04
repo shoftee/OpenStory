@@ -144,7 +144,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Attempts to advance to a new forward position.
         /// </summary>
-        /// <param name="offset">The new position to assign.</param>
+        /// <param name="offset">The new position to assign, relative to the start of the segment.</param>
         /// <exception cref="InvalidOperationException">
         /// Thrown if <paramref name="offset"/> 
         /// is behind the current position.
@@ -181,7 +181,24 @@ namespace OpenStory.Common.IO
             Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(count), array, 0, count);
             return true;
 
-            Fail:
+        Fail:
+            array = null;
+            return false;
+        }
+
+        /// <summary>Attempts to read a number of bytes from the stream.</summary>
+        /// <remarks>If the read was unsuccessful, <paramref name="array"/> is set to <c>null</c>.</remarks>
+        /// <param name="count">The number of bytes to read.</param>
+        /// <param name="array">An array variable to hold the result.</param>
+        /// <returns>true if the read was successful; otherwise, false.</returns>
+        public bool TryReadBytes(int count, out byte[] array)
+        {
+            if (!this.CanAdvance(count)) goto Fail;
+            array = new byte[count];
+            Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(count), array, 0, count);
+            return true;
+
+        Fail:
             array = null;
             return false;
         }
@@ -196,7 +213,7 @@ namespace OpenStory.Common.IO
             value = this.buffer[this.UncheckedAdvance(1)];
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -211,7 +228,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToUInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -226,7 +243,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToInt32(this.buffer, this.UncheckedAdvance(4));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -241,7 +258,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToUInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -256,7 +273,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToInt16(this.buffer, this.UncheckedAdvance(2));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -271,7 +288,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -286,7 +303,7 @@ namespace OpenStory.Common.IO
             value = LittleEndianBitConverter.ToUInt64(this.buffer, this.UncheckedAdvance(8));
             return true;
 
-            Fail:
+        Fail:
             value = 0;
             return false;
         }
@@ -306,7 +323,7 @@ namespace OpenStory.Common.IO
             result = this.ReadString(this.UncheckedAdvance(length), length);
             return true;
 
-            Fail:
+        Fail:
             result = String.Empty;
             return false;
         }
@@ -328,7 +345,7 @@ namespace OpenStory.Common.IO
             result = this.ReadNullTerminatedString(this.UncheckedAdvance(length), length);
             return true;
 
-            Fail:
+        Fail:
             result = String.Empty;
             return false;
         }
@@ -349,81 +366,94 @@ namespace OpenStory.Common.IO
             this.CheckedAdvance(count);
         }
 
-        /// <summary>Reads a <see cref="System.Byte"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
+        /// <summary>Reads a specified number of bytes.</summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>An array containing the bytes read.</returns>
+        public byte[] ReadBytes(int count)
+        {
+            int start = this.CheckedAdvance(count);
+            byte[] bytes = new byte[count];
+            Buffer.BlockCopy(this.buffer, start, bytes, 0, count);
+            return bytes;
+        }
+
+        /// <summary>Reads a <see cref="System.Byte"/> from the stream.</summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
+        /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public byte ReadByte()
         {
             return this.buffer[this.CheckedAdvance(1)];
         }
 
         /// <summary>Reads a <see cref="System.Int16"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public short ReadInt16()
         {
             return LittleEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
         }
 
         /// <summary>Reads a <see cref="System.UInt16"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public ushort ReadUInt16()
         {
             return LittleEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
         }
 
         /// <summary>Reads a <see cref="System.Int32"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public int ReadInt32()
         {
             return LittleEndianBitConverter.ToInt32(this.buffer, this.CheckedAdvance(4));
         }
 
         /// <summary>Reads a <see cref="System.UInt32"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public uint ReadUInt32()
         {
             return LittleEndianBitConverter.ToUInt32(this.buffer, this.CheckedAdvance(4));
         }
 
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public long ReadInt64()
         {
             return LittleEndianBitConverter.ToInt64(this.buffer, this.CheckedAdvance(8));
         }
 
         /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
-        /// <returns>The value that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
         public ulong ReadUInt64()
         {
             return LittleEndianBitConverter.ToUInt64(this.buffer, this.CheckedAdvance(8));
         }
 
         /// <summary>Reads a length and a string from the stream.</summary>
-        /// <returns>The string that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The string that was read from the stream.</returns>
         public string ReadLengthString()
         {
             short length = this.ReadInt16();
@@ -431,10 +461,10 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>Reads a null-terminated string and advances the position past the padding.</summary>
-        /// <returns>The string that was read from the stream.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
+        /// <returns>The string that was read from the stream.</returns>
         public string ReadPaddedString(int length)
         {
             int stringStart = this.CheckedAdvance(length);

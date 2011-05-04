@@ -1,6 +1,4 @@
-﻿using System.ServiceModel;
-using System.ServiceModel.Description;
-using OpenStory.ServiceModel;
+﻿using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService
 {

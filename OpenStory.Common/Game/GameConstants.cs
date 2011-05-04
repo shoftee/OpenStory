@@ -8,6 +8,6 @@
         /// <summary>
         /// The number of keys in a KeyLayout.
         /// </summary>
-        public const int KeyCount = 90;
+        public static readonly int KeyCount = 90;
     }
 }

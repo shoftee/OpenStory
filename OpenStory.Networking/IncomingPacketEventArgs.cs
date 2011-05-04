@@ -8,6 +8,8 @@ namespace OpenStory.Networking
     /// </summary>
     public class IncomingPacketEventArgs : EventArgs
     {
+        private byte[] buffer;
+
         /// <summary>
         /// Initializes a new instance of the IncomingPacketEventArgs class.
         /// </summary>
@@ -19,12 +21,15 @@ namespace OpenStory.Networking
         {
             if (packet == null) throw new ArgumentNullException("packet");
 
-            this.Reader = new PacketReader(packet);
+            this.buffer = packet;
         }
 
         /// <summary>
-        /// Gets a <see cref="PacketReader"/> over the packet.
+        /// Gets a new <see cref="PacketReader"/> for the packet.
         /// </summary>
-        public PacketReader Reader { get; private set; }
+        public PacketReader Reader
+        {
+            get { return new PacketReader(buffer); }
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OpenStory.AuthService;
-using OpenStory.Common.Tools;
+﻿using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation
 {

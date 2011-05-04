@@ -11,8 +11,6 @@ namespace OpenStory.Server.Data
     [DataContract]
     public class Account
     {
-        // From the game server's perspective, the account data is read-only.
-        // If I ever make another perspective for it, I'll make another class.
         private Account(IDataRecord record)
         {
             this.AccountId = (int) record["AccountId"];

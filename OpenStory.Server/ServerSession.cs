@@ -20,31 +20,6 @@ namespace OpenStory.Server
         private NetworkSession session;
 
         /// <summary>
-        /// Initializes a new instance of the Session class.
-        /// </summary>
-        /// <param name="socket">The underlying socket for this session.</param>
-        /// <param name="serverCrypto">The <see cref="ServerCrypto"/> object for this session.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the parameters is <c>null</c>.
-        /// </exception>
-        public ServerSession(Socket socket, ServerCrypto serverCrypto)
-        {
-            if (socket == null) throw new ArgumentNullException("socket");
-            if (serverCrypto == null) throw new ArgumentNullException("serverCrypto");
-
-            this.session = new NetworkSession(socket);
-            this.session.OnDataArrived += this.HandleIncomingData;
-            this.session.OnClosing += this.HandleClosing;
-
-            this.Crypto = serverCrypto;
-
-            this.packetBuffer = new BoundedBuffer();
-            this.headerBuffer = new BoundedBuffer(4);
-
-            this.SessionId = RollingSessionId.Increment();
-        }
-
-        /// <summary>
         /// A unique 32-bit session ID.
         /// </summary>
         public int SessionId { get; private set; }
@@ -63,6 +38,27 @@ namespace OpenStory.Server
         /// The event raised when the session is closed.
         /// </summary>
         public event EventHandler OnClosing;
+        
+        /// <summary>
+        /// Initializes a new instance of the Session class.
+        /// </summary>
+        /// <param name="socket">The underlying socket for this session.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="socket"/> is <c>null</c>.
+        /// </exception>
+        public ServerSession(Socket socket)
+        {
+            if (socket == null) throw new ArgumentNullException("socket");
+
+            this.session = new NetworkSession(socket);
+            this.session.OnDataArrived += this.HandleIncomingData;
+            this.session.OnClosing += this.HandleClosing;
+
+            this.packetBuffer = new BoundedBuffer();
+            this.headerBuffer = new BoundedBuffer(4);
+
+            this.SessionId = RollingSessionId.Increment();
+        }
 
         private void HandleClosing(object sender, EventArgs e)
         {
@@ -75,23 +71,23 @@ namespace OpenStory.Server
         /// <summary>
         /// Initiates the session operations.
         /// </summary>
-        /// <param name="helloPacket">The hello packet to send for the handshake.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="helloPacket"/> is <c>null</c>.
-        /// </exception>
+        /// <param name="clientIV">The client IV to use for the cryptographic transformation.</param>
+        /// <param name="serverIV">The server IV to use for the cryptographic transformation.</param>
+        /// <param name="version">The game version.</param>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the method is called when the 
         /// <see cref="OnPacketReceived"/> 
         /// event has no subscribers.
         /// </exception>
-        public void Start(byte[] helloPacket)
+        public void Start(byte[] clientIV, byte[] serverIV, ushort version)
         {
-            if (helloPacket == null) throw new ArgumentNullException("helloPacket");
             if (this.OnPacketReceived == null)
             {
                 throw new InvalidOperationException("'OnPacketReceived' has no subscribers.");
             }
+            this.Crypto = new ServerCrypto(clientIV, serverIV, version);
 
+            byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV, version);
             this.session.Start();
             this.session.Write(helloPacket);
             this.packetBuffer.Reset(0);
@@ -124,6 +120,23 @@ namespace OpenStory.Server
             if (this.session.Socket.Connected) this.session.Write(rawData);
         }
 
+        private static byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV, ushort version)
+        {
+            using (var builder = new PacketBuilder(16))
+            {
+                builder.WriteInt16(0x0E);
+                builder.WriteInt16(version);
+                builder.WriteLengthString("2"); // supposedly some patch thing?
+                builder.WriteBytes(clientIV);
+                builder.WriteBytes(serverIV);
+
+                // Test server flag.
+                builder.WriteByte(0x05);
+
+                return builder.ToByteArray();
+            }
+        }
+        
         #endregion
 
         #region Incoming logic

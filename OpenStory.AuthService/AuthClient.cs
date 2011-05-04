@@ -19,27 +19,27 @@ namespace OpenStory.AuthService
         /// </summary>
         private const int MaxLoginAttempts = 3;
 
-        private IAuthServer authServer;
+        private IAuthServer server;
 
         /// <summary>
         /// Initializes a new instance of AuthenticationClient 
         /// and binds it with a network session.
         /// </summary>
         /// <param name="networkSession">The network session to bind the new AuthenticationClient to.</param>
-        /// <param name="authServer">The authentication server instance which is handling this client.</param>
+        /// <param name="server">The authentication server instance which is handling this client.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="authServer"/> is <c>null</c>.
+        /// Thrown if <paramref name="server"/> is <c>null</c>.
         /// </exception>
-        public AuthClient(ServerSession networkSession, IAuthServer authServer)
+        public AuthClient(ServerSession networkSession, IAuthServer server)
             : base(networkSession)
         {
-            if (authServer == null) throw new ArgumentNullException("authServer");
+            if (server == null) throw new ArgumentNullException("server");
 
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
             this.State = AuthClientState.PreAuthentication;
 
-            this.authServer = authServer;
+            this.server = server;
         }
 
         /// <summary>
@@ -59,16 +59,68 @@ namespace OpenStory.AuthService
 
         protected override void ProcessPacket(ushort opCode, PacketReader reader)
         {
-            switch (opCode)
+            string label;
+            if (!AuthServer.PacketTable.TryGetIncomingLabel(opCode, out label))
             {
-                case 0x0001:
+                Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
+                                 ByteHelpers.ByteToHex(reader.ReadFully()));
+                return;
+            }
+
+            switch (label)
+            {
+                case "Authenticate":
                     this.HandleAuthentication(reader);
                     break;
-                default:
-                    Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
-                                     ByteHelpers.ByteToHex(reader.ReadFully()));
+                case "ValidatePin":
+                    this.HandlePinValidation(reader);
+                    break;
+                case "AssignPin":
+                    this.HandlePinAssignment(reader);
+                    break;
+                case "WorldListRequest":
+                case "WorldListRefresh":
+                    this.HandleWorldListRequest(reader);
+                    break;
+                case "ChannelSelect":
+                    this.HandleChannelSelect(reader);
+                    break;
+                case "CharacterListRequest":
+                    this.HandleCharacterListRequest(reader);
+                    break;
+                case "CharacterSelect":
+                    this.HandleCharacterSelect(reader);
                     break;
             }
+        }
+
+        private void HandleCharacterSelect(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleCharacterListRequest(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleChannelSelect(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleWorldListRequest(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePinAssignment(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePinValidation(PacketReader reader)
+        {
         }
 
         private void HandleAuthentication(PacketReader reader)
@@ -83,7 +135,7 @@ namespace OpenStory.AuthService
 
             // TODO: more stuff to read, later.
             IAccountSession accountSession;
-            AuthenticationResult result = this.authServer.Authenticate(userName, password, out accountSession);
+            AuthenticationResult result = this.server.Authenticate(userName, password, out accountSession);
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
@@ -105,7 +157,7 @@ namespace OpenStory.AuthService
             }
             return;
 
-            Disconnect:
+        Disconnect:
             base.Disconnect();
         }
     }

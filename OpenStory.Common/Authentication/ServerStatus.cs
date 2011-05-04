@@ -6,7 +6,7 @@ namespace OpenStory.Common.Authentication
     /// World status options.
     /// </summary>
     [Serializable]
-    public enum WorldStatus
+    public enum ServerStatus
     {
         /// <summary>
         /// The world is running normally and accepting players.

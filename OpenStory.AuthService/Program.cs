@@ -2,7 +2,6 @@
 using System.ServiceModel;
 using System.Threading;
 using OpenStory.Common.Tools;
-using OpenStory.Server;
 using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService

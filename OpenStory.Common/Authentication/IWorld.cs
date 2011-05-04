@@ -18,9 +18,9 @@ namespace OpenStory.Common.Authentication
         string Name { get; }
 
         /// <summary>
-        /// Gets the <see cref="WorldStatus"/> for the World.
+        /// Gets the <see cref="ServerStatus"/> for the World.
         /// </summary>
-        WorldStatus Status { get; }
+        ServerStatus Status { get; }
 
         /// <summary>
         /// Gets the number of channels in the World.

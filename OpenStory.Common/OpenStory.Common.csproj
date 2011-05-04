@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -76,9 +76,7 @@
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\IChannel.cs" />
     <Compile Include="Authentication\IWorld.cs" />
-    <Compile Include="Authentication\WorldStatus.cs" />
-    <Compile Include="Data\IncomingOpCodeStore.cs" />
-    <Compile Include="Data\OutgoingOpCodeStore.cs" />
+    <Compile Include="Data\OpCodeTable.cs" />
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Gender.cs" />
@@ -95,8 +93,10 @@
     <Compile Include="IO\PacketBuilder.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\ILogger.cs" />
     <Compile Include="Tools\TimeHelpers.cs" />
     <Compile Include="Tools\Log.cs" />
+    <Compile Include="Authentication\ServerStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -107,7 +107,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe install $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

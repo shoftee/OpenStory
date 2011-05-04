@@ -139,7 +139,8 @@ Global
 		$0.Item = OpenStory.AuthService\OpenStory.AuthService.csproj
 		Policies = $1
 		$1.TextStylePolicy = $2
-		$2.inheritsSet = null
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
 		$2.scope = text/x-csharp
 		$1.CSharpFormattingPolicy = $3
 		$3.AnonymousMethodBraceStyle = NextLine
@@ -154,21 +155,22 @@ Global
 		$3.ForBraceForcement = AddBraces
 		$3.WhileBraceForcement = AddBraces
 		$3.UsingBraceForcement = AddBraces
-		$3.FixedBraceForcement = AddBraces
+		$3.PlaceElseOnNewLine = True
+		$3.PlaceCatchOnNewLine = True
+		$3.PlaceFinallyOnNewLine = True
 		$3.BeforeMethodDeclarationParentheses = False
 		$3.BeforeMethodCallParentheses = False
+		$3.BeforeConstructorDeclarationParentheses = False
+		$3.BeforeIndexerDeclarationBracket = False
+		$3.BeforeDelegateDeclarationParentheses = False
 		$3.AfterDelegateDeclarationParameterComma = True
 		$3.NewParentheses = False
-		$3.IfParentheses = False
 		$3.SpacesBeforeBrackets = False
 		$3.SpacesAfterTypecast = True
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
 		$1.TextStylePolicy = $4
-		$4.FileWidth = 120
-		$4.RemoveTrailingWhitespace = True
-		$4.EolMarker = Unix
 		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/plain
@@ -178,6 +180,9 @@ Global
 		$1.XmlFormattingPolicy = $6
 		$6.inheritsSet = null
 		$6.scope = application/config+xml
+		$1.DotNetNamingPolicy = $7
+		$7.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$7.ResourceNamePolicy = MSBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

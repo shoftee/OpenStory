@@ -187,6 +187,10 @@ namespace OpenStory.Common.IO
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>
         public byte[] ExtractAndReset(int newCapacity)
         {
+            if (this.MemoryStream == null)
+            {
+                return new byte[0];
+            }
             byte[] data = this.MemoryStream.GetBuffer();
 
             this.MemoryStream = new MemoryStream(newCapacity);
@@ -208,14 +212,6 @@ namespace OpenStory.Common.IO
             {
                 this.MemoryStream.Dispose();
             }
-        }
-
-        /// <summary>
-        /// Finalizer.
-        /// </summary>
-        ~BoundedBuffer()
-        {
-            this.Dispose(false);
         }
     }
 }
