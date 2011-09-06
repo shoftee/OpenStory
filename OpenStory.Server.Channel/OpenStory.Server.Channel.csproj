@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</ProjectGuid>
+    <ProjectGuid>{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Networking</RootNamespace>
-    <AssemblyName>OpenStory.Networking</AssemblyName>
+    <RootNamespace>OpenStory.Server.Channel</RootNamespace>
+    <AssemblyName>OpenStory.Server.Channel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,8 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OpenStory.Networking.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\OpenStory.Server.Channel.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,47 +31,50 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\OpenStory.Networking.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OpenStory.Server.Channel.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DataArrivedEventArgs.cs" />
-    <Compile Include="Descriptor.cs" />
-    <Compile Include="EncryptedNetworkSession.cs" />
-    <Compile Include="PacketReceivedEventArgs.cs" />
-    <Compile Include="SessionCloseEventArgs.cs" />
-    <Compile Include="SocketAcceptor.cs" />
-    <Compile Include="IDescriptorContainer.cs" />
-    <Compile Include="NetworkSession.cs" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChannelServer.cs" />
+    <Compile Include="IChannelServer.cs" />
+    <Compile Include="Maps\FieldLimitFlags.cs" />
+    <Compile Include="Maps\FootholdTree.cs" />
+    <Compile Include="Maps\IMapObject.cs" />
+    <Compile Include="Maps\IPortal.cs" />
+    <Compile Include="Maps\ISpawnPoint.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\MapEffect.cs" />
+    <Compile Include="Maps\MapObjectConstructor.cs" />
+    <Compile Include="Maps\MapObjectType.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="PlayerRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReceiveDescriptor.cs" />
-    <Compile Include="SendDescriptor.cs" />
-    <Compile Include="SocketErrorEventArgs.cs" />
-    <Compile Include="SocketEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
-      <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
-      <Name>OpenStory.Cryptography</Name>
+    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
+      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
+      <Name>OpenStory.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
+      <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
+      <Name>OpenStory.Server</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System">
-    </Reference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

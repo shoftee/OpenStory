@@ -1,6 +1,4 @@
 ﻿using OpenStory.Common.Authentication;
-using OpenStory.Common.Data;
-using OpenStory.Server;
 using OpenStory.ServiceModel;
 
 namespace OpenStory.AuthService

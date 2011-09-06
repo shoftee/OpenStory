@@ -6,12 +6,50 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network receive buffer.
     /// </summary>
-    internal sealed class ReceiveDescriptor : Descriptor
+    sealed class ReceiveDescriptor : Descriptor
     {
+
         /// <summary>
         /// The default buffer size, set to match the AesTransform block size.
         /// </summary>
         private const int BufferSize = 1460;
+
+        /// <summary>
+        /// The event is raised when a data segment has been successfully received.
+        /// </summary>
+        /// <remarks><para>
+        /// This event supports only one subscriber. Attempts to subscribe more than once will throw 
+        /// <see cref="InvalidOperationException"/>.
+        /// </para><para>
+        /// The bufferred data is not persistent. After the event is raised, the underlying data will 
+        /// be overwritten by a new segment. Because of this, the subscriber should either use the 
+        /// data immediately or copy it into another buffer.
+        /// </para></remarks>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when attempting to subscribe to the event when there is already one subscriber,
+        /// or when attempting to unsubscribe from the event when there are no subscribers.
+        /// </exception>
+        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        {
+            add
+            {
+                if (this.OnDataArrivedInternal != null)
+                {
+                    throw new InvalidOperationException("The event should not have more than one subscriber.");
+                }
+                this.OnDataArrivedInternal += value;
+            }
+            remove
+            {
+                if (this.OnDataArrivedInternal == null)
+                {
+                    throw new InvalidOperationException("The event has no subscribers.");
+                }
+                this.OnDataArrivedInternal += value;
+            }
+        }
+
+        private event EventHandler<DataArrivedEventArgs> OnDataArrivedInternal;
 
         private byte[] receiveBuffer;
 
@@ -73,7 +111,10 @@ namespace OpenStory.Networking
 
         private void BeginReceive()
         {
-            if (!base.Container.IsActive) return;
+            if (!base.Container.IsActive)
+            {
+                return;
+            }
 
             try
             {
@@ -141,31 +182,6 @@ namespace OpenStory.Networking
         }
 
         #endregion
-
-        /// <summary>
-        /// The event used to handle incoming data.
-        /// </summary>
-        public event EventHandler<DataArrivedEventArgs> OnDataArrived
-        {
-            add
-            {
-                if (this.OnDataArrivedInternal != null)
-                {
-                    throw new InvalidOperationException("The event should not have more than one subscriber.");
-                }
-                this.OnDataArrivedInternal += value;
-            }
-            remove
-            {
-                if (this.OnDataArrivedInternal == null)
-                {
-                    throw new InvalidOperationException("The event has no subscribers.");
-                }
-                this.OnDataArrivedInternal += value;
-            }
-        }
-
-        private event EventHandler<DataArrivedEventArgs> OnDataArrivedInternal;
 
         protected override void CloseImpl()
         {

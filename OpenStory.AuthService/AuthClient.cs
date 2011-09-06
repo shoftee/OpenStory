@@ -25,7 +25,7 @@ namespace OpenStory.AuthService
         /// Initializes a new instance of AuthenticationClient 
         /// and binds it with a network session.
         /// </summary>
-        /// <param name="networkSession">The network session to bind the new AuthenticationClient to.</param>
+        /// <param name="networkSession">The network session to bind the new AuthClient to.</param>
         /// <param name="server">The authentication server instance which is handling this client.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="server"/> is <c>null</c>.
@@ -121,6 +121,7 @@ namespace OpenStory.AuthService
 
         private void HandlePinValidation(PacketReader reader)
         {
+            throw new NotImplementedException();
         }
 
         private void HandleAuthentication(PacketReader reader)

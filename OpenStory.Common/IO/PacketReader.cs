@@ -47,7 +47,10 @@ namespace OpenStory.Common.IO
             this.segmentEnd = offset + length;
         }
 
-        /// <summary>Initializes a new instance of PacketReader over the given byte array.</summary>
+        /// <summary>
+        /// Initializes a new instance of PacketReader 
+        /// over the given byte array.
+        /// </summary>
         /// <param name="buffer">The byte array to read from.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer" /> is <c>null</c>.</exception>
         public PacketReader(byte[] buffer)
@@ -130,10 +133,11 @@ namespace OpenStory.Common.IO
         #region Safe read methods
 
         /// <summary>
-        /// Attempts to advance the stream position by a number of bytes.
+        /// Attempts to advance the stream position by a 
+        /// specified number of bytes.
         /// </summary>
         /// <param name="count">The number of bytes to skip.</param>
-        /// <returns>true if the operation was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TrySkip(int count)
         {
             if (!this.CanAdvance(count)) return false;
@@ -151,7 +155,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         /// <returns>
         /// If the operation was successful, the number 
-        /// of bytes that were skipped. Otherwise, -1.
+        /// of bytes that were skipped. Otherwise, <c>-1</c>.
         /// </returns>
         public int TrySkipTo(int offset)
         {
@@ -167,13 +171,15 @@ namespace OpenStory.Common.IO
             return skipped;
         }
 
-        /// <summary>Attempts to read a number of bytes into a buffer.</summary>
+        /// <summary>
+        /// Attempts to read a specified number of bytes into a buffer.
+        /// </summary>
         /// <remarks>
         /// On failure to read all bytes, <paramref name="array"/> is assigned <c>null</c>.
         /// </remarks>
         /// <param name="count">The number of bytes to read.</param>
         /// <param name="array">The buffer to store the bytes read in.</param>
-        /// <returns>true if all bytes were read; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryRead(int count, out byte[] array)
         {
             if (!this.CanAdvance(count)) goto Fail;
@@ -186,11 +192,13 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a number of bytes from the stream.</summary>
+        /// <summary>
+        /// Attempts to read a specified number of bytes from the stream.
+        /// </summary>
         /// <remarks>If the read was unsuccessful, <paramref name="array"/> is set to <c>null</c>.</remarks>
         /// <param name="count">The number of bytes to read.</param>
         /// <param name="array">An array variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadBytes(int count, out byte[] array)
         {
             if (!this.CanAdvance(count)) goto Fail;
@@ -203,10 +211,12 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.Byte"/> from the stream.</summary>
+        /// <summary>
+        /// Attempts to read a <see cref="System.Byte"/> from the stream.
+        /// </summary>
         /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadByte(out byte value)
         {
             if (!this.CanAdvance(1)) goto Fail;
@@ -218,10 +228,12 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.UInt32"/> from the stream.</summary>
+        /// <summary>
+        /// Attempts to read a <see cref="System.UInt32"/> from the stream.
+        /// </summary>
         /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadUInt32(out uint value)
         {
             if (!this.CanAdvance(4)) goto Fail;
@@ -233,10 +245,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.Int32"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
+        /// <summary>
+        /// Attempts to read a <see cref="System.Int32"/> from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.
+        /// </remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadInt32(out int value)
         {
             if (!this.CanAdvance(4)) goto Fail;
@@ -248,10 +264,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.UInt16"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
+        /// <summary>
+        /// Attempts to read a <see cref="System.UInt16"/> from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.
+        /// </remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadUInt16(out ushort value)
         {
             if (!this.CanAdvance(2)) goto Fail;
@@ -263,10 +283,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.Int16"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
+        /// <summary>
+        /// Attempts to read a <see cref="System.Int16"/> from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.
+        /// </remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadInt16(out short value)
         {
             if (!this.CanAdvance(2)) goto Fail;
@@ -278,10 +302,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.Int64"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
+        /// <summary>
+        /// Attempts to read a <see cref="System.Int64"/> from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.
+        /// </remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadInt64(out long value)
         {
             if (!this.CanAdvance(8)) goto Fail;
@@ -293,10 +321,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a <see cref="System.UInt64"/> from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.</remarks>
+        /// <summary>
+        /// Attempts to read a <see cref="System.UInt64"/> from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="value"/> is set to <c>0</c>.
+        /// </remarks>
         /// <param name="value">A variable to hold the result.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadUInt64(out ulong value)
         {
             if (!this.CanAdvance(8)) goto Fail;
@@ -308,10 +340,14 @@ namespace OpenStory.Common.IO
             return false;
         }
 
-        /// <summary>Attempts to read a string with a provided length from the stream.</summary>
-        /// <remarks>If the read was unsuccessful, <paramref name="result"/> is set to <see cref="String.Empty"/>.</remarks>
+        /// <summary>
+        /// Attempts to read a string with a provided length from the stream.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="result"/> is set to <see cref="String.Empty"/>.
+        /// </remarks>
         /// <param name="result">A variable to hold the string.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadLengthString(out string result)
         {
             short length;
@@ -338,7 +374,7 @@ namespace OpenStory.Common.IO
         /// </remarks>
         /// <param name="length">The length of the padded string segment.</param>
         /// <param name="result">A variable to hold the string.</param>
-        /// <returns>true if the read was successful; otherwise, false.</returns>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryReadPaddedString(int length, out string result)
         {
             if (!this.CanAdvance(length)) goto Fail;
@@ -347,6 +383,26 @@ namespace OpenStory.Common.IO
 
         Fail:
             result = String.Empty;
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to read a byte as a <see cref="System.Boolean"/>.
+        /// </summary>
+        /// <remarks>
+        /// If the read was unsuccessful, <paramref name="result"/> is set to <c>false</c>.
+        /// Otherwise, result is <c>true</c> if the byte that was read is not equal to 0,
+        /// and the stream is advanced by 1 position.</remarks>
+        /// <param name="result">A variable to hold the result.</param>
+        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
+        public bool TryReadBoolean(out bool result)
+        {
+            if (!this.CanAdvance(1)) goto Fail;
+            result = this.buffer[this.UncheckedAdvance(1)] != 0;
+            return true;
+
+        Fail:
+            result = false;
             return false;
         }
 
@@ -366,7 +422,9 @@ namespace OpenStory.Common.IO
             this.CheckedAdvance(count);
         }
 
-        /// <summary>Reads a specified number of bytes.</summary>
+        /// <summary>
+        /// Reads a specified number of bytes.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -379,7 +437,9 @@ namespace OpenStory.Common.IO
             return bytes;
         }
 
-        /// <summary>Reads a <see cref="System.Byte"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.Byte"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -389,7 +449,9 @@ namespace OpenStory.Common.IO
             return this.buffer[this.CheckedAdvance(1)];
         }
 
-        /// <summary>Reads a <see cref="System.Int16"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.Int16"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -399,7 +461,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
         }
 
-        /// <summary>Reads a <see cref="System.UInt16"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.UInt16"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -409,7 +473,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
         }
 
-        /// <summary>Reads a <see cref="System.Int32"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.Int32"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -419,7 +485,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToInt32(this.buffer, this.CheckedAdvance(4));
         }
 
-        /// <summary>Reads a <see cref="System.UInt32"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.UInt32"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -429,7 +497,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToUInt32(this.buffer, this.CheckedAdvance(4));
         }
 
-        /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.Int64"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -439,7 +509,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToInt64(this.buffer, this.CheckedAdvance(8));
         }
 
-        /// <summary>Reads a <see cref="System.Int64"/> from the stream.</summary>
+        /// <summary>
+        /// Reads a <see cref="System.Int64"/> from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -449,7 +521,9 @@ namespace OpenStory.Common.IO
             return LittleEndianBitConverter.ToUInt64(this.buffer, this.CheckedAdvance(8));
         }
 
-        /// <summary>Reads a length and a string from the stream.</summary>
+        /// <summary>
+        /// Reads a length and a string from the stream.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -460,7 +534,9 @@ namespace OpenStory.Common.IO
             return this.ReadString(this.CheckedAdvance(length), length);
         }
 
-        /// <summary>Reads a null-terminated string and advances the position past the padding.</summary>
+        /// <summary>
+        /// Reads a null-terminated string and advances the position past the padding.
+        /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the position will fall outside the bounds of the underlying array segment.
         /// </exception>
@@ -469,6 +545,21 @@ namespace OpenStory.Common.IO
         {
             int stringStart = this.CheckedAdvance(length);
             return this.ReadNullTerminatedString(stringStart, length);
+        }
+
+        /// <summary>
+        /// Reads a byte as a <see cref="System.Boolean"/>.
+        /// </summary>
+        /// <remarks>
+        /// The returned value is <c>true</c> if the read byte is not equal to <c>0</c>.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
+        /// </exception>
+        /// <returns>The value that was read from the stream.</returns>
+        public bool ReadBoolean()
+        {
+            return this.buffer[this.CheckedAdvance(1)] != 0;
         }
 
         #endregion

@@ -6,7 +6,6 @@ using OpenStory.Networking;
 using OpenStory.Server.Data;
 using OpenStory.Server.Properties;
 using OpenStory.ServiceModel;
-using OpenStory.Common.Data;
 
 namespace OpenStory.Server
 {
@@ -81,9 +80,10 @@ namespace OpenStory.Server
             byte[] clientIV = GetNewIV();
             byte[] serverIV = GetNewIV();
 
-            var serverSession = new ServerSession(socket);
+            var serverSession = new ServerSession();
             serverSession.OnClosing += HandleConnectionClose;
 
+            serverSession.AttachSocket(socket);
             this.HandleConnectionOpen(serverSession);
 
             Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,

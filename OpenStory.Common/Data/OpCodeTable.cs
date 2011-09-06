@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using OpenStory.Common.IO;
 
 namespace OpenStory.Common.Data
 {
@@ -100,6 +102,26 @@ namespace OpenStory.Common.Data
 
             this.incomingTable.Add(opCode, label);
             return true;
+        }
+
+        /// <summary>
+        /// Provides a <see cref="PacketBuilder"/> with a pre-added op code for the specified packet label.
+        /// </summary>
+        /// <param name="label">The label for the packet op code.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="label"/> has no corresponding known packet op code.
+        /// </exception>
+        /// <returns>The constructed <see cref="PacketBuilder"/> instance.</returns>
+        public PacketBuilder NewPacket(string label)
+        {
+            ushort opCode;
+            if (!this.outgoingTable.TryGetValue(label, out opCode))
+            {
+                throw new ArgumentException("The given label has no corresponding op code.", "label");
+            }
+            PacketBuilder builder = new PacketBuilder();
+            builder.WriteInt16(opCode);
+            return builder;
         }
     }
 }

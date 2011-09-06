@@ -6,7 +6,7 @@ namespace OpenStory.Common.Authentication
     /// A response code for an authentication attempt.
     /// </summary>
     [Serializable]
-    public enum AuthenticationResult
+    public enum AuthenticationResult : byte
     {
         /// <summary>
         /// Client authenticated.

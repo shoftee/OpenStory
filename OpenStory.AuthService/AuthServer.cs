@@ -40,9 +40,6 @@ namespace OpenStory.AuthService
             this.accountService = new AccountServiceClient();
         }
 
-
-        // TODO: FINISH THIS F5
-
         #region IAuthServer Members
 
         /// <summary>

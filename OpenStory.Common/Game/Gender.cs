@@ -9,12 +9,16 @@ namespace OpenStory.Common.Game
     public enum Gender : byte
     {
         /// <summary>
-        /// The user is male.
+        /// Male gender.
         /// </summary>
         Male = 0,
         /// <summary>
-        /// The user is female.
+        /// Female gender.
         /// </summary>
-        Female = 1
+        Female = 1,
+        /// <summary>
+        /// Unspecified gender.
+        /// </summary>
+        Unspecified = 2
     }
 }

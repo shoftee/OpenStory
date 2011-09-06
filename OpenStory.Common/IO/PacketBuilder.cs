@@ -164,7 +164,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="boolean">The value to write.</param>
         /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
-        public void WriteBool(bool boolean)
+        public void WriteBoolean(bool boolean)
         {
             this.CheckDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(boolean));
@@ -181,7 +181,7 @@ namespace OpenStory.Common.IO
         {
             if (s == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException("s");
             }
             this.WriteInt16((short) s.Length);
             this.WriteDirect(Encoding.UTF8.GetBytes(s));
@@ -203,7 +203,7 @@ namespace OpenStory.Common.IO
             this.CheckDisposed();
             if (s == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException("s");
             }
             if (padLength <= 0)
             {
@@ -212,7 +212,7 @@ namespace OpenStory.Common.IO
             }
             if (s.Length > padLength)
             {
-                throw new ArgumentOutOfRangeException("value", "The string is not shorter than the pad length.");
+                throw new ArgumentOutOfRangeException("s", "The string is not shorter than the pad length.");
             }
 
             var stringBytes = new byte[padLength];

@@ -70,6 +70,10 @@
       <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
       <Name>OpenStory.Cryptography</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
+      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
+      <Name>OpenStory.Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>

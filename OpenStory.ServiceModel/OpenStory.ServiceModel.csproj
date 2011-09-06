@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System">
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel">
     </Reference>
   </ItemGroup>
@@ -45,6 +46,8 @@
     <Compile Include="IAccountSession.cs" />
     <Compile Include="IGameService.cs" />
     <Compile Include="ISessionManager.cs" />
+    <Compile Include="IUpdate.cs" />
+    <Compile Include="IWorldRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConstants.cs" />
     <Compile Include="ServiceHelpers.cs" />

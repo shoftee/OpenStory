@@ -19,7 +19,7 @@ namespace OpenStory.Common.Game
         Equip = 1,
         /// <summary>
         /// The item is generic. It usually stacks with other items 
-        /// and usuall does not have a unique identifier.
+        /// and usually does not have a unique identifier.
         /// </summary>
         Item = 2
     }

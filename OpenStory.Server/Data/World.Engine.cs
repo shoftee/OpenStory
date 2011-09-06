@@ -14,11 +14,13 @@ namespace OpenStory.Server.Data
         /// <returns>A WorldData object representing the record in the database, or null if none was found.</returns>
         public static World GetWorldById(int worldId)
         {
-            var command = new SqlCommand("SELECT * FROM World WHERE WorldId=@worldId");
-            command.Parameters.Add("@worldId", SqlDbType.TinyInt).Value = worldId;
-            World world = null;
-            DbHelpers.InvokeForSingle(command, record => world = new World(record));
-            return world;
+            using (var command = new SqlCommand("SELECT * FROM World WHERE WorldId=@worldId"))
+            {
+                command.Parameters.Add("@worldId", SqlDbType.TinyInt).Value = worldId;
+                World world = null;
+                DbHelpers.InvokeForSingle(command, record => world = new World(record));
+                return world;
+            }
         }
 
         /// <summary>
@@ -27,8 +29,10 @@ namespace OpenStory.Server.Data
         /// <returns>An IEnumerable{<see cref="World"/>} with all the worlds in the database.</returns>
         public static IEnumerable<World> GetAllWorlds()
         {
-            var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId");
-            return DbHelpers.GetRecordSetIterator(command).Select(record => new World(record));
+            using (var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId"))
+            {
+                return DbHelpers.GetRecordSetIterator(command).Select(record => new World(record));
+            }
         }
     }
 }

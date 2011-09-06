@@ -75,6 +75,8 @@ namespace OpenStory.Server
             this.keepAliveTimer.Start();
         }
 
+        #region Packet handling
+
         private void HandlePing(object sender, ElapsedEventArgs e)
         {
             Log.WriteInfo("PING {0}", this.sentPings.Value);
@@ -86,7 +88,7 @@ namespace OpenStory.Server
             this.Session.WritePacket(ByteHelpers.CloneArray(PingPacket));
         }
 
-        void HandlePacket(object sender, IncomingPacketEventArgs e)
+        void HandlePacket(object sender, PacketReceivedEventArgs e)
         {
             PacketReader reader = e.Reader;
             ushort opCode = reader.ReadUInt16();
@@ -106,6 +108,17 @@ namespace OpenStory.Server
         /// <param name="opCode">The op code of the packet to process.</param>
         /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
         protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
+
+        #endregion
+
+        /// <summary>
+        /// Writes a packet to the client's stream.
+        /// </summary>
+        /// <param name="data">The data of the packet.</param>
+        public void WritePacket(byte[] data)
+        {
+            this.Session.WritePacket(data);
+        }
 
         /// <summary>
         /// Immediately disconnects the client from the server.
