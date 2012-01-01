@@ -92,7 +92,7 @@ namespace OpenStory.Cryptography
             int length = this.TryGetLength(rawData);
             if (length == -1) goto Fail;
 
-            decryptedData = ByteHelpers.SegmentFrom(rawData, 4, length);
+            decryptedData = rawData.Segment(4, length);
             this.Decrypt(decryptedData);
             return true;
 

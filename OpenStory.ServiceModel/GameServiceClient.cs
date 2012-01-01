@@ -13,7 +13,6 @@ namespace OpenStory.ServiceModel
     public abstract class GameServiceClient<TGameService> : ClientBase<TGameService>, IGameService
         where TGameService : class, IGameService
     {
-
         /// <summary>
         /// Initializes a new instance of GameServiceClient with the specified endpoint address.
         /// </summary>

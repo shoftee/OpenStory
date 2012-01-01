@@ -22,24 +22,23 @@ namespace OpenStory.Server.Data
 
         /// <summary>Executes the given query and invokes a callback for the first row of the result set.</summary>
         /// <param name="query">The SqlCommand to execute.</param>
-        /// <param name="recordCallback">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
-        /// <returns>true if there was a result; otherwise, false.</returns>
-        public static bool InvokeForSingle(SqlCommand query, Action<IDataRecord> recordCallback)
+        /// <param name="callback">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
+        /// <returns><c>true</c> if there was a result; otherwise, <c>false</c>.</returns>
+        public static bool InvokeForSingle(SqlCommand query, Action<IDataRecord> callback)
         {
             // I actually feel quite awesome about this method, it saves me a lot of writing.
             using (query)
+            using (SqlConnection connection = GetConnection())
             {
-                using (SqlConnection connection = GetConnection())
-                {
-                    query.Connection = connection;
-                    connection.Open();
-                    using (SqlDataReader record = query.ExecuteReader(CommandBehavior.SingleRow))
-                    {
-                        if (!record.Read()) return false;
+                query.Connection = connection;
+                connection.Open();
 
-                        recordCallback(record);
-                        return true;
-                    }
+                using (SqlDataReader record = query.ExecuteReader(CommandBehavior.SingleRow))
+                {
+                    if (!record.Read()) return false;
+
+                    callback(record);
+                    return true;
                 }
             }
         }
@@ -50,17 +49,16 @@ namespace OpenStory.Server.Data
         public static IEnumerable<IDataRecord> GetRecordSetIterator(SqlCommand query)
         {
             using (query)
+            using (SqlConnection connection = GetConnection())
             {
-                using (SqlConnection connection = GetConnection())
+                query.Connection = connection;
+                connection.Open();
+
+                using (SqlDataReader record = query.ExecuteReader())
                 {
-                    query.Connection = connection;
-                    connection.Open();
-                    using (SqlDataReader record = query.ExecuteReader())
+                    while (record.Read())
                     {
-                        while (record.Read())
-                        {
-                            yield return record;
-                        }
+                        yield return record;
                     }
                 }
             }
@@ -68,14 +66,14 @@ namespace OpenStory.Server.Data
 
         /// <summary>Iterates over the results of a SqlCommand and invokes a callback for each record.</summary>
         /// <param name="query">The SqlCommand to execute.</param>
-        /// <param name="recordCallback">The action to perform on each record.</param>
+        /// <param name="callback">The action to perform on each record.</param>
         /// <returns>The number of records in the result set.</returns>
-        public static int InvokeForAll(SqlCommand query, Action<IDataRecord> recordCallback)
+        public static int InvokeForAll(SqlCommand query, Action<IDataRecord> callback)
         {
             int count = 0;
             foreach (IDataRecord record in GetRecordSetIterator(query))
             {
-                recordCallback.Invoke(record);
+                callback.Invoke(record);
                 count++;
             }
             return count;
@@ -88,13 +86,12 @@ namespace OpenStory.Server.Data
         public static TResult GetScalar<TResult>(SqlCommand scalarQuery)
         {
             using (scalarQuery)
+            using (SqlConnection connection = GetConnection())
             {
-                using (SqlConnection connection = GetConnection())
-                {
-                    scalarQuery.Connection = connection;
-                    connection.Open();
-                    return (TResult) scalarQuery.ExecuteScalar();
-                }
+                scalarQuery.Connection = connection;
+                connection.Open();
+
+                return (TResult) scalarQuery.ExecuteScalar();
             }
         }
 
@@ -103,10 +100,12 @@ namespace OpenStory.Server.Data
         /// <returns>The number of rows affected by the SqlCommand.</returns>
         public static int ExecuteNonQuery(SqlCommand nonQuery)
         {
+            using (nonQuery)
             using (SqlConnection connection = GetConnection())
             {
                 nonQuery.Connection = connection;
                 connection.Open();
+
                 return nonQuery.ExecuteNonQuery();
             }
         }
@@ -115,9 +114,13 @@ namespace OpenStory.Server.Data
         {
             spCommand.CommandType = CommandType.StoredProcedure;
             spCommand.CommandTimeout = 60;
+
+            using (spCommand)
             using (SqlConnection connection = GetConnection())
             {
                 spCommand.Connection = connection;
+                connection.Open();
+
                 spCommand.ExecuteNonQuery();
             }
         }

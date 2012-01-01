@@ -82,7 +82,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException("versionType", "Argument 'versionType' has an invalid value.");
             }
 
-            this.iv = ByteHelpers.CloneArray(iv);
+            this.iv = iv.FastClone();
 
             if (versionType == VersionType.Complement)
             {
@@ -298,7 +298,7 @@ namespace OpenStory.Cryptography
         /// <returns>The shuffled IV.</returns>
         private static byte[] ShuffleIvInternal(byte[] iv)
         {
-            byte[] newIV = ByteHelpers.CloneArray(ShuffleConstant);
+            byte[] newIV = ShuffleConstant.FastClone();
 
             for (int i = 0; i < 4; i++)
             {
@@ -377,7 +377,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException("'iv' must have exactly 4 elements.");
             }
 
-            var copy = ByteHelpers.CloneArray(data);
+            var copy = data.FastClone();
             TransformArraySegment(copy, iv, 0, copy.Length);
             return copy;
         }

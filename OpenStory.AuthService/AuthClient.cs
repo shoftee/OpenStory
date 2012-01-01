@@ -63,7 +63,7 @@ namespace OpenStory.AuthService
             if (!AuthServer.PacketTable.TryGetIncomingLabel(opCode, out label))
             {
                 Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
-                                 ByteHelpers.ByteToHex(reader.ReadFully()));
+                                 reader.ReadFully().ToHex());
                 return;
             }
 

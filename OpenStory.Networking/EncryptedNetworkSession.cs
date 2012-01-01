@@ -107,11 +107,14 @@ namespace OpenStory.Networking
         /// </exception>
         public void WritePacket(byte[] packet)
         {
-            if (packet == null) throw new ArgumentNullException("packet");
+            if (packet == null)
+            {
+                throw new ArgumentNullException("packet");
+            }
 
             if (this.Session.Socket.Connected)
             {
-                byte[] rawData = this.Crypto.EncryptAndPack(packet);
+                byte[] rawData = this.Crypto.EncryptAndPack(packet.FastClone());
                 this.Session.Write(rawData);
             }
         }

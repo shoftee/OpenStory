@@ -92,7 +92,7 @@ namespace OpenStory.Server.Data
 
             SaveKeyBindings(binaryData, characterId);
 
-            // Don't forget to set HasChanged to false.);
+            // Don't forget to set HasChanged to false.
             foreach (KeyBinding binding in bindings.Where(b => b.HasChanged))
             {
                 binding.HasChanged = false;

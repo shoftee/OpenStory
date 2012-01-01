@@ -85,7 +85,7 @@ namespace OpenStory.Server
                 this.Disconnect();
                 return;
             }
-            this.Session.WritePacket(ByteHelpers.CloneArray(PingPacket));
+            this.Session.WritePacket(PingPacket);
         }
 
         void HandlePacket(object sender, PacketReceivedEventArgs e)

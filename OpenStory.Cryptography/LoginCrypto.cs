@@ -28,7 +28,7 @@ namespace OpenStory.Cryptography
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
             byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);
-            return ByteHelpers.ByteToHex(hashBytes, lowercase);
+            return hashBytes.ToHex(lowercase);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace OpenStory.Cryptography
             byte[] passwordHashBytes = Encoding.UTF7.GetBytes(passwordHash);
 
             byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);
-            return ByteHelpers.ByteToHex(encryptedHashBytes);
+            return encryptedHashBytes.ToHex();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace OpenStory.Cryptography
         /// OR, if <paramref name="hex"/> contains characters that don't correspond to hexadecimal digits.
         /// </exception>
         /// <returns>The resulting byte array.</returns>
-        public static byte[] HexToByte(string hex)
+        public static byte[] ToByte(this string hex)
         {
             if (hex == null) throw new ArgumentNullException("hex");
             if ((hex.Length & 1) != 0)
@@ -57,9 +57,9 @@ namespace OpenStory.Cryptography
         /// <param name="array">The byte array to translate to hexadecimal characters.</param>
         /// <returns>The byte array as a hex-digit string.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
-        public static string ByteToHex(byte[] array)
+        public static string ToHex(this byte[] array)
         {
-            return ByteToHex(array, false);
+            return ToHex(array, false);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OpenStory.Cryptography
         /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
         /// <returns>The byte array as a hex-digit string.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
-        public static string ByteToHex(byte[] array, bool lowercase)
+        public static string ToHex(this byte[] array, bool lowercase)
         {
             if (array == null) throw new ArgumentNullException("array");
 
@@ -93,9 +93,13 @@ namespace OpenStory.Cryptography
         /// Thrown if <paramref name="array"/> is <c>null</c>.
         /// </exception>
         /// <returns>The new array.</returns>
-        public static byte[] CloneArray(byte[] array)
+        public static byte[] FastClone(this byte[] array)
         {
-            if (array == null) throw new ArgumentNullException("array");
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
             int length = array.Length;
             var newArray = new byte[length];
             Buffer.BlockCopy(array, 0, newArray, 0, length);
@@ -115,7 +119,7 @@ namespace OpenStory.Cryptography
         /// Thrown if <paramref name="start"/> is negative or outside the range of the array, 
         /// or if <paramref name="length"/> is negative or the segment ends outside the array's bounds.</exception>
         /// <returns>A copy of the segment.</returns>
-        public static byte[] SegmentFrom(byte[] array, int start, int length)
+        public static byte[] Segment(this byte[] array, int start, int length)
         {
             if (array == null) throw new ArgumentNullException("array");
             if (start < 0 || array.Length <= start)
