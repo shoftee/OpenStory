@@ -1,6 +1,4 @@
-﻿using OpenStory.ServiceModel;
-
-namespace OpenStory.AuthService
+﻿namespace OpenStory.ServiceModel
 {
     /// <summary>
     /// Represents an Authentication Service client.

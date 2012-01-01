@@ -50,9 +50,7 @@
     <Compile Include="AuthClient.cs" />
     <Compile Include="AuthClientState.cs" />
     <Compile Include="AuthServer.cs" />
-    <Compile Include="AuthServiceClient.cs" />
     <Compile Include="IAuthServer.cs" />
-    <Compile Include="IAuthService.cs" />
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

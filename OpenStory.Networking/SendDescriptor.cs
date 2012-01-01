@@ -60,7 +60,7 @@ namespace OpenStory.Networking
             this.BeginSend();
         }
 
-        protected override void CloseImpl()
+        protected override void OnClosed()
         {
             this.queue = null;
         }

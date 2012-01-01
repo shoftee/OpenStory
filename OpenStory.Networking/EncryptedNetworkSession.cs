@@ -19,12 +19,12 @@ namespace OpenStory.Networking
         /// <summary>
         /// The event is raised when an incoming packet is fully received.
         /// </summary>
-        public event EventHandler<PacketReceivedEventArgs> OnPacketReceived;
+        public event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
         /// <summary>
         /// The event is raised before the session is closed.
         /// </summary>
-        public event EventHandler OnClosing;
+        public event EventHandler Closing;
 
         #endregion
 
@@ -59,8 +59,8 @@ namespace OpenStory.Networking
             this.HeaderBuffer = new BoundedBuffer(4);
 
             this.Session = new NetworkSession();
-            this.Session.OnDataArrived += this.HandleIncomingData;
-            this.Session.OnClosing += this.RaiseClosingEvent;      
+            this.Session.DataArrived += this.HandleIncomingData;
+            this.Session.Closing += this.RaiseClosingEvent;      
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace OpenStory.Networking
 
         private void RaiseClosingEvent(object sender, EventArgs e)
         {
-            if (this.OnClosing != null)
+            if (this.Closing != null)
             {
-                this.OnClosing(this, e);
+                this.Closing(this, e);
             }
         }
 
@@ -92,9 +92,9 @@ namespace OpenStory.Networking
         /// </summary>
         public void Close()
         {
-            this.OnPacketReceived = null;
+            this.PacketReceived = null;
             this.Session.Close();
-            this.OnClosing = null;
+            this.Closing = null;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Called when the <see cref="OnPacketReceived"/> event is raised.
+        /// Called when the <see cref="PacketReceived"/> event is raised.
         /// </summary>
         /// <remarks>
         /// When overriding this method in a derived class, call the base implementation after your logic.
@@ -136,7 +136,7 @@ namespace OpenStory.Networking
                     this.Crypto.Decrypt(rawData);
 
                     var incomingPacketArgs = new PacketReceivedEventArgs(rawData);
-                    this.OnPacketReceived(this, incomingPacketArgs);
+                    this.PacketReceived(this, incomingPacketArgs);
                 }
 
                 if (remaining == 0) break;
@@ -173,14 +173,14 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Checks if the <see cref="OnPacketReceived"/> event has a subscriber and throws 
+        /// Checks if the <see cref="PacketReceived"/> event has a subscriber and throws 
         /// <see cref="InvalidOperationException"/> if not.
         /// </summary>
         protected void ThrowIfNoPacketReceivedSubscriber()
         {
-            if (this.OnPacketReceived == null)
+            if (this.PacketReceived == null)
             {
-                throw new InvalidOperationException("'OnPacketReceived' has no subscribers.");
+                throw new InvalidOperationException("'PacketReceived' has no subscribers.");
             }
         }
     }

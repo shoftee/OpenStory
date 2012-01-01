@@ -64,7 +64,7 @@ namespace OpenStory.Server
             if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
 
             this.Session = session;
-            this.Session.OnPacketReceived += this.HandlePacket;
+            this.Session.PacketReceived += this.HandlePacket;
 
             this.AccountSession = null;
 

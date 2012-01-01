@@ -4,11 +4,14 @@ using System.ServiceModel;
 namespace OpenStory.ServiceModel
 {
     /// <summary>
-    /// An abstract game service client.
+    /// Represents a game service client.
     /// </summary>
-    /// <typeparam name="T">The type for the service contract.</typeparam>
-    public abstract class GameServiceClient<T> : ClientBase<T>, IGameService
-        where T : class, IGameService
+    /// <remarks>
+    /// This class is abstract.
+    /// </remarks>
+    /// <typeparam name="TGameService">The type for the service contract.</typeparam>
+    public abstract class GameServiceClient<TGameService> : ClientBase<TGameService>, IGameService
+        where TGameService : class, IGameService
     {
 
         /// <summary>

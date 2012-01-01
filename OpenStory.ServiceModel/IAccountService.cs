@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
-using OpenStory.ServiceModel;
 
-namespace OpenStory.AccountService
+namespace OpenStory.ServiceModel
 {
     /// <summary>
     /// Provides methods for accessing an account service.

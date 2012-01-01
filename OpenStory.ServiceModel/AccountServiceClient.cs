@@ -1,6 +1,4 @@
-﻿using OpenStory.ServiceModel;
-
-namespace OpenStory.AccountService
+﻿namespace OpenStory.ServiceModel
 {
     /// <summary>
     /// Provides remote access to an <see cref="IAccountService"/>.

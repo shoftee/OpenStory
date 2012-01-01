@@ -42,8 +42,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountServiceClient.cs" />
+    <Compile Include="AuthServiceClient.cs" />
     <Compile Include="GameServiceClient.cs" />
+    <Compile Include="IAccountService.cs" />
     <Compile Include="IAccountSession.cs" />
+    <Compile Include="IAuthService.cs" />
     <Compile Include="IGameService.cs" />
     <Compile Include="ISessionManager.cs" />
     <Compile Include="IWorldRegistry.cs" />

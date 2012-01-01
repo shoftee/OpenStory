@@ -10,10 +10,11 @@ namespace OpenStory.Networking
     public sealed class NetworkSession : IDescriptorContainer
     {
         #region Events
+
         /// <summary>
         /// The event is raised just before the NetworkSession is closed.
         /// </summary>
-        public event EventHandler OnClosing;
+        public event EventHandler Closing;
 
         /// <summary>
         /// The event is raised when a data segment arrives.
@@ -23,10 +24,10 @@ namespace OpenStory.Networking
         /// Attempts to subscribe more than one method to this event 
         /// will throw an <see cref="InvalidOperationException"/>.
         /// </remarks>
-        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        public event EventHandler<DataArrivedEventArgs> DataArrived
         {
-            add { this.receiveDescriptor.OnDataArrived += value; }
-            remove { this.receiveDescriptor.OnDataArrived -= value; }
+            add { this.receiveDescriptor.DataArrived += value; }
+            remove { this.receiveDescriptor.DataArrived -= value; }
         }
 
         /// <summary>
@@ -36,13 +37,13 @@ namespace OpenStory.Networking
         {
             add
             {
-                this.sendDescriptor.OnError += value;
-                this.receiveDescriptor.OnError += value;
+                this.sendDescriptor.Error += value;
+                this.receiveDescriptor.Error += value;
             }
             remove
             {
-                this.sendDescriptor.OnError -= value;
-                this.receiveDescriptor.OnError -= value;
+                this.sendDescriptor.Error -= value;
+                this.receiveDescriptor.Error -= value;
             }
         }
 
@@ -147,12 +148,12 @@ namespace OpenStory.Networking
         /// </summary>
         public void Close()
         {
-            if (this.OnClosing != null)
+            if (this.Closing != null)
             {
-                this.OnClosing(this, EventArgs.Empty);
+                this.Closing(this, EventArgs.Empty);
             }
 
-            this.OnClosing = null;
+            this.Closing = null;
             if (!this.isActive.CompareExchange(comparand: true, newValue: false))
             {
                 return;

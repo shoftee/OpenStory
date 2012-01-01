@@ -12,11 +12,12 @@ namespace OpenStory.Networking
         /// <summary>
         /// The event raised when a new socket connection has been accepted.
         /// </summary>
-        public event EventHandler<SocketEventArgs> OnSocketAccepted;
+        public event EventHandler<SocketEventArgs> SocketAccepted;
         /// <summary>
         /// The event raised when there's a socket error.
         /// </summary>
-        public event EventHandler<SocketErrorEventArgs> OnSocketError;
+        public event EventHandler<SocketErrorEventArgs> SocketError;
+
         private readonly IPEndPoint localEndPoint;
         private SocketAsyncEventArgs socketArgs;
         private Socket acceptSocket;
@@ -56,13 +57,13 @@ namespace OpenStory.Networking
         /// Starts the process of accepting connections.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the <see cref="OnSocketAccepted"/> event has no subscribers.
+        /// Thrown if the <see cref="SocketAccepted"/> event has no subscribers.
         /// </exception>
         public void Start()
         {
-            if (this.OnSocketAccepted == null)
+            if (this.SocketAccepted == null)
             {
-                throw new InvalidOperationException("'OnSocketAccepted' has no subscribers.");
+                throw new InvalidOperationException("'SocketAccepted' has no subscribers.");
             }
 
             this.acceptSocket = this.GetAcceptSocket();
@@ -113,7 +114,7 @@ namespace OpenStory.Networking
 
         private bool EndAcceptSynchronous(SocketAsyncEventArgs eventArgs)
         {
-            if (eventArgs.SocketError != SocketError.Success)
+            if (eventArgs.SocketError != System.Net.Sockets.SocketError.Success)
             {
                 this.HandleError(eventArgs.SocketError);
                 return false;
@@ -121,7 +122,7 @@ namespace OpenStory.Networking
 
             Socket clientSocket = eventArgs.AcceptSocket;
             var socketEventArgs = new SocketEventArgs(clientSocket);
-            this.OnSocketAccepted(this, socketEventArgs);
+            this.SocketAccepted(this, socketEventArgs);
             return true;
         }
 
@@ -135,13 +136,13 @@ namespace OpenStory.Networking
 
         private void HandleError(SocketError error)
         {
-            if (this.OnSocketError != null)
+            if (this.SocketError != null)
             {
-                this.OnSocketError(this, new SocketErrorEventArgs(error));
+                this.SocketError(this, new SocketErrorEventArgs(error));
             }
 
             // OperationAborted comes up when we closed the socket manually.
-            if (error != SocketError.OperationAborted)
+            if (error != System.Net.Sockets.SocketError.OperationAborted)
             {
                 this.Stop();
             }

@@ -27,7 +27,7 @@ namespace OpenStory.Server
             this.IsRunning = false;
 
             this.acceptor = new SocketAcceptor(port);
-            this.acceptor.OnSocketAccepted += (s, e) => this.HandleAccept(e.Socket);
+            this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace OpenStory.Server
         /// overriding this method be sure to save a reference to it.
         /// </remarks>
         /// <param name="serverSession">The new session to process.</param>
-        protected abstract void HandleConnectionOpen(ServerSession serverSession);
+        protected abstract void OnConnectionOpen(ServerSession serverSession);
 
         private void HandleAccept(Socket socket)
         {
@@ -81,10 +81,10 @@ namespace OpenStory.Server
             byte[] serverIV = GetNewIV();
 
             var serverSession = new ServerSession();
-            serverSession.OnClosing += HandleConnectionClose;
+            serverSession.Closing += OnConnectionClose;
 
             serverSession.AttachSocket(socket);
-            this.HandleConnectionOpen(serverSession);
+            this.OnConnectionOpen(serverSession);
 
             Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,
                           BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
@@ -93,10 +93,9 @@ namespace OpenStory.Server
         }
 
 
-        private static void HandleConnectionClose(object sender, EventArgs args)
+        private static void OnConnectionClose(object sender, EventArgs args)
         {
-            var serverSession = sender as ServerSession;
-            if (serverSession == null) return;
+            var serverSession = (ServerSession) sender;
 
             Log.WriteInfo("Connection {0} closed.", serverSession.SessionId);
         }

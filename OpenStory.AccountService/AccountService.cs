@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using OpenStory.Common;
+using OpenStory.ServiceModel;
 
 namespace OpenStory.AccountService
 {

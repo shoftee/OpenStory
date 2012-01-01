@@ -87,7 +87,7 @@ namespace OpenStory.AuthService
 
         #endregion
 
-        protected override void HandleConnectionOpen(ServerSession serverSession)
+        protected override void OnConnectionOpen(ServerSession serverSession)
         {
             AuthClient newClient = new AuthClient(serverSession, this);
             this.clients.Add(newClient);

@@ -8,11 +8,10 @@ namespace OpenStory.Networking
     /// </summary>
     abstract class Descriptor
     {
-
         /// <summary>
         /// The event is raised when a connection error occurs.
         /// </summary>
-        public event EventHandler<SocketErrorEventArgs> OnError;
+        public event EventHandler<SocketErrorEventArgs> Error;
 
         /// <summary>
         /// Gets the <see cref="IDescriptorContainer">Container</see> of this Descriptor.
@@ -23,7 +22,6 @@ namespace OpenStory.Networking
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this Descriptor.
         /// </summary>
         protected SocketAsyncEventArgs SocketArgs { get; private set; }
-
         
         /// <summary>
         /// Initializes a new Descriptor.
@@ -48,7 +46,7 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Raises the <see cref="OnError"/> event and closes the connection.
+        /// Raises the <see cref="Error"/> event and closes the connection.
         /// </summary>
         /// <remarks>
         /// The event will be raised only if it has subscribers and the 
@@ -68,9 +66,9 @@ namespace OpenStory.Networking
                 throw new ArgumentNullException("args");
             }
 
-            if (args.SocketError != SocketError.Success && this.OnError != null)
+            if (args.SocketError != SocketError.Success && this.Error != null)
             {
-                this.OnError(this, new SocketErrorEventArgs(args.SocketError));
+                this.Error(this, new SocketErrorEventArgs(args.SocketError));
             }
 
             if (args.SocketError != SocketError.OperationAborted)
@@ -83,12 +81,12 @@ namespace OpenStory.Networking
         /// A hook to the end of the publicly 
         /// exposed <see cref="Close()"/> method.
         /// </summary>
-        protected abstract void CloseImpl();
+        protected abstract void OnClosed();
 
         public void Close()
         {
-            this.OnError = null;
-            this.CloseImpl();
+            this.Error = null;
+            this.OnClosed();
         }
     }
 }

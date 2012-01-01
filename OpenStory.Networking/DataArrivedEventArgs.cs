@@ -3,7 +3,7 @@
 namespace OpenStory.Networking
 {
     /// <summary>
-    /// Provides access to properties related to an OnDataArrived event.
+    /// Provides access to properties related to an DataArrived event.
     /// </summary>
     public class DataArrivedEventArgs : EventArgs
     {

@@ -29,7 +29,7 @@ namespace OpenStory.Networking
         /// Thrown when attempting to subscribe to the event when there is already one subscriber,
         /// or when attempting to unsubscribe from the event when there are no subscribers.
         /// </exception>
-        public event EventHandler<DataArrivedEventArgs> OnDataArrived
+        public event EventHandler<DataArrivedEventArgs> DataArrived
         {
             add
             {
@@ -95,13 +95,13 @@ namespace OpenStory.Networking
         /// Starts the receive process.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the <see cref="OnDataArrived"/> event has no subscibers.
+        /// Thrown if the <see cref="DataArrived"/> event has no subscibers.
         /// </exception>
         public void StartReceive()
         {
             if (this.OnDataArrivedInternal == null)
             {
-                throw new InvalidOperationException("OnDataArrived has no subscribers.");
+                throw new InvalidOperationException("DataArrived has no subscribers.");
             }
 
             this.SetFreshBuffer();
@@ -183,7 +183,7 @@ namespace OpenStory.Networking
 
         #endregion
 
-        protected override void CloseImpl()
+        protected override void OnClosed()
         {
             this.OnDataArrivedInternal = null;
             this.ClearBuffer();
