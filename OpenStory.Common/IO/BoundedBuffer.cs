@@ -8,6 +8,18 @@ namespace OpenStory.Common.IO
     /// </summary>
     public class BoundedBuffer : IDisposable
     {
+        private bool isDisposed;
+
+        /// <summary>
+        /// Gets the internal MemoryStream object of the BoundedBuffer
+        /// </summary>
+        protected MemoryStream MemoryStream { get; private set; }
+
+        /// <summary>
+        /// Gets the number of useable bytes at the end of the BoundedBuffer.
+        /// </summary>
+        public int FreeSpace { get; private set; }
+        
         /// <summary>
         /// Initializes a new instance of the 
         /// BoundedBuffer class with no capacity.
@@ -40,30 +52,6 @@ namespace OpenStory.Common.IO
 
             this.Reset(capacity);
         }
-
-        /// <summary>
-        /// Gets the internal MemoryStream object of the BoundedBuffer
-        /// </summary>
-        protected MemoryStream MemoryStream { get; private set; }
-
-        /// <summary>
-        /// Gets the number of useable bytes at the end of the BoundedBuffer.
-        /// </summary>
-        public int FreeSpace { get; private set; }
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Disposes of the underlying <see cref="MemoryStream"/>.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
 
         /// <summary>
         /// Takes bytes from the start of an array and 
@@ -181,7 +169,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <remarks>
         /// Calling this method is equivalent to calling <see cref="Extract()"/> and then
-        /// <see cref="Reset(int)"/> with the same parameter.
+        /// <see cref="Reset(int)"/> with the same value for <paramref name="newCapacity"/>.
         /// </remarks>
         /// <param name="newCapacity">The new capacity for the BoundedBuffer.</param>
         /// <returns>A byte array of the data in the BoundedBuffer.</returns>
@@ -199,19 +187,33 @@ namespace OpenStory.Common.IO
             return data;
         }
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Disposes of the underlying <see cref="MemoryStream"/>.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         /// <summary>
         /// Virtual dispose method. When overriding, call the base implementation before your logic.
         /// </summary>
         /// <param name="disposing">
-        /// A parameter to denote whether the method 
-        /// is being called during Disposal or Finalization.
+        /// A parameter to denote whether the method is being called during Disposal or Finalization.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && !isDisposed)
             {
                 this.MemoryStream.Dispose();
+                this.isDisposed = true;
             }
         }
+
+        #endregion
     }
 }

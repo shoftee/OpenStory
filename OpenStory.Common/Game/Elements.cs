@@ -12,6 +12,7 @@ namespace OpenStory.Common.Game
         /// Default value.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The fire attribute.
         /// </summary>
@@ -23,7 +24,7 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// The lightning attribute.
         /// </summary>
-        Ligtning = 0x4, // L
+        Lightning = 0x4, // L
         /// <summary>
         /// The poison attribute.
         /// </summary>

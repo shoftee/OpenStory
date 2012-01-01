@@ -8,10 +8,5 @@ namespace OpenStory.ServiceModel
     [ServiceContract]
     public interface IWorldRegistry
     {
-        /// <summary>
-        /// Broadcasts a notification.
-        /// </summary>
-        /// <param name="update">An encapsulated update to broadcast.</param>
-        void Broadcast(IUpdate update);
     }
 }

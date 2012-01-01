@@ -65,6 +65,9 @@
     <Compile Include="Data\GameMasterLevel.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Data\World.Engine.cs" />
+    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\ItemCluster.cs" />
+    <Compile Include="Game\ItemInfo.cs" />
     <Compile Include="Game\KeyBinding.cs" />
     <Compile Include="Game\KeyLayout.cs" />
     <Compile Include="IChannelWorld.cs" />

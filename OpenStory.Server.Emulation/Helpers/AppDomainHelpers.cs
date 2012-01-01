@@ -1,27 +1,48 @@
 ﻿using System;
+using System.Reflection;
 using System.Security.Policy;
+using System.Threading;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation.Helpers
 {
-    internal class AppDomainHelpers
+    internal static class AppDomainHelpers
     {
         private static readonly AppDomainSetup DefaultAppDomainSetup =
             new AppDomainSetup
             {
                 ApplicationName = "OpenStory-ServerEmulator",
-                LoaderOptimization = LoaderOptimization.SingleDomain
+                LoaderOptimization = LoaderOptimization.NotSpecified,
             };
+
+        /// <summary>
+        /// Creates a new thread and executes the specified assembly into the AppDomain instance, passing the specified arguments.
+        /// </summary>
+        /// <param name="instance">The AppDomain instance to execute an assembly in.</param>
+        /// <param name="assemblyName">The AssemblyName instance for the assembly to execute.</param>
+        /// <param name="args">The arguments to pass to the entry point method.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="assemblyName"/> is <c>null</c>.</exception>
+        /// <returns>The new thread.</returns>
+        public static Thread LaunchAssembly(this AppDomain instance, AssemblyName assemblyName, params string[] args)
+        {
+            if (assemblyName == null)
+            {
+                throw new ArgumentNullException("assemblyName");
+            }
+            var thread = new Thread(() => instance.ExecuteAssemblyByName(assemblyName, args));
+            thread.Start();
+            return thread;
+        }
 
         /// <summary>
         /// Gets a new AppDomain with the security priviledges of the caller and the default AppDomainSetup.
         /// </summary>
         /// <param name="friendlyName">The friendly name for the new AppDomain.</param>
         /// <returns>The new AppDomain object.</returns>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="friendlyName" /> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="friendlyName" /> is <c>null</c> or empty.</exception>
         public static AppDomain GetNewDomain(string friendlyName)
         {
-            if (String.IsNullOrEmpty(friendlyName)) throw new ArgumentException("friendlyName");
+            if (String.IsNullOrEmpty(friendlyName)) throw new ArgumentNullException("friendlyName");
 
             Evidence evidence = AppDomain.CurrentDomain.Evidence;
             AppDomain newDomain = AppDomain.CreateDomain(friendlyName, evidence, DefaultAppDomainSetup);

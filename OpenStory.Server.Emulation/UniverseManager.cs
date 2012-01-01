@@ -51,7 +51,7 @@ namespace OpenStory.Server.Emulation
         /// <returns>The AppDomain of the world.</returns>
         public AppDomain GetDomainByWorldId(byte worldId)
         {
-            this.CheckInitialized();
+            this.ThrowIfNotInitialized();
             return this.domains[worldId];
         }
 
@@ -62,11 +62,11 @@ namespace OpenStory.Server.Emulation
         /// <returns>The WorldData object for the world.</returns>
         public World GetDataByWorldId(byte worldId)
         {
-            this.CheckInitialized();
+            this.ThrowIfNotInitialized();
             return this.data[worldId];
         }
 
-        private void CheckInitialized()
+        private void ThrowIfNotInitialized()
         {
             if (!this.isInitialized)
             {
