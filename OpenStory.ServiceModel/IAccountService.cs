@@ -13,7 +13,7 @@ namespace OpenStory.ServiceModel
         /// Checks whether there is an active session on the specified account.
         /// </summary>
         /// <param name="accountId">The account to check for.</param>
-        /// <returns>true if the account is active; otherwise, false.</returns>
+        /// <returns><c>true</c> if the account is active; otherwise, <c>false</c>.</returns>
         [OperationContract]
         bool IsActive(int accountId);
 
@@ -27,20 +27,20 @@ namespace OpenStory.ServiceModel
         bool TryRegisterSession(int accountId, out int sessionId);
 
         /// <summary>
-        /// Registers a character session on the specified account session.
+        /// Registers a character session on the specified account.
         /// </summary>
-        /// <param name="sessionId">The session on which to register a character.</param>
+        /// <param name="accountId">The account on which to register a character.</param>
         /// <param name="characterId">The character to register.</param>
         [OperationContract]
         [FaultContract(typeof(InvalidOperationException))]
-        void RegisterCharacter(int sessionId, int characterId);
+        void RegisterCharacter(int accountId, int characterId);
 
         /// <summary>
-        /// Attempts to remove the specified session from the list of active sessions.
+        /// Attempts to remove the specified account from the list of active accounts.
         /// </summary>
-        /// <param name="sessionId">The session to unregister.</param>
-        /// <returns><c>true</c> if the session was removed successfully; otherwise, <c>false</c>.</returns>
+        /// <param name="accountId">The account to unregister the session of.</param>
+        /// <returns><c>true</c> if unregistration was successful; otherwise, <c>false</c>.</returns>
         [OperationContract]
-        bool TryUnregisterSession(int sessionId);
+        bool TryUnregisterSession(int accountId);
     }
 }

@@ -149,7 +149,7 @@ namespace OpenStory.Server
 
             public void Dispose()
             {
-                parent.TryUnregisterSession(this.SessionId);
+                parent.TryUnregisterSession(this.AccountId);
             }
         }
 

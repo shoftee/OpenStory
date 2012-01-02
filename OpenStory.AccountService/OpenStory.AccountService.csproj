@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="ActiveAccount.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

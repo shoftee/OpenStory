@@ -10,12 +10,11 @@ namespace OpenStory.AccountService
     {
         static void Main()
         {
-            Console.Title = "OpenStory - AccountService";
+            Console.Title = "OpenStory - Account Service";
 
             AccountService accountService = new AccountService();
 
-            ServiceHost host = new ServiceHost(accountService);
-            host.AddServiceEndpoint(typeof(IAccountService), ServiceHelpers.GetTcpBinding(), ServerConstants.Uris.AccountService);
+            ServiceHost host = new ServiceHost(accountService, ServerConstants.Uris.AccountService);
             host.Open();
 
             Log.WriteInfo("Service registered.");

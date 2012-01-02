@@ -15,7 +15,7 @@ namespace OpenStory.AuthService
     /// Represents a server that handles the authentication process.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    sealed class AuthServer : AbstractServer, IAuthServer
+    sealed class AuthServer : AbstractServer, IAuthServer, IAuthService
     {
         private const string ServerName = "Auth";
 
