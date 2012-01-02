@@ -5,8 +5,9 @@ using System.Text;
 
 namespace OpenStory.Server.World
 {
-    class WorldServer : IWorldServer, IChannelWorld
+    internal class WorldServer : IWorldServer, IChannelWorld
     {
+        /// <inheritdoc />
         public int WorldId { get; private set; }
 
         private Dictionary<int, IWorldChannel> channels;
@@ -18,6 +19,7 @@ namespace OpenStory.Server.World
             this.channels = new Dictionary<int, IWorldChannel>();
         }
 
+        /// <inheritdoc />
         public void BroadcastFromChannel(int channelId, int[] targets, byte[] data)
         {
             throw new NotImplementedException();

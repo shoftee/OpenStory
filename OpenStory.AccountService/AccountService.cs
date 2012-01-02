@@ -20,11 +20,13 @@ namespace OpenStory.AccountService
             this.currentSessionId = new AtomicInteger(0);
         }
 
+        /// <inheritdoc />
         public bool IsActive(int accountId)
         {
             return this.activeAccounts.ContainsKey(accountId);
         }
 
+        /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
             if (this.activeAccounts.ContainsKey(accountId))
@@ -42,6 +44,7 @@ namespace OpenStory.AccountService
             }
         }
 
+        /// <inheritdoc />
         public void RegisterCharacter(int accountId, int characterId)
         {
             ActiveAccount account;
@@ -52,6 +55,7 @@ namespace OpenStory.AccountService
             account.RegisterCharacter(characterId);
         }
 
+        /// <inheritdoc />
         public bool TryUnregisterSession(int accountId)
         {
             ActiveAccount account;
@@ -72,16 +76,19 @@ namespace OpenStory.AccountService
 
         #region Implementation of IGameService
 
+        /// <inheritdoc />
         public void Start()
         {
             throw new InvalidOperationException("The AccountService is always running.");
         }
 
+        /// <inheritdoc />
         public void Stop()
         {
             throw new InvalidOperationException("The AccountService is always running.");
         }
 
+        /// <inheritdoc />
         public bool Ping()
         {
             return true;

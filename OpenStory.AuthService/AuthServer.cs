@@ -41,28 +41,14 @@ namespace OpenStory.AuthService
 
         #region IAuthServer Members
 
-        /// <summary>
-        /// Gets a <see cref="OpenStory.Common.Authentication.IWorld"/> instance by the World's ID.
-        /// </summary>
-        /// <param name="worldId">The ID of the world.</param>
-        /// <returns>An <see cref="OpenStory.Common.Authentication.IWorld"/> object which represents the world with the given ID.</returns>
+        /// <inheritdoc />
         public IWorld GetWorldById(int worldId)
         {
             base.ThrowIfNotRunning();
             return this.worlds.First(w => w.Id == worldId);
         }
 
-        /// <summary>
-        /// Processes the specified account name and password.
-        /// </summary>
-        /// <remarks>
-        /// <para>On successful authentication <paramref name="accountSession"/> holds a reference to the newly created account session.</para>
-        /// <para>On authentication failure <paramref name="accountSession"/> is <c>null</c>.</para>
-        /// </remarks>
-        /// <param name="accountName">The name of the account.</param>
-        /// <param name="password">The password for the account.</param>
-        /// <param name="accountSession">A value-holder for the account session.</param>
-        /// <returns>An <see cref="AuthenticationResult"/> value for the result of the process.</returns>
+        /// <inheritdoc />
         public AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountSession)
         {
             Account account = Account.LoadByUserName(accountName);
@@ -103,6 +89,7 @@ namespace OpenStory.AuthService
             this.clients.Add(newClient);
         }
 
+        /// <inheritdoc />
         public bool Ping()
         {
             return this.IsRunning;

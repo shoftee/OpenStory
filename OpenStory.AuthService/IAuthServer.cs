@@ -6,7 +6,7 @@ namespace OpenStory.AuthService
     /// <summary>
     /// Provides methods for querying an auth server.
     /// </summary>
-    interface IAuthServer
+    internal interface IAuthServer
     {
         /// <summary>
         /// Gets a <see cref="IWorld"/> instance by the World's ID.

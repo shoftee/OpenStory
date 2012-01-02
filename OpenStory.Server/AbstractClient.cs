@@ -64,7 +64,7 @@ namespace OpenStory.Server
             if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
 
             this.Session = session;
-            this.Session.PacketReceived += this.HandlePacket;
+            this.Session.PacketReceived += this.OnPacketReceived;
 
             this.AccountSession = null;
 
@@ -88,7 +88,7 @@ namespace OpenStory.Server
             this.Session.WritePacket(PingPacket);
         }
 
-        void HandlePacket(object sender, PacketReceivedEventArgs e)
+        private void OnPacketReceived(object sender, PacketReceivedEventArgs e)
         {
             PacketReader reader = e.Reader;
             ushort opCode = reader.ReadUInt16();
