@@ -15,9 +15,9 @@ namespace OpenStory.AccountService
             AccountService accountService = new AccountService();
 
             ServiceHost host = new ServiceHost(accountService);
-            host.AddServiceEndpoint(typeof(IAccountService), ServiceHelpers.GetPipeBinding(), ServerConstants.AccountServiceUri);
-
+            host.AddServiceEndpoint(typeof(IAccountService), ServiceHelpers.GetTcpBinding(), ServerConstants.Uris.AccountService);
             host.Open();
+
             Log.WriteInfo("Service registered.");
 
             Thread.Sleep(Timeout.Infinite);

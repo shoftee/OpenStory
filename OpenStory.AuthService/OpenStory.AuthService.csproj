@@ -56,10 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.AccountService\OpenStory.AccountService.csproj">
-      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
-      <Name>OpenStory.AccountService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>

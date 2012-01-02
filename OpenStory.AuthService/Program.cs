@@ -15,9 +15,9 @@ namespace OpenStory.AuthService
             var authServer = new AuthServer();
 
             var host = new ServiceHost(authServer);
-            host.AddServiceEndpoint(typeof(IAuthService), ServiceHelpers.GetPipeBinding(), ServerConstants.AuthServiceUri);
-            
+            host.AddServiceEndpoint(typeof(IAuthService), ServiceHelpers.GetTcpBinding(), ServerConstants.Uris.AuthService);
             host.Open();
+            
             Log.WriteInfo("Service registered.");
             
             authServer.Start();

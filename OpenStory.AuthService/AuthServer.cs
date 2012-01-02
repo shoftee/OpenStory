@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using OpenStory.AccountService;
 using OpenStory.Common.Authentication;
 using OpenStory.Cryptography;
 using OpenStory.Server;
@@ -27,7 +26,7 @@ namespace OpenStory.AuthService
 
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
-        private readonly AccountServiceClient accountService;
+        private readonly IAccountService accountService;
 
         /// <summary>
         /// Initializes a new instance of the AuthServer class.
@@ -53,6 +52,17 @@ namespace OpenStory.AuthService
             return this.worlds.First(w => w.Id == worldId);
         }
 
+        /// <summary>
+        /// Processes the specified account name and password.
+        /// </summary>
+        /// <remarks>
+        /// <para>On successful authentication <paramref name="accountSession"/> holds a reference to the newly created account session.</para>
+        /// <para>On authentication failure <paramref name="accountSession"/> is <c>null</c>.</para>
+        /// </remarks>
+        /// <param name="accountName">The name of the account.</param>
+        /// <param name="password">The password for the account.</param>
+        /// <param name="accountSession">A value-holder for the account session.</param>
+        /// <returns>An <see cref="AuthenticationResult"/> value for the result of the process.</returns>
         public AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountSession)
         {
             Account account = Account.LoadByUserName(accountName);
@@ -70,13 +80,13 @@ namespace OpenStory.AuthService
                 goto AuthenticationFailed;
             }
 
-            if (this.accountService.IsActive(account.AccountId))
+            int sessionId;
+            if (!this.accountService.TryRegisterSession(account.AccountId, out sessionId))
             {
                 result = AuthenticationResult.AlreadyLoggedIn;
                 goto AuthenticationFailed;
-            }
+            } 
 
-            int sessionId = this.accountService.RegisterSession(account.AccountId);
             accountSession = base.GetSession(this.accountService, sessionId, account);
             return AuthenticationResult.Success;
 

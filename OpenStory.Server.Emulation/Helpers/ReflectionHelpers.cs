@@ -21,7 +21,7 @@ namespace OpenStory.Server.Emulation.Helpers
             where TAttribute : Attribute
         {
             if (memberInfo == null) throw new ArgumentNullException("memberInfo");
-            return Attribute.GetCustomAttribute(memberInfo, typeof (TAttribute)) as TAttribute;
+            return Attribute.GetCustomAttribute(memberInfo, typeof(TAttribute)) as TAttribute;
         }
 
         /// <summary>
@@ -34,25 +34,28 @@ namespace OpenStory.Server.Emulation.Helpers
         /// </exception>
         /// <returns>true if <paramref name="memberInfo"/> has the attribute; otherwise, false.</returns>
         public static bool HasAttribute<TAttribute>(MemberInfo memberInfo)
+            where TAttribute : Attribute
         {
             if (memberInfo == null) throw new ArgumentNullException("memberInfo");
-            return memberInfo.IsDefined(typeof (TAttribute), false);
+            return memberInfo.IsDefined(typeof(TAttribute), false);
         }
 
         /// <summary>
-        /// Executes the method reflected in the given <see cref="MethodBase"/> as a Func(T) delegate.
-        /// This method is equivalent to the expression <c>(T) <paramref name="method"/>.Invoke(null, new object[0])</c>.
+        /// Executes the method reflected in the given <see cref="MethodBase"/> as a <see cref="Func{TResult}"/> delegate.
         /// </summary>
-        /// <typeparam name="T">The return type of the reflected method.</typeparam>
+        /// <remarks>
+        /// This method is equivalent to the expression <c>(<typeparamref name="TResult"/>) <paramref name="method"/>.Invoke(null, new object[0])</c>.
+        /// </remarks>
+        /// <typeparam name="TResult">The return type of the reflected method.</typeparam>
         /// <param name="method">The <see cref="MethodBase"/> to invoke.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="method" /> is <c>null</c>.
         /// </exception>
         /// <returns>The result from the invocation of <paramref name="method"/>.</returns>
-        public static T InvokeStaticFunc<T>(MethodBase method)
+        public static TResult InvokeStaticFunc<TResult>(MethodBase method)
         {
             if (method == null) throw new ArgumentNullException("method");
-            return (T) method.Invoke(null, EmptyObjectArray);
+            return (TResult) method.Invoke(null, EmptyObjectArray);
         }
     }
 }

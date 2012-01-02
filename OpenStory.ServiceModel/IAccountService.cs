@@ -18,13 +18,13 @@ namespace OpenStory.ServiceModel
         bool IsActive(int accountId);
 
         /// <summary>
-        /// Registers a new session on the specified account and returns a session identifier.
+        /// Attempts to register a new session for the specified account.
         /// </summary>
         /// <param name="accountId">The account to register.</param>
-        /// <returns>an identifier for the new session.</returns>
+        /// <param name="sessionId">A value-holder for the session identifier.</param>
+        /// <returns><c>true</c> if the registration was successful; otherwise, <c>false</c>.</returns>
         [OperationContract]
-        [FaultContract(typeof(InvalidOperationException))]
-        int RegisterSession(int accountId);
+        bool TryRegisterSession(int accountId, out int sessionId);
 
         /// <summary>
         /// Registers a character session on the specified account session.
@@ -36,11 +36,11 @@ namespace OpenStory.ServiceModel
         void RegisterCharacter(int sessionId, int characterId);
 
         /// <summary>
-        /// Removes the specified session from the list of active sessions.
+        /// Attempts to remove the specified session from the list of active sessions.
         /// </summary>
         /// <param name="sessionId">The session to unregister.</param>
+        /// <returns><c>true</c> if the session was removed successfully; otherwise, <c>false</c>.</returns>
         [OperationContract]
-        [FaultContract(typeof(InvalidOperationException))]
-        void UnregisterSession(int sessionId);
+        bool TryUnregisterSession(int sessionId);
     }
 }

@@ -26,13 +26,11 @@ namespace OpenStory.Server.Data
         /// <summary>
         /// Gets an <see cref="IEnumerable{T}"/> over all the worlds in the database.
         /// </summary>
-        /// <returns>An IEnumerable{<see cref="World"/>} with all the worlds in the database.</returns>
+        /// <returns>A sequence with all the worlds in the database.</returns>
         public static IEnumerable<World> GetAllWorlds()
         {
-            using (var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId"))
-            {
-                return DbHelpers.GetRecordSetIterator(command).Select(record => new World(record));
-            }
+            var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId");
+            return command.AsEnumerable().Select(record => new World(record));
         }
     }
 }

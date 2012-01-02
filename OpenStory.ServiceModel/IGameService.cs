@@ -26,7 +26,7 @@ namespace OpenStory.ServiceModel
         /// <summary>
         /// Pings the service.
         /// </summary>
-        /// <returns>true if the service is running; otherwise, false.</returns>
+        /// <returns><c>true</c> if the service is running; otherwise, <c>false</c>.</returns>
         [OperationContract]
         bool Ping();
     }

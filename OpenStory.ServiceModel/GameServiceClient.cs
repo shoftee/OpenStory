@@ -18,7 +18,7 @@ namespace OpenStory.ServiceModel
         /// </summary>
         /// <param name="uri">The endpoint URI for the service.</param>
         protected GameServiceClient(Uri uri)
-            : base(ServiceHelpers.GetPipeBinding(), new EndpointAddress(uri))
+            : base(ServiceHelpers.GetTcpBinding(), new EndpointAddress(uri))
         {
         }
 

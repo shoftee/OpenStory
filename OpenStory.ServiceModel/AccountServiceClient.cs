@@ -8,7 +8,8 @@
         /// <summary>
         /// Initializes a new AccountServiceClient.
         /// </summary>
-        public AccountServiceClient() : base(ServerConstants.AccountServiceUri)
+        public AccountServiceClient()
+            : base(ServerConstants.Uris.AccountService)
         {
         }
 
@@ -25,13 +26,14 @@
         }
 
         /// <summary>
-        /// Registers a new session on the specified account and returns a session identifier.
+        /// Attempts to register a new session for the specified account.
         /// </summary>
         /// <param name="accountId">The account to register.</param>
-        /// <returns>an identifier for the new session.</returns>
-        public int RegisterSession(int accountId)
+        /// <param name="sessionId">A value-holder for the session identifier.</param>
+        /// <returns><c>true</c> if the registration was successful; otherwise, <c>false</c>.</returns>
+        public bool TryRegisterSession(int accountId, out int sessionId)
         {
-            return base.Channel.RegisterSession(accountId);
+            return base.Channel.TryRegisterSession(accountId, out sessionId);
         }
 
         /// <summary>
@@ -45,12 +47,13 @@
         }
 
         /// <summary>
-        /// Removes the specified session from the list of active sessions.
+        /// Attempts to remove the specified session from the list of active sessions.
         /// </summary>
         /// <param name="sessionId">The session to unregister.</param>
-        public void UnregisterSession(int sessionId)
+        /// <returns><c>true</c> if the session was removed successfully; otherwise, <c>false</c>.</returns>
+        public bool TryUnregisterSession(int sessionId)
         {
-            base.Channel.UnregisterSession(sessionId);
+            return base.Channel.TryUnregisterSession(sessionId);
         }
 
         #endregion

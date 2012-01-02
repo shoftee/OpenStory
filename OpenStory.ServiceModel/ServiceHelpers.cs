@@ -15,7 +15,7 @@ namespace OpenStory.ServiceModel
         /// with <see cref="NetNamedPipeSecurityMode">security mode</see>
         /// set to <see cref="NetNamedPipeSecurityMode.Transport"/>.
         /// </returns>
-        public static NetNamedPipeBinding GetPipeBinding()
+        private static NetNamedPipeBinding GetPipeBinding()
         {
             return new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport);
         }
@@ -29,7 +29,8 @@ namespace OpenStory.ServiceModel
         /// </returns>
         public static NetTcpBinding GetTcpBinding()
         {
-            return new NetTcpBinding(SecurityMode.Transport);
+            var binding = new NetTcpBinding(SecurityMode.Transport);
+            return binding;
         }
     }
 }

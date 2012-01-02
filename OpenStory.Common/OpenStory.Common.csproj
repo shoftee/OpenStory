@@ -76,6 +76,7 @@
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\IChannel.cs" />
     <Compile Include="Authentication\IWorld.cs" />
+    <Compile Include="Data\IOpCodeTable.cs" />
     <Compile Include="Data\OpCodeTable.cs" />
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\Elements.cs" />

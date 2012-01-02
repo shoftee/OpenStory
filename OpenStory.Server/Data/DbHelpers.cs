@@ -46,7 +46,7 @@ namespace OpenStory.Server.Data
         /// <summary>Returns an iterator for the result set of the given query.</summary>
         /// <param name="query">The SqlCommand to execute.</param>
         /// <returns>An IEnumerator for the result set of the query.</returns>
-        public static IEnumerable<IDataRecord> GetRecordSetIterator(SqlCommand query)
+        public static IEnumerable<IDataRecord> AsEnumerable(this SqlCommand query)
         {
             using (query)
             using (SqlConnection connection = GetConnection())
@@ -71,7 +71,7 @@ namespace OpenStory.Server.Data
         public static int InvokeForAll(SqlCommand query, Action<IDataRecord> callback)
         {
             int count = 0;
-            foreach (IDataRecord record in GetRecordSetIterator(query))
+            foreach (IDataRecord record in AsEnumerable(query))
             {
                 callback.Invoke(record);
                 count++;

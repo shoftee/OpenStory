@@ -28,18 +28,20 @@ namespace OpenStory.AccountService
             return this.activeAccounts.Contains(accountId);
         }
 
-        public int RegisterSession(int accountId)
+        public bool TryRegisterSession(int accountId, out int sessionId)
         {
             if (this.activeAccounts.Contains(accountId))
             {
-                throw new InvalidOperationException("Cannot register a session on an active account.");
+                sessionId = 0;
+                return false;
             }
-            
-            this.activeAccounts.Add(accountId);
-
-            int sessionId = currentSessionId.Increment();
-            this.sessionAccounts.Add(accountId, sessionId);
-            return sessionId;
+            else
+            {
+                this.activeAccounts.Add(accountId);
+                sessionId = currentSessionId.Increment();
+                this.sessionAccounts.Add(accountId, sessionId);
+                return true;
+            }
         }
 
         public void RegisterCharacter(int sessionId, int characterId)
@@ -55,16 +57,20 @@ namespace OpenStory.AccountService
             this.sessionCharacters.Add(sessionId, characterId);
         }
 
-        public void UnregisterSession(int sessionId)
+        public bool TryUnregisterSession(int sessionId)
         {
             int accountId;
             if (!this.sessionAccounts.TryGetValue(sessionId, out accountId))
             {
-                throw new InvalidOperationException("The specified session is not registered.");
+                return false;
             }
-            this.sessionCharacters.Remove(sessionId);
-            this.sessionAccounts.Remove(sessionId);
-            this.activeAccounts.Remove(accountId);
+            else
+            {
+                this.sessionCharacters.Remove(sessionId);
+                this.sessionAccounts.Remove(sessionId);
+                this.activeAccounts.Remove(accountId);
+                return true;
+            }
         }
 
         #region Implementation of IGameService

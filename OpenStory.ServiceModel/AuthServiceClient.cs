@@ -9,7 +9,7 @@
         /// Gets a proxy to the Service instance.
         /// </summary>
         public AuthServiceClient()
-            : base(ServerConstants.AuthServiceUri)
+            : base(ServerConstants.Uris.AuthService)
         {  
         }
     }
