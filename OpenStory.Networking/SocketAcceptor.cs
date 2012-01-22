@@ -13,8 +13,9 @@ namespace OpenStory.Networking
         /// The event raised when a new socket connection has been accepted.
         /// </summary>
         public event EventHandler<SocketEventArgs> SocketAccepted;
+
         /// <summary>
-        /// The event raised when there's a socket error.
+        /// The event raised when a socket error occurs.
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> SocketError;
 
@@ -39,9 +40,7 @@ namespace OpenStory.Networking
             this.localEndPoint = new IPEndPoint(IPAddress.Any, this.Port);
         }
 
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
+        /// <inheritdoc />
         public void Dispose()
         {
             if (this.isDisposed)
@@ -49,8 +48,7 @@ namespace OpenStory.Networking
                 return;
             }
 
-            this.acceptSocket.Close();
-            this.socketArgs.Dispose();
+            this.DisposeSocketIfNotNull();
         }
 
         /// <summary>
@@ -82,15 +80,7 @@ namespace OpenStory.Networking
 
         private Socket GetAcceptSocket()
         {
-            if (this.acceptSocket != null)
-            {
-                this.acceptSocket.Dispose();
-            }
-
-            if (this.socketArgs != null)
-            {
-                this.socketArgs.Dispose();
-            }
+            this.DisposeSocketIfNotNull();
 
             this.socketArgs = new SocketAsyncEventArgs();
             this.socketArgs.Completed += (sender, eventArgs) => this.EndAcceptAsynchronous(eventArgs);
@@ -145,6 +135,19 @@ namespace OpenStory.Networking
             if (error != System.Net.Sockets.SocketError.OperationAborted)
             {
                 this.Stop();
+            }
+        }
+
+        private void DisposeSocketIfNotNull()
+        {
+            if (this.acceptSocket != null)
+            {
+                this.acceptSocket.Dispose();
+            }
+
+            if (this.socketArgs != null)
+            {
+                this.socketArgs.Dispose();
             }
         }
     }

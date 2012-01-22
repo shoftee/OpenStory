@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Sockets;
-using OpenStory.AccountService;
 using OpenStory.Common.Tools;
 using OpenStory.Networking;
 using OpenStory.Server.Data;
@@ -86,7 +85,7 @@ namespace OpenStory.Server
             serverSession.AttachSocket(socket);
             this.OnConnectionOpen(serverSession);
 
-            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.SessionId,
+            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.NetworkSessionId,
                           BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
 
             serverSession.Start(clientIV, serverIV, MapleVersion);
@@ -97,7 +96,7 @@ namespace OpenStory.Server
         {
             var serverSession = (ServerSession) sender;
 
-            Log.WriteInfo("Connection {0} closed.", serverSession.SessionId);
+            Log.WriteInfo("Connection {0} closed.", serverSession.NetworkSessionId);
         }
 
         /// <summary>
@@ -133,11 +132,21 @@ namespace OpenStory.Server
         {
             private IAccountService parent;
 
+            /// <inheritdoc />
             public int SessionId { get; private set; }
 
+            /// <inheritdoc />
             public int AccountId { get; private set; }
+
+            /// <inheritdoc />
             public string AccountName { get; private set; }
 
+            /// <summary>
+            /// Initializes a new instance of AccountSession.
+            /// </summary>
+            /// <param name="parent">The <see cref="IAccountService"/> managing this session.</param>
+            /// <param name="sessionId">The session identifier.</param>
+            /// <param name="data">The loaded session data.</param>
             public AccountSession(IAccountService parent, int sessionId, Account data)
             {
                 this.SessionId = sessionId;
@@ -147,6 +156,7 @@ namespace OpenStory.Server
                 this.parent = parent;
             }
 
+            /// <inheritdoc />
             public void Dispose()
             {
                 parent.TryUnregisterSession(this.AccountId);

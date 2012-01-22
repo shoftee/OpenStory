@@ -15,9 +15,12 @@ namespace OpenStory.Server
         #region Fields and properties
 
         /// <summary>
-        /// A unique 32-bit session ID.
+        /// A unique 32-bit network session identifier.
         /// </summary>
-        public int SessionId { get; private set; }
+        /// <remarks>
+        /// This session identifier and the account session identifier are different things.
+        /// </remarks>
+        public int NetworkSessionId { get; private set; }
 
         #endregion
 
@@ -26,7 +29,7 @@ namespace OpenStory.Server
         /// </summary>
         public ServerSession()
         {
-            this.SessionId = RollingSessionId.Increment();
+            this.NetworkSessionId = RollingSessionId.Increment();
         }
 
         /// <summary>

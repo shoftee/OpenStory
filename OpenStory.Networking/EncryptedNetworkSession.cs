@@ -22,7 +22,7 @@ namespace OpenStory.Networking
         public event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
         /// <summary>
-        /// The event is raised before the session is closed.
+        /// The event is raised when the session begins closing.
         /// </summary>
         public event EventHandler Closing;
 

@@ -3,7 +3,6 @@ using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
-using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.ServiceModel;
 
@@ -61,7 +60,7 @@ namespace OpenStory.Server
         protected AbstractClient(ServerSession session)
         {
             if (session == null) throw new ArgumentNullException("session");
-            if (session.SessionId == -1) throw new InvalidOperationException("This session is not open.");
+            if (session.NetworkSessionId == -1) throw new InvalidOperationException("This session is not open.");
 
             this.Session = session;
             this.Session.PacketReceived += this.OnPacketReceived;

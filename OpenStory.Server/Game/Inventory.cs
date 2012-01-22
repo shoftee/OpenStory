@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenStory.Server.Game
 {
@@ -29,7 +27,7 @@ namespace OpenStory.Server.Game
             get { return this.SlotCapacity - this.slots.Count; }
         }
 
-        private Dictionary<int, ItemCluster> slots;
+        private Dictionary<int, TItemCluster> slots;
 
         /// <summary>
         /// Initializes a new ItemContainer instance with the specified slot capacity.
@@ -38,7 +36,7 @@ namespace OpenStory.Server.Game
         protected ItemContainer(int slotCapacity)
         {
             this.SlotCapacity = slotCapacity;
-            this.slots = new Dictionary<int, ItemCluster>(slotCapacity);
+            this.slots = new Dictionary<int, TItemCluster>(slotCapacity);
         }
 
         /// <summary>

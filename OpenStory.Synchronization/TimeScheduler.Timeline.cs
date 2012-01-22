@@ -4,6 +4,9 @@ using System.Threading;
 
 namespace OpenStory.Synchronization
 {
+    /// <summary>
+    /// Represents a scheduler which executes tasks at given points in time.
+    /// </summary>
     internal partial class TimeScheduler
     {
         #region Nested type: ScheduledTask
@@ -16,8 +19,10 @@ namespace OpenStory.Synchronization
             private Action action;
             private CancellationToken token;
 
+            private bool isDisposed;
+
             /// <summary>
-            /// Initializes a new ScheduledTask, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken">CancellationToken</see>.
+            /// Initializes a new <see cref="ScheduledTask"/>, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken" />.
             /// </summary>
             /// <param name="action">The action to schedule for execution.</param>
             /// <param name="scheduledTime">The time to execute the action at.</param>
@@ -25,6 +30,7 @@ namespace OpenStory.Synchronization
             public ScheduledTask(Action action, DateTime scheduledTime)
             {
                 if (action == null) throw new ArgumentNullException("action");
+
                 this.action = action;
                 this.ScheduledTime = scheduledTime;
                 this.TimeCancelled = null;
@@ -32,8 +38,13 @@ namespace OpenStory.Synchronization
                 this.CancellationTokenSource = new CancellationTokenSource();
                 this.token = this.CancellationTokenSource.Token;
                 this.token.Register(() => { this.TimeCancelled = DateTime.Now; });
+
+                isDisposed = false;
             }
 
+            /// <summary>
+            /// Gets the <see cref="CancellationTokenSource"/> object for this task.
+            /// </summary>
             public CancellationTokenSource CancellationTokenSource { get; private set; }
 
             /// <summary>
@@ -48,8 +59,14 @@ namespace OpenStory.Synchronization
 
             #region IDisposable Members
 
+            /// <inheritdoc />
             public void Dispose()
             {
+                if (isDisposed)
+                {
+                    return;
+                }
+
                 this.CancellationTokenSource.Dispose();
                 GC.SuppressFinalize(this);
             }

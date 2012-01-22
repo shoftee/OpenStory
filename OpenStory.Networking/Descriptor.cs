@@ -22,7 +22,7 @@ namespace OpenStory.Networking
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this Descriptor.
         /// </summary>
         protected SocketAsyncEventArgs SocketArgs { get; private set; }
-        
+
         /// <summary>
         /// Initializes a new Descriptor.
         /// </summary>
@@ -78,11 +78,13 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// A hook to the end of the publicly 
-        /// exposed <see cref="Close()"/> method.
+        /// A hook to the end of the publicly exposed <see cref="Close()"/> method.
         /// </summary>
         protected abstract void OnClosed();
 
+        /// <summary>
+        /// Closes the <see cref="Descriptor"/> instance.
+        /// </summary>
         public void Close()
         {
             this.Error = null;

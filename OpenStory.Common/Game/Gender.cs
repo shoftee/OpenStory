@@ -12,10 +12,12 @@ namespace OpenStory.Common.Game
         /// Male gender.
         /// </summary>
         Male = 0,
+
         /// <summary>
         /// Female gender.
         /// </summary>
         Female = 1,
+
         /// <summary>
         /// Unspecified gender.
         /// </summary>

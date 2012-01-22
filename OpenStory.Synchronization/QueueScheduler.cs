@@ -24,10 +24,10 @@ namespace OpenStory.Synchronization
 
         #region IScheduler Members
 
-        /// <summary>
-        /// Schedules an <see cref="IRunnable" /> to be processed at a later time.
-        /// </summary>
-        /// <param name="runnable">The IRunnable to schedule for processing.</param>
+        /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="runnable"/> is <c>null</c>.
+        /// </exception>
         public void Schedule(IRunnable runnable)
         {
             if (runnable == null) throw new ArgumentNullException("runnable");

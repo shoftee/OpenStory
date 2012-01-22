@@ -63,6 +63,10 @@ namespace OpenStory.ServiceModel
         /// <summary>
         /// A base implementation of the method, calls the proxy method.
         /// </summary>
+        /// <returns>
+        /// <c>true</c> if the proxy method call returns <c>true</c>; 
+        /// <c>false</c> if the proxy method call returns <c>false</c>, if the call throws an <see cref="EndpointNotFoundException"/> or <see cref="TimeoutException"/>.
+        /// </returns>
         public virtual bool Ping()
         {
             try

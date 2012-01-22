@@ -1,7 +1,5 @@
 ﻿using OpenStory.Common.Game;
-using OpenStory.Server.Channel.Maps;
 using OpenStory.Server.Data;
-using OpenStory.Server.Game;
 
 namespace OpenStory.Server.Channel
 {

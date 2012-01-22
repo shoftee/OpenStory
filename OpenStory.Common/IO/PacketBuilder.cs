@@ -13,6 +13,7 @@ namespace OpenStory.Common.IO
     public sealed class PacketBuilder : IDisposable
     {
         private bool isDisposed;
+
         private MemoryStream stream;
 
         /// <summary>
@@ -27,6 +28,9 @@ namespace OpenStory.Common.IO
         /// Initializes a new PacketBuilder instance.
         /// </summary>
         /// <param name="capacity">The initial capacity for the underlying stream.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="capacity"/> is non-positive.
+        /// </exception>
         public PacketBuilder(int capacity)
         {
             if (capacity <= 0)
@@ -36,31 +40,14 @@ namespace OpenStory.Common.IO
             this.stream = new MemoryStream(capacity);
         }
 
-        #region IDisposable Members
-
-        /// <summary>Disposes of the underlying stream.</summary>
-        /// <remarks>Calling any instance methods after this will cause them to throw an ObjectDisposedException.</remarks>
-        public void Dispose()
-        {
-            if (this.isDisposed)
-            {
-                return;
-            }
-            this.isDisposed = true;
-            this.stream.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
         /// <summary>
         /// Writes a <see cref="System.Int64"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteLong(long number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -68,10 +55,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.UInt64"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteLong(ulong number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -79,10 +66,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.Int32"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt32(int number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -90,10 +77,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.UInt32"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt32(uint number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -101,10 +88,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.Int16"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(short number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -112,10 +99,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.UInt16"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(ushort number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
@@ -123,10 +110,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.Byte"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteByte(byte number)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.stream.WriteByte(number);
         }
 
@@ -134,11 +121,19 @@ namespace OpenStory.Common.IO
         /// Writes a specified number of 0-value bytes to the end of the packet.
         /// </summary>
         /// <param name="count">The number of bytes to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="count"/> is negative.
+        /// </exception>
         public void WriteZeroes(int count)
         {
-            this.CheckDisposed();
-            for (int i = 0; i < count; i ++)
+            this.ThrowIfDisposed();
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException("count", "'count' must be a non-negative integer.");
+            }
+
+            for (int i = 0; i < count; i++)
             {
                 this.stream.WriteByte(0);
             }
@@ -148,14 +143,17 @@ namespace OpenStory.Common.IO
         /// Writes an array of bytes to the end of the packet.
         /// </summary>
         /// <param name="bytes">The bytes to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="bytes"/> is <c>null</c>.
+        /// </exception>
         public void WriteBytes(byte[] bytes)
         {
+            this.ThrowIfDisposed();
             if (bytes == null)
             {
                 throw new ArgumentNullException("bytes");
             }
-            this.CheckDisposed();
             this.stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -163,10 +161,10 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.Boolean"/> to the end of the packet.
         /// </summary>
         /// <param name="boolean">The value to write.</param>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteBoolean(bool boolean)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             this.WriteDirect(LittleEndianBitConverter.GetBytes(boolean));
         }
 
@@ -175,16 +173,23 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <remarks>The length of the stream is written first.</remarks>
         /// <param name="s">The string to write.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="s"/> is <c>null</c>.</exception>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="s"/> is <c>null</c>.
+        /// </exception>
         public void WriteLengthString(string s)
         {
+            this.ThrowIfDisposed();
             if (s == null)
             {
                 throw new ArgumentNullException("s");
             }
+
             this.WriteInt16((short) s.Length);
-            this.WriteDirect(Encoding.UTF8.GetBytes(s));
+            if (s.Length > 0)
+            {
+                this.WriteDirect(Encoding.UTF8.GetBytes(s));
+            }
         }
 
         /// <summary>
@@ -192,15 +197,16 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="s">The string to write.</param>
         /// <param name="padLength">The length to pad the string to.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="padLength"/> is a non-positive number, 
-        /// OR, if <paramref name="s"/> is longer than <paramref name="padLength"/>.
-        /// </exception>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="s"/> is <c>null</c>.</exception>
-        /// <exception cref="ObjectDisposedException">Thrown if the PacketBuilder has been disposed.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <para>Thrown if <paramref name="padLength"/> is a non-positive number, </para>
+        /// <para>OR,</para> 
+        /// <para>if <paramref name="s"/> is longer than <paramref name="padLength"/>.</para>
+        /// </exception>
         public void WritePaddedString(string s, int padLength)
         {
-            this.CheckDisposed();
+            this.ThrowIfDisposed();
             if (s == null)
             {
                 throw new ArgumentNullException("s");
@@ -212,7 +218,7 @@ namespace OpenStory.Common.IO
             }
             if (s.Length > padLength)
             {
-                throw new ArgumentOutOfRangeException("s", "The string is not shorter than the pad length.");
+                throw new ArgumentOutOfRangeException("s", "The string is longer than the pad length.");
             }
 
             var stringBytes = new byte[padLength];
@@ -221,23 +227,10 @@ namespace OpenStory.Common.IO
             this.WriteDirect(stringBytes);
         }
 
-        private void WriteDirect(byte[] bytes)
-        {
-            int length = bytes.Length;
-            this.stream.Write(bytes, 0, length);
-        }
-
-        private void CheckDisposed()
-        {
-            if (this.isDisposed)
-            {
-                throw new ObjectDisposedException("PacketWriter");
-            }
-        }
-
         /// <summary>
         /// Gets a copy of the internal byte buffer of the PacketBuilder.
         /// </summary>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         /// <returns>The copy of the byte buffer.</returns>
         public byte[] ToByteArray()
         {
@@ -247,5 +240,45 @@ namespace OpenStory.Common.IO
             Buffer.BlockCopy(buffer, 0, array, 0, length);
             return array;
         }
+
+        private void WriteDirect(byte[] bytes)
+        {
+            int length = bytes.Length;
+            this.stream.Write(bytes, 0, length);
+        }
+
+        /// <exception cref="ObjectDisposedException">
+        /// Thrown if the <see cref="PacketBuilder"/> has been disposed.
+        /// </exception>
+        private void ThrowIfDisposed()
+        {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException("stream");
+            }
+        }
+
+        #region IDisposable Members
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// <inheritdoc />
+        /// Calling instance methods after calling this will cause them to throw an <see cref="ObjectDisposedException"/>.
+        /// </remarks>
+        public void Dispose()
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            this.isDisposed = true;
+            if (this.stream != null)
+            {
+                this.stream.Dispose();
+            }
+        }
+
+        #endregion
     }
 }

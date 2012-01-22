@@ -22,19 +22,39 @@ namespace OpenStory.Common.IO
             }
         }
 
-        private static long FromBytes(byte[] buffer, int startIndex, int count)
+        /// <summary>
+        /// Returns an integer by reading bytes in little-endian byte order.
+        /// </summary>
+        /// <param name="buffer">The buffer to read bytes from.</param>
+        /// <param name="offset">The index of the start of the segment.</param>
+        /// <param name="count">The number of bytes to read.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <para>Thrown if <paramref name="offset"/> falls outside the bounds of <paramref name="buffer"/>, </para>
+        /// <para>OR, </para>
+        /// <para>if <paramref name="count"/> is such that the segment's end falls outside the bounds of <paramref name="buffer"/>.</para>
+        /// </exception>
+        /// <returns>an integer constructed by reading bytes in little-endian byte order.</returns>
+        private static long FromBytes(byte[] buffer, int offset, int count)
         {
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
-            if (startIndex < 0 || startIndex > buffer.Length - count)
+            if (offset < 0 || offset > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException("offset", "'offset' must be a valid index within the bounds of the buffer.");
             }
+            if (offset + count > buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException("count", "'count' must be such that the segment falls within the bounds of the buffer.");
+            }
+
             long result = 0;
-            int end = startIndex + count;
-            for (int position = end - 1; position >= startIndex; position--)
+            int end = offset + count;
+            for (int position = end - 1; position >= offset; position--)
             {
                 result = unchecked((result << 8) | buffer[position]);
             }
@@ -146,7 +166,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Gets the little-endian byte representation of a <see cref="System.UInt64"/>.
+        /// Gets the little-endian byte representation of a <see cref="System.Int64"/>.
         /// </summary>
         /// <param name="value">The number to convert.</param>
         /// <returns>The little-endian byte representation.</returns>
@@ -206,7 +226,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Gets the byte representation of a <see cref="System.Byte"/>.
+        /// Gets the byte representation of a <see cref="System.Boolean"/>.
         /// </summary>
         /// <param name="value">The number to convert.</param>
         /// <returns>The byte representation.</returns>

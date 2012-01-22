@@ -12,7 +12,7 @@ namespace OpenStory.Networking
         #region Events
 
         /// <summary>
-        /// The event is raised just before the NetworkSession is closed.
+        /// The event is raised when the <see cref="NetworkSession" /> begins closing.
         /// </summary>
         public event EventHandler Closing;
 
@@ -59,14 +59,12 @@ namespace OpenStory.Networking
         private ReceiveDescriptor receiveDescriptor;
         private SendDescriptor sendDescriptor;
 
-        /// <summary>
-        /// Gets the socket being used for this session.
-        /// </summary>
+        /// <inheritdoc />
         public Socket Socket { get; private set; }
 
         #endregion
 
-        #region Constructors and instance construction
+        #region Constructors and instance construction.
 
         /// <summary>
         /// Initializes a new instance of the NetworkSession class.
@@ -143,9 +141,7 @@ namespace OpenStory.Networking
             this.receiveDescriptor.StartReceive();
         }
 
-        /// <summary>
-        /// Releases the session so it can be reused with a new socket.
-        /// </summary>
+        /// <inheritdoc />
         public void Close()
         {
             if (this.Closing != null)
@@ -181,11 +177,13 @@ namespace OpenStory.Networking
 
         #region IDescriptorContainer explicit implementations
 
+        /// <inheritdoc />
         bool IDescriptorContainer.IsActive
         {
             get { return this.isActive.Value; }
         }
 
+        /// <inheritdoc />
         void IDescriptorContainer.Close()
         {
             this.Close();

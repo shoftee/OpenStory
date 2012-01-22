@@ -2,7 +2,7 @@
 
 namespace OpenStory.AuthService
 {
-    sealed class AuthServerPackets : OpCodeTable 
+    sealed class AuthServerPackets : OpCodeTable
     {
         public AuthServerPackets()
         {
@@ -11,11 +11,10 @@ namespace OpenStory.AuthService
 
         #region Overrides of OpCodeTable
 
-        /// <summary>
-        /// Loads the op code information for this OpCodeTable instance.
-        /// </summary>
+        /// <inheritdoc select="summary"/>
         public override void LoadOpCodes()
         {
+            base.LoadOpCodes();
             this.AddIncoming(0x0011, "Pong");
             this.AddIncoming(0x0019, "RsaCryptoRequest");
             this.AddIncoming(0x0001, "Authenticate");

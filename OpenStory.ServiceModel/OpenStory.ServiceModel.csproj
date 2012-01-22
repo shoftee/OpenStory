@@ -49,7 +49,6 @@
     <Compile Include="IAccountSession.cs" />
     <Compile Include="IAuthService.cs" />
     <Compile Include="IGameService.cs" />
-    <Compile Include="ISessionManager.cs" />
     <Compile Include="IWorldRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConstants.cs" />

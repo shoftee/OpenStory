@@ -16,30 +16,43 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// The fire attribute.
         /// </summary>
+        /// <remarks>The associated character is <c>F</c>.</remarks>
         Fire = 0x1, // F
+
         /// <summary>
         /// The ice attribute.
         /// </summary>
-        Ice = 0x2, // I
+        /// <remarks>The associated character is <c>I</c>.</remarks>
+        Ice = 0x2,
+
         /// <summary>
         /// The lightning attribute.
         /// </summary>
-        Lightning = 0x4, // L
+        /// <remarks>The associated character is <c>L</c>.</remarks>
+        Lightning = 0x4,
+
         /// <summary>
         /// The poison attribute.
         /// </summary>
-        Poison = 0x8, // S
+        /// <remarks>The associated character is <c>S</c>.</remarks>
+        Poison = 0x8,
+
         /// <summary>
         /// The holy attribute.
         /// </summary>
-        Holy = 0x10, // H
+        /// <remarks>The associated character is <c>H</c>.</remarks>
+        Holy = 0x10,
+
         /// <summary>
         /// The dark attribute.
         /// </summary>
-        Dark = 0x20, // D
+        /// <remarks>The associated character is <c>D</c>.</remarks>
+        Dark = 0x20,
+
         /// <summary>
         /// No elemental attributes, a physical attack.
         /// </summary>
-        Physical = 0x40, // P
+        /// <remarks>The associated character is <c>P</c>.</remarks>
+        Physical = 0x40,
     }
 }

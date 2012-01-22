@@ -189,10 +189,7 @@ namespace OpenStory.Common.IO
 
         #region IDisposable Members
 
-        /// <summary>
-        /// Disposes of the underlying <see cref="MemoryStream"/>.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);
