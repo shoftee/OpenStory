@@ -8,9 +8,6 @@ namespace OpenStory.Cryptography
     /// </summary>
     public static class ByteHelpers
     {
-        private const string HexUppercase = "0123456789ABCDEF";
-        private const string HexLowercase = "0123456789abcdef";
-
         /// <summary>
         /// Constructs a byte array from a string of hexadecimal digits.
         /// </summary>
@@ -27,39 +24,31 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentException("The string must have event length", "hex");
             }
+
+            const string HexDigits = "0123456789ABCDEF";
+
             var bytes = new byte[hex.Length >> 1];
             int arrayLength = bytes.Length;
             string uppercase = hex.ToUpperInvariant();
             for (int i = 0; i < arrayLength; i++)
             {
                 int index = i << 1;
-                int nibble = HexUppercase.IndexOf(uppercase[index]);
-                if (nibble == -1)
+                int digit = HexDigits.IndexOf(uppercase[index]);
+                if (digit == -1)
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                var b = (byte) (nibble << 4);
+                var b = (byte) (digit << 4);
 
-                nibble = HexUppercase.IndexOf(uppercase[index | 1]);
-                if (nibble == -1)
+                digit = HexDigits.IndexOf(uppercase[index | 1]);
+                if (digit == -1)
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                b |= (byte) nibble;
+                b |= (byte) digit;
                 bytes[i] = b;
             }
             return bytes;
-        }
-
-        /// <summary>
-        /// Constructs an uppercase hexadecimal digit string from a byte array.
-        /// </summary>
-        /// <param name="array">The byte array to translate to hexadecimal characters.</param>
-        /// <returns>The byte array as a hex-digit string.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
-        public static string ToHex(this byte[] array)
-        {
-            return ToHex(array, false);
         }
 
         /// <summary>
@@ -69,18 +58,15 @@ namespace OpenStory.Cryptography
         /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
         /// <returns>The byte array as a hex-digit string.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
-        public static string ToHex(this byte[] array, bool lowercase)
+        public static string ToHex(this byte[] array, bool lowercase = false)
         {
             if (array == null) throw new ArgumentNullException("array");
 
-            string hex = lowercase ? HexLowercase : HexUppercase;
             var builder = new StringBuilder();
             int length = array.Length;
             for (int i = 0; i < length; i++)
             {
-                builder
-                    .Append(hex[array[i] >> 4])
-                    .Append(hex[array[i] & 0x0F]);
+                builder.AppendFormat("{0:X2}", array[i]);
             }
             return builder.ToString();
         }

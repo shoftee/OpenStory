@@ -8,6 +8,8 @@ namespace OpenStory.Cryptography
     /// </summary>
     public sealed class AesTransform
     {
+        #region Constants and the like
+
         private const int IvLength = 16;
         private const int BlockLength = 1460;
 
@@ -51,10 +53,30 @@ namespace OpenStory.Cryptography
         };
 
         private static readonly ICryptoTransform Transformer = GetTransformer();
+
+        private static ICryptoTransform GetTransformer()
+        {
+            var cipher = new RijndaelManaged
+            {
+                Padding = PaddingMode.None,
+                Mode = CipherMode.ECB,
+                Key = AesKey
+            };
+            using (cipher)
+            {
+                ICryptoTransform transform = cipher.CreateEncryptor();
+                return transform;
+            }
+        }
+        
+        #endregion
+
         private byte[] iv;
         private ushort version;
 
-        /// <summary>Initializes a new instance of AesTransform.</summary>
+        /// <summary>
+        /// Initializes a new instance of AesTransform.
+        /// </summary>
         /// <param name="iv">The initialization vector for this instance.</param>
         /// <param name="version">The MapleStory version.</param>
         /// <param name="versionType">The representation of the version.</param>
@@ -91,21 +113,6 @@ namespace OpenStory.Cryptography
 
             // Flip the version.
             this.version = (ushort) ((version >> 8) | ((version & 0xFF) << 8));
-        }
-
-        private static ICryptoTransform GetTransformer()
-        {
-            var cipher = new RijndaelManaged
-                         {
-                             Padding = PaddingMode.None,
-                             Mode = CipherMode.ECB,
-                             Key = AesKey
-                         };
-            using (cipher)
-            {
-                ICryptoTransform transform = cipher.CreateEncryptor();
-                return transform;
-            }
         }
 
         /// <summary>
@@ -245,7 +252,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="data"/> has less than 4 elements.
         /// </exception>
-        /// <returns>The length of the packet which was extracted from the array.</returns>
+        /// <returns>the packet length extracted from the array.</returns>
         public static int GetPacketLength(byte[] data)
         {
             if (data == null)
@@ -276,9 +283,13 @@ namespace OpenStory.Cryptography
         /// Attempts to extract the packet length from a header.
         /// </summary>
         /// <param name="header">The byte array to check.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="header"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="header"/> has less than 4 elements.</exception>
-        /// <returns>if the header is valid, the packet length; otherwise, -1.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="header"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="header"/> has less than 4 elements.
+        /// </exception>
+        /// <returns>if the header is valid, the packet length; otherwise, <c>-1</c>.</returns>
         public int TryGetLength(byte[] header)
         {
             if (this.ValidateHeader(header))
@@ -295,7 +306,7 @@ namespace OpenStory.Cryptography
         /// Performs the shuffle operation on a specified IV.
         /// </summary>
         /// <param name="iv">The IV to shuffle.</param>
-        /// <returns>The shuffled IV.</returns>
+        /// <returns>the shuffled IV.</returns>
         private static byte[] ShuffleIvInternal(byte[] iv)
         {
             byte[] newIV = ShuffleConstant.FastClone();
@@ -395,7 +406,7 @@ namespace OpenStory.Cryptography
         /// Thrown if <paramref name="header"/> has less than 4 elements or
         /// if <paramref name="iv"/> doesn't have exactly 4 elements.
         /// </exception>
-        /// <returns>A number representing the version encoded into the header.</returns>
+        /// <returns>a number representing the version encoded into the header.</returns>
         public static ushort GetVersion(byte[] header, byte[] iv)
         {
             if (iv == null)

@@ -35,40 +35,23 @@ namespace OpenStory.Server.Game
 
         #region IKeyLayout Members
 
-        /// <summary>
-        /// Gets the key binding for a key.
-        /// </summary>
-        /// <param name="keyId">The key to query the key binding of.</param>
-        /// <returns>A KeyBinding object representing the binding for the key.</returns>
+        /// <inheritdoc />
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="GameConstants.KeyCount"/>.
+        /// Thrown if <paramref name="keyId"/> is negative or greater than <see cref="GameConstants.KeyCount"/>.
         /// </exception>
         public IKeyBinding GetKeyBinding(byte keyId)
         {
-            if (keyId < 0 || GameConstants.KeyCount <= keyId)
-            {
-                throw new ArgumentOutOfRangeException("keyId", keyId,
-                                                      "'keyId' must be in [0; " + GameConstants.KeyCount + ").");
-            }
+            ThrowIfInvalidId(keyId);
             return this.bindings[keyId];
         }
 
-        /// <summary>
-        /// Sets the key binding for a key.
-        /// </summary>
-        /// <param name="keyId">The key to set the key binding of.</param>
-        /// <param name="type">The new action type for the key binding.</param>
-        /// <param name="action">The new action for the key binding.</param>
+        /// <inheritdoc />
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <c>keyId</c> is negative or greater than <see cref="GameConstants.KeyCount"/>.
+        /// Thrown if <paramref name="keyId"/> is negative or greater than <see cref="GameConstants.KeyCount"/>.
         /// </exception>
         public void SetKeyBinding(byte keyId, byte type, int action)
         {
-            if (keyId < 0 || GameConstants.KeyCount <= keyId)
-            {
-                throw new ArgumentOutOfRangeException("keyId", keyId,
-                                                      "'keyId' must be in [0; " + GameConstants.KeyCount + ").");
-            }
+            ThrowIfInvalidId(keyId);
             this.bindings[keyId].Change(type, action);
         }
 
@@ -120,6 +103,15 @@ namespace OpenStory.Server.Game
             var actionId = (int) record["ActionId"];
 
             this.bindings[keyId] = new KeyBinding(actionTypeId, actionId);
+        }
+
+        private static void ThrowIfInvalidId(byte keyId)
+        {
+            if (keyId < 0 || GameConstants.KeyCount <= keyId)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "keyId", keyId, "'keyId' must be a valid key identifier.");
+            }
         }
     }
 }

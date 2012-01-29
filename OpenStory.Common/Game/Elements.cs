@@ -5,7 +5,8 @@ namespace OpenStory.Common.Game
     /// <summary>
     /// Elemental attributes for a game skill.
     /// </summary>
-    [Flags, Serializable]
+    [Serializable]
+    [Flags]
     public enum Elements
     {
         /// <summary>

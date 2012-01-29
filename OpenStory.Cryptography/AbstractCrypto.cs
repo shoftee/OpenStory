@@ -82,11 +82,11 @@ namespace OpenStory.Cryptography
         /// Attempts to unpack the packet data from the given array and decrypt it.
         /// </summary>
         /// <remarks>
-        /// This method will return false if and only if the header was invalid.
+        /// This method will return <c>false</c> if and only if the header was invalid.
         /// </remarks>
         /// <param name="rawData">The raw packet data.</param>
         /// <param name="decryptedData">A reference to hold the decrypted data.</param>
-        /// <returns>true if the operation was successful; if the header was invalid, false.</returns>
+        /// <returns><c>true</c> if the operation was successful; if the header was invalid, <c>false</c>.</returns>
         public bool TryUnpackAndDecrypt(byte[] rawData, out byte[] decryptedData)
         {
             int length = this.TryGetLength(rawData);
@@ -109,7 +109,7 @@ namespace OpenStory.Cryptography
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="length">The length of the packet.</param>
-        /// <returns>A 4-element byte array which is prepended to the packet data.</returns>
+        /// <returns>a 4-element byte array which should be prepended to the packet data.</returns>
         protected virtual byte[] ConstructHeader(int length)
         {
             return this.Encryptor.ConstructHeader(length);
@@ -123,17 +123,16 @@ namespace OpenStory.Cryptography
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="header">The header byte array to process.</param>
-        /// <returns>If the header is valid, the length of the packet; otherwise, -1.</returns>
+        /// <returns>the length of the packet if the header is valid; otherwise, <c>-1</c></returns>
         public virtual int TryGetLength(byte[] header)
         {
-            bool isValid = this.Decryptor.ValidateHeader(header);
-            if (!isValid)
+            if (this.Decryptor.ValidateHeader(header))
             {
-                return -1;
+                return AesTransform.GetPacketLength(header);
             }
             else
             {
-                return AesTransform.GetPacketLength(header);
+                return -1;
             }
         }
     }

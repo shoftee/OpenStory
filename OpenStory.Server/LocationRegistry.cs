@@ -47,32 +47,38 @@ namespace OpenStory.Server
         /// <summary>
         /// Gets a map of <see cref="PlayerLocation"/> instances for the given player IDs.
         /// </summary>
+        /// <remarks>
+        /// This method will only return distinct results, that is, duplicates in the input sequence will be discarded.
+        /// </remarks>
         /// <param name="playerIds">A <see cref="IEnumerable{Int32}"/> with the IDs of the players to locate.</param>
-        /// <returns>
-        /// <para>
+        /// <returns><para>
         /// A <see cref="Dictionary{Int32, PlayerLocation}"/> 
         /// mapping each input player ID to a <see cref="PlayerLocation"/> 
         /// instance, or to <c>null</c> if the player was not located.
-        /// </para>
-        /// </returns>
+        /// </para></returns>
         public Dictionary<int, PlayerLocation> GetLocationsForAll(IEnumerable<int> playerIds)
         {
-            return playerIds.ToDictionary(playerId => playerId, this.GetLocation);
+            return playerIds
+                .Distinct()
+                .ToDictionary(playerId => playerId, this.GetLocation);
         }
 
         /// <summary>
         /// Gets a <see cref="PlayerLocation"/> instance for the given player ID.
         /// </summary>
         /// <param name="playerId">The ID of the player to locate.</param>
-        /// <returns>
-        /// a <see cref="PlayerLocation"/> instance, or <c>null</c> if the player was not found.
-        /// </returns>
+        /// <returns>a <see cref="PlayerLocation"/> instance, or <c>null</c> if the player was not found.</returns>
         public PlayerLocation GetLocation(int playerId)
         {
             PlayerLocation location;
-            return this.locations.TryGetValue(playerId, out location)
-                       ? location
-                       : null;
+            if (this.locations.TryGetValue(playerId, out location))
+            {
+                return location;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -81,20 +87,8 @@ namespace OpenStory.Server
         /// <param name="playerId">The ID of the player.</param>
         /// <param name="channelId">The ID of the channel the player is currently in.</param>
         /// <param name="mapId">The ID of the map the player is currently in.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="channelId"/> or <paramref name="mapId"/> are negative.
-        /// </exception>
         public void SetLocation(int playerId, int channelId, int mapId)
         {
-            if (channelId < 0)
-            {
-                throw new ArgumentOutOfRangeException("channelId", "'channelId' must be a non-negative integer.");
-            }
-            if (mapId < 0)
-            {
-                throw new ArgumentOutOfRangeException("mapId", "'mapId' must be a non-negative integer.");
-            }
-
             PlayerLocation location = new PlayerLocation(channelId, mapId);
             if (this.locations.ContainsKey(playerId))
             {

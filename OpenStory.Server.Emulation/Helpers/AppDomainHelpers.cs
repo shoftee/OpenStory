@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using System.Threading;
@@ -18,18 +19,22 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <summary>
         /// Creates a new thread and executes the specified assembly into the AppDomain instance, passing the specified arguments.
         /// </summary>
-        /// <param name="instance">The AppDomain instance to execute an assembly in.</param>
-        /// <param name="assemblyName">The AssemblyName instance for the assembly to execute.</param>
-        /// <param name="args">The arguments to pass to the entry point method.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="assemblyName"/> is <c>null</c>.</exception>
+        /// <param name="appDomain">The AppDomain instance to execute an assembly in.</param>
+        /// <param name="module">The <see cref="OpenStoryModule"/> instance to launch.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="appDomain"/> or <paramref name="module"/> is <c>null</c>.
+        /// </exception>
         /// <returns>The new thread.</returns>
-        public static Thread LaunchAssembly(this AppDomain instance, AssemblyName assemblyName, params string[] args)
+        public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module)
         {
-            if (assemblyName == null)
-            {
-                throw new ArgumentNullException("assemblyName");
-            }
-            var thread = new Thread(() => instance.ExecuteAssemblyByName(assemblyName, args));
+            if (appDomain == null) throw new ArgumentNullException("appDomain"); 
+            if (module == null) throw new ArgumentNullException("module");
+
+            ThreadStart threadStart = () => appDomain.ExecuteAssemblyByName(module.AssemblyName, module.Arguments.ToArray());
+            var thread = new Thread(threadStart)
+                         {
+                             IsBackground = false,
+                         };
             thread.Start();
             return thread;
         }

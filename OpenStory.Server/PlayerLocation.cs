@@ -23,33 +23,32 @@ namespace OpenStory.Server
         /// </summary>
         /// <param name="channelId">The ID of the Channel.</param>
         /// <param name="mapId">The ID of the Map.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="channelId"/> or <paramref name="mapId"/> are negative.
+        /// </exception>
         internal PlayerLocation(int channelId, int mapId)
         {
+            if (channelId < 0)
+            {
+                throw new ArgumentOutOfRangeException("channelId", "'channelId' must be a non-negative integer.");
+            }
+            if (mapId < 0)
+            {
+                throw new ArgumentOutOfRangeException("mapId", "'mapId' must be a non-negative integer.");
+            }
+
             this.ChannelId = channelId;
             this.MapId = mapId;
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc />
         public bool Equals(PlayerLocation other)
         {
             if (other == null) return false;
             return this.EqualsInternal(other);
         }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="LocationRegistry"/>.
-        /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="LocationRegistry"/>. </param>
-        /// <filterpriority>2</filterpriority>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="T:System.Object"/> is equal to the current <see cref="LocationRegistry"/>; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -60,22 +59,16 @@ namespace OpenStory.Server
             return this.EqualsInternal(other);
         }
 
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return unchecked((this.ChannelId * 397) ^ this.MapId);
+        }
+
         private bool EqualsInternal(PlayerLocation other)
         {
             return this.ChannelId.Equals(other.ChannelId)
-                   && this.MapId.Equals(other.MapId);
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="LocationRegistry"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            return this.ChannelId.GetHashCode() ^ this.MapId.GetHashCode();
+                && this.MapId.Equals(other.MapId);
         }
 
         /// <summary>

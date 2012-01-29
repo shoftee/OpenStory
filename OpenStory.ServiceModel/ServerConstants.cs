@@ -27,6 +27,32 @@ namespace OpenStory.ServiceModel
             /// </summary>
             public static readonly Uri AuthService = new Uri("net.tcp://localhost:10002/OpenStory/AuthService");
 
+            /// <summary>
+            /// Gets the URI for the specified OpenStory WCF channel service.
+            /// </summary>
+            /// <param name="worldId">The ID of the world.</param>
+            /// <param name="channelId">The ID of the channel.</param>
+            /// <returns>the requested URI.</returns>
+            public static Uri GetChannelService(int worldId, int channelId)
+            {
+                int port = 10101 + worldId * 100 + channelId;
+
+                string uri = String.Format("net.tcp://localhost:{0}/OpenStory/ChannelService", port);
+                return new Uri(uri);
+            }
+
+            /// <summary>
+            /// Gets the URI for the specified OpenStory WCF world service.
+            /// </summary>
+            /// <param name="worldId">The ID of the world.</param>
+            /// <returns>the requested URI.</returns>
+            public static Uri GetWorldService(int worldId)
+            {
+                int port = 10100 + worldId * 100;
+
+                string uri = String.Format("net.tcp://localhost:{0}/OpenStory/WorldService", port);
+                return new Uri(uri);
+            }
         }
     }
 }

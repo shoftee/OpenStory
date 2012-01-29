@@ -7,7 +7,7 @@ namespace OpenStory.Common.Tools
     /// </summary>
     public static class TimeHelpers
     {
-        private static readonly DateTimeOffset Epoch = new DateTimeOffset(new DateTime(1970, 1, 1), TimeSpan.Zero);
+        private static readonly DateTimeOffset Epoch = new DateTimeOffset(new DateTime(1970, 1, 1));
 
         /// <summary>
         /// Gets <see cref="DateTimeOffset.UtcNow"/> as Epoch time.
