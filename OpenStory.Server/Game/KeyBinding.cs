@@ -25,21 +25,13 @@ namespace OpenStory.Server.Game
 
         #region IKeyBinding Members
 
-        /// <summary>
-        /// Gets the type of the action for the KeyBinding.
-        /// </summary>
+        /// <inheritdoc />
         public byte ActionTypeId { get; private set; }
 
-        /// <summary>
-        /// Gets the action ID for the KeyBinding.
-        /// </summary>
+        /// <inheritdoc />
         public int ActionId { get; private set; }
 
-        /// <summary>
-        /// Assigns new pair of action type and action ID to the KeyBinding.
-        /// </summary>
-        /// <param name="type">The new action type ID.</param>
-        /// <param name="action">The new action ID.</param>
+        /// <inheritdoc />
         public void Change(byte type, int action)
         {
             if (this.ActionTypeId == type && this.ActionId == action) return;

@@ -27,7 +27,7 @@ namespace OpenStory.Server.Game
             get { return this.SlotCapacity - this.slots.Count; }
         }
 
-        private Dictionary<int, TItemCluster> slots;
+        private readonly Dictionary<int, TItemCluster> slots;
 
         /// <summary>
         /// Initializes a new ItemContainer instance with the specified slot capacity.
@@ -42,13 +42,13 @@ namespace OpenStory.Server.Game
         /// <summary>
         /// Expands the item container with the specified number of slots.
         /// </summary>
-        /// <param name="slots"></param>
-        public void Expand(int slots)
+        /// <param name="count">The number of slots to add.</param>
+        public void Expand(int count)
         {
-            int newCapacity = this.SlotCapacity + slots;
+            int newCapacity = this.SlotCapacity + count;
             if (newCapacity > this.MaxCapacity)
             {
-                throw new ArgumentException("You cannot expand this container past its max capacity.", "slots");
+                throw new ArgumentException("You cannot expand this container past its max capacity.", "count");
             }
 
             this.SlotCapacity = newCapacity;

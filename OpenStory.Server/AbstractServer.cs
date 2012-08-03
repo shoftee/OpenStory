@@ -130,7 +130,7 @@ namespace OpenStory.Server
 
         class AccountSession : IAccountSession
         {
-            private IAccountService parent;
+            private readonly IAccountService parent;
 
             /// <inheritdoc />
             public int SessionId { get; private set; }
@@ -180,7 +180,7 @@ namespace OpenStory.Server
         /// <summary>
         /// Returns a new non-zero 4-byte IV array.
         /// </summary>
-        /// <returns>A 4-byte IV array.</returns>
+        /// <returns>a generated 4-byte IV array.</returns>
         private static byte[] GetNewIV()
         {
             // Just in case we hit that 1 in 2147483648 chance.

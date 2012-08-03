@@ -37,6 +37,7 @@ namespace OpenStory.Server
         /// </summary>
         protected HashSet<TGroupMember> Members { get; private set; }
 
+        /// <inheritdoc />
         public int Id { get; private set; }
 
         /// <summary>
@@ -80,6 +81,7 @@ namespace OpenStory.Server
             return this.Members.Remove(member);
         }
 
+        /// <inheritdoc />
         public abstract void Update(TUpdateInfo updateInfo);
     }
 }

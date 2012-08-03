@@ -17,13 +17,7 @@ namespace OpenStory.Server.Game
         /// </summary>
         public virtual int ClusterCapacity { get; private set; }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="ItemInfo"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="ItemInfo"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="ItemInfo"/>. </param><filterpriority>2</filterpriority>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == this)
@@ -38,25 +32,13 @@ namespace OpenStory.Server.Game
             return this.Equals(obj as ItemInfo);
         }
 
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="ItemInfo"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return this.ItemId;
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
+        /// <inheritdoc />
         public bool Equals(ItemInfo other)
         {
             if (other == null)

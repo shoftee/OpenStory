@@ -47,8 +47,8 @@ namespace OpenStory.Server
         /// </remarks>
         public IAccountSession AccountSession { get; protected set; }
 
-        private Timer keepAliveTimer;
-        private AtomicInteger sentPings;
+        private readonly Timer keepAliveTimer;
+        private readonly AtomicInteger sentPings;
         private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
 
         /// <summary>
