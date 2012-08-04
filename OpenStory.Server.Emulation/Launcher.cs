@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation
 {
@@ -14,7 +13,7 @@ namespace OpenStory.Server.Emulation
     {
         public AssemblyName AssemblyName { get; private set; }
 
-        private List<string> arguments;
+        private readonly ReadOnlyCollection<string> arguments;
 
         public string[] Arguments
         {
@@ -25,7 +24,7 @@ namespace OpenStory.Server.Emulation
         {
             this.AssemblyName = assemblyName;
 
-            this.arguments = args.ToList();
+            this.arguments = args.ToReadOnly();
         }
     }
 }

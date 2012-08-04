@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -34,6 +35,25 @@ namespace OpenStory.Common.Tools
         {
             value = default(T);
             return result;
+        }
+
+        /// <summary>
+        /// Wraps the provided list in a <see cref="ReadOnlyCollection{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the list.</typeparam>
+        /// <param name="list">The list to wrap.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="list"/> is <c>null</c>.
+        /// </exception>
+        /// <returns>an instance of <see cref="ReadOnlyCollection{T}"/>.</returns>
+        public static ReadOnlyCollection<T> ToReadOnly<T>(this IList<T> list)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException("list");
+            }
+
+            return new ReadOnlyCollection<T>(list);
         }
     }
 }

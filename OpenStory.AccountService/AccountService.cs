@@ -45,14 +45,18 @@ namespace OpenStory.AccountService
         }
 
         /// <inheritdoc />
-        public void RegisterCharacter(int accountId, int characterId)
+        public bool TryRegisterCharacter(int accountId, int characterId)
         {
             ActiveAccount account;
             if (!this.activeAccounts.TryGetValue(accountId, out account))
             {
-                throw new InvalidOperationException("The specified account is not active.");
+                return false;
             }
-            account.RegisterCharacter(characterId);
+            else
+            {
+                account.RegisterCharacter(characterId);
+                return true;
+            }
         }
 
         /// <inheritdoc />

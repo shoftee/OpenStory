@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OpenStory.Common.Authentication;
+using OpenStory.Common.Tools;
 using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Authentication
@@ -9,7 +10,7 @@ namespace OpenStory.Server.Authentication
     /// </summary>
     internal class WorldInfo : IWorld
     {
-        private List<ChannelInfo> channels;
+        private readonly List<ChannelInfo> channels;
 
         /// <summary>
         /// Initializes a new instance of the WorldInfo class.
@@ -49,7 +50,7 @@ namespace OpenStory.Server.Authentication
         /// </summary>
         public IEnumerable<IChannel> Channels
         {
-            get { return this.channels; }
+            get { return this.channels.ToReadOnly(); }
         }
 
         #endregion
