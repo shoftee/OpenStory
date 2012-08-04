@@ -28,9 +28,9 @@
         }
 
         /// <inheritdoc />
-        public void RegisterCharacter(int accountId, int characterId)
+        public bool TryRegisterCharacter(int accountId, int characterId)
         {
-            base.Channel.RegisterCharacter(accountId, characterId);
+            return base.Channel.TryRegisterCharacter(accountId, characterId);
         }
 
         /// <inheritdoc />

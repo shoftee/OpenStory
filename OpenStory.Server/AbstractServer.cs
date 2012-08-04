@@ -15,7 +15,7 @@ namespace OpenStory.Server
     {
         private static readonly ushort MapleVersion = Settings.Default.MapleVersion;
 
-        private SocketAcceptor acceptor;
+        private readonly SocketAcceptor acceptor;
 
         /// <summary>
         /// Initializes a new instance of AbstractServer and binds the internal acceptor to the given port.

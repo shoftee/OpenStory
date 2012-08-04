@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ServiceModel;
 using System.Threading;
 using OpenStory.Common.Tools;
 using OpenStory.ServiceModel;
@@ -14,13 +13,11 @@ namespace OpenStory.AuthService
 
             var authServer = new AuthServer();
 
-            var host = new ServiceHost(authServer, ServerConstants.Uris.AuthService);
-            host.Open();
-            
+            ServiceHelpers.OpenServiceHost(authServer, ServerConstants.Uris.AuthService);
             Log.WriteInfo("Service registered.");
-            
+
             authServer.Start();
-            
+
             Thread.Sleep(Timeout.Infinite);
         }
     }

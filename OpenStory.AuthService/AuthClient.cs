@@ -19,7 +19,7 @@ namespace OpenStory.AuthService
         /// </summary>
         private const int MaxLoginAttempts = 3;
 
-        private IAuthServer server;
+        private readonly IAuthServer server;
 
         /// <summary>
         /// Initializes a new instance of AuthenticationClient 
@@ -33,7 +33,10 @@ namespace OpenStory.AuthService
         public AuthClient(ServerSession networkSession, IAuthServer server)
             : base(networkSession)
         {
-            if (server == null) throw new ArgumentNullException("server");
+            if (server == null)
+            {
+                throw new ArgumentNullException("server");
+            }
 
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
@@ -152,7 +155,7 @@ namespace OpenStory.AuthService
             {
                 // TODO: Proper op code storage.
                 builder.WriteInt16(0x0000);
-                builder.WriteInt32((int) result);
+                builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);
                 this.Session.WritePacket(builder.ToByteArray());
             }

@@ -30,7 +30,7 @@ namespace OpenStory.Server.Data
             using (var query = new SqlCommand(SelectName))
             {
                 query.Parameters.Add("@name", SqlDbType.VarChar, 12).Value = name;
-                return query.AsEnumerable().Any();
+                return query.Enumerate().Any();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Common.IO
 {
@@ -186,9 +187,15 @@ namespace OpenStory.Common.IO
             }
 
             int skipped = this.segmentEnd - bufferOffset;
-            if (skipped < 0) return -1;
-            this.currentOffset = bufferOffset;
-            return skipped;
+            if (skipped < 0)
+            {
+                return -1;
+            }
+            else
+            {
+                this.currentOffset = bufferOffset;
+                return skipped;
+            }
         }
 
         /// <summary>
@@ -220,7 +227,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out array);
+                return MiscTools.Fail(out array);
             }
         }
 
@@ -241,7 +248,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -262,7 +269,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -285,7 +292,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -308,7 +315,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -331,7 +338,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -354,7 +361,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -377,7 +384,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -399,7 +406,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out result);
+                return MiscTools.Fail(out result);
             }
         }
 
@@ -425,7 +432,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out result);
+                return MiscTools.Fail(out result);
             }
         }
 
@@ -447,7 +454,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return Fail(out value);
+                return MiscTools.Fail(out value);
             }
         }
 
@@ -626,18 +633,6 @@ namespace OpenStory.Common.IO
 
             Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(remaining), remainingBytes, 0, remaining);
             return remainingBytes;
-        }
-
-        /// <summary>
-        /// Sets the specified variable to <c>default(T)</c> and returns false;
-        /// </summary>
-        /// <typeparam name="T">The type of the variable.</typeparam>
-        /// <param name="value">The variable to set to the default value.</param>
-        /// <returns>always <c>false</c>.</returns>
-        private static bool Fail<T>(out T value)
-        {
-            value = default(T);
-            return false;
         }
     }
 }

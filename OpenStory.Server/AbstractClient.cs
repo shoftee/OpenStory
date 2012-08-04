@@ -55,12 +55,12 @@ namespace OpenStory.Server
         /// Initializes a new client with the given network session object.
         /// </summary>
         /// <param name="session">The session object for this client.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="session"/> is <c>null</c>.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if <paramref name="session"/> is not open.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="session"/> is <c>null</c>.
+        /// </exception>
         protected AbstractClient(ServerSession session)
         {
             if (session == null) throw new ArgumentNullException("session");
-            if (session.NetworkSessionId == -1) throw new InvalidOperationException("This session is not open.");
 
             this.Session = session;
             this.Session.PacketReceived += this.OnPacketReceived;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using OpenStory.Common.Authentication;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
 using OpenStory.Server.Data;
@@ -51,41 +52,34 @@ namespace OpenStory.AuthService
         /// <inheritdoc />
         public AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountSession)
         {
+            base.ThrowIfNotRunning();
             Account account = Account.LoadByUserName(accountName);
-            AuthenticationResult result;
             if (account == null)
             {
-                result = AuthenticationResult.NotRegistered;
-                goto AuthenticationFailed;
+                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.NotRegistered);
             }
 
             string hash = LoginCrypto.GetMD5HashString(password, true);
             if (!String.Equals(hash, account.PasswordHash, StringComparison.Ordinal))
             {
-                result = AuthenticationResult.IncorrectPassword;
-                goto AuthenticationFailed;
+                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.IncorrectPassword);
             }
 
             int sessionId;
             if (!this.accountService.TryRegisterSession(account.AccountId, out sessionId))
             {
-                result = AuthenticationResult.AlreadyLoggedIn;
-                goto AuthenticationFailed;
-            } 
+                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.AlreadyLoggedIn);
+            }
 
             accountSession = base.GetSession(this.accountService, sessionId, account);
             return AuthenticationResult.Success;
-
-        AuthenticationFailed:
-            accountSession = null;
-            return result;
         }
 
         #endregion
 
         protected override void OnConnectionOpen(ServerSession serverSession)
         {
-            AuthClient newClient = new AuthClient(serverSession, this);
+            var newClient = new AuthClient(serverSession, this);
             this.clients.Add(newClient);
         }
 

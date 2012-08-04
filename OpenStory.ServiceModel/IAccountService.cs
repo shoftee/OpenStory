@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 namespace OpenStory.ServiceModel
 {
@@ -22,18 +21,18 @@ namespace OpenStory.ServiceModel
         /// </summary>
         /// <param name="accountId">The account to register.</param>
         /// <param name="sessionId">A value-holder for the session identifier.</param>
-        /// <returns><c>true</c> if the registration was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if registration was successful; otherwise, <c>false</c>.</returns>
         [OperationContract]
         bool TryRegisterSession(int accountId, out int sessionId);
 
         /// <summary>
-        /// Registers a character session on the specified account.
+        /// Attempts to register a character session on the specified account.
         /// </summary>
         /// <param name="accountId">The account on which to register a character.</param>
         /// <param name="characterId">The character to register.</param>
+        /// <returns><c>true</c> if registration was successful; otherwise, <c>false</c>.</returns>
         [OperationContract]
-        [FaultContract(typeof(InvalidOperationException))]
-        void RegisterCharacter(int accountId, int characterId);
+        bool TryRegisterCharacter(int accountId, int characterId);
 
         /// <summary>
         /// Attempts to remove the specified account from the list of active accounts.

@@ -30,7 +30,7 @@ namespace OpenStory.Server.Data
         public static IEnumerable<World> GetAllWorlds()
         {
             var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId");
-            return command.AsEnumerable().Select(record => new World(record));
+            return command.Enumerate().Select(record => new World(record));
         }
     }
 }
