@@ -9,19 +9,11 @@ namespace OpenStory.ServiceModel
     public interface IAccountService : IGameService
     {
         /// <summary>
-        /// Checks whether there is an active session on the specified account.
-        /// </summary>
-        /// <param name="accountId">The account to check for.</param>
-        /// <returns><c>true</c> if the account is active; otherwise, <c>false</c>.</returns>
-        [OperationContract]
-        bool IsActive(int accountId);
-
-        /// <summary>
         /// Attempts to register a new session for the specified account.
         /// </summary>
         /// <param name="accountId">The account to register.</param>
         /// <param name="sessionId">A value-holder for the session identifier.</param>
-        /// <returns><c>true</c> if registration was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if registration was successful; if the session is already active, <c>false</c>.</returns>
         [OperationContract]
         bool TryRegisterSession(int accountId, out int sessionId);
 

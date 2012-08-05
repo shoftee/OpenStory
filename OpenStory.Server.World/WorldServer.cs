@@ -8,7 +8,7 @@ namespace OpenStory.Server.World
         /// <inheritdoc />
         public int WorldId { get; private set; }
 
-        private Dictionary<int, IWorldChannel> channels;
+        private readonly Dictionary<int, IWorldChannel> channels;
 
         public WorldServer(int worldId)
         {

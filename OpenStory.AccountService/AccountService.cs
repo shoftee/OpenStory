@@ -21,12 +21,6 @@ namespace OpenStory.AccountService
         }
 
         /// <inheritdoc />
-        public bool IsActive(int accountId)
-        {
-            return this.activeAccounts.ContainsKey(accountId);
-        }
-
-        /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
             if (this.activeAccounts.ContainsKey(accountId))

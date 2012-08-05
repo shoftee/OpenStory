@@ -16,12 +16,6 @@
         #region IAccountService Members
 
         /// <inheritdoc />
-        public bool IsActive(int accountId)
-        {
-            return base.Channel.IsActive(accountId);
-        }
-
-        /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
             return base.Channel.TryRegisterSession(accountId, out sessionId);
