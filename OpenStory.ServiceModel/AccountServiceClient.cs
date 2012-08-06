@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides remote access to an <see cref="IAccountService"/>.
     /// </summary>
-    public class AccountServiceClient : GameServiceClient<IAccountService>, IAccountService
+    public sealed class AccountServiceClient : GameServiceClient<IAccountService>, IAccountService
     {
         /// <summary>
         /// Initializes a new AccountServiceClient.

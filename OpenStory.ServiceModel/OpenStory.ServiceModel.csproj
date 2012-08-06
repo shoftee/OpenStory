@@ -49,7 +49,9 @@
     <Compile Include="IAccountSession.cs" />
     <Compile Include="IAuthService.cs" />
     <Compile Include="IGameService.cs" />
+    <Compile Include="INexusService.cs" />
     <Compile Include="IWorldRegistry.cs" />
+    <Compile Include="NexusService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConstants.cs" />
     <Compile Include="ServiceHelpers.cs" />
