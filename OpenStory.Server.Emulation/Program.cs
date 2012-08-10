@@ -6,9 +6,6 @@ namespace OpenStory.Server.Emulation
     {
         private static void Main()
         {
-            var emulator = new Emulator();
-            emulator.Start();
-
             Thread.Sleep(Timeout.Infinite);
         }
     }

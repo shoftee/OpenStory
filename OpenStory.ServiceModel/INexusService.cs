@@ -1,34 +1,99 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
 
 namespace OpenStory.ServiceModel
 {
     /// <summary>
-    /// Provides methods to register and list game services.
+    /// Provides methods for Game Service Registration
     /// </summary>
-    /// <typeparam name="TGameService">The concrete implementation of <see cref="IGameService"/>.</typeparam>
-    [ServiceContract(Namespace = null)]
-    public interface INexusService<out TGameService> : IGameService
-        where TGameService : class, IGameService
+    public interface INexusService : IGameService
     {
         /// <summary>
-        /// Gets the list of <see cref="TGameService"/> instances.
+        /// Attempts to register an authentication service module.
         /// </summary>
-        IEnumerable<TGameService> Services
-        {
-            [OperationContract]
-            get;
-        }
+        /// <param name="uri">The URI for the service.</param>
+        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
+        string TryRegisterAuthService(Uri uri);
 
         /// <summary>
-        /// Registers the <typeparam name="TGameService"/> at the specified URI into the Nexus.
+        /// Attempts to unregister the authentication service module.
         /// </summary>
-        /// <param name="serviceUri">The URI of the service to register.</param>
-        /// <returns>a <see cref="string"/> token for the registered service.</returns>
-        [OperationContract]
-        string RegisterService(Uri serviceUri);
+        /// <param name="accessToken">The access token that corresponds to the active service.</param>
+        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
+        bool TryUnregisterAuthService(string accessToken);
+
+        /// <summary>
+        /// Attempts to register an account service module.
+        /// </summary>
+        /// <param name="uri">The URI for the service.</param>
+        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
+        string TryRegisterAccountService(Uri uri);
+
+        /// <summary>
+        /// Attempts to unregister the account service module.
+        /// </summary>
+        /// <param name="accessToken">The access token that corresponds to the active service.</param>
+        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
+        bool TryUnregisterAccountService(string accessToken);
+
+        /// <summary>
+        /// Attempts to register a world service module.
+        /// </summary>
+        /// <param name="uri">The URI for the service.</param>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
+        string TryRegisterWorldService(Uri uri, int worldId);
+
+        /// <summary>
+        /// Attempts to unregister a world service module.
+        /// </summary>
+        /// <param name="accessToken">The access token that corresponds to the active service.</param>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
+        bool TryUnregisterWorldService(string accessToken, int worldId);
+
+        /// <summary>
+        /// Attempts to register a channel service module.
+        /// </summary>
+        /// <param name="uri">The URI for the service.</param>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <param name="channelId">The public channel identifier for the channel instance.</param>
+        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
+        string TryRegisterChannelService(Uri uri, int worldId, int channelId);
+
+        /// <summary>
+        /// Attempts to unregister a channel service module.
+        /// </summary>
+        /// <param name="accessToken">The access token that corresponds to the active service.</param>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <param name="channelId">The public channel identifier for the channel instance.</param>
+        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
+        bool TryUnregisterChannelService(string accessToken, int worldId, int channelId);
+
+        /// <summary>
+        /// Gets a binding to the authentication service.
+        /// </summary>
+        /// <returns>a <see cref="AuthServiceClient"/></returns>
+        AuthServiceClient GetAuthService();
+
+        /// <summary>
+        /// Gets a binding to the account service.
+        /// </summary>
+        /// <returns>a <see cref="AccountServiceClient"/></returns>
+        AccountServiceClient GetAccountService();
+
+        /// <summary>
+        /// Gets a binding to a world service.
+        /// </summary>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <returns>a <see cref="WorldServiceClient"/></returns>
+        WorldServiceClient GetWorldService(int worldId);
+
+        /// <summary>
+        /// Gets a binding to a channel service.
+        /// </summary>
+        /// <param name="worldId">The public world identifier for the service instance.</param>
+        /// <param name="channelId">The public channel identifier for the channel instance.</param>
+        /// <returns>a <see cref="ChannelServiceClient"/></returns>
+        ChannelServiceClient GetChannelService(int worldId, int channelId);
     }
 }

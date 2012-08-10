@@ -13,9 +13,9 @@ namespace OpenStory.ServiceModel
         public static class Uris
         {
             /// <summary>
-            /// The URI for the OpenStory WCF universe service.
+            /// The URI for the OpenStory WCF nexus service.
             /// </summary>
-            public static readonly Uri UniverseService = new Uri("net.tcp://localhost:10000/OpenStory/UniverseService");
+            public static readonly Uri NexusService = new Uri("net.tcp://localhost:10000/OpenStory/NexusService");
 
             /// <summary>
             /// The URI of the OpenStory WCF account service.
