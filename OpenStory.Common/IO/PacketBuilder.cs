@@ -17,7 +17,7 @@ namespace OpenStory.Common.IO
         private MemoryStream stream;
 
         /// <summary>
-        /// Initializes a new PacketBuilder instance with the default capacity.
+        /// Initializes a new <see cref="PacketBuilder"/> instance with the default capacity.
         /// </summary>
         public PacketBuilder()
         {
@@ -25,7 +25,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new PacketBuilder instance.
+        /// Initializes a new <see cref="PacketBuilder"/> instance.
         /// </summary>
         /// <param name="capacity">The initial capacity for the underlying stream.</param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -35,7 +35,7 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", "'capacity' must be a positive integer.");
+                throw new ArgumentOutOfRangeException("capacity", capacity, "'capacity' must be a positive integer.");
             }
             this.stream = new MemoryStream(capacity);
         }

@@ -150,9 +150,10 @@ namespace OpenStory.Networking
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
         private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (!this.HandleTransferredData(args)) return;
-
-            this.BeginReceive();
+            if (this.HandleTransferredData(args))
+            {
+                this.BeginReceive();
+            }
         }
 
         /// <summary>

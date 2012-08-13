@@ -54,10 +54,10 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets whether the socket is currently disconnected or not.
         /// </summary>
-        private AtomicBoolean isActive;
+        private readonly AtomicBoolean isActive;
 
-        private ReceiveDescriptor receiveDescriptor;
-        private SendDescriptor sendDescriptor;
+        private readonly ReceiveDescriptor receiveDescriptor;
+        private readonly SendDescriptor sendDescriptor;
 
         /// <inheritdoc />
         public Socket Socket { get; private set; }

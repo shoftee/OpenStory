@@ -10,7 +10,8 @@ namespace OpenStory.Networking
     /// </summary>
     sealed class SendDescriptor : Descriptor
     {
-        private AtomicBoolean isSending;
+        private readonly AtomicBoolean isSending;
+
         private ConcurrentQueue<byte[]> queue;
         private int sentBytes;
 
@@ -109,14 +110,15 @@ namespace OpenStory.Networking
         /// <returns><c>true</c> if there is more to send; otherwise, <c>false</c>.</returns>
         private bool EndSendSynchronous(SocketAsyncEventArgs args)
         {
-            if (!this.HandleTransferredData(args))
+            if (this.HandleTransferredData(args))
+            {
+                this.ResetBuffer();
+                return true;
+            }
+            else
             {
                 return false;
             }
-
-            this.ResetBuffer();
-
-            return true;
         }
 
         /// <summary>
@@ -129,12 +131,10 @@ namespace OpenStory.Networking
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
         private void EndSendAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (!this.HandleTransferredData(args))
+            if (this.HandleTransferredData(args))
             {
-                return;
+                this.BeginSend();
             }
-
-            this.BeginSend();
         }
 
         /// <summary>
