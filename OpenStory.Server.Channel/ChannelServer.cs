@@ -5,9 +5,9 @@ namespace OpenStory.Server.Channel
 {
     class ChannelServer : IChannelServer
     {
-        private int channelId;
+        private readonly int channelId;
 
-        private PlayerRegistry players;
+        private readonly PlayerRegistry players;
 
         public IChannelWorld World { get; private set; }
 

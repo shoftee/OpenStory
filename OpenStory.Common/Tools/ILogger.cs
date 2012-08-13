@@ -8,8 +8,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
-        /// <param name="infoString">The string to write.</param>
-        void WriteInfo(string infoString);
+        /// <param name="info">The string to write.</param>
+        void WriteInfo(string info);
 
         /// <summary>
         /// Writes an informational message to the log.
@@ -21,8 +21,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
-        /// <param name="warningString">The string to write.</param>
-        void WriteWarning(string warningString);
+        /// <param name="warning">The string to write.</param>
+        void WriteWarning(string warning);
 
         /// <summary>
         /// Writes a warning message to the log.
@@ -34,8 +34,8 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>
-        /// <param name="errorString">The string to write.</param>
-        void WriteError(string errorString);
+        /// <param name="error">The string to write.</param>
+        void WriteError(string error);
 
         /// <summary>
         /// Writes an error message to the log.

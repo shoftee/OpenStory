@@ -18,9 +18,9 @@ namespace OpenStory.Synchronization
         private class Synchronized<T> : ISynchronized<T>, IRunnable
             where T : class
         {
-            private ConcurrentQueue<Action<T>> actions;
-            private T obj;
-            private IScheduler scheduler;
+            private readonly ConcurrentQueue<Action<T>> actions;
+            private readonly T obj;
+            private readonly IScheduler scheduler;
 
             /// <summary>
             /// Initializes a new Synchronized(T) wrapper around the specified object.

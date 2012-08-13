@@ -29,12 +29,12 @@ namespace OpenStory.Networking
         #endregion
 
         /// <summary>
-        /// The buffer used to store packet headers.
+        /// Gets the buffer used to store packet headers.
         /// </summary>
         protected BoundedBuffer HeaderBuffer { get; private set; }
 
         /// <summary>
-        /// The buffer used to store packet data.
+        /// Gets the buffer used to store packet data.
         /// </summary>
         protected BoundedBuffer PacketBuffer { get; private set; }
 
@@ -44,9 +44,9 @@ namespace OpenStory.Networking
         protected NetworkSession Session { get; private set; }
 
         /// <summary>
-        /// The cryptographic transformer for this session.
+        /// Gets the cryptographic transformer for this session.
         /// </summary>
-        public AbstractCrypto Crypto { get; protected set; }
+        protected AbstractCrypto Crypto { get; set; }
 
         /// <summary>
         /// Initializes the internal fields and <see cref="Session"/> with no specified socket.

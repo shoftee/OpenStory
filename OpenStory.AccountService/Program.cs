@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ServiceModel;
 using System.Threading;
 using OpenStory.Common.Tools;
 using OpenStory.ServiceModel;

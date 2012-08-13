@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// </summary>
     public class PacketReceivedEventArgs : EventArgs
     {
-        private byte[] buffer;
+        private readonly byte[] buffer;
 
         /// <summary>
         /// Initializes a new instance of the PacketReceivedEventArgs class.

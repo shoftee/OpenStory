@@ -53,7 +53,7 @@ namespace OpenStory.Server
         {
             if (obj == null) return false;
 
-            PlayerLocation other = obj as PlayerLocation;
+            var other = obj as PlayerLocation;
             if (other == null) return false;
 
             return this.EqualsInternal(other);

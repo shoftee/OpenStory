@@ -51,7 +51,7 @@ namespace OpenStory.Server.Channel.Maps
         public IMapObject GetMapObject(int objectId)
         {
             IMapObject mapObject;
-            if (this.mapObjects.TryGetValue(objectId, out mapObject))
+            if (!this.mapObjects.TryGetValue(objectId, out mapObject))
             {
                 return null;
             }
@@ -66,7 +66,7 @@ namespace OpenStory.Server.Channel.Maps
         public IPortal GetPortalByName(string portalName)
         {
             IPortal portal;
-            if (this.portals.TryGetValue(portalName, out portal))
+            if (!this.portals.TryGetValue(portalName, out portal))
             {
                 return null;
             }

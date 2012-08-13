@@ -16,10 +16,25 @@ namespace OpenStory.Synchronization
         /// </summary>
         private class ScheduledTask : IDisposable
         {
-            private Action action;
-            private CancellationToken token;
+            private readonly Action action;
+            private readonly CancellationToken token;
 
-            private bool isDisposed;
+            private readonly bool isDisposed;
+
+            /// <summary>
+            /// Gets the <see cref="CancellationTokenSource"/> object for this task.
+            /// </summary>
+            public CancellationTokenSource CancellationTokenSource { get; private set; }
+
+            /// <summary>
+            /// The time at which this task is scheduled to execute.
+            /// </summary>
+            public DateTime ScheduledTime { get; private set; }
+
+            /// <summary>
+            /// Gets the timestamp for when the task was cancelled.
+            /// </summary>
+            public DateTime? TimeCancelled { get; private set; }
 
             /// <summary>
             /// Initializes a new <see cref="ScheduledTask"/>, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken" />.
@@ -41,21 +56,6 @@ namespace OpenStory.Synchronization
 
                 isDisposed = false;
             }
-
-            /// <summary>
-            /// Gets the <see cref="CancellationTokenSource"/> object for this task.
-            /// </summary>
-            public CancellationTokenSource CancellationTokenSource { get; private set; }
-
-            /// <summary>
-            /// The time at which this task is scheduled to execute.
-            /// </summary>
-            public DateTime ScheduledTime { get; private set; }
-
-            /// <summary>
-            /// Gets the timestamp for when the task was cancelled.
-            /// </summary>
-            public DateTime? TimeCancelled { get; private set; }
 
             #region IDisposable Members
 

@@ -15,7 +15,7 @@ namespace OpenStory.Server.Game
         /// <summary>
         /// The number of key bindings.
         /// </summary>
-        private List<KeyBinding> bindings;
+        private readonly List<KeyBinding> bindings;
 
         private KeyLayout()
         {
@@ -107,7 +107,7 @@ namespace OpenStory.Server.Game
 
         private static void ThrowIfInvalidId(byte keyId)
         {
-            if (keyId < 0 || GameConstants.KeyCount <= keyId)
+            if (GameConstants.KeyCount <= keyId)
             {
                 throw new ArgumentOutOfRangeException(
                     "keyId", keyId, "'keyId' must be a valid key identifier.");

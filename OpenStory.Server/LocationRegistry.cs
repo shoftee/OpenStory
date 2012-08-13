@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +5,7 @@ namespace OpenStory.Server
 {
     class LocationRegistry
     {
-        private Dictionary<int, PlayerLocation> locations;
+        private readonly Dictionary<int, PlayerLocation> locations;
 
         /// <summary>
         /// Gets a <see cref="PlayerLocation"/> instance for the given player ID.
@@ -89,7 +88,7 @@ namespace OpenStory.Server
         /// <param name="mapId">The ID of the map the player is currently in.</param>
         public void SetLocation(int playerId, int channelId, int mapId)
         {
-            PlayerLocation location = new PlayerLocation(channelId, mapId);
+            var location = new PlayerLocation(channelId, mapId);
             if (this.locations.ContainsKey(playerId))
             {
                 this.locations[playerId] = location;

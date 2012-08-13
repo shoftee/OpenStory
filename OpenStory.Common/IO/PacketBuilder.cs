@@ -14,7 +14,7 @@ namespace OpenStory.Common.IO
     {
         private bool isDisposed;
 
-        private MemoryStream stream;
+        private readonly MemoryStream stream;
 
         /// <summary>
         /// Initializes a new <see cref="PacketBuilder"/> instance with the default capacity.

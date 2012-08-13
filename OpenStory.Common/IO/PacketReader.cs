@@ -473,8 +473,9 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentOutOfRangeException("count", "'count' must be a non-negative integer.");
             }
+
             int start = this.CheckedAdvance(count);
-            byte[] bytes = new byte[count];
+            var bytes = new byte[count];
             Buffer.BlockCopy(this.buffer, start, bytes, 0, count);
             return bytes;
         }

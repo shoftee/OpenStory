@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace OpenStory.Common.IO
@@ -58,7 +59,7 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
-            string formatted = String.Format(LengthFormat, startOffset, length);
+            string formatted = String.Format(CultureInfo.InvariantCulture, LengthFormat, startOffset, length);
             return new ArraySegmentException(formatted);
         }
 
@@ -71,7 +72,7 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndEnd(int startOffset, int endOffset)
         {
-            string formatted = String.Format(BoundsFormat, startOffset, endOffset);
+            string formatted = String.Format(CultureInfo.InvariantCulture, BoundsFormat, startOffset, endOffset);
             return new ArraySegmentException(formatted);
         }
     }

@@ -10,8 +10,8 @@ namespace OpenStory.Synchronization
     /// </summary>
     internal class QueueScheduler : IScheduler
     {
-        private AtomicBoolean isWorking;
-        private ConcurrentQueue<Task> tasks;
+        private readonly AtomicBoolean isWorking;
+        private readonly ConcurrentQueue<Task> tasks;
 
         /// <summary>
         /// Initializes a new instance of QueueScheduler.

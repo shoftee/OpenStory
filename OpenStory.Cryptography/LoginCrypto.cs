@@ -8,7 +8,7 @@ namespace OpenStory.Cryptography
     /// </summary>
     public static class LoginCrypto
     {
-        private static readonly MD5CryptoServiceProvider MD5CryptoProvider =
+        private static readonly MD5CryptoServiceProvider Md5CryptoProvider =
             new MD5CryptoServiceProvider();
 
         private static RSA GetRsaWithParameters(RSAParameters parameters)
@@ -24,10 +24,10 @@ namespace OpenStory.Cryptography
         /// <param name="str">The string to hash.</param>
         /// <param name="lowercase">Whether to return lowercase hex digits or not. Default value is <c>false</c>.</param>
         /// <returns>A string </returns>
-        public static string GetMD5HashString(string str, bool lowercase = false)
+        public static string GetMd5HashString(string str, bool lowercase = false)
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
-            byte[] hashBytes = MD5CryptoProvider.ComputeHash(strBytes);
+            byte[] hashBytes = Md5CryptoProvider.ComputeHash(strBytes);
             return hashBytes.ToHex(lowercase);
         }
 
@@ -41,7 +41,7 @@ namespace OpenStory.Cryptography
         {
             RSA rsa = GetRsaWithParameters(parameters);
 
-            string passwordHash = GetMD5HashString(password, true);
+            string passwordHash = GetMd5HashString(password, true);
             byte[] passwordHashBytes = Encoding.UTF7.GetBytes(passwordHash);
 
             byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);

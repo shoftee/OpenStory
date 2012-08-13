@@ -44,10 +44,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an informational message to the log.
         /// </summary>
-        /// <param name="infoString">The string to write.</param>
-        public static void WriteInfo(string infoString)
+        /// <param name="info">The string to write.</param>
+        public static void WriteInfo(string info)
         {
-            Instance.WriteInfo(infoString);
+            Instance.WriteInfo(info);
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes a warning message to the log.
         /// </summary>
-        /// <param name="warningString">The string to write.</param>
-        public static void WriteWarning(string warningString)
+        /// <param name="warning">The string to write.</param>
+        public static void WriteWarning(string warning)
         {
-            Instance.WriteWarning(warningString);
+            Instance.WriteWarning(warning);
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Writes an error message to the log.
         /// </summary>
-        /// <param name="errorString">The string to write.</param>
-        public static void WriteError(string errorString)
+        /// <param name="error">The string to write.</param>
+        public static void WriteError(string error)
         {
-            Instance.WriteError(errorString);
+            Instance.WriteError(error);
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace OpenStory.Common.Tools
 
         #region Explicit ILogger implementation
 
-        void ILogger.WriteInfo(string infoString)
+        void ILogger.WriteInfo(string info)
         {
-            lock (this.writer) this.writer.WriteLine("[Info] {0}", infoString);
+            lock (this.writer) this.writer.WriteLine("[Info] {0}", info);
         }
 
         void ILogger.WriteInfo(string format, params object[] args)
@@ -112,9 +112,9 @@ namespace OpenStory.Common.Tools
             lock (this.writer) this.writer.WriteLine("[Info] " + format, args);
         }
 
-        void ILogger.WriteWarning(string warningString)
+        void ILogger.WriteWarning(string warning)
         {
-            lock (this.writer) this.writer.WriteLine("[Warning] {0}", warningString);
+            lock (this.writer) this.writer.WriteLine("[Warning] {0}", warning);
         }
 
         void ILogger.WriteWarning(string format, params object[] args)
@@ -122,9 +122,9 @@ namespace OpenStory.Common.Tools
             lock (this.writer) this.writer.WriteLine("[Warning] " + format, args);
         }
 
-        void ILogger.WriteError(string errorString)
+        void ILogger.WriteError(string error)
         {
-            lock (this.writer) this.writer.WriteLine("[Error] {0}", errorString);
+            lock (this.writer) this.writer.WriteLine("[Error] {0}", error);
         }
 
         void ILogger.WriteError(string format, params object[] args)

@@ -60,7 +60,7 @@ namespace OpenStory.AuthService
                 return MiscTools.FailWithResult(out accountSession, AuthenticationResult.NotRegistered);
             }
 
-            string hash = LoginCrypto.GetMD5HashString(password, true);
+            string hash = LoginCrypto.GetMd5HashString(password, true);
             if (!String.Equals(hash, account.PasswordHash, StringComparison.Ordinal))
             {
                 return MiscTools.FailWithResult(out accountSession, AuthenticationResult.IncorrectPassword);

@@ -5,7 +5,7 @@ namespace OpenStory.Synchronization
 {
     internal sealed partial class TimeScheduler
     {
-        private Timeline timeline;
+        private readonly Timeline timeline;
 
         public TimeScheduler()
         {

@@ -5,7 +5,7 @@ namespace OpenStory.Server.Authentication
 {
     internal class ChannelInfo : IChannel
     {
-        private AtomicInteger channelLoad;
+        private readonly AtomicInteger channelLoad;
 
         public ChannelInfo()
         {

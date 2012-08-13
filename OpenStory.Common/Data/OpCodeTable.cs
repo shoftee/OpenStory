@@ -9,8 +9,8 @@ namespace OpenStory.Common.Data
     /// </summary>
     public abstract class OpCodeTable : IOpCodeTable
     {
-        private Dictionary<ushort, string> incomingTable;
-        private Dictionary<string, ushort> outgoingTable;
+        private readonly Dictionary<ushort, string> incomingTable;
+        private readonly Dictionary<string, ushort> outgoingTable;
 
         /// <summary>
         /// Initializes a new instance of OpCodeTable.
@@ -94,7 +94,8 @@ namespace OpenStory.Common.Data
             {
                 throw new ArgumentException("The given label has no corresponding op code.", "label");
             }
-            PacketBuilder builder = new PacketBuilder();
+
+            var builder = new PacketBuilder();
             builder.WriteInt16(opCode);
             return builder;
         }
