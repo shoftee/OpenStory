@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using OpenStory.Common.Tools;
+using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Data;
 using OpenStory.Server.Properties;
@@ -13,7 +14,12 @@ namespace OpenStory.Server
     /// </summary>
     public abstract class AbstractServer
     {
-        private static readonly ushort MapleVersion = Settings.Default.MapleVersion;
+        private static readonly AesTransformFactory CryptoFactory = GetEmsFactory();
+
+        private static AesTransformFactory GetEmsFactory()
+        {
+            return new AesTransformFactory(CryptoTransform.EmsCryptoTransform, Settings.Default.MapleVersion);
+        }
 
         private readonly SocketAcceptor acceptor;
 
@@ -76,8 +82,8 @@ namespace OpenStory.Server
 
         private void HandleAccept(Socket socket)
         {
-            byte[] clientIV = GetNewIV();
-            byte[] serverIV = GetNewIV();
+            byte[] clientIv = GetNewIv();
+            byte[] serverIv = GetNewIv();
 
             var serverSession = new ServerSession();
             serverSession.Closing += OnConnectionClose;
@@ -86,9 +92,9 @@ namespace OpenStory.Server
             this.OnConnectionOpen(serverSession);
 
             Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.NetworkSessionId,
-                          BitConverter.ToString(clientIV), BitConverter.ToString(serverIV));
+                          BitConverter.ToString(clientIv), BitConverter.ToString(serverIv));
 
-            serverSession.Start(clientIV, serverIV, MapleVersion);
+            serverSession.Start(CryptoFactory, clientIv, serverIv);
         }
 
 
@@ -181,7 +187,7 @@ namespace OpenStory.Server
         /// Returns a new non-zero 4-byte IV array.
         /// </summary>
         /// <returns>a generated 4-byte IV array.</returns>
-        private static byte[] GetNewIV()
+        private static byte[] GetNewIv()
         {
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.

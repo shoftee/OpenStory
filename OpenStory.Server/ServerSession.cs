@@ -35,31 +35,31 @@ namespace OpenStory.Server
         /// <summary>
         /// Initiates the session operations.
         /// </summary>
-        /// <param name="clientIV">The client IV to use for the cryptographic transformation.</param>
-        /// <param name="serverIV">The server IV to use for the cryptographic transformation.</param>
-        /// <param name="version">The game version.</param>
-        public void Start(byte[] clientIV, byte[] serverIV, ushort version)
+        /// <param name="factory">The <see cref="AesTransformFactory"/> to use to create <see cref="AesTransform"/> instances.</param>
+        /// <param name="clientIv">The client IV to use for the cryptographic transformation.</param>
+        /// <param name="serverIv">The server IV to use for the cryptographic transformation.</param>
+        public void Start(AesTransformFactory factory, byte[] clientIv, byte[] serverIv)
         {
             ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = new ServerCrypto(clientIV, serverIV, version);
+            this.Crypto = new ServerCrypto(factory, clientIv, serverIv);
 
-            byte[] helloPacket = ConstructHelloPacket(clientIV, serverIV, version);
+            byte[] helloPacket = ConstructHelloPacket(clientIv, serverIv, factory.Version);
             this.Session.Start();
             this.Session.Write(helloPacket);
         }
 
         #region Outgoing logic
 
-        private static byte[] ConstructHelloPacket(byte[] clientIV, byte[] serverIV, ushort version)
+        private static byte[] ConstructHelloPacket(byte[] clientIv, byte[] serverIv, ushort version)
         {
             using (var builder = new PacketBuilder(16))
             {
                 builder.WriteInt16(0x0E);
                 builder.WriteInt16(version);
                 builder.WriteLengthString("2"); // supposedly some patch thing?
-                builder.WriteBytes(clientIV);
-                builder.WriteBytes(serverIV);
+                builder.WriteBytes(clientIv);
+                builder.WriteBytes(serverIv);
 
                 // Test server flag.
                 builder.WriteByte(0x05);
@@ -67,7 +67,7 @@ namespace OpenStory.Server
                 return builder.ToByteArray();
             }
         }
-        
+
         #endregion
     }
 }
