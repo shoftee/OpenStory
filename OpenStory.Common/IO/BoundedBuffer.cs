@@ -19,10 +19,9 @@ namespace OpenStory.Common.IO
         /// Gets the number of useable bytes at the end of the BoundedBuffer.
         /// </summary>
         public int FreeSpace { get; private set; }
-        
+
         /// <summary>
-        /// Initializes a new instance of the 
-        /// BoundedBuffer class with no capacity.
+        /// Initializes a new instance of the BoundedBuffer class with no capacity.
         /// </summary>
         /// <remarks>
         /// A BoundedBuffer with no capacity is unusable. 
@@ -39,23 +38,21 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="capacity">The maximum capacity to assign.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// The exception is thrown if <paramref name="capacity"/> 
-        /// is non-positive.
+        /// The exception is thrown if <paramref name="capacity"/> is non-positive.
         /// </exception>
         public BoundedBuffer(int capacity)
         {
             if (capacity <= 0)
             {
                 throw new ArgumentOutOfRangeException("capacity", capacity,
-                    "'capacity' must be a positive integer. Call the default constructor instead.");
+                    "'capacity' must be a positive integer.");
             }
 
             this.Reset(capacity);
         }
 
         /// <summary>
-        /// Takes bytes from the start of an array and 
-        /// appends as many as possible to the BoundedBuffer.
+        /// Takes bytes from the start of an array and appends as many as possible to the BoundedBuffer.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -79,8 +76,7 @@ namespace OpenStory.Common.IO
         /// less than <paramref name="count"/> elements.
         /// </exception>
         /// <returns>
-        /// The number of bytes that were stored. If there was 
-        /// enough space, this is equal to <paramref name="count"/>.
+        /// the number of bytes that were stored. If there was enough space, this is equal to <paramref name="count"/>.
         /// </returns>
         public int AppendFill(byte[] buffer, int count)
         {
@@ -88,8 +84,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Takes bytes from the start of an array segment and 
-        /// appends as much as possible to the BoundedBuffer.
+        /// Takes bytes from the start of an array segment and appends as much as possible to the BoundedBuffer.
         /// </summary>
         /// <remarks>
         /// This method will append a maximum of <paramref name="count"/> elements 
@@ -109,8 +104,7 @@ namespace OpenStory.Common.IO
         /// of the given array's bounds.
         /// </exception>
         /// <returns>
-        /// The number of bytes that were stored. If there was 
-        /// enough space, this is equal to <paramref name="count"/>.
+        /// The number of bytes that were stored. If there was enough space, this is equal to <paramref name="count"/>.
         /// </returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
@@ -140,7 +134,7 @@ namespace OpenStory.Common.IO
         /// After calling this method, <see cref="Reset(int)"/> 
         /// should be called to prepare the buffer for the next segment.
         /// </remarks>
-        /// <returns>A byte array of the data in the BoundedBuffer.</returns>
+        /// <returns>a byte array of the data in the BoundedBuffer.</returns>
         public byte[] Extract()
         {
             return this.MemoryStream.GetBuffer();
@@ -165,14 +159,14 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Extracts the data from the BoundedBuffer and prepares it for the new data.
+        /// Extracts the data from the <see cref="BoundedBuffer"/> and prepares it for the new data.
         /// </summary>
         /// <remarks>
         /// Calling this method is equivalent to calling <see cref="Extract()"/> and then
         /// <see cref="Reset(int)"/> with the same value for <paramref name="newCapacity"/>.
         /// </remarks>
-        /// <param name="newCapacity">The new capacity for the BoundedBuffer.</param>
-        /// <returns>A byte array of the data in the BoundedBuffer.</returns>
+        /// <param name="newCapacity">The new capacity for the <see cref="BoundedBuffer"/>.</param>
+        /// <returns>the data that was in the <see cref="BoundedBuffer"/>.</returns>
         public byte[] ExtractAndReset(int newCapacity)
         {
             if (this.MemoryStream == null)
