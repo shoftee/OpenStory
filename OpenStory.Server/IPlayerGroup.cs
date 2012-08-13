@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenStory.Server
 {
-    /// <summary>
-    /// Provides properties and methods for registration and notification of player groups.
-    /// </summary>
-    /// <typeparam name="TUpdateInfo">The type that will be used for notification information.</typeparam>
-    interface IPlayerGroup<in TUpdateInfo>
+    interface IPlayerGroup
     {
         /// <summary>
         /// Gets the 32-bit identifier for the group.
@@ -16,7 +12,14 @@ namespace OpenStory.Server
         /// This identifier need not be unique across all group types.
         /// </remarks>
         int Id { get; }
+    }
 
+    /// <summary>
+    /// Provides properties and methods for registration and notification of player groups.
+    /// </summary>
+    /// <typeparam name="TUpdateInfo">The type that will be used for notification information.</typeparam>
+    interface IPlayerGroup<in TUpdateInfo> : IPlayerGroup
+    {
         /// <summary>
         /// Processes an update to the group state.
         /// </summary>
@@ -75,7 +78,7 @@ namespace OpenStory.Server
         /// Removes a member from the PlayerGroup.
         /// </summary>
         /// <param name="member">The member to remove.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the member was successfully found and removed from the group; otherwise, <c>false</c>.</returns>
         public bool RemoveMember(TGroupMember member)
         {
             return this.Members.Remove(member);

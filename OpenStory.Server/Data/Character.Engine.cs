@@ -24,7 +24,7 @@ namespace OpenStory.Server.Data
         /// Checks if a name is available for use.
         /// </summary>
         /// <param name="name">The name to check.</param>
-        /// <returns>true if the name is not taken; otherwise, false.</returns>
+        /// <returns><c>true</c> if the name is not taken; otherwise, <c>false</c>.</returns>
         public static bool IsNameAvailable(string name)
         {
             using (var query = new SqlCommand(SelectName))
@@ -39,7 +39,7 @@ namespace OpenStory.Server.Data
         /// </summary>
         /// <param name="characterId">The character ID to query.</param>
         /// <param name="recordCallback">The callback to invoke.</param>
-        /// <returns>True if there was a character record found; otherwise, false.</returns>
+        /// <returns><c>true</c> if there was a character record found; otherwise, <c>false</c>.</returns>
         public static bool SelectCharacter(int characterId, Action<IDataRecord> recordCallback)
         {
             using (var query = new SqlCommand(SelectCharacterById))
@@ -54,7 +54,7 @@ namespace OpenStory.Server.Data
         /// </summary>
         /// <param name="characterId">The character ID to query.</param>
         /// <param name="recordCallback">The callback to invoke.</param>
-        /// <returns>The number of records in the result set.</returns>
+        /// <returns>the number of records in the result set.</returns>
         public static int SelectKeyBindings(int characterId, Action<IDataRecord> recordCallback)
         {
             using (var query = new SqlCommand(SelectBindingsByCharacterId))
@@ -71,7 +71,7 @@ namespace OpenStory.Server.Data
         /// <param name="bindings">The list of bindings for the character.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="bindings"/> has an invalid number of elements.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="bindings"/> is <c>null</c>.</exception>
-        /// <returns>The number of bindings that were saved.</returns>
+        /// <returns>the number of bindings that were saved.</returns>
         public static int SaveKeyBindings(int characterId, List<KeyBinding> bindings)
         {
             if (bindings == null)

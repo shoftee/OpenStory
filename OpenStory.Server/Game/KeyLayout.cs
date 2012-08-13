@@ -69,7 +69,7 @@ namespace OpenStory.Server.Game
         /// Loads the key bindings for a player.
         /// </summary>
         /// <param name="playerId">The ID of the player whose key bindings to load.</param>
-        /// <returns>A <see cref="KeyLayout"/> object for the given player.</returns>
+        /// <returns>a <see cref="KeyLayout"/> object for the given player.</returns>
         public static KeyLayout LoadFromDb(int playerId)
         {
             // NOTE: Consider moving this to a more DB-centric class

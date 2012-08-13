@@ -3,7 +3,7 @@ using System;
 namespace OpenStory.Server.Game
 {
     /// <summary>
-    /// Represents a group of identical items.
+    /// Represents a stack of identical items.
     /// </summary>
     public class ItemCluster
     {
