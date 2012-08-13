@@ -52,7 +52,6 @@
     <Compile Include="IChannelService.cs" />
     <Compile Include="IGameService.cs" />
     <Compile Include="INexusService.cs" />
-    <Compile Include="IWorldRegistry.cs" />
     <Compile Include="IWorldService.cs" />
     <Compile Include="NexusServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
