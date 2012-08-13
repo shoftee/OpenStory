@@ -7,7 +7,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents a simple connection acceptor.
     /// </summary>
-    public class SocketAcceptor : IDisposable
+    public sealed class SocketAcceptor : IDisposable
     {
         /// <summary>
         /// The event raised when a new socket connection has been accepted.
@@ -25,6 +25,11 @@ namespace OpenStory.Networking
         private bool isDisposed;
 
         /// <summary>
+        /// The <see cref="IPAddress"/> to which this SocketAcceptor is bound.
+        /// </summary>
+        public IPAddress Address { get; private set; }
+
+        /// <summary>
         /// The port to which this SocketAcceptor is bound.
         /// </summary>
         public int Port { get; private set; }
@@ -32,12 +37,24 @@ namespace OpenStory.Networking
         /// <summary>
         /// Initializes a new instance of SocketAcceptor and binds it to the given port.
         /// </summary>
-        /// <param name="port">The port to bind this SocketAcceptor to.</param>
-        public SocketAcceptor(int port)
+        /// <param name="address">The <see cref="IPAddress"/> to accept connections through.</param>
+        /// <param name="port">The port to listen to for incoming connections.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="address"/> is <c>null</c>.
+        /// </exception>
+        public SocketAcceptor(IPAddress address, int port)
         {
-            this.Port = port;
+            if (address == null)
+            {
+                throw new ArgumentNullException("address");
+            }
+
             this.isDisposed = false;
-            this.localEndPoint = new IPEndPoint(IPAddress.Any, this.Port);
+
+            this.Port = port;
+            this.Address = address;
+
+            this.localEndPoint = new IPEndPoint(this.Address, this.Port);
         }
 
         /// <inheritdoc />
@@ -49,6 +66,7 @@ namespace OpenStory.Networking
             }
 
             this.DisposeSocketIfNotNull();
+            this.isDisposed = true;
         }
 
         /// <summary>
@@ -74,8 +92,7 @@ namespace OpenStory.Networking
         /// </summary>
         public void Stop()
         {
-            this.acceptSocket.Close();
-            this.acceptSocket = null;
+            this.DisposeSocketIfNotNull();
         }
 
         private Socket GetAcceptSocket()
@@ -96,9 +113,16 @@ namespace OpenStory.Networking
         {
             this.socketArgs.AcceptSocket = null;
 
-            while (!this.acceptSocket.AcceptAsync(this.socketArgs))
+            try
             {
-                if (!this.EndAcceptSynchronous(this.socketArgs)) break;
+                while (!this.acceptSocket.AcceptAsync(this.socketArgs))
+                {
+                    if (!this.EndAcceptSynchronous(this.socketArgs)) break;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                this.acceptSocket.Close();
             }
         }
 

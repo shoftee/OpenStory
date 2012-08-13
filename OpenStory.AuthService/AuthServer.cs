@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using OpenStory.Common.Authentication;
 using OpenStory.Common.Tools;
@@ -33,7 +34,7 @@ namespace OpenStory.AuthService
         /// Initializes a new instance of the AuthServer class.
         /// </summary>
         public AuthServer()
-            : base(8484)
+            : base(IPAddress.Any, 8484)
         {
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
