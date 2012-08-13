@@ -79,7 +79,7 @@ namespace OpenStory.Networking
         {
             if (this.SocketAccepted == null)
             {
-                throw new InvalidOperationException("'SocketAccepted' has no subscribers.");
+                throw new InvalidOperationException("The 'SocketAccepted' event has no subscribers.");
             }
 
             this.acceptSocket = this.GetAcceptSocket();
@@ -113,19 +113,19 @@ namespace OpenStory.Networking
         {
             this.socketArgs.AcceptSocket = null;
 
-            try
+            // For the confused: AcceptAsync returns false if the operation completed synchronously.
+            // As long as the operation completes synchronously, we can handle the socket synchronously too.
+            while (!this.acceptSocket.AcceptAsync(this.socketArgs))
             {
-                while (!this.acceptSocket.AcceptAsync(this.socketArgs))
-                {
-                    if (!this.EndAcceptSynchronous(this.socketArgs)) break;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                this.acceptSocket.Close();
+                if (!this.EndAcceptSynchronous(this.socketArgs)) break;
             }
         }
 
+        /// <summary>
+        /// Handles a synchronous socket accept operation. 
+        /// </summary>
+        /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>
+        /// <returns><c>true</c> if the socket was handled successfully; otherwise, <c>false</c>.</returns>
         private bool EndAcceptSynchronous(SocketAsyncEventArgs eventArgs)
         {
             if (eventArgs.SocketError != System.Net.Sockets.SocketError.Success)
@@ -140,6 +140,14 @@ namespace OpenStory.Networking
             return true;
         }
 
+        /// <summary>
+        /// Handles an asynchronous socket accept operation.
+        /// </summary>
+        /// <remarks>
+        /// The only difference between this and <see cref="EndAcceptSynchronous"/> is 
+        /// that this calls <see cref="BeginAccept"/> if the socket was handled successfully.
+        /// </remarks>
+        /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>
         private void EndAcceptAsynchronous(SocketAsyncEventArgs eventArgs)
         {
             if (this.EndAcceptSynchronous(eventArgs))
