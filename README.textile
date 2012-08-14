@@ -5,3 +5,7 @@ Hello. This is, simply put, a project to make a reusable, pretty, open-source cl
 h1. Contributing
 
 Pull, branch, code, and poke me for a merge. I'll review it mercilessly and probably throw it away, but you never know!
+
+h1. License
+
+This thing is licensed under GPLv3.
