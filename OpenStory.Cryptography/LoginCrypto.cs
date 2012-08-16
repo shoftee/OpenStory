@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OpenStory.Cryptography
@@ -46,6 +47,26 @@ namespace OpenStory.Cryptography
 
             byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);
             return encryptedHashBytes.ToHex();
+        }
+
+        /// <summary>
+        /// Generates an integer for the "patch location" value sent during handshake.
+        /// </summary>
+        /// <param name="version">The game version.</param>
+        /// <param name="remove"></param>
+        /// <param name="unknown"></param>
+        /// <returns>the generated patch location number.</returns>
+        public static int GeneratePatchLocation(short version, bool remove, byte unknown)
+        {
+            // Thanks to Diamondo25 for this.
+            int ret = 0;
+            ret ^= (version & 0x7FFF);
+            if (remove)
+            {
+                ret ^= 0x8000;
+            }
+            ret ^= (unknown << 16);
+            return ret;
         }
     }
 }

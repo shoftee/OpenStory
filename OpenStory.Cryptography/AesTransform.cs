@@ -1,213 +1,132 @@
-﻿using System;
+using System;
+using System.Security.Cryptography;
 
 namespace OpenStory.Cryptography
 {
     /// <summary>
-    /// Represents an AES encryption transformer.
+    /// Represents a cryptographic transformer based on the AES algorithm.
     /// </summary>
-    public sealed class AesTransform
+    public sealed class AesTransform : CryptoTransformBase
     {
-        private readonly CryptoTransform transform;
-        private readonly ushort version;
+        private const int IvLength = 16;
+        private const int BlockLength = 1460;
+        private readonly byte[] key;
 
-        private byte[] iv;
+        private readonly ICryptoTransform aes;
 
         /// <summary>
-        /// Initializes a new instance of AesTransform.
+        /// Initializes a new instance of <see cref="AesTransform"/>.
         /// </summary>
-        /// <param name="transform">The <see cref="CryptoTransform"/> instance for this transformer.</param>
-        /// <param name="iv">The initialization vector for this instance.</param>
-        /// <param name="version">The MapleStory version.</param>
-        /// <param name="versionType">The representation of the version.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="versionType"/> is an undefined enum constant.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="iv"/> or <paramref name="transform"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="iv"/> does not have exactly 4 elements.
-        /// </exception>
-        internal AesTransform(CryptoTransform transform, byte[] iv, ushort version, VersionType versionType)
+        /// <remarks>
+        /// The provided arrays are copied into the <see cref="AesTransform"/> instance to avoid mutation.
+        /// </remarks>
+        /// <param name="table">The shuffle transformation table.</param>
+        /// <param name="initialValue">The initial value for the shuffle transformation.</param>
+        /// <param name="key">The AES key.</param>
+        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if any of the provided parameters has an invalid number of elements.</exception>
+        public AesTransform(byte[] table, byte[] initialValue, byte[] key)
+            : base(table, initialValue)
         {
-            if (transform == null)
+            if (key == null)
             {
-                throw new ArgumentNullException("transform");
+                throw new ArgumentNullException("key");
             }
-            if (iv == null)
+            if (key.Length != 32)
             {
-                throw new ArgumentNullException("iv");
-            }
-            if (iv.Length != 4)
-            {
-                throw new ArgumentException("Argument 'iv' does not have exactly 4 elements.");
-            }
-            if (!Enum.IsDefined(typeof(VersionType), versionType))
-            {
-                throw new ArgumentOutOfRangeException("versionType", "Argument 'versionType' has an invalid value.");
+                throw new ArgumentException("'key' must have exactly 32 elements.", "key");
             }
 
-            this.transform = transform;
-            this.iv = iv.FastClone();
+            this.key = key.FastClone();
 
-            if (versionType == VersionType.Complement)
-            {
-                version = (ushort)(0xFFFF - version);
-            }
-
-            // Flip the version.
-            this.version = (ushort)((version >> 8) | ((version & 0xFF) << 8));
+            this.aes = GetTransformer(this.key);
         }
 
-        /// <summary>
-        /// Transforms the specified data in-place.
-        /// </summary>
-        /// <param name="data">The array to transform. This array will be directly modified.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
-        public void Transform(byte[] data)
+        private static ICryptoTransform GetTransformer(byte[] key)
         {
-            if (data == null)
+            var cipher = new RijndaelManaged
+                             {
+                                 Padding = PaddingMode.None,
+                                 Mode = CipherMode.ECB,
+                                 Key = key
+                             };
+            using (cipher)
             {
-                throw new ArgumentNullException("data");
+                var transform = cipher.CreateEncryptor();
+                return transform;
             }
-
-            transform.TransformArraySegment(data, this.iv, 0, data.Length);
-
-            this.iv = transform.ShuffleIv(this.iv);
         }
 
-        /// <summary>
-        /// Constructs a packet header.
-        /// </summary>
-        /// <param name="length">The length of the packet to make a header for.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="length"/> is less than 2.
-        /// </exception>
-        /// <returns>the 4-byte header for a packet with the specified length.</returns>
-        public byte[] ConstructHeader(int length)
+        /// <inheritdoc />
+        public override void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
         {
-            if (length < 2)
+            var xorBlock = new byte[IvLength];
+
+            // First block is 4 elements shorter because of the header.
+            const int FirstBlockLength = BlockLength - 4;
+
+            int blockStart = segmentStart;
+            int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
+
+            TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
+
+            blockStart += FirstBlockLength;
+            while (blockStart < segmentEnd)
             {
-                throw new ArgumentOutOfRangeException("length", length, "The packet length must be at least 2.");
-            }
+                blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-            int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.version);
-            int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
+                TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
 
-            var header = new byte[4];
-            unchecked
-            {
-                header[0] = (byte)(encodedVersion >> 8);
-                header[1] = (byte)encodedVersion;
-                header[2] = (byte)(encodedLength >> 8);
-                header[3] = (byte)encodedLength;
-            }
-            return header;
-        }
-
-        /// <summary>
-        /// Reads a packet header from an array and extracts the packet's length.
-        /// </summary>
-        /// <param name="data">The array to read from.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="data"/> has less than 4 elements.
-        /// </exception>
-        /// <returns>the packet length extracted from the array.</returns>
-        public static int GetPacketLength(byte[] data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-            if (data.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "data");
-            }
-
-            return ((data[1] ^ data[3]) << 8) | (data[0] ^ data[2]);
-        }
-
-        /// <summary>
-        /// Determines whether the start of an array is a valid packet header.
-        /// </summary>
-        /// <param name="header">The raw packet data to validate.</param>
-        /// <returns><c>true</c> if the header is valid; otherwise, <c>false</c>.</returns>
-        public bool ValidateHeader(byte[] header)
-        {
-            ushort extractedVersion = GetVersion(header, this.iv);
-
-            return extractedVersion == this.version;
-        }
-
-        /// <summary>
-        /// Attempts to extract the packet length from a header.
-        /// </summary>
-        /// <param name="header">The byte array to check.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="header"/> has less than 4 elements.
-        /// </exception>
-        /// <returns>if the header is valid, the packet length; otherwise, <c>-1</c>.</returns>
-        public int TryGetLength(byte[] header)
-        {
-            if (this.ValidateHeader(header))
-            {
-                return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
-            }
-            else
-            {
-                return -1;
+                blockStart += BlockLength;
             }
         }
 
         /// <summary>
-        /// Extracts a version from the header using a specified IV.
+        /// Performs the AES transformation on a single block of the data.
         /// </summary>
-        /// <param name="header">The header byte array.</param>
-        /// <param name="iv">The IV to use for the decoding.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> 
-        /// or <paramref name="iv"/> are <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="header"/> has less than 4 elements or
-        /// if <paramref name="iv"/> doesn't have exactly 4 elements.
-        /// </exception>
-        /// <returns>a number representing the version encoded into the header.</returns>
-        public static ushort GetVersion(byte[] header, byte[] iv)
+        /// <remarks><para>
+        /// The parameter <paramref name="xorBlock"/> is used only for performance 
+        /// considerations, to avoid instantiating a new array every time a transformation has 
+        /// to be done. It should not be shorter than 16 elements, and it's unnecessary for 
+        /// it to be longer. Its contents will be overwritten.
+        /// </para></remarks>
+        /// <param name="data">The array containing the block.</param>
+        /// <param name="iv">The IV to use for the transformation.</param>
+        /// <param name="blockStart">The start offset of the block.</param>
+        /// <param name="blockEnd">The end offset of the block.</param>
+        /// <param name="xorBlock">An array to use for the internal xor operations.</param>
+        private void TransformBlock(byte[] data, byte[] iv, int blockStart, int blockEnd, byte[] xorBlock)
         {
-            if (iv == null)
-            {
-                throw new ArgumentNullException("iv");
-            }
-            else if (iv.Length != 4)
-            {
-                throw new ArgumentException("'iv' must have exactly 4 elements.");
-            }
+            FillXorBlock(iv, xorBlock);
 
-            if (header == null)
+            int xorBlockPosition = 0;
+            for (int position = blockStart; position < blockEnd; position++)
             {
-                throw new ArgumentNullException("header");
-            }
-            if (header.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "header");
-            }
+                if (xorBlockPosition == 0)
+                {
+                    xorBlock = this.aes.TransformFinalBlock(xorBlock, 0, IvLength);
+                }
 
-            var encodedVersion = (ushort)((header[0] << 8) | header[1]);
-            var xorSegment = (ushort)((iv[2] << 8) | iv[3]);
-
-            return (ushort)(encodedVersion ^ xorSegment);
+                data[position] ^= xorBlock[xorBlockPosition];
+                xorBlockPosition++;
+                if (xorBlockPosition == IvLength)
+                {
+                    xorBlockPosition = 0;
+                }
+            }
         }
 
-        private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
+        /// <summary>
+        /// Fills a 16-element byte array with copies of the specified IV.
+        /// </summary>
+        /// <param name="iv">The IV to copy.</param>
+        /// <param name="xorBlock">The block to use.</param>
+        private static void FillXorBlock(byte[] iv, byte[] xorBlock)
         {
-            return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
+            for (int i = 0; i < IvLength; i += 4)
+            {
+                Buffer.BlockCopy(iv, 0, xorBlock, i, 4);
+            }
         }
     }
 }

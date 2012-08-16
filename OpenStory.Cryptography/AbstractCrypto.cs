@@ -7,32 +7,32 @@ namespace OpenStory.Cryptography
     /// </summary>
     public abstract class AbstractCrypto
     {
-        private readonly AesTransform encryptor;
-        private readonly AesTransform decryptor;
+        private readonly RollingIv encryptor;
+        private readonly RollingIv decryptor;
 
         /// <summary>
         /// Initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
         /// </summary>
         /// <param name="encryptor">The encryption transformer.</param>
         /// <param name="decryptor">The decryption transformer.</param>
-        protected AbstractCrypto(AesTransform encryptor, AesTransform decryptor)
+        protected AbstractCrypto(RollingIv encryptor, RollingIv decryptor)
         {
             this.encryptor = encryptor;
             this.decryptor = decryptor;
         }
 
         /// <summary>
-        /// Gets the <see cref="AesTransform"/> object used for the encryption transformations.
+        /// Gets the <see cref="RollingIv"/> object used for the encryption transformations.
         /// </summary>
-        protected AesTransform Encryptor
+        protected RollingIv Encryptor
         {
             get { return this.encryptor; }
         }
 
         /// <summary>
-        /// Gets the <see cref="AesTransform"/> object used for the decryption transformations.
+        /// Gets the <see cref="RollingIv"/> object used for the decryption transformations.
         /// </summary>
-        protected AesTransform Decryptor
+        protected RollingIv Decryptor
         {
             get { return this.decryptor; }
         }
@@ -128,7 +128,7 @@ namespace OpenStory.Cryptography
         {
             if (this.Decryptor.ValidateHeader(header))
             {
-                return AesTransform.GetPacketLength(header);
+                return RollingIv.GetPacketLength(header);
             }
             else
             {

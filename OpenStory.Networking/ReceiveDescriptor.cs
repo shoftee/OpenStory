@@ -8,9 +8,8 @@ namespace OpenStory.Networking
     /// </summary>
     sealed class ReceiveDescriptor : Descriptor
     {
-
         /// <summary>
-        /// The default buffer size, set to match the AesTransform block size.
+        /// The default buffer size, set to match the RollingIv block size.
         /// </summary>
         private const int BufferSize = 1460;
 

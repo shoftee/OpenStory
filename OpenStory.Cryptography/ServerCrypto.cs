@@ -11,13 +11,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerCrypto"/> class.
         /// </summary>
-        /// <param name="factory">The <see cref="AesTransformFactory"/> to use to create <see cref="AesTransform"/> instances.</param>
+        /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
         /// <param name="clientIv">The client's IV.</param>
         /// <param name="serverIv">The server's IV.</param>
-        public ServerCrypto(AesTransformFactory factory, byte[] clientIv, byte[] serverIv)
-            :
-                base(
-                encryptor: factory.Create(serverIv, VersionType.Complement),
-                decryptor: factory.Create(clientIv, VersionType.Regular)) { }
+        public ServerCrypto(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+            : base(
+                factory.CreateEncryptIv(serverIv, VersionMaskType.Complement),
+                factory.CreateDecryptIv(clientIv, VersionMaskType.None)) { }
     }
 }

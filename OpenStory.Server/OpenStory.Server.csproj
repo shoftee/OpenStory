@@ -73,6 +73,7 @@
     <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IPlayerGroup.cs" />
+    <Compile Include="IvFactories.cs" />
     <Compile Include="IWorldChannel.cs" />
     <Compile Include="LocationRegistry.cs" />
     <Compile Include="PlayerLocation.cs" />

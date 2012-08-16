@@ -35,10 +35,10 @@ namespace OpenStory.Server
         /// <summary>
         /// Initiates the session operations.
         /// </summary>
-        /// <param name="factory">The <see cref="AesTransformFactory"/> to use to create <see cref="AesTransform"/> instances.</param>
+        /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
         /// <param name="clientIv">The client IV to use for the cryptographic transformation.</param>
         /// <param name="serverIv">The server IV to use for the cryptographic transformation.</param>
-        public void Start(AesTransformFactory factory, byte[] clientIv, byte[] serverIv)
+        public void Start(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
             ThrowIfNoPacketReceivedSubscriber();
 
