@@ -45,7 +45,7 @@
     <Compile Include="ByteHelpers.cs" />
     <Compile Include="ICryptoAlgorithm.cs" />
     <Compile Include="ClientCrypto.cs" />
-    <Compile Include="CustomEncryption.cs" />
+    <Compile Include="CustomCrypto.cs" />
     <Compile Include="LoginCrypto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCrypto.cs" />

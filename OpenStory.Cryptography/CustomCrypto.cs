@@ -5,7 +5,7 @@ namespace OpenStory.Cryptography
     /// <summary>
     /// Provides encryption and decryption static methods for the MapleStory custom data transformation.
     /// </summary>
-    public static class CustomEncryption
+    public static class CustomCrypto
     {
         /// <summary>
         /// Encrypts an array in-place.

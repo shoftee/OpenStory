@@ -61,7 +61,7 @@ namespace OpenStory.Cryptography
                 byte[] header = this.ConstructHeader(length);
                 Buffer.BlockCopy(header, 0, rawData, 0, 4);
 
-                CustomEncryption.Encrypt(packetData);
+                CustomCrypto.Encrypt(packetData);
                 this.Encryptor.Transform(packetData);
             }
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);
@@ -78,7 +78,7 @@ namespace OpenStory.Cryptography
         public void Decrypt(byte[] packet)
         {
             this.Decryptor.Transform(packet);
-            CustomEncryption.Decrypt(packet);
+            CustomCrypto.Decrypt(packet);
         }
 
         /// <summary>
