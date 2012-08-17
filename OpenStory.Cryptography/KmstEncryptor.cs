@@ -10,6 +10,9 @@ namespace OpenStory.Cryptography
     /// </summary>
     public sealed class KmstEncryptor : CryptoTransformBase
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="KmstEncryptor"/>.
+        /// </summary>
         /// <inheritdoc />
         public KmstEncryptor(byte[] table, byte[] initialValue)
             : base(table, initialValue)
