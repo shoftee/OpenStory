@@ -11,10 +11,13 @@ namespace OpenStory.Cryptography
         private readonly RollingIv decryptor;
 
         /// <summary>
-        /// Initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
+        /// Initializes a new instance of <see cref="AbstractCrypto"/>.
         /// </summary>
-        /// <param name="encryptor">The encryption transformer.</param>
-        /// <param name="decryptor">The decryption transformer.</param>
+        /// <remarks>
+        /// This constructor initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
+        /// </remarks>
+        /// <param name="encryptor">The IV used for encryption.</param>
+        /// <param name="decryptor">The IV used for decryption.</param>
         protected AbstractCrypto(RollingIv encryptor, RollingIv decryptor)
         {
             this.encryptor = encryptor;

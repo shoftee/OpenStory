@@ -9,14 +9,27 @@
         // Server's local IV has flipped version, Client's local IV has regular version.
 
         /// <summary>
+        /// Creates a new instance of <see cref="ClientCrypto"/>.
+        /// </summary>
+        /// <param name="factory">The <see cref="RollingIvFactory"/> instance to use.</param>
+        /// <param name="clientIv">The IV for the client.</param>
+        /// <param name="serverIv">The IV for the server.</param>
+        /// <returns></returns>
+        public static AbstractCrypto New(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+        {
+            var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.None);
+            var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.Complement);
+
+            return new ClientCrypto(encryptor, decryptor);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ClientCrypto"/> class.
         /// </summary>
-        /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
-        /// <param name="clientIv">The client's IV.</param>
-        /// <param name="serverIv">The server's IV.</param>
-        public ClientCrypto(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
-            : base(
-                factory.CreateEncryptIv(clientIv, VersionMaskType.None),
-                factory.CreateDecryptIv(serverIv, VersionMaskType.Complement)) { }
+        /// <inheritdoc/>
+        private ClientCrypto(RollingIv encryptor, RollingIv decryptor)
+            : base(encryptor, decryptor)
+        {
+        }
     }
 }

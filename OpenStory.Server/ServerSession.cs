@@ -42,7 +42,7 @@ namespace OpenStory.Server
         {
             ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = new ServerCrypto(factory, clientIv, serverIv);
+            this.Crypto = ServerCrypto.New(factory, clientIv, serverIv);
 
             byte[] helloPacket = ConstructHelloPacket(clientIv, serverIv, factory.Version);
             this.Session.Start();
