@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.AccountService
+namespace OpenStory.Services.Accounts
 {
     /// <summary>
     /// Represents an active account session.

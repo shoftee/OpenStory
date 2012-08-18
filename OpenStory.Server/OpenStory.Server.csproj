@@ -87,10 +87,6 @@
     <Compile Include="ServerSession.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.AccountService\OpenStory.AccountService.csproj">
-      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
-      <Name>OpenStory.AccountService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
@@ -103,9 +99,9 @@
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.ServiceModel\OpenStory.ServiceModel.csproj">
+    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.ServiceModel</Name>
+      <Name>OpenStory.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
       <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>

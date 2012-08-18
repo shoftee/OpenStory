@@ -1,7 +1,7 @@
 ﻿using OpenStory.Common.Authentication;
-using OpenStory.ServiceModel;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.AuthService
+namespace OpenStory.Services.Auth
 {
     /// <summary>
     /// Provides methods for querying an auth server.

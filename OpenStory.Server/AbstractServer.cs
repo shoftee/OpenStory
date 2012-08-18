@@ -5,7 +5,7 @@ using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Data;
-using OpenStory.ServiceModel;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {
@@ -167,12 +167,12 @@ namespace OpenStory.Server
         }
 
         /// <summary>
-        /// Provides an <see cref="OpenStory.ServiceModel.IAccountSession"/> with the specified properties.
+        /// Provides an <see cref="IAccountSession"/> with the specified properties.
         /// </summary>
         /// <param name="parent">The account service handling this session.</param>
         /// <param name="sessionId">The account session ID.</param>
         /// <param name="data">The account data for this session.</param>
-        /// <returns>a reference to the constructed <see cref="OpenStory.ServiceModel.IAccountSession"/>.</returns>
+        /// <returns>a reference to the constructed <see cref="IAccountSession"/>.</returns>
         protected IAccountSession GetSession(IAccountService parent, int sessionId, Account data)
         {
             return new AccountSession(parent, sessionId, data);

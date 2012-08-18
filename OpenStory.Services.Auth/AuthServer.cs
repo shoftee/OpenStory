@@ -8,10 +8,10 @@ using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
 using OpenStory.Server.Data;
-using OpenStory.ServiceModel;
 using OpenStory.Common.Data;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.AuthService
+namespace OpenStory.Services.Auth
 {
     /// <summary>
     /// Represents a server that handles the authentication process.

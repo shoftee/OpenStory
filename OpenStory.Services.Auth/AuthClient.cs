@@ -4,9 +4,9 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
-using OpenStory.ServiceModel;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.AuthService
+namespace OpenStory.Services.Auth
 {
     /// <summary>
     /// Represents a client for the Authentication Server.

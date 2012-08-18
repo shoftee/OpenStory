@@ -1,4 +1,4 @@
-﻿namespace OpenStory.ServiceModel
+﻿namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Represents an Authentication Service client.
@@ -9,7 +9,7 @@
         /// Gets a proxy to the Service instance.
         /// </summary>
         public AuthServiceClient()
-            : base(ServerConstants.Uris.AuthService)
+            : base(ServiceConstants.Uris.AuthService)
         {  
         }
     }

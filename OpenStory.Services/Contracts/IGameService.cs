@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-namespace OpenStory.ServiceModel
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Provides basic methods for game services.

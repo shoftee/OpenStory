@@ -1,4 +1,4 @@
-﻿namespace OpenStory.ServiceModel
+﻿namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Provides remote access to an <see cref="IAccountService"/>.
@@ -9,7 +9,7 @@
         /// Initializes a new AccountServiceClient.
         /// </summary>
         public AccountServiceClient()
-            : base(ServerConstants.Uris.AccountService)
+            : base(ServiceConstants.Uris.AccountService)
         {
         }
 

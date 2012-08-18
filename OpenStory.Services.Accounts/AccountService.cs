@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using OpenStory.Common;
-using OpenStory.ServiceModel;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.AccountService
+namespace OpenStory.Services.Accounts
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     class AccountService : IAccountService

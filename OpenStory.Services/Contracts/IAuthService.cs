@@ -1,6 +1,6 @@
 using System.ServiceModel;
 
-namespace OpenStory.ServiceModel
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Provides methods for accessing and managing the Authentication Service.

@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenStory.ServiceModel
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// 
@@ -11,7 +11,7 @@ namespace OpenStory.ServiceModel
         /// Initializes a new instance of <see cref="NexusServiceClient"/>.
         /// </summary>
         public NexusServiceClient()
-            : base(ServerConstants.Uris.NexusService)
+            : base(ServiceConstants.Uris.NexusService)
         {
         }
 

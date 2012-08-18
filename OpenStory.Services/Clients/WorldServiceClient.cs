@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenStory.ServiceModel
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// 

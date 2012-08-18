@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
-namespace OpenStory.ServiceModel
+namespace OpenStory.Services
 {
     /// <summary>
     /// Constants for the server emulator.
     /// </summary>
-    public static class ServerConstants
+    public static class ServiceConstants
     {
         /// <summary>
         /// URI constants.

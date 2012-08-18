@@ -73,10 +73,6 @@
     <Compile Include="ServerModuleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.AuthService\OpenStory.AuthService.csproj">
-      <Project>{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}</Project>
-      <Name>OpenStory.AuthService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
       <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
       <Name>OpenStory.Common</Name>
@@ -92,10 +88,6 @@
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.ServiceModel\OpenStory.ServiceModel.csproj">
-      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.ServiceModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
       <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
