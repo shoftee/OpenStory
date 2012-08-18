@@ -54,6 +54,8 @@
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleAuthPolicy.cs" />
+    <Compile Include="SimpleCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">

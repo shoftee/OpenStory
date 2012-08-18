@@ -53,6 +53,7 @@
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
     <Compile Include="Authentication\ChannelInfo.cs" />
+    <Compile Include="Authentication\IAuthPolicy.cs" />
     <Compile Include="Authentication\WorldInfo.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using OpenStory.Common.Authentication;
-using OpenStory.Common.Tools;
-using OpenStory.Cryptography;
 using OpenStory.Server;
-using OpenStory.Server.Data;
+using OpenStory.Server.Authentication;
 using OpenStory.Common.Data;
 using OpenStory.Services.Contracts;
 
@@ -21,14 +18,16 @@ namespace OpenStory.Services.Auth
     {
         private const string ServerName = "Auth";
 
-        private static readonly AuthServerPackets PacketTableInternal = new AuthServerPackets();
-        public static IOpCodeTable PacketTable { get { return PacketTableInternal; } }
+        private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
+        public IOpCodeTable OpCodes { get { return OpCodesInternal; } }
 
         public override string Name { get { return ServerName; } }
 
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
+
         private readonly IAccountService accountService;
+        private readonly SimpleAuthPolicy authPolicy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthServer"/> class.
@@ -39,6 +38,7 @@ namespace OpenStory.Services.Auth
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
             this.accountService = new AccountServiceClient();
+            this.authPolicy = new SimpleAuthPolicy(this.accountService);
         }
 
         #region IAuthServer Members
@@ -50,30 +50,10 @@ namespace OpenStory.Services.Auth
             return this.worlds.First(w => w.Id == worldId);
         }
 
-        /// <inheritdoc />
-        public AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountSession)
+        public IAuthPolicy<SimpleCredentials> GetAuthPolicy()
         {
             base.ThrowIfNotRunning();
-            Account account = Account.LoadByUserName(accountName);
-            if (account == null)
-            {
-                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.NotRegistered);
-            }
-
-            string hash = LoginCrypto.GetMd5HashString(password, true);
-            if (!String.Equals(hash, account.PasswordHash, StringComparison.Ordinal))
-            {
-                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.IncorrectPassword);
-            }
-
-            int sessionId;
-            if (!this.accountService.TryRegisterSession(account.AccountId, out sessionId))
-            {
-                return MiscTools.FailWithResult(out accountSession, AuthenticationResult.AlreadyLoggedIn);
-            }
-
-            accountSession = base.GetSession(this.accountService, sessionId, account);
-            return AuthenticationResult.Success;
+            return this.authPolicy;
         }
 
         #endregion

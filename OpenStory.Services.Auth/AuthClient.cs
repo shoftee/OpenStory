@@ -4,7 +4,6 @@ using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Auth
 {
@@ -20,6 +19,21 @@ namespace OpenStory.Services.Auth
         private const int MaxLoginAttempts = 3;
 
         private readonly IAuthServer server;
+
+        /// <summary>
+        /// Gets the number of failed login attempts for this client.
+        /// </summary>
+        public int LoginAttempts { get; private set; }
+
+        /// <summary>
+        /// Gets whether the client has authenticated.
+        /// </summary>
+        public bool IsAuthenticated { get; private set; }
+
+        /// <summary>
+        /// Gets the current state of the client.
+        /// </summary>
+        public AuthClientState State { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AuthClient"/>.
@@ -49,25 +63,10 @@ namespace OpenStory.Services.Auth
             this.server = server;
         }
 
-        /// <summary>
-        /// Gets the number of failed login attempts for this client.
-        /// </summary>
-        public int LoginAttempts { get; private set; }
-
-        /// <summary>
-        /// Gets whether the client has authenticated.
-        /// </summary>
-        public bool IsAuthenticated { get; private set; }
-
-        /// <summary>
-        /// Gets the current state of the client.
-        /// </summary>
-        public AuthClientState State { get; private set; }
-
         protected override void ProcessPacket(ushort opCode, PacketReader reader)
         {
             string label;
-            if (!AuthServer.PacketTable.TryGetIncomingLabel(opCode, out label))
+            if (!this.server.OpCodes.TryGetIncomingLabel(opCode, out label))
             {
                 Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
                                  reader.ReadFully().ToHex());
@@ -142,8 +141,11 @@ namespace OpenStory.Services.Auth
             if (!reader.TryReadLengthString(out password)) goto Disconnect;
 
             // TODO: more stuff to read, later.
+            var authPolicy = this.server.GetAuthPolicy();
+            var credentials = new SimpleCredentials(userName, password);
+
             IAccountSession accountSession;
-            AuthenticationResult result = this.server.Authenticate(userName, password, out accountSession);
+            AuthenticationResult result = authPolicy.Authenticate(credentials, out accountSession);
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
@@ -155,10 +157,8 @@ namespace OpenStory.Services.Auth
                 goto Disconnect;
             }
 
-            using (var builder = new PacketBuilder(8))
+            using (var builder = this.server.OpCodes.NewPacket("AuthenticationResponse"))
             {
-                // TODO: Proper op code storage.
-                builder.WriteInt16(0x0000);
                 builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);
                 this.Session.WritePacket(builder.ToByteArray());

@@ -1,5 +1,7 @@
 ﻿using OpenStory.Common.Authentication;
+using OpenStory.Common.Data;
 using OpenStory.Server;
+using OpenStory.Server.Authentication;
 
 namespace OpenStory.Services.Auth
 {
@@ -9,6 +11,11 @@ namespace OpenStory.Services.Auth
     internal interface IAuthServer
     {
         /// <summary>
+        /// Gets the <see cref="IOpCodeTable"/> for this server.
+        /// </summary>
+        IOpCodeTable OpCodes { get; }
+
+        /// <summary>
         /// Gets a <see cref="IWorld"/> instance by the World's ID.
         /// </summary>
         /// <param name="worldId">The ID of the world.</param>
@@ -16,12 +23,9 @@ namespace OpenStory.Services.Auth
         IWorld GetWorldById(int worldId);
 
         /// <summary>
-        /// Attempts to Authenticate the given account login information.
+        /// Retrieves the authentication policy for this <see cref="IAuthServer"/>.
         /// </summary>
-        /// <param name="accountName">The name of the account.</param>
-        /// <param name="password">The password for the account.</param>
-        /// <param name="accountInfo">An <see cref="IAccountSession"/> variable to hold the resulting session.</param>
-        /// <returns>An <see cref="AuthenticationResult"/> for the operation.</returns>
-        AuthenticationResult Authenticate(string accountName, string password, out IAccountSession accountInfo);
+        /// <returns>an instance of <see cref="IAuthPolicy{TCredentials}"/>.</returns>
+        IAuthPolicy<SimpleCredentials> GetAuthPolicy();
     }
 }
