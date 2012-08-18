@@ -8,8 +8,8 @@
     <ProjectGuid>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Services.Accounts</RootNamespace>
-    <AssemblyName>OpenStory.Services.Accounts</AssemblyName>
+    <RootNamespace>OpenStory.Services.Account</RootNamespace>
+    <AssemblyName>OpenStory.Services.Account</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OpenStory.Services.Accounts.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\OpenStory.Services.Account.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\OpenStory.Services.Accounts.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\OpenStory.Services.Account.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
