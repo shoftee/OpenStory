@@ -1,4 +1,6 @@
-﻿namespace OpenStory.Services.Contracts
+﻿using OpenStory.Services.Contracts;
+
+namespace OpenStory.Services.Clients
 {
     /// <summary>
     /// Represents an Authentication Service client.

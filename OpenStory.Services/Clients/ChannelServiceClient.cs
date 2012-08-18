@@ -1,6 +1,7 @@
 using System;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Contracts
+namespace OpenStory.Services.Clients
 {
     /// <summary>
     /// 

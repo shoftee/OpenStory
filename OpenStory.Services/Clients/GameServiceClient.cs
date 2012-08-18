@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Contracts
+namespace OpenStory.Services.Clients
 {
     /// <summary>
     /// Represents a game service client.

@@ -6,6 +6,7 @@ using OpenStory.Common.Authentication;
 using OpenStory.Server;
 using OpenStory.Server.Authentication;
 using OpenStory.Common.Data;
+using OpenStory.Services.Clients;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Auth
