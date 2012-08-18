@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Services.Contracts
+namespace OpenStory.Server
 {
     /// <summary>
     /// Provides information for an account session.

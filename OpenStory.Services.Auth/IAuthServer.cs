@@ -1,5 +1,5 @@
 ﻿using OpenStory.Common.Authentication;
-using OpenStory.Services.Contracts;
+using OpenStory.Server;
 
 namespace OpenStory.Services.Auth
 {
