@@ -21,7 +21,7 @@ namespace OpenStory.Common.IO
         public int FreeSpace { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the BoundedBuffer class with no capacity.
+        /// Initializes a new instance of <see cref="BoundedBuffer"/> with no capacity.
         /// </summary>
         /// <remarks>
         /// A BoundedBuffer with no capacity is unusable. 
@@ -34,7 +34,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of BoundedBuffer with a maximum capacity.
+        /// Initializes a new instance of <see cref="BoundedBuffer"/> with a maximum capacity.
         /// </summary>
         /// <param name="capacity">The maximum capacity to assign.</param>
         /// <exception cref="ArgumentOutOfRangeException">

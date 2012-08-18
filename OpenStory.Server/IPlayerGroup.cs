@@ -44,7 +44,7 @@ namespace OpenStory.Server
         public int Id { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of PlayerGroup with the specified identifier.
+        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         protected PlayerGroup(int id)
@@ -54,7 +54,7 @@ namespace OpenStory.Server
         }
 
         /// <summary>
-        /// Initializes a new instance of PlayerGroup with the specified identifier and members.
+        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier and members.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         /// <param name="members">The initial member list of this group.</param>
@@ -65,7 +65,7 @@ namespace OpenStory.Server
         }
 
         /// <summary>
-        /// Adds a new member to the PlayerGroup.
+        /// Adds a new member to the instance.
         /// </summary>
         /// <param name="member">The new member to add.</param>
         /// <returns><c>true</c> if the member was added successfully; otherwise, <c>false</c>.</returns>
@@ -75,7 +75,7 @@ namespace OpenStory.Server
         }
 
         /// <summary>
-        /// Removes a member from the PlayerGroup.
+        /// Removes a member from the instance  .
         /// </summary>
         /// <param name="member">The member to remove.</param>
         /// <returns><c>true</c> if the member was successfully found and removed from the group; otherwise, <c>false</c>.</returns>

@@ -12,9 +12,8 @@ namespace OpenStory.AuthService
         #region Overrides of OpCodeTable
 
         /// <inheritdoc select="summary"/>
-        public override void LoadOpCodes()
+        protected override void LoadOpCodesInternal()
         {
-            base.LoadOpCodes();
             this.AddIncoming(0x0011, "Pong");
             this.AddIncoming(0x0019, "RsaCryptoRequest");
             this.AddIncoming(0x0001, "Authenticate");

@@ -14,7 +14,7 @@ namespace OpenStory.ServiceModel
         where TGameService : class, IGameService
     {
         /// <summary>
-        /// Initializes a new instance of GameServiceClient with the specified endpoint address.
+        /// Initializes a new instance of <see cref="GameServiceClient{TGameService}"/> with the specified endpoint address.
         /// </summary>
         /// <param name="uri">The endpoint URI for the service.</param>
         protected GameServiceClient(Uri uri)

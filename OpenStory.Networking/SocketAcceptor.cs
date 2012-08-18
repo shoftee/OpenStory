@@ -25,17 +25,17 @@ namespace OpenStory.Networking
         private bool isDisposed;
 
         /// <summary>
-        /// Gets the <see cref="IPAddress"/> to which this SocketAcceptor is bound.
+        /// Gets the <see cref="IPAddress"/> to which this instance is bound.
         /// </summary>
         public IPAddress Address { get; private set; }
 
         /// <summary>
-        /// Gets the port to which this SocketAcceptor is bound.
+        /// Gets the port to which this instance is bound.
         /// </summary>
         public int Port { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of SocketAcceptor and binds it to the given port.
+        /// Initializes a new instance of <see cref="SocketAcceptor"/>.
         /// </summary>
         /// <param name="address">The <see cref="IPAddress"/> to accept connections through.</param>
         /// <param name="port">The port to listen to for incoming connections.</param>

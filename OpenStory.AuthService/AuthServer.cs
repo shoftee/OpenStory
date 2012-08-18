@@ -31,7 +31,7 @@ namespace OpenStory.AuthService
         private readonly IAccountService accountService;
 
         /// <summary>
-        /// Initializes a new instance of the AuthServer class.
+        /// Initializes a new instance of the <see cref="AuthServer"/> class.
         /// </summary>
         public AuthServer()
             : base(IPAddress.Any, 8484)

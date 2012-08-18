@@ -13,9 +13,9 @@ namespace OpenStory.Server.Authentication
         private readonly List<ChannelInfo> channels;
 
         /// <summary>
-        /// Initializes a new instance of the WorldInfo class.
+        /// Initializes a new instance of <see cref="WorldInfo"/>.
         /// </summary>
-        public WorldInfo (World world)
+        public WorldInfo(World world)
         {
             this.Id = world.WorldId;
             this.Name = world.WorldName;

@@ -14,7 +14,7 @@ namespace OpenStory.Common
         private int value;
 
         /// <summary>
-        /// Initializes a new instance of AtomicBoolean.
+        /// Initializes a new instance of <see cref="AtomicBoolean"/>.
         /// </summary>
         /// <param name="initialValue">The initial value.</param>
         public AtomicBoolean(bool initialValue)
@@ -31,10 +31,10 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Assigns a new value to the AtomicBoolean and returns the original one.
+        /// Assigns a new value to the <see cref="AtomicBoolean"/> and returns the original one.
         /// </summary>
         /// <param name="newValue">The value to assign.</param>
-        /// <returns>The original value.</returns>
+        /// <returns>the original value.</returns>
         public bool Exchange(bool newValue)
         {
             int newValueAsInt = Convert.ToInt32(newValue);
@@ -43,13 +43,11 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Assigns <paramref name="newValue"/> to the AtomicBoolean if the current value and <paramref name="comparand"/> are equal, and returns the original value.
+        /// Assigns a new value to the <see cref="AtomicBoolean"/> if the current value is equal to a specified one, and returns the original value.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="comparand">The value to compare for equality with.</param>
         /// <param name="newValue">The new value.</param>
-        /// <returns>The original value of the AtomicBoolean.</returns>
+        /// <returns>the original value.</returns>
         public bool CompareExchange(bool comparand, bool newValue)
         {
             int newValueAsInt = Convert.ToInt32(newValue);

@@ -23,7 +23,7 @@ namespace OpenStory.Server.Emulation.Helpers
         public TAttribute Attribute { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of MetadataPair.
+        /// Initializes a new instance of <see cref="MetadataPair{TMemberInfo,TAttribute}"/>.
         /// </summary>
         /// <param name="memberInfo">The <see cref="MemberInfo"/> object for this pair.</param>
         /// <param name="attribute">The <see cref="Attribute"/> object for this pair.</param>

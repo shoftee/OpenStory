@@ -52,7 +52,7 @@ namespace OpenStory.Server
         private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
 
         /// <summary>
-        /// Initializes a new client with the given network session object.
+        /// Initializes a new instance of <see cref="AbstractClient"/>.
         /// </summary>
         /// <param name="session">The session object for this client.</param>
         /// <exception cref="ArgumentNullException">

@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerCrypto"/> class.
+        /// Initializes a new instance of <see cref="ServerCrypto"/>.
         /// </summary>
         /// <inheritdoc/>
         private ServerCrypto(RollingIv encryptor, RollingIv decryptor)

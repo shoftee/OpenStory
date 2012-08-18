@@ -18,7 +18,7 @@ namespace OpenStory.Server
         private readonly RollingIvFactory ivFactory;
 
         /// <summary>
-        /// Initializes a new instance of AbstractServer and binds the internal acceptor to the given port.
+        /// Initializes a new instance of <see cref="AbstractServer"/>.
         /// </summary>
         /// <param name="address">The address to listen on.</param>
         /// <param name="port">The port to listen on.</param>
@@ -145,7 +145,7 @@ namespace OpenStory.Server
             public string AccountName { get; private set; }
 
             /// <summary>
-            /// Initializes a new instance of AccountSession.
+            /// Initializes a new instance of <see cref="AccountSession"/>.
             /// </summary>
             /// <param name="parent">The <see cref="IAccountService"/> managing this session.</param>
             /// <param name="sessionId">The session identifier.</param>

@@ -70,6 +70,7 @@
     <Compile Include="Game\ItemInfo.cs" />
     <Compile Include="Game\KeyBinding.cs" />
     <Compile Include="Game\KeyLayout.cs" />
+    <Compile Include="Game\Inventory.cs" />
     <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IPlayerGroup.cs" />

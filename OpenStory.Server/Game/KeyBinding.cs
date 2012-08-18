@@ -8,10 +8,10 @@ namespace OpenStory.Server.Game
     public class KeyBinding : IKeyBinding
     {
         /// <summary>
-        /// Initializes a new instance of KeyBinding with an action type ID and an action ID.
+        /// Initializes a new instance of <see cref="KeyBinding"/>.
         /// </summary>
-        /// <param name="actionTypeId">The action type ID for the KeyBinding.</param>
-        /// <param name="actionId">The action ID for the KeyBinding.</param>
+        /// <param name="actionTypeId">The action type ID for the binding.</param>
+        /// <param name="actionId">The action ID for the binding.</param>
         public KeyBinding(byte actionTypeId, int actionId)
         {
             this.ActionTypeId = actionTypeId;

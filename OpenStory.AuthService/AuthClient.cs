@@ -22,17 +22,21 @@ namespace OpenStory.AuthService
         private readonly IAuthServer server;
 
         /// <summary>
-        /// Initializes a new instance of AuthenticationClient 
+        /// Initializes a new instance of <see cref="AuthClient"/>.
         /// and binds it with a network session.
         /// </summary>
-        /// <param name="networkSession">The network session to bind the new AuthClient to.</param>
+        /// <param name="networkSession">The network session to bind the instance to.</param>
         /// <param name="server">The authentication server instance which is handling this client.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="server"/> is <c>null</c>.
+        /// Thrown if any of the provider parameters is <c>null</c>.
         /// </exception>
         public AuthClient(ServerSession networkSession, IAuthServer server)
             : base(networkSession)
         {
+            if (networkSession == null)
+            {
+                throw new ArgumentNullException("networkSession");
+            }
             if (server == null)
             {
                 throw new ArgumentNullException("server");

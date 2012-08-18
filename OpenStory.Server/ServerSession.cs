@@ -25,7 +25,7 @@ namespace OpenStory.Server
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the ServerSession class.
+        /// Initializes a new instance of <see cref="ServerSession"/>
         /// </summary>
         public ServerSession()
         {

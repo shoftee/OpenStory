@@ -13,7 +13,7 @@ namespace OpenStory.Common.Data
         private readonly Dictionary<string, ushort> outgoingTable;
 
         /// <summary>
-        /// Initializes a new instance of OpCodeTable.
+        /// Initializes a new instance of <see cref="OpCodeTable"/>.
         /// </summary>
         protected OpCodeTable()
         {
@@ -22,16 +22,20 @@ namespace OpenStory.Common.Data
         }
 
         /// <summary>
-        /// Loads the op code information for this OpCodeTable instance.
+        /// Loads the op code information for this instance of <see cref="OpCodeTable"/>.
         /// </summary>
-        /// <remarks>
-        /// When overriding this method, call the base implementation before your logic.
-        /// </remarks>
-        public virtual void LoadOpCodes()
+        public void LoadOpCodes()
         {
             this.incomingTable.Clear();
             this.outgoingTable.Clear();
+
+            this.LoadOpCodesInternal();
         }
+
+        /// <summary>
+        /// This is a hook to the end of the <see cref="LoadOpCodes"/> method.
+        /// </summary>
+        protected abstract void LoadOpCodesInternal();
 
         /// <inheritdoc />
         public bool TryGetIncomingLabel(ushort opCode, out string label)
@@ -40,8 +44,16 @@ namespace OpenStory.Common.Data
         }
 
         /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// </exception>
         public bool TryGetOutgoingOpCode(string label, out ushort opCode)
         {
+            if (label == null)
+            {
+                throw new ArgumentNullException("label");
+            }
+
             return this.outgoingTable.TryGetValue(label, out opCode);
         }
 
@@ -50,9 +62,17 @@ namespace OpenStory.Common.Data
         /// </summary>
         /// <param name="label">The label for the outgoing packet.</param>
         /// <param name="opCode">The op code of the outgoing packet.</param>
-        /// <returns>true if the operation was successful; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// </exception>
+        /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
         protected bool AddOutgoing(string label, ushort opCode)
         {
+            if (label == null)
+            {
+                throw new ArgumentNullException("label");
+            }
+
             if (this.outgoingTable.ContainsKey(label))
             {
                 return false;
@@ -67,9 +87,17 @@ namespace OpenStory.Common.Data
         /// </summary>
         /// <param name="opCode">The op code pf the incoming packet.</param>
         /// <param name="label">The label for the incoming packet.</param>
-        /// <returns>true if the operation was successful; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// </exception>
+        /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
         protected bool AddIncoming(ushort opCode, string label)
         {
+            if (label == null)
+            {
+                throw new ArgumentNullException("label");
+            }
+            
             if (this.incomingTable.ContainsKey(opCode))
             {
                 return false;
@@ -83,12 +111,20 @@ namespace OpenStory.Common.Data
         /// Provides a <see cref="PacketBuilder"/> with a pre-added op code for the specified packet label.
         /// </summary>
         /// <param name="label">The label for the packet op code.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="label"/> has no corresponding known packet op code.
         /// </exception>
-        /// <returns>The constructed <see cref="PacketBuilder"/> instance.</returns>
+        /// <returns>the constructed instance of <see cref="PacketBuilder"/>.</returns>
         public PacketBuilder NewPacket(string label)
         {
+            if (label == null)
+            {
+                throw new ArgumentNullException("label");
+            }
+
             ushort opCode;
             if (!this.outgoingTable.TryGetValue(label, out opCode))
             {

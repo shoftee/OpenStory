@@ -6,7 +6,7 @@ using OpenStory.Common;
 namespace OpenStory.Synchronization
 {
     /// <summary>
-    /// A simple thread-safe queue-based IScheduler implementation.
+    /// A simple thread-safe queue-based <see cref="IScheduler"/> implementation.
     /// </summary>
     internal class QueueScheduler : IScheduler
     {
@@ -14,7 +14,7 @@ namespace OpenStory.Synchronization
         private readonly ConcurrentQueue<Task> tasks;
 
         /// <summary>
-        /// Initializes a new instance of QueueScheduler.
+        /// Initializes a new instance of <see cref="QueueScheduler"/>.
         /// </summary>
         public QueueScheduler()
         {

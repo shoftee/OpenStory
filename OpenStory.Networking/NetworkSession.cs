@@ -67,7 +67,7 @@ namespace OpenStory.Networking
         #region Constructors and instance construction.
 
         /// <summary>
-        /// Initializes a new instance of the NetworkSession class.
+        /// Initializes a new instance of <see cref="NetworkSession"/>.
         /// </summary>
         public NetworkSession()
         {
@@ -78,7 +78,7 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Initializes a new instance of the NetworkSession class.
+        /// Initializes a new instance of <see cref="NetworkSession"/>.
         /// </summary>
         /// <param name="socket">The underlying socket to use for this session.</param>
         /// <exception cref="ArgumentNullException">
@@ -95,11 +95,11 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Attaches a socket to this NetworkSession.
+        /// Attaches a socket to this <see cref="NetworkSession"/>.
         /// </summary>
-        /// <param name="socket">The underlying socket to use for the NetworkSession.</param>
+        /// <param name="socket">The underlying socket to use.</param>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the NetworkSession instance already has a socket attached to it.
+        /// Thrown if the <see cref="NetworkSession"/> instance already has a socket attached to it.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="socket" /> is <c>null</c>.
@@ -110,6 +110,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException("This NetworkSession already has a socket attached to it.");
             }
+
             if (socket == null)
             {
                 throw new ArgumentNullException("socket");
@@ -125,12 +126,16 @@ namespace OpenStory.Networking
         /// <summary>
         /// Starts the receive process.
         /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the <see cref="NetworkSession"/> instance does not have a socket attached to it or 
+        /// if the instance is already active.
+        /// </exception>
         public void Start()
         {
             if (this.Socket == null)
             {
                 throw new InvalidOperationException(
-                    "This NetworkSession does not have a socket attached to it. " + Environment.NewLine + 
+                    "This instance does not have a socket attached to it. " + Environment.NewLine + 
                     "Please use AttachSocket(Socket) to attach one before starting it.");
             }
             if (this.isActive.CompareExchange(comparand: false, newValue: true))

@@ -23,7 +23,7 @@ namespace OpenStory.AccountService
         public int? CharacterId { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of ActiveAccount.
+        /// Initializes a new instance of <see cref="ActiveAccount"/>.
         /// </summary>
         /// <param name="accountId">The ID of the active account.</param>
         /// <param name="sessionId">The ID of the active session.</param>

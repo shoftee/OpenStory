@@ -16,7 +16,7 @@ namespace OpenStory.Networking
         private int sentBytes;
 
         /// <summary>
-        /// Initializes a new instance of the SendDescriptor class.
+        /// Initializes a new instance of <see cref="SendDescriptor"/>.
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> containing this instance.</param>
         /// <exception cref="ArgumentNullException">
@@ -35,8 +35,12 @@ namespace OpenStory.Networking
         /// Writes a byte array to the stream.
         /// </summary>
         /// <param name="data">The data to write.</param>
-        /// <exception cref="InvalidOperationException">Thrown if this session is not open.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if this session is not open.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="data"/> is <c>null</c>.
+        /// </exception>
         public void Write(byte[] data)
         {
             if (!base.Container.IsActive)

@@ -53,7 +53,7 @@ namespace OpenStory.Networking
         private byte[] receiveBuffer;
 
         /// <summary>
-        /// Initializes a new instance of ReceiveDescriptor.
+        /// Initializes a new instance of <see cref="ReceiveDescriptor"/>.
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> for the new instance.</param>
         /// <exception cref="ArgumentNullException">

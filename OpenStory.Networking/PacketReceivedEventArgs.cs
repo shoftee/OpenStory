@@ -4,14 +4,14 @@ using OpenStory.Common.IO;
 namespace OpenStory.Networking
 {
     /// <summary>
-    /// Incoming packet data, EventArgs-style.
+    /// Represents a received packet that can be passed with a raised event.
     /// </summary>
     public class PacketReceivedEventArgs : EventArgs
     {
         private readonly byte[] buffer;
 
         /// <summary>
-        /// Initializes a new instance of the PacketReceivedEventArgs class.
+        /// Initializes a new instance of <see cref="PacketReceivedEventArgs"/>.
         /// </summary>
         /// <param name="packet">The packet data.</param>
         /// <exception cref="ArgumentNullException">

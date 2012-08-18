@@ -6,8 +6,8 @@ namespace OpenStory.Server.Game
     /// <summary>
     /// Represents a container for items.
     /// </summary>
-    public abstract class ItemContainer<TItemCluster> 
-        where TItemCluster : ItemCluster
+    public abstract class ItemContainer<TItemInfo>
+        where TItemInfo : ItemInfo
     {
         /// <summary>
         /// Gets the maximum capacity for this container.
@@ -17,7 +17,7 @@ namespace OpenStory.Server.Game
         /// <summary>
         /// Gets the current capacity of this container.
         /// </summary>
-        public int SlotCapacity { get; protected set; }
+        public int SlotCapacity { get; private set; }
 
         /// <summary>
         /// Gets the number of free slots in this container.
@@ -27,16 +27,21 @@ namespace OpenStory.Server.Game
             get { return this.SlotCapacity - this.slots.Count; }
         }
 
-        private readonly Dictionary<int, TItemCluster> slots;
+        private readonly Dictionary<int, ItemCluster<TItemInfo>> slots;
 
         /// <summary>
-        /// Initializes a new ItemContainer instance with the specified slot capacity.
+        /// Initializes a new instance of <see cref="ItemContainer{TItemInfo}"/>.
         /// </summary>
-        /// <param name="slotCapacity">The slot capacity for this container.</param>
+        /// <param name="slotCapacity">The initial slot capacity.</param>
         protected ItemContainer(int slotCapacity)
         {
+            if (slotCapacity < 0)
+            {
+                throw new ArgumentOutOfRangeException("slotCapacity", slotCapacity, "'slotCapacity' must be non-negative.");
+            }
             this.SlotCapacity = slotCapacity;
-            this.slots = new Dictionary<int, TItemCluster>(slotCapacity);
+
+            this.slots = new Dictionary<int, ItemCluster<TItemInfo>>(slotCapacity);
         }
 
         /// <summary>
@@ -45,10 +50,15 @@ namespace OpenStory.Server.Game
         /// <param name="count">The number of slots to add.</param>
         public void Expand(int count)
         {
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException("count", count, "'count' must be non-negative.");
+            }
+
             int newCapacity = this.SlotCapacity + count;
             if (newCapacity > this.MaxCapacity)
             {
-                throw new ArgumentException("You cannot expand this container past its max capacity.", "count");
+                throw new ArgumentException("You cannot expand this container beyond its max capacity.", "count");
             }
 
             this.SlotCapacity = newCapacity;

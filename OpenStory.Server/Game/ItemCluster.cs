@@ -5,12 +5,14 @@ namespace OpenStory.Server.Game
     /// <summary>
     /// Represents a stack of identical items.
     /// </summary>
-    public class ItemCluster
+    /// <typeparam name="TItemInfo">The <see cref="ItemInfo"/> type of the items in this cluster.</typeparam>
+    public class ItemCluster<TItemInfo>
+        where TItemInfo : ItemInfo
     {
         /// <summary>
         /// Gets the prototype of the items in this cluster.
         /// </summary>
-        public ItemInfo Prototype { get; private set; }
+        public TItemInfo Prototype { get; private set; }
 
         /// <summary>
         /// Gets whether the cluster is empty.
@@ -48,7 +50,7 @@ namespace OpenStory.Server.Game
         /// <returns>
         /// the number of items that were carried over to the current cluster.
         /// </returns>
-        public int Merge(ItemCluster other)
+        public int Merge(ItemCluster<TItemInfo> other)
         {
             if (other == null)
             {
@@ -82,7 +84,7 @@ namespace OpenStory.Server.Game
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="other"/> is <c>null</c>.
         /// </exception>
-        public bool CanMergeWith(ItemCluster other)
+        public bool CanMergeWith(ItemCluster<TItemInfo> other)
         {
             if (other == null)
             {

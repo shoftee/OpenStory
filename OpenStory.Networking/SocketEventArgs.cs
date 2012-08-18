@@ -9,16 +9,21 @@ namespace OpenStory.Networking
     public class SocketEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the socket of this SocketEventArgs object.
+        /// Gets the socket of this instance.
         /// </summary>
         public Socket Socket { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the SocketEventArgs class.
+        /// Initializes a new instance of <see cref="SocketEventArgs"/>.
         /// </summary>
         /// <param name="socket">The socket for this instance.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="socket"/> is <c>null</c>.</exception>
         public SocketEventArgs(Socket socket)
         {
+            if (socket == null)
+            {
+                throw new ArgumentNullException("socket");
+            }
             this.Socket = socket;
         }
     }
