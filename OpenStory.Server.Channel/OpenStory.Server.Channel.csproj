@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelCharacter.cs" />
+    <Compile Include="ChannelClient.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="IChannelServer.cs" />
     <Compile Include="Maps\FieldLimitFlags.cs" />

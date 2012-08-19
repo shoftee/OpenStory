@@ -1,31 +1,13 @@
-﻿using System.Data;
+using System.Data;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Data
 {
     /// <summary>
-    /// Represents a data object mapping for the Character table.
+    /// Represents a base class for Character objects.
     /// </summary>
-    public partial class Character
+    public abstract class Character
     {
-        private Character(IDataRecord record)
-        {
-            this.Id = (int) record["CharacterId"];
-            this.WorldId = (int) record["WorldId"];
-            this.Name = (string) record["CharacterName"];
-
-            this.Gender = (Gender) record["Gender"];
-            this.HairId = (int) record["HairId"];
-            this.FaceId = (int) record["FaceId"];
-            this.SkinColor = (int) record["SkinColor"];
-
-            this.Fame = (int) record["Fame"];
-            this.JobId = (int) record["JobId"];
-            this.Level = (int) record["Level"];
-
-            this.BuddyListCapacity = (int) record["BuddyListCapacity"];
-        }
-
         /// <summary>
         /// Gets the ID of the Character.
         /// </summary>
@@ -49,36 +31,59 @@ namespace OpenStory.Server.Data
         /// <summary>
         /// Gets the ID of the Character's hair.
         /// </summary>
-        public int HairId { get; private set; }
+        public int HairId { get; set; }
 
         /// <summary>
         /// Gets the ID of the Character's face.
         /// </summary>
-        public int FaceId { get; private set; }
+        public int FaceId { get; set; }
 
         /// <summary>
         /// Gets the ID of the Character's skin color.
         /// </summary>
-        public int SkinColor { get; private set; }
+        public int SkinColor { get; set; }
 
         /// <summary>
         /// Gets the ID of the Character's in-game job.
         /// </summary>
-        public int JobId { get; private set; }
+        public int JobId { get; set; }
 
         /// <summary>
         /// Gets the fame points of the Character.
         /// </summary>
-        public int Fame { get; private set; }
+        public int Fame { get; set; }
 
         /// <summary>
         /// Gets the level of the Character.
         /// </summary>
-        public int Level { get; private set; }
+        public int Level { get; set; }
 
         /// <summary>
         /// Gets the buddy list capacity of the Character.
         /// </summary>
-        public int BuddyListCapacity { get; private set; }
+        public int BuddyListCapacity { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Character"/>.
+        /// </summary>
+        /// <param name="record">The data record containing the character data.</param>
+        protected Character(IDataRecord record)
+        {
+            this.Id = (int)record["CharacterId"];
+            this.WorldId = (int)record["WorldId"];
+            this.Name = (string)record["CharacterName"];
+
+            this.Gender = (Gender)record["Gender"];
+            this.HairId = (int)record["HairId"];
+            this.FaceId = (int)record["FaceId"];
+            this.SkinColor = (int)record["SkinColor"];
+
+            this.Fame = (int)record["Fame"];
+            this.JobId = (int)record["JobId"];
+            this.Level = (int)record["Level"];
+
+            this.BuddyListCapacity = (int)record["BuddyListCapacity"];
+        }
+
     }
 }

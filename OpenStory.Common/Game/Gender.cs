@@ -6,7 +6,7 @@ namespace OpenStory.Common.Game
     /// The gender of a user.
     /// </summary>
     [Serializable]
-    public enum Gender : byte
+    public enum Gender
     {
         /// <summary>
         /// Male gender.

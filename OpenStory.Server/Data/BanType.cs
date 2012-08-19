@@ -6,7 +6,7 @@ namespace OpenStory.Server.Data
     /// The type of a ban.
     /// </summary>
     [Serializable]
-    public enum BanType : byte
+    public enum BanType
     {
         /// <summary>
         /// Default value.

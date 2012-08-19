@@ -6,7 +6,7 @@ namespace OpenStory.Server.Data
     /// The status of an account.
     /// </summary>
     [Serializable]
-    public enum AccountStatus : byte
+    public enum AccountStatus
     {
         /// <summary>
         /// The account has never been accessed.

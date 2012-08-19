@@ -1,5 +1,4 @@
 ﻿using OpenStory.Common.Game;
-using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Channel
 {
@@ -29,9 +28,9 @@ namespace OpenStory.Server.Channel
         public int Meso { get; private set; }
         public int Experience { get; private set; }
 
-        public AbstractClient Client { get; private set; }
+        public ChannelClient Client { get; private set; }
 
-        private Player(AbstractClient client, Character character)
+        private Player(ChannelClient client, ChannelCharacter character)
         {
             this.Client = client;
 
@@ -49,7 +48,7 @@ namespace OpenStory.Server.Channel
             this.Fame = character.Fame;
             this.Level = character.Level;
 
-            // TODO: There are still more things to add to Character
+            // TODO: There are still more things to add to ChannelCharacter
         }
 
     }

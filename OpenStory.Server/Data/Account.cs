@@ -6,22 +6,11 @@ using OpenStory.Common.Game;
 namespace OpenStory.Server.Data
 {
     /// <summary>
-    /// Represents a read-only account.
+    /// Represents an account.
     /// </summary>
     [DataContract]
-    public class Account
+    public sealed class Account
     {
-        private Account(IDataRecord record)
-        {
-            this.AccountId = (int) record["AccountId"];
-            this.UserName = (string) record["UserName"];
-            this.PasswordHash = (string) record["PasswordHash"];
-            this.EmailAddress = (string) record["EmailAddress"];
-            this.GameMasterLevel = (GameMasterLevel) record["GameMasterLevel"];
-            this.Gender = (Gender) record["record"];
-            this.Status = (AccountStatus) record["record"];
-        }
-
         /// <summary>
         /// Gets the Account ID.
         /// </summary>
@@ -35,14 +24,14 @@ namespace OpenStory.Server.Data
         public string UserName { get; private set; }
 
         /// <summary>
-        /// Gets the password hash.
-        /// </summary>
-        public string PasswordHash { get; private set; }
-
-        /// <summary>
         /// Gets the e-mail address for the account.
         /// </summary>
         public string EmailAddress { get; private set; }
+
+        /// <summary>
+        /// Gets the password hash.
+        /// </summary>
+        public string PasswordHash { get; private set; }
 
         /// <summary>
         /// Gets the game master access level for the account.
@@ -57,7 +46,18 @@ namespace OpenStory.Server.Data
         /// <summary>
         /// Gets the account's status.
         /// </summary>
-        public AccountStatus Status { get; private set; }
+        public AccountStatus Status { get; set; }
+
+        internal Account(IDataRecord record)
+        {
+            this.AccountId = (int) record["AccountId"];
+            this.UserName = (string) record["UserName"];
+            this.PasswordHash = (string) record["PasswordHash"];
+            this.EmailAddress = (string) record["EmailAddress"];
+            this.GameMasterLevel = (GameMasterLevel) record["GameMasterLevel"];
+            this.Gender = (Gender) record["record"];
+            this.Status = (AccountStatus) record["record"];
+        }
 
         /// <summary>
         /// Attempts to load the account information for the given user name.

@@ -6,7 +6,7 @@ namespace OpenStory.Common.Game
     /// A guild rank.
     /// </summary>
     [Serializable]
-    public enum GuildRank : byte
+    public enum GuildRank
     {
         /// <summary>
         /// Default value
