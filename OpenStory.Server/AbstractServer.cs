@@ -16,6 +16,16 @@ namespace OpenStory.Server
         private readonly RollingIvFactory ivFactory;
 
         /// <summary>
+        /// Gets the name of the server.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
+        /// Gets whether the server is running or not.
+        /// </summary>
+        public bool IsRunning { get; protected set; }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="AbstractServer"/>.
         /// </summary>
         /// <param name="address">The address to listen on.</param>
@@ -29,16 +39,6 @@ namespace OpenStory.Server
 
             this.ivFactory = IvFactories.GetEmsFactory();
         }
-
-        /// <summary>
-        /// Gets the name of the server.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
-        /// Gets whether the server is running or not.
-        /// </summary>
-        public bool IsRunning { get; protected set; }
 
         /// <summary>
         /// Starts the server.
