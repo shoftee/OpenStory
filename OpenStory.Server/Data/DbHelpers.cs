@@ -8,7 +8,7 @@ namespace OpenStory.Server.Data
     /// <summary>
     /// Provides static methods for various useful database-related operations.
     /// </summary>
-    internal static class DbHelpers
+    public static class DbHelpers
     {
         private const string ConnectionString =
             "Data Source=SHOFTMASTER;Initial Catalog=OpenStory;Persist Security Info=True;User ID=OpenStoryUser;Password=.@c#8sharp";

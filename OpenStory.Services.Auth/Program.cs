@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using OpenStory.Common.Tools;
+using OpenStory.Server.Auth;
 
 namespace OpenStory.Services.Auth
 {

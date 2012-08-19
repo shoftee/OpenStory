@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace OpenStory.Server.Data.Providers
+namespace OpenStory.Server.Auth.Data.Providers
 {
     /// <summary>
     /// Provides methods for data operation with characters.

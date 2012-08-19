@@ -1,4 +1,4 @@
-namespace OpenStory.Server.Data
+namespace OpenStory.Server.Auth.Data
 {
     /// <summary>
     /// A list of possible results for the creation of a character.

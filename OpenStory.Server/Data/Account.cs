@@ -58,22 +58,5 @@ namespace OpenStory.Server.Data
             this.Gender = (Gender) record["record"];
             this.Status = (AccountStatus) record["record"];
         }
-
-        /// <summary>
-        /// Attempts to load the account information for the given user name.
-        /// </summary>
-        /// <param name="userName">The user name to query.</param>
-        /// <returns>true if the account information was loaded successfully; otherwise, false.</returns>
-        public static Account LoadByUserName(string userName)
-        {
-            using (var query = new SqlCommand("SELECT * FROM Account WHERE UserName=@userName"))
-            {
-                query.Parameters.Add("@userName", SqlDbType.VarChar, 12).Value = userName;
-                Account accountData = null;
-                bool result = DbHelpers.InvokeForSingle(query, record => accountData = new Account(record));
-
-                return result ? accountData : null;
-            }
-        }
     }
 }

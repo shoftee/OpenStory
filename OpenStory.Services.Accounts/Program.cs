@@ -2,7 +2,7 @@
 using System.Threading;
 using OpenStory.Common.Tools;
 
-namespace OpenStory.Services.Accounts
+namespace OpenStory.Services.Account
 {
     class Program
     {

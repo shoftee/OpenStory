@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenStory.Common.Authentication
+namespace OpenStory.Common.Auth
 {
     /// <summary>
     /// Provides properties of a game World.

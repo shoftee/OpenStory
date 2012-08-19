@@ -1,21 +1,18 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
-using OpenStory.Common.Authentication;
-using OpenStory.Server;
-using OpenStory.Server.Authentication;
+using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
 using OpenStory.Services.Clients;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Represents a server that handles the authentication process.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    sealed class AuthServer : AbstractServer, IAuthServer, IAuthService
+    public sealed class AuthServer : AbstractServer, IAuthServer
     {
         private const string ServerName = "Auth";
 
@@ -65,10 +62,5 @@ namespace OpenStory.Services.Auth
             this.clients.Add(newClient);
         }
 
-        /// <inheritdoc />
-        public bool Ping()
-        {
-            return this.IsRunning;
-        }
     }
 }

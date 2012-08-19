@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using OpenStory.Common.Authentication;
+using OpenStory.Common.Auth;
 using OpenStory.Common.Tools;
+using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Data;
 
-namespace OpenStory.Server.Authentication
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Represents a game World.

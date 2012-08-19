@@ -73,9 +73,9 @@
   <ItemGroup>
     <Compile Include="AtomicBoolean.cs" />
     <Compile Include="AtomicInteger.cs" />
-    <Compile Include="Authentication\AuthenticationResult.cs" />
-    <Compile Include="Authentication\IChannel.cs" />
-    <Compile Include="Authentication\IWorld.cs" />
+    <Compile Include="Auth\AuthenticationResult.cs" />
+    <Compile Include="Auth\IChannel.cs" />
+    <Compile Include="Auth\IWorld.cs" />
     <Compile Include="Data\IOpCodeTable.cs" />
     <Compile Include="Data\OpCodeTable.cs" />
     <Compile Include="Game\GameConstants.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Tools\MiscTools.cs" />
     <Compile Include="Tools\TimeHelpers.cs" />
     <Compile Include="Tools\Log.cs" />
-    <Compile Include="Authentication\ServerStatus.cs" />
+    <Compile Include="Auth\ServerStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

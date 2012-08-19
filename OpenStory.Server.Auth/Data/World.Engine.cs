@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using OpenStory.Server.Data;
 
-namespace OpenStory.Server.Data
+namespace OpenStory.Server.Auth.Data
 {
-    public partial class World
+    public sealed partial class World
     {
         /// <summary>
         /// Gets a WorldData object for a world by its ID.
@@ -30,7 +31,7 @@ namespace OpenStory.Server.Data
         public static IEnumerable<World> GetAllWorlds()
         {
             var command = new SqlCommand("SELECT * FROM World ORDER BY WorldId");
-            return command.Enumerate().Select(record => new World(record));
+            return DbHelpers.Enumerate(command).Select(record => new World(record));
         }
     }
 }

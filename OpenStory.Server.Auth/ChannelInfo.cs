@@ -1,18 +1,11 @@
-﻿using OpenStory.Common;
-using OpenStory.Common.Authentication;
+using OpenStory.Common;
+using OpenStory.Common.Auth;
 
-namespace OpenStory.Server.Authentication
+namespace OpenStory.Server.Auth
 {
     internal class ChannelInfo : IChannel
     {
         private readonly AtomicInteger channelLoad;
-
-        public ChannelInfo()
-        {
-            this.channelLoad = 0;
-        }
-
-        #region IChannel Members
 
         public byte Id { get; private set; }
         public byte WorldId { get; private set; }
@@ -23,6 +16,9 @@ namespace OpenStory.Server.Authentication
             get { return this.channelLoad.Value; }
         }
 
-        #endregion
+        public ChannelInfo()
+        {
+            this.channelLoad = 0;
+        }
     }
 }

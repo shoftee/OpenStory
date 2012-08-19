@@ -1,6 +1,6 @@
-﻿using OpenStory.Common.Authentication;
+using OpenStory.Common.Auth;
 
-namespace OpenStory.Server.Authentication
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Provides authentication methods.
@@ -12,7 +12,7 @@ namespace OpenStory.Server.Authentication
         /// Attempts to authenticate the given account credentials.
         /// </summary>
         /// <param name="credentials">The name of the account.</param>
-        /// <param name="session">An <see cref="IAccountSession"/> variable to hold the resulting session.</param>
+        /// <param name="session">An <see cref="OpenStory.Server.IAccountSession"/> variable to hold the resulting session.</param>
         /// <returns>an <see cref="AuthenticationResult"/> for the operation.</returns>
         AuthenticationResult Authenticate(TCredentials credentials, out IAccountSession session);
     }

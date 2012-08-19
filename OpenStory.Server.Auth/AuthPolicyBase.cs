@@ -1,51 +1,9 @@
-﻿using System;
-using OpenStory.Common.Authentication;
-using OpenStory.Common.Tools;
-using OpenStory.Cryptography;
-using OpenStory.Server;
-using OpenStory.Server.Authentication;
 using OpenStory.Server.Data;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
-    class SimpleAuthPolicy : AuthPolicyBase, IAuthPolicy<SimpleCredentials>
-    {
-        public SimpleAuthPolicy(IAccountService accountService)
-            : base(accountService)
-        {
-        }
-
-        /// <inheritdoc />
-        public AuthenticationResult Authenticate(SimpleCredentials credentials, out IAccountSession session)
-        {
-            string accountName = credentials.AccountName;
-            Account account = Account.LoadByUserName(accountName);
-            if (account == null)
-            {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.NotRegistered);
-            }
-
-            string password = credentials.Password;
-            string hash = LoginCrypto.GetMd5HashString(password, true);
-            if (!String.Equals(hash, account.PasswordHash, StringComparison.Ordinal))
-            {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.IncorrectPassword);
-            }
-
-            var service = base.AccountService;
-            int sessionId;
-            if (!service.TryRegisterSession(account.AccountId, out sessionId))
-            {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.AlreadyLoggedIn);
-            }
-
-            session = GetSession(service, sessionId, account);
-            return AuthenticationResult.Success;
-        }
-    }
-
-    class AuthPolicyBase
+    internal abstract class AuthPolicyBase
     {
         private readonly IAccountService accountService;
 
@@ -56,7 +14,7 @@ namespace OpenStory.Services.Auth
             this.accountService = accountService;
         }
 
-        sealed class AccountSession : IAccountSession
+        private sealed class AccountSession : IAccountSession
         {
             private readonly IAccountService parent;
 
@@ -72,7 +30,7 @@ namespace OpenStory.Services.Auth
             /// <summary>
             /// Initializes a new instance of <see cref="AccountSession"/>.
             /// </summary>
-            /// <param name="parent">The <see cref="IAccountService"/> managing this session.</param>
+            /// <param name="parent">The <see cref="OpenStory.Services.Contracts.IAccountService"/> managing this session.</param>
             /// <param name="sessionId">The session identifier.</param>
             /// <param name="data">The loaded session data.</param>
             public AccountSession(IAccountService parent, int sessionId, Account data)

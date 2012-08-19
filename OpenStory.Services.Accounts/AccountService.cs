@@ -4,7 +4,7 @@ using System.ServiceModel;
 using OpenStory.Common;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Accounts
+namespace OpenStory.Services.Account
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     class AccountService : IAccountService

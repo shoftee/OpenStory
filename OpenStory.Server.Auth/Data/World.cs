@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Data;
 
-namespace OpenStory.Server.Data
+namespace OpenStory.Server.Auth.Data
 {
     /// <summary>
     /// An object mapping for the World table.
     /// </summary>
-    public partial class World
+    public sealed partial class World
     {
         /// <summary>
         /// Gets the world ID.

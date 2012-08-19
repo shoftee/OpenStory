@@ -1,6 +1,6 @@
-﻿using OpenStory.Common.Data;
+using OpenStory.Common.Data;
 
-namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
     sealed class AuthServerPackets : OpCodeTable
     {

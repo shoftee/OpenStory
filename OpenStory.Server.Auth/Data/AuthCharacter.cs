@@ -1,7 +1,7 @@
-﻿using System.Data;
-using OpenStory.Common.Game;
+using System.Data;
+using OpenStory.Server.Data;
 
-namespace OpenStory.Server.Data
+namespace OpenStory.Server.Auth.Data
 {
     /// <summary>
     /// Represents a data object for a character.

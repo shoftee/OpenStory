@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Phase of the login process.

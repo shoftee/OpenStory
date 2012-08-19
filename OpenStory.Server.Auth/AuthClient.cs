@@ -1,11 +1,10 @@
-﻿using System;
-using OpenStory.Common.Authentication;
+using System;
+using OpenStory.Common.Auth;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
-using OpenStory.Server;
 
-namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Represents a client for the Authentication Server.

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 
-namespace OpenStory.Services.Auth
+namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Represents a pair of simple account credentials.
     /// </summary>
-    internal sealed class SimpleCredentials
+    public sealed class SimpleCredentials
     {
         /// <summary>
         /// Gets the account name.

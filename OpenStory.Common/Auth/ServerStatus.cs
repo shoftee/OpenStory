@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Common.Authentication
+namespace OpenStory.Common.Auth
 {
     /// <summary>
     /// World status options.
