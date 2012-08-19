@@ -82,11 +82,11 @@
     <Compile Include="Game\Elements.cs" />
     <Compile Include="Game\Gender.cs" />
     <Compile Include="Game\GuildRank.cs" />
-    <Compile Include="Game\IKeyBinding.cs" />
-    <Compile Include="Game\IKeyLayout.cs" />
+    <Compile Include="Game\KeyBinding.cs" />
     <Compile Include="Game\InventoryType.cs" />
     <Compile Include="Game\ItemType.cs" />
     <Compile Include="Game\JobClass.cs" />
+    <Compile Include="Game\KeyLayout.cs" />
     <Compile Include="IO\ArraySegmentException.cs" />
     <Compile Include="IO\LittleEndianBitConverter.cs" />
     <Compile Include="IO\BoundedBuffer.cs" />
