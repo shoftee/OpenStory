@@ -65,25 +65,25 @@ namespace OpenStory.Services.Clients
         }
 
         /// <inheritdoc />
-        public AuthServiceClient GetAuthService()
+        public IAuthService GetAuthService()
         {
             return base.Channel.GetAuthService();
         }
 
         /// <inheritdoc />
-        public AccountServiceClient GetAccountService()
+        public IAccountService GetAccountService()
         {
             return base.Channel.GetAccountService();
         }
 
         /// <inheritdoc />
-        public WorldServiceClient GetWorldService(int worldId)
+        public IWorldService GetWorldService(int worldId)
         {
             return base.Channel.GetWorldService(worldId);
         }
 
         /// <inheritdoc />
-        public ChannelServiceClient GetChannelService(int worldId, int channelId)
+        public IChannelService GetChannelService(int worldId, int channelId)
         {
             return base.Channel.GetChannelService(worldId, channelId);
         }

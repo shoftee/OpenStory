@@ -73,28 +73,28 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Gets a binding to the authentication service.
         /// </summary>
-        /// <returns>a <see cref="AuthServiceClient"/></returns>
-        AuthServiceClient GetAuthService();
+        /// <returns>a <see cref="IAuthService"/> object.</returns>
+        IAuthService GetAuthService();
 
         /// <summary>
         /// Gets a binding to the account service.
         /// </summary>
-        /// <returns>a <see cref="AccountServiceClient"/></returns>
-        AccountServiceClient GetAccountService();
+        /// <returns>a <see cref="IAccountService"/> object.</returns>
+        IAccountService GetAccountService();
 
         /// <summary>
         /// Gets a binding to a world service.
         /// </summary>
         /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <returns>a <see cref="WorldServiceClient"/></returns>
-        WorldServiceClient GetWorldService(int worldId);
+        /// <returns>a <see cref="IWorldService"/> object.</returns>
+        IWorldService GetWorldService(int worldId);
 
         /// <summary>
         /// Gets a binding to a channel service.
         /// </summary>
         /// <param name="worldId">The public world identifier for the service instance.</param>
         /// <param name="channelId">The public channel identifier for the channel instance.</param>
-        /// <returns>a <see cref="ChannelServiceClient"/></returns>
-        ChannelServiceClient GetChannelService(int worldId, int channelId);
+        /// <returns>a <see cref="IChannelService"/> object.</returns>
+        IChannelService GetChannelService(int worldId, int channelId);
     }
 }
