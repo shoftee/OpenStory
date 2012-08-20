@@ -7,6 +7,6 @@ namespace OpenStory.Server.Auth.Data.Providers
 {
     interface IWorldDataProvider
     {
-
+        // TODO
     }
 }

@@ -1,10 +1,13 @@
+using System;
+
 namespace OpenStory.Server.Modules
 {
     /// <summary>
     /// Represents a module builder.
     /// </summary>
     /// <typeparam name="TModule">The type of modules to build.</typeparam>
-    public class ModuleBuilder<TModule> where TModule : ModuleBase, new()
+    public sealed class ModuleBuilder<TModule>
+        where TModule : ModuleBase, new()
     {
         private TModule module;
 

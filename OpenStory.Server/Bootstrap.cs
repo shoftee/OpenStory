@@ -13,12 +13,12 @@ namespace OpenStory.Server
     /// </summary>
     public sealed class Bootstrap
     {
-        private static readonly Bootstrap instance = new Bootstrap();
+        private static readonly Bootstrap Instance = new Bootstrap();
 
         /// <summary>
         /// 
         /// </summary>
-        public static DataModule Data { get { return instance.data; } }
+        public static DataModule Data { get { return Instance.data; } }
 
         private readonly DataModule data;
 

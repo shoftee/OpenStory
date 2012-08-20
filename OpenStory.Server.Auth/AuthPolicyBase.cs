@@ -30,7 +30,7 @@ namespace OpenStory.Server.Auth
             /// <summary>
             /// Initializes a new instance of <see cref="AccountSession"/>.
             /// </summary>
-            /// <param name="parent">The <see cref="OpenStory.Services.Contracts.IAccountService"/> managing this session.</param>
+            /// <param name="parent">The <see cref="IAccountService"/> managing this session.</param>
             /// <param name="sessionId">The session identifier.</param>
             /// <param name="data">The loaded session data.</param>
             public AccountSession(IAccountService parent, int sessionId, Account data)
