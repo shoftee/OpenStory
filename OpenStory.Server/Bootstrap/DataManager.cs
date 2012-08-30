@@ -1,11 +1,12 @@
-﻿using OpenStory.Server.Data.Providers;
+using OpenStory.Server.Data.Providers;
+using OpenStory.Server.Modules;
 
-namespace OpenStory.Server.Modules
+namespace OpenStory.Server.Bootstrap
 {
     /// <summary>
-    /// Represents a module used to access data.
+    /// Provides methods and components for managing data.
     /// </summary>
-    public class DataModule : ModuleBase
+    public class DataManager : ManagerBase<DataManager>
     {
         /// <summary>
         /// Gets the ban data provider.
@@ -18,9 +19,9 @@ namespace OpenStory.Server.Modules
         public IAccountDataProvider Accounts { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DataModule"/>.
+        /// Initializes a new instance of <see cref="DataManager"/>.
         /// </summary>
-        public DataModule()
+        public DataManager()
         {
             base.RequireComponent("Bans", typeof(IBanDataProvider));
             base.RequireComponent("Accounts", typeof(IAccountDataProvider));

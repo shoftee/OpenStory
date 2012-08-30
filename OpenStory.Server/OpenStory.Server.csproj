@@ -52,9 +52,11 @@
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
-    <Compile Include="Bootstrap.cs" />
-    <Compile Include="Modules\ModuleBase.cs" />
-    <Compile Include="Modules\DataModule.cs" />
+    <Compile Include="Bootstrap\Bootstrap.cs" />
+    <Compile Include="Bootstrap\DataManager.cs" />
+    <Compile Include="Bootstrap\OS.cs" />
+    <Compile Include="Modules\ManagerBase.Typed.cs" />
+    <Compile Include="Modules\ManagerBase.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanType.cs" />
@@ -75,7 +77,8 @@
     <Compile Include="IvFactories.cs" />
     <Compile Include="IWorldChannel.cs" />
     <Compile Include="LocationRegistry.cs" />
-    <Compile Include="Modules\ModuleBuilder.cs" />
+    <Compile Include="Modules\ManagerBuilder.cs" />
+    <Compile Include="Modules\ManagerStore.cs" />
     <Compile Include="PlayerLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

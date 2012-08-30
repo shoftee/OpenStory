@@ -6,29 +6,31 @@ using OpenStory.Server.Data;
 using OpenStory.Server.Data.Providers;
 using OpenStory.Server.Modules;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Bootstrap
 {
     /// <summary>
-    /// 
+    /// The bootstrap entry point!
     /// </summary>
-    public sealed class Bootstrap
+    public sealed class OS
     {
-        private static readonly Bootstrap Instance = new Bootstrap();
+        private static readonly OS Instance = new OS();
+
+        private readonly DataManager data;
 
         /// <summary>
         /// 
         /// </summary>
-        public static DataModule Data { get { return Instance.data; } }
+        public static DataManager Data { get { return Instance.data; } }
 
-        private readonly DataModule data;
-
-        private Bootstrap()
+        private OS()
         {
-            data = new ModuleBuilder<DataModule>()
+            data = new ManagerBuilder<DataManager>()
                 .Register("Bans", new BanDataProvider())
                 .Register("Accounts", new AccountDataProvider())
                 .BuildAndReset();
         }
+
+        #region Stub providers
 
         private class BanDataProvider : IBanDataProvider
         {
@@ -53,6 +55,8 @@ namespace OpenStory.Server
                 return;
             }
         }
+
+        #endregion
 
     }
 }

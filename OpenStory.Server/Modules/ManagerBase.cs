@@ -6,7 +6,7 @@ namespace OpenStory.Server.Modules
     /// <summary>
     /// Represents a base class for server modules.
     /// </summary>
-    public abstract class ModuleBase
+    public class ManagerBase
     {
         private bool isInitialized;
 
@@ -22,9 +22,9 @@ namespace OpenStory.Server.Modules
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ModuleBase"/>
+        /// Initializes a new instance of <see cref="ManagerBase"/>
         /// </summary>
-        protected ModuleBase()
+        protected ManagerBase()
         {
             this.types = new Dictionary<string, Type>();
             this.instances = new Dictionary<string, object>();
@@ -54,7 +54,7 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Runs the initialization checks on this instance and throws on error.
         /// </summary>
-        protected void InitializeAndThrowOnError()
+        private void InitializeAndThrowOnError()
         {
             string error;
             bool success = this.RunInitializationCheck(out error);
