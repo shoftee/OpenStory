@@ -77,7 +77,6 @@
     <Compile Include="IvFactories.cs" />
     <Compile Include="IWorldChannel.cs" />
     <Compile Include="LocationRegistry.cs" />
-    <Compile Include="Modules\ManagerBuilder.cs" />
     <Compile Include="Modules\ManagerStore.cs" />
     <Compile Include="PlayerLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

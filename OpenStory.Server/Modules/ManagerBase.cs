@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace OpenStory.Server.Modules
 {
     /// <summary>
-    /// Represents a base class for server modules.
+    /// Represents a base class for server managers.
     /// </summary>
     public class ManagerBase
     {
@@ -22,7 +22,7 @@ namespace OpenStory.Server.Modules
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ManagerBase"/>
+        /// Initializes a new instance of <see cref="ManagerBase"/>.
         /// </summary>
         protected ManagerBase()
         {
@@ -31,7 +31,7 @@ namespace OpenStory.Server.Modules
         }
 
         /// <summary>
-        /// Runs the initialization checks and marks it as initialized.
+        /// Runs the initialization checks on this instance and marks it as initialized.
         /// </summary>
         public void Initialize()
         {
@@ -123,12 +123,12 @@ namespace OpenStory.Server.Modules
             Type required;
             if (!this.types.TryGetValue(name, out required))
             {
-                throw new ArgumentOutOfRangeException("name", name, "'name' must be the name of a registered component.");
+                throw GetUnknownComponentNameException(name);
             }
 
             if (!required.IsAssignableFrom(type))
             {
-                throw new ArgumentOutOfRangeException("instance", "'instance' is of an incompatible type.");
+                throw GetIncompatibleTypeException(instance, type.FullName);
             }
 
             this.types[name] = required;
@@ -150,7 +150,7 @@ namespace OpenStory.Server.Modules
 
             if (!this.types.ContainsKey(name))
             {
-                throw new ArgumentOutOfRangeException("name", name, "'name' must be the name of a registered component.");
+                throw GetUnknownComponentNameException(name);
             }
 
             return (TComponent)this.instances[name];
@@ -163,7 +163,7 @@ namespace OpenStory.Server.Modules
         {
             if (!this.isInitialized)
             {
-                throw new InvalidOperationException("The module has not been initialized yet.");
+                throw GetModuleNotInitializedException();
             }
         }
 
@@ -174,7 +174,7 @@ namespace OpenStory.Server.Modules
         {
             if (this.isInitialized)
             {
-                throw new InvalidOperationException("You cannot change this module because it has been initialized.");
+                throw GetModuleInitializedException();
             }
         }
 
@@ -182,13 +182,12 @@ namespace OpenStory.Server.Modules
         /// Runs the initialization checks for this module.
         /// </summary>
         /// <remarks>
-        /// When there are no errors, <paramref name="error"/> will be set to null before the method returns.
+        /// When there are no errors, <paramref name="error"/> will be set to <c>null</c> before the method returns.
         /// </remarks>
         /// <param name="error">A variable to hold an error message.</param>
         /// <returns><c>true</c> if there were no errors; otherwise, <c>false</c>.</returns>
         protected bool RunInitializationCheck(out string error)
         {
-            const string NotInitializedFormat = "The component '{0}' has not been initialized.";
 
             foreach (var entry in this.instances)
             {
@@ -196,6 +195,8 @@ namespace OpenStory.Server.Modules
                 object instance = entry.Value;
                 if (instance == null)
                 {
+                    const string NotInitializedFormat = "The component '{0}' has not been initialized.";
+
                     error = String.Format(NotInitializedFormat, name);
                     return false;
                 }
@@ -203,6 +204,29 @@ namespace OpenStory.Server.Modules
 
             error = null;
             return true;
+        }
+
+        private static InvalidOperationException GetModuleNotInitializedException()
+        {
+            return new InvalidOperationException("The module has not been initialized yet.");
+        }
+
+        private static InvalidOperationException GetModuleInitializedException()
+        {
+            return new InvalidOperationException("You cannot change this module because it has been initialized.");
+        }
+
+        private static ArgumentOutOfRangeException GetIncompatibleTypeException(object instance, string typeFullName)
+        {
+            const string Format = "'instance' must be assignable to '{0}'";
+
+            string message = String.Format(Format, typeFullName);
+            return new ArgumentOutOfRangeException("instance", message);
+        }
+
+        private static ArgumentOutOfRangeException GetUnknownComponentNameException(string name)
+        {
+            return new ArgumentOutOfRangeException("name", name, "'name' must be the name of a required component.");
         }
     }
 }

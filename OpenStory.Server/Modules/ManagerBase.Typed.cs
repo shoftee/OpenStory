@@ -17,10 +17,9 @@ namespace OpenStory.Server.Modules
         /// Registers the default manager instance for this manager type.
         /// </summary>
         /// <param name="manager">The default manager for this manager type.</param>
-        /// <returns><c>true</c> if another instance was replaced; otherwise, <c>false</c>.</returns>
-        public static bool RegisterDefault(TManagerBase manager)
+        public static void RegisterDefault(TManagerBase manager)
         {
-            return ManagerStore.RegisterDefault(manager);
+            ManagerStore.RegisterDefault(manager);
         }
 
         /// <summary>
