@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
-    <Compile Include="Bootstrap\Bootstrap.cs" />
     <Compile Include="Bootstrap\DataManager.cs" />
     <Compile Include="Bootstrap\OS.cs" />
     <Compile Include="Modules\ManagerBase.Typed.cs" />
