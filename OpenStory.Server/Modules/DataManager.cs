@@ -1,10 +1,9 @@
 using OpenStory.Server.Data.Providers;
-using OpenStory.Server.Modules;
 
-namespace OpenStory.Server.Bootstrap
+namespace OpenStory.Server.Modules
 {
     /// <summary>
-    /// Provides methods and components for managing data.
+    /// Provides methods and components for managing server data.
     /// </summary>
     public class DataManager : ManagerBase<DataManager>
     {

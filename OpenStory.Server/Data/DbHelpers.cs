@@ -50,15 +50,16 @@ namespace OpenStory.Server.Data
         /// Returns an iterator over the result set of the provided <see cref="SqlCommand"/>.
         /// </summary>
         /// <param name="query">The <see cref="SqlCommand"/> to execute.</param>
+        /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags to pass when executing the data reader. Defaults to <see cref="CommandBehavior.Default"/>.</param>
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
-        public static IEnumerable<IDataRecord> Enumerate(this SqlCommand query)
+        public static IEnumerable<IDataRecord> Enumerate(this SqlCommand query, CommandBehavior commandBehavior = CommandBehavior.Default)
         {
             using (SqlConnection connection = GetConnection())
             {
                 query.Connection = connection;
                 connection.Open();
 
-                using (SqlDataReader record = query.ExecuteReader())
+                using (SqlDataReader record = query.ExecuteReader(commandBehavior))
                 {
                     while (record.Read())
                     {
@@ -98,7 +99,7 @@ namespace OpenStory.Server.Data
                 scalarQuery.Connection = connection;
                 connection.Open();
 
-                return (TResult) scalarQuery.ExecuteScalar();
+                return (TResult)scalarQuery.ExecuteScalar();
             }
         }
 

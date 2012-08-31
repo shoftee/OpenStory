@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenStory.Server.Data;
-using OpenStory.Server.Data.Providers;
 using OpenStory.Server.Modules;
+using OpenStory.Server.Modules.Default;
 
 namespace OpenStory.Server.Bootstrap
 {
     /// <summary>
-    /// The bootstrap entry point!
+    /// The OpenStory management entry point.
     /// </summary>
     public sealed class OS
     {
@@ -18,45 +16,18 @@ namespace OpenStory.Server.Bootstrap
         private readonly DataManager data;
 
         /// <summary>
-        /// 
+        /// Gets the current DataManager instance.
         /// </summary>
-        public static DataManager Data { get { return Instance.data; } }
+        public static DataManager Data
+        {
+            get { return Instance.data; }
+        }
 
         private OS()
         {
-            data = new ManagerBuilder<DataManager>()
-                .Register("Bans", new BanDataProvider())
-                .Register("Accounts", new AccountDataProvider())
-                .BuildAndReset();
+            DataManager.RegisterDefault(new DefaultDataManager());
+
+            this.data = DataManager.GetManager();
         }
-
-        #region Stub providers
-
-        private class BanDataProvider : IBanDataProvider
-        {
-            public bool BanByAccountId(int accountId, string reason, DateTimeOffset? expiration = null)
-            {
-                // TODO
-                return false;
-            }
-        }
-
-        private class AccountDataProvider : IAccountDataProvider
-        {
-            public Account LoadByUserName(string userName)
-            {
-                // TODO
-                return null;
-            }
-
-            public void Save(Account account)
-            {
-                // TODO
-                return;
-            }
-        }
-
-        #endregion
-
     }
 }
