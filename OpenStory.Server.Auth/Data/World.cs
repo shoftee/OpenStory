@@ -6,23 +6,30 @@ namespace OpenStory.Server.Auth.Data
     /// <summary>
     /// An object mapping for the World table.
     /// </summary>
-    public sealed partial class World
+    public sealed class World
     {
         /// <summary>
         /// Gets the world ID.
         /// </summary>
-        public byte WorldId { get; private set; }
+        public byte WorldId { get; set; }
 
         /// <summary>
         /// Gets the world name.
         /// </summary>
-        public string WorldName { get; private set; }
+        public string WorldName { get; set; }
 
         /// <summary>
         /// Gets the number of channels in the world.
         /// </summary>
-        public byte ChannelCount { get; private set; }
-        
+        public int ChannelCount { get; set; }
+
+        /// <summary>
+        /// Initializes this World object with the default values.
+        /// </summary>
+        public World()
+        {
+        }
+
         /// <summary>
         /// Initializes this World object from a given <see cref="IDataRecord"/>.
         /// </summary>
@@ -34,9 +41,9 @@ namespace OpenStory.Server.Auth.Data
         {
             if (record == null) throw new ArgumentNullException("record");
 
-            this.WorldId = (byte) record["WorldId"];
-            this.WorldName = (string) record["WorldName"];
-            this.ChannelCount = (byte) record["ChannelCount"];
+            this.WorldId = (byte)record["WorldId"];
+            this.WorldName = (string)record["WorldName"];
+            this.ChannelCount = (int)record["ChannelCount"];
         }
     }
 }

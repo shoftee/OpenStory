@@ -10,75 +10,82 @@ namespace OpenStory.Server.Data
     /// </summary>
     public static class DbHelpers
     {
-        private const string ConnectionString =
-            "Data Source=SHOFTMASTER;Initial Catalog=OpenStory;Persist Security Info=True;User ID=OpenStoryUser;Password=.@c#8sharp";
-
         /// <summary>
         /// Gets a new SqlConnection with the default connection string.
         /// </summary>
         /// <returns>the SqlConnection instance.</returns>
-        private static SqlConnection GetConnection()
+        private static IDbConnection GetConnection()
         {
-            return new SqlConnection(ConnectionString);
+            throw new NotImplementedException("You need to implement the DbHelpers.GetConnection() method to use DbHelpers.");
         }
 
         /// <summary>
-        /// Executes the provided <see cref="SqlCommand"/> and invokes a callback for the first row of the result set.
+        /// Executes the provided <see cref="IDbCommand"/> and invokes a callback for the first row of the result set.
         /// </summary>
-        /// <param name="query">The <see cref="SqlCommand"/> to execute.</param>
+        /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="callback">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
         /// <returns><c>true</c> if there was a result; otherwise, <c>false</c>.</returns>
-        public static bool InvokeForSingle(SqlCommand query, Action<IDataRecord> callback)
+        public static bool InvokeForSingle(this IDbCommand command, Action<IDataRecord> callback)
         {
             // I actually feel quite awesome about this method, it saves me a lot of writing.
-            using (SqlConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                query.Connection = connection;
+                command.Connection = connection;
+
+                bool result;
                 connection.Open();
-
-                using (SqlDataReader record = query.ExecuteReader(CommandBehavior.SingleRow))
+                using (var record = command.ExecuteReader(CommandBehavior.SingleRow))
                 {
-                    if (!record.Read()) return false;
-
-                    callback(record);
-                    return true;
+                    if (record.Read())
+                    {
+                        callback(record);
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
                 }
+                connection.Close();
+
+                return result;
             }
         }
 
         /// <summary>
-        /// Returns an iterator over the result set of the provided <see cref="SqlCommand"/>.
+        /// Returns an iterator over the result set of the provided <see cref="IDbCommand"/>.
         /// </summary>
-        /// <param name="query">The <see cref="SqlCommand"/> to execute.</param>
+        /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags to pass when executing the data reader. Defaults to <see cref="CommandBehavior.Default"/>.</param>
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
-        public static IEnumerable<IDataRecord> Enumerate(this SqlCommand query, CommandBehavior commandBehavior = CommandBehavior.Default)
+        public static IEnumerable<IDataRecord> Enumerate(this IDbCommand command, CommandBehavior commandBehavior = CommandBehavior.Default)
         {
-            using (SqlConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                query.Connection = connection;
-                connection.Open();
+                command.Connection = connection;
 
-                using (SqlDataReader record = query.ExecuteReader(commandBehavior))
+                connection.Open();
+                using (var record = command.ExecuteReader(commandBehavior))
                 {
                     while (record.Read())
                     {
                         yield return record;
                     }
                 }
+                connection.Close();
             }
         }
 
         /// <summary>
-        /// Enumerates the result set of the provided <see cref="SqlCommand"/> and invokes the provided callback for each record.
+        /// Enumerates the result set of the provided <see cref="IDbCommand"/> and invokes the provided callback for each record.
         /// </summary>
-        /// <param name="query">The <see cref="SqlCommand"/> to execute.</param>
+        /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="callback">The action to perform on each record.</param>
         /// <returns>the number of records in the result set.</returns>
-        public static int InvokeForAll(SqlCommand query, Action<IDataRecord> callback)
+        public static int InvokeForAll(this IDbCommand command, Action<IDataRecord> callback)
         {
             int count = 0;
-            foreach (IDataRecord record in query.Enumerate())
+            foreach (var record in command.Enumerate())
             {
                 callback.Invoke(record);
                 count++;
@@ -87,53 +94,60 @@ namespace OpenStory.Server.Data
         }
 
         /// <summary>
-        /// Executes the provided <see cref="SqlCommand"/> and returns the scalar result from it.
+        /// Executes the provided <see cref="IDbCommand"/> and returns the scalar result from it.
         /// </summary>
         /// <typeparam name="TResult">The type to cast the result to.</typeparam>
-        /// <param name="scalarQuery">The <see cref="SqlCommand"/> to execute.</param>
+        /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <returns> the result from the query, cast to <typeparamref name="TResult"/>. </returns>
-        public static TResult GetScalar<TResult>(SqlCommand scalarQuery)
+        public static TResult GetScalar<TResult>(this IDbCommand command)
         {
-            using (SqlConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                scalarQuery.Connection = connection;
-                connection.Open();
+                command.Connection = connection;
 
-                return (TResult)scalarQuery.ExecuteScalar();
+                connection.Open();
+                var result = command.ExecuteScalar();
+                connection.Close();
+
+                return (TResult)result;
             }
         }
 
         /// <summary>
-        /// Executes the provided <see cref="SqlCommand"/> as a non-query and returns the number of rows affected.
+        /// Executes the provided <see cref="IDbCommand"/> as a non-query and returns the number of rows affected.
         /// </summary>
-        /// <param name="nonQuery">The <see cref="SqlCommand"/> to execute as a non-query.</param>
+        /// <param name="command">The <see cref="IDbCommand"/> to execute as a non-query.</param>
         /// <returns>the number of rows affected by the <see cref="SqlCommand"/>.</returns>
-        public static int ExecuteNonQuery(SqlCommand nonQuery)
+        public static int InvokeNonQuery(this IDbCommand command)
         {
-            using (SqlConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                nonQuery.Connection = connection;
-                connection.Open();
+                command.Connection = connection;
 
-                return nonQuery.ExecuteNonQuery();
+                connection.Open();
+                int result = command.ExecuteNonQuery();
+                connection.Close();
+
+                return result;
             }
         }
 
         /// <summary>
-        /// Executes the provided <see cref="SqlCommand"/> 
+        /// Executes the provided <see cref="IDbCommand"/> 
         /// </summary>
-        /// <param name="spCommand"></param>
-        public static void ExecuteStoredProcedure(SqlCommand spCommand)
+        /// <param name="command"></param>
+        public static void InvokeStoredProcedure(this IDbCommand command)
         {
-            spCommand.CommandType = CommandType.StoredProcedure;
-            spCommand.CommandTimeout = 60;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandTimeout = 60;
 
-            using (SqlConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                spCommand.Connection = connection;
-                connection.Open();
+                command.Connection = connection;
 
-                spCommand.ExecuteNonQuery();
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }

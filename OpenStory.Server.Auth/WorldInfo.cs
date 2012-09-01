@@ -13,17 +13,6 @@ namespace OpenStory.Server.Auth
     {
         private readonly List<ChannelInfo> channels;
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="WorldInfo"/>.
-        /// </summary>
-        public WorldInfo(World world)
-        {
-            this.Id = world.WorldId;
-            this.Name = world.WorldName;
-            this.ChannelCount = world.ChannelCount;
-            this.channels = new List<ChannelInfo>(this.ChannelCount);
-        }
-
         #region IWorld Members
 
         /// <summary>
@@ -55,5 +44,16 @@ namespace OpenStory.Server.Auth
         }
 
         #endregion
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="WorldInfo"/>.
+        /// </summary>
+        public WorldInfo(World world)
+        {
+            this.Id = world.WorldId;
+            this.Name = world.WorldName;
+            this.ChannelCount = world.ChannelCount;
+            this.channels = new List<ChannelInfo>(this.ChannelCount);
+        }
     }
 }

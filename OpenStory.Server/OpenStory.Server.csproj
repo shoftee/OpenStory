@@ -66,7 +66,6 @@
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanType.cs" />
-    <Compile Include="Data\BuddyList.Engine.cs" />
     <Compile Include="Data\Character.cs" />
     <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
