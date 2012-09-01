@@ -33,7 +33,14 @@ namespace OpenStory.Server.Modules
                 throw new ArgumentNullException("manager");
             }
 
-            AddManagerEntry(typeof(TManagerBase), manager);
+            Type baseType = typeof(TManagerBase);
+            AddManagerEntry(baseType, manager);
+
+            Type actualType = manager.GetType();
+            if (baseType != actualType)
+            {
+                AddManagerEntry(actualType, manager);
+            }
         }
 
         /// <summary>

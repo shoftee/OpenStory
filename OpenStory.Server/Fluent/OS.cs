@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Modules;
 using OpenStory.Server.Modules.Default;
 
@@ -19,6 +20,15 @@ namespace OpenStory.Server.Fluent
         public static IInitializeFacade Initialize()
         {
             return new InitializeFacade();
+        }
+
+        /// <summary>
+        /// The entry point for OS extension methods.
+        /// </summary>
+        /// <returns>an instance of type <see cref="IOsExtensions"/>.</returns>
+        public static IOsExtensions Ex()
+        {
+            return new OsExtensions();
         }
 
         /// <summary>

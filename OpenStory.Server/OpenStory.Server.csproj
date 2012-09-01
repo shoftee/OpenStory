@@ -54,8 +54,10 @@
     <Compile Include="AbstractServer.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
     <Compile Include="Fluent\IInitializeManagerFacade.cs" />
-    <Compile Include="Fluent\Initialize.cs" />
-    <Compile Include="Fluent\InitializeManagerFacade.cs" />
+    <Compile Include="Fluent\Internal\InitializeFacade.cs" />
+    <Compile Include="Fluent\Internal\InitializeManagerFacade.cs" />
+    <Compile Include="Fluent\IOsExtensions.cs" />
+    <Compile Include="Fluent\Internal\OsExtensions.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />
     <Compile Include="Modules\DataManager.cs" />
     <Compile Include="Fluent\OS.cs" />

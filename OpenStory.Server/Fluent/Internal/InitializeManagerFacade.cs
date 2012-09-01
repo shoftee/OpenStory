@@ -1,8 +1,8 @@
 using OpenStory.Server.Modules;
 
-namespace OpenStory.Server.Fluent
+namespace OpenStory.Server.Fluent.Internal
 {
-    internal class InitializeManagerFacade<TManagerBase> : IInitializeManagerFacade<TManagerBase>
+    internal sealed class InitializeManagerFacade<TManagerBase> : IInitializeManagerFacade<TManagerBase>
         where TManagerBase : ManagerBase
     {
         private readonly IInitializeFacade parent;
