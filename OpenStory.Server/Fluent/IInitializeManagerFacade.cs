@@ -15,7 +15,7 @@ namespace OpenStory.Server.Fluent
         /// <typeparam name="TManager">The type to initialize.</typeparam>
         /// <param name="manager">The manager instance.</param>
         /// <returns>the facade object.</returns>
-        IInitializeManagerFacade<TManagerBase> With<TManager>(TManager manager)
+        IInitializeManagerFacade<TManagerBase> Manager<TManager>(TManager manager)
             where TManager : TManagerBase;
 
         /// <summary>
@@ -23,6 +23,6 @@ namespace OpenStory.Server.Fluent
         /// </summary>
         /// <param name="manager">The manager instance.</param>
         /// <returns>the parent facade object.</returns>
-        IInitializeFacade WithDefault(TManagerBase manager);
+        IInitializeFacade DefaultManager(TManagerBase manager);
     }
 }

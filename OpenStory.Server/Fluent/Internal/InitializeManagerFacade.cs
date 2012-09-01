@@ -13,7 +13,7 @@ namespace OpenStory.Server.Fluent.Internal
         }
 
         /// <inheritdoc />
-        public IInitializeManagerFacade<TManagerBase> With<TManager>(TManager manager)
+        public IInitializeManagerFacade<TManagerBase> Manager<TManager>(TManager manager)
             where TManager : TManagerBase
         {
             manager.Initialize();
@@ -22,13 +22,28 @@ namespace OpenStory.Server.Fluent.Internal
             return this;
         }
 
+        public IInitializeManagerComponentsFacade<TManagerBase> WithComponents<TManager>(TManager manager)
+            where TManager : TManagerBase
+        {
+            manager.Initialize();
+
+            return new InitializeManagerComponentsFacade<TManagerBase>(this, manager, false);
+        }
+
         /// <inheritdoc />
-        public IInitializeFacade WithDefault(TManagerBase manager)
+        public IInitializeFacade DefaultManager(TManagerBase manager)
         {
             manager.Initialize();
 
             ManagerBase<TManagerBase>.RegisterDefault(manager);
             return this.parent;
+        }
+
+        public IInitializeManagerComponentsFacade<TManagerBase> DefaultWithComponents(TManagerBase manager)
+        {
+            manager.Initialize();
+
+            return new InitializeManagerComponentsFacade<TManagerBase>(this, manager, true);
         }
     }
 }
