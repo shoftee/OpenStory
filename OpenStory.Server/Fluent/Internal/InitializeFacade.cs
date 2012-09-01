@@ -5,9 +5,9 @@ namespace OpenStory.Server.Fluent.Internal
     internal sealed class InitializeFacade : IInitializeFacade
     {
         /// <inheritdoc />
-        public IInitializeManagerFacade<DataManager> DataManager()
+        public IInitializeManagersFacade<DataManager> DataManagers()
         {
-            return new InitializeManagerFacade<DataManager>(this);
+            return new InitializeManagersFacade<DataManager>(this);
         }
     }
 }

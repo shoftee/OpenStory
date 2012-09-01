@@ -2,18 +2,18 @@ using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent.Internal
 {
-    internal sealed class InitializeManagerFacade<TManagerBase> : IInitializeManagerFacade<TManagerBase>
+    internal sealed class InitializeManagersFacade<TManagerBase> : IInitializeManagersFacade<TManagerBase>
         where TManagerBase : ManagerBase
     {
         private readonly IInitializeFacade parent;
 
-        public InitializeManagerFacade(IInitializeFacade parent)
+        public InitializeManagersFacade(IInitializeFacade parent)
         {
             this.parent = parent;
         }
 
         /// <inheritdoc />
-        public IInitializeManagerFacade<TManagerBase> Manager<TManager>(TManager manager)
+        public IInitializeManagersFacade<TManagerBase> Manager<TManager>(TManager manager)
             where TManager : TManagerBase
         {
             manager.Initialize();
@@ -22,6 +22,7 @@ namespace OpenStory.Server.Fluent.Internal
             return this;
         }
 
+        /// <inheritdoc />
         public IInitializeManagerComponentsFacade<TManagerBase> WithComponents<TManager>(TManager manager)
             where TManager : TManagerBase
         {
@@ -31,19 +32,26 @@ namespace OpenStory.Server.Fluent.Internal
         }
 
         /// <inheritdoc />
-        public IInitializeFacade DefaultManager(TManagerBase manager)
+        public IInitializeManagersFacade<TManagerBase> DefaultManager(TManagerBase manager)
         {
             manager.Initialize();
 
             ManagerBase<TManagerBase>.RegisterDefault(manager);
-            return this.parent;
+            return this;
         }
 
+        /// <inheritdoc />
         public IInitializeManagerComponentsFacade<TManagerBase> DefaultWithComponents(TManagerBase manager)
         {
             manager.Initialize();
 
             return new InitializeManagerComponentsFacade<TManagerBase>(this, manager, true);
+        }
+
+        /// <inheritdoc />
+        public IInitializeFacade Done()
+        {
+            return this.parent;
         }
     }
 }

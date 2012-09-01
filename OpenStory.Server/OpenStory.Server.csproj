@@ -53,11 +53,12 @@
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
-    <Compile Include="Fluent\IInitializeManagerFacade.cs" />
+    <Compile Include="Fluent\IInitializeManagersFacade.cs" />
     <Compile Include="Fluent\IInitializeManagerComponentsFacade.cs" />
+    <Compile Include="Fluent\INestedFacade.cs" />
     <Compile Include="Fluent\Internal\InitializeFacade.cs" />
     <Compile Include="Fluent\Internal\InitializeManagerComponentsFacade.cs" />
-    <Compile Include="Fluent\Internal\InitializeManagerFacade.cs" />
+    <Compile Include="Fluent\Internal\InitializeManagersFacade.cs" />
     <Compile Include="Fluent\IOsExtensions.cs" />
     <Compile Include="Fluent\Internal\OsExtensions.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />

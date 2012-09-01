@@ -1,3 +1,4 @@
+using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent
@@ -6,7 +7,7 @@ namespace OpenStory.Server.Fluent
     /// Provides initialization methods for manager components.
     /// </summary>
     /// <typeparam name="TManagerBase">The type of managers that are being initialized.</typeparam>
-    public interface IInitializeManagerComponentsFacade<TManagerBase>
+    public interface IInitializeManagerComponentsFacade<TManagerBase> : INestedFacade<IInitializeManagersFacade<TManagerBase>>
         where TManagerBase : ManagerBase
     {
         /// <summary>
@@ -16,11 +17,5 @@ namespace OpenStory.Server.Fluent
         /// <param name="instance">The instance to use for the component.</param>
         /// <returns>the component initialization facade.</returns>
         IInitializeManagerComponentsFacade<TManagerBase> Component(string name, object instance);
-
-        /// <summary>
-        /// Returns to the manager initialization facade.
-        /// </summary>
-        /// <returns>the parent facade.</returns>
-        IInitializeManagerFacade<TManagerBase> Done();
     }
 }

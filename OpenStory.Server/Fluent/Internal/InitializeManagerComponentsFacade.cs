@@ -5,24 +5,26 @@ namespace OpenStory.Server.Fluent.Internal
     internal sealed class InitializeManagerComponentsFacade<TManagerBase> : IInitializeManagerComponentsFacade<TManagerBase>
         where TManagerBase : ManagerBase
     {
-        private readonly InitializeManagerFacade<TManagerBase> parent;
+        private readonly InitializeManagersFacade<TManagerBase> parent;
         private readonly TManagerBase manager;
         private readonly bool registerDefault;
 
-        public InitializeManagerComponentsFacade(InitializeManagerFacade<TManagerBase> parent, TManagerBase manager, bool registerDefault)
+        public InitializeManagerComponentsFacade(InitializeManagersFacade<TManagerBase> parent, TManagerBase manager, bool registerDefault)
         {
             this.parent = parent;
             this.manager = manager;
             this.registerDefault = registerDefault;
         }
 
+        /// <inheritdoc />
         public IInitializeManagerComponentsFacade<TManagerBase> Component(string name, object instance)
         {
             this.manager.RegisterComponent(name, instance);
             return this;
         }
 
-        public IInitializeManagerFacade<TManagerBase> Done()
+        /// <inheritdoc />
+        public IInitializeManagersFacade<TManagerBase> Done()
         {
             if (this.registerDefault)
             {

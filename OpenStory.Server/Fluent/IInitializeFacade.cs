@@ -10,7 +10,7 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// The entry point to the <see cref="DataManager"/> initialization facade.
         /// </summary>
-        /// <returns>an instance of type <see cref="IInitializeManagerFacade{DataManager}"/>.</returns>
-        IInitializeManagerFacade<DataManager> DataManager();
+        /// <returns>an instance of type <see cref="IInitializeManagersFacade{DataManager}"/>.</returns>
+        IInitializeManagersFacade<DataManager> DataManagers();
     }
 }
