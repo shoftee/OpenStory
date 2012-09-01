@@ -17,8 +17,10 @@ namespace OpenStory.Server.Auth
         private const string ServerName = "Auth";
 
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
+        /// <inheritdoc />
         public IOpCodeTable OpCodes { get { return OpCodesInternal; } }
 
+        /// <inheritdoc />
         public override string Name { get { return ServerName; } }
 
         private readonly List<AuthClient> clients;
@@ -48,6 +50,7 @@ namespace OpenStory.Server.Auth
             return this.worlds.First(w => w.Id == worldId);
         }
 
+        /// <inheritdoc />
         public IAuthPolicy<SimpleCredentials> GetAuthPolicy()
         {
             base.ThrowIfNotRunning();
@@ -56,6 +59,7 @@ namespace OpenStory.Server.Auth
 
         #endregion
 
+        /// <inheritdoc />
         protected override void OnConnectionOpen(ServerSession serverSession)
         {
             var newClient = new AuthClient(serverSession, this);

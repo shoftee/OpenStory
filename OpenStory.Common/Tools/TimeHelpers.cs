@@ -34,7 +34,7 @@ namespace OpenStory.Common.Tools
         /// Returns a FileTime timestamp as a DateTimeOffset.
         /// </summary>
         /// <param name="fileTime">The FileTime timestamp to convert.</param>
-        /// <returns>A DateTimeOffset object equivalent to the given timestamp.</returns>
+        /// <returns>a <see cref="DateTimeOffset"/> object equivalent to the given timestamp.</returns>
         public static DateTimeOffset GetFileTimeAsUtc(long fileTime)
         {
             return DateTimeOffset.FromFileTime(fileTime);

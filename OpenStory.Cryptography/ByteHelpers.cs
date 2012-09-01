@@ -16,7 +16,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentException">Thrown if <paramref name="hex"/> is not of even length,
         /// OR, if <paramref name="hex"/> contains characters that don't correspond to hexadecimal digits.
         /// </exception>
-        /// <returns>The resulting byte array.</returns>
+        /// <returns>the resulting byte array.</returns>
         public static byte[] ToByte(this string hex)
         {
             if (hex == null) throw new ArgumentNullException("hex");
@@ -56,7 +56,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="array">The byte array to translate to hexadecimal characters.</param>
         /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
-        /// <returns>The byte array as a hex-digit string.</returns>
+        /// <returns>the byte array as a hex-digit string.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
         public static string ToHex(this byte[] array, bool lowercase = false)
         {
@@ -78,7 +78,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is <c>null</c>.
         /// </exception>
-        /// <returns>The new array.</returns>
+        /// <returns>the new array.</returns>
         public static byte[] FastClone(this byte[] array)
         {
             if (array == null)
@@ -104,7 +104,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="start"/> is negative or outside the range of the array, 
         /// or if <paramref name="length"/> is negative or the segment ends outside the array's bounds.</exception>
-        /// <returns>A copy of the segment.</returns>
+        /// <returns>a copy of the segment.</returns>
         public static byte[] Segment(this byte[] array, int start, int length)
         {
             if (array == null) throw new ArgumentNullException("array");

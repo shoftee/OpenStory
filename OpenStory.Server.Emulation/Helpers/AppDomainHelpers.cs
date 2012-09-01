@@ -23,7 +23,7 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="appDomain"/> or <paramref name="module"/> is <c>null</c>.
         /// </exception>
-        /// <returns>The new thread.</returns>
+        /// <returns>the new thread.</returns>
         public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module)
         {
             if (appDomain == null) throw new ArgumentNullException("appDomain"); 
@@ -42,7 +42,7 @@ namespace OpenStory.Server.Emulation.Helpers
         /// Gets a new AppDomain with the security priviledges of the caller and the default AppDomainSetup.
         /// </summary>
         /// <param name="friendlyName">The friendly name for the new AppDomain.</param>
-        /// <returns>The new AppDomain object.</returns>
+        /// <returns>the new AppDomain object.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="friendlyName" /> is <c>null</c> or empty.</exception>
         public static AppDomain GetNewDomain(string friendlyName)
         {

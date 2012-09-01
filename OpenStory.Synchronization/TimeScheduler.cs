@@ -26,7 +26,7 @@ namespace OpenStory.Synchronization
         /// </summary>
         /// <param name="action">The action to schedule.</param>
         /// <param name="timeSpan">The time to wait before exection.</param>
-        /// <returns>A <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
+        /// <returns>a <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
         public CancellationTokenSource ExecuteAfter(Action action, TimeSpan timeSpan)
         {
             return this.InsertTask(action, DateTime.Now + timeSpan);
@@ -37,7 +37,7 @@ namespace OpenStory.Synchronization
         /// </summary>
         /// <param name="action">The action to schedule.</param>
         /// <param name="timeSpan">The time to wait between executions.</param>
-        /// <returns>A <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
+        /// <returns>a <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
         public CancellationTokenSource ExecuteEvery(Action action, TimeSpan timeSpan)
         {
             ScheduledTask task = this.GetRepeatingTask(action, timeSpan);

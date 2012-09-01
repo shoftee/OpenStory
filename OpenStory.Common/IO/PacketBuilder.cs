@@ -231,7 +231,7 @@ namespace OpenStory.Common.IO
         /// Gets a copy of the internal byte buffer of the PacketBuilder.
         /// </summary>
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        /// <returns>The copy of the byte buffer.</returns>
+        /// <returns>the copy of the byte buffer.</returns>
         public byte[] ToByteArray()
         {
             byte[] buffer = this.stream.GetBuffer();

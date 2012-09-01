@@ -11,7 +11,7 @@ namespace OpenStory.Synchronization
         /// </summary>
         /// <typeparam name="T">The type of the object to wrap.</typeparam>
         /// <param name="obj">The object to wrap.</param>
-        /// <returns>A <see cref="ISynchronized{T}"/> wrapper around <paramref name="obj"/>.</returns>
+        /// <returns>a <see cref="ISynchronized{T}"/> wrapper around <paramref name="obj"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is <c>null</c>.</exception>
         public static ISynchronized<T> Synchronize<T>(T obj)
             where T : class

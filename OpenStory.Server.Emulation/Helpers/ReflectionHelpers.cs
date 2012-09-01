@@ -16,7 +16,7 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <typeparam name="TAttribute">The type of the attribute to look for.</typeparam>
         /// <param name="memberInfo">The <see cref="MemberInfo"/> to inspect.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="memberInfo" /> is <c>null</c>.</exception>
-        /// <returns>The attribute if there is one, otherwise null.</returns>
+        /// <returns>the attribute if there is one, otherwise null.</returns>
         public static TAttribute GetAttribute<TAttribute>(MemberInfo memberInfo)
             where TAttribute : Attribute
         {
@@ -51,7 +51,7 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="method" /> is <c>null</c>.
         /// </exception>
-        /// <returns>The result from the invocation of <paramref name="method"/>.</returns>
+        /// <returns>the result from the invocation of <paramref name="method"/>.</returns>
         public static TResult InvokeStaticFunc<TResult>(MethodBase method)
         {
             if (method == null) throw new ArgumentNullException("method");

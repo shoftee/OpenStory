@@ -50,7 +50,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="packetData"/> is <c>null</c>.
         /// </exception>
-        /// <returns>An array with the encrypted packet and its header.</returns>
+        /// <returns>an array with the encrypted packet and its header.</returns>
         public byte[] EncryptAndPack(byte[] packetData)
         {
             if (packetData == null) throw new ArgumentNullException("packetData");

@@ -55,7 +55,7 @@ namespace OpenStory.Common.Game
         /// Gets the key binding for a key.
         /// </summary>
         /// <param name="keyId">The key to query the key binding of.</param>
-        /// <returns>A KeyBinding object representing the binding for the key.</returns>
+        /// <returns>a <see cref="KeyBinding"/> object representing the binding for the key.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="keyId"/> is greater than <see cref="GameConstants.KeyCount"/>.
         /// </exception>

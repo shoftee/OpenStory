@@ -24,7 +24,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="str">The string to hash.</param>
         /// <param name="lowercase">Whether to return lowercase hex digits or not. Default value is <c>false</c>.</param>
-        /// <returns>A string </returns>
+        /// <returns>the MD5 hash of the provided string.</returns>
         public static string GetMd5HashString(string str, bool lowercase = false)
         {
             byte[] strBytes = Encoding.UTF7.GetBytes(str);
@@ -37,7 +37,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="password">The password string to encrypt.</param>
         /// <param name="parameters">The parameters to use for the encryption.</param>
-        /// <returns>The encrypted string.</returns>
+        /// <returns>the encrypted string.</returns>
         public static string RsaEncryptPassword(string password, RSAParameters parameters)
         {
             RSA rsa = GetRsaWithParameters(parameters);

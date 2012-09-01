@@ -132,7 +132,7 @@ namespace OpenStory.Synchronization
             /// <summary>
             /// Polls all <see cref="ScheduledTask">ScheduledTask</see> objects which are due for exectution, and removes them from the front of the timeline.
             /// </summary>
-            /// <returns>A list of all scheduled tasks which are due for exectuion.</returns>
+            /// <returns>a list of all scheduled tasks which are due for exectuion.</returns>
             public IEnumerable<ScheduledTask> GetAllDue()
             {
                 var tasks = new List<ScheduledTask>();

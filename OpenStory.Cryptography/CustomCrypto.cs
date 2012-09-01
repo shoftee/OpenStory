@@ -169,7 +169,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="b">The byte to roll left.</param>
         /// <param name="count">The number of bit positions to roll.</param>
-        /// <returns>The resulting byte.</returns>
+        /// <returns>the resulting byte.</returns>
         private static byte RollLeft(byte b, int count)
         {
             int tmp = b << (count & 7);
@@ -181,7 +181,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="b">The byte to roll right.</param>
         /// <param name="count">The number of bit positions to roll.</param>
-        /// <returns>The resulting byte.</returns>
+        /// <returns>the resulting byte.</returns>
         private static byte RollRight(byte b, int count)
         {
             int tmp = b << (8 - (count & 7));
