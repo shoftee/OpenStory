@@ -33,7 +33,7 @@ namespace OpenStory.Server.Data
         public static bool InvokeForSingle(this IDbCommand command, Action<IDataRecord> callback)
         {
             // I actually feel quite awesome about this method, it saves me a lot of writing.
-            using (var connection = GetConnectionDefault())
+            using (var connection = GetConnection())
             {
                 command.Connection = connection;
 
@@ -65,7 +65,7 @@ namespace OpenStory.Server.Data
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
         public static IEnumerable<IDataRecord> Enumerate(this IDbCommand command, CommandBehavior commandBehavior = CommandBehavior.Default)
         {
-            using (var connection = GetConnectionDefault())
+            using (var connection = GetConnection())
             {
                 command.Connection = connection;
 
@@ -106,7 +106,7 @@ namespace OpenStory.Server.Data
         /// <returns> the result from the query, cast to <typeparamref name="TResult"/>. </returns>
         public static TResult GetScalar<TResult>(this IDbCommand command)
         {
-            using (var connection = GetConnectionDefault())
+            using (var connection = GetConnection())
             {
                 command.Connection = connection;
 
@@ -125,7 +125,7 @@ namespace OpenStory.Server.Data
         /// <returns>the number of rows affected by the <see cref="SqlCommand"/>.</returns>
         public static int InvokeNonQuery(this IDbCommand command)
         {
-            using (var connection = GetConnectionDefault())
+            using (var connection = GetConnection())
             {
                 command.Connection = connection;
 
@@ -146,7 +146,7 @@ namespace OpenStory.Server.Data
             command.CommandType = CommandType.StoredProcedure;
             command.CommandTimeout = 60;
 
-            using (var connection = GetConnectionDefault())
+            using (var connection = GetConnection())
             {
                 command.Connection = connection;
 
