@@ -2,8 +2,8 @@ using System;
 using OpenStory.Common.Auth;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
-using OpenStory.Server.Bootstrap;
 using OpenStory.Server.Data;
+using OpenStory.Server.Fluent;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
@@ -19,7 +19,7 @@ namespace OpenStory.Server.Auth
         public AuthenticationResult Authenticate(SimpleCredentials credentials, out IAccountSession session)
         {
             string accountName = credentials.AccountName;
-            Account account = OS.Data.Accounts.LoadByUserName(accountName);
+            Account account = OS.Data().Accounts.LoadByUserName(accountName);
             if (account == null)
             {
                 return MiscTools.FailWithResult(out session, AuthenticationResult.NotRegistered);

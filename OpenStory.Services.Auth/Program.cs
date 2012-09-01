@@ -2,6 +2,8 @@
 using System.Threading;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Auth;
+using OpenStory.Server.Fluent;
+using OpenStory.Server.Modules.Default;
 
 namespace OpenStory.Services.Auth
 {
@@ -9,6 +11,9 @@ namespace OpenStory.Services.Auth
     {
         private static void Main()
         {
+            OS.Initialize()
+                .DataManager().WithDefault(new DefaultDataManager());
+
             Console.Title = "OpenStory - Authentication Service";
 
             var authServer = new AuthServer();

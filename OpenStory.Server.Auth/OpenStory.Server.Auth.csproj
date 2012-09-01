@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\OpenStory.Server.Auth.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +33,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\OpenStory.Server.Auth.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -53,11 +57,11 @@
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="Data\AuthCharacter.cs" />
+    <Compile Include="Data\AuthDataManager.cs" />
     <Compile Include="Data\CharacterCreateResult.cs" />
     <Compile Include="Data\Providers\ICharacterDataProvider.cs" />
     <Compile Include="Data\Providers\IWorldDataProvider.cs" />
     <Compile Include="Data\World.cs" />
-    <Compile Include="Data\World.Engine.cs" />
     <Compile Include="IAuthPolicy.cs" />
     <Compile Include="IAuthServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

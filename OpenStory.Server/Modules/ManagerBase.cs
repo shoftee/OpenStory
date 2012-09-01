@@ -35,10 +35,23 @@ namespace OpenStory.Server.Modules
         /// </summary>
         public void Initialize()
         {
+            ThrowIfInitialized();
+
+            this.OnInitializing();
             InitializeAndThrowOnError();
 
             this.isInitialized = true;
             this.OnInitialized();
+        }
+
+        /// <summary>
+        /// A hook to the start of the <see cref="Initialize()"/> method.
+        /// </summary>
+        /// <remarks>
+        /// When overriding, call the method of the base class after your logic.
+        /// </remarks>
+        protected virtual void OnInitializing()
+        {
         }
 
         /// <summary>

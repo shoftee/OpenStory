@@ -28,15 +28,12 @@ namespace OpenStory.Server.Modules
         /// <param name="manager">The manager object to use as a default.</param>
         public void RegisterDefault(TManagerBase manager)
         {
-            Type type = typeof(TManagerBase);
-            if (this.managers.ContainsKey(type))
+            if (manager == null)
             {
-                this.managers[type] = manager;
+                throw new ArgumentNullException("manager");
             }
-            else
-            {
-                this.managers.Add(type, manager);
-            }
+
+            AddManagerEntry(typeof(TManagerBase), manager);
         }
 
         /// <summary>
@@ -52,7 +49,7 @@ namespace OpenStory.Server.Modules
                 throw new ArgumentNullException("manager");
             }
 
-            this.managers.Add(typeof(TManager), manager);
+            AddManagerEntry(typeof(TManager), manager);
         }
 
         /// <summary>
@@ -74,6 +71,16 @@ namespace OpenStory.Server.Modules
             }
         }
 
-
+        private void AddManagerEntry(Type type, TManagerBase manager)
+        {
+            if (this.managers.ContainsKey(type))
+            {
+                this.managers[type] = manager;
+            }
+            else
+            {
+                this.managers.Add(type, manager);
+            }
+        }
     }
 }

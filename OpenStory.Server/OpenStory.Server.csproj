@@ -52,9 +52,13 @@
   <ItemGroup>
     <Compile Include="AbstractClient.cs" />
     <Compile Include="AbstractServer.cs" />
+    <Compile Include="Fluent\IInitializeFacade.cs" />
+    <Compile Include="Fluent\IInitializeManagerFacade.cs" />
+    <Compile Include="Fluent\Initialize.cs" />
+    <Compile Include="Fluent\InitializeManagerFacade.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />
     <Compile Include="Modules\DataManager.cs" />
-    <Compile Include="Bootstrap\OS.cs" />
+    <Compile Include="Fluent\OS.cs" />
     <Compile Include="Modules\ManagerBase.Typed.cs" />
     <Compile Include="Modules\ManagerBase.cs" />
     <Compile Include="Data\Account.cs" />
