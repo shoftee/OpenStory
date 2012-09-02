@@ -9,87 +9,12 @@ namespace OpenStory.Synchronization
     /// </summary>
     internal partial class TimeScheduler
     {
-        #region Nested type: ScheduledTask
-
-        /// <summary>
-        /// Represents a cancellable scheduled task.
-        /// </summary>
-        private class ScheduledTask : IDisposable
-        {
-            private readonly Action action;
-            private readonly CancellationToken token;
-
-            private readonly bool isDisposed;
-
-            /// <summary>
-            /// Gets the <see cref="CancellationTokenSource"/> object for this task.
-            /// </summary>
-            public CancellationTokenSource CancellationTokenSource { get; private set; }
-
-            /// <summary>
-            /// The time at which this task is scheduled to execute.
-            /// </summary>
-            public DateTime ScheduledTime { get; private set; }
-
-            /// <summary>
-            /// Gets the timestamp for when the task was cancelled.
-            /// </summary>
-            public DateTime? TimeCancelled { get; private set; }
-
-            /// <summary>
-            /// Initializes a new <see cref="ScheduledTask"/>, with the given action, at the given scheduled time, and with the given <see cref="CancellationToken" />.
-            /// </summary>
-            /// <param name="action">The action to schedule for execution.</param>
-            /// <param name="scheduledTime">The time to execute the action at.</param>
-            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <c>null</c>.</exception>
-            public ScheduledTask(Action action, DateTime scheduledTime)
-            {
-                if (action == null)
-                {
-                    throw new ArgumentNullException("action");
-                }
-
-                this.action = action;
-                this.ScheduledTime = scheduledTime;
-                this.TimeCancelled = null;
-
-                this.CancellationTokenSource = new CancellationTokenSource();
-                this.token = this.CancellationTokenSource.Token;
-                this.token.Register(() => { this.TimeCancelled = DateTime.Now; });
-
-                isDisposed = false;
-            }
-
-            #region IDisposable Members
-
-            /// <inheritdoc />
-            public void Dispose()
-            {
-                if (isDisposed)
-                {
-                    return;
-                }
-
-                this.CancellationTokenSource.Dispose();
-                GC.SuppressFinalize(this);
-            }
-
-            #endregion
-
-            public void Execute()
-            {
-                this.action.Invoke();
-            }
-        }
-
-        #endregion
-
         #region Nested type: Timeline
 
         /// <summary>
         /// Represents a one-way chronological list of <see cref="ScheduledTask">ScheduledTask</see> objects.
         /// </summary>
-        private class Timeline
+        private sealed class Timeline
         {
             private TimelineNode front;
 
@@ -113,7 +38,8 @@ namespace OpenStory.Synchronization
                 {
                     throw new ArgumentNullException("task");
                 }
-                if (task.TimeCancelled.HasValue)
+
+                if (task.Cancellation.IsCancellationRequested)
                 {
                     throw new InvalidOperationException("Cannot add a task that is already cancelled.");
                 }
@@ -162,15 +88,6 @@ namespace OpenStory.Synchronization
 
             private static void AddAfter(TimelineNode node, TimelineNode newNode)
             {
-                if (node == null)
-                {
-                    throw new ArgumentNullException("node");
-                }
-                if (newNode == null)
-                {
-                    throw new ArgumentNullException("newNode");
-                }
-
                 if (node.Next != null)
                 {
                     newNode.Next = node.Next;
@@ -186,6 +103,16 @@ namespace OpenStory.Synchronization
             private class TimelineNode
             {
                 /// <summary>
+                /// The task for this TimelineNode.
+                /// </summary>
+                public ScheduledTask Task { get; private set; }
+
+                /// <summary>
+                /// A reference to the next TimelineNode in the Timeline.
+                /// </summary>
+                public TimelineNode Next { get; set; }
+                
+                /// <summary>
                 /// Initializes a new instance of the TimelineNode class, with the given scheduled task.
                 /// </summary>
                 /// <param name="task">The task for this TimelineNode.</param>
@@ -195,16 +122,6 @@ namespace OpenStory.Synchronization
                     this.Task = task;
                     this.Next = next;
                 }
-
-                /// <summary>
-                /// The task for this TimelineNode.
-                /// </summary>
-                public ScheduledTask Task { get; private set; }
-
-                /// <summary>
-                /// A reference to the next TimelineNode in the Timeline.
-                /// </summary>
-                public TimelineNode Next { get; set; }
             }
 
             #endregion

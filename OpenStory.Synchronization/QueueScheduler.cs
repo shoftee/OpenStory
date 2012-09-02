@@ -8,7 +8,7 @@ namespace OpenStory.Synchronization
     /// <summary>
     /// A simple thread-safe queue-based <see cref="IScheduler"/> implementation.
     /// </summary>
-    internal class QueueScheduler : IScheduler
+    internal sealed class QueueScheduler : IScheduler
     {
         private readonly AtomicBoolean isWorking;
         private readonly ConcurrentQueue<Task> tasks;
