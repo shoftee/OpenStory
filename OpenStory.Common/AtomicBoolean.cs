@@ -87,9 +87,9 @@ namespace OpenStory.Common
         /// Extracts a <see cref="System.Boolean"/> from an <see cref="AtomicBoolean"/> instance.
         /// </summary>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
-        public int ToBoolean()
+        public bool ToBoolean()
         {
-            return this.value;
+            return this.Value;
         }
 
         /// <summary>
