@@ -6,7 +6,7 @@ namespace OpenStory.Server
     /// Holds location information for a player.
     /// </summary>
     [Serializable]
-    public class PlayerLocation : IEquatable<PlayerLocation>
+    public sealed class PlayerLocation : IEquatable<PlayerLocation>
     {
         /// <summary>
         /// Gets the ID of the channel the player is currently in.
@@ -30,11 +30,11 @@ namespace OpenStory.Server
         {
             if (channelId < 0)
             {
-                throw new ArgumentOutOfRangeException("channelId", "'channelId' must be a non-negative integer.");
+                throw new ArgumentOutOfRangeException("channelId", channelId, "'channelId' must be a non-negative integer.");
             }
             if (mapId < 0)
             {
-                throw new ArgumentOutOfRangeException("mapId", "'mapId' must be a non-negative integer.");
+                throw new ArgumentOutOfRangeException("mapId", mapId, "'mapId' must be a non-negative integer.");
             }
 
             this.ChannelId = channelId;

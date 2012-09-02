@@ -24,6 +24,7 @@ namespace OpenStory.Server.Diagnostics
             base.RequireComponent(LoggerKey, typeof(ILogger));
         }
 
+        /// <inheritdoc />
         protected override void OnInitializing()
         {
             // If there is no internal logger registered at this point, register the default one.
@@ -35,6 +36,7 @@ namespace OpenStory.Server.Diagnostics
             base.OnInitializing();
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized()
         {
             base.OnInitialized();

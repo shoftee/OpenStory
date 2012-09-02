@@ -19,39 +19,8 @@ namespace OpenStory.Common.IO
     [Serializable]
     public sealed class ArraySegmentException : ArgumentException
     {
-        private const string LengthFormat =
-            "The array segment starting at {0} with length {1} does not fit into the array's bounds.";
-
-        private const string BoundsFormat = "The array segment [{0},{1}] does not fit into the array's bounds.";
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="ArraySegmentException"/> 
-        /// class with no error message.
-        /// </summary>
-        public ArraySegmentException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArraySegmentException"/> 
-        /// class with a specified error message.
-        /// </summary>
-        /// <param name="message">The error message for this exception.</param>
-        public ArraySegmentException(string message)
+        private ArraySegmentException(string message)
             : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArraySegmentException"/>
-        /// class with a specified error message and a reference
-        /// to the exception that is the cause of this exception.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="innerException"></param>
-        public ArraySegmentException(string message, Exception innerException)
-            : base(message, innerException)
         {
         }
 
@@ -69,6 +38,9 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
+            const string LengthFormat =
+                "The array segment starting at {0} with length {1} does not fit into the array's bounds.";
+
             string formatted = String.Format(CultureInfo.InvariantCulture, LengthFormat, startOffset, length);
             return new ArraySegmentException(formatted);
         }
@@ -82,6 +54,9 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndEnd(int startOffset, int endOffset)
         {
+            const string BoundsFormat =
+                "The array segment [{0},{1}] does not fit into the array's bounds.";
+
             string formatted = String.Format(CultureInfo.InvariantCulture, BoundsFormat, startOffset, endOffset);
             return new ArraySegmentException(formatted);
         }
