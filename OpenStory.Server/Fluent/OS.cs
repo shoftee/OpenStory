@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Modules;
 using OpenStory.Server.Modules.Default;
@@ -49,6 +50,15 @@ namespace OpenStory.Server.Fluent
         public static DataManager Data()
         {
             return DataManager.GetManager();
+        }
+
+        /// <summary>
+        /// Retrieves the default <see cref="LogManager"/> instance.
+        /// </summary>
+        /// <returns>an instance of <see cref="LogManager"/>, or <c>null</c> if there was no registered default.</returns>
+        public static LogManager Log()
+        {
+            return LogManager.GetManager();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server
 {
@@ -48,7 +49,7 @@ namespace OpenStory.Server
             this.ThrowIfRunning();
             this.IsRunning = true;
 
-            Log.WriteInfo("Listening on port {1}.", this.Name, this.acceptor.Port);
+            OS.Log().Info("Listening on port {1}.", this.Name, this.acceptor.Port);
             this.acceptor.Start();
         }
 
@@ -59,7 +60,7 @@ namespace OpenStory.Server
         {
             this.ThrowIfNotRunning();
 
-            Log.WriteInfo("Shutting down...", this.Name);
+            OS.Log().Info("Shutting down...", this.Name);
 
             this.acceptor.Stop();
             this.IsRunning = false;
@@ -86,7 +87,7 @@ namespace OpenStory.Server
             serverSession.AttachSocket(socket);
             this.OnConnectionOpen(serverSession);
 
-            Log.WriteInfo("Session {0} started : CIV {1} SIV {2}.", serverSession.NetworkSessionId,
+            OS.Log().Info("Session {0} started : CIV {1} SIV {2}.", serverSession.NetworkSessionId,
                           BitConverter.ToString(clientIv), BitConverter.ToString(serverIv));
 
             serverSession.Start(this.ivFactory, clientIv, serverIv);
@@ -97,7 +98,7 @@ namespace OpenStory.Server
         {
             var serverSession = (ServerSession)sender;
 
-            Log.WriteInfo("Connection {0} closed.", serverSession.NetworkSessionId);
+            OS.Log().Info("Connection {0} closed.", serverSession.NetworkSessionId);
         }
 
         /// <summary>

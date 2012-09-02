@@ -171,6 +171,28 @@ namespace OpenStory.Server.Modules
         }
 
         /// <summary>
+        /// Checks if a component instance is registered for the specified name.
+        /// </summary>
+        /// <param name="name">The name of the component slot to check.</param>
+        /// <returns><c>true</c> if there is an instance registered; otherwise, <c>false</c>.</returns>
+        protected bool CheckComponent(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+
+            if (!this.types.ContainsKey(name))
+            {
+                throw GetUnknownComponentNameException(name);
+            }
+
+            bool isPresent = this.instances[name] != null;
+            return isPresent;
+
+        }
+
+        /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> if the instance is not initialized.
         /// </summary>
         protected void ThrowIfNotInitialized()

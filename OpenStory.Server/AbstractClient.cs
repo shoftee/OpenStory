@@ -2,8 +2,8 @@
 using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
 using OpenStory.Networking;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server
 {
@@ -80,7 +80,7 @@ namespace OpenStory.Server
 
         private void HandlePing(object sender, ElapsedEventArgs e)
         {
-            Log.WriteInfo("PING {0}", this.sentPings.Value);
+            OS.Log().Info("PING {0}", this.sentPings.Value);
             if (this.sentPings.Increment() > PingsAllowed)
             {
                 this.Disconnect();

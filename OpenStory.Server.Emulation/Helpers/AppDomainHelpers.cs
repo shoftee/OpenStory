@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading;
 using OpenStory.Common.Tools;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Emulation.Helpers
 {
@@ -77,7 +78,7 @@ namespace OpenStory.Server.Emulation.Helpers
                 return;
             }
 
-            Log.WriteInfo("[{0}] Domain unloaded.", domain.FriendlyName);
+            OS.Log().Info("[{0}] Domain unloaded.", domain.FriendlyName);
         }
 
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
@@ -90,14 +91,13 @@ namespace OpenStory.Server.Emulation.Helpers
 
             if (!args.IsTerminating)
             {
-                Log.WriteInfo("[{0}] Unhandled exception: {1}", domain.FriendlyName, args.ExceptionObject.ToString());
+                OS.Log().Info("[{0}] Unhandled exception: {1}", domain.FriendlyName, args.ExceptionObject.ToString());
             }
             else
             {
-                Log.WriteError("[{0}] Fatal unhandled exception: {1} ", domain.FriendlyName,
+                OS.Log().Error("[{0}] Fatal unhandled exception: {1} ", domain.FriendlyName,
                                args.ExceptionObject.ToString());
-                Log.WriteError("The process will now terminate.");
-                Console.ReadLine();
+                OS.Log().Error("The process will now terminate.");
             }
         }
     }

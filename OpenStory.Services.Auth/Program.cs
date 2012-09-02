@@ -19,7 +19,7 @@ namespace OpenStory.Services.Auth
             var authServer = new AuthServer();
 
             ServiceHelpers.OpenServiceHost(authServer, ServiceConstants.Uris.AuthService);
-            Log.WriteInfo("Service registered.");
+            OS.Log().Info("Service registered.");
 
             authServer.Start();
 

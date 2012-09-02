@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using OpenStory.Common.Tools;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Services.Account
 {
@@ -13,7 +14,7 @@ namespace OpenStory.Services.Account
             var accountService = new AccountService();
 
             ServiceHelpers.OpenServiceHost(accountService, ServiceConstants.Uris.AccountService);
-            Log.WriteInfo("Service registered.");
+            OS.Log().Info("Service registered.");
 
             Thread.Sleep(Timeout.Infinite);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Emulation.Helpers;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Emulation
 {
@@ -38,7 +39,7 @@ namespace OpenStory.Server.Emulation
 
             foreach (var group in initializationList)
             {
-                Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof(InitializationStage), group.Key));
+                OS.Log().Info("Initialization stage: {0}", Enum.GetName(typeof(InitializationStage), group.Key));
 
                 var query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
@@ -47,7 +48,7 @@ namespace OpenStory.Server.Emulation
                     continue;
                 }
 
-                Log.WriteError("Initialization failed, an initialization method returned 'false'.");
+                OS.Log().Error("Initialization failed, an initialization method returned 'false'.");
                 return false;
             }
             return true;

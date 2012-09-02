@@ -3,6 +3,7 @@ using OpenStory.Common.Auth;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
+using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Auth
 {
@@ -67,7 +68,7 @@ namespace OpenStory.Server.Auth
             string label;
             if (!this.server.OpCodes.TryGetIncomingLabel(opCode, out label))
             {
-                Log.WriteWarning("Unknown Op Code 0x{0:X} - {1}", opCode,
+                OS.Log().Warning("Unknown Op Code 0x{0:X} - {1}", opCode,
                                  reader.ReadFully().ToHex());
                 return;
             }
