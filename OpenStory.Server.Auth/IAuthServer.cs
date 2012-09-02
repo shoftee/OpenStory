@@ -17,7 +17,7 @@ namespace OpenStory.Server.Auth
         /// Gets a <see cref="IWorld"/> instance by the World's ID.
         /// </summary>
         /// <param name="worldId">The ID of the world.</param>
-        /// <returns>An <see cref="IWorld"/> object which represents the world with the given ID.</returns>
+        /// <returns>an <see cref="IWorld"/> object which represents the world with the given ID.</returns>
         IWorld GetWorldById(int worldId);
 
         /// <summary>

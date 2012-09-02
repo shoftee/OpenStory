@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation
@@ -11,20 +13,11 @@ namespace OpenStory.Server.Emulation
 
     internal class OpenStoryModule
     {
-        public AssemblyName AssemblyName { get; private set; }
+        public string AssemblyPath { get; private set; }
 
-        private readonly ReadOnlyCollection<string> arguments;
-
-        public string[] Arguments
+        public OpenStoryModule(string assemblyPath)
         {
-            get { return arguments.ToArray(); }
-        }
-
-        public OpenStoryModule(AssemblyName assemblyName, params string[] args)
-        {
-            this.AssemblyName = assemblyName;
-
-            this.arguments = args.ToReadOnly();
+            this.AssemblyPath = assemblyPath;
         }
     }
 }

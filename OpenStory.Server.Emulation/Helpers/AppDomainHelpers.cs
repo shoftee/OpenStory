@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading;
@@ -20,11 +21,12 @@ namespace OpenStory.Server.Emulation.Helpers
         /// </summary>
         /// <param name="appDomain">The AppDomain instance to execute an assembly in.</param>
         /// <param name="module">The <see cref="OpenStoryModule"/> instance to launch.</param>
+        /// <param name="parameters">The <see cref="ParameterList"/> to pass to the executed assembly.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="appDomain"/> or <paramref name="module"/> is <c>null</c>.
         /// </exception>
         /// <returns>the new thread.</returns>
-        public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module)
+        public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module, ParameterList parameters)
         {
             if (appDomain == null)
             {
@@ -36,7 +38,7 @@ namespace OpenStory.Server.Emulation.Helpers
             }
 
             ThreadStart threadStart =
-                () => appDomain.ExecuteAssemblyByName(module.AssemblyName, module.Arguments.ToArray());
+                () => appDomain.ExecuteAssembly(module.AssemblyPath, parameters.ToArgumentList());
             var thread = new Thread(threadStart)
                 {
                     IsBackground = false,

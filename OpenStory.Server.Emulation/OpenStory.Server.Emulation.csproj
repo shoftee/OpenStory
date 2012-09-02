@@ -68,6 +68,7 @@
     <Compile Include="Helpers\ReflectionHelpers.cs" />
     <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="Launcher.cs" />
+    <Compile Include="ParameterList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerModuleAttribute.cs" />
