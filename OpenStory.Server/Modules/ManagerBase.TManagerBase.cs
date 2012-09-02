@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenStory.Server.Modules
+﻿namespace OpenStory.Server.Modules
 {
     /// <summary>
     /// Represents a strongly-typed manager class, which allows manager registration.

@@ -1,48 +1,16 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Registry
 {
-    interface IPlayerGroup
-    {
-        /// <summary>
-        /// Gets the 32-bit identifier for the group.
-        /// </summary>
-        /// <remarks>
-        /// This identifier need not be unique across all group types.
-        /// </remarks>
-        int Id { get; }
-    }
-
-    /// <summary>
-    /// Provides properties and methods for registration and notification of player groups.
-    /// </summary>
-    /// <typeparam name="TUpdateInfo">The type that will be used for notification information.</typeparam>
-    interface IPlayerGroup<in TUpdateInfo> : IPlayerGroup
-    {
-        /// <summary>
-        /// Processes an update to the group state.
-        /// </summary>
-        /// <param name="updateInfo">The object containing the update information.</param>
-        void Update(TUpdateInfo updateInfo);
-    }
-
     /// <summary>
     /// Represents an abstract player group.
     /// </summary>
     /// <typeparam name="TGroupMember">The type that will be used for this group's members.</typeparam>
     /// <typeparam name="TUpdateInfo">The type that will be used for notification information.</typeparam>
-    abstract class PlayerGroup<TGroupMember, TUpdateInfo> : IPlayerGroup<TUpdateInfo>
+    public abstract class PlayerGroup<TGroupMember, TUpdateInfo> : IPlayerGroup<TUpdateInfo>
         where TGroupMember : IEquatable<TGroupMember>
     {
-        /// <summary>
-        /// Gets a HashSet of the members of this player group.
-        /// </summary>
-        protected HashSet<TGroupMember> Members { get; private set; }
-
-        /// <inheritdoc />
-        public int Id { get; private set; }
-
         /// <summary>
         /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier.
         /// </summary>
@@ -65,6 +33,21 @@ namespace OpenStory.Server
         }
 
         /// <summary>
+        /// Gets a HashSet of the members of this player group.
+        /// </summary>
+        protected HashSet<TGroupMember> Members { get; private set; }
+
+        #region IPlayerGroup<TUpdateInfo> Members
+
+        /// <inheritdoc />
+        public int Id { get; private set; }
+
+        /// <inheritdoc />
+        public abstract void Update(TUpdateInfo updateInfo);
+
+        #endregion
+
+        /// <summary>
         /// Adds a new member to the instance.
         /// </summary>
         /// <param name="member">The new member to add.</param>
@@ -83,8 +66,5 @@ namespace OpenStory.Server
         {
             return this.Members.Remove(member);
         }
-
-        /// <inheritdoc />
-        public abstract void Update(TUpdateInfo updateInfo);
     }
 }

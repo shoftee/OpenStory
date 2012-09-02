@@ -61,10 +61,11 @@
     <Compile Include="Fluent\Internal\InitializeManagersFacade.cs" />
     <Compile Include="Fluent\IOsExtensions.cs" />
     <Compile Include="Fluent\Internal\OsExtensions.cs" />
+    <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />
     <Compile Include="Modules\DataManager.cs" />
     <Compile Include="Fluent\OS.cs" />
-    <Compile Include="Modules\ManagerBase.Typed.cs" />
+    <Compile Include="Modules\ManagerBase.TManagerBase.cs" />
     <Compile Include="Modules\ManagerBase.cs" />
     <Compile Include="Data\Account.cs" />
     <Compile Include="Data\AccountStatus.cs" />
@@ -81,11 +82,12 @@
     <Compile Include="IAccountSession.cs" />
     <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
-    <Compile Include="IPlayerGroup.cs" />
+    <Compile Include="Registry\IPlayerGroup.cs" />
     <Compile Include="IvFactories.cs" />
     <Compile Include="IWorldChannel.cs" />
-    <Compile Include="LocationRegistry.cs" />
+    <Compile Include="Registry\LocationRegistry.cs" />
     <Compile Include="Modules\ManagerStore.cs" />
+    <Compile Include="Registry\PlayerGroup.cs" />
     <Compile Include="PlayerLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
