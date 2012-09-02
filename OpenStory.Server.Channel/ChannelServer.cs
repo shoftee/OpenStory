@@ -21,7 +21,11 @@ namespace OpenStory.Server.Channel
 
         public void BroadcastToWorld(int sourceId, IEnumerable<int> targetIds, byte[] data)
         {
-            this.BroadcastToWorld(targetIds.Where(i => i != sourceId), data);
+            var ids = from id in targetIds
+                      where id != sourceId
+                      select id;
+
+            this.BroadcastToWorld(ids, data);
         }
 
         private void BroadcastToWorld(IEnumerable<int> targetIds, byte[] data)
@@ -42,10 +46,11 @@ namespace OpenStory.Server.Channel
         /// <param name="data"></param>
         public void BroadcastIntoChannel(IEnumerable<int> targetIds, byte[] data)
         {
-            var playerTargets =
-                targetIds
-                    .Select(id => this.players.GetById(id))
-                    .Where(player => player != null);
+            var playerTargets = from targetId in targetIds
+                                select this.players.GetById(targetId)
+                                into target
+                                where target != null
+                                select target;
 
             foreach (Player player in playerTargets)
             {

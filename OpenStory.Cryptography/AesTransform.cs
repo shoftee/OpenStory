@@ -14,6 +14,21 @@ namespace OpenStory.Cryptography
 
         private readonly ICryptoTransform aes;
 
+        private static ICryptoTransform GetTransformer(byte[] key)
+        {
+            var cipher = new RijndaelManaged
+            {
+                Padding = PaddingMode.None,
+                Mode = CipherMode.ECB,
+                Key = key
+            };
+            using (cipher)
+            {
+                var transform = cipher.CreateEncryptor();
+                return transform;
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of <see cref="AesTransform"/>.
         /// </summary>
@@ -40,21 +55,6 @@ namespace OpenStory.Cryptography
             this.key = key.FastClone();
 
             this.aes = GetTransformer(this.key);
-        }
-
-        private static ICryptoTransform GetTransformer(byte[] key)
-        {
-            var cipher = new RijndaelManaged
-                {
-                    Padding = PaddingMode.None,
-                    Mode = CipherMode.ECB,
-                    Key = key
-                };
-            using (cipher)
-            {
-                var transform = cipher.CreateEncryptor();
-                return transform;
-            }
         }
 
         /// <inheritdoc />

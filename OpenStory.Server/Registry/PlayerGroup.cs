@@ -11,6 +11,14 @@ namespace OpenStory.Server.Registry
     public abstract class PlayerGroup<TGroupMember, TUpdateInfo> : IPlayerGroup<TUpdateInfo>
         where TGroupMember : IEquatable<TGroupMember>
     {
+        /// <inheritdoc />
+        public int Id { get; private set; }
+
+        /// <summary>
+        /// Gets a HashSet of the members of this player group.
+        /// </summary>
+        protected HashSet<TGroupMember> Members { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier.
         /// </summary>
@@ -33,21 +41,6 @@ namespace OpenStory.Server.Registry
         }
 
         /// <summary>
-        /// Gets a HashSet of the members of this player group.
-        /// </summary>
-        protected HashSet<TGroupMember> Members { get; private set; }
-
-        #region IPlayerGroup<TUpdateInfo> Members
-
-        /// <inheritdoc />
-        public int Id { get; private set; }
-
-        /// <inheritdoc />
-        public abstract void Update(TUpdateInfo updateInfo);
-
-        #endregion
-
-        /// <summary>
         /// Adds a new member to the instance.
         /// </summary>
         /// <param name="member">The new member to add.</param>
@@ -66,5 +59,8 @@ namespace OpenStory.Server.Registry
         {
             return this.Members.Remove(member);
         }
+
+        /// <inheritdoc />
+        public abstract void Update(TUpdateInfo updateInfo);
     }
 }

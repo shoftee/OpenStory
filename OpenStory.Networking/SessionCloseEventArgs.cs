@@ -10,11 +10,11 @@ namespace OpenStory.Networking
         public static readonly SessionCloseEventArgs ConnectionTerminated =
             new SessionCloseEventArgs("The connection was forcibly terminated.");
 
+        public string Reason { get; private set; }
+
         public SessionCloseEventArgs(string reason)
         {
             this.Reason = reason;
         }
-
-        public string Reason { get; private set; }
     }
 }

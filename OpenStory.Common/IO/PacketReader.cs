@@ -19,6 +19,14 @@ namespace OpenStory.Common.IO
         private int currentOffset;
 
         /// <summary>
+        /// Gets the number of remaining bytes until the end of the buffer segment.
+        /// </summary>
+        public int Remaining
+        {
+            get { return this.segmentEnd - this.currentOffset; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="PacketReader"/> using the given byte array segment as a buffer.
         /// </summary>
         /// <param name="buffer">The byte array to use as a buffer.</param>
@@ -599,14 +607,6 @@ namespace OpenStory.Common.IO
         }
 
         #endregion
-
-        /// <summary>
-        /// Gets the number of remaining bytes until the end of the buffer segment.
-        /// </summary>
-        public int Remaining
-        {
-            get { return this.segmentEnd - this.currentOffset; }
-        }
 
         /// <summary>
         /// Returns a byte array of the remaining data in the 

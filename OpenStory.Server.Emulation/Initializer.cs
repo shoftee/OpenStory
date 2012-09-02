@@ -32,7 +32,7 @@ namespace OpenStory.Server.Emulation
                 serverModulesInternal = GetServerModules().ToList();
             }
 
-            IOrderedEnumerable<IGrouping<InitializationStage, Type>> initializationList = serverModulesInternal
+            var initializationList = serverModulesInternal
                 .GroupBy(pair => pair.Attribute.InitializationStage, pair => pair.MemberInfo)
                 .OrderBy(group => group.Key);
 
@@ -40,7 +40,7 @@ namespace OpenStory.Server.Emulation
             {
                 Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof(InitializationStage), group.Key));
 
-                ParallelQuery<MethodInfo> query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
+                var query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
                 if (query.All(ReflectionHelpers.InvokeStaticFunc<bool>))
                 {
@@ -55,12 +55,12 @@ namespace OpenStory.Server.Emulation
 
         private static IEnumerable<MetadataPair<Type, ServerModuleAttribute>> GetServerModules()
         {
-            return (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                    where !assembly.GlobalAssemblyCache
-                    from type in assembly.GetTypes()
-                    let moduleAttribute = ReflectionHelpers.GetAttribute<ServerModuleAttribute>(type)
-                    where moduleAttribute != null
-                    select new MetadataPair<Type, ServerModuleAttribute>(type, moduleAttribute));
+            return from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                   where !assembly.GlobalAssemblyCache
+                   from type in assembly.GetTypes()
+                   let moduleAttribute = ReflectionHelpers.GetAttribute<ServerModuleAttribute>(type)
+                   where moduleAttribute != null
+                   select new MetadataPair<Type, ServerModuleAttribute>(type, moduleAttribute);
         }
 
         private static IEnumerable<MethodInfo> GetInitializationMethodsByType(Type type)

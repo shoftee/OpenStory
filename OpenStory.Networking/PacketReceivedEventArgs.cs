@@ -11,6 +11,14 @@ namespace OpenStory.Networking
         private readonly byte[] buffer;
 
         /// <summary>
+        /// Gets a new <see cref="PacketReader"/> for the packet.
+        /// </summary>
+        public PacketReader Reader
+        {
+            get { return new PacketReader(buffer); }
+        }
+        
+        /// <summary>
         /// Initializes a new instance of <see cref="PacketReceivedEventArgs"/>.
         /// </summary>
         /// <param name="packet">The packet data.</param>
@@ -27,12 +35,5 @@ namespace OpenStory.Networking
             this.buffer = packet;
         }
 
-        /// <summary>
-        /// Gets a new <see cref="PacketReader"/> for the packet.
-        /// </summary>
-        public PacketReader Reader
-        {
-            get { return new PacketReader(buffer); }
-        }
     }
 }
