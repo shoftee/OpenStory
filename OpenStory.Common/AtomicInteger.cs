@@ -6,7 +6,7 @@ namespace OpenStory.Common
     /// <summary>
     /// Represents a thread-safe <see cref="T:System.Int32"/> value.
     /// </summary>
-    public class AtomicInteger
+    public sealed class AtomicInteger
     {
         private int value;
 

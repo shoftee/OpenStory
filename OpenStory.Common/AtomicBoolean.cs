@@ -6,7 +6,7 @@ namespace OpenStory.Common
     /// <summary>
     /// Represents a thread-safe <see cref="T:System.Boolean"/> value.
     /// </summary>
-    public class AtomicBoolean
+    public sealed class AtomicBoolean
     {
         /// <summary>
         /// Since bleeping Interlocked doesn't work with Boolean.
@@ -54,6 +54,59 @@ namespace OpenStory.Common
             int comparandAsInt = Convert.ToInt32(comparand);
             int result = Interlocked.CompareExchange(ref this.value, newValueAsInt, comparandAsInt);
             return Convert.ToBoolean(result);
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="AtomicBoolean"/> from a provided <see cref="System.Boolean"/>.
+        /// </summary>
+        /// <param name="value">The boolean value to convert.</param>
+        /// <returns>a new instance of <see cref="AtomicBoolean"/> with the given initial value.</returns>
+        public static implicit operator AtomicBoolean(bool value)
+        {
+            return new AtomicBoolean(value);
+        }
+
+        /// <summary>
+        /// Extracts a <see cref="System.Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
+        /// </summary>
+        /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// </exception>
+        /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
+        public static explicit operator bool(AtomicBoolean atomicBoolean)
+        {
+            if (atomicBoolean == null)
+            {
+                throw new ArgumentNullException("atomicBoolean");
+            }
+            return atomicBoolean.Value;
+        }
+
+        /// <summary>
+        /// Extracts a <see cref="System.Boolean"/> from an <see cref="AtomicBoolean"/> instance.
+        /// </summary>
+        /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
+        public int ToBoolean()
+        {
+            return this.value;
+        }
+
+        /// <summary>
+        /// Extracts a <see cref="System.Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
+        /// </summary>
+        /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// </exception>
+        /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
+        public static bool ToBoolean(AtomicBoolean atomicBoolean)
+        {
+            if (atomicBoolean == null)
+            {
+                throw new ArgumentNullException("atomicBoolean");
+            }
+            return atomicBoolean.Value;
         }
     }
 }
