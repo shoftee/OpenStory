@@ -11,7 +11,7 @@ namespace OpenStory.Server.Modules.Default
     /// <para>This is a stub DataManager. You don't really wanna use it. You can use it as an example, though.</para>
     /// <para>If you wanna implement your own DataManager, derive from the <see cref="DataManager"/> class instead.</para>
     /// </remarks>
-    public sealed class DefaultDataManager : DataManager
+    internal sealed class DefaultDataManager : DataManager
     {
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultDataManager" />.

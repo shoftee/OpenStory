@@ -34,7 +34,7 @@ namespace OpenStory.Services.Auth
         /// <inheritdoc/>
         public bool Ping()
         {
-            return this.server.IsRunning;
+            return true;
         }
 
         #endregion

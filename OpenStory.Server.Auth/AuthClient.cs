@@ -173,7 +173,7 @@ namespace OpenStory.Server.Auth
             }
             return;
 
-            Disconnect:
+        Disconnect:
             base.Disconnect();
         }
     }

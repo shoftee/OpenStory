@@ -6,7 +6,7 @@ namespace OpenStory.Server.Modules
     /// <summary>
     /// Represents a base class for server managers.
     /// </summary>
-    public class ManagerBase
+    public abstract class ManagerBase
     {
         private bool isInitialized;
 
@@ -122,6 +122,7 @@ namespace OpenStory.Server.Modules
         public void RegisterComponent(string name, object instance)
         {
             ThrowIfInitialized();
+
             if (name == null)
             {
                 throw new ArgumentNullException("name");
@@ -138,10 +139,9 @@ namespace OpenStory.Server.Modules
             {
                 throw GetUnknownComponentNameException(name);
             }
-
             if (!required.IsAssignableFrom(type))
             {
-                throw GetIncompatibleTypeException(instance, type.FullName);
+                throw GetIncompatibleTypeException(instance, required.FullName);
             }
 
             this.types[name] = required;
@@ -156,6 +156,7 @@ namespace OpenStory.Server.Modules
         protected TComponent GetComponent<TComponent>(string name)
         {
             ThrowIfNotInitialized();
+
             if (name == null)
             {
                 throw new ArgumentNullException("name");
@@ -183,7 +184,7 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> if the instance is initialized.
         /// </summary>
-        private void ThrowIfInitialized()
+        protected void ThrowIfInitialized()
         {
             if (this.isInitialized)
             {
