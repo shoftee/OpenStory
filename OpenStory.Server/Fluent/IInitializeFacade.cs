@@ -1,3 +1,4 @@
+using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent
@@ -12,5 +13,12 @@ namespace OpenStory.Server.Fluent
         /// </summary>
         /// <returns>an instance of type <see cref="IInitializeManagersFacade{DataManager}"/>.</returns>
         IInitializeManagersFacade<DataManager> DataManagers();
+
+        /// <summary>
+        /// Initializes the <see cref="ILogger"/> component of the default <see cref="LogManager"/>.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger"/> instance to use.</param>
+        /// <returns>the root initialization facade.</returns>
+        IInitializeFacade Logger(ILogger logger);
     }
 }
