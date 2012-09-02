@@ -5,7 +5,7 @@ namespace OpenStory.Server.Diagnostics
     /// <summary>
     /// Represents a logging manager.
     /// </summary>
-    public sealed class LogManager : ManagerBase<LogManager>, ILogger
+    public sealed class LogManager : ManagerBase<LogManager>
     {
         /// <summary>
         /// The component name for the Logger object.
@@ -44,19 +44,19 @@ namespace OpenStory.Server.Diagnostics
             this.Logger = base.GetComponent<ILogger>(LoggerKey);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ILogger.Info(string, object[])" />
         public void Info(string format, params object[] args)
         {
             this.Logger.Info(format, args);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ILogger.Warning(string, object[])" />
         public void Warning(string format, params object[] args)
         {
             this.Logger.Warning(format, args);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ILogger.Error(string, object[])" />
         public void Error(string format, params object[] args)
         {
             this.Logger.Error(format, args);
