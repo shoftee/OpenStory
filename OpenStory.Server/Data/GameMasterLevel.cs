@@ -12,10 +12,12 @@ namespace OpenStory.Server.Data
         /// The user is a normal player and has no game master priviledges.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The use has some game master abilities.
         /// </summary>
         GameMasterHelper = 1,
+
         /// <summary>
         /// The user is a Game Master.
         /// </summary>

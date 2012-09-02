@@ -9,7 +9,7 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Represents a client for the Authentication Server.
     /// </summary>
-    sealed class AuthClient : AbstractClient
+    internal sealed class AuthClient : AbstractClient
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 
@@ -131,13 +131,22 @@ namespace OpenStory.Server.Auth
 
         private void HandleAuthentication(PacketReader reader)
         {
-            if (this.State != AuthClientState.PreAuthentication) goto Disconnect;
+            if (this.State != AuthClientState.PreAuthentication)
+            {
+                goto Disconnect;
+            }
 
             string userName;
-            if (!reader.TryReadLengthString(out userName)) goto Disconnect;
+            if (!reader.TryReadLengthString(out userName))
+            {
+                goto Disconnect;
+            }
 
             string password;
-            if (!reader.TryReadLengthString(out password)) goto Disconnect;
+            if (!reader.TryReadLengthString(out password))
+            {
+                goto Disconnect;
+            }
 
             // TODO: more stuff to read, later.
             var authPolicy = this.server.GetAuthPolicy();
@@ -164,7 +173,7 @@ namespace OpenStory.Server.Auth
             }
             return;
 
-        Disconnect:
+            Disconnect:
             base.Disconnect();
         }
     }

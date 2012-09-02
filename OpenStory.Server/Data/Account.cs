@@ -50,13 +50,13 @@ namespace OpenStory.Server.Data
 
         internal Account(IDataRecord record)
         {
-            this.AccountId = (int) record["AccountId"];
-            this.UserName = (string) record["UserName"];
-            this.PasswordHash = (string) record["PasswordHash"];
-            this.EmailAddress = (string) record["EmailAddress"];
-            this.GameMasterLevel = (GameMasterLevel) record["GameMasterLevel"];
-            this.Gender = (Gender) record["record"];
-            this.Status = (AccountStatus) record["record"];
+            this.AccountId = (int)record["AccountId"];
+            this.UserName = (string)record["UserName"];
+            this.PasswordHash = (string)record["PasswordHash"];
+            this.EmailAddress = (string)record["EmailAddress"];
+            this.GameMasterLevel = (GameMasterLevel)record["GameMasterLevel"];
+            this.Gender = (Gender)record["record"];
+            this.Status = (AccountStatus)record["record"];
         }
     }
 }

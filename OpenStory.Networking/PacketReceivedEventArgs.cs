@@ -19,7 +19,10 @@ namespace OpenStory.Networking
         /// </exception>
         public PacketReceivedEventArgs(byte[] packet)
         {
-            if (packet == null) throw new ArgumentNullException("packet");
+            if (packet == null)
+            {
+                throw new ArgumentNullException("packet");
+            }
 
             this.buffer = packet;
         }

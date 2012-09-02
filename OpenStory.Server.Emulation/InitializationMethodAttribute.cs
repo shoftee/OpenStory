@@ -11,5 +11,7 @@ namespace OpenStory.Server.Emulation
     /// <see cref="ServerModuleAttribute"/>.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    public sealed class InitializationMethodAttribute : Attribute {}
+    public sealed class InitializationMethodAttribute : Attribute
+    {
+    }
 }

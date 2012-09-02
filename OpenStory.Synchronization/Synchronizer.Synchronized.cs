@@ -32,8 +32,14 @@ namespace OpenStory.Synchronization
             /// </exception>
             public Synchronized(T obj, IScheduler scheduler)
             {
-                if (obj == null) throw new ArgumentNullException("obj");
-                if (scheduler == null) throw new ArgumentNullException("scheduler");
+                if (obj == null)
+                {
+                    throw new ArgumentNullException("obj");
+                }
+                if (scheduler == null)
+                {
+                    throw new ArgumentNullException("scheduler");
+                }
 
                 this.obj = obj;
                 this.scheduler = scheduler;
@@ -73,7 +79,10 @@ namespace OpenStory.Synchronization
             /// </exception>
             public void Schedule(Action<T> action)
             {
-                if (action == null) throw new ArgumentNullException("action");
+                if (action == null)
+                {
+                    throw new ArgumentNullException("action");
+                }
 
                 this.actions.Enqueue(action);
                 this.scheduler.Schedule(this);

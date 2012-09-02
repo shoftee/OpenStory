@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Server.Game
+﻿namespace OpenStory.Server.Game
 {
     /// <summary>
     /// Represents a strongly-typed game inventory.
     /// </summary>
     /// <typeparam name="TItemInfo">The <see cref="ItemInfo"/> type of the items in the inventory.</typeparam>
-    public abstract class Inventory<TItemInfo> : ItemContainer<TItemInfo> where TItemInfo : ItemInfo
+    public abstract class Inventory<TItemInfo> : ItemContainer<TItemInfo>
+        where TItemInfo : ItemInfo
     {
         /// <summary>
         /// Initializes a new instance of <see cref="Inventory{TItemInfo}"/>.
@@ -21,5 +17,4 @@ namespace OpenStory.Server.Game
         {
         }
     }
-
 }

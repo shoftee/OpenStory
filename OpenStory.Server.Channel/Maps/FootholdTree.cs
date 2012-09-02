@@ -1,4 +1,6 @@
 ﻿namespace OpenStory.Server.Channel.Maps
 {
-    internal class FootholdTree {}
+    internal class FootholdTree
+    {
+    }
 }

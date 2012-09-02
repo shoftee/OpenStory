@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network receive buffer.
     /// </summary>
-    sealed class ReceiveDescriptor : Descriptor
+    internal sealed class ReceiveDescriptor : Descriptor
     {
         /// <summary>
         /// The default buffer size, set to match the RollingIv block size.
@@ -123,7 +123,10 @@ namespace OpenStory.Networking
                 // the data transfer synchronously as well.
                 while (!base.Container.Socket.ReceiveAsync(base.SocketArgs))
                 {
-                    if (!this.EndReceiveSynchronous(base.SocketArgs)) break;
+                    if (!this.EndReceiveSynchronous(base.SocketArgs))
+                    {
+                        break;
+                    }
                 }
             }
             catch (ObjectDisposedException)

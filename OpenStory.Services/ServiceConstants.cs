@@ -7,6 +7,8 @@ namespace OpenStory.Services
     /// </summary>
     public static class ServiceConstants
     {
+        #region Nested type: Uris
+
         /// <summary>
         /// URI constants.
         /// </summary>
@@ -54,5 +56,7 @@ namespace OpenStory.Services
                 return new Uri(uri);
             }
         }
+
+        #endregion
     }
 }

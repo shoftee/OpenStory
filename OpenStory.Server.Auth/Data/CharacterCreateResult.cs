@@ -14,7 +14,7 @@ namespace OpenStory.Server.Auth.Data
         /// The name was unavailable.
         /// </summary>
         NameUnavailable,
-        
+
         /// <summary>
         /// Some other error?
         /// </summary>

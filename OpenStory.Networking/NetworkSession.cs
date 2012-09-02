@@ -89,9 +89,8 @@ namespace OpenStory.Networking
             if (socket == null)
             {
                 throw new ArgumentNullException("socket");
-            } 
+            }
             this.Socket = socket;
-        
         }
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace OpenStory.Networking
             if (this.Socket == null)
             {
                 throw new InvalidOperationException(
-                    "This instance does not have a socket attached to it. " + Environment.NewLine + 
+                    "This instance does not have a socket attached to it. " + Environment.NewLine +
                     "Please use AttachSocket(Socket) to attach one before starting it.");
             }
             if (this.isActive.CompareExchange(comparand: false, newValue: true))

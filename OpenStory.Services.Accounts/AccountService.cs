@@ -7,7 +7,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Services.Account
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    class AccountService : IAccountService
+    internal class AccountService : IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 
@@ -20,6 +20,8 @@ namespace OpenStory.Services.Account
             this.currentSessionId = new AtomicInteger(0);
         }
 
+        #region IAccountService Members
+
         /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
@@ -30,7 +32,7 @@ namespace OpenStory.Services.Account
             }
             else
             {
-                sessionId = currentSessionId.Increment();
+                sessionId = this.currentSessionId.Increment();
 
                 var account = new ActiveAccount(accountId, sessionId);
                 this.activeAccounts.Add(accountId, account);
@@ -71,6 +73,8 @@ namespace OpenStory.Services.Account
                 return true;
             }
         }
+
+        #endregion
 
         #region Implementation of IGameService
 

@@ -4,9 +4,9 @@ using OpenStory.Common.Tools;
 
 namespace OpenStory.Services.Account
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             Console.Title = "OpenStory - Account Service";
 

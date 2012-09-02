@@ -9,9 +9,10 @@ namespace OpenStory.Cryptography
         /// The version is used as-is.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The one's complement of the version is used.
         /// </summary>
         Complement = 1
-      }
- }
+    }
+}

@@ -38,11 +38,14 @@ namespace OpenStory.Server.Emulation
 
             foreach (var group in initializationList)
             {
-                Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof (InitializationStage), group.Key));
+                Log.WriteInfo("Initialization stage: {0}", Enum.GetName(typeof(InitializationStage), group.Key));
 
                 ParallelQuery<MethodInfo> query = group.SelectMany(GetInitializationMethodsByType).AsParallel();
 
-                if (query.All(ReflectionHelpers.InvokeStaticFunc<bool>)) continue;
+                if (query.All(ReflectionHelpers.InvokeStaticFunc<bool>))
+                {
+                    continue;
+                }
 
                 Log.WriteError("Initialization failed, an initialization method returned 'false'.");
                 return false;

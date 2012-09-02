@@ -7,7 +7,10 @@ namespace OpenStory.Server.Auth
     {
         private readonly IAccountService accountService;
 
-        protected IAccountService AccountService { get { return this.accountService; } }
+        protected IAccountService AccountService
+        {
+            get { return this.accountService; }
+        }
 
         protected AuthPolicyBase(IAccountService accountService)
         {

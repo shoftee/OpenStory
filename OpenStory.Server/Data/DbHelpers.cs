@@ -63,7 +63,8 @@ namespace OpenStory.Server.Data
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags to pass when executing the data reader. Defaults to <see cref="CommandBehavior.Default"/>.</param>
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
-        public static IEnumerable<IDataRecord> Enumerate(this IDbCommand command, CommandBehavior commandBehavior = CommandBehavior.Default)
+        public static IEnumerable<IDataRecord> Enumerate(this IDbCommand command,
+                                                         CommandBehavior commandBehavior = CommandBehavior.Default)
         {
             using (var connection = GetConnection())
             {

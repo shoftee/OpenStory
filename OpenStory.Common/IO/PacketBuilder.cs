@@ -185,7 +185,7 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("s");
             }
 
-            this.WriteInt16((short) s.Length);
+            this.WriteInt16((short)s.Length);
             if (s.Length > 0)
             {
                 this.WriteDirect(Encoding.UTF8.GetBytes(s));
@@ -235,7 +235,7 @@ namespace OpenStory.Common.IO
         public byte[] ToByteArray()
         {
             byte[] buffer = this.stream.GetBuffer();
-            var length = (int) this.stream.Position;
+            var length = (int)this.stream.Position;
             var array = new byte[length];
             Buffer.BlockCopy(buffer, 0, array, 0, length);
             return array;

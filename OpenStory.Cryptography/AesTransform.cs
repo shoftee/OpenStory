@@ -45,11 +45,11 @@ namespace OpenStory.Cryptography
         private static ICryptoTransform GetTransformer(byte[] key)
         {
             var cipher = new RijndaelManaged
-                             {
-                                 Padding = PaddingMode.None,
-                                 Mode = CipherMode.ECB,
-                                 Key = key
-                             };
+                {
+                    Padding = PaddingMode.None,
+                    Mode = CipherMode.ECB,
+                    Key = key
+                };
             using (cipher)
             {
                 var transform = cipher.CreateEncryptor();

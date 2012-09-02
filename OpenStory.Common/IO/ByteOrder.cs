@@ -22,7 +22,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void NetworkToHostOrder(ref ushort number)
         {
-            number = (ushort) IPAddress.NetworkToHostOrder((short) number);
+            number = (ushort)IPAddress.NetworkToHostOrder((short)number);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void NetworkToHostOrder(ref uint number)
         {
-            number = (uint) IPAddress.NetworkToHostOrder((int) number);
+            number = (uint)IPAddress.NetworkToHostOrder((int)number);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void NetworkToHostOrder(ref ulong number)
         {
-            number = (ulong) IPAddress.NetworkToHostOrder((long) number);
+            number = (ulong)IPAddress.NetworkToHostOrder((long)number);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void HostToNetworkOrder(ref ushort number)
         {
-            number = (ushort) IPAddress.HostToNetworkOrder((short) number);
+            number = (ushort)IPAddress.HostToNetworkOrder((short)number);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void HostToNetworkOrder(ref uint number)
         {
-            number = (uint) IPAddress.HostToNetworkOrder((int) number);
+            number = (uint)IPAddress.HostToNetworkOrder((int)number);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to convert.</param>
         public static void HostToNetworkOrder(ref ulong number)
         {
-            number = (ulong) IPAddress.HostToNetworkOrder((long) number);
+            number = (ulong)IPAddress.HostToNetworkOrder((long)number);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to flip the bytes of.</param>
         public static void FlipBytes(ref ulong number)
         {
-            number = (ulong) FlipNumber((long) number, 8);
+            number = (ulong)FlipNumber((long)number, 8);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to flip the bytes of.</param>
         public static void FlipBytes(ref uint number)
         {
-            number = unchecked((uint) FlipNumber(number, 4));
+            number = unchecked((uint)FlipNumber(number, 4));
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to flip the bytes of.</param>
         public static void FlipBytes(ref int number)
         {
-            number = unchecked((int) FlipNumber(number, 4));
+            number = unchecked((int)FlipNumber(number, 4));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to flip the bytes of.</param>
         public static void FlipBytes(ref ushort number)
         {
-            number = unchecked((ushort) FlipNumber(number, 2));
+            number = unchecked((ushort)FlipNumber(number, 2));
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace OpenStory.Common.IO
         /// <param name="number">The number to flip the bytes of.</param>
         public static void FlipBytes(ref short number)
         {
-            number = unchecked((short) FlipNumber(number, 2));
+            number = unchecked((short)FlipNumber(number, 2));
         }
 
         private static long FlipNumber(long number, int byteCount)

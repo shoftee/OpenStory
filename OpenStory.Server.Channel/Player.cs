@@ -50,6 +50,5 @@ namespace OpenStory.Server.Channel
 
             // TODO: There are still more things to add to ChannelCharacter
         }
-
     }
 }

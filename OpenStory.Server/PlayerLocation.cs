@@ -44,17 +44,26 @@ namespace OpenStory.Server
         /// <inheritdoc />
         public bool Equals(PlayerLocation other)
         {
-            if (other == null) return false;
+            if (other == null)
+            {
+                return false;
+            }
             return this.EqualsInternal(other);
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
+            if (obj == null)
+            {
+                return false;
+            }
 
             var other = obj as PlayerLocation;
-            if (other == null) return false;
+            if (other == null)
+            {
+                return false;
+            }
 
             return this.EqualsInternal(other);
         }
@@ -68,7 +77,7 @@ namespace OpenStory.Server
         private bool EqualsInternal(PlayerLocation other)
         {
             return this.ChannelId.Equals(other.ChannelId)
-                && this.MapId.Equals(other.MapId);
+                   && this.MapId.Equals(other.MapId);
         }
 
         /// <summary>

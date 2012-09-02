@@ -5,11 +5,11 @@ using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Emulation
 {
-    class Launcher
+    internal class Launcher
     {
     }
 
-    class OpenStoryModule
+    internal class OpenStoryModule
     {
         public AssemblyName AssemblyName { get; private set; }
 

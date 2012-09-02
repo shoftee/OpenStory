@@ -40,7 +40,7 @@ namespace OpenStory.Synchronization
         /// <returns>a <see cref="CancellationTokenSource">CancellationTokenSource</see> which can be used to asynchronously cancel the action.</returns>
         public CancellationTokenSource ExecuteEvery(Action action, TimeSpan timeSpan)
         {
-            ScheduledTask task = this.GetRepeatingTask(action, timeSpan);
+            var task = this.GetRepeatingTask(action, timeSpan);
             this.timeline.Insert(task);
             return task.CancellationTokenSource;
         }
@@ -48,21 +48,26 @@ namespace OpenStory.Synchronization
         private ScheduledTask GetRepeatingTask(Action action, TimeSpan repeatPeriod)
         {
             // This isn't actually recursion, as insane as it sounds.
-            Action executeAndInsert =
-                () =>
-                {
-                    action();
-                    ScheduledTask task = GetNewTask(
-                        () => this.GetRepeatingTask(action, repeatPeriod),
-                        DateTime.Now + repeatPeriod);
-                    this.timeline.Insert(task);
-                };
+            Action executeAndInsert = () => this.ExecuteAndInsert(action, repeatPeriod);
+
             return GetNewTask(executeAndInsert, DateTime.Now + repeatPeriod);
+        }
+
+        private void ExecuteAndInsert(Action action, TimeSpan repeatPeriod)
+        {
+            // This isn't actually recursion, as insane as it sounds.
+            action();
+            
+            Action getRepeatingTask = 
+                () => this.GetRepeatingTask(action, repeatPeriod);
+            var task = GetNewTask(getRepeatingTask, DateTime.Now + repeatPeriod);
+            
+            this.timeline.Insert(task);
         }
 
         private CancellationTokenSource InsertTask(Action action, DateTime time)
         {
-            ScheduledTask task = GetNewTask(action, time);
+            var task = GetNewTask(action, time);
             this.timeline.Insert(task);
             return task.CancellationTokenSource;
         }

@@ -53,7 +53,10 @@ namespace OpenStory.Cryptography
         /// <returns>an array with the encrypted packet and its header.</returns>
         public byte[] EncryptAndPack(byte[] packetData)
         {
-            if (packetData == null) throw new ArgumentNullException("packetData");
+            if (packetData == null)
+            {
+                throw new ArgumentNullException("packetData");
+            }
             int length = packetData.Length;
             var rawData = new byte[length + 4];
             lock (this.Encryptor)
@@ -93,13 +96,16 @@ namespace OpenStory.Cryptography
         public bool TryUnpackAndDecrypt(byte[] rawData, out byte[] decryptedData)
         {
             int length = this.TryGetLength(rawData);
-            if (length == -1) goto Fail;
+            if (length == -1)
+            {
+                goto Fail;
+            }
 
             decryptedData = rawData.Segment(4, length);
             this.Decrypt(decryptedData);
             return true;
 
-        Fail:
+            Fail:
             decryptedData = null;
             return false;
         }

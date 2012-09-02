@@ -18,7 +18,7 @@ namespace OpenStory.Common.Tools
         /// <returns></returns>
         public static long GetMillisecondsSinceEpoch()
         {
-            return (long) (Epoch - DateTimeOffset.UtcNow).TotalMilliseconds;
+            return (long)(Epoch - DateTimeOffset.UtcNow).TotalMilliseconds;
         }
 
         /// <summary>

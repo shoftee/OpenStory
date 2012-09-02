@@ -40,7 +40,7 @@ namespace OpenStory.Server
         /// <param name="serverIv">The server IV to use for the cryptographic transformation.</param>
         public void Start(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
-            ThrowIfNoPacketReceivedSubscriber();
+            this.ThrowIfNoPacketReceivedSubscriber();
 
             this.Crypto = ServerCrypto.New(factory, clientIv, serverIv);
 

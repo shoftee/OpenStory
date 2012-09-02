@@ -1,4 +1,6 @@
 ﻿namespace OpenStory.Server.Channel.Maps
 {
-    internal interface ISpawnPoint {}
+    internal interface ISpawnPoint
+    {
+    }
 }

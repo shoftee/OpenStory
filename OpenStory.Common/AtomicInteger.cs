@@ -89,7 +89,10 @@ namespace OpenStory.Common
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static explicit operator int(AtomicInteger atomicInteger)
         {
-            if (atomicInteger == null) throw new ArgumentNullException("atomicInteger");
+            if (atomicInteger == null)
+            {
+                throw new ArgumentNullException("atomicInteger");
+            }
             return atomicInteger.value;
         }
 
@@ -112,7 +115,10 @@ namespace OpenStory.Common
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static int ToInt32(AtomicInteger atomicInteger)
         {
-            if (atomicInteger == null) throw new ArgumentNullException("atomicInteger");
+            if (atomicInteger == null)
+            {
+                throw new ArgumentNullException("atomicInteger");
+            }
             return atomicInteger.value;
         }
     }

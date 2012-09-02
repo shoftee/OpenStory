@@ -97,7 +97,7 @@ namespace OpenStory.Common.Data
             {
                 throw new ArgumentNullException("label");
             }
-            
+
             if (this.incomingTable.ContainsKey(opCode))
             {
                 return false;

@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    abstract class Descriptor
+    internal abstract class Descriptor
     {
         /// <summary>
         /// The event is raised when a connection error occurs.

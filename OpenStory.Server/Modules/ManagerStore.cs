@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenStory.Server.Modules
 {
@@ -34,12 +32,12 @@ namespace OpenStory.Server.Modules
             }
 
             Type baseType = typeof(TManagerBase);
-            AddManagerEntry(baseType, manager);
+            this.AddManagerEntry(baseType, manager);
 
             Type actualType = manager.GetType();
             if (baseType != actualType)
             {
-                AddManagerEntry(actualType, manager);
+                this.AddManagerEntry(actualType, manager);
             }
         }
 
@@ -56,7 +54,7 @@ namespace OpenStory.Server.Modules
                 throw new ArgumentNullException("manager");
             }
 
-            AddManagerEntry(typeof(TManager), manager);
+            this.AddManagerEntry(typeof(TManager), manager);
         }
 
         /// <summary>

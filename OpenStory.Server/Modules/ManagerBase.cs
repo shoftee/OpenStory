@@ -201,7 +201,6 @@ namespace OpenStory.Server.Modules
         /// <returns><c>true</c> if there were no errors; otherwise, <c>false</c>.</returns>
         protected bool RunInitializationCheck(out string error)
         {
-
             foreach (var entry in this.instances)
             {
                 string name = entry.Key;

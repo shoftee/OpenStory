@@ -45,7 +45,7 @@ namespace OpenStory.Common.IO
             if (capacity <= 0)
             {
                 throw new ArgumentOutOfRangeException("capacity", capacity,
-                    "'capacity' must be a positive integer.");
+                                                      "'capacity' must be a positive integer.");
             }
 
             this.Reset(capacity);
@@ -108,7 +108,10 @@ namespace OpenStory.Common.IO
         /// </returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
 
             if (offset < 0 || buffer.Length < offset ||
                 count <= 0 || offset + count > buffer.Length)

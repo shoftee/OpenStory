@@ -43,5 +43,5 @@ namespace OpenStory.Common.Tools
         /// <param name="format">The format of the message to write.</param>
         /// <param name="args">The arguments to fill into the message format.</param>
         void WriteError(string format, params object[] args);
-      }
- }
+    }
+}

@@ -2,7 +2,7 @@ using OpenStory.Common.Data;
 
 namespace OpenStory.Server.Auth
 {
-    sealed class AuthServerPackets : OpCodeTable
+    internal sealed class AuthServerPackets : OpCodeTable
     {
         public AuthServerPackets()
         {

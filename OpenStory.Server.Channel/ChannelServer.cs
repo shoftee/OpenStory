@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace OpenStory.Server.Channel
 {
-    class ChannelServer : IChannelServer
+    internal class ChannelServer : IChannelServer
     {
         private readonly int channelId;
 
@@ -30,7 +30,7 @@ namespace OpenStory.Server.Channel
             int[] ids = targetIds.ToArray();
 
             this.BroadcastIntoChannel(players.GetActive(ids), data);
-            
+
             this.World.BroadcastFromChannel(this.channelId, ids, data);
         }
 
@@ -42,10 +42,10 @@ namespace OpenStory.Server.Channel
         /// <param name="data"></param>
         public void BroadcastIntoChannel(IEnumerable<int> targetIds, byte[] data)
         {
-            var playerTargets = 
+            var playerTargets =
                 targetIds
-                .Select(id => this.players.GetById(id))
-                .Where(player => player != null);
+                    .Select(id => this.players.GetById(id))
+                    .Where(player => player != null);
 
             foreach (Player player in playerTargets)
             {

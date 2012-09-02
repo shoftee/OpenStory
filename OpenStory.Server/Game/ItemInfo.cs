@@ -62,6 +62,5 @@ namespace OpenStory.Server.Game
 
             return this.ItemId == other.ItemId;
         }
-
     }
 }

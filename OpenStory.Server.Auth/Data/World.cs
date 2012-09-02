@@ -39,7 +39,10 @@ namespace OpenStory.Server.Auth.Data
         /// </exception>
         public World(IDataRecord record)
         {
-            if (record == null) throw new ArgumentNullException("record");
+            if (record == null)
+            {
+                throw new ArgumentNullException("record");
+            }
 
             this.WorldId = (byte)record["WorldId"];
             this.WorldName = (string)record["WorldName"];

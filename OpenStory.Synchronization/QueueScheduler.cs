@@ -30,7 +30,10 @@ namespace OpenStory.Synchronization
         /// </exception>
         public void Schedule(IRunnable runnable)
         {
-            if (runnable == null) throw new ArgumentNullException("runnable");
+            if (runnable == null)
+            {
+                throw new ArgumentNullException("runnable");
+            }
 
             this.ScheduleActionInternal(runnable.Run);
             this.ExecutePending();
@@ -44,7 +47,10 @@ namespace OpenStory.Synchronization
         /// <param name="action">The action to schedule.</param>
         public void ScheduleAction(Action action)
         {
-            if (action == null) throw new ArgumentNullException("action");
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
 
             this.ScheduleActionInternal(action);
             this.ExecutePending();

@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network send buffer.
     /// </summary>
-    sealed class SendDescriptor : Descriptor
+    internal sealed class SendDescriptor : Descriptor
     {
         private readonly AtomicBoolean isSending;
 
@@ -84,7 +84,10 @@ namespace OpenStory.Networking
                 // this loop will handle the transfers synchronously too.
                 while (!base.Container.Socket.SendAsync(base.SocketArgs))
                 {
-                    if (!this.EndSendSynchronous(base.SocketArgs)) break;
+                    if (!this.EndSendSynchronous(base.SocketArgs))
+                    {
+                        break;
+                    }
                 }
             }
             catch (ObjectDisposedException)

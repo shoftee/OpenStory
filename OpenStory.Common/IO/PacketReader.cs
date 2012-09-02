@@ -33,7 +33,10 @@ namespace OpenStory.Common.IO
         /// </exception>
         public PacketReader(byte[] buffer, int offset, int length)
         {
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
             if (offset < 0 || buffer.Length < offset ||
                 length <= 0 || offset + length > buffer.Length)
             {
@@ -54,7 +57,10 @@ namespace OpenStory.Common.IO
         /// </exception>
         public PacketReader(byte[] buffer)
         {
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
 
             this.buffer = buffer;
             this.currentOffset = this.segmentStart = 0;

@@ -20,7 +20,10 @@ namespace OpenStory.Server.Emulation.Helpers
         public static TAttribute GetAttribute<TAttribute>(MemberInfo memberInfo)
             where TAttribute : Attribute
         {
-            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
+            if (memberInfo == null)
+            {
+                throw new ArgumentNullException("memberInfo");
+            }
             return Attribute.GetCustomAttribute(memberInfo, typeof(TAttribute)) as TAttribute;
         }
 
@@ -36,7 +39,10 @@ namespace OpenStory.Server.Emulation.Helpers
         public static bool HasAttribute<TAttribute>(MemberInfo memberInfo)
             where TAttribute : Attribute
         {
-            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
+            if (memberInfo == null)
+            {
+                throw new ArgumentNullException("memberInfo");
+            }
             return memberInfo.IsDefined(typeof(TAttribute), false);
         }
 
@@ -54,8 +60,11 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <returns>the result from the invocation of <paramref name="method"/>.</returns>
         public static TResult InvokeStaticFunc<TResult>(MethodBase method)
         {
-            if (method == null) throw new ArgumentNullException("method");
-            return (TResult) method.Invoke(null, EmptyObjectArray);
+            if (method == null)
+            {
+                throw new ArgumentNullException("method");
+            }
+            return (TResult)method.Invoke(null, EmptyObjectArray);
         }
     }
 }

@@ -59,7 +59,10 @@ namespace OpenStory.Server
         /// </exception>
         protected AbstractClient(ServerSession session)
         {
-            if (session == null) throw new ArgumentNullException("session");
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
 
             this.Session = session;
             this.Session.PacketReceived += this.OnPacketReceived;

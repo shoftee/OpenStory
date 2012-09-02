@@ -17,6 +17,8 @@ namespace OpenStory.Services.Auth
             this.server = new AuthServer();
         }
 
+        #region IAuthService Members
+
         /// <inheritdoc/>
         public void Start()
         {
@@ -34,5 +36,7 @@ namespace OpenStory.Services.Auth
         {
             return this.server.IsRunning;
         }
+
+        #endregion
     }
 }

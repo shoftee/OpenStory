@@ -44,7 +44,10 @@ namespace OpenStory.Synchronization
             /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <c>null</c>.</exception>
             public ScheduledTask(Action action, DateTime scheduledTime)
             {
-                if (action == null) throw new ArgumentNullException("action");
+                if (action == null)
+                {
+                    throw new ArgumentNullException("action");
+                }
 
                 this.action = action;
                 this.ScheduledTime = scheduledTime;
@@ -106,7 +109,10 @@ namespace OpenStory.Synchronization
             /// <exception cref="InvalidOperationException">Thrown if <paramref name="task"/> is already cancelled.</exception>
             public void Insert(ScheduledTask task)
             {
-                if (task == null) throw new ArgumentNullException("task");
+                if (task == null)
+                {
+                    throw new ArgumentNullException("task");
+                }
                 if (task.TimeCancelled.HasValue)
                 {
                     throw new InvalidOperationException("Cannot add a task that is already cancelled.");
@@ -156,8 +162,14 @@ namespace OpenStory.Synchronization
 
             private static void AddAfter(TimelineNode node, TimelineNode newNode)
             {
-                if (node == null) throw new ArgumentNullException("node");
-                if (newNode == null) throw new ArgumentNullException("newNode");
+                if (node == null)
+                {
+                    throw new ArgumentNullException("node");
+                }
+                if (newNode == null)
+                {
+                    throw new ArgumentNullException("newNode");
+                }
 
                 if (node.Next != null)
                 {

@@ -16,6 +16,8 @@ namespace OpenStory.Services.Clients
         {
         }
 
+        #region INexusService Members
+
         /// <inheritdoc />
         public string TryRegisterAuthService(Uri uri)
         {
@@ -87,5 +89,7 @@ namespace OpenStory.Services.Clients
         {
             return base.Channel.GetChannelService(worldId, channelId);
         }
+
+        #endregion
     }
 }

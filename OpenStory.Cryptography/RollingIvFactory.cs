@@ -39,7 +39,8 @@
         /// <param name="encryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for encryption IVs.</param>
         /// <param name="decryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for decryption IVs.</param>
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
-        public RollingIvFactory(ICryptoAlgorithm encryptionAlgorithm, ICryptoAlgorithm decryptionAlgorithm, ushort version)
+        public RollingIvFactory(ICryptoAlgorithm encryptionAlgorithm, ICryptoAlgorithm decryptionAlgorithm,
+                                ushort version)
         {
             this.EncryptionAlgorithm = encryptionAlgorithm;
             this.DecryptionAlgorithm = decryptionAlgorithm;

@@ -19,7 +19,9 @@ namespace OpenStory.Common.IO
     [Serializable]
     public sealed class ArraySegmentException : ArgumentException
     {
-        private const string LengthFormat = "The array segment starting at {0} with length {1} does not fit into the array's bounds.";
+        private const string LengthFormat =
+            "The array segment starting at {0} with length {1} does not fit into the array's bounds.";
+
         private const string BoundsFormat = "The array segment [{0},{1}] does not fit into the array's bounds.";
 
         /// <summary>
@@ -27,7 +29,9 @@ namespace OpenStory.Common.IO
         /// <see cref="ArraySegmentException"/> 
         /// class with no error message.
         /// </summary>
-        public ArraySegmentException() { }
+        public ArraySegmentException()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArraySegmentException"/> 
@@ -35,7 +39,9 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="message">The error message for this exception.</param>
         public ArraySegmentException(string message)
-            : base(message) { }
+            : base(message)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArraySegmentException"/>
@@ -45,10 +51,14 @@ namespace OpenStory.Common.IO
         /// <param name="message"></param>
         /// <param name="innerException"></param>
         public ArraySegmentException(string message, Exception innerException)
-            : base(message, innerException) { }
+            : base(message, innerException)
+        {
+        }
 
         private ArraySegmentException(SerializationInfo info, StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        {
+        }
 
         /// <summary>
         /// Gets a new instance of <see cref="ArraySegmentException"/> with a message that

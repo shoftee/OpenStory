@@ -26,8 +26,14 @@ namespace OpenStory.Common.Tools
             get { return InternalInstance.writer; }
             set
             {
-                if (value == null) throw new InvalidOperationException("The Log writer cannot be set to null.");
-                else InternalInstance.writer = value;
+                if (value == null)
+                {
+                    throw new InvalidOperationException("The Log writer cannot be set to null.");
+                }
+                else
+                {
+                    InternalInstance.writer = value;
+                }
             }
         }
 

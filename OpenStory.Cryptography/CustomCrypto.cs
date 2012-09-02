@@ -17,10 +17,13 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
         public static void Encrypt(byte[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
 
             int length = data.Length;
-            var truncatedLength = unchecked((byte) length);
+            var truncatedLength = unchecked((byte)length);
             for (int j = 0; j < 6; j++)
             {
                 if ((j & 1) != 0)
@@ -52,7 +55,7 @@ namespace OpenStory.Cryptography
                 remember = current;
 
                 current = RollRight(current, lengthByte);
-                current = (byte) (~current & 0xFF);
+                current = (byte)(~current & 0xFF);
                 current += 0x48;
                 data[i] = current;
 
@@ -95,10 +98,13 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
         public static void Decrypt(byte[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
 
             int length = data.Length;
-            var truncatedLength = unchecked((byte) length);
+            var truncatedLength = unchecked((byte)length);
             for (int j = 1; j <= 6; j++)
             {
                 if ((j & 1) != 0)
@@ -125,7 +131,7 @@ namespace OpenStory.Cryptography
             {
                 byte current = data[i];
                 current -= 0x48;
-                current = unchecked((byte) (~current));
+                current = unchecked((byte)(~current));
                 current = RollLeft(current, lengthByte);
 
                 byte tmp = current;
@@ -173,7 +179,7 @@ namespace OpenStory.Cryptography
         private static byte RollLeft(byte b, int count)
         {
             int tmp = b << (count & 7);
-            return unchecked((byte) (tmp | (tmp >> 8)));
+            return unchecked((byte)(tmp | (tmp >> 8)));
         }
 
         /// <summary>
@@ -185,7 +191,7 @@ namespace OpenStory.Cryptography
         private static byte RollRight(byte b, int count)
         {
             int tmp = b << (8 - (count & 7));
-            return unchecked((byte) (tmp | (tmp >> 8)));
+            return unchecked((byte)(tmp | (tmp >> 8)));
         }
     }
 }

@@ -33,8 +33,14 @@ namespace OpenStory.Server.Emulation.Helpers
         /// </exception>
         public MetadataPair(TMemberInfo memberInfo, TAttribute attribute)
         {
-            if (memberInfo == null) throw new ArgumentNullException("memberInfo");
-            if (attribute == null) throw new ArgumentNullException("attribute");
+            if (memberInfo == null)
+            {
+                throw new ArgumentNullException("memberInfo");
+            }
+            if (attribute == null)
+            {
+                throw new ArgumentNullException("attribute");
+            }
             this.MemberInfo = memberInfo;
             this.Attribute = attribute;
         }

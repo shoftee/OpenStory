@@ -37,7 +37,8 @@ namespace OpenStory.Server.Game
         {
             if (slotCapacity < 0)
             {
-                throw new ArgumentOutOfRangeException("slotCapacity", slotCapacity, "'slotCapacity' must be non-negative.");
+                throw new ArgumentOutOfRangeException("slotCapacity", slotCapacity,
+                                                      "'slotCapacity' must be non-negative.");
             }
             this.SlotCapacity = slotCapacity;
 

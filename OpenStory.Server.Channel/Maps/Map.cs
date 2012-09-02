@@ -35,7 +35,10 @@ namespace OpenStory.Server.Channel.Maps
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <c>null</c>.</exception>
         public void AddMapObject(MapObjectConstructor constructor)
         {
-            if (constructor == null) throw new ArgumentNullException("constructor");
+            if (constructor == null)
+            {
+                throw new ArgumentNullException("constructor");
+            }
 
             // Again, quite proud of this idea, it looks so cool o.o
             int mapObjectId = this.rollingObjectId.Increment();

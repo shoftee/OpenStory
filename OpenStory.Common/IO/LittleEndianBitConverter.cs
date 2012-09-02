@@ -17,7 +17,7 @@ namespace OpenStory.Common.IO
         {
             for (int i = 0; i < count; i++)
             {
-                buffer[i] = unchecked((byte) value);
+                buffer[i] = unchecked((byte)value);
                 value >>= 8;
             }
         }
@@ -45,11 +45,13 @@ namespace OpenStory.Common.IO
             }
             if (offset < 0 || offset > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("offset", "'offset' must be a valid index within the bounds of the buffer.");
+                throw new ArgumentOutOfRangeException("offset",
+                                                      "'offset' must be a valid index within the bounds of the buffer.");
             }
             if (offset + count > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("count", "'count' must be such that the segment falls within the bounds of the buffer.");
+                throw new ArgumentOutOfRangeException("count",
+                                                      "'count' must be such that the segment falls within the bounds of the buffer.");
             }
 
             long result = 0;
@@ -71,7 +73,7 @@ namespace OpenStory.Common.IO
         /// <returns>the constructed number.</returns>
         public static ulong ToUInt64(byte[] array, int startIndex)
         {
-            return unchecked((ulong) FromBytes(array, startIndex, 8));
+            return unchecked((ulong)FromBytes(array, startIndex, 8));
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace OpenStory.Common.IO
         /// <returns>the constructed number.</returns>
         public static uint ToUInt32(byte[] array, int startIndex)
         {
-            return unchecked((uint) FromBytes(array, startIndex, 4));
+            return unchecked((uint)FromBytes(array, startIndex, 4));
         }
 
         /// <summary>
@@ -115,7 +117,7 @@ namespace OpenStory.Common.IO
         /// <returns>the constructed number.</returns>
         public static int ToInt32(byte[] array, int startIndex)
         {
-            return unchecked((int) FromBytes(array, startIndex, 4));
+            return unchecked((int)FromBytes(array, startIndex, 4));
         }
 
         /// <summary>
@@ -126,7 +128,7 @@ namespace OpenStory.Common.IO
         /// <returns>the constructed number.</returns>
         public static ushort ToUInt16(byte[] array, int startIndex)
         {
-            return unchecked((ushort) FromBytes(array, startIndex, 2));
+            return unchecked((ushort)FromBytes(array, startIndex, 2));
         }
 
         /// <summary>
@@ -137,7 +139,7 @@ namespace OpenStory.Common.IO
         /// <returns>the constructed number.</returns>
         public static short ToInt16(byte[] array, int startIndex)
         {
-            return unchecked((short) FromBytes(array, startIndex, 2));
+            return unchecked((short)FromBytes(array, startIndex, 2));
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace OpenStory.Common.IO
         /// <returns>the little-endian byte representation.</returns>
         public static byte[] GetBytes(ulong value)
         {
-            return GetBytes(unchecked((long) value), 8);
+            return GetBytes(unchecked((long)value), 8);
         }
 
         /// <summary>

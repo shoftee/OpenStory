@@ -4,7 +4,6 @@ using OpenStory.Common.Tools;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Fluent;
-using OpenStory.Server.Modules.Default;
 
 namespace OpenStory.Services.Auth
 {

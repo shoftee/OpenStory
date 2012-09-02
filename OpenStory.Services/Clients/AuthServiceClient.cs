@@ -12,7 +12,7 @@ namespace OpenStory.Services.Clients
         /// </summary>
         public AuthServiceClient()
             : base(ServiceConstants.Uris.AuthService)
-        {  
+        {
         }
     }
 }

@@ -84,6 +84,5 @@ namespace OpenStory.Server.Data
 
             this.BuddyListCapacity = (int)record["BuddyListCapacity"];
         }
-
     }
 }

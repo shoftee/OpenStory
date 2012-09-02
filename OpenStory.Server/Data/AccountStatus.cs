@@ -12,14 +12,17 @@ namespace OpenStory.Server.Data
         /// The account has never been accessed.
         /// </summary>
         FirstRun = 0,
+
         /// <summary>
         /// The account has been accessed at least once.
         /// </summary>
         Active = 1,
+
         /// <summary>
         /// The account is blocked.
         /// </summary>
         Blocked = 2,
+
         /// <summary>
         /// The account has been deleted.
         /// </summary>

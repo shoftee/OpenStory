@@ -10,10 +10,10 @@ namespace OpenStory.Server.Emulation.Helpers
     {
         private static readonly AppDomainSetup DefaultAppDomainSetup =
             new AppDomainSetup
-            {
-                ApplicationName = "OpenStory-ServerEmulator",
-                LoaderOptimization = LoaderOptimization.NotSpecified,
-            };
+                {
+                    ApplicationName = "OpenStory-ServerEmulator",
+                    LoaderOptimization = LoaderOptimization.NotSpecified,
+                };
 
         /// <summary>
         /// Creates a new thread and executes the specified assembly into the AppDomain instance, passing the specified arguments.
@@ -26,14 +26,21 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <returns>the new thread.</returns>
         public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module)
         {
-            if (appDomain == null) throw new ArgumentNullException("appDomain"); 
-            if (module == null) throw new ArgumentNullException("module");
+            if (appDomain == null)
+            {
+                throw new ArgumentNullException("appDomain");
+            }
+            if (module == null)
+            {
+                throw new ArgumentNullException("module");
+            }
 
-            ThreadStart threadStart = () => appDomain.ExecuteAssemblyByName(module.AssemblyName, module.Arguments.ToArray());
+            ThreadStart threadStart =
+                () => appDomain.ExecuteAssemblyByName(module.AssemblyName, module.Arguments.ToArray());
             var thread = new Thread(threadStart)
-                         {
-                             IsBackground = false,
-                         };
+                {
+                    IsBackground = false,
+                };
             thread.Start();
             return thread;
         }
@@ -46,7 +53,10 @@ namespace OpenStory.Server.Emulation.Helpers
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="friendlyName" /> is <c>null</c> or empty.</exception>
         public static AppDomain GetNewDomain(string friendlyName)
         {
-            if (String.IsNullOrEmpty(friendlyName)) throw new ArgumentNullException("friendlyName");
+            if (String.IsNullOrEmpty(friendlyName))
+            {
+                throw new ArgumentNullException("friendlyName");
+            }
 
             Evidence evidence = AppDomain.CurrentDomain.Evidence;
             AppDomain newDomain = AppDomain.CreateDomain(friendlyName, evidence, DefaultAppDomainSetup);

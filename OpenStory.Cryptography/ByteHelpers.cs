@@ -19,7 +19,10 @@ namespace OpenStory.Cryptography
         /// <returns>the resulting byte array.</returns>
         public static byte[] ToByte(this string hex)
         {
-            if (hex == null) throw new ArgumentNullException("hex");
+            if (hex == null)
+            {
+                throw new ArgumentNullException("hex");
+            }
             if ((hex.Length & 1) != 0)
             {
                 throw new ArgumentException("The string must have event length", "hex");
@@ -38,14 +41,14 @@ namespace OpenStory.Cryptography
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                var b = (byte) (digit << 4);
+                var b = (byte)(digit << 4);
 
                 digit = HexDigits.IndexOf(uppercase[index | 1]);
                 if (digit == -1)
                 {
                     throw new ArgumentException("The string must consist only of hex digits.", "hex");
                 }
-                b |= (byte) digit;
+                b |= (byte)digit;
                 bytes[i] = b;
             }
             return bytes;
@@ -60,7 +63,10 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
         public static string ToHex(this byte[] array, bool lowercase = false)
         {
-            if (array == null) throw new ArgumentNullException("array");
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
 
             var builder = new StringBuilder();
             int length = array.Length;
@@ -107,7 +113,10 @@ namespace OpenStory.Cryptography
         /// <returns>a copy of the segment.</returns>
         public static byte[] Segment(this byte[] array, int start, int length)
         {
-            if (array == null) throw new ArgumentNullException("array");
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
             if (start < 0 || array.Length <= start)
             {
                 throw new ArgumentOutOfRangeException("start");

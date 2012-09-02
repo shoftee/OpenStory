@@ -117,7 +117,10 @@ namespace OpenStory.Networking
             // As long as the operation completes synchronously, we can handle the socket synchronously too.
             while (!this.acceptSocket.AcceptAsync(this.socketArgs))
             {
-                if (!this.EndAcceptSynchronous(this.socketArgs)) break;
+                if (!this.EndAcceptSynchronous(this.socketArgs))
+                {
+                    break;
+                }
             }
         }
 

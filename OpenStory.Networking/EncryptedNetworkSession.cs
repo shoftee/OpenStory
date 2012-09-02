@@ -60,7 +60,7 @@ namespace OpenStory.Networking
 
             this.Session = new NetworkSession();
             this.Session.DataArrived += this.HandleIncomingData;
-            this.Session.Closing += this.RaiseClosingEvent;      
+            this.Session.Closing += this.RaiseClosingEvent;
         }
 
         /// <summary>
@@ -142,7 +142,10 @@ namespace OpenStory.Networking
                     this.PacketReceived(this, incomingPacketArgs);
                 }
 
-                if (remaining == 0) break;
+                if (remaining == 0)
+                {
+                    break;
+                }
 
                 int bufferred;
                 int headerRemaining = this.HeaderBuffer.FreeSpace;
@@ -153,7 +156,10 @@ namespace OpenStory.Networking
                     // For the confused: if we didn't fill the header, it 
                     // means the data array didn't have enough elements.
                     // We move on.
-                    if (bufferred < headerRemaining) break;
+                    if (bufferred < headerRemaining)
+                    {
+                        break;
+                    }
 
                     position += bufferred;
                     remaining -= bufferred;

@@ -17,11 +17,18 @@ namespace OpenStory.Server.Auth
         private const string ServerName = "Auth";
 
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
-        /// <inheritdoc />
-        public IOpCodeTable OpCodes { get { return OpCodesInternal; } }
 
         /// <inheritdoc />
-        public override string Name { get { return ServerName; } }
+        public IOpCodeTable OpCodes
+        {
+            get { return OpCodesInternal; }
+        }
+
+        /// <inheritdoc />
+        public override string Name
+        {
+            get { return ServerName; }
+        }
 
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
@@ -65,6 +72,5 @@ namespace OpenStory.Server.Auth
             var newClient = new AuthClient(serverSession, this);
             this.clients.Add(newClient);
         }
-
     }
 }

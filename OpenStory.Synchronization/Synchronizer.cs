@@ -16,7 +16,10 @@ namespace OpenStory.Synchronization
         public static ISynchronized<T> Synchronize<T>(T obj)
             where T : class
         {
-            if (obj == null) throw new ArgumentNullException("obj");
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj");
+            }
 
             return new Synchronized<T>(obj, GlobalQueue);
         }
@@ -31,7 +34,10 @@ namespace OpenStory.Synchronization
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <c>null</c>.</exception>
         public static void ScheduleAction(Action action)
         {
-            if (action == null) throw new ArgumentNullException("action");
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
 
             GlobalQueue.ScheduleAction(action);
         }
