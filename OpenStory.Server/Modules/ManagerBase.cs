@@ -26,6 +26,8 @@ namespace OpenStory.Server.Modules
         /// </summary>
         protected ManagerBase()
         {
+            this.isInitialized = false;
+
             this.types = new Dictionary<string, Type>();
             this.instances = new Dictionary<string, object>();
         }
@@ -33,12 +35,14 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Runs the initialization checks on this instance and marks it as initialized.
         /// </summary>
+        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="InitializeAndThrowOnError()" select="exception[@cref='InvalidOperationException']" />
         public void Initialize()
         {
-            ThrowIfInitialized();
+            this.ThrowIfInitialized();
 
             this.OnInitializing();
-            InitializeAndThrowOnError();
+            this.InitializeAndThrowOnError();
 
             this.isInitialized = true;
             this.OnInitialized();
@@ -67,6 +71,7 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Runs the initialization checks on this instance and throws on error.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if there is an error during initialization.</exception>
         private void InitializeAndThrowOnError()
         {
             string error;
@@ -82,9 +87,12 @@ namespace OpenStory.Server.Modules
         /// </summary>
         /// <param name="name">The name of the component to require.</param>
         /// <param name="type">The type of the component.</param>
+        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <c>null</c>.</exception>
         protected void RequireComponent(string name, Type type)
         {
-            ThrowIfInitialized();
+            this.ThrowIfInitialized();
+
             if (name == null)
             {
                 throw new ArgumentNullException("name");
@@ -103,9 +111,12 @@ namespace OpenStory.Server.Modules
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <param name="name">The name of the component to require.</param>
+        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
         protected void RequireComponent<TComponent>(string name)
         {
-            ThrowIfInitialized();
+            this.ThrowIfInitialized();
+
             if (name == null)
             {
                 throw new ArgumentNullException("name");
@@ -119,9 +130,11 @@ namespace OpenStory.Server.Modules
         /// </summary>
         /// <param name="name">The name of the component.</param>
         /// <param name="instance">The instance for the component entry.</param>
+        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <c>null</c>.</exception>
         public void RegisterComponent(string name, object instance)
         {
-            ThrowIfInitialized();
+            this.ThrowIfInitialized();
 
             if (name == null)
             {
@@ -152,10 +165,12 @@ namespace OpenStory.Server.Modules
         /// </summary>
         /// <typeparam name="TComponent">The type to cast the result to.</typeparam>
         /// <param name="name">The name of the component.</param>
+        /// <inheritdoc cref="ThrowIfNotInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
         /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>.</returns>
         protected TComponent GetComponent<TComponent>(string name)
         {
-            ThrowIfNotInitialized();
+            this.ThrowIfNotInitialized();
 
             if (name == null)
             {
@@ -174,6 +189,7 @@ namespace OpenStory.Server.Modules
         /// Checks if a component instance is registered for the specified name.
         /// </summary>
         /// <param name="name">The name of the component slot to check.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
         /// <returns><c>true</c> if there is an instance registered; otherwise, <c>false</c>.</returns>
         protected bool CheckComponent(string name)
         {
@@ -195,6 +211,7 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> if the instance is not initialized.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if the instance has already been fully initialized.</exception>
         protected void ThrowIfNotInitialized()
         {
             if (!this.isInitialized)
@@ -206,6 +223,7 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> if the instance is initialized.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if the instance has not been fully initialized.</exception>
         protected void ThrowIfInitialized()
         {
             if (this.isInitialized)
