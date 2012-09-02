@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    internal abstract class Descriptor
+    internal abstract class DescriptorBase
     {
         /// <summary>
         /// The event is raised when a connection error occurs.
@@ -14,17 +14,17 @@ namespace OpenStory.Networking
         public event EventHandler<SocketErrorEventArgs> Error;
 
         /// <summary>
-        /// Gets the <see cref="IDescriptorContainer">Container</see> of this Descriptor.
+        /// Gets the <see cref="IDescriptorContainer">Container</see> of this descriptor.
         /// </summary>
         protected IDescriptorContainer Container { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="SocketAsyncEventArgs"/> object for this Descriptor.
+        /// Gets the <see cref="SocketAsyncEventArgs"/> object for this descriptor.
         /// </summary>
         protected SocketAsyncEventArgs SocketArgs { get; private set; }
 
         /// <summary>
-        /// Initializes a new Descriptor.
+        /// Initializes a new instance of <see cref="DescriptorBase"/>.
         /// </summary>
         /// <remarks>
         /// This constructor initializes the 
@@ -34,7 +34,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="container" /> is <c>null</c>.
         /// </exception>
-        protected Descriptor(IDescriptorContainer container)
+        protected DescriptorBase(IDescriptorContainer container)
         {
             if (container == null)
             {
@@ -83,7 +83,7 @@ namespace OpenStory.Networking
         protected abstract void OnClosed();
 
         /// <summary>
-        /// Closes the <see cref="Descriptor"/> instance.
+        /// Closes the <see cref="DescriptorBase"/> instance.
         /// </summary>
         public void Close()
         {

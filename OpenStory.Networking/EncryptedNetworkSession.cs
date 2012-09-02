@@ -46,7 +46,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the cryptographic transformer for this session.
         /// </summary>
-        protected AbstractCrypto Crypto { get; set; }
+        protected EndpointCrypto Crypto { get; set; }
 
         /// <summary>
         /// Initializes the internal fields and <see cref="Session"/> with no specified socket.

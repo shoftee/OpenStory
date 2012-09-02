@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataArrivedEventArgs.cs" />
-    <Compile Include="Descriptor.cs" />
+    <Compile Include="DescriptorBase.cs" />
     <Compile Include="EncryptedNetworkSession.cs" />
     <Compile Include="PacketReceivedEventArgs.cs" />
     <Compile Include="SessionCloseEventArgs.cs" />

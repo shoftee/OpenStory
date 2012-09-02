@@ -3,7 +3,7 @@
 namespace OpenStory.Networking
 {
     /// <summary>
-    /// A container for <see cref="Descriptor"/> instances.
+    /// A container for <see cref="DescriptorBase"/> instances.
     /// </summary>
     internal interface IDescriptorContainer
     {

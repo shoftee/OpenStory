@@ -2,7 +2,7 @@ using OpenStory.Common.IO;
 
 namespace OpenStory.Server.Channel
 {
-    internal class ChannelClient : AbstractClient
+    internal class ChannelClient : ClientBase
     {
         public ChannelClient(ServerSession session) : base(session)
         {

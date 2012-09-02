@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network receive buffer.
     /// </summary>
-    internal sealed class ReceiveDescriptor : Descriptor
+    internal sealed class ReceiveDescriptor : DescriptorBase
     {
         /// <summary>
         /// The default buffer size, set to match the RollingIv block size.

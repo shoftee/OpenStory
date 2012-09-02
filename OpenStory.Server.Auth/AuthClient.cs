@@ -10,7 +10,7 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Represents a client for the Authentication Server.
     /// </summary>
-    internal sealed class AuthClient : AbstractClient
+    internal sealed class AuthClient : ClientBase
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 

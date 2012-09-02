@@ -5,7 +5,7 @@ namespace OpenStory.Cryptography
     /// <summary>
     /// Represents a base class for cryptographic packet transformation.
     /// </summary>
-    public abstract class AbstractCrypto
+    public abstract class EndpointCrypto
     {
         private readonly RollingIv encryptor;
         private readonly RollingIv decryptor;
@@ -27,14 +27,14 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AbstractCrypto"/>.
+        /// Initializes a new instance of <see cref="EndpointCrypto"/>.
         /// </summary>
         /// <remarks>
         /// This constructor initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
         /// </remarks>
         /// <param name="encryptor">The IV used for encryption.</param>
         /// <param name="decryptor">The IV used for decryption.</param>
-        protected AbstractCrypto(RollingIv encryptor, RollingIv decryptor)
+        protected EndpointCrypto(RollingIv encryptor, RollingIv decryptor)
         {
             this.encryptor = encryptor;
             this.decryptor = decryptor;

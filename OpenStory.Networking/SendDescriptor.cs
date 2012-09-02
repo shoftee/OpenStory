@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network send buffer.
     /// </summary>
-    internal sealed class SendDescriptor : Descriptor
+    internal sealed class SendDescriptor : DescriptorBase
     {
         private readonly AtomicBoolean isSending;
 

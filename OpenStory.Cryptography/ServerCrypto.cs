@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a cryptographic transformer for server-side sessions.
     /// </summary>
-    public sealed class ServerCrypto : AbstractCrypto
+    public sealed class ServerCrypto : EndpointCrypto
     {
         // Encryption uses the local IV, decryption uses the remote IV.
         // Server's local IV has flipped version, Client's local IV has regular version.
@@ -15,7 +15,7 @@
         /// <param name="clientIv">The IV for the client.</param>
         /// <param name="serverIv">The IV for the server.</param>
         /// <returns></returns>
-        public static AbstractCrypto New(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+        public static EndpointCrypto New(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
             var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.Complement);
             var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.None);

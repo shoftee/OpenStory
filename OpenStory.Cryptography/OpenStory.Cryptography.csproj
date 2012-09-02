@@ -36,7 +36,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AbstractCrypto.cs" />
+    <Compile Include="EndpointCrypto.cs" />
     <Compile Include="AesTransform.cs" />
     <Compile Include="KmstDecryptor.cs" />
     <Compile Include="KmstEncryptor.cs" />

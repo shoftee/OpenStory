@@ -50,8 +50,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractClient.cs" />
-    <Compile Include="AbstractServer.cs" />
+    <Compile Include="ClientBase.cs" />
+    <Compile Include="ServerBase.cs" />
     <Compile Include="Diagnostics\DefaultLogger.cs" />
     <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />

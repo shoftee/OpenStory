@@ -11,7 +11,7 @@ namespace OpenStory.Server
     /// Represents a base class for all server clients.
     /// This class is abstract.
     /// </summary>
-    public abstract class AbstractClient
+    public abstract class ClientBase
     {
         /// <summary>
         /// The number of pings a client is allowed to miss before being disconnected.
@@ -51,13 +51,13 @@ namespace OpenStory.Server
         private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AbstractClient"/>.
+        /// Initializes a new instance of <see cref="ClientBase"/>.
         /// </summary>
         /// <param name="session">The session object for this client.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="session"/> is <c>null</c>.
         /// </exception>
-        protected AbstractClient(ServerSession session)
+        protected ClientBase(ServerSession session)
         {
             if (session == null)
             {

@@ -12,7 +12,7 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Represents a server that handles the authentication process.
     /// </summary>
-    public sealed class AuthServer : AbstractServer, IAuthServer
+    public sealed class AuthServer : ServerBase, IAuthServer
     {
         private const string ServerName = "Auth";
 
