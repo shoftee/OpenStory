@@ -9,9 +9,9 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Represents a game World.
     /// </summary>
-    internal class WorldInfo : IWorld
+    internal sealed class ActiveWorld : IWorld
     {
-        private readonly List<ChannelInfo> channels;
+        private readonly List<ActiveChannel> channels;
 
         #region IWorld Members
 
@@ -46,14 +46,14 @@ namespace OpenStory.Server.Auth
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of <see cref="WorldInfo"/>.
+        /// Initializes a new instance of <see cref="ActiveWorld"/>.
         /// </summary>
-        public WorldInfo(World world)
+        public ActiveWorld(World world)
         {
             this.Id = world.WorldId;
             this.Name = world.WorldName;
             this.ChannelCount = world.ChannelCount;
-            this.channels = new List<ChannelInfo>(this.ChannelCount);
+            this.channels = new List<ActiveChannel>(this.ChannelCount);
         }
     }
 }

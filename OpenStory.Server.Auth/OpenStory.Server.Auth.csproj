@@ -55,10 +55,11 @@
     <Compile Include="AuthPolicyBase.cs" />
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerPackets.cs" />
-    <Compile Include="ChannelInfo.cs" />
+    <Compile Include="ActiveChannel.cs" />
     <Compile Include="Data\AuthCharacter.cs" />
     <Compile Include="Data\AuthDataManager.cs" />
     <Compile Include="Data\CharacterCreateResult.cs" />
+    <Compile Include="Data\CharacterRemoveResult.cs" />
     <Compile Include="Data\Providers\ICharacterDataProvider.cs" />
     <Compile Include="Data\Providers\IWorldDataProvider.cs" />
     <Compile Include="Data\World.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleAuthPolicy.cs" />
     <Compile Include="SimpleCredentials.cs" />
-    <Compile Include="WorldInfo.cs" />
+    <Compile Include="ActiveWorld.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
