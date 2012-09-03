@@ -10,20 +10,20 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Gets the ban data provider.
         /// </summary>
-        public IBanDataProvider Bans { get; private set; }
+        public IBanProvider Bans { get; private set; }
 
         /// <summary>
         /// Gets the account data provider.
         /// </summary>
-        public IAccountDataProvider Accounts { get; private set; }
+        public IAccountProvider Accounts { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="DataManager"/>.
         /// </summary>
         public DataManager()
         {
-            base.RequireComponent("Bans", typeof(IBanDataProvider));
-            base.RequireComponent("Accounts", typeof(IAccountDataProvider));
+            base.RequireComponent("Bans", typeof(IBanProvider));
+            base.RequireComponent("Accounts", typeof(IAccountProvider));
         }
 
         /// <inheritdoc/>
@@ -31,8 +31,8 @@ namespace OpenStory.Server.Modules
         {
             base.OnInitialized();
 
-            this.Bans = base.GetComponent<IBanDataProvider>("Bans");
-            this.Accounts = base.GetComponent<IAccountDataProvider>("Accounts");
+            this.Bans = base.GetComponent<IBanProvider>("Bans");
+            this.Accounts = base.GetComponent<IAccountProvider>("Accounts");
         }
     }
 }

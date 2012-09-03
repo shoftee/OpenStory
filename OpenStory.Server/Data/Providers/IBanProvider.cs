@@ -8,7 +8,7 @@ namespace OpenStory.Server.Data.Providers
     /// <summary>
     /// Provides methods for operating with bans.
     /// </summary>
-    public interface IBanDataProvider
+    public interface IBanProvider
     {
         /// <summary>
         /// Bans an account by its identifier.

@@ -5,7 +5,7 @@ namespace OpenStory.Server.Auth.Data.Providers
     /// <summary>
     /// Provides methods for data operation with characters.
     /// </summary>
-    public interface ICharacterDataProvider
+    public interface IAuthCharacterProvider
     {
         /// <summary>
         /// Checks if a name is available for use.

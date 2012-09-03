@@ -8,7 +8,7 @@ namespace OpenStory.Server.Data.Providers
     /// <summary>
     /// Provides methods for data operations with accounts.
     /// </summary>
-    public interface IAccountDataProvider
+    public interface IAccountProvider
     {
         /// <summary>
         /// Retrieves an instance of <see cref="Account"/> for the account with the specified user name.

@@ -31,7 +31,7 @@ namespace OpenStory.Server.Modules.Default
 
         #region Stub providers
 
-        private sealed class SomeBanDataProvider : IBanDataProvider
+        private sealed class SomeBanDataProvider : IBanProvider
         {
             public bool BanByAccountId(int accountId, string reason, DateTimeOffset? expiration = null)
             {
@@ -40,7 +40,7 @@ namespace OpenStory.Server.Modules.Default
             }
         }
 
-        private sealed class SomeAccountDataProvider : IAccountDataProvider
+        private sealed class SomeAccountDataProvider : IAccountProvider
         {
             public Account LoadByUserName(string userName)
             {
