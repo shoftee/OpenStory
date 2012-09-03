@@ -4,11 +4,17 @@ using System.Collections.Generic;
 namespace OpenStory.Server.Game
 {
     /// <summary>
-    /// Represents a container for items.
+    /// Represents a container for item stacks.
     /// </summary>
+    /// <remarks>
+    /// This can be used for storage, herb pouches, player inventories, and other nifty stuff.
+    /// </remarks>
+    /// <typeparam name="TItemInfo">The <see cref="ItemInfo"/> type for the contained items.</typeparam>
     public abstract class ItemContainer<TItemInfo>
         where TItemInfo : ItemInfo
     {
+        private readonly Dictionary<int, ItemCluster<TItemInfo>> slots;
+
         /// <summary>
         /// Gets the maximum capacity for this container.
         /// </summary>
@@ -27,12 +33,13 @@ namespace OpenStory.Server.Game
             get { return this.SlotCapacity - this.slots.Count; }
         }
 
-        private readonly Dictionary<int, ItemCluster<TItemInfo>> slots;
-
         /// <summary>
         /// Initializes a new instance of <see cref="ItemContainer{TItemInfo}"/>.
         /// </summary>
         /// <param name="slotCapacity">The initial slot capacity.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="slotCapacity"/> is negative.
+        /// </exception>
         protected ItemContainer(int slotCapacity)
         {
             if (slotCapacity < 0)
@@ -49,6 +56,8 @@ namespace OpenStory.Server.Game
         /// Expands the item container with the specified number of slots.
         /// </summary>
         /// <param name="count">The number of slots to add.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="count"/> is negative.</exception>
+        /// <exception cref="ArgumentException">Thrown if the expansion would cause the inventory to expand over its maximum capacity.</exception>
         public void Expand(int count)
         {
             if (count < 0)

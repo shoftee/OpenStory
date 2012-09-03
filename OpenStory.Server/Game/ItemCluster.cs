@@ -6,7 +6,7 @@ namespace OpenStory.Server.Game
     /// Represents a stack of identical items.
     /// </summary>
     /// <typeparam name="TItemInfo">The <see cref="ItemInfo"/> type of the items in this cluster.</typeparam>
-    public class ItemCluster<TItemInfo>
+    public abstract class ItemCluster<TItemInfo>
         where TItemInfo : ItemInfo
     {
         /// <summary>
@@ -15,17 +15,17 @@ namespace OpenStory.Server.Game
         public TItemInfo Prototype { get; private set; }
 
         /// <summary>
+        /// Gets the number of items in this cluster.
+        /// </summary>
+        public int Quantity { get; private set; }
+
+        /// <summary>
         /// Gets whether the cluster is empty.
         /// </summary>
         public bool IsEmpty
         {
             get { return this.Quantity == 0; }
         }
-
-        /// <summary>
-        /// Gets the number of items in this cluster.
-        /// </summary>
-        public int Quantity { get; private set; }
 
         /// <summary>
         /// Gets the identifier for the prototype of this cluster.
@@ -38,19 +38,41 @@ namespace OpenStory.Server.Game
         /// <summary>
         /// Gets the item capacity of this cluster.
         /// </summary>
-        public int ClusterCapacity
+        public virtual int ClusterCapacity
         {
             get { return this.Prototype.ClusterCapacity; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ItemCluster{TItemInfo}"/>.
+        /// </summary>
+        /// <param name="prototype">The <see cref="ItemInfo"/> to use as an item prototype.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="prototype"/> is <c>null</c>.
+        /// </exception>
+        protected ItemCluster(TItemInfo prototype)
+        {
+            if (prototype == null)
+            {
+                throw new ArgumentNullException("prototype");
+            }
+
+            this.Prototype = prototype;
+            this.Quantity = 0;
         }
 
         /// <summary>
         /// Attempts to merge the specified ItemCluster with the current.
         /// </summary>
         /// <param name="other">The ItemCluster to merge.</param>
-        /// <returns>
-        /// the number of items that were carried over to the current cluster.
-        /// </returns>
-        public int Merge(ItemCluster<TItemInfo> other)
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="other"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="other"/> is for a different item prototype than the current instance.
+        /// </exception>
+        /// <returns>the number of items that were carried over to the current cluster.</returns>
+        public int MergeWith(ItemCluster<TItemInfo> other)
         {
             if (other == null)
             {
@@ -77,13 +99,12 @@ namespace OpenStory.Server.Game
         /// Gets the number of items that can be merged from the specified cluster into the current.
         /// </summary>
         /// <param name="other">The cluster to merge from.</param>
-        /// <returns>
-        /// the number of items that can be merged; 
-        /// <c>0</c> if the <paramref name="other"/> is incompatible with this cluster.
-        /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="other"/> is <c>null</c>.
         /// </exception>
+        /// <returns>
+        /// <c>true</c> if the cluster is compatible and there is remaining capacity to contain more items; otherwise, <c>false</c>.
+        /// </returns>
         public bool CanMergeWith(ItemCluster<TItemInfo> other)
         {
             if (other == null)

@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="slotCapacity">The initial slot capacity.</param>
         /// <inheritdoc />
-        public Inventory(int slotCapacity)
+        protected Inventory(int slotCapacity)
             : base(slotCapacity)
         {
         }

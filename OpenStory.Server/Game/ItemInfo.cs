@@ -5,6 +5,9 @@ namespace OpenStory.Server.Game
     /// <summary>
     /// Represents information about a game item.
     /// </summary>
+    /// <remarks>
+    /// This is the thing that should be loaded by your item information provider, whatever it is.
+    /// </remarks>
     public abstract class ItemInfo : IEquatable<ItemInfo>
     {
         /// <summary>
@@ -15,12 +18,15 @@ namespace OpenStory.Server.Game
         /// <summary>
         /// Gets how many items of this prototype you can put in one cluster.
         /// </summary>
-        public virtual int ClusterCapacity { get; private set; }
+        public int ClusterCapacity { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ItemInfo"/>.
         /// </summary>
         /// <param name="itemId">The identifier for the item.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="itemId"/> is non-positive.
+        /// </exception>
         protected ItemInfo(int itemId)
         {
             if (itemId <= 0)
