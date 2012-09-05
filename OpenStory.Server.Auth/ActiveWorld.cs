@@ -48,11 +48,11 @@ namespace OpenStory.Server.Auth
         /// <summary>
         /// Initializes a new instance of <see cref="ActiveWorld"/>.
         /// </summary>
-        public ActiveWorld(World world)
+        public ActiveWorld(WorldInfo worldInfo)
         {
-            this.Id = world.WorldId;
-            this.Name = world.WorldName;
-            this.ChannelCount = world.ChannelCount;
+            this.Id = worldInfo.WorldId;
+            this.Name = worldInfo.WorldName;
+            this.ChannelCount = worldInfo.ChannelCount;
             this.channels = new List<ActiveChannel>(this.ChannelCount);
         }
     }

@@ -77,8 +77,8 @@
     <Compile Include="Data\Character.cs" />
     <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
-    <Compile Include="Data\Providers\IAccountDataProvider.cs" />
-    <Compile Include="Data\Providers\IBanDataProvider.cs" />
+    <Compile Include="Data\Providers\IAccountProvider.cs" />
+    <Compile Include="Data\Providers\IBanProvider.cs" />
     <Compile Include="Game\ItemContainer.cs" />
     <Compile Include="Game\ItemCluster.cs" />
     <Compile Include="Game\ItemInfo.cs" />

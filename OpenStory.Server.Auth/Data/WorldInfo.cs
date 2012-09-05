@@ -6,7 +6,7 @@ namespace OpenStory.Server.Auth.Data
     /// <summary>
     /// An object mapping for the World table.
     /// </summary>
-    public sealed class World
+    public sealed class WorldInfo
     {
         /// <summary>
         /// Gets the world ID.
@@ -26,7 +26,7 @@ namespace OpenStory.Server.Auth.Data
         /// <summary>
         /// Initializes this World object with the default values.
         /// </summary>
-        public World()
+        public WorldInfo()
         {
         }
 
@@ -37,7 +37,7 @@ namespace OpenStory.Server.Auth.Data
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="record"/> is <c>null</c>.
         /// </exception>
-        public World(IDataRecord record)
+        public WorldInfo(IDataRecord record)
         {
             if (record == null)
             {
