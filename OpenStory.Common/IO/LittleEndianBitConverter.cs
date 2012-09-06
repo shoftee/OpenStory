@@ -45,13 +45,13 @@ namespace OpenStory.Common.IO
             }
             if (offset < 0 || offset > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("offset",
-                                                      "'offset' must be a valid index within the bounds of the buffer.");
+                const string Message = "'offset' must be a valid index within the bounds of the buffer.";
+                throw new ArgumentOutOfRangeException("offset", offset, Message);
             }
             if (offset + count > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException("count",
-                                                      "'count' must be such that the segment falls within the bounds of the buffer.");
+                const string Message = "'count' must be such that the segment falls within the bounds of the buffer.";
+                throw new ArgumentOutOfRangeException("count", count, Message);
             }
 
             long result = 0;

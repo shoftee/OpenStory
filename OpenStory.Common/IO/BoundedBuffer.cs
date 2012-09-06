@@ -52,18 +52,16 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Takes bytes from the start of an array and appends as many as possible to the BoundedBuffer.
+        /// Takes bytes from the start of an array and appends as many as possible to the buffer.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// This method will append a maximum of <paramref name="count"/> elements from the 
-        /// start of <paramref name="buffer"/> to the end of the BoundedBuffer.
-        /// If there is not enough space for <c>count</c> elements, 
-        /// it will fill the remaining BoundedBuffer space with bytes from the start of
-        /// <c>buffer</c>.
+        /// This method will append a maximum of <paramref name="count"/> elements from the start of 
+        /// <paramref name="buffer"/> to the end of the BoundedBuffer. If there is not enough space 
+        /// for <c>count</c> elements, it will fill the remaining BoundedBuffer space with bytes from 
+        /// the start of <c>buffer</c>.
         /// </para><para>
-        /// Calling this method is equivalent to calling 
-        /// <see cref="AppendFill(byte[],int,int)"/> with offset set to 0.
+        /// Calling this method is equivalent to calling <see cref="AppendFill(byte[],int,int)"/> with offset set to 0.
         /// </para>
         /// </remarks>
         /// <param name="buffer">The array to read from.</param>
@@ -84,12 +82,12 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Takes bytes from the start of an array segment and appends as much as possible to the BoundedBuffer.
+        /// Takes bytes from the start of an array segment and appends as many as possible to the buffer.
         /// </summary>
         /// <remarks>
         /// This method will append a maximum of <paramref name="count"/> elements 
-        /// to the end of the BoundedBuffer, starting at 
-        /// <paramref name="offset"/> in <paramref name="buffer"/> .
+        /// to the end of the buffer, starting at 
+        /// <paramref name="offset"/> in <paramref name="buffer"/>.
         /// </remarks>
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
@@ -104,7 +102,7 @@ namespace OpenStory.Common.IO
         /// of the given array's bounds.
         /// </exception>
         /// <returns>
-        /// The number of bytes that were stored. If there was enough space, this is equal to <paramref name="count"/>.
+        /// the number of bytes that were stored.
         /// </returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
@@ -131,22 +129,22 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Extracts the data from the BoundedBuffer.
+        /// Extracts the data from the buffer.
         /// </summary>
         /// <remarks>
         /// After calling this method, <see cref="Reset(int)"/> 
         /// should be called to prepare the buffer for the next segment.
         /// </remarks>
-        /// <returns>a byte array of the data in the BoundedBuffer.</returns>
+        /// <returns>a byte array of the data in the buffer.</returns>
         public byte[] Extract()
         {
             return this.MemoryStream.GetBuffer();
         }
 
         /// <summary>
-        /// Prepares the BoundedBuffer for new data.
+        /// Prepares the buffer for new data.
         /// </summary>
-        /// <param name="newCapacity">The new capacity for the BoundedBuffer.</param>
+        /// <param name="newCapacity">The new capacity for the buffer.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="newCapacity"/> is negative.
         /// </exception>
@@ -201,9 +199,10 @@ namespace OpenStory.Common.IO
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !isDisposed)
+            if (!this.isDisposed && disposing)
             {
                 this.MemoryStream.Dispose();
+                
                 this.isDisposed = true;
             }
         }

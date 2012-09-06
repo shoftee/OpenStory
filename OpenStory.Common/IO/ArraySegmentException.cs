@@ -13,17 +13,20 @@ namespace OpenStory.Common.IO
     /// segment defined by either a start and an end offset 
     /// or a start offset and a segment length,
     /// falls outside of an array's bounds.
-    /// Please provide meaningful messages or 
-    /// use the static methods provided.
     /// </remarks>
     [Serializable]
-    public sealed class ArraySegmentException : ArgumentException
+    public sealed class ArraySegmentException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ArraySegmentException"/>.
+        /// </summary>
+        /// <inheritdoc />
         private ArraySegmentException(string message)
             : base(message)
         {
         }
 
+        /// <inheritdoc />
         private ArraySegmentException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

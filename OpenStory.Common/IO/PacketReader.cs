@@ -45,6 +45,7 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("buffer");
             }
+
             if (offset < 0 || buffer.Length < offset ||
                 length <= 0 || offset + length > buffer.Length)
             {
@@ -76,45 +77,6 @@ namespace OpenStory.Common.IO
         }
 
         #region Private methods
-
-        /// <summary>
-        /// Determines whether the position can safely advance by a number of bytes.
-        /// </summary>
-        /// <param name="count">The number of bytes to advance by.</param>
-        /// <returns><c>true</c> if advancing is safe; otherwise, <c>false</c>.</returns>
-        private bool CanAdvance(int count)
-        {
-            return !(this.currentOffset + count > this.segmentEnd);
-        }
-
-        /// <summary>Advances the stream by a number of positions and returns the original position.</summary>
-        /// <param name="count">The number of positions to advance.</param>
-        /// <returns>the position of the stream before advancing.</returns>
-        private int UncheckedAdvance(int count)
-        {
-            int old = this.currentOffset;
-            this.currentOffset += count;
-            return old;
-        }
-
-        /// <summary>
-        /// Advances the stream by a number of positions and returns the original position.
-        /// </summary>
-        /// <param name="count">The number of positions to advance.</param>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the position will fall outside the bounds of the underlying array segment.
-        /// </exception>
-        /// <returns>the position of the stream before advancing.</returns>
-        private int CheckedAdvance(int count)
-        {
-            if (this.currentOffset + count > this.segmentEnd)
-            {
-                throw new InvalidOperationException("You have reached the end of the stream.");
-            }
-            int old = this.currentOffset;
-            this.currentOffset += count;
-            return old;
-        }
 
         /// <summary>Reads a null-terminated padded string from a position in the underlying array segment.</summary>
         /// <param name="start">The start of the padded string segment.</param>
@@ -151,16 +113,11 @@ namespace OpenStory.Common.IO
         /// Attempts to advance the stream position by a specified number of bytes.
         /// </summary>
         /// <param name="count">The number of bytes to skip.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="count"/> is negative.
-        /// </exception>
+        /// <inheritdoc cref="ArgumentOutOfRangeException" select="exception[@cref='ThrowIfCountIsNegative']" />
         /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TrySkip(int count)
         {
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException("count", "'count' must be non-negative.");
-            }
+            ThrowIfCountIsNegative(count);
 
             if (this.CanAdvance(count))
             {
@@ -177,23 +134,20 @@ namespace OpenStory.Common.IO
         /// Attempts to advance to a new forward position.
         /// </summary>
         /// <param name="offset">The new position to assign, relative to the start of the segment.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <para>Thrown if <paramref name="offset"/> is negative, </para>
-        /// <para>OR, </para>
-        /// <para><paramref name="offset"/> is behind the current position of the stream.</para>
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is behind the current position of the stream.</exception>
         /// <returns>the number of bytes that were skipped if the operation was successful; otherwise, <c>-1</c>.</returns>
         public int TrySkipTo(int offset)
         {
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", "'offset' must be non-negative.");
+                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be non-negative.");
             }
 
             int bufferOffset = this.segmentStart + offset;
             if (bufferOffset < this.currentOffset)
             {
-                throw new ArgumentOutOfRangeException("offset", "'offset' must be ahead of the current position.");
+                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be ahead of the current position.");
             }
 
             int skipped = this.segmentEnd - bufferOffset;
@@ -216,21 +170,17 @@ namespace OpenStory.Common.IO
         /// </remarks>
         /// <param name="count">The number of bytes to read.</param>
         /// <param name="array">The buffer to store the bytes read in.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="count"/> is negative.
-        /// </exception>
+        /// <inheritdoc cref="ArgumentOutOfRangeException" select="exception[@cref='ThrowIfCountIsNegative']" />
         /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         public bool TryRead(int count, out byte[] array)
         {
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException("count", "'count' must be non-negative.");
-            }
+            ThrowIfCountIsNegative(count);
 
             if (this.CanAdvance(count))
             {
                 array = new byte[count];
-                Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(count), array, 0, count);
+                int start = this.UncheckedAdvance(count);
+                Buffer.BlockCopy(this.buffer, start, array, 0, count);
                 return true;
             }
             else
@@ -249,7 +199,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(1))
             {
-                value = this.buffer[this.UncheckedAdvance(1)];
+                int index = this.UncheckedAdvance(1);
+                value = this.buffer[index];
                 return true;
             }
             else
@@ -268,7 +219,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(4))
             {
-                value = LittleEndianBitConverter.ToUInt32(this.buffer, this.UncheckedAdvance(4));
+                int start = this.UncheckedAdvance(4);
+                value = LittleEndianBitConverter.ToUInt32(this.buffer, start);
                 return true;
             }
             else
@@ -291,7 +243,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(4))
             {
-                value = LittleEndianBitConverter.ToInt32(this.buffer, this.UncheckedAdvance(4));
+                int start = this.UncheckedAdvance(4);
+                value = LittleEndianBitConverter.ToInt32(this.buffer, start);
                 return true;
             }
             else
@@ -312,7 +265,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(2))
             {
-                value = LittleEndianBitConverter.ToUInt16(this.buffer, this.UncheckedAdvance(2));
+                int start = this.UncheckedAdvance(2);
+                value = LittleEndianBitConverter.ToUInt16(this.buffer, start);
                 return true;
             }
             else
@@ -333,7 +287,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(2))
             {
-                value = LittleEndianBitConverter.ToInt16(this.buffer, this.UncheckedAdvance(2));
+                int start = this.UncheckedAdvance(2);
+                value = LittleEndianBitConverter.ToInt16(this.buffer, start);
                 return true;
             }
             else
@@ -354,7 +309,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(8))
             {
-                value = LittleEndianBitConverter.ToInt64(this.buffer, this.UncheckedAdvance(8));
+                int start = this.UncheckedAdvance(8);
+                value = LittleEndianBitConverter.ToInt64(this.buffer, start);
                 return true;
             }
             else
@@ -375,7 +331,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(8))
             {
-                value = LittleEndianBitConverter.ToUInt64(this.buffer, this.UncheckedAdvance(8));
+                int start = this.UncheckedAdvance(8);
+                value = LittleEndianBitConverter.ToUInt64(this.buffer, start);
                 return true;
             }
             else
@@ -397,7 +354,8 @@ namespace OpenStory.Common.IO
             short length;
             if (this.TryReadInt16(out length) && this.CanAdvance(length))
             {
-                result = this.ReadString(this.UncheckedAdvance(length), length);
+                int start = this.UncheckedAdvance(length);
+                result = this.ReadString(start, length);
                 return true;
             }
             else
@@ -421,7 +379,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(length))
             {
-                result = this.ReadNullTerminatedString(this.UncheckedAdvance(length), length);
+                int start = this.UncheckedAdvance(length);
+                result = this.ReadNullTerminatedString(start, length);
                 return true;
             }
             else
@@ -443,7 +402,8 @@ namespace OpenStory.Common.IO
         {
             if (this.CanAdvance(1))
             {
-                value = this.buffer[this.UncheckedAdvance(1)] != 0;
+                int index = this.UncheckedAdvance(1);
+                value = this.buffer[index] != 0;
                 return true;
             }
             else
@@ -460,33 +420,24 @@ namespace OpenStory.Common.IO
         /// Advances the stream position by a number of bytes.
         /// </summary>
         /// <param name="count">The number of bytes to skip.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="count"/> is negative.
-        /// </exception>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="ArgumentOutOfRangeException" select="exception[@cref='ThrowIfCountIsNegative']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         public void Skip(int count)
         {
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException("count", "'count' must be a non-negative integer.");
-            }
+            ThrowIfCountIsNegative(count);
+
             this.CheckedAdvance(count);
         }
 
         /// <summary>
         /// Reads a specified number of bytes.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="count"/> is negative.
-        /// </exception>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="ArgumentOutOfRangeException" select="exception[@cref='ThrowIfCountIsNegative']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>an array containing the bytes read.</returns>
         public byte[] ReadBytes(int count)
         {
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException("count", "'count' must be a non-negative integer.");
-            }
+            ThrowIfCountIsNegative(count);
 
             int start = this.CheckedAdvance(count);
             var bytes = new byte[count];
@@ -497,82 +448,90 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Reads a <see cref="System.Byte"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public byte ReadByte()
         {
-            return this.buffer[this.CheckedAdvance(1)];
+            int index = this.CheckedAdvance(1);
+            return this.buffer[index];
         }
 
         /// <summary>
         /// Reads a <see cref="System.Int16"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public short ReadInt16()
         {
-            return LittleEndianBitConverter.ToInt16(this.buffer, this.CheckedAdvance(2));
+            int start = this.CheckedAdvance(2);
+            return LittleEndianBitConverter.ToInt16(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a <see cref="System.UInt16"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public ushort ReadUInt16()
         {
-            return LittleEndianBitConverter.ToUInt16(this.buffer, this.CheckedAdvance(2));
+            int start = this.CheckedAdvance(2);
+            return LittleEndianBitConverter.ToUInt16(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a <see cref="System.Int32"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public int ReadInt32()
         {
-            return LittleEndianBitConverter.ToInt32(this.buffer, this.CheckedAdvance(4));
+            int start = this.CheckedAdvance(4);
+            return LittleEndianBitConverter.ToInt32(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a <see cref="System.UInt32"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public uint ReadUInt32()
         {
-            return LittleEndianBitConverter.ToUInt32(this.buffer, this.CheckedAdvance(4));
+            int start = this.CheckedAdvance(4);
+            return LittleEndianBitConverter.ToUInt32(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a <see cref="System.Int64"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public long ReadInt64()
         {
-            return LittleEndianBitConverter.ToInt64(this.buffer, this.CheckedAdvance(8));
+            int start = this.CheckedAdvance(8);
+            return LittleEndianBitConverter.ToInt64(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a <see cref="System.Int64"/> from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public ulong ReadUInt64()
         {
-            return LittleEndianBitConverter.ToUInt64(this.buffer, this.CheckedAdvance(8));
+            int start = this.CheckedAdvance(8);
+            return LittleEndianBitConverter.ToUInt64(this.buffer, start);
         }
 
         /// <summary>
         /// Reads a length and a string from the stream.
         /// </summary>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the string that was read from the stream.</returns>
         public string ReadLengthString()
         {
             short length = this.ReadInt16();
-            return this.ReadString(this.CheckedAdvance(length), length);
+            int start = this.CheckedAdvance(length);
+            return this.ReadString(start, length);
         }
 
         /// <summary>
@@ -581,16 +540,17 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="length"/> is non-positive.
         /// </exception>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the string that was read from the stream.</returns>
         public string ReadPaddedString(int length)
         {
             if (length <= 0)
             {
-                throw new ArgumentOutOfRangeException("length", "'length' must be a positive integer.");
+                throw new ArgumentOutOfRangeException("length", length, "'length' must be a positive integer.");
             }
-            int stringStart = this.CheckedAdvance(length);
-            return this.ReadNullTerminatedString(stringStart, length);
+
+            int start = this.CheckedAdvance(length);
+            return this.ReadNullTerminatedString(start, length);
         }
 
         /// <summary>
@@ -599,11 +559,12 @@ namespace OpenStory.Common.IO
         /// <remarks>
         /// The returned value is <c>true</c> if the read byte is not equal to <c>0</c>.
         /// </remarks>
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='InvalidOperationException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
         /// <returns>the value that was read from the stream.</returns>
         public bool ReadBoolean()
         {
-            return this.buffer[this.CheckedAdvance(1)] != 0;
+            int index = this.CheckedAdvance(1);
+            return this.buffer[index] != 0;
         }
 
         #endregion
@@ -618,8 +579,68 @@ namespace OpenStory.Common.IO
             int remaining = this.Remaining;
             var remainingBytes = new byte[remaining];
 
-            Buffer.BlockCopy(this.buffer, this.UncheckedAdvance(remaining), remainingBytes, 0, remaining);
+            int start = this.UncheckedAdvance(remaining);
+            Buffer.BlockCopy(this.buffer, start, remainingBytes, 0, remaining);
             return remainingBytes;
         }
+
+        #region Helpers
+
+        /// <summary>
+        /// Determines whether the position can safely advance by a number of bytes.
+        /// </summary>
+        /// <param name="count">The number of bytes to advance by.</param>
+        /// <returns><c>true</c> if advancing is safe; otherwise, <c>false</c>.</returns>
+        private bool CanAdvance(int count)
+        {
+            return this.currentOffset + count <= this.segmentEnd;
+        }
+
+        /// <summary>Advances the stream by a number of positions and returns the original position.</summary>
+        /// <param name="count">The number of positions to advance.</param>
+        /// <returns>the position of the stream before advancing.</returns>
+        private int UncheckedAdvance(int count)
+        {
+            int old = this.currentOffset;
+            this.currentOffset += count;
+            return old;
+        }
+
+        /// <summary>
+        /// Advances the stream by a number of positions and returns the original position.
+        /// </summary>
+        /// <param name="count">The number of positions to advance.</param>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the position will fall outside the bounds of the underlying array segment.
+        /// </exception>
+        /// <returns>the position of the stream before advancing.</returns>
+        private int CheckedAdvance(int count)
+        {
+            if (this.currentOffset + count > this.segmentEnd)
+            {
+                throw PacketReadException.EndOfStream();
+            }
+
+            int old = this.currentOffset;
+            this.currentOffset += count;
+            return old;
+        }
+
+        /// <summary>
+        /// Checks whether a count is negative and throws if so.
+        /// </summary>
+        /// <param name="count">The count to check.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="count"/> is negative.
+        /// </exception>
+        private static void ThrowIfCountIsNegative(int count)
+        {
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException("count", count, "'count' must be non-negative.");
+            }
+        }
+
+        #endregion
     }
 }

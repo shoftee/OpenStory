@@ -90,6 +90,7 @@
     <Compile Include="IO\BoundedBuffer.cs" />
     <Compile Include="IO\ByteOrder.cs" />
     <Compile Include="IO\PacketBuilder.cs" />
+    <Compile Include="IO\PacketReadException.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\DbHelpers.cs" />

@@ -37,6 +37,7 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentOutOfRangeException("capacity", capacity, "'capacity' must be a positive integer.");
             }
+
             this.stream = new MemoryStream(capacity);
         }
 
