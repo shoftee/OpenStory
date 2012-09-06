@@ -40,13 +40,9 @@
     </Reference>
     <Reference Include="System.Core">
     </Reference>
-    <Reference Include="System.Drawing">
-    </Reference>
     <Reference Include="System.Data">
     </Reference>
     <Reference Include="System.Runtime.Serialization">
-    </Reference>
-    <Reference Include="System.ServiceModel">
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -115,14 +111,6 @@
     <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
-      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
-      <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
-      <Name>OpenStory.Synchronization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

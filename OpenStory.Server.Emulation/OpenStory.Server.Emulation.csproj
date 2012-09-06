@@ -55,10 +55,6 @@
     </Reference>
     <Reference Include="System.Core">
     </Reference>
-    <Reference Include="System.Data">
-    </Reference>
-    <Reference Include="System.ServiceModel">
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\AppDomainHelpers.cs" />
@@ -74,25 +70,9 @@
     <Compile Include="ServerModuleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
-      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
-      <Name>OpenStory.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Cryptography\OpenStory.Cryptography.csproj">
-      <Project>{86BEC9F8-2860-4FD2-A4D1-54B365CBD659}</Project>
-      <Name>OpenStory.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
-      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
-      <Name>OpenStory.Networking</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Synchronization\OpenStory.Synchronization.csproj">
-      <Project>{191C9EA9-4107-43F1-9E51-2098B303333C}</Project>
-      <Name>OpenStory.Synchronization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

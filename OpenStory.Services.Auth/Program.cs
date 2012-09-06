@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
-using OpenStory.Common.Tools;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Fluent;
 
 namespace OpenStory.Services.Auth
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
