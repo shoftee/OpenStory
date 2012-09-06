@@ -1,5 +1,5 @@
-﻿using OpenStory.Server.Diagnostics;
-using OpenStory.Server.Modules;
+﻿using OpenStory.Server.Data;
+using OpenStory.Server.Diagnostics;
 
 namespace OpenStory.Server.Fluent.Internal
 {

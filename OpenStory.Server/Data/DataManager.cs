@@ -1,6 +1,7 @@
 using OpenStory.Server.Data.Providers;
+using OpenStory.Server.Modules;
 
-namespace OpenStory.Server.Modules
+namespace OpenStory.Server.Data
 {
     /// <summary>
     /// Provides methods and components for managing server data.
