@@ -1,6 +1,6 @@
 ﻿namespace OpenStory.Server.Fluent.Internal
 {
-    internal sealed class OsExtensions : IOsExtensions
+    internal sealed class FluentOsExtensions : IFluentOsExtensions
     {
     }
 }

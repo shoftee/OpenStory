@@ -21,10 +21,10 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// The entry point for OS extension methods.
         /// </summary>
-        /// <returns>an instance of type <see cref="IOsExtensions"/>.</returns>
-        public static IOsExtensions Ex()
+        /// <returns>an instance of type <see cref="IFluentOsExtensions"/>.</returns>
+        public static IFluentOsExtensions Ex()
         {
-            return new OsExtensions();
+            return new FluentOsExtensions();
         }
 
         /// <summary>

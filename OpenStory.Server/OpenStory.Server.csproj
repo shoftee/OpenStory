@@ -63,8 +63,8 @@
     <Compile Include="Fluent\Internal\InitializeFacade.cs" />
     <Compile Include="Fluent\Internal\InitializeManagerComponentsFacade.cs" />
     <Compile Include="Fluent\Internal\InitializeManagersFacade.cs" />
-    <Compile Include="Fluent\IOsExtensions.cs" />
-    <Compile Include="Fluent\Internal\OsExtensions.cs" />
+    <Compile Include="Fluent\IFluentOsExtensions.cs" />
+    <Compile Include="Fluent\Internal\FluentOsExtensions.cs" />
     <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />
