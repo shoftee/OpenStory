@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace OpenStory.Server.Data
+namespace OpenStory.Common.Tools
 {
     /// <summary>
     /// Provides static methods for various useful database-related operations.

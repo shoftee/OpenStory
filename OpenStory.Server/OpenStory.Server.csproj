@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientBase.cs" />
+    <Compile Include="Data\ISendFeed.cs" />
+    <Compile Include="Data\IReceiveFeed.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
     <Compile Include="ServerBase.cs" />
@@ -76,7 +78,6 @@
     <Compile Include="Data\AccountStatus.cs" />
     <Compile Include="Data\BanType.cs" />
     <Compile Include="Data\Character.cs" />
-    <Compile Include="Data\DbHelpers.cs" />
     <Compile Include="Data\GameMasterLevel.cs" />
     <Compile Include="Data\Providers\IAccountProvider.cs" />
     <Compile Include="Data\Providers\IBanProvider.cs" />

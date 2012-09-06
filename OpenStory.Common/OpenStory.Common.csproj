@@ -94,6 +94,7 @@
     <Compile Include="IO\PacketBuilder.cs" />
     <Compile Include="IO\PacketReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\DbHelpers.cs" />
     <Compile Include="Tools\MiscTools.cs" />
     <Compile Include="Tools\TimeHelpers.cs" />
     <Compile Include="Auth\ServerStatus.cs" />
