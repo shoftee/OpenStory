@@ -11,7 +11,7 @@ namespace OpenStory.Server.Fluent
     /// <remarks>
     /// You may write extensions methods to this interface and use them through the <see cref="OS.Ex()"/> fluent API.
     /// </remarks>
-    public interface IOsExtensions
+    public interface IOsExtensions : IFluentInterface
     {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace OpenStory.Server.Fluent
     /// Provides a method for returning to the parent facade object.
     /// </summary>
     /// <typeparam name="TParent">The type of the parent facade.</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public interface INestedFacade<TParent>
     {
         /// <summary>

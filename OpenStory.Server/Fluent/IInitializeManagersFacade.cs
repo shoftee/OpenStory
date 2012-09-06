@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Modules;
 
@@ -7,7 +8,8 @@ namespace OpenStory.Server.Fluent
     /// Provides initialization methods for manager types.
     /// </summary>
     /// <typeparam name="TManagerBase">The type of managers to initialize.</typeparam>
-    public interface IInitializeManagersFacade<TManagerBase> : INestedFacade<IInitializeFacade>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface IInitializeManagersFacade<TManagerBase> : INestedFacade<IInitializeFacade>, IFluentInterface
         where TManagerBase : ManagerBase
     {
         /// <summary>
