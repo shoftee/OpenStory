@@ -24,11 +24,6 @@ namespace OpenStory.Server.Data
         public string UserName { get; private set; }
 
         /// <summary>
-        /// Gets the e-mail address for the account.
-        /// </summary>
-        public string EmailAddress { get; private set; }
-
-        /// <summary>
         /// Gets the password hash.
         /// </summary>
         public string PasswordHash { get; private set; }
@@ -53,7 +48,6 @@ namespace OpenStory.Server.Data
             this.AccountId = (int)record["AccountId"];
             this.UserName = (string)record["UserName"];
             this.PasswordHash = (string)record["PasswordHash"];
-            this.EmailAddress = (string)record["EmailAddress"];
             this.GameMasterLevel = (GameMasterLevel)record["GameMasterLevel"];
             this.Gender = (Gender)record["record"];
             this.Status = (AccountStatus)record["record"];
