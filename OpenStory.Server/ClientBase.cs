@@ -91,8 +91,15 @@ namespace OpenStory.Server
 
         private void OnPacketReceived(object sender, PacketReceivedEventArgs e)
         {
-            PacketReader reader = e.Reader;
-            ushort opCode = reader.ReadUInt16();
+            var reader = e.Reader;
+
+            ushort opCode;
+            if (!reader.TryReadUInt16(out opCode))
+            {
+                this.Disconnect();
+                return;
+            }
+
             if (opCode == PongOpCode)
             {
                 this.sentPings.ExchangeWith(0);
