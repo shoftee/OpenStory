@@ -57,6 +57,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("packetData");
             }
+
             int length = packetData.Length;
             var rawData = new byte[length + 4];
             lock (this.Encryptor)
@@ -67,6 +68,7 @@ namespace OpenStory.Cryptography
                 CustomCrypto.Encrypt(packetData);
                 this.Encryptor.Transform(packetData);
             }
+
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);
             return rawData;
         }
@@ -80,8 +82,11 @@ namespace OpenStory.Cryptography
         /// <param name="packet">The data to decrypt.</param>
         public void Decrypt(byte[] packet)
         {
-            this.Decryptor.Transform(packet);
-            CustomCrypto.Decrypt(packet);
+            lock (this.Decryptor)
+            {
+                this.Decryptor.Transform(packet);
+                CustomCrypto.Decrypt(packet);
+            }
         }
 
         /// <summary>
@@ -92,22 +97,27 @@ namespace OpenStory.Cryptography
         /// </remarks>
         /// <param name="rawData">The raw packet data.</param>
         /// <param name="decryptedData">A reference to hold the decrypted data.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawData"/> is <c>null</c>.</exception>
         /// <returns><c>true</c> if the operation was successful; if the header was invalid, <c>false</c>.</returns>
         public bool TryUnpackAndDecrypt(byte[] rawData, out byte[] decryptedData)
         {
-            int length = this.TryGetLength(rawData);
-            if (length == -1)
+            if (rawData == null)
             {
-                goto Fail;
+                throw new ArgumentNullException("rawData");
             }
 
-            decryptedData = rawData.Segment(4, length);
-            this.Decrypt(decryptedData);
-            return true;
-
-            Fail:
-            decryptedData = null;
-            return false;
+            int length;
+            if (this.TryGetLength(rawData, out length))
+            {
+                decryptedData = rawData.Segment(4, length);
+                this.Decrypt(decryptedData);
+                return true;
+            }
+            else
+            {
+                decryptedData = default(byte[]);
+                return false;
+            }
         }
 
         /// <summary>
@@ -132,16 +142,19 @@ namespace OpenStory.Cryptography
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="header">The header byte array to process.</param>
-        /// <returns>the length of the packet if the header is valid; otherwise, <c>-1</c></returns>
-        public virtual int TryGetLength(byte[] header)
+        /// <param name="length">A variable to hold the result.</param>
+        /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
+        public virtual bool TryGetLength(byte[] header, out int length)
         {
             if (this.Decryptor.ValidateHeader(header))
             {
-                return RollingIv.GetPacketLength(header);
+                length = RollingIv.GetPacketLength(header);
+                return true;
             }
             else
             {
-                return -1;
+                length = default(int);
+                return false;
             }
         }
     }

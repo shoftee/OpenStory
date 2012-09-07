@@ -166,8 +166,8 @@ namespace OpenStory.Networking
                 }
 
                 byte[] header = this.HeaderBuffer.ExtractAndReset(4);
-                int length = this.Crypto.TryGetLength(header);
-                if (length == -1)
+                int length;
+                if (!this.Crypto.TryGetLength(header, out length))
                 {
                     this.Close();
                     return;

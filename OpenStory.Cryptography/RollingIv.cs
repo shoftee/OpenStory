@@ -8,7 +8,7 @@ namespace OpenStory.Cryptography
     public sealed class RollingIv
     {
         private readonly ICryptoAlgorithm algorithm;
-        private readonly ushort version;
+        private readonly ushort versionMask;
 
         private byte[] iv;
 
@@ -30,20 +30,14 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("algorithm");
             }
-            if (initialIv == null)
-            {
-                throw new ArgumentNullException("initialIv");
-            }
-            if (initialIv.Length != 4)
-            {
-                throw new ArgumentException("Argument 'initialIv' does not have exactly 4 elements.");
-            }
+
+            ThrowIfIvIsNullOrWrongLength(initialIv, "initialIv");
 
             this.algorithm = algorithm;
             this.iv = initialIv.FastClone();
 
             // Flip the version mask.
-            this.version = (ushort)((versionMask >> 8) | ((versionMask & 0xFF) << 8));
+            this.versionMask = (ushort)((versionMask >> 8) | ((versionMask & 0xFF) << 8));
         }
 
         /// <summary>
@@ -78,7 +72,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException("length", length, "The packet length must be at least 2.");
             }
 
-            int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.version);
+            int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask);
             int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
 
             var header = new byte[4];
@@ -95,26 +89,19 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// Reads a packet header from an array and extracts the packet's length.
         /// </summary>
-        /// <param name="data">The array to read from.</param>
+        /// <param name="header">The array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is <c>null</c>.
+        /// Thrown if <paramref name="header"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="data"/> has less than 4 elements.
+        /// Thrown if <paramref name="header"/> has less than 4 elements.
         /// </exception>
         /// <returns>the packet length extracted from the array.</returns>
-        public static int GetPacketLength(byte[] data)
+        public static int GetPacketLength(byte[] header)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-            if (data.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "data");
-            }
+            ThrowIfHeaderNullOrTooShort(header);
 
-            return ((data[1] ^ data[3]) << 8) | (data[0] ^ data[2]);
+            return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
         }
 
         /// <summary>
@@ -124,31 +111,40 @@ namespace OpenStory.Cryptography
         /// <returns><c>true</c> if the header is valid; otherwise, <c>false</c>.</returns>
         public bool ValidateHeader(byte[] header)
         {
-            ushort extractedVersion = GetVersion(header, this.iv);
+            ThrowIfHeaderNullOrTooShort(header);
 
-            return extractedVersion == this.version;
+            return ValidateHeaderInternal(header, this.iv, this.versionMask);
         }
 
         /// <summary>
-        /// Attempts to extract the packet length from a header.
+        /// Attempts to extract the length of a packet from its header.
         /// </summary>
-        /// <param name="header">The byte array to check.</param>
+        /// <remarks>
+        /// When overriding this method in a derived class, 
+        /// do not call the base implementation.
+        /// </remarks>
+        /// <param name="header">The header byte array to process.</param>
+        /// <param name="length">A variable to hold the result.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="header"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements.
         /// </exception>
-        /// <returns>if the header is valid, the packet length; otherwise, <c>-1</c>.</returns>
-        public int TryGetLength(byte[] header)
+        /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
+        public bool TryGetLength(byte[] header, out int length)
         {
-            if (this.ValidateHeader(header))
+            ThrowIfHeaderNullOrTooShort(header);
+
+            if (ValidateHeaderInternal(header, this.iv, this.versionMask))
             {
-                return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
+                length = ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
+                return true;
             }
             else
             {
-                return -1;
+                length = default(int);
+                return false;
             }
         }
 
@@ -165,18 +161,49 @@ namespace OpenStory.Cryptography
         /// Thrown if <paramref name="header"/> has less than 4 elements or
         /// if <paramref name="iv"/> doesn't have exactly 4 elements.
         /// </exception>
-        /// <returns>a number representing the version encoded into the header.</returns>
+        /// <returns>the version mask encoded into the header.</returns>
         public static ushort GetVersion(byte[] header, byte[] iv)
+        {
+            ThrowIfHeaderNullOrTooShort(header);
+            ThrowIfIvIsNullOrWrongLength(iv, "iv");
+
+            return GetVersionInternal(header, iv);
+        }
+
+        private static bool ValidateHeaderInternal(byte[] header, byte[] iv, ushort versionMask)
+        {
+            ushort extractedVersion = GetVersionInternal(header, iv);
+
+            return extractedVersion == versionMask;
+        }
+
+        private static ushort GetVersionInternal(byte[] header, byte[] iv)
+        {
+            var encodedVersion = (ushort)((header[0] << 8) | header[1]);
+            var xorSegment = (ushort)((iv[2] << 8) | iv[3]);
+
+            return (ushort)(encodedVersion ^ xorSegment);
+        }
+
+        #region Exception methods
+
+        private static void ThrowIfIvIsNullOrWrongLength(byte[] iv, string parameterName)
         {
             if (iv == null)
             {
-                throw new ArgumentNullException("iv");
-            }
-            else if (iv.Length != 4)
-            {
-                throw new ArgumentException("'initialIv' must have exactly 4 elements.");
+                throw new ArgumentNullException(parameterName);
             }
 
+            if (iv.Length != 4)
+            {
+                const string Format = "Argument '{0}' does not have exactly 4 elements.";
+                string message = String.Format(Format, parameterName);
+                throw new ArgumentException(message, parameterName);
+            }
+        }
+
+        private static void ThrowIfHeaderNullOrTooShort(byte[] header)
+        {
             if (header == null)
             {
                 throw new ArgumentNullException("header");
@@ -185,16 +212,13 @@ namespace OpenStory.Cryptography
             {
                 throw GetSegmentTooShortException(4, "header");
             }
-
-            var encodedVersion = (ushort)((header[0] << 8) | header[1]);
-            var xorSegment = (ushort)((iv[2] << 8) | iv[3]);
-
-            return (ushort)(encodedVersion ^ xorSegment);
         }
 
         private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
         {
             return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
         }
+
+        #endregion
     }
 }
