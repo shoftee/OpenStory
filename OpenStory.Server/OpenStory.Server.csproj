@@ -49,6 +49,7 @@
     <Compile Include="ClientBase.cs" />
     <Compile Include="Data\ISendFeed.cs" />
     <Compile Include="Data\IReceiveFeed.cs" />
+    <Compile Include="Diagnostics\NullLogger.cs" />
     <Compile Include="Fluent\IAccountServiceFacade.cs" />
     <Compile Include="Fluent\IAuthServiceFacade.cs" />
     <Compile Include="Fluent\IChannelServiceFacade.cs" />

@@ -12,12 +12,18 @@ namespace OpenStory.Server.Diagnostics
         /// </summary>
         public const string LoggerKey = "Logger";
 
-        /// <summary>
-        /// The singleton instance for the LogManager.
-        /// </summary>
-        public static readonly LogManager Instance = new LogManager();
+        private static readonly LogManager Instance;
 
-        private ILogger Logger { get; set; }
+        static LogManager()
+        {
+            Instance = new LogManager();
+            RegisterDefault(Instance);
+        }
+
+        /// <summary>
+        /// Gets the logger of this instance.
+        /// </summary>
+        public ILogger Logger { get; private set; }
 
         private LogManager()
         {
@@ -42,24 +48,6 @@ namespace OpenStory.Server.Diagnostics
             base.OnInitialized();
 
             this.Logger = base.GetComponent<ILogger>(LoggerKey);
-        }
-
-        /// <inheritdoc cref="ILogger.Info(string, object[])" />
-        public void Info(string format, params object[] args)
-        {
-            this.Logger.Info(format, args);
-        }
-
-        /// <inheritdoc cref="ILogger.Warning(string, object[])" />
-        public void Warning(string format, params object[] args)
-        {
-            this.Logger.Warning(format, args);
-        }
-
-        /// <inheritdoc cref="ILogger.Error(string, object[])" />
-        public void Error(string format, params object[] args)
-        {
-            this.Logger.Error(format, args);
         }
     }
 }

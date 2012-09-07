@@ -56,12 +56,12 @@ namespace OpenStory.Server.Fluent
         }
 
         /// <summary>
-        /// Retrieves the default <see cref="LogManager"/> instance.
+        /// Retrieves the default <see cref="ILogger"/> instance.
         /// </summary>
-        /// <returns>an instance of <see cref="LogManager"/>, or <c>null</c> if there was no registered default.</returns>
-        public static LogManager Log()
+        /// <returns>an instance of <see cref="ILogger"/>.</returns>
+        public static ILogger Log()
         {
-            return LogManager.GetManager();
+            return LogManager.GetManager().Logger;
         }
     }
 }

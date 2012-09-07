@@ -1,9 +1,11 @@
+using OpenStory.Server.Fluent;
+
 namespace OpenStory.Server.Diagnostics
 {
     /// <summary>
     /// Provides methods for logging messages.
     /// </summary>
-    public interface ILogger
+    public interface ILogger : IFluentInterface
     {
         /// <summary>
         /// Writes an informational message to the log.
