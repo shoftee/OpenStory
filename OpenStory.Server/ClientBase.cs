@@ -103,16 +103,18 @@ namespace OpenStory.Server
 
             if (opCode == PongOpCode)
             {
-                TimeSpan lag;
-                bool alive = this.AccountSession.TryKeepAlive(out lag);
-                if (!alive)
+                var session = this.AccountSession;
+                if (session != null)
                 {
-                    this.Disconnect("Session keep-alive failed.");
+                    TimeSpan lag;
+                    if (!session.TryKeepAlive(out lag))
+                    {
+                        this.Disconnect("Session keep-alive failed.");
+                        return;
+                    }
                 }
-                else
-                {
-                    this.sentPings.ExchangeWith(0);
-                }
+
+                this.sentPings.ExchangeWith(0);
             }
             else
             {
