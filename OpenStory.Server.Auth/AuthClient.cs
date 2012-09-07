@@ -68,8 +68,7 @@ namespace OpenStory.Server.Auth
             string label;
             if (!this.server.OpCodes.TryGetIncomingLabel(opCode, out label))
             {
-                OS.Log().Warning("Unknown Op Code 0x{0:X} - {1}", opCode,
-                                 reader.ReadFully().ToHex());
+                LogUnknownPacket(opCode, reader);
                 return;
             }
 
@@ -98,6 +97,12 @@ namespace OpenStory.Server.Auth
                     this.HandleCharacterSelect(reader);
                     break;
             }
+        }
+
+        private static void LogUnknownPacket(ushort opCode, PacketReader reader)
+        {
+            const string Format = "Unknown Op Code 0x{0:X} - {1}";
+            OS.Log().Warning(Format, opCode, reader.ReadFully().ToHex());
         }
 
         private void HandleCharacterSelect(PacketReader reader)
@@ -134,19 +139,22 @@ namespace OpenStory.Server.Auth
         {
             if (this.State != AuthClientState.PreAuthentication)
             {
-                goto Disconnect;
+                base.Disconnect("Invalid client authentication state.");
+                return;
             }
 
             string userName;
             if (!reader.TryReadLengthString(out userName))
             {
-                goto Disconnect;
+                base.Disconnect("Invalid user name format.");
+                return;
             }
 
             string password;
             if (!reader.TryReadLengthString(out password))
             {
-                goto Disconnect;
+                base.Disconnect("Invalid password format.");
+                return;
             }
 
             // TODO: more stuff to read, later.
@@ -163,7 +171,8 @@ namespace OpenStory.Server.Auth
             }
             else if (this.LoginAttempts++ > MaxLoginAttempts)
             {
-                goto Disconnect;
+                base.Disconnect("Too many login attempts.");
+                return;
             }
 
             using (var builder = this.server.OpCodes.NewPacket("AuthenticationResponse"))
@@ -172,10 +181,6 @@ namespace OpenStory.Server.Auth
                 builder.WriteInt16(0x0000);
                 this.Session.WritePacket(builder.ToByteArray());
             }
-            return;
-
-        Disconnect:
-            base.Disconnect();
         }
     }
 }

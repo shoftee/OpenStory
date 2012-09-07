@@ -1,3 +1,4 @@
+using System;
 using OpenStory.Server.Data;
 using OpenStory.Services.Contracts;
 
@@ -19,7 +20,7 @@ namespace OpenStory.Server.Auth
 
         private sealed class AccountSession : IAccountSession
         {
-            private readonly IAccountService parent;
+            private readonly IAccountService service;
 
             /// <inheritdoc />
             public int SessionId { get; private set; }
@@ -33,22 +34,27 @@ namespace OpenStory.Server.Auth
             /// <summary>
             /// Initializes a new instance of <see cref="AccountSession"/>.
             /// </summary>
-            /// <param name="parent">The <see cref="IAccountService"/> managing this session.</param>
+            /// <param name="service">The <see cref="IAccountService"/> managing this session.</param>
             /// <param name="sessionId">The session identifier.</param>
             /// <param name="data">The loaded session data.</param>
-            public AccountSession(IAccountService parent, int sessionId, Account data)
+            public AccountSession(IAccountService service, int sessionId, Account data)
             {
                 this.SessionId = sessionId;
                 this.AccountId = data.AccountId;
                 this.AccountName = data.UserName;
 
-                this.parent = parent;
+                this.service = service;
+            }
+
+            public bool TryKeepAlive(out TimeSpan lag)
+            {
+                return this.service.TryKeepAlive(this.AccountId, out lag);
             }
 
             /// <inheritdoc />
             public void Dispose()
             {
-                parent.TryUnregisterSession(this.AccountId);
+                this.service.TryUnregisterSession(this.AccountId);
             }
         }
 

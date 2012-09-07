@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
@@ -83,7 +84,7 @@ namespace OpenStory.Server
             OS.Log().Info("PING {0}", this.sentPings.Value);
             if (this.sentPings.Increment() > PingsAllowed)
             {
-                this.Disconnect();
+                this.Disconnect("No ping response.");
                 return;
             }
             this.Session.WritePacket(PingPacket);
@@ -96,13 +97,22 @@ namespace OpenStory.Server
             ushort opCode;
             if (!reader.TryReadUInt16(out opCode))
             {
-                this.Disconnect();
+                this.Disconnect("No packet op code.");
                 return;
             }
 
             if (opCode == PongOpCode)
             {
-                this.sentPings.ExchangeWith(0);
+                TimeSpan lag;
+                bool alive = this.AccountSession.TryKeepAlive(out lag);
+                if (!alive)
+                {
+                    this.Disconnect("Session keep-alive failed.");
+                }
+                else
+                {
+                    this.sentPings.ExchangeWith(0);
+                }
             }
             else
             {
@@ -131,8 +141,11 @@ namespace OpenStory.Server
         /// <summary>
         /// Immediately disconnects the client from the server.
         /// </summary>
-        public void Disconnect()
+        /// <param name="reason">The reason for the disconnection.</param>
+        public void Disconnect(string reason = null)
         {
+            LogDisconnectReason(this.AccountSession, reason);
+
             if (this.AccountSession != null)
             {
                 this.AccountSession.Dispose();
@@ -140,6 +153,14 @@ namespace OpenStory.Server
             }
             this.keepAliveTimer.Dispose();
             this.Session.Close();
+        }
+
+        private static void LogDisconnectReason(IAccountSession session, string reason)
+        {
+            var sessionIdString = session != null ? session.SessionId.ToString(CultureInfo.InvariantCulture) : "(N/A)";
+            var reasonString = String.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
+
+            OS.Log().Info("Session #{0} was closed: {1}", sessionIdString, reasonString);
         }
     }
 }

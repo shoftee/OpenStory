@@ -7,7 +7,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Services.Account
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    internal class AccountService : IAccountService
+    internal sealed class AccountService : IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 
@@ -70,6 +70,22 @@ namespace OpenStory.Services.Account
                 {
                     account.UnregisterCharacter();
                 }
+                return true;
+            }
+        }
+
+        /// <inheritdoc />
+        public bool TryKeepAlive(int accountId, out TimeSpan lag)
+        {
+            ActiveAccount account;
+            if (!this.activeAccounts.TryGetValue(accountId, out account))
+            {
+                lag = default(TimeSpan);
+                return false;
+            }
+            else
+            {
+                lag = account.KeepAlive();
                 return true;
             }
         }

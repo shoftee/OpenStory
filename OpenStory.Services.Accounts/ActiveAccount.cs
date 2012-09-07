@@ -5,22 +5,27 @@ namespace OpenStory.Services.Account
     /// <summary>
     /// Represents an active account session.
     /// </summary>
-    internal class ActiveAccount
+    internal sealed class ActiveAccount
     {
         /// <summary>
-        /// Gets the ID of the active account.
+        /// Gets the identifier of the active account.
         /// </summary>
         public int AccountId { get; private set; }
 
         /// <summary>
-        /// Gets the ID of the active session.
+        /// Gets the identifier of the active session.
         /// </summary>
         public int SessionId { get; private set; }
 
         /// <summary>
-        /// Gets the ID of the active character.
+        /// Gets the identifier of the active character.
         /// </summary>
         public int? CharacterId { get; private set; }
+
+        /// <summary>
+        /// Gets the last "keep-alive" timestamp for this active session.
+        /// </summary>
+        public DateTime LastKeepAlive { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ActiveAccount"/>.
@@ -31,6 +36,8 @@ namespace OpenStory.Services.Account
         {
             this.AccountId = accountId;
             this.SessionId = sessionId;
+
+            this.LastKeepAlive = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -60,6 +67,16 @@ namespace OpenStory.Services.Account
             }
 
             this.CharacterId = null;
+        }
+
+        public TimeSpan KeepAlive()
+        {
+            var newTimestamp = DateTime.UtcNow;
+            var oldTimestamp = this.LastKeepAlive;
+
+            this.LastKeepAlive = newTimestamp;
+
+            return newTimestamp - oldTimestamp;
         }
     }
 }

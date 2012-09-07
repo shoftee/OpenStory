@@ -1,4 +1,6 @@
-﻿using OpenStory.Services.Contracts;
+﻿using System;
+using System.ServiceModel;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
 {
@@ -33,6 +35,25 @@ namespace OpenStory.Services.Clients
         public bool TryUnregisterSession(int accountId)
         {
             return base.Channel.TryUnregisterSession(accountId);
+        }
+
+        /// <inheritdoc />
+        public bool TryKeepAlive(int accountId, out TimeSpan lag)
+        {
+            try
+            {
+                return base.Channel.TryKeepAlive(accountId, out lag);
+            }
+            catch (EndpointNotFoundException)
+            {
+                lag = default(TimeSpan);
+                return false;
+            }
+            catch (TimeoutException)
+            {
+                lag = default(TimeSpan);
+                return false;
+            }
         }
 
         #endregion
