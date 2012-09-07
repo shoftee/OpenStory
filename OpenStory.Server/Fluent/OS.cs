@@ -1,6 +1,8 @@
 ﻿using OpenStory.Server.Data;
 using OpenStory.Server.Diagnostics;
+using OpenStory.Server.Fluent.Initialize;
 using OpenStory.Server.Fluent.Internal;
+using OpenStory.Server.Fluent.Service;
 
 namespace OpenStory.Server.Fluent
 {
@@ -10,18 +12,24 @@ namespace OpenStory.Server.Fluent
     public static class OS
     {
         /// <summary>
-        /// The entry point for the initialization fluent API.
+        /// The entry point for the initialization fluent interface.
         /// </summary>
-        /// <returns>an instance of type <see cref="IInitializeFacade"/>.</returns>
         public static IInitializeFacade Initialize()
         {
             return new InitializeFacade();
         }
 
         /// <summary>
-        /// The entry point for OS extension methods.
+        /// The entry point for the service fluent interface.
         /// </summary>
-        /// <returns>an instance of type <see cref="IFluentOsExtensions"/>.</returns>
+        public static IServiceFacade Svc()
+        {
+            return new ServiceFacade();
+        }
+
+        /// <summary>
+        /// The entry point for fluent interface extensions.
+        /// </summary>
         public static IFluentOsExtensions Ex()
         {
             return new FluentOsExtensions();

@@ -7,9 +7,8 @@ using System.Text;
 namespace OpenStory.Server.Fluent
 {
     /// <summary>
-    /// Hides the default <see cref="Object"/> members from Intellisense.
+    /// The base for fluent interfaces.
     /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IFluentInterface
     {
         /// <inheritdoc />

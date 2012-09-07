@@ -5,7 +5,7 @@ using OpenStory.Server.Diagnostics;
 namespace OpenStory.Server.Fluent
 {
     /// <summary>
-    /// Provides methods for initializing OpenStory.
+    /// Provides methods for initializing OpenStory managers.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IInitializeFacade : IFluentInterface
