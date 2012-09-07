@@ -1,6 +1,6 @@
 namespace OpenStory.Server.Fluent.Service
 {
-    internal class ChannelsServiceFacade : IChannelsServiceFacade
+    internal sealed class ChannelsServiceFacade : IChannelsServiceFacade
     {
     }
 }

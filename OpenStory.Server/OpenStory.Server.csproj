@@ -76,7 +76,7 @@
     <Compile Include="Fluent\Initialize\InitializeManagerComponentsFacade.cs" />
     <Compile Include="Fluent\Initialize\InitializeManagersFacade.cs" />
     <Compile Include="Fluent\IFluentOsExtensions.cs" />
-    <Compile Include="Fluent\Internal\FluentOsExtensions.cs" />
+    <Compile Include="Fluent\Extensions\FluentOsExtensions.cs" />
     <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />

@@ -1,7 +1,12 @@
 namespace OpenStory.Server.Fluent.Service
 {
-    internal class ChannelServiceFacade : IChannelServiceFacade
+    internal sealed class ChannelServiceFacade : IChannelServiceFacade
     {
+        public ChannelServiceFacade()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public ChannelServiceFacade(int id)
         {
             throw new System.NotImplementedException();

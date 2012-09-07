@@ -6,7 +6,7 @@ namespace OpenStory.Server.Fluent
     /// Provides a fluent interface for managing an account service.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IAccountServiceFacade
+    public interface IAccountServiceFacade : IFluentInterface
     {
     }
 }

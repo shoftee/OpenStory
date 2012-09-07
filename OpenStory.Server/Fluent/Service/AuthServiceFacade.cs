@@ -1,6 +1,6 @@
 namespace OpenStory.Server.Fluent.Service
 {
-    internal class AuthServiceFacade : IAuthServiceFacade
+    internal sealed class AuthServiceFacade : IAuthServiceFacade
     {
     }
 }
