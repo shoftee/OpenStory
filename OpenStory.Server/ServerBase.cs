@@ -49,7 +49,7 @@ namespace OpenStory.Server
             this.ThrowIfRunning();
             this.IsRunning = true;
 
-            OS.Log().Info("Listening on port {1}.", this.Name, this.acceptor.Port);
+            OS.Log().Info("[{0}] Listening on port {1}.", this.Name, this.acceptor.Port);
             this.acceptor.Start();
         }
 
@@ -60,7 +60,7 @@ namespace OpenStory.Server
         {
             this.ThrowIfNotRunning();
 
-            OS.Log().Info("Shutting down...", this.Name);
+            OS.Log().Info("[{0}] Shutting down...", this.Name);
 
             this.acceptor.Stop();
             this.IsRunning = false;
@@ -81,16 +81,18 @@ namespace OpenStory.Server
             byte[] clientIv = GetNewIv();
             byte[] serverIv = GetNewIv();
 
-            var serverSession = new ServerSession();
-            serverSession.Closing += OnConnectionClose;
+            var session = new ServerSession();
+            session.Closing += OnConnectionClose;
 
-            serverSession.AttachSocket(socket);
-            this.OnConnectionOpen(serverSession);
+            session.AttachSocket(socket);
+            this.OnConnectionOpen(session);
 
-            OS.Log().Info("Session {0} started : CIV {1} SIV {2}.", serverSession.NetworkSessionId,
-                          BitConverter.ToString(clientIv), BitConverter.ToString(serverIv));
+            OS.Log().Info("Network session {0} started : CIV {1} SIV {2}.",
+                          session.NetworkSessionId,
+                          clientIv.ToHex(hyphenate: true),
+                          serverIv.ToHex(hyphenate: true));
 
-            serverSession.Start(this.ivFactory, clientIv, serverIv);
+            session.Start(this.ivFactory, clientIv, serverIv);
         }
 
 
@@ -98,7 +100,7 @@ namespace OpenStory.Server
         {
             var serverSession = (ServerSession)sender;
 
-            OS.Log().Info("Connection {0} closed.", serverSession.NetworkSessionId);
+            OS.Log().Info("Network session {0} closed.", serverSession.NetworkSessionId);
         }
 
         /// <summary>
@@ -111,8 +113,10 @@ namespace OpenStory.Server
         {
             if (!this.IsRunning)
             {
-                throw new InvalidOperationException(
-                    "The server has not been started. Call the Start method before using it.");
+                const string Message =
+                    "The server has not been started. Call the Start method before using it.";
+
+                throw new InvalidOperationException(Message);
             }
         }
 
@@ -126,7 +130,10 @@ namespace OpenStory.Server
         {
             if (this.IsRunning)
             {
-                throw new InvalidOperationException("The server is already running.");
+                const string Message =
+                    "The server is already running.";
+
+                throw new InvalidOperationException(Message);
             }
         }
 

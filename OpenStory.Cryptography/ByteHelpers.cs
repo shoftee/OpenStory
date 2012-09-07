@@ -25,7 +25,7 @@ namespace OpenStory.Cryptography
             }
             if ((hex.Length & 1) != 0)
             {
-                throw new ArgumentException("The string must have event length", "hex");
+                throw new ArgumentException("The string must have even length", "hex");
             }
 
             const string HexDigits = "0123456789ABCDEF";
@@ -59,9 +59,10 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="array">The byte array to translate to hexadecimal characters.</param>
         /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
-        /// <returns>the byte array as a hex-digit string.</returns>
+        /// <param name="hyphenate">Whether to add hyphens between the byte hex.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
-        public static string ToHex(this byte[] array, bool lowercase = false)
+        /// <returns>the byte array as a hex-digit string.</returns>
+        public static string ToHex(this byte[] array, bool lowercase = false, bool hyphenate = false)
         {
             if (array == null)
             {
@@ -72,6 +73,11 @@ namespace OpenStory.Cryptography
             int length = array.Length;
             for (int i = 0; i < length; i++)
             {
+                if (hyphenate && i > 0)
+                {
+                    builder.Append('-');
+                }
+
                 builder.AppendFormat("{0:X2}", array[i]);
             }
             return builder.ToString();

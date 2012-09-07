@@ -162,7 +162,7 @@ namespace OpenStory.Server.Auth
             var credentials = new SimpleCredentials(userName, password);
 
             IAccountSession accountSession;
-            AuthenticationResult result = authPolicy.Authenticate(credentials, out accountSession);
+            var result = authPolicy.Authenticate(credentials, out accountSession);
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
