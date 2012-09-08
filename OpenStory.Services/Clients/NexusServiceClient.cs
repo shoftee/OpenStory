@@ -66,30 +66,6 @@ namespace OpenStory.Services.Clients
             return base.Channel.TryUnregisterChannelService(accessToken, worldId, channelId);
         }
 
-        /// <inheritdoc />
-        public IAuthService GetAuthService()
-        {
-            return base.Channel.GetAuthService();
-        }
-
-        /// <inheritdoc />
-        public IAccountService GetAccountService()
-        {
-            return base.Channel.GetAccountService();
-        }
-
-        /// <inheritdoc />
-        public IWorldService GetWorldService(int worldId)
-        {
-            return base.Channel.GetWorldService(worldId);
-        }
-
-        /// <inheritdoc />
-        public IChannelService GetChannelService(int worldId, int channelId)
-        {
-            return base.Channel.GetChannelService(worldId, channelId);
-        }
-
         #endregion
     }
 }

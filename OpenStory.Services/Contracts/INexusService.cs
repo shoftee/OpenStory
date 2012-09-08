@@ -68,32 +68,5 @@ namespace OpenStory.Services.Contracts
         /// <param name="channelId">The public channel identifier for the channel instance.</param>
         /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
         bool TryUnregisterChannelService(string accessToken, int worldId, int channelId);
-
-        /// <summary>
-        /// Gets a binding to the authentication service.
-        /// </summary>
-        /// <returns>a <see cref="IAuthService"/> object.</returns>
-        IAuthService GetAuthService();
-
-        /// <summary>
-        /// Gets a binding to the account service.
-        /// </summary>
-        /// <returns>a <see cref="IAccountService"/> object.</returns>
-        IAccountService GetAccountService();
-
-        /// <summary>
-        /// Gets a binding to a world service.
-        /// </summary>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <returns>a <see cref="IWorldService"/> object.</returns>
-        IWorldService GetWorldService(int worldId);
-
-        /// <summary>
-        /// Gets a binding to a channel service.
-        /// </summary>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <param name="channelId">The public channel identifier for the channel instance.</param>
-        /// <returns>a <see cref="IChannelService"/> object.</returns>
-        IChannelService GetChannelService(int worldId, int channelId);
     }
 }
