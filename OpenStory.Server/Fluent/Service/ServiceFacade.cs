@@ -33,27 +33,9 @@ namespace OpenStory.Server.Fluent.Service
         }
 
         /// <inheritdoc />
-        public IChannelServiceFacade Channel(int worldId, int channelId)
-        {
-            return new ChannelServiceFacade(worldId, channelId);
-        }
-
-        /// <inheritdoc />
-        public IWorldsServiceFacade Worlds()
-        {
-            return new WorldsServiceFacade();
-        }
-
-        /// <inheritdoc />
         public IWorldServiceFacade World()
         {
             return new WorldServiceFacade();
-        }
-
-        /// <inheritdoc />
-        public IWorldServiceFacade World(int id)
-        {
-            return new WorldServiceFacade(id);
         }
     }
 }

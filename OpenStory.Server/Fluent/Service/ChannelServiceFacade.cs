@@ -11,10 +11,5 @@ namespace OpenStory.Server.Fluent.Service
         {
             throw new System.NotImplementedException();
         }
-
-        public ChannelServiceFacade(int worldId, int channelId)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

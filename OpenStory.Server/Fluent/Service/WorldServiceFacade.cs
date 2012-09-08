@@ -6,10 +6,5 @@ namespace OpenStory.Server.Fluent.Service
         {
             throw new System.NotImplementedException();            
         }
-
-        public WorldServiceFacade(int id)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

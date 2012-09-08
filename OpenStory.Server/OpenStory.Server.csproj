@@ -64,7 +64,6 @@
     <Compile Include="Fluent\IWorldServiceFacade.cs" />
     <Compile Include="Fluent\IWorldsServiceFacade.cs" />
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
-    <Compile Include="Fluent\Service\WorldsServiceFacade.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
     <Compile Include="ServerBase.cs" />
     <Compile Include="Diagnostics\DefaultLogger.cs" />
