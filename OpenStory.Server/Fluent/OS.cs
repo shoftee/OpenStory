@@ -1,7 +1,7 @@
 ﻿using OpenStory.Server.Data;
 using OpenStory.Server.Diagnostics;
+using OpenStory.Server.Fluent.Extensions;
 using OpenStory.Server.Fluent.Initialize;
-using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Fluent.Service;
 
 namespace OpenStory.Server.Fluent

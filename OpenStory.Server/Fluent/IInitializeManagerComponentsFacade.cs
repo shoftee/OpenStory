@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using OpenStory.Server.Fluent.Internal;
 using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent

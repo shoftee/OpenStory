@@ -1,6 +1,5 @@
 ﻿using OpenStory.Server.Data;
 using OpenStory.Server.Diagnostics;
-using OpenStory.Server.Fluent.Internal;
 
 namespace OpenStory.Server.Fluent.Initialize
 {
