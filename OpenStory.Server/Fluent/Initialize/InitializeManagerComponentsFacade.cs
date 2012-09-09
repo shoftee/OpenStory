@@ -2,16 +2,17 @@ using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent.Initialize
 {
-    internal sealed class InitializeManagerComponentsFacade<TManagerBase> : IInitializeManagerComponentsFacade<TManagerBase>
+    internal sealed class InitializeManagerComponentsFacade<TManagerBase> :
+        NestedFacade<IInitializeManagersFacade<TManagerBase>>,
+        IInitializeManagerComponentsFacade<TManagerBase>
         where TManagerBase : ManagerBase
     {
-        private readonly InitializeManagersFacade<TManagerBase> parent;
         private readonly TManagerBase manager;
         private readonly bool registerDefault;
 
         public InitializeManagerComponentsFacade(InitializeManagersFacade<TManagerBase> parent, TManagerBase manager, bool registerDefault)
+            : base(parent)
         {
-            this.parent = parent;
             this.manager = manager;
             this.registerDefault = registerDefault;
         }
@@ -24,7 +25,7 @@ namespace OpenStory.Server.Fluent.Initialize
         }
 
         /// <inheritdoc />
-        public IInitializeManagersFacade<TManagerBase> Done()
+        public override IInitializeManagersFacade<TManagerBase> Done()
         {
             if (this.registerDefault)
             {
@@ -35,7 +36,7 @@ namespace OpenStory.Server.Fluent.Initialize
                 ManagerBase<TManagerBase>.RegisterManager(this.manager);
             }
 
-            return this.parent;
+            return base.Done();
         }
     }
 }

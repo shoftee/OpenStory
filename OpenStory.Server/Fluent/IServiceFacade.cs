@@ -29,12 +29,6 @@ namespace OpenStory.Server.Fluent
         IChannelServiceFacade Channel();
 
         /// <summary>
-        /// The entry point for managing a specific Channel service.
-        /// </summary>
-        /// <param name="id">The identifier of the channel.</param>
-        IChannelServiceFacade Channel(int id);
-
-        /// <summary>
         /// The entry point for managing the current World service.
         /// </summary>
         IWorldServiceFacade World();

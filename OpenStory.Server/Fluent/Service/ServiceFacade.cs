@@ -5,37 +5,31 @@ namespace OpenStory.Server.Fluent.Service
         /// <inheritdoc />
         public IAccountServiceFacade Accounts()
         {
-            return new AccountServiceFacade();
+            return new AccountServiceFacade(this);
         }
 
         /// <inheritdoc />
         public IAuthServiceFacade Auth()
         {
-            return new AuthServiceFacade();
+            return new AuthServiceFacade(this);
         }
 
         /// <inheritdoc />
         public IChannelsServiceFacade Channels()
         {
-            return new ChannelsServiceFacade();
+            return new ChannelsServiceFacade(this);
         }
 
         /// <inheritdoc />
         public IChannelServiceFacade Channel()
         {
-            return new ChannelServiceFacade();
-        }
-
-        /// <inheritdoc />
-        public IChannelServiceFacade Channel(int id)
-        {
-            return new ChannelServiceFacade(id);
+            return new ChannelServiceFacade(this);
         }
 
         /// <inheritdoc />
         public IWorldServiceFacade World()
         {
-            return new WorldServiceFacade();
+            return new WorldServiceFacade(this);
         }
     }
 }

@@ -55,6 +55,8 @@
     <Compile Include="Fluent\IChannelServiceFacade.cs" />
     <Compile Include="Fluent\IChannelsServiceFacade.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />
+    <Compile Include="Fluent\IServiceGetterSetterFacade.cs" />
+    <Compile Include="Fluent\NestedFacade.cs" />
     <Compile Include="Fluent\Service\AccountServiceFacade.cs" />
     <Compile Include="Fluent\Service\AuthServiceFacade.cs" />
     <Compile Include="Fluent\Service\ChannelServiceFacade.cs" />
@@ -125,6 +127,10 @@
     <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
       <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
       <Name>OpenStory.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
+      <Name>OpenStory.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

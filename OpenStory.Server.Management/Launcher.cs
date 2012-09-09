@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
-using OpenStory.Services.Clients;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Management
 {

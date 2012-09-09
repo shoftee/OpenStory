@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent
 {
@@ -8,5 +9,10 @@ namespace OpenStory.Server.Fluent
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IChannelsServiceFacade : IFluentInterface
     {
+        /// <summary>
+        /// Gets the service reference for a specific channel.
+        /// </summary>
+        /// <param name="id">The identifier of the channel.</param>
+        IChannelService Get(int id);
     }
 }

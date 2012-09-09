@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent
 {
@@ -6,7 +7,10 @@ namespace OpenStory.Server.Fluent
     /// Provides a fluent interface for managing an authentication service.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IAuthServiceFacade : IFluentInterface
+    public interface IAuthServiceFacade :
+        IFluentInterface,
+        IServiceGetterSetterFacade<IAuthService, IAuthServiceFacade>,
+        INestedFacade<IServiceFacade>
     {
     }
 }
