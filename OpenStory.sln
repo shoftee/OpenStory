@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Synchronization",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Networking", "OpenStory.Networking\OpenStory.Networking.csproj", "{11084911-8AAC-4F2D-B84E-FA01E4B32983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Emulation", "OpenStory.Server.Emulation\OpenStory.Server.Emulation.csproj", "{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Channel", "OpenStory.Server.Channel\OpenStory.Server.Channel.csproj", "{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.World", "OpenStory.Server.World\OpenStory.Server.World.csproj", "{1AC44EC2-6C35-491E-9DCB-48E1AAA53BD9}"
@@ -27,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services", "OpenStory.Services\OpenStory.Services.csproj", "{A53768F4-B0EC-4873-A127-171A15B63663}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Auth", "OpenStory.Server.Auth\OpenStory.Server.Auth.csproj", "{6257C10F-74BB-4948-8BC1-3F867488044B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Management", "OpenStory.Server.Management\OpenStory.Server.Management.csproj", "{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,18 +90,6 @@ Global
 		{11084911-8AAC-4F2D-B84E-FA01E4B32983}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{11084911-8AAC-4F2D-B84E-FA01E4B32983}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{11084911-8AAC-4F2D-B84E-FA01E4B32983}.Release|x86.ActiveCfg = Release|Any CPU
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Any CPU.Build.0 = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|x86.ActiveCfg = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Debug|x86.Build.0 = Debug|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Any CPU.ActiveCfg = Release|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Any CPU.Build.0 = Release|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|Mixed Platforms.Build.0 = Release|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.ActiveCfg = Release|x86
-		{1F7E7D1F-0E53-4B80-902E-FC685FFF57C0}.Release|x86.Build.0 = Release|x86
 		{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -166,6 +154,16 @@ Global
 		{6257C10F-74BB-4948-8BC1-3F867488044B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6257C10F-74BB-4948-8BC1-3F867488044B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6257C10F-74BB-4948-8BC1-3F867488044B}.Release|x86.ActiveCfg = Release|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

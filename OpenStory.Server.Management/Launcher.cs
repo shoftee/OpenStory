@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
-namespace OpenStory.Server.Emulation
+﻿namespace OpenStory.Server.Management
 {
     internal class Launcher
     {

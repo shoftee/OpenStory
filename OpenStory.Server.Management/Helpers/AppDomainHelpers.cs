@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Policy;
 using System.Threading;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Fluent;
 
-namespace OpenStory.Server.Emulation.Helpers
+namespace OpenStory.Server.Management.Helpers
 {
     internal static class AppDomainHelpers
     {

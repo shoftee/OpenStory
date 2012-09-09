@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace OpenStory.Server.Emulation
+namespace OpenStory.Server.Management
 {
     internal class Program
     {
