@@ -19,51 +19,33 @@ namespace OpenStory.Services.Clients
         #region INexusService Members
 
         /// <inheritdoc />
-        public string TryRegisterAuthService(Uri uri)
+        public ServiceState TryRegisterAuthService(Uri uri, out Guid token)
         {
-            return base.Channel.TryRegisterAuthService(uri);
+            return base.Channel.TryRegisterAuthService(uri, out token);
         }
 
         /// <inheritdoc />
-        public bool TryUnregisterAuthService(string accessToken)
+        public ServiceState TryRegisterAccountService(Uri uri, out Guid token)
         {
-            return base.Channel.TryUnregisterAuthService(accessToken);
+            return base.Channel.TryRegisterAccountService(uri, out token);
         }
 
         /// <inheritdoc />
-        public string TryRegisterAccountService(Uri uri)
+        public ServiceState TryRegisterWorldService(Uri uri, int worldId, out Guid token)
         {
-            return base.Channel.TryRegisterAccountService(uri);
+            return base.Channel.TryRegisterWorldService(uri, worldId, out token);
         }
 
         /// <inheritdoc />
-        public bool TryUnregisterAccountService(string accessToken)
+        public ServiceState TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token)
         {
-            return base.Channel.TryUnregisterAccountService(accessToken);
+            return base.Channel.TryRegisterChannelService(uri, worldId, channelId, out token);
         }
 
         /// <inheritdoc />
-        public string TryRegisterWorldService(Uri uri, int worldId)
+        public ServiceState TryUnregisterService(Guid registrationToken)
         {
-            return base.Channel.TryRegisterWorldService(uri, worldId);
-        }
-
-        /// <inheritdoc />
-        public bool TryUnregisterWorldService(string accessToken, int worldId)
-        {
-            return base.Channel.TryUnregisterWorldService(accessToken, worldId);
-        }
-
-        /// <inheritdoc />
-        public string TryRegisterChannelService(Uri uri, int worldId, int channelId)
-        {
-            return base.Channel.TryRegisterChannelService(uri, worldId, channelId);
-        }
-
-        /// <inheritdoc />
-        public bool TryUnregisterChannelService(string accessToken, int worldId, int channelId)
-        {
-            return base.Channel.TryUnregisterChannelService(accessToken, worldId, channelId);
+            return base.Channel.TryUnregisterService(registrationToken);
         }
 
         #endregion

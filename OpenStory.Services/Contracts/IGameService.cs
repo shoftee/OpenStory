@@ -6,28 +6,31 @@ namespace OpenStory.Services.Contracts
     /// <summary>
     /// Provides basic methods for game services.
     /// </summary>
-    [ServiceContract(Namespace = null)]
+    [ServiceContract(Namespace = null, CallbackContract = typeof(IServiceStateChanged))]
     public interface IGameService
     {
+        /// <summary>
+        /// Initializes the service.
+        /// </summary>
+        [OperationContract]
+        ServiceState Initialize();
+
         /// <summary>
         /// Starts the service.
         /// </summary>
         [OperationContract]
-        [FaultContract(typeof(InvalidOperationException))]
-        void Start();
+        ServiceState Start();
 
         /// <summary>
         /// Stops the service.
         /// </summary>
         [OperationContract]
-        [FaultContract(typeof(InvalidOperationException))]
-        void Stop();
+        ServiceState Stop();
 
         /// <summary>
-        /// Pings the service.
+        /// Gets the service state.
         /// </summary>
-        /// <returns><c>true</c> if the service is reachable; otherwise, <c>false</c>.</returns>
         [OperationContract]
-        bool Ping();
+        ServiceState GetServiceState();
     }
 }

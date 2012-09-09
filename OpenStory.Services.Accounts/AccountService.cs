@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using OpenStory.Common;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    internal sealed class AccountService : IAccountService
+    internal sealed class AccountService : GameServiceBase, IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 
@@ -88,28 +89,6 @@ namespace OpenStory.Services.Account
                 lag = account.KeepAlive();
                 return true;
             }
-        }
-
-        #endregion
-
-        #region Implementation of IGameService
-
-        /// <inheritdoc />
-        public void Start()
-        {
-            throw new InvalidOperationException("The AccountService is always running.");
-        }
-
-        /// <inheritdoc />
-        public void Stop()
-        {
-            throw new InvalidOperationException("The AccountService is always running.");
-        }
-
-        /// <inheritdoc />
-        public bool Ping()
-        {
-            return true;
         }
 
         #endregion

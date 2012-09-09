@@ -11,45 +11,26 @@ namespace OpenStory.Services.Contracts
         /// Attempts to register an authentication service module.
         /// </summary>
         /// <param name="uri">The URI for the service.</param>
-        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
-        string TryRegisterAuthService(Uri uri);
-
-        /// <summary>
-        /// Attempts to unregister the authentication service module.
-        /// </summary>
-        /// <param name="accessToken">The access token that corresponds to the active service.</param>
-        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
-        bool TryUnregisterAuthService(string accessToken);
+        /// <param name="token">A variable to hold an access token for this registration.</param>
+        /// <returns>The current state of the registered service.</returns>
+        ServiceState TryRegisterAuthService(Uri uri, out Guid token);
 
         /// <summary>
         /// Attempts to register an account service module.
         /// </summary>
         /// <param name="uri">The URI for the service.</param>
-        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
-        string TryRegisterAccountService(Uri uri);
-
-        /// <summary>
-        /// Attempts to unregister the account service module.
-        /// </summary>
-        /// <param name="accessToken">The access token that corresponds to the active service.</param>
-        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
-        bool TryUnregisterAccountService(string accessToken);
+        /// <param name="token">A variable to hold an access token for this registration.</param>
+        /// <returns><c>true</c> if the service was discovered successfully; otherwise, <c>false</c>.</returns>
+        ServiceState TryRegisterAccountService(Uri uri, out Guid token);
 
         /// <summary>
         /// Attempts to register a world service module.
         /// </summary>
         /// <param name="uri">The URI for the service.</param>
         /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
-        string TryRegisterWorldService(Uri uri, int worldId);
-
-        /// <summary>
-        /// Attempts to unregister a world service module.
-        /// </summary>
-        /// <param name="accessToken">The access token that corresponds to the active service.</param>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
-        bool TryUnregisterWorldService(string accessToken, int worldId);
+        /// <param name="token">A variable to hold an access token for this registration.</param>
+        /// <returns><c>true</c> if the service was discovered successfully; otherwise, <c>false</c>.</returns>
+        ServiceState TryRegisterWorldService(Uri uri, int worldId, out Guid token);
 
         /// <summary>
         /// Attempts to register a channel service module.
@@ -57,16 +38,15 @@ namespace OpenStory.Services.Contracts
         /// <param name="uri">The URI for the service.</param>
         /// <param name="worldId">The public world identifier for the service instance.</param>
         /// <param name="channelId">The public channel identifier for the channel instance.</param>
-        /// <returns>if the service connects successfully, an access token for the service instance; otherwise, <c>null</c>.</returns>
-        string TryRegisterChannelService(Uri uri, int worldId, int channelId);
+        /// <param name="token">A variable to hold an access token for this registration.</param>
+        /// <returns><c>true</c> if the service was discovered successfully; otherwise, <c>false</c>.</returns>
+        ServiceState TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token);
 
         /// <summary>
-        /// Attempts to unregister a channel service module.
+        /// Attempts to unregister the service with the specified token.
         /// </summary>
-        /// <param name="accessToken">The access token that corresponds to the active service.</param>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <param name="channelId">The public channel identifier for the channel instance.</param>
+        /// <param name="registrationToken">The registration token issued when the service was registered.</param>
         /// <returns><c>true</c> if the service was unregistered successfully; otherwise, <c>false</c>.</returns>
-        bool TryUnregisterChannelService(string accessToken, int worldId, int channelId);
+        ServiceState TryUnregisterService(Guid registrationToken);
     }
 }

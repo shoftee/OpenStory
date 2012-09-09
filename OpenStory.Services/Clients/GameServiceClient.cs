@@ -25,62 +25,43 @@ namespace OpenStory.Services.Clients
 
         #region Implementation of IGameService
 
-        /// <summary>
-        /// A base implementation of the method, calls the proxy method.
-        /// </summary>
-        /// <remarks>
-        /// When overriding, do not call the base implementation.
-        /// </remarks>
-        public virtual void Start()
+        /// <inheritdoc />
+        public ServiceState Initialize()
         {
-            try
-            {
-                base.Channel.Start();
-            }
-            catch (FaultException<InvalidOperationException> ex)
-            {
-                throw ex.Detail;
-            }
+            return HandleCommunicationExceptions(() => base.Channel.Initialize());
         }
 
-        /// <summary>
-        /// A base implementation of the method, calls the proxy method.
-        /// </summary>
-        /// <remarks>
-        /// When overriding, do not call the base implementation.
-        /// </remarks>
-        public virtual void Stop()
+        /// <inheritdoc />
+        public ServiceState Start()
         {
-            try
-            {
-                base.Channel.Stop();
-            }
-            catch (FaultException<InvalidOperationException> ex)
-            {
-                throw ex.Detail;
-            }
+            return HandleCommunicationExceptions(() => base.Channel.Start());
         }
 
-        /// <summary>
-        /// A base implementation of the method, calls the proxy method.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if the proxy method call returns <c>true</c>; 
-        /// <c>false</c> if the proxy method call returns <c>false</c>, if the call throws an <see cref="EndpointNotFoundException"/> or <see cref="TimeoutException"/>.
-        /// </returns>
-        public bool Ping()
+        /// <inheritdoc />
+        public ServiceState Stop()
+        {
+            return HandleCommunicationExceptions(() => base.Channel.Stop());
+        }
+
+        /// <inheritdoc />
+        public ServiceState GetServiceState()
+        {
+            return HandleCommunicationExceptions(() => base.Channel.GetServiceState());
+        }
+
+        private static ServiceState HandleCommunicationExceptions(Func<ServiceState> func)
         {
             try
             {
-                return base.Channel.Ping();
+                return func();
             }
             catch (EndpointNotFoundException)
             {
-                return false;
+                return ServiceState.Unknown;
             }
             catch (TimeoutException)
             {
-                return false;
+                return ServiceState.Unknown;
             }
         }
 
