@@ -19,25 +19,25 @@ namespace OpenStory.Server.Management.Helpers
         /// Creates a new thread and executes the specified assembly into the AppDomain instance, passing the specified arguments.
         /// </summary>
         /// <param name="appDomain">The AppDomain instance to execute an assembly in.</param>
-        /// <param name="module">The <see cref="OpenStoryModule"/> instance to launch.</param>
+        /// <param name="assemblyPath">The path to the assembly to execute.</param>
         /// <param name="parameters">The <see cref="ParameterList"/> to pass to the executed assembly.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="appDomain"/> or <paramref name="module"/> is <c>null</c>.
+        /// Thrown if <paramref name="appDomain"/> or <paramref name="assemblyPath"/> is <c>null</c>.
         /// </exception>
         /// <returns>the new thread.</returns>
-        public static Thread LaunchModule(this AppDomain appDomain, OpenStoryModule module, ParameterList parameters)
+        public static Thread LaunchModule(this AppDomain appDomain, string assemblyPath, ParameterList parameters)
         {
             if (appDomain == null)
             {
                 throw new ArgumentNullException("appDomain");
             }
-            if (module == null)
+            if (assemblyPath == null)
             {
-                throw new ArgumentNullException("module");
+                throw new ArgumentNullException("assemblyPath");
             }
 
             ThreadStart threadStart =
-                () => appDomain.ExecuteAssembly(module.AssemblyPath, parameters.ToArgumentList());
+                () => appDomain.ExecuteAssembly(assemblyPath, parameters.ToArgumentList());
             var thread = new Thread(threadStart)
                 {
                     IsBackground = false,

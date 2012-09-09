@@ -1,16 +1,22 @@
-﻿namespace OpenStory.Server.Management
+﻿using System;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
+using OpenStory.Services.Clients;
+using OpenStory.Services.Contracts;
+
+namespace OpenStory.Server.Management
 {
     internal class Launcher
     {
     }
 
-    internal class OpenStoryModule
+    internal sealed class OsServiceReference
     {
-        public string AssemblyPath { get; private set; }
+        public Uri ServiceUri { get; set; }
 
-        public OpenStoryModule(string assemblyPath)
+        public OsServiceReference()
         {
-            this.AssemblyPath = assemblyPath;
         }
     }
 }
