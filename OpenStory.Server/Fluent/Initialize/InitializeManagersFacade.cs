@@ -26,8 +26,6 @@ namespace OpenStory.Server.Fluent.Initialize
         public IInitializeManagerComponentsFacade<TManagerBase> WithComponents<TManager>(TManager manager)
             where TManager : TManagerBase
         {
-            manager.Initialize();
-
             return new InitializeManagerComponentsFacade<TManagerBase>(this, manager, false);
         }
 
@@ -43,8 +41,6 @@ namespace OpenStory.Server.Fluent.Initialize
         /// <inheritdoc />
         public IInitializeManagerComponentsFacade<TManagerBase> DefaultWithComponents(TManagerBase manager)
         {
-            manager.Initialize();
-
             return new InitializeManagerComponentsFacade<TManagerBase>(this, manager, true);
         }
     }

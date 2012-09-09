@@ -10,7 +10,7 @@ namespace OpenStory.Server.Fluent.Initialize
         private readonly TManagerBase manager;
         private readonly bool registerDefault;
 
-        public InitializeManagerComponentsFacade(InitializeManagersFacade<TManagerBase> parent, TManagerBase manager, bool registerDefault)
+        public InitializeManagerComponentsFacade(IInitializeManagersFacade<TManagerBase> parent, TManagerBase manager, bool registerDefault)
             : base(parent)
         {
             this.manager = manager;
@@ -35,6 +35,8 @@ namespace OpenStory.Server.Fluent.Initialize
             {
                 ManagerBase<TManagerBase>.RegisterManager(this.manager);
             }
+
+            this.manager.Initialize();
 
             return base.Done();
         }
