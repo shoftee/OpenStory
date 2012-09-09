@@ -2,7 +2,10 @@ using System;
 
 namespace OpenStory.Server.Diagnostics
 {
-    internal sealed class DefaultLogger : ILogger
+    /// <summary>
+    /// Represents a simple console logger.
+    /// </summary>
+    public sealed class ConsoleLogger : ILogger
     {
         /// <inheritdoc />
         public void Info(string format, params object[] args)

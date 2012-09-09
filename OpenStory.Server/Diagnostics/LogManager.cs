@@ -27,16 +27,16 @@ namespace OpenStory.Server.Diagnostics
 
         private LogManager()
         {
-            base.RequireComponent(LoggerKey, typeof(ILogger));
+            base.AllowComponent<ILogger>(LoggerKey);
         }
 
         /// <inheritdoc />
         protected override void OnInitializing()
         {
-            // If there is no internal logger registered at this point, register the default one.
+            // If there is no internal logger registered at this point, register a null logger.
             if (!this.CheckComponent(LoggerKey))
             {
-                this.RegisterComponent(LoggerKey, new DefaultLogger());
+                this.RegisterComponent(LoggerKey, NullLogger.Instance);
             }
 
             base.OnInitializing();

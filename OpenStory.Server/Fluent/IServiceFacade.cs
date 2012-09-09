@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent
 {
@@ -32,5 +33,10 @@ namespace OpenStory.Server.Fluent
         /// The entry point for managing the current World service.
         /// </summary>
         IWorldServiceFacade World();
+
+        /// <summary>
+        /// Gets the service registered as local.
+        /// </summary>
+        IGameService Local();
     }
 }

@@ -11,15 +11,8 @@ namespace OpenStory.Server.Modules
         private bool isInitialized;
 
         private readonly Dictionary<string, Type> types;
-        private readonly Dictionary<string, object> instances;
-
-        /// <summary>
-        /// Gets a map of the required components and their accepted types.
-        /// </summary>
-        protected Dictionary<string, Type> RequiredComponents
-        {
-            get { return new Dictionary<string, Type>(types); }
-        }
+        private readonly Dictionary<string, ComponentKey> keys;
+        private readonly Dictionary<ComponentKey, object> instances;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ManagerBase"/>.
@@ -29,7 +22,8 @@ namespace OpenStory.Server.Modules
             this.isInitialized = false;
 
             this.types = new Dictionary<string, Type>();
-            this.instances = new Dictionary<string, object>();
+            this.keys = new Dictionary<string, ComponentKey>();
+            this.instances = new Dictionary<ComponentKey, object>();
         }
 
         /// <summary>
@@ -85,35 +79,12 @@ namespace OpenStory.Server.Modules
         /// <summary>
         /// Marks a component name and associated type as required.
         /// </summary>
-        /// <param name="name">The name of the component to require.</param>
-        /// <param name="type">The type of the component.</param>
-        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
-        /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <c>null</c>.</exception>
-        protected void RequireComponent(string name, Type type)
-        {
-            this.ThrowIfInitialized();
-
-            if (name == null)
-            {
-                throw new ArgumentNullException("name");
-            }
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
-            this.types.Add(name, type);
-            this.instances.Add(name, null);
-        }
-
-        /// <summary>
-        /// Marks a component name and associated type as required.
-        /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <param name="name">The name of the component to require.</param>
         /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
         protected void RequireComponent<TComponent>(string name)
+            where TComponent : class
         {
             this.ThrowIfInitialized();
 
@@ -122,17 +93,49 @@ namespace OpenStory.Server.Modules
                 throw new ArgumentNullException("name");
             }
 
-            this.RequireComponent(name, typeof(TComponent));
+            this.CreateComponentEntries<TComponent>(name, true);
+        }
+
+        /// <summary>
+        /// Marks a component name and associated type as allowed but optional.
+        /// </summary>
+        /// <typeparam name="TComponent">The type of the component.</typeparam>
+        /// <param name="name">The name of the component to allow.</param>
+        /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
+        protected void AllowComponent<TComponent>(string name)
+            where TComponent : class
+        {
+            this.ThrowIfInitialized();
+
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+
+            this.CreateComponentEntries<TComponent>(name, false);
+        }
+
+        private void CreateComponentEntries<TComponent>(string name, bool isRequired)
+        {
+            this.types.Add(name, typeof(TComponent));
+
+            var key = new ComponentKey(name, isRequired);
+            this.keys.Add(name, key);
+
+            this.instances.Add(key, null);
         }
 
         /// <summary>
         /// Registers an object to a component entry for this module.
         /// </summary>
+        /// <typeparam name="TComponent">The type of the object.</typeparam>/>
         /// <param name="name">The name of the component.</param>
         /// <param name="instance">The instance for the component entry.</param>
         /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <c>null</c>.</exception>
-        public void RegisterComponent(string name, object instance)
+        public void RegisterComponent<TComponent>(string name, TComponent instance)
+            where TComponent : class
         {
             this.ThrowIfInitialized();
 
@@ -157,7 +160,13 @@ namespace OpenStory.Server.Modules
                 throw GetIncompatibleTypeException(instance, required.FullName);
             }
 
-            this.types[name] = required;
+            RegisterComponentInternal(name, instance);
+        }
+
+        private void RegisterComponentInternal(string name, object instance)
+        {
+            var key = this.keys[name];
+            this.instances[key] = instance;
         }
 
         /// <summary>
@@ -167,8 +176,9 @@ namespace OpenStory.Server.Modules
         /// <param name="name">The name of the component.</param>
         /// <inheritdoc cref="ThrowIfNotInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
-        /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>.</returns>
+        /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>; or <c>null</c> if there is no registered instance.</returns>
         protected TComponent GetComponent<TComponent>(string name)
+            where TComponent : class
         {
             this.ThrowIfNotInitialized();
 
@@ -182,7 +192,8 @@ namespace OpenStory.Server.Modules
                 throw GetUnknownComponentNameException(name);
             }
 
-            return (TComponent)this.instances[name];
+            var key = this.keys[name];
+            return this.instances[key] as TComponent;
         }
 
         /// <summary>
@@ -203,7 +214,8 @@ namespace OpenStory.Server.Modules
                 throw GetUnknownComponentNameException(name);
             }
 
-            bool isPresent = this.instances[name] != null;
+            var key = this.keys[name];
+            bool isPresent = this.instances[key] != null;
             return isPresent;
 
         }
@@ -244,13 +256,13 @@ namespace OpenStory.Server.Modules
         {
             foreach (var entry in this.instances)
             {
-                string name = entry.Key;
+                var key = entry.Key;
                 object instance = entry.Value;
-                if (instance == null)
+                if (key.IsRequired && instance == null)
                 {
-                    const string NotInitializedFormat = "The component '{0}' has not been initialized.";
+                    const string NotInitializedFormat = "The required component '{0}' has not been initialized.";
 
-                    error = String.Format(NotInitializedFormat, name);
+                    error = String.Format(NotInitializedFormat, key.Name);
                     return false;
                 }
             }
@@ -279,7 +291,7 @@ namespace OpenStory.Server.Modules
 
         private static ArgumentOutOfRangeException GetUnknownComponentNameException(string name)
         {
-            return new ArgumentOutOfRangeException("name", name, "'name' must be the name of a required component.");
+            return new ArgumentOutOfRangeException("name", name, "'name' must be the name of a required or allowed component.");
         }
     }
 }

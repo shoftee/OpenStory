@@ -23,8 +23,8 @@ namespace OpenStory.Server.Data
         /// </summary>
         public DataManager()
         {
-            base.RequireComponent("Bans", typeof(IBanProvider));
-            base.RequireComponent("Accounts", typeof(IAccountProvider));
+            base.RequireComponent<IBanProvider>("Bans");
+            base.RequireComponent<IAccountProvider>("Accounts");
         }
 
         /// <inheritdoc/>

@@ -55,6 +55,8 @@
     <Compile Include="Fluent\IChannelServiceFacade.cs" />
     <Compile Include="Fluent\IChannelsServiceFacade.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />
+    <Compile Include="Fluent\IInitializeServiceFacade.cs" />
+    <Compile Include="Fluent\Initialize\InitializeServiceFacade.cs" />
     <Compile Include="Fluent\IServiceGetterSetterFacade.cs" />
     <Compile Include="Fluent\NestedFacade.cs" />
     <Compile Include="Fluent\Service\AccountServiceFacade.cs" />
@@ -66,9 +68,10 @@
     <Compile Include="Fluent\IWorldServiceFacade.cs" />
     <Compile Include="Fluent\IWorldsServiceFacade.cs" />
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
+    <Compile Include="Modules\ComponentKey.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
     <Compile Include="ServerBase.cs" />
-    <Compile Include="Diagnostics\DefaultLogger.cs" />
+    <Compile Include="Diagnostics\ConsoleLogger.cs" />
     <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
     <Compile Include="Fluent\IInitializeManagersFacade.cs" />
@@ -114,6 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ServerSession.cs" />
+    <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">

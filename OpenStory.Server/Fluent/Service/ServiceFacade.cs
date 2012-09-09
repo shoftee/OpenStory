@@ -1,3 +1,5 @@
+using OpenStory.Services.Contracts;
+
 namespace OpenStory.Server.Fluent.Service
 {
     internal sealed class ServiceFacade : IServiceFacade
@@ -30,6 +32,12 @@ namespace OpenStory.Server.Fluent.Service
         public IWorldServiceFacade World()
         {
             return new WorldServiceFacade(this);
+        }
+
+        /// <inheritdoc />
+        public IGameService Local()
+        {
+            return ServiceManager.GetManager().LocalService;
         }
     }
 }

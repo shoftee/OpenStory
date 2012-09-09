@@ -8,7 +8,7 @@ namespace OpenStory.Server.Diagnostics
     /// <summary>
     /// Represents an <see cref="ILogger"/> implementation that does nothing.
     /// </summary>
-    public sealed class NullLogger : ILogger
+    internal sealed class NullLogger : ILogger
     {
         /// <summary>
         /// The singleton instance of the <see cref="NullLogger"/> type.

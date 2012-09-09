@@ -13,7 +13,6 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// The entry point to the <see cref="DataManager"/> initialization facade.
         /// </summary>
-        /// <returns>an instance of type <see cref="IInitializeManagersFacade{DataManager}"/>.</returns>
         IInitializeManagersFacade<DataManager> DataManagers();
 
         /// <summary>
@@ -22,5 +21,10 @@ namespace OpenStory.Server.Fluent
         /// <param name="logger">The <see cref="ILogger"/> instance to use.</param>
         /// <returns>the root initialization facade.</returns>
         IInitializeFacade Logger(ILogger logger);
+
+        /// <summary>
+        /// The entry point for the service initialization facade.
+        /// </summary>
+        IInitializeServiceFacade Services();
     }
 }

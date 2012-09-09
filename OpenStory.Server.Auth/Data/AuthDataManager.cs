@@ -23,8 +23,8 @@ namespace OpenStory.Server.Auth.Data
         /// </summary>
         public AuthDataManager()
         {
-            base.RequireComponent("Characters", typeof(IAuthCharacterProvider));
-            base.RequireComponent("Worlds", typeof(IWorldInfoProvider));
+            base.RequireComponent<IAuthCharacterProvider>("Characters");
+            base.RequireComponent<IWorldInfoProvider>("Worlds");
         }
     }
 }
