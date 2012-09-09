@@ -10,6 +10,6 @@ namespace OpenStory.Services.Contracts
     interface IServiceStateChanged
     {
         [OperationContract(IsOneWay = true)]
-        void OnServiceStateChanged(ServiceState state);
+        void OnServiceStateChanged(ServiceState newState);
     }
 }

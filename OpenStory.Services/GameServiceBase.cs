@@ -24,6 +24,9 @@ namespace OpenStory.Services
         private readonly List<IServiceStateChanged> startSubscribers;
         private readonly List<IServiceStateChanged> stopSubscribers;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="GameServiceBase"/>.
+        /// </summary>
         protected GameServiceBase()
         {
             this.serviceState = ServiceState.NotInitialized;
@@ -158,14 +161,23 @@ namespace OpenStory.Services
             return this.serviceState;
         }
 
+        /// <summary>
+        /// Executed when the service enters the <see cref="ServiceState.Initializing"/> state.
+        /// </summary>
         protected virtual void OnInitializing()
         {
         }
 
+        /// <summary>
+        /// Executed when the service enters the <see cref="ServiceState.Starting"/> state.
+        /// </summary>
         protected virtual void OnStarting()
         {
         }
 
+        /// <summary>
+        /// Executed when the service enters the <see cref="ServiceState.Stopping"/> state.
+        /// </summary>
         protected virtual void OnStopping()
         {
         }
