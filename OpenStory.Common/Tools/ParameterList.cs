@@ -1,27 +1,48 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace OpenStory.Server.Emulation
+namespace OpenStory.Common.Tools
 {
-    sealed class ParameterList
+    /// <summary>
+    /// Represents a command line parameter list.
+    /// </summary>
+    public sealed class ParameterList
     {
-        const RegexOptions ParamRegexOptions =
+        private const RegexOptions ParamRegexOptions =
             RegexOptions.Compiled
             | RegexOptions.Singleline
             | RegexOptions.CultureInvariant
             | RegexOptions.ExplicitCapture;
 
-        private static readonly Regex ParamRegex = new Regex(@"--(?<name>[A-Za-z][A-Za-z0-9]*)(=(?<value>""[^""]*""))?", ParamRegexOptions);
+        /// <summary>
+        /// Regular Expression pattern for matching parameter key-value pairs.
+        /// </summary>
+        /// <remarks>
+        /// This pattern will match strings that look like:
+        /// * --some-flag-name
+        /// * --some-key-name="some value"
+        /// 
+        /// General rules:
+        /// * Do not put spaces in the key name.
+        /// * Do not put spaces around the equals sign.
+        /// * Always put values in quotation marks, even if there are no spaces in the value.
+        /// * Do not put a digit as the first character of a key name. After that it's fine.
+        /// * Keys are case-sensitive.
+        /// </remarks>
+        private static readonly Regex ParamRegex = new Regex(@"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?", ParamRegexOptions);
 
         private const char QuotationMark = '\"';
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
 
         private readonly Dictionary<string, string> parameters;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ParameterList"/>.
+        /// </summary>
+        /// <param name="parameters">The parameter entries to initialize this list with.</param>
         public ParameterList(IDictionary<string, string> parameters)
         {
             string error;
@@ -34,6 +55,14 @@ namespace OpenStory.Server.Emulation
             this.parameters = parsed;
         }
 
+        /// <summary>
+        /// Parses the parameters from a provided command line.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="Environment.CommandLine"/> property is useful for this.
+        /// </remarks>
+        /// <param name="commandLine">The command line to parse.</param>
+        /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
         public static Dictionary<string, string> ParseCommandLine(string commandLine)
         {
             var parsed = new Dictionary<string, string>();
@@ -54,13 +83,20 @@ namespace OpenStory.Server.Emulation
             return parsed;
         }
 
+        /// <summary>
+        /// Constructs a string array parameter list.
+        /// </summary>
+        /// <remarks>
+        /// This is useful when you need to use the list with the .NET methods to execute a process.
+        /// </remarks>
+        /// <returns>an array of <see cref="string"/> with each parameter entry corresponding to an array element.</returns>
         public string[] ToArgumentList()
         {
-            var count = parameters.Count;
+            var count = this.parameters.Count;
             var args = new string[count];
             int index = 0;
 
-            var entries = parameters.OrderBy(item => item.Key, StringComparer.InvariantCulture);
+            var entries = this.parameters.OrderBy(item => item.Key, StringComparer.InvariantCulture);
             foreach (var entry in entries)
             {
                 var name = entry.Key;
@@ -95,6 +131,7 @@ namespace OpenStory.Server.Emulation
                         "'{0}' : Parameter name duplicate after trimming white-space.";
 
                     error = String.Format(InvariantCulture, DuplicateParameterNames, name);
+                    return null;
                 }
                 else if (name.Any(Char.IsWhiteSpace))
                 {

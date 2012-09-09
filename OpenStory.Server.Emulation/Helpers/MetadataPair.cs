@@ -8,7 +8,7 @@ namespace OpenStory.Server.Emulation.Helpers
     /// </summary>
     /// <typeparam name="TMemberInfo">The type of the member in the pair.</typeparam>
     /// <typeparam name="TAttribute">The type of the attribute in the pair.</typeparam>
-    public class MetadataPair<TMemberInfo, TAttribute>
+    public sealed class MetadataPair<TMemberInfo, TAttribute>
         where TMemberInfo : MemberInfo
         where TAttribute : Attribute
     {

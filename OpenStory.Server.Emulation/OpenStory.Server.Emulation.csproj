@@ -59,17 +59,16 @@
   <ItemGroup>
     <Compile Include="Helpers\AppDomainHelpers.cs" />
     <Compile Include="Helpers\MetadataPair.cs" />
-    <Compile Include="InitializationStage.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Helpers\ReflectionHelpers.cs" />
-    <Compile Include="InitializationMethodAttribute.cs" />
     <Compile Include="Launcher.cs" />
-    <Compile Include="ParameterList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerModuleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
+      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
+      <Name>OpenStory.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
