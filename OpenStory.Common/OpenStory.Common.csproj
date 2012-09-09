@@ -86,6 +86,7 @@
     <Compile Include="Game\JobClass.cs" />
     <Compile Include="Game\KeyLayout.cs" />
     <Compile Include="IO\ArraySegmentException.cs" />
+    <Compile Include="IO\HandshakeInfo.cs" />
     <Compile Include="IO\ICustomBuilder.cs" />
     <Compile Include="IO\ICustomReader.cs" />
     <Compile Include="IO\IPacketBuilder.cs" />

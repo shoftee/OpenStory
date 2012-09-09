@@ -99,7 +99,7 @@ namespace OpenStory.Common
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
         /// </exception>
-        /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
+        /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public static bool ToBoolean(AtomicBoolean atomicBoolean)
         {
             if (atomicBoolean == null)

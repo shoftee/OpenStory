@@ -5,6 +5,7 @@ using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
+using OpenStory.Server.Properties;
 
 namespace OpenStory.Server
 {
@@ -92,7 +93,8 @@ namespace OpenStory.Server
                           clientIv.ToHex(hyphenate: true),
                           serverIv.ToHex(hyphenate: true));
 
-            session.Start(this.ivFactory, clientIv, serverIv);
+            var info = new ConfiguredHandshakeInfo(Settings.Default.MapleVersion, "2", clientIv, serverIv);
+            session.Start(this.ivFactory, info);
         }
 
 

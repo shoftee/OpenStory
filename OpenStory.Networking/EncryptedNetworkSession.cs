@@ -59,8 +59,8 @@ namespace OpenStory.Networking
             this.HeaderBuffer = new BoundedBuffer(4);
 
             this.Session = new NetworkSession();
-            this.Session.DataArrived += this.HandleIncomingData;
-            this.Session.Closing += this.RaiseClosingEvent;
+            this.Session.DataArrived += this.OnDataArrived;
+            this.Session.Closing += this.OnClosing;
         }
 
         /// <summary>
@@ -79,12 +79,10 @@ namespace OpenStory.Networking
             this.Session.AttachSocket(socket);
         }
 
-        private void RaiseClosingEvent(object sender, EventArgs e)
+        private void OnClosing(object sender, EventArgs e)
         {
-            if (this.Closing != null)
-            {
-                this.Closing(this, e);
-            }
+            var handler = this.Closing;
+            if (handler != null) handler(this, e);
         }
 
         /// <summary>
@@ -127,7 +125,7 @@ namespace OpenStory.Networking
         /// </remarks>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The packet data that was received.</param>
-        protected virtual void HandleIncomingData(object sender, DataArrivedEventArgs args)
+        protected virtual void OnDataArrived(object sender, DataArrivedEventArgs args)
         {
             byte[] data = args.Data;
             int position = 0, remaining = data.Length;

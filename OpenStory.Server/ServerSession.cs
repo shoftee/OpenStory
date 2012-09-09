@@ -36,33 +36,32 @@ namespace OpenStory.Server
         /// Initiates the session operations.
         /// </summary>
         /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
-        /// <param name="clientIv">The client IV to use for the cryptographic transformation.</param>
-        /// <param name="serverIv">The server IV to use for the cryptographic transformation.</param>
-        public void Start(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+        /// <param name="info">The information for the handshake process.</param>
+        public void Start(RollingIvFactory factory, HandshakeInfo info)
         {
             this.ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = ServerCrypto.New(factory, clientIv, serverIv);
+            this.Crypto = ServerCrypto.New(factory, info.ClientIv, info.ServerIv);
 
-            byte[] helloPacket = ConstructHelloPacket(clientIv, serverIv, factory.Version);
+            byte[] helloPacket = ConstructHandshakePacket(info);
             this.Session.Start();
             this.Session.Write(helloPacket);
         }
 
         #region Outgoing logic
 
-        private static byte[] ConstructHelloPacket(byte[] clientIv, byte[] serverIv, ushort version)
+        private static byte[] ConstructHandshakePacket(HandshakeInfo info)
         {
             using (var builder = new PacketBuilder(16))
             {
-                builder.WriteInt16(0x0E);
-                builder.WriteInt16(version);
-                builder.WriteLengthString("2"); // supposedly some patch thing?
-                builder.WriteBytes(clientIv);
-                builder.WriteBytes(serverIv);
+                builder.WriteInt16(info.Header);
+                builder.WriteInt16(info.Version);
+                builder.WriteLengthString(info.SubVersion);
+                builder.WriteBytes(info.ClientIv);
+                builder.WriteBytes(info.ServerIv);
 
-                // Test server flag.
-                builder.WriteByte(0x05);
+                // Server ID (used for localizations and test servers)
+                builder.WriteByte(info.ServerId);
 
                 return builder.ToByteArray();
             }

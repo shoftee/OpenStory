@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientBase.cs" />
+    <Compile Include="ConfiguredHandshakeInfo.cs" />
     <Compile Include="Data\ISendFeed.cs" />
     <Compile Include="Data\IReceiveFeed.cs" />
     <Compile Include="Diagnostics\NullLogger.cs" />
