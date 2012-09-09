@@ -105,6 +105,7 @@
     <Compile Include="Cryptography\CustomCrypto.cs" />
     <Compile Include="Cryptography\EndpointCrypto.cs" />
     <Compile Include="Cryptography\ICryptoAlgorithm.cs" />
+    <Compile Include="Cryptography\IvFactories.cs" />
     <Compile Include="Cryptography\KmstDecryptor.cs" />
     <Compile Include="Cryptography\KmstEncryptor.cs" />
     <Compile Include="Cryptography\LoginCrypto.cs" />

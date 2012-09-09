@@ -39,7 +39,7 @@ namespace OpenStory.Server
             this.acceptor = new SocketAcceptor(address, port);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
 
-            this.ivFactory = IvFactories.GetEmsFactory();
+            this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
         }
 
         /// <summary>

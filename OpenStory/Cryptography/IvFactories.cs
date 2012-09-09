@@ -1,9 +1,9 @@
-using OpenStory.Cryptography;
-using OpenStory.Server.Properties;
-
-namespace OpenStory.Server
+namespace OpenStory.Cryptography
 {
-    internal static class IvFactories
+    /// <summary>
+    /// A bunch of RollingIvFactory... factory methods.
+    /// </summary>
+    public static class IvFactories
     {
         #region EMS
 
@@ -37,10 +37,15 @@ namespace OpenStory.Server
                 0x33, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00
             };
 
-        public static RollingIvFactory GetEmsFactory()
+        /// <summary>
+        /// Gets the EMS IV factory.
+        /// </summary>
+        /// <param name="version">The version to use for the factory.</param>
+        /// <returns>an instance of<see cref="RollingIvFactory"/> that can be used to created IVs for the EMS crypto.</returns>
+        public static RollingIvFactory GetEmsFactory(ushort version)
         {
             var transform = GetEmsCrypto();
-            return new RollingIvFactory(transform, Settings.Default.MapleVersion);
+            return new RollingIvFactory(transform, version);
         }
 
         private static ICryptoAlgorithm GetEmsCrypto()
@@ -74,12 +79,17 @@ namespace OpenStory.Server
 
         private static readonly byte[] KmstInitialValue = new byte[] { 0xF2, 0x53, 0x50, 0xC6 };
 
-        public static RollingIvFactory GetKmstFactory()
+        /// <summary>
+        /// Gets the KMST IV factory.
+        /// </summary>
+        /// <param name="version">The version to use for the factory.</param>
+        /// <returns>an instance of<see cref="RollingIvFactory"/> that can be used to created IVs for the KMST crypto.</returns>
+        public static RollingIvFactory GetKmstFactory(ushort version)
         {
             var encryption = GetKmstCrypto(true);
             var decryption = GetKmstCrypto(false);
 
-            return new RollingIvFactory(encryption, decryption, Settings.Default.MapleVersion);
+            return new RollingIvFactory(encryption, decryption, version);
         }
 
         private static ICryptoAlgorithm GetKmstCrypto(bool encryption)

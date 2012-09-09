@@ -105,7 +105,6 @@
     <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Registry\IPlayerGroup.cs" />
-    <Compile Include="IvFactories.cs" />
     <Compile Include="IWorldChannel.cs" />
     <Compile Include="Registry\LocationRegistry.cs" />
     <Compile Include="Modules\ManagerStore.cs" />
