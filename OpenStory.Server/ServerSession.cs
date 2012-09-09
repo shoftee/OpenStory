@@ -43,9 +43,9 @@ namespace OpenStory.Server
 
             this.Crypto = ServerCrypto.New(factory, info.ClientIv, info.ServerIv);
 
-            byte[] helloPacket = ConstructHandshakePacket(info);
+            byte[] handshake = ConstructHandshakePacket(info);
             this.Session.Start();
-            this.Session.Write(helloPacket);
+            this.Session.Write(handshake);
         }
 
         #region Outgoing logic

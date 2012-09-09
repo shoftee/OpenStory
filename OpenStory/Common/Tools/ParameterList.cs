@@ -40,6 +40,23 @@ namespace OpenStory.Common.Tools
         private readonly Dictionary<string, string> parameters;
 
         /// <summary>
+        /// Gets the value of a parameter.
+        /// </summary>
+        /// <param name="key">The name of the parameter.</param>
+        /// <returns>
+        /// the value of the parameter, <see cref="string.Empty"/> if the parameter has no value, or <c>null</c> if there is no such parameter.
+        /// </returns>
+        public string this[string key]
+        {
+            get
+            {
+                string value;
+                this.parameters.TryGetValue(key, out value);
+                return value;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="ParameterList"/>.
         /// </summary>
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
@@ -69,16 +86,10 @@ namespace OpenStory.Common.Tools
             var matches = ParamRegex.Matches(commandLine);
             foreach (Match match in matches)
             {
-                var captures = match.Captures;
-                switch (captures.Count)
-                {
-                    case 1:
-                        parsed.Add(captures[0].Value, string.Empty);
-                        break;
-                    case 2:
-                        parsed.Add(captures[0].Value, captures[1].Value);
-                        break;
-                }
+                var groups = match.Groups;
+                var key = groups[1].Value;
+                var value = groups[2].Value;
+                parsed.Add(key, value);
             }
             return parsed;
         }

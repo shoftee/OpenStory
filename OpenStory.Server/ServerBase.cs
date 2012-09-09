@@ -36,10 +36,10 @@ namespace OpenStory.Server
         {
             this.IsRunning = false;
 
+            this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
+
             this.acceptor = new SocketAcceptor(address, port);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
-
-            this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
         }
 
         /// <summary>
