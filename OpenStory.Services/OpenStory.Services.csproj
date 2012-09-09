@@ -37,7 +37,6 @@
   <ItemGroup>
     <Reference Include="System">
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel">
     </Reference>
   </ItemGroup>

@@ -51,9 +51,9 @@
     <Compile Include="TimeScheduler.Timeline.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
-      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
-      <Name>OpenStory.Common</Name>
+    <ProjectReference Include="..\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

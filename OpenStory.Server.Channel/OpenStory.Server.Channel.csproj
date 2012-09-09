@@ -59,17 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
-      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
-      <Name>OpenStory.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Networking\OpenStory.Networking.csproj">
-      <Project>{11084911-8AAC-4F2D-B84E-FA01E4B32983}</Project>
-      <Name>OpenStory.Networking</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

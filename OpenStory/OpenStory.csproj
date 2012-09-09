@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenStory</RootNamespace>
+    <AssemblyName>OpenStory</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <DocumentationFile>bin\Debug\OpenStory.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\OpenStory.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+    </Reference>
+    <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Data">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AtomicBoolean.cs" />
+    <Compile Include="Common\AtomicInteger.cs" />
+    <Compile Include="Common\Auth\AuthenticationResult.cs" />
+    <Compile Include="Common\Auth\IChannel.cs" />
+    <Compile Include="Common\Auth\IWorld.cs" />
+    <Compile Include="Common\Data\IOpCodeTable.cs" />
+    <Compile Include="Common\Data\OpCodeTable.cs" />
+    <Compile Include="Common\Game\GameConstants.cs" />
+    <Compile Include="Common\Game\Elements.cs" />
+    <Compile Include="Common\Game\Gender.cs" />
+    <Compile Include="Common\Game\GuildRank.cs" />
+    <Compile Include="Common\Game\KeyBinding.cs" />
+    <Compile Include="Common\Game\InventoryType.cs" />
+    <Compile Include="Common\Game\ItemType.cs" />
+    <Compile Include="Common\Game\JobClass.cs" />
+    <Compile Include="Common\Game\KeyLayout.cs" />
+    <Compile Include="Common\IO\ArraySegmentException.cs" />
+    <Compile Include="Common\IO\HandshakeInfo.cs" />
+    <Compile Include="Common\IO\ICustomBuilder.cs" />
+    <Compile Include="Common\IO\ICustomReader.cs" />
+    <Compile Include="Common\IO\IPacketBuilder.cs" />
+    <Compile Include="Common\IO\ISafePacketReader.cs" />
+    <Compile Include="Common\IO\IUnsafePacketReader.cs" />
+    <Compile Include="Common\IO\LittleEndianBitConverter.cs" />
+    <Compile Include="Common\IO\BoundedBuffer.cs" />
+    <Compile Include="Common\IO\ByteOrder.cs" />
+    <Compile Include="Common\IO\PacketBuilder.cs" />
+    <Compile Include="Common\IO\PacketReadException.cs" />
+    <Compile Include="Common\IO\PacketReader.cs" />
+    <Compile Include="Cryptography\AesTransform.cs" />
+    <Compile Include="Cryptography\ByteHelpers.cs" />
+    <Compile Include="Cryptography\ClientCrypto.cs" />
+    <Compile Include="Cryptography\CryptoTransformBase.cs" />
+    <Compile Include="Cryptography\CustomCrypto.cs" />
+    <Compile Include="Cryptography\EndpointCrypto.cs" />
+    <Compile Include="Cryptography\ICryptoAlgorithm.cs" />
+    <Compile Include="Cryptography\KmstDecryptor.cs" />
+    <Compile Include="Cryptography\KmstEncryptor.cs" />
+    <Compile Include="Cryptography\LoginCrypto.cs" />
+    <Compile Include="Cryptography\RollingIv.cs" />
+    <Compile Include="Cryptography\RollingIvFactory.cs" />
+    <Compile Include="Cryptography\ServerCrypto.cs" />
+    <Compile Include="Cryptography\VersionMaskType.cs" />
+    <Compile Include="Networking\DataArrivedEventArgs.cs" />
+    <Compile Include="Networking\DescriptorBase.cs" />
+    <Compile Include="Networking\EncryptedNetworkSession.cs" />
+    <Compile Include="Networking\IDescriptorContainer.cs" />
+    <Compile Include="Networking\NetworkSession.cs" />
+    <Compile Include="Networking\PacketReceivedEventArgs.cs" />
+    <Compile Include="Networking\ReceiveDescriptor.cs" />
+    <Compile Include="Networking\SendDescriptor.cs" />
+    <Compile Include="Networking\SessionCloseEventArgs.cs" />
+    <Compile Include="Networking\SocketAcceptor.cs" />
+    <Compile Include="Networking\SocketErrorEventArgs.cs" />
+    <Compile Include="Networking\SocketEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\Tools\DbHelpers.cs" />
+    <Compile Include="Common\Tools\MiscTools.cs" />
+    <Compile Include="Common\Tools\ParameterList.cs" />
+    <Compile Include="Common\Tools\TimeHelpers.cs" />
+    <Compile Include="Common\Auth\ServerStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

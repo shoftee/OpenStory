@@ -37,11 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\AppDomainHelpers.cs" />
@@ -52,13 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Common\OpenStory.Common.csproj">
-      <Project>{7BE8ED04-4693-41AB-93F0-354BA7FEDCFF}</Project>
-      <Name>OpenStory.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

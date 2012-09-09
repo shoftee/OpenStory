@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("OpenStory.Cryptography")]
-[assembly: AssemblyDescription("Cryptography tools for MapleStory")]
+[assembly: AssemblyTitle("OpenStory")]
+[assembly: AssemblyDescription("Common components of OpenStory")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("shoftee® Corporation")]
 [assembly: AssemblyProduct("OpenStory")]
-[assembly: AssemblyCopyright("Copyright © shoftee® Corporation 2011")]
+[assembly: AssemblyCopyright("Copyright © shoftee® Corporation 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("a09c90fd-c4a9-46de-bda2-a919bd91d7c2")]
+[assembly: Guid("5f392b00-406b-4985-8220-16cad6176c67")]
 
 // Version information for an assembly consists of the following four values:
 //
