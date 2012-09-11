@@ -1,24 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using OpenStory.Common.Data;
 
 namespace OpenStory.Server.Channel
 {
-    internal class ChannelServer : IChannelServer
+    /// <summary>
+    /// Represents a server that handles the channel-side operations.
+    /// </summary>
+    public sealed class ChannelServer : ServerBase, IChannelServer
     {
-        private readonly int channelId;
+        private readonly int channelId = 0; // TODO
 
+        private readonly List<ChannelClient> clients;
         private readonly PlayerRegistry players;
 
+        /// <inheritdoc />
         public IChannelWorld World { get; private set; }
 
-        public ChannelServer(IChannelWorld worldServer, int channelId)
+        /// <inheritdoc />
+        public override IOpCodeTable OpCodes
         {
-            this.World = worldServer;
-            this.channelId = channelId;
+            get { throw new NotImplementedException(); }
+        }
 
+        /// <inheritdoc />
+        public override string Name
+        {
+            get { return "Channel"; }
+        }
+
+        /// <inheritdoc />
+        public ChannelServer(ServerConfiguration configuration)
+            : base(configuration)
+        {
+            this.clients = new List<ChannelClient>();
             this.players = new PlayerRegistry();
         }
 
+        /// <inheritdoc />
+        protected override void OnConnectionOpen(ServerSession serverSession)
+        {
+            var newClient = new ChannelClient(this, serverSession);
+            this.clients.Add(newClient); // NOTE: Happens both in Auth and Channel servers, pull up?
+        }
+
+        /// <inheritdoc />
         public void BroadcastToWorld(int sourceId, IEnumerable<int> targetIds, byte[] data)
         {
             var ids = from id in targetIds
@@ -46,13 +73,12 @@ namespace OpenStory.Server.Channel
         /// <param name="data"></param>
         public void BroadcastIntoChannel(IEnumerable<int> targetIds, byte[] data)
         {
-            var playerTargets = from targetId in targetIds
-                                select this.players.GetById(targetId)
-                                into target
-                                where target != null
-                                select target;
+            var targets = from targetId in targetIds
+                          select this.players.GetById(targetId) into target
+                          where target != null
+                          select target;
 
-            foreach (Player player in playerTargets)
+            foreach (var player in targets)
             {
                 player.Client.WritePacket(data);
             }

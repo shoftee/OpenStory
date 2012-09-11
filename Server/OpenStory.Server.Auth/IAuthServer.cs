@@ -6,13 +6,8 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Provides methods for querying an auth server.
     /// </summary>
-    internal interface IAuthServer
+    internal interface IAuthServer : IGameServer
     {
-        /// <summary>
-        /// Gets the <see cref="IOpCodeTable"/> for this server.
-        /// </summary>
-        IOpCodeTable OpCodes { get; }
-
         /// <summary>
         /// Gets a <see cref="IWorld"/> instance by the World's ID.
         /// </summary>

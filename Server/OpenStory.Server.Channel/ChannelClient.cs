@@ -2,13 +2,17 @@ using OpenStory.Common.IO;
 
 namespace OpenStory.Server.Channel
 {
-    internal class ChannelClient : ClientBase
+    internal sealed class ChannelClient : ClientBase
     {
-        public ChannelClient(ServerSession session) : base(session)
+        private readonly IChannelServer server;
+
+        public ChannelClient(IChannelServer server, ServerSession session)
+            : base(server, session)
         {
+            this.server = server;
         }
 
-        protected override void ProcessPacket(ushort opCode, PacketReader reader)
+        protected override void ProcessPacket(string label, PacketReader reader)
         {
             // TODO packet handling
         }

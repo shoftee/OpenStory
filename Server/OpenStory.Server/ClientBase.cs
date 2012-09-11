@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.Timers;
 using OpenStory.Common;
+using OpenStory.Common.Data;
 using OpenStory.Common.IO;
+using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
 
@@ -25,14 +27,14 @@ namespace OpenStory.Server
         private const int PingInterval = 15000;
 
         /// <summary>
-        /// The op code for the pong packet.
-        /// </summary>
-        protected const int PongOpCode = 0x0011;
-
-        /// <summary>
         /// Gets the client's session object.
         /// </summary>
         protected ServerSession Session { get; private set; }
+
+        /// <summary>
+        /// Gets the server which is handling this client.
+        /// </summary>
+        protected IGameServer Server { get; private set; }
 
         /// <summary>
         /// Gets the remote address for this session.
@@ -49,17 +51,21 @@ namespace OpenStory.Server
 
         private readonly Timer keepAliveTimer;
         private readonly AtomicInteger sentPings;
-        private static readonly byte[] PingPacket = new byte[] { 0x0F, 0x00 };
 
         /// <summary>
         /// Initializes a new instance of <see cref="ClientBase"/>.
         /// </summary>
+        /// <param name="server">The server that handles this client.</param>
         /// <param name="session">The session object for this client.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="session"/> is <c>null</c>.
+        /// Thrown if <paramref name="server"/> or <paramref name="session"/> is <c>null</c>.
         /// </exception>
-        protected ClientBase(ServerSession session)
+        protected ClientBase(IGameServer server, ServerSession session)
         {
+            if (server == null)
+            {
+                throw new ArgumentNullException("server");
+            }
             if (session == null)
             {
                 throw new ArgumentNullException("session");
@@ -87,7 +93,11 @@ namespace OpenStory.Server
                 this.Disconnect("No ping response.");
                 return;
             }
-            this.Session.WritePacket(PingPacket);
+
+            using (var ping = this.Server.OpCodes.NewPacket("Ping"))
+            {
+                this.Session.WritePacket(ping.ToByteArray());
+            }
         }
 
         private void OnPacketReceived(object sender, PacketReceivedEventArgs e)
@@ -101,7 +111,15 @@ namespace OpenStory.Server
                 return;
             }
 
-            if (opCode == PongOpCode)
+            string label;
+            bool knownOpCode = this.Server.OpCodes.TryGetIncomingLabel(opCode, out label);
+            if (!knownOpCode)
+            {
+                LogUnknownPacket(opCode, reader);
+                return;
+            }
+
+            if (label == "Pong")
             {
                 var session = this.AccountSession;
                 if (session != null)
@@ -118,16 +136,22 @@ namespace OpenStory.Server
             }
             else
             {
-                this.ProcessPacket(opCode, reader);
+                this.ProcessPacket(label, reader);
             }
         }
 
         /// <summary>
         /// When implemented in a derived class, processes the packet with the given op code.
         /// </summary>
-        /// <param name="opCode">The op code of the packet to process.</param>
+        /// <param name="label">The op code label for the packet to process.</param>
         /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
-        protected abstract void ProcessPacket(ushort opCode, PacketReader reader);
+        protected abstract void ProcessPacket(string label, PacketReader reader);
+
+        private static void LogUnknownPacket(ushort opCode, PacketReader reader)
+        {
+            const string Format = "Unknown Op Code 0x{0:4X} - {1}";
+            OS.Log().Warning(Format, opCode, reader.ReadFully().ToHex());
+        }
 
         #endregion
 

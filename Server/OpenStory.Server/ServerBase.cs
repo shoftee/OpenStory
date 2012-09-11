@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using OpenStory.Common.Tools;
+using OpenStory.Common.Data;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
@@ -12,10 +12,13 @@ namespace OpenStory.Server
     /// <summary>
     /// A base class for services which handle public communication.
     /// </summary>
-    public abstract class ServerBase
+    public abstract class ServerBase : IGameServer
     {
         private readonly SocketAcceptor acceptor;
         private readonly RollingIvFactory ivFactory;
+
+        /// <inheritdoc />
+        public abstract IOpCodeTable OpCodes { get; }
 
         /// <summary>
         /// Gets the name of the server.
@@ -30,15 +33,22 @@ namespace OpenStory.Server
         /// <summary>
         /// Initializes a new instance of <see cref="ServerBase"/>.
         /// </summary>
-        /// <param name="address">The address to listen on.</param>
-        /// <param name="port">The port to listen on.</param>
-        protected ServerBase(IPAddress address, int port)
+        /// <param name="configuration">The server configuration.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="configuration"/> is <c>null</c>.
+        /// </exception>
+        protected ServerBase(ServerConfiguration configuration)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
+
             this.IsRunning = false;
 
             this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
 
-            this.acceptor = new SocketAcceptor(address, port);
+            this.acceptor = new SocketAcceptor(configuration.Address, configuration.Port);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
 

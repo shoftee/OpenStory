@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Net;
+using System.ServiceModel;
 using OpenStory.Server.Auth;
 using OpenStory.Services.Contracts;
 
@@ -14,7 +15,8 @@ namespace OpenStory.Services.Auth
 
         public AuthService()
         {
-            this.server = new AuthServer();
+            var config = new AuthConfiguration(IPAddress.Any, 8484);
+            this.server = new AuthServer(config);
         }
 
         protected override void OnStarting()

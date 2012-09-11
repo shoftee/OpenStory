@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AuthClient.cs" />
     <Compile Include="AuthClientState.cs" />
+    <Compile Include="AuthConfiguration.cs" />
     <Compile Include="AuthPolicyBase.cs" />
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerPackets.cs" />

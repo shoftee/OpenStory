@@ -39,23 +39,14 @@ namespace OpenStory.Server.Auth
         /// Initializes a new instance of <see cref="AuthClient"/>.
         /// and binds it with a network session.
         /// </summary>
-        /// <param name="networkSession">The network session to bind the instance to.</param>
         /// <param name="server">The authentication server instance which is handling this client.</param>
+        /// <param name="networkSession">The network session to bind the instance to.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the provider parameters is <c>null</c>.
         /// </exception>
-        public AuthClient(ServerSession networkSession, IAuthServer server)
-            : base(networkSession)
+        public AuthClient(IAuthServer server, ServerSession networkSession)
+            : base(server, networkSession)
         {
-            if (networkSession == null)
-            {
-                throw new ArgumentNullException("networkSession");
-            }
-            if (server == null)
-            {
-                throw new ArgumentNullException("server");
-            }
-
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
             this.State = AuthClientState.PreAuthentication;
@@ -63,15 +54,8 @@ namespace OpenStory.Server.Auth
             this.server = server;
         }
 
-        protected override void ProcessPacket(ushort opCode, PacketReader reader)
+        protected override void ProcessPacket(string label, PacketReader reader)
         {
-            string label;
-            if (!this.server.OpCodes.TryGetIncomingLabel(opCode, out label))
-            {
-                LogUnknownPacket(opCode, reader);
-                return;
-            }
-
             switch (label)
             {
                 case "Authenticate":
@@ -97,12 +81,6 @@ namespace OpenStory.Server.Auth
                     this.HandleCharacterSelect(reader);
                     break;
             }
-        }
-
-        private static void LogUnknownPacket(ushort opCode, PacketReader reader)
-        {
-            const string Format = "Unknown Op Code 0x{0:X} - {1}";
-            OS.Log().Warning(Format, opCode, reader.ReadFully().ToHex());
         }
 
         private void HandleCharacterSelect(PacketReader reader)

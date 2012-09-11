@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.ServiceModel;
 using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
 using OpenStory.Services.Clients;
@@ -19,7 +18,7 @@ namespace OpenStory.Server.Auth
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
 
         /// <inheritdoc />
-        public IOpCodeTable OpCodes
+        public override IOpCodeTable OpCodes
         {
             get { return OpCodesInternal; }
         }
@@ -39,8 +38,9 @@ namespace OpenStory.Server.Auth
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthServer"/> class.
         /// </summary>
-        public AuthServer()
-            : base(IPAddress.Any, 8484)
+        /// <inheritdoc />
+        public AuthServer(ServerConfiguration configuration)
+            : base(configuration)
         {
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
@@ -69,8 +69,8 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         protected override void OnConnectionOpen(ServerSession serverSession)
         {
-            var newClient = new AuthClient(serverSession, this);
-            this.clients.Add(newClient);
+            var newClient = new AuthClient(this, serverSession);
+            this.clients.Add(newClient); // NOTE: Happens both in Auth and Channel servers, pull up?
         }
     }
 }
