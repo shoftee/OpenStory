@@ -96,13 +96,5 @@ namespace OpenStory.Common.IO
         /// Thrown if <paramref name="s"/> is longer than <paramref name="padLength"/>.
         /// </exception>
         void WritePaddedString(string s, int padLength);
-
-        /// <summary>
-        /// Writes an object using a <see cref="ICustomBuilder{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of object to write.</typeparam>
-        /// <param name="customBuilder">The <see cref="ICustomBuilder{T}"/> to use.</param>
-        /// <param name="obj">The object to write.</param>
-        void WriteCustom<T>(ICustomBuilder<T> customBuilder, T obj);
     }
 }
