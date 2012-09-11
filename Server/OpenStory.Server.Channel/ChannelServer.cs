@@ -16,7 +16,10 @@ namespace OpenStory.Server.Channel
         private readonly PlayerRegistry players;
 
         /// <inheritdoc />
-        public IChannelWorld World { get; private set; }
+        public override string Name
+        {
+            get { return "Channel"; }
+        }
 
         /// <inheritdoc />
         public override IOpCodeTable OpCodes
@@ -25,10 +28,7 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        public override string Name
-        {
-            get { return "Channel"; }
-        }
+        public IChannelWorld World { get; private set; }
 
         /// <inheritdoc />
         public ChannelServer(ServerConfiguration configuration)
