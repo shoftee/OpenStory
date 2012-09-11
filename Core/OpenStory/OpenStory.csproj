@@ -96,7 +96,7 @@
     <Compile Include="Common\IO\BoundedBuffer.cs" />
     <Compile Include="Common\IO\ByteOrder.cs" />
     <Compile Include="Common\IO\PacketBuilder.cs" />
-    <Compile Include="Common\IO\PacketReadException.cs" />
+    <Compile Include="Common\IO\PacketReadingException.cs" />
     <Compile Include="Common\IO\PacketReader.cs" />
     <Compile Include="Cryptography\AesTransform.cs" />
     <Compile Include="Cryptography\ByteHelpers.cs" />

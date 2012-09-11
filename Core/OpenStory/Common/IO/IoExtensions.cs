@@ -39,7 +39,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Wraps a callback in a try-catch statement for <see cref="PacketReadException"/>.
+        /// Wraps a callback in a try-catch statement for <see cref="PacketReadingException"/>.
         /// </summary>
         /// <param name="reader">The <see cref="IUnsafePacketReader">packet reader</see> to use.</param>
         /// <param name="readCallback">The method to call.</param>
@@ -51,14 +51,14 @@ namespace OpenStory.Common.IO
                 readCallback(reader);
                 return true;
             }
-            catch (PacketReadException)
+            catch (PacketReadingException)
             {
                 return false;
             }
         }
 
         /// <summary>
-        /// Wraps a callback in a try-catch statement for <see cref="PacketReadException"/>.
+        /// Wraps a callback in a try-catch statement for <see cref="PacketReadingException"/>.
         /// </summary>
         /// <param name="reader">The <see cref="IUnsafePacketReader">packet reader</see> to use.</param>
         /// <param name="readCallback">The method to call.</param>
@@ -71,7 +71,7 @@ namespace OpenStory.Common.IO
                 readCallback(reader);
                 return true;
             }
-            catch (PacketReadException)
+            catch (PacketReadingException)
             {
                 failCallback();
                 return false;

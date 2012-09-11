@@ -10,29 +10,29 @@ namespace OpenStory.Common.IO
     /// Thrown when there is a problem with reading a packet.
     /// </summary>
     [Serializable]
-    public sealed class PacketReadException : Exception
+    public sealed class PacketReadingException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReadException"/>.
+        /// Initializes a new instance of <see cref="PacketReadingException"/>.
         /// </summary>
         /// <inheritdoc />
-        private PacketReadException(string message)
+        private PacketReadingException(string message)
             : base(message)
         {
         }
 
         /// <inheritdoc />
-        private PacketReadException(SerializationInfo info, StreamingContext context)
+        private PacketReadingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
         /// <summary>
-        /// Constructs a <see cref="PacketReadException"/> which states that the end of the stream was reached.
+        /// Constructs a <see cref="PacketReadingException"/> which states that the end of the stream was reached.
         /// </summary>
-        public static PacketReadException EndOfStream()
+        public static PacketReadingException EndOfStream()
         {
-            return new PacketReadException("The end of the stream was reached.");
+            return new PacketReadingException("The end of the stream was reached.");
         }
     }
 }

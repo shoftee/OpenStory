@@ -328,7 +328,7 @@ namespace OpenStory.Common.IO
         #region Unsafe read methods
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public void Skip(int count)
         {
             ThrowIfCountIsNegative(count);
@@ -337,7 +337,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public byte[] ReadBytes(int count)
         {
             ThrowIfCountIsNegative(count);
@@ -349,7 +349,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public byte ReadByte()
         {
             int index = this.CheckedAdvance(1);
@@ -357,7 +357,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public short ReadInt16()
         {
             int start = this.CheckedAdvance(2);
@@ -365,7 +365,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public ushort ReadUInt16()
         {
             int start = this.CheckedAdvance(2);
@@ -373,7 +373,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public int ReadInt32()
         {
             int start = this.CheckedAdvance(4);
@@ -381,7 +381,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public uint ReadUInt32()
         {
             int start = this.CheckedAdvance(4);
@@ -389,7 +389,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public long ReadInt64()
         {
             int start = this.CheckedAdvance(8);
@@ -397,7 +397,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public ulong ReadUInt64()
         {
             int start = this.CheckedAdvance(8);
@@ -405,7 +405,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public string ReadLengthString()
         {
             short length = this.ReadInt16();
@@ -414,7 +414,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public string ReadPaddedString(int length)
         {
             if (length <= 0)
@@ -427,7 +427,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
+        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public bool ReadBoolean()
         {
             int index = this.CheckedAdvance(1);
@@ -485,7 +485,7 @@ namespace OpenStory.Common.IO
         {
             if (this.currentOffset + count > this.segmentEnd)
             {
-                throw PacketReadException.EndOfStream();
+                throw PacketReadingException.EndOfStream();
             }
 
             int old = this.currentOffset;
