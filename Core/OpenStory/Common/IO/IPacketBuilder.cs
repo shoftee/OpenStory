@@ -11,13 +11,13 @@ namespace OpenStory.Common.IO
         /// Writes a <see cref="System.Int64"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        void WriteLong(long number);
+        void WriteInt64(long number);
 
         /// <summary>
         /// Writes a <see cref="System.UInt64"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        void WriteLong(ulong number);
+        void WriteInt64(ulong number);
 
         /// <summary>
         /// Writes a <see cref="System.Int32"/> to the end of the packet.

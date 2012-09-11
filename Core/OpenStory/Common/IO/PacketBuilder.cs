@@ -43,7 +43,7 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WriteLong(long number)
+        public void WriteInt64(long number)
         {
             this.ThrowIfDisposed();
 
@@ -52,7 +52,7 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WriteLong(ulong number)
+        public void WriteInt64(ulong number)
         {
             this.ThrowIfDisposed();
 
