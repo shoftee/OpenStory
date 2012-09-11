@@ -323,12 +323,6 @@ namespace OpenStory.Common.IO
             }
         }
 
-        /// <inheritdoc />
-        public bool TryReadCustom<T>(ICustomReader<T> customReader, out T value)
-        {
-            return customReader.TryRead(this, out value);
-        }
-
         #endregion
 
         #region Unsafe read methods
@@ -438,13 +432,6 @@ namespace OpenStory.Common.IO
         {
             int index = this.CheckedAdvance(1);
             return this.buffer[index] != 0;
-        }
-
-        /// <inheritdoc />
-        /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadException']" />
-        public T ReadCustom<T>(ICustomReader<T> customReader)
-        {
-            return customReader.Read(this);
         }
 
         #endregion

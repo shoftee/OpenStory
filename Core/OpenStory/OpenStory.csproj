@@ -85,10 +85,10 @@
     <Compile Include="Common\Game\ItemType.cs" />
     <Compile Include="Common\Game\JobClass.cs" />
     <Compile Include="Common\Game\KeyLayout.cs" />
+    <Compile Include="Common\Game\PointS.cs" />
     <Compile Include="Common\IO\ArraySegmentException.cs" />
     <Compile Include="Common\IO\HandshakeInfo.cs" />
-    <Compile Include="Common\IO\ICustomBuilder.cs" />
-    <Compile Include="Common\IO\ICustomReader.cs" />
+    <Compile Include="Common\IO\IoExtensions.cs" />
     <Compile Include="Common\IO\IPacketBuilder.cs" />
     <Compile Include="Common\IO\ISafePacketReader.cs" />
     <Compile Include="Common\IO\IUnsafePacketReader.cs" />

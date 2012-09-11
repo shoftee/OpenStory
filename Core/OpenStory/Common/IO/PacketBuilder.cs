@@ -187,20 +187,6 @@ namespace OpenStory.Common.IO
             this.WriteDirect(stringBytes);
         }
 
-        /// <inheritdoc />
-        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WriteCustom<T>(ICustomBuilder<T> customBuilder, T obj)
-        {
-            this.ThrowIfDisposed();
-
-            if (customBuilder == null)
-            {
-                throw new ArgumentNullException("customBuilder");
-            }
-
-            customBuilder.WriteCustom(this, obj);
-        }
-
         /// <summary>
         /// Gets a copy of the internal byte buffer of the PacketBuilder.
         /// </summary>

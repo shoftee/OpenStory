@@ -149,17 +149,5 @@ namespace OpenStory.Common.IO
         /// <param name="value">A variable to hold the result.</param>
         /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
         bool TryReadBoolean(out bool value);
-
-        /// <summary>
-        /// Attempts to read a <typeparamref name="T"/> using a <see cref="ICustomReader{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of object to read.</typeparam>
-        /// <param name="customReader">The <see cref="ICustomReader{T}"/> to use.</param>
-        /// <param name="value">A variable to store the result.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="customReader"/> is <c>null</c>.
-        /// </exception>
-        /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
-        bool TryReadCustom<T>(ICustomReader<T> customReader, out T value);
     }
 }
