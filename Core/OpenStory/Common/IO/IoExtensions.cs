@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Common.IO
@@ -38,6 +34,8 @@ namespace OpenStory.Common.IO
             builder.WriteInt16(vector.Y);
         }
 
+        #region Safe reading
+
         /// <summary>
         /// Wraps a callback in a try-catch statement for <see cref="PacketReadingException"/>.
         /// </summary>
@@ -50,6 +48,25 @@ namespace OpenStory.Common.IO
             {
                 readCallback(reader);
                 return true;
+            }
+            catch (PacketReadingException)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Wraps a callback in a try-catch statement for <see cref="PacketReadingException"/>.
+        /// </summary>
+        /// <param name="reader">The <see cref="IUnsafePacketReader">packet reader</see> to use.</param>
+        /// <param name="readCallback">The method to call.</param>
+        /// <returns><c>true</c> if all reads were successful and the call returned <c>true</c>; otherwise, <c>false</c>.</returns>
+        public static bool Safe(this IUnsafePacketReader reader, Func<IUnsafePacketReader, bool> readCallback)
+        {
+            try
+            {
+                var success = readCallback(reader);
+                return success;
             }
             catch (PacketReadingException)
             {
@@ -77,5 +94,28 @@ namespace OpenStory.Common.IO
                 return false;
             }
         }
+
+        /// <summary>
+        /// Wraps a callback in a try-catch statement for <see cref="PacketReadingException"/>.
+        /// </summary>
+        /// <param name="reader">The <see cref="IUnsafePacketReader">packet reader</see> to use.</param>
+        /// <param name="readCallback">The method to call.</param>
+        /// <param name="failCallback">The method to call on failure.</param>
+        /// <returns><c>true</c> if all reads were successful and the call returned <c>true</c>; otherwise, <c>false</c>.</returns>
+        public static bool Safe(this IUnsafePacketReader reader, Func<IUnsafePacketReader, bool> readCallback, Action failCallback)
+        {
+            try
+            {
+                bool success = readCallback(reader);
+                return success;
+            }
+            catch (PacketReadingException)
+            {
+                failCallback();
+                return false;
+            }
+        }
+
+        #endregion
     }
 }
