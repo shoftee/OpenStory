@@ -12,11 +12,6 @@ namespace OpenStory.Networking
         #region Events
 
         /// <summary>
-        /// The event is raised when the <see cref="NetworkSession" /> begins closing.
-        /// </summary>
-        public event EventHandler Closing;
-
-        /// <summary>
         /// The event is raised when a data segment arrives.
         /// </summary>
         /// <remarks>
@@ -31,9 +26,14 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
+        /// The event is raised when the <see cref="NetworkSession" /> begins closing.
+        /// </summary>
+        public event EventHandler Closing;
+
+        /// <summary>
         /// The event is raised when a connection error occurs.
         /// </summary>
-        public event EventHandler<SocketErrorEventArgs> OnError
+        public event EventHandler<SocketErrorEventArgs> SocketError
         {
             add
             {
@@ -64,7 +64,7 @@ namespace OpenStory.Networking
 
         #endregion
 
-        #region Constructors and instance construction.
+        #region Constructors and instance construction
 
         /// <summary>
         /// Initializes a new instance of <see cref="NetworkSession"/>.
@@ -75,22 +75,6 @@ namespace OpenStory.Networking
 
             this.receiveDescriptor = new ReceiveDescriptor(this);
             this.sendDescriptor = new SendDescriptor(this);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="NetworkSession"/>.
-        /// </summary>
-        /// <param name="socket">The underlying socket to use for this session.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket" /> is <c>null</c>.
-        /// </exception>
-        public NetworkSession(Socket socket) : this()
-        {
-            if (socket == null)
-            {
-                throw new ArgumentNullException("socket");
-            }
-            this.Socket = socket;
         }
 
         /// <summary>
@@ -107,9 +91,8 @@ namespace OpenStory.Networking
         {
             if (this.Socket != null)
             {
-                throw new InvalidOperationException("This NetworkSession already has a socket attached to it.");
+                throw new InvalidOperationException("This session already has a socket attached to it.");
             }
-
             if (socket == null)
             {
                 throw new ArgumentNullException("socket");
@@ -133,9 +116,12 @@ namespace OpenStory.Networking
         {
             if (this.Socket == null)
             {
+                const string Message =
+@"This instance does not have a socket attached to it.
+Please use AttachSocket(Socket) to attach one before starting it.";
+
                 throw new InvalidOperationException(
-                    "This instance does not have a socket attached to it. " + Environment.NewLine +
-                    "Please use AttachSocket(Socket) to attach one before starting it.");
+                    Message);
             }
             if (this.isActive.CompareExchange(comparand: false, newValue: true))
             {
@@ -159,7 +145,7 @@ namespace OpenStory.Networking
                 return;
             }
 
-            this.Socket.Dispose();
+            this.Socket.Close();
 
             this.receiveDescriptor.Close();
             this.sendDescriptor.Close();

@@ -22,7 +22,7 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        public override IOpCodeTable OpCodes
+        protected override IOpCodeTable OpCodes
         {
             get { throw new NotImplementedException(); }
         }
@@ -39,7 +39,7 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        protected override void OnConnectionOpen(ServerSession serverSession)
+        protected override void OnConnectionOpen(IServerSession serverSession)
         {
             var newClient = new ChannelClient(this, serverSession);
             this.clients.Add(newClient); // NOTE: Happens both in Auth and Channel servers, pull up?

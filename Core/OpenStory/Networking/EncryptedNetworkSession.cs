@@ -76,6 +76,7 @@ namespace OpenStory.Networking
             {
                 throw new ArgumentNullException("socket");
             }
+
             this.Session.AttachSocket(socket);
         }
 

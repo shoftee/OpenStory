@@ -106,24 +106,5 @@ namespace OpenStory.Common.Data
             this.incomingTable.Add(opCode, label);
             return true;
         }
-
-        /// <inheritdoc />
-        public PacketBuilder NewPacket(string label)
-        {
-            if (label == null)
-            {
-                throw new ArgumentNullException("label");
-            }
-
-            ushort opCode;
-            if (!this.outgoingTable.TryGetValue(label, out opCode))
-            {
-                throw new ArgumentException("The given label has no corresponding op code.", "label");
-            }
-
-            var builder = new PacketBuilder();
-            builder.WriteInt16(opCode);
-            return builder;
-        }
     }
 }

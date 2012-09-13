@@ -10,7 +10,7 @@ namespace OpenStory.Common.IO
     /// <remarks>
     /// This class exclusively uses little-endian byte order.
     /// </remarks>
-    public class PacketReader : ISafePacketReader, IUnsafePacketReader
+    public sealed class PacketReader : ISafePacketReader, IUnsafePacketReader
     {
         private readonly byte[] buffer;
         private readonly int segmentStart;
@@ -72,6 +72,23 @@ namespace OpenStory.Common.IO
             this.buffer = buffer;
             this.currentOffset = this.segmentStart = 0;
             this.segmentEnd = buffer.Length;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PacketReader"/>, with the same internal buffer segment and offset as an existing one.
+        /// </summary>
+        /// <param name="other">The <see cref="PacketReader"/> instance to clone.</param>
+        public PacketReader(PacketReader other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            this.buffer = other.buffer;
+            this.segmentStart = other.segmentStart;
+            this.segmentEnd = other.segmentEnd;
+            this.currentOffset = other.currentOffset;
         }
 
         #region Private methods

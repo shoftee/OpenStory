@@ -1,4 +1,5 @@
-﻿using OpenStory.Common;
+﻿using System;
+using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
@@ -8,7 +9,7 @@ namespace OpenStory.Server
     /// <summary>
     /// Represents an encrypted network session.
     /// </summary>
-    public sealed class ServerSession : EncryptedNetworkSession
+    internal sealed class ServerSession : EncryptedNetworkSession
     {
         private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
 
@@ -37,8 +38,20 @@ namespace OpenStory.Server
         /// </summary>
         /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
         /// <param name="info">The information for the handshake process.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="factory"/> or <paramref name="info"/> are <c>null</c>.
+        /// </exception>
         public void Start(RollingIvFactory factory, HandshakeInfo info)
         {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             this.ThrowIfNoPacketReceivedSubscriber();
 
             this.Crypto = ServerCrypto.New(factory, info.ClientIv, info.ServerIv);

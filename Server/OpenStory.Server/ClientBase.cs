@@ -29,7 +29,7 @@ namespace OpenStory.Server
         /// <summary>
         /// Gets the client's session object.
         /// </summary>
-        protected ServerSession Session { get; private set; }
+        protected IServerSession Session { get; private set; }
 
         /// <summary>
         /// Gets the server which is handling this client.
@@ -60,7 +60,7 @@ namespace OpenStory.Server
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="server"/> or <paramref name="session"/> is <c>null</c>.
         /// </exception>
-        protected ClientBase(IGameServer server, ServerSession session)
+        protected ClientBase(IGameServer server, IServerSession session)
         {
             if (server == null)
             {
@@ -72,7 +72,7 @@ namespace OpenStory.Server
             }
 
             this.Session = session;
-            this.Session.PacketReceived += this.OnPacketReceived;
+            this.Session.PacketProcessing += this.OnPacketProcessing;
 
             this.AccountSession = null;
 
@@ -94,32 +94,15 @@ namespace OpenStory.Server
                 return;
             }
 
-            using (var ping = this.Server.OpCodes.NewPacket("Ping"))
+            using (var ping = this.Server.NewPacket("Ping"))
             {
                 this.Session.WritePacket(ping.ToByteArray());
             }
         }
 
-        private void OnPacketReceived(object sender, PacketReceivedEventArgs e)
+        private void OnPacketProcessing(object sender, PacketProcessingEventArgs e)
         {
-            var reader = e.Reader;
-
-            ushort opCode;
-            if (!reader.TryReadUInt16(out opCode))
-            {
-                this.Disconnect("No packet op code.");
-                return;
-            }
-
-            string label;
-            bool knownOpCode = this.Server.OpCodes.TryGetIncomingLabel(opCode, out label);
-            if (!knownOpCode)
-            {
-                LogUnknownPacket(opCode, reader);
-                return;
-            }
-
-            if (label == "Pong")
+            if (e.Label == "Pong")
             {
                 var session = this.AccountSession;
                 if (session != null)
@@ -136,22 +119,15 @@ namespace OpenStory.Server
             }
             else
             {
-                this.ProcessPacket(label, reader);
+                this.ProcessPacket(e);
             }
         }
 
         /// <summary>
-        /// When implemented in a derived class, processes the packet with the given op code.
+        /// When implemented in a derived class, processes the provided packet data.
         /// </summary>
-        /// <param name="label">The op code label for the packet to process.</param>
-        /// <param name="reader">A <see cref="PacketReader"/> object for the packet.</param>
-        protected abstract void ProcessPacket(string label, PacketReader reader);
-
-        private static void LogUnknownPacket(ushort opCode, PacketReader reader)
-        {
-            const string Format = "Unknown Op Code 0x{0:4X} - {1}";
-            OS.Log().Warning(Format, opCode, reader.ReadFully().ToHex());
-        }
+        /// <param name="args">The packet to be processed.</param>
+        protected abstract void ProcessPacket(PacketProcessingEventArgs args);
 
         #endregion
 

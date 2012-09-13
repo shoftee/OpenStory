@@ -32,23 +32,23 @@ namespace OpenStory.Networking
         {
             add
             {
-                if (this.OnDataArrivedInternal != null)
+                if (this.DataArrivedInternal != null)
                 {
                     throw new InvalidOperationException("The event should not have more than one subscriber.");
                 }
-                this.OnDataArrivedInternal += value;
+                this.DataArrivedInternal += value;
             }
             remove
             {
-                if (this.OnDataArrivedInternal == null)
+                if (this.DataArrivedInternal == null)
                 {
                     throw new InvalidOperationException("The event has no subscribers.");
                 }
-                this.OnDataArrivedInternal += value;
+                this.DataArrivedInternal -= value;
             }
         }
 
-        private event EventHandler<DataArrivedEventArgs> OnDataArrivedInternal;
+        private event EventHandler<DataArrivedEventArgs> DataArrivedInternal;
 
         private byte[] receiveBuffer;
 
@@ -98,7 +98,7 @@ namespace OpenStory.Networking
         /// </exception>
         public void StartReceive()
         {
-            if (this.OnDataArrivedInternal == null)
+            if (this.DataArrivedInternal == null)
             {
                 throw new InvalidOperationException("DataArrived has no subscribers.");
             }
@@ -171,7 +171,7 @@ namespace OpenStory.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                base.HandleError(args);
+                base.OnError(args);
                 return false;
             }
 
@@ -179,7 +179,7 @@ namespace OpenStory.Networking
             Buffer.BlockCopy(args.Buffer, 0, dataCopy, 0, transferred);
             var eventArgs = new DataArrivedEventArgs(dataCopy);
 
-            this.OnDataArrivedInternal.Invoke(this, eventArgs);
+            this.DataArrivedInternal.Invoke(this, eventArgs);
 
             return true;
         }
@@ -188,7 +188,7 @@ namespace OpenStory.Networking
 
         protected override void OnClosed()
         {
-            this.OnDataArrivedInternal = null;
+            this.DataArrivedInternal = null;
             this.ClearBuffer();
         }
     }

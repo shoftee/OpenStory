@@ -58,9 +58,11 @@ namespace OpenStory.Networking
             // will return true if we're currently sending
             if (this.isSending.CompareExchange(comparand: false, newValue: true))
             {
+                // If so, leave it to the other thread to send our packet too.
                 return;
             }
 
+            // We're not sending. Start doing so now.
             this.sentBytes = 0;
             this.BeginSend();
         }
@@ -74,6 +76,12 @@ namespace OpenStory.Networking
 
         private void BeginSend()
         {
+            // For the unknowing: There are a few tricks in motion here.
+            // First of all, we use a concurrent queue to make sure we 
+            // don't mess up when /adding/ packets to the queue.
+            // We never actually do concurrent dequeuing of items.
+            // This allows us to do a few things that we should otherwise
+            // be wary of, as explained in the methods around here.
             this.ResetBuffer();
 
             try
@@ -101,14 +109,20 @@ namespace OpenStory.Networking
         /// </summary>
         private void ResetBuffer()
         {
+            // This method is only called when we are sure we have a packet 
+            // waiting to be sent. Otherwise, segment may be null after the 
+            // TryPeek call below.
             byte[] segment;
             this.queue.TryPeek(out segment);
 
+            // Since we're sure segment is not null, we can dereference it.
             base.SocketArgs.SetBuffer(segment, this.sentBytes,
                                       segment.Length - this.sentBytes);
         }
 
-        /// <summary>Synchronous EndSend operation.</summary>
+        /// <summary>
+        /// Synchronous EndSend operation.
+        /// </summary>
         /// <remarks>
         /// This method will return true if there is more data to send.
         /// If there is no more data or if there was a connection error, it will return false.
@@ -163,23 +177,42 @@ namespace OpenStory.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                base.HandleError(args);
+                // BytesTransferred is set to -1 if the socket was closed before the 
+                // last operation ended. This may happen because we requested it,
+                // or because of a network failure. OnError actually checks for this.
+                base.OnError(args);
                 return false;
             }
 
+            // We adjust the number of sent bytes.
             this.sentBytes += transferred;
+
+            // As in ResetBuffer, this method will be called only when we have
+            // a packet waiting to be sent still in the queue.
+            // Since we don't do concurrent dequeuing, there is also no race-condition.
+            // Hence, the TryPeek and TryDequeue will not set segment to null,
+            // and are guaranteed to use the same element.
             byte[] segment;
             if (this.queue.TryPeek(out segment) && segment.Length == this.sentBytes)
             {
+                // All of the bytes in the segment were sent.
+                // Thus here we can safely take it out.
                 this.queue.TryDequeue(out segment);
                 this.sentBytes = 0;
             }
 
+            // Again, no race condition here. We can be sure that when we return true
+            // and we start another send operation, the queue will have at least one 
+            // waiting packet.
             if (!this.queue.IsEmpty)
             {
                 return true;
             }
 
+            // Atomically set isSending to false.
+            // We /do/ need to worry about this one, because it's the barrier
+            // for the start of the sending process, and any thread can request 
+            // a packet to be sent.
             this.isSending.Exchange(newValue: false);
             return false;
         }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.Data;
+using OpenStory.Common.IO;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
@@ -17,8 +18,10 @@ namespace OpenStory.Server
         private readonly SocketAcceptor acceptor;
         private readonly RollingIvFactory ivFactory;
 
-        /// <inheritdoc />
-        public abstract IOpCodeTable OpCodes { get; }
+        /// <summary>
+        /// Gets the known op-code table for this server.
+        /// </summary>
+        protected abstract IOpCodeTable OpCodes { get; }
 
         /// <summary>
         /// Gets the name of the server.
@@ -85,17 +88,28 @@ namespace OpenStory.Server
         /// overriding this method be sure to save a reference to it.
         /// </remarks>
         /// <param name="serverSession">The new session to process.</param>
-        protected abstract void OnConnectionOpen(ServerSession serverSession);
+        protected abstract void OnConnectionOpen(IServerSession serverSession);
+
+        /// <inheritdoc />
+        public PacketBuilder NewPacket(string label)
+        {
+            ushort opCode;
+            if (!this.OpCodes.TryGetOutgoingOpCode(label, out opCode))
+            {
+                throw new ArgumentException("The provided label does not correspond to a known packet.", "label");
+            }
+
+            var builder = new PacketBuilder();
+            builder.WriteInt16(opCode);
+            return builder;
+        }
 
         private void HandleAccept(Socket socket)
         {
             byte[] clientIv = GetNewIv();
             byte[] serverIv = GetNewIv();
 
-            var session = new ServerSession();
-            session.Closing += OnConnectionClose;
-
-            session.AttachSocket(socket);
+            var session = this.GetServerSession(socket);
             this.OnConnectionOpen(session);
 
             OS.Log().Info("Network session {0} started : CIV {1} SIV {2}.",
@@ -107,6 +121,32 @@ namespace OpenStory.Server
             session.Start(this.ivFactory, info);
         }
 
+        private IServerSession GetServerSession(Socket socket)
+        {
+            var session = new ServerSession();
+            var wrapper = new ServerSessionWrapper(session, GetLabel);
+
+            wrapper.Closing += OnConnectionClose;
+            wrapper.ReadyForPush += HandleReadyForPush;
+
+            session.AttachSocket(socket);
+
+            return wrapper;
+        }
+
+        private void HandleReadyForPush(object sender, EventArgs e)
+        {
+            var wrapper = (ServerSessionWrapper)sender;
+            // TODO: do on another thread.
+            wrapper.Push();
+        }
+
+        private string GetLabel(ushort opCode)
+        {
+            string label;
+            this.OpCodes.TryGetIncomingLabel(opCode, out label);
+            return label;
+        }
 
         private static void OnConnectionClose(object sender, EventArgs args)
         {
@@ -114,6 +154,8 @@ namespace OpenStory.Server
 
             OS.Log().Info("Network session {0} closed.", serverSession.NetworkSessionId);
         }
+
+        #region Exception methods
 
         /// <summary>
         /// Checks if the <see cref="IsRunning"/> property is true and throws an exception if it is not.
@@ -142,12 +184,15 @@ namespace OpenStory.Server
         {
             if (this.IsRunning)
             {
-                const string Message =
-                    "The server is already running.";
+                const string Message = "The server is already running.";
 
                 throw new InvalidOperationException(Message);
             }
         }
+
+        #endregion
+
+        #region IV generation
 
         private static readonly Random Rng = new Random();
 
@@ -165,5 +210,7 @@ namespace OpenStory.Server
 
             return BitConverter.GetBytes(number);
         }
+
+        #endregion
     }
 }

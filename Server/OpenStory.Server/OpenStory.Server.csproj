@@ -70,7 +70,9 @@
     <Compile Include="Fluent\IWorldsServiceFacade.cs" />
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
     <Compile Include="IGameServer.cs" />
+    <Compile Include="IServerSession.cs" />
     <Compile Include="Modules\ComponentKey.cs" />
+    <Compile Include="PacketProcessingEventArgs.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
     <Compile Include="ServerBase.cs" />
     <Compile Include="Diagnostics\ConsoleLogger.cs" />
@@ -119,6 +121,7 @@
     </Compile>
     <Compile Include="ServerConfiguration.cs" />
     <Compile Include="ServerSession.cs" />
+    <Compile Include="ServerSessionWrapper.cs" />
     <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>

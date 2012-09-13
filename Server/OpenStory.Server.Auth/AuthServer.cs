@@ -18,7 +18,7 @@ namespace OpenStory.Server.Auth
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
 
         /// <inheritdoc />
-        public override IOpCodeTable OpCodes
+        protected override IOpCodeTable OpCodes
         {
             get { return OpCodesInternal; }
         }
@@ -67,7 +67,7 @@ namespace OpenStory.Server.Auth
         #endregion
 
         /// <inheritdoc />
-        protected override void OnConnectionOpen(ServerSession serverSession)
+        protected override void OnConnectionOpen(IServerSession serverSession)
         {
             var newClient = new AuthClient(this, serverSession);
             this.clients.Add(newClient); // NOTE: Happens both in Auth and Channel servers, pull up?

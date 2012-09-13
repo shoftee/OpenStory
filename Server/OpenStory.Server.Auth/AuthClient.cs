@@ -1,9 +1,6 @@
 using System;
 using OpenStory.Common.Auth;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
-using OpenStory.Cryptography;
-using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Auth
 {
@@ -40,12 +37,12 @@ namespace OpenStory.Server.Auth
         /// and binds it with a network session.
         /// </summary>
         /// <param name="server">The authentication server instance which is handling this client.</param>
-        /// <param name="networkSession">The network session to bind the instance to.</param>
+        /// <param name="session">The network session to bind the instance to.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the provider parameters is <c>null</c>.
         /// </exception>
-        public AuthClient(IAuthServer server, ServerSession networkSession)
-            : base(server, networkSession)
+        public AuthClient(IAuthServer server, IServerSession session)
+            : base(server, session)
         {
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
@@ -54,8 +51,10 @@ namespace OpenStory.Server.Auth
             this.server = server;
         }
 
-        protected override void ProcessPacket(string label, PacketReader reader)
+        protected override void ProcessPacket(PacketProcessingEventArgs args)
         {
+            string label = args.Label;
+            var reader = args.Reader;
             switch (label)
             {
                 case "Authenticate":
@@ -153,7 +152,7 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
-            using (var builder = this.server.OpCodes.NewPacket("AuthenticationResponse"))
+            using (var builder = this.server.NewPacket("AuthenticationResponse"))
             {
                 builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);

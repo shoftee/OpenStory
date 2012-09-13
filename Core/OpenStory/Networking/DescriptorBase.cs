@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    internal abstract class DescriptorBase
+    internal abstract class DescriptorBase : IDisposable
     {
         /// <summary>
         /// The event is raised when a connection error occurs.
@@ -59,7 +59,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="args" /> is <c>null</c>.
         /// </exception>
-        protected void HandleError(SocketAsyncEventArgs args)
+        protected void OnError(SocketAsyncEventArgs args)
         {
             if (args == null)
             {
@@ -78,11 +78,6 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// A hook to the end of the publicly exposed <see cref="Close()"/> method.
-        /// </summary>
-        protected abstract void OnClosed();
-
-        /// <summary>
         /// Closes the <see cref="DescriptorBase"/> instance.
         /// </summary>
         public void Close()
@@ -90,5 +85,31 @@ namespace OpenStory.Networking
             this.Error = null;
             this.OnClosed();
         }
+
+        /// <summary>
+        /// A hook to the end of the publicly exposed <see cref="Close()"/> method.
+        /// </summary>
+        protected abstract void OnClosed();
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            this.Close();
+
+            if (this.SocketArgs != null)
+            {
+                this.SocketArgs.Dispose();
+                this.SocketArgs = null;
+            }
+        }
+
+        #endregion
     }
 }

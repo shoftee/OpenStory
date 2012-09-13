@@ -23,18 +23,5 @@ namespace OpenStory.Common.Data
         /// <param name="opCode">The variable to hold the result.</param>
         /// <returns><c>true</c> if there was an outgoing packet with the label; otherwise, <c>false</c>.</returns>
         bool TryGetOutgoingOpCode(string label, out ushort opCode);
-
-        /// <summary>
-        /// Provides a <see cref="PacketBuilder"/> with a pre-added op code for the specified packet label.
-        /// </summary>
-        /// <param name="label">The label for the packet op code.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="label"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="label"/> has no corresponding known packet op code.
-        /// </exception>
-        /// <returns>the constructed instance of <see cref="PacketBuilder"/>.</returns>
-        PacketBuilder NewPacket(string label);
     }
 }
