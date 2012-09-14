@@ -123,8 +123,8 @@ namespace OpenStory.Server
 
         private IServerSession GetServerSession(Socket socket)
         {
-            var session = new ServerSession();
-            var wrapper = new ServerSessionWrapper(session, GetLabel);
+            var session = new ServerNetworkSession();
+            var wrapper = new ServerGameSession(session, GetLabel);
 
             wrapper.Closing += OnConnectionClose;
             wrapper.ReadyForPush += HandleReadyForPush;
@@ -136,7 +136,7 @@ namespace OpenStory.Server
 
         private void HandleReadyForPush(object sender, EventArgs e)
         {
-            var wrapper = (ServerSessionWrapper)sender;
+            var wrapper = (ServerGameSession)sender;
             // TODO: do on another thread.
             wrapper.Push();
         }
@@ -150,7 +150,7 @@ namespace OpenStory.Server
 
         private static void OnConnectionClose(object sender, EventArgs args)
         {
-            var serverSession = (ServerSession)sender;
+            var serverSession = (ServerNetworkSession)sender;
 
             OS.Log().Info("Network session {0} closed.", serverSession.NetworkSessionId);
         }

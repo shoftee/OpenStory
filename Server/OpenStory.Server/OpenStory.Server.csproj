@@ -120,8 +120,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="ServerSession.cs" />
-    <Compile Include="ServerSessionWrapper.cs" />
+    <Compile Include="ServerNetworkSession.cs" />
+    <Compile Include="ServerGameSession.cs" />
     <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>

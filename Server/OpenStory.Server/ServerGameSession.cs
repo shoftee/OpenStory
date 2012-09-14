@@ -8,7 +8,7 @@ using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server
 {
-    internal sealed class ServerSessionWrapper : IServerSession
+    internal sealed class ServerGameSession : IServerSession
     {
         public event EventHandler ReadyForPush;
 
@@ -16,13 +16,13 @@ namespace OpenStory.Server
 
         public event EventHandler Closing
         {
-            add { this.session.Closing += value; }
-            remove { this.session.Closing -= value; }
+            add { this.networkSession.Closing += value; }
+            remove { this.networkSession.Closing -= value; }
         }
 
-        public int NetworkSessionId { get { return this.session.NetworkSessionId; } }
+        public int NetworkSessionId { get { return this.networkSession.NetworkSessionId; } }
 
-        private readonly ServerSession session;
+        private readonly ServerNetworkSession networkSession;
 
         private readonly ConcurrentQueue<byte[]> packets;
 
@@ -30,30 +30,30 @@ namespace OpenStory.Server
 
         private readonly AtomicBoolean isPushing;
 
-        public ServerSessionWrapper(ServerSession session, Func<ushort, string> getLabelCallback)
+        public ServerGameSession(ServerNetworkSession networkSession, Func<ushort, string> getLabelCallback)
         {
-            this.session = session;
+            this.networkSession = networkSession;
             this.packets = new ConcurrentQueue<byte[]>();
             this.getLabel = getLabelCallback;
 
-            this.session.PacketReceived += this.HandlePacketReceived;
+            this.networkSession.PacketReceived += this.HandlePacketReceived;
 
             this.isPushing = false;
         }
 
         public void Start(RollingIvFactory factory, HandshakeInfo info)
         {
-            this.session.Start(factory, info);
+            this.networkSession.Start(factory, info);
         }
 
         public void Close()
         {
-            this.session.Close();
+            this.networkSession.Close();
         }
 
         public void WritePacket(byte[] packet)
         {
-            this.session.WritePacket(packet);
+            this.networkSession.WritePacket(packet);
         }
 
         #region Pushing events
@@ -97,7 +97,7 @@ namespace OpenStory.Server
             {
                 LogPacketWithoutOpCode();
 
-                this.session.Close();
+                this.networkSession.Close();
 
                 // Bad packet. Pushing completed.
                 return true;

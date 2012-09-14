@@ -9,7 +9,7 @@ namespace OpenStory.Server
     /// <summary>
     /// Represents an encrypted network session.
     /// </summary>
-    internal sealed class ServerSession : EncryptedNetworkSession
+    internal sealed class ServerNetworkSession : EncryptedNetworkSession
     {
         private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
 
@@ -26,9 +26,9 @@ namespace OpenStory.Server
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerSession"/>
+        /// Initializes a new instance of <see cref="ServerNetworkSession"/>
         /// </summary>
-        public ServerSession()
+        public ServerNetworkSession()
         {
             this.NetworkSessionId = RollingSessionId.Increment();
         }
