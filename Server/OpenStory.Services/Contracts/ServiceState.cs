@@ -1,8 +1,13 @@
+using System;
+using System.Runtime.Serialization;
+
 namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Represents an operational state of a game service.
     /// </summary>
+    [Serializable]
+    [DataContract]
     public enum ServiceState
     {
         /// <summary>

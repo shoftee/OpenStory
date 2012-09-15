@@ -5,15 +5,16 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Services.Clients
 {
     /// <summary>
-    /// Provides remote access to an <see cref="IAccountService"/>.
+    /// Represents a client for a game account service.
     /// </summary>
     public sealed class AccountServiceClient : GameServiceClient<IAccountService>, IAccountService
     {
         /// <summary>
-        /// Initializes a new AccountServiceClient.
+        /// Initialized a new instance of <see cref="AccountServiceClient"/> with the specified endpoint address.
         /// </summary>
-        public AccountServiceClient()
-            : base(ServiceConstants.Uris.AccountService)
+        /// <param name="uri">The URI of the service to connect to.</param>
+        public AccountServiceClient(Uri uri)
+            : base(uri)
         {
         }
 

@@ -6,16 +6,8 @@ namespace OpenStory.Server.Auth
 {
     internal abstract class AuthPolicyBase
     {
-        private readonly IAccountService accountService;
-
-        protected IAccountService AccountService
+        protected AuthPolicyBase()
         {
-            get { return this.accountService; }
-        }
-
-        protected AuthPolicyBase(IAccountService accountService)
-        {
-            this.accountService = accountService;
         }
 
         private sealed class AccountSession : IAccountSession

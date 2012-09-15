@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
+using OpenStory.Server.Fluent;
 using OpenStory.Services.Clients;
 using OpenStory.Services.Contracts;
 
@@ -32,7 +33,6 @@ namespace OpenStory.Server.Auth
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
 
-        private readonly IAccountService accountService;
         private readonly SimpleAuthPolicy authPolicy;
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace OpenStory.Server.Auth
         {
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
-            this.accountService = new AccountServiceClient();
-            this.authPolicy = new SimpleAuthPolicy(this.accountService);
+
+            this.authPolicy = new SimpleAuthPolicy();
         }
 
         #region IAuthServer Members

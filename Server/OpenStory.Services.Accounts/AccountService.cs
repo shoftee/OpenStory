@@ -6,6 +6,9 @@ using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
+    /// <summary>
+    /// Represents an in-memory account activity service.
+    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     internal sealed class AccountService : GameServiceBase, IAccountService
     {

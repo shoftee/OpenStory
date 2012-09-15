@@ -183,6 +183,7 @@ Please use AttachSocket(Socket) to attach one before starting it.";
 
         #region Implementation of IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             if (this.Socket != null)

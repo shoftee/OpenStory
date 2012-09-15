@@ -1,18 +1,20 @@
 using System;
+using System.ServiceModel;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
 {
     /// <summary>
-    /// 
+    /// Represents a client to a game nexus service.
     /// </summary>
-    public sealed class NexusServiceClient : GameServiceClient<INexusService>, INexusService
+    public sealed class RegistryServiceClient : ClientBase<IRegistryService>, IRegistryService
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="NexusServiceClient"/>.
+        /// Initialized a new instance of <see cref="RegistryServiceClient"/> with the specified endpoint address.
         /// </summary>
-        public NexusServiceClient()
-            : base(ServiceConstants.Uris.NexusService)
+        /// <param name="uri">The URI of the service to connect to.</param>
+        public RegistryServiceClient(Uri uri)
+            : base(ServiceHelpers.GetTcpBinding(), new EndpointAddress(uri))
         {
         }
 

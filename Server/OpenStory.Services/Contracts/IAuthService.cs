@@ -5,7 +5,7 @@ namespace OpenStory.Services.Contracts
     /// <summary>
     /// Provides methods for accessing and managing the Authentication Service.
     /// </summary>
-    [ServiceContract(Namespace = null)]
+    [ServiceContract(Namespace = null, Name = null)]
     public interface IAuthService : IGameService
     {
     }

@@ -28,7 +28,7 @@ namespace OpenStory.Server
         public IGameService LocalService { get; private set; }
 
         /// <summary>
-        /// Get the reference registered for the nexus service.
+        /// Get or sets the reference for the nexus service.
         /// </summary>
         public INexusService NexusService { get; private set; }
 
@@ -65,19 +65,10 @@ namespace OpenStory.Server
         /// the local service, cast to <typeparamref name="TGameService"/>; 
         /// <c>null</c> if the service is of a different type or there is no local service registered.
         /// </returns>
-        public TGameService Local<TGameService>()
+        public TGameService LocalAs<TGameService>()
             where TGameService : class, IGameService
         {
             return this.LocalService as TGameService;
-        }
-
-        /// <summary>
-        /// Returns the Nexus service reference.
-        /// </summary>
-        /// <returns>the nexus service reference, or <c>null</c> if there is no nexus service registered.</returns>
-        public INexusService Nexus()
-        {
-            return this.NexusService;
         }
     }
 }

@@ -209,12 +209,17 @@ namespace OpenStory.Networking
 
         #region Implementation of IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Runs the disposal operations for the base class.
+        /// </summary>
+        /// <param name="disposing">Whether the method is being called for disposal or finalization.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing && !isDisposed)

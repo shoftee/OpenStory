@@ -5,7 +5,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Services.Clients
 {
     /// <summary>
-    /// Represents a game service client.
+    /// Represents a client for a generic game service.
     /// </summary>
     /// <remarks>
     /// This class is abstract.
@@ -20,9 +20,9 @@ namespace OpenStory.Services.Clients
         public event EventHandler<ServiceStateEventArgs> ServiceStateChanged;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GameServiceClient{TGameService}"/> with the specified endpoint address.
+        /// Initialized a new instance of <see cref="GameServiceClient{TGameService}"/> with the specified endpoint address.
         /// </summary>
-        /// <param name="uri">The endpoint URI for the service.</param>
+        /// <param name="uri">The URI of the service to connect to.</param>
         protected GameServiceClient(Uri uri)
             : base(new InstanceContext(new ServiceStateChangedCallback()), ServiceHelpers.GetTcpBinding(), new EndpointAddress(uri))
         {
@@ -106,30 +106,5 @@ namespace OpenStory.Services.Clients
             #endregion
         }
 
-    }
-
-    internal interface IServiceStateChangedHandler
-    {
-        void OnServiceStateChanged(ServiceState newState);
-    }
-
-    /// <summary>
-    /// Contains information about a ServiceStateChanged event.
-    /// </summary>
-    public sealed class ServiceStateEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Gets the new state of the service.
-        /// </summary>
-        public ServiceState NewState { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="ServiceStateEventArgs"/>.
-        /// </summary>
-        /// <param name="newState">The new state of the service.</param>
-        internal ServiceStateEventArgs(ServiceState newState)
-        {
-            this.NewState = newState;
-        }
     }
 }

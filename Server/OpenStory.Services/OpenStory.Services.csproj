@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System">
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel">
     </Reference>
   </ItemGroup>
@@ -45,14 +46,17 @@
     <Compile Include="Clients\AuthServiceClient.cs" />
     <Compile Include="Clients\ChannelServiceClient.cs" />
     <Compile Include="Clients\GameServiceClient.cs" />
+    <Compile Include="Clients\IServiceStateChangedHandler.cs" />
+    <Compile Include="Clients\ServiceStateEventArgs.cs" />
     <Compile Include="Contracts\IAccountService.cs" />
     <Compile Include="Contracts\IAuthService.cs" />
     <Compile Include="Contracts\IChannelService.cs" />
     <Compile Include="Contracts\IGameService.cs" />
     <Compile Include="Contracts\INexusService.cs" />
+    <Compile Include="Contracts\IRegistryService.cs" />
     <Compile Include="Contracts\IServiceStateChanged.cs" />
     <Compile Include="Contracts\IWorldService.cs" />
-    <Compile Include="Clients\NexusServiceClient.cs" />
+    <Compile Include="Clients\RegistryServiceClient.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
     <Compile Include="GameServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

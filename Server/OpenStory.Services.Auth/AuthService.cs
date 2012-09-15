@@ -11,22 +11,31 @@ namespace OpenStory.Services.Auth
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     internal sealed class AuthService : GameServiceBase, IAuthService
     {
-        private readonly AuthServer server;
+        private AuthServer server;
 
-        public AuthService()
+        /// <inheritdoc />
+        protected override void OnInitializing()
         {
+            base.OnInitializing();
+
             var config = new AuthConfiguration(IPAddress.Any, 8484);
             this.server = new AuthServer(config);
         }
 
+        /// <inheritdoc />
         protected override void OnStarting()
         {
+            base.OnStarting();
+
             this.server.Start();
         }
 
+        /// <inheritdoc />
         protected override void OnStopping()
         {
             this.server.Stop();
+
+            base.OnStopping();
         }
     }
 }

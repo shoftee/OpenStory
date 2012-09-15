@@ -5,8 +5,11 @@ using System.Text;
 
 namespace OpenStory.Services.Contracts
 {
-    [ServiceContract(Namespace = null)]
-    interface IServiceStateChanged
+    /// <summary>
+    /// The callback interface for service state changes.
+    /// </summary>
+    [ServiceContract(Namespace = null, Name = null)]
+    internal interface IServiceStateChanged
     {
         [OperationContract(IsOneWay = true)]
         void OnServiceStateChanged(ServiceState newState);

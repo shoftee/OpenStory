@@ -10,11 +10,6 @@ namespace OpenStory.Server.Auth
 {
     internal sealed class SimpleAuthPolicy : AuthPolicyBase, IAuthPolicy<SimpleCredentials>
     {
-        public SimpleAuthPolicy(IAccountService accountService)
-            : base(accountService)
-        {
-        }
-
         /// <inheritdoc />
         public AuthenticationResult Authenticate(SimpleCredentials credentials, out IAccountSession session)
         {
@@ -32,7 +27,7 @@ namespace OpenStory.Server.Auth
                 return MiscTools.FailWithResult(out session, AuthenticationResult.IncorrectPassword);
             }
 
-            var service = base.AccountService;
+            var service = OS.Svc().Accounts().Get();
             int sessionId;
             if (!service.TryRegisterSession(account.AccountId, out sessionId))
             {
