@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents a received packet that can be passed with a raised event.
     /// </summary>
-    public class PacketReceivedEventArgs : EventArgs
+    public sealed class PacketReceivedEventArgs : EventArgs
     {
         private readonly byte[] buffer;
 
@@ -34,6 +34,5 @@ namespace OpenStory.Networking
 
             this.buffer = packet;
         }
-
     }
 }

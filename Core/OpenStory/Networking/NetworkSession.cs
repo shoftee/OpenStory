@@ -7,7 +7,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents a network session used for sending and receiving data.
     /// </summary>
-    public sealed class NetworkSession : IDescriptorContainer
+    public sealed class NetworkSession : IDescriptorContainer, IDisposable
     {
         #region Events
 
@@ -177,6 +177,29 @@ Please use AttachSocket(Socket) to attach one before starting it.";
         void IDescriptorContainer.Close()
         {
             this.Close();
+        }
+
+        #endregion
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            if (this.Socket != null)
+            {
+                this.Socket.Dispose();
+                this.Socket = null;
+            }
+
+            if (this.sendDescriptor != null)
+            {
+                this.sendDescriptor.Dispose();
+            }
+
+            if (this.receiveDescriptor != null)
+            {
+                this.receiveDescriptor.Dispose();
+            }
         }
 
         #endregion

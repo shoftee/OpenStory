@@ -60,13 +60,11 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Dispose()
         {
-            if (this.isDisposed)
+            if (!this.isDisposed)
             {
-                return;
+                this.DisposeSocketIfNotNull();
+                this.isDisposed = true;
             }
-
-            this.DisposeSocketIfNotNull();
-            this.isDisposed = true;
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ namespace OpenStory.Networking
             this.DisposeSocketIfNotNull();
 
             this.socketArgs = new SocketAsyncEventArgs();
-            this.socketArgs.Completed += (sender, eventArgs) => this.EndAcceptAsynchronous(eventArgs);
+            this.socketArgs.Completed += (o, e) => this.EndAcceptAsynchronous(e);
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(this.localEndPoint);

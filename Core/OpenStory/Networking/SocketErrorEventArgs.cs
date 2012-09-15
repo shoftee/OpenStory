@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// An EventArgs wrapper around <see cref="SocketError"/>.
     /// </summary>
-    public class SocketErrorEventArgs : EventArgs
+    public sealed class SocketErrorEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the wrapped SocketError.

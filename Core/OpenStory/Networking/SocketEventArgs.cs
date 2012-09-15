@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an EventArgs wrapper around a Socket.
     /// </summary>
-    public class SocketEventArgs : EventArgs
+    public sealed class SocketEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the socket of this instance.

@@ -12,7 +12,7 @@ namespace OpenStory.Networking
     /// This class provides the packet bufferring and decryption logic for inbound packets,
     /// as well as the logic to write outbound packets.
     /// </remarks>
-    public abstract class EncryptedNetworkSession
+    public abstract class EncryptedNetworkSession : IDisposable
     {
         #region Events
 
@@ -27,6 +27,10 @@ namespace OpenStory.Networking
         public event EventHandler Closing;
 
         #endregion
+
+        private bool isDisposed;
+
+        #region Properties
 
         /// <summary>
         /// Gets the buffer used to store packet headers.
@@ -48,11 +52,14 @@ namespace OpenStory.Networking
         /// </summary>
         protected EndpointCrypto Crypto { get; set; }
 
+        #endregion
+
         /// <summary>
         /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
         /// </summary>
         /// <remarks>
-        /// Call <see cref="AttachSocket(Socket)"/> before starting the network operations.</remarks>
+        /// Call <see cref="AttachSocket(Socket)"/> before starting the network operations.
+        /// </remarks>
         protected EncryptedNetworkSession()
         {
             this.PacketBuffer = new BoundedBuffer();
@@ -61,6 +68,8 @@ namespace OpenStory.Networking
             this.Session = new NetworkSession();
             this.Session.DataArrived += this.OnDataArrived;
             this.Session.Closing += this.OnClosing;
+
+            this.isDisposed = false;
         }
 
         /// <summary>
@@ -92,6 +101,7 @@ namespace OpenStory.Networking
         public void Close()
         {
             this.PacketReceived = null;
+
             this.Session.Close();
             this.Closing = null;
         }
@@ -138,7 +148,7 @@ namespace OpenStory.Networking
                     this.Crypto.Decrypt(rawData);
 
                     var incomingPacketArgs = new PacketReceivedEventArgs(rawData);
-                    this.PacketReceived(this, incomingPacketArgs);
+                    this.OnPacketReceived(incomingPacketArgs);
                 }
 
                 if (remaining == 0)
@@ -180,6 +190,11 @@ namespace OpenStory.Networking
             }
         }
 
+        private void OnPacketReceived(PacketReceivedEventArgs args)
+        {
+            this.PacketReceived(this, args);
+        }
+
         /// <summary>
         /// Checks if the <see cref="PacketReceived"/> event has a subscriber and throws 
         /// <see cref="InvalidOperationException"/> if not.
@@ -191,5 +206,45 @@ namespace OpenStory.Networking
                 throw new InvalidOperationException("'PacketReceived' has no subscribers.");
             }
         }
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !isDisposed)
+            {
+                var session = this.Session;
+                if (session != null)
+                {
+                    session.Dispose();
+                }
+
+                var header = this.HeaderBuffer;
+                if (header != null)
+                {
+                    header.Dispose();
+                }
+
+                var packet = this.PacketBuffer;
+                if (packet != null)
+                {
+                    packet.Dispose();
+                }
+
+                this.Session = null;
+                this.HeaderBuffer = null;
+                this.PacketBuffer = null;
+
+                this.isDisposed = true;
+            }
+        }
+
+        #endregion
     }
 }

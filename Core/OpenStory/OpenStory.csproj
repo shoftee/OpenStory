@@ -121,7 +121,6 @@
     <Compile Include="Networking\PacketReceivedEventArgs.cs" />
     <Compile Include="Networking\ReceiveDescriptor.cs" />
     <Compile Include="Networking\SendDescriptor.cs" />
-    <Compile Include="Networking\SessionCloseEventArgs.cs" />
     <Compile Include="Networking\SocketAcceptor.cs" />
     <Compile Include="Networking\SocketErrorEventArgs.cs" />
     <Compile Include="Networking\SocketEventArgs.cs" />
