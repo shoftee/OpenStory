@@ -1,20 +1,24 @@
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace OpenStory.Server
 {
     /// <summary>
     /// Represents a set of server configuration settings.
     /// </summary>
+    [DataContract]
     public abstract class ServerConfiguration
     {
         /// <summary>
         /// Gets the entry point address that the server should listen on.
         /// </summary>
+        [DataMember]
         public IPAddress Address { get; private set; }
 
         /// <summary>
         /// Gets the entry point port that the server should listen on.
         /// </summary>
+        [DataMember]
         public int Port { get; private set; }
 
         /// <summary>

@@ -14,9 +14,10 @@ namespace OpenStory.Server.Fluent.Initialize
         /// <inheritdoc />
         public IInitializeFacade Logger(ILogger logger)
         {
-            var logManager = LogManager.GetManager();
-            logManager.RegisterComponent(LogManager.LoggerKey, logger);
-            logManager.Initialize();
+            var instance = new LogManager();
+            LogManager.RegisterDefault(instance);
+            instance.RegisterComponent(LogManager.LoggerKey, logger);
+            instance.Initialize();
             return this;
         }
 

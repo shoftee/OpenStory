@@ -9,6 +9,16 @@ namespace OpenStory.Server.Auth.Data
     public sealed class AuthDataManager : DataManager
     {
         /// <summary>
+        /// The name of the Characters component.
+        /// </summary>
+        public const string CharactersKey = "Characters";
+
+        /// <summary>
+        /// The name of the Worlds component.
+        /// </summary>
+        public const string WorldsKey = "Worlds";
+
+        /// <summary>
         /// Gets the Character data provider.
         /// </summary>
         public IAuthCharacterProvider Characters { get; private set; }
@@ -23,8 +33,24 @@ namespace OpenStory.Server.Auth.Data
         /// </summary>
         public AuthDataManager()
         {
-            base.RequireComponent<IAuthCharacterProvider>("Characters");
-            base.RequireComponent<IWorldInfoProvider>("Worlds");
+            base.AllowComponent<IAuthCharacterProvider>(CharactersKey);
+            base.AllowComponent<IWorldInfoProvider>(WorldsKey);
+        }
+
+        /// <inheritdoc />
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            if (base.CheckComponent(CharactersKey))
+            {
+                this.Characters = base.GetComponent<IAuthCharacterProvider>(CharactersKey);
+            }
+
+            if (base.CheckComponent(WorldsKey))
+            {
+                this.Worlds = base.GetComponent<IWorldInfoProvider>(WorldsKey);
+            }
         }
     }
 }

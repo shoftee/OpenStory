@@ -12,20 +12,15 @@ namespace OpenStory.Server.Diagnostics
         /// </summary>
         public const string LoggerKey = "Logger";
 
-        private static readonly LogManager Instance;
-
-        static LogManager()
-        {
-            Instance = new LogManager();
-            RegisterDefault(Instance);
-        }
-
         /// <summary>
         /// Gets the logger of this instance.
         /// </summary>
         public ILogger Logger { get; private set; }
 
-        private LogManager()
+        /// <summary>
+        /// Initializes a new instance of <see cref="LogManager"/>.
+        /// </summary>
+        public LogManager()
         {
             base.AllowComponent<ILogger>(LoggerKey);
         }

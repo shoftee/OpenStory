@@ -6,7 +6,7 @@ namespace OpenStory.Services.Contracts
     /// <summary>
     /// Provides methods for Game Service Registration
     /// </summary>
-    [ServiceContract(Namespace = null, Name = null)]
+    [ServiceContract(Namespace = null, Name = "RegistryService")]
     public interface IRegistryService
     {
         /// <summary>

@@ -9,6 +9,16 @@ namespace OpenStory.Server.Data
     public class DataManager : ManagerBase<DataManager>
     {
         /// <summary>
+        /// The name of the IBanProvider component.
+        /// </summary>
+        public const string BansKey = "Bans";
+
+        /// <summary>
+        /// The name of the IAccountProvider component.
+        /// </summary>
+        public const string AccountsKey = "Accounts";
+
+        /// <summary>
         /// Gets the ban data provider.
         /// </summary>
         public IBanProvider Bans { get; private set; }
@@ -23,8 +33,8 @@ namespace OpenStory.Server.Data
         /// </summary>
         public DataManager()
         {
-            base.RequireComponent<IBanProvider>("Bans");
-            base.RequireComponent<IAccountProvider>("Accounts");
+            base.AllowComponent<IBanProvider>(BansKey);
+            base.AllowComponent<IAccountProvider>(AccountsKey);
         }
 
         /// <inheritdoc/>
@@ -32,8 +42,14 @@ namespace OpenStory.Server.Data
         {
             base.OnInitialized();
 
-            this.Bans = base.GetComponent<IBanProvider>("Bans");
-            this.Accounts = base.GetComponent<IAccountProvider>("Accounts");
+            if (base.CheckComponent(BansKey))
+            {
+                this.Bans = base.GetComponent<IBanProvider>(BansKey);
+            }
+            if (base.CheckComponent(AccountsKey))
+            {
+                this.Accounts = base.GetComponent<IAccountProvider>(AccountsKey);
+            }
         }
     }
 }

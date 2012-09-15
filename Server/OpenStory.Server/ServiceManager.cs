@@ -13,12 +13,12 @@ namespace OpenStory.Server
     public class ServiceManager : ManagerBase<ServiceManager>
     {
         /// <summary>
-        /// The key for the LocalService component.
+        /// The name of the LocalService component.
         /// </summary>
         public const string LocalServiceKey = "LocalService";
 
         /// <summary>
-        /// The key for the NexusService component.
+        /// The name of the NexusService component.
         /// </summary>
         public const string NexusServiceKey = "NexusService";
 

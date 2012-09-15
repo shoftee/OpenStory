@@ -193,11 +193,16 @@ namespace OpenStory.Services
 
         private static void SubscribeForCallback(List<IServiceStateChanged> subscribers)
         {
-            var channel = OperationContext.Current.GetCallbackChannel<IServiceStateChanged>();
+            var channel = GetCallbackChannel();
             if (!subscribers.Contains(channel))
             {
                 subscribers.Add(channel);
             }
+        }
+
+        private static IServiceStateChanged GetCallbackChannel()
+        {
+            return OperationContext.Current.GetCallbackChannel<IServiceStateChanged>();
         }
 
         private static void Notify(List<IServiceStateChanged> subscribers, ServiceState state, bool clear)

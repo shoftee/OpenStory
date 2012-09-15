@@ -18,8 +18,6 @@ namespace OpenStory.Services.Account
             ServiceHelpers.OpenServiceHost(service, ServiceConstants.Uris.AccountService);
             OS.Log().Info("Service registered.");
 
-            service.Start();
-
             Thread.Sleep(Timeout.Infinite);
         }
 

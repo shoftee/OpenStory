@@ -129,6 +129,17 @@ namespace OpenStory.Common.Tools
             return args;
         }
 
+        /// <summary>
+        /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
+        /// </summary>
+        /// <returns>an instance of <see cref="ParameterList"/>.</returns>
+        public static ParameterList FromEnvironment()
+        {
+            var parameters = ParseCommandLine(Environment.CommandLine);
+            var list = new ParameterList(parameters);
+            return list;
+        }
+
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)
         {
             var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.InvariantCulture);

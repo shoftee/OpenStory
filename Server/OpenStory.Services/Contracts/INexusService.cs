@@ -6,47 +6,51 @@ namespace OpenStory.Services.Contracts
     /// <summary>
     /// Provides service discovery for game services.
     /// </summary>
-    [ServiceContract(Namespace = null, Name = null)]
+    [ServiceContract(Namespace = null, Name = "NexusService")]
     public interface INexusService
     {
         /// <summary>
         /// Retrieves the endpoint address for the account service.
         /// </summary>
+        /// <param name="accessToken">The registration token for the calling service.</param>
         /// <param name="uri">A variable to hold the address.</param>
         /// <returns>
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetAccountServiceUri(out Uri uri);
+        ServiceState TryGetAccountServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the account service.
         /// </summary>
+        /// <param name="accessToken">The registration token for the calling service.</param>
         /// <param name="uri">A variable to hold the address.</param>
         /// <returns>
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetAuthService(out Uri uri);
+        ServiceState TryGetAuthService(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the authentication service.
         /// </summary>
+        /// <param name="accessToken">The registration token for the calling service.</param>
         /// <param name="uri">A variable to hold the address.</param>
         /// <returns>
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetChannelService(out Uri uri);
+        ServiceState TryGetChannelService(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the account service.
         /// </summary>
+        /// <param name="accessToken">The registration token for the calling service.</param>
         /// <param name="uri">A variable to hold the address.</param>
         /// <returns>
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetWorldService(out Uri uri);
+        ServiceState TryGetWorldService(Guid accessToken, out Uri uri);
     }
 }

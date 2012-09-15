@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using OpenStory.Server.Auth;
 using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Fluent;
@@ -20,8 +19,6 @@ namespace OpenStory.Services.Auth
             ServiceHelpers.OpenServiceHost(service, ServiceConstants.Uris.AuthService);
             OS.Log().Info("Service registered.");
 
-            service.Start();
-
             Thread.Sleep(Timeout.Infinite);
         }
 
@@ -31,8 +28,10 @@ namespace OpenStory.Services.Auth
 
             OS.Initialize()
                 .Logger(new ConsoleLogger())
-                .Services().WithLocal(authService).Done()
-                .DataManagers().DefaultManager(new AuthDataManager()).Done();
+                .Services()
+                    .WithLocal(authService).Done()
+                .DataManagers()
+                    .DefaultManager(new AuthDataManager()).Done();
         }
     }
 }
