@@ -6,6 +6,7 @@ using OpenStory.Common.IO;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
+using OpenStory.Server.Processing;
 using OpenStory.Server.Properties;
 
 namespace OpenStory.Server

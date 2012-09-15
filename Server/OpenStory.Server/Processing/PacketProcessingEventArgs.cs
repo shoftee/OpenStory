@@ -1,7 +1,7 @@
 using System;
 using OpenStory.Common.IO;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// Contains event data for a packet that requires processing.

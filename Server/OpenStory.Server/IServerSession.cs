@@ -1,6 +1,7 @@
 using System;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
+using OpenStory.Server.Processing;
 
 namespace OpenStory.Server
 {

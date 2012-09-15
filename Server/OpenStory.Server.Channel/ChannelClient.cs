@@ -1,4 +1,5 @@
 using OpenStory.Common.IO;
+using OpenStory.Server.Processing;
 
 namespace OpenStory.Server.Channel
 {

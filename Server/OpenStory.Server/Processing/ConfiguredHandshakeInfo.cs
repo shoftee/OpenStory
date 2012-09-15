@@ -1,6 +1,6 @@
-﻿using OpenStory.Common.IO;
+using OpenStory.Common.IO;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     internal sealed class ConfiguredHandshakeInfo : HandshakeInfo
     {

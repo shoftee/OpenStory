@@ -6,7 +6,7 @@ using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     internal sealed class ServerGameSession : IServerSession
     {

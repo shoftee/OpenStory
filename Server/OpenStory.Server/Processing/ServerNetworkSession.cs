@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// Represents an encrypted network session.
