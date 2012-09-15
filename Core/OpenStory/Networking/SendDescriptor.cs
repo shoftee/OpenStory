@@ -189,7 +189,7 @@ namespace OpenStory.Networking
 
             // As in ResetBuffer, this method will be called only when we have
             // a packet waiting to be sent still in the queue.
-            // Since we don't do concurrent dequeuing, there is also no race-condition.
+            // Since we don't do concurrent dequeuing, there is also no race condition.
             // Hence, the TryPeek and TryDequeue will not set segment to null,
             // and are guaranteed to use the same element.
             byte[] segment;
