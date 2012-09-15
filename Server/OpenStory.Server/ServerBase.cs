@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.Data;
 using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;

@@ -7,7 +7,7 @@ namespace OpenStory.Common.Tools
     /// <summary>
     /// A static class containing a collection of utility methods that don't have a place to call home :(
     /// </summary>
-    public static class MiscTools
+    public static class Misc
     {
         /// <summary>
         /// Sets the specified variable to the default for <typeparamref name="T"/> and returns <c>false</c>.

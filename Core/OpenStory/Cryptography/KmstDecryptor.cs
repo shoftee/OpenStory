@@ -1,3 +1,5 @@
+using OpenStory.Common.Tools;
+
 namespace OpenStory.Cryptography
 {
     /// <summary>

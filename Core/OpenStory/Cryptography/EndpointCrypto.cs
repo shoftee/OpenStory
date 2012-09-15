@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
 {
@@ -109,7 +110,7 @@ namespace OpenStory.Cryptography
             int length;
             if (this.TryGetLength(rawData, out length))
             {
-                decryptedData = rawData.Segment(4, length);
+                decryptedData = rawData.CopySegment(4, length);
                 this.Decrypt(decryptedData);
                 return true;
             }

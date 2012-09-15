@@ -5,7 +5,7 @@ namespace OpenStory.Common.Tools
     /// <summary>
     /// Provides static methods for time-related operations.
     /// </summary>
-    public static class TimeHelpers
+    public static class Time
     {
         private static readonly DateTimeOffset Epoch = new DateTimeOffset(new DateTime(1970, 1, 1));
 

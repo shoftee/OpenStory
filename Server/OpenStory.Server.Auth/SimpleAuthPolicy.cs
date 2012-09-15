@@ -17,21 +17,21 @@ namespace OpenStory.Server.Auth
             Account account = OS.Data().Accounts.LoadByUserName(accountName);
             if (account == null)
             {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.NotRegistered);
+                return Misc.FailWithResult(out session, AuthenticationResult.NotRegistered);
             }
 
             string password = credentials.Password;
             string hash = LoginCrypto.GetMd5HashString(password, true);
             if (!String.Equals(hash, account.PasswordHash, StringComparison.Ordinal))
             {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.IncorrectPassword);
+                return Misc.FailWithResult(out session, AuthenticationResult.IncorrectPassword);
             }
 
             var service = OS.Svc().Accounts().Get();
             int sessionId;
             if (!service.TryRegisterSession(account.AccountId, out sessionId))
             {
-                return MiscTools.FailWithResult(out session, AuthenticationResult.AlreadyLoggedIn);
+                return Misc.FailWithResult(out session, AuthenticationResult.AlreadyLoggedIn);
             }
 
             session = GetSession(service, sessionId, account);

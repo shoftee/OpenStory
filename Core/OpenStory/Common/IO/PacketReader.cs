@@ -180,7 +180,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out array);
+                return Misc.Fail(out array);
             }
         }
 
@@ -195,7 +195,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -210,7 +210,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -225,7 +225,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -240,7 +240,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -255,7 +255,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -270,7 +270,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -285,7 +285,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 
@@ -301,7 +301,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out result);
+                return Misc.Fail(out result);
             }
         }
 
@@ -321,7 +321,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out result);
+                return Misc.Fail(out result);
             }
         }
 
@@ -336,7 +336,7 @@ namespace OpenStory.Common.IO
             }
             else
             {
-                return MiscTools.Fail(out value);
+                return Misc.Fail(out value);
             }
         }
 

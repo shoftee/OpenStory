@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using OpenStory.Common;
 using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;

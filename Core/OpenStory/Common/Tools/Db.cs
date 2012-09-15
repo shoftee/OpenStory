@@ -8,7 +8,7 @@ namespace OpenStory.Common.Tools
     /// <summary>
     /// Provides static methods for various useful database-related operations.
     /// </summary>
-    public static class DbHelpers
+    public static class Db
     {
         /// <summary>
         /// A delegate that returns a database connection.
@@ -21,7 +21,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the <see cref="IDbConnection"/> instance.</returns>
         private static IDbConnection GetConnectionDefault()
         {
-            throw new NotImplementedException("You need to set DbHelpers.GetConnection to use DbHelpers.");
+            throw new NotImplementedException("You need to set Db.GetConnection to use the DB helpers.");
         }
 
         /// <summary>
