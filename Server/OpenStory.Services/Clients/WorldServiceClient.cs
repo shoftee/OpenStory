@@ -6,7 +6,7 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client to a game world service.
     /// </summary>
-    public sealed class WorldServiceClient : GameServiceClient<IWorldService>
+    public sealed class WorldServiceClient : ManagedServiceClient<IWorldService>
     {
         /// <summary>
         /// Initialized a new instance of <see cref="WorldServiceClient"/> with the specified endpoint address.

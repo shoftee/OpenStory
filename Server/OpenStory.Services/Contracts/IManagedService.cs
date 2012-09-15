@@ -7,7 +7,7 @@ namespace OpenStory.Services.Contracts
     /// Provides basic methods for game services.
     /// </summary>
     [ServiceContract(Namespace = null, Name = "GameService", CallbackContract = typeof(IServiceStateChanged))]
-    public interface IGameService
+    public interface IManagedService
     {
         /// <summary>
         /// Initializes the service.

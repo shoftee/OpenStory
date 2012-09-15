@@ -16,6 +16,11 @@ namespace OpenStory.Services.Contracts
         Unknown = 0,
 
         /// <summary>
+        /// The service connection was denied.
+        /// </summary>
+        Denied = 1,
+
+        /// <summary>
         /// The service is not initialized.
         /// </summary>
         NotInitialized,

@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server.Auth\OpenStory.Server.Auth.csproj">
       <Project>{6257C10F-74BB-4948-8BC1-3F867488044B}</Project>
       <Name>OpenStory.Server.Auth</Name>

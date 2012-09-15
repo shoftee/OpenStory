@@ -13,7 +13,7 @@ namespace OpenStory.Server.Fluent
         /// Registers the "LocalService" component of the ServiceManager.
         /// </summary>
         /// <param name="local">The service reference to register.</param>
-        IInitializeServiceFacade WithLocal(IGameService local);
+        IInitializeServiceFacade WithLocal(IManagedService local);
 
         /// <summary>
         /// Registers the "NexusService" component of the ServiceManager.

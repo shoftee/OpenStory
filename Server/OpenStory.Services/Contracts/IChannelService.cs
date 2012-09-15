@@ -6,7 +6,7 @@ namespace OpenStory.Services.Contracts
     /// Provides methods for operating with a game channel service.
     /// </summary>
     [ServiceContract(Namespace = null, Name = "ChannelService", CallbackContract = typeof(IServiceStateChanged))]
-    public interface IChannelService : IGameService
+    public interface IChannelService : IManagedService
     {
     }
 }

@@ -9,7 +9,7 @@ namespace OpenStory.Services
     /// <summary>
     /// Represents a base class for game services.
     /// </summary>
-    public abstract class GameServiceBase : IGameService
+    public abstract class ManagedServiceBase : IManagedService
     {
         private ServiceState serviceState;
 
@@ -22,9 +22,9 @@ namespace OpenStory.Services
         private readonly List<IServiceStateChanged> stopSubscribers;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GameServiceBase"/>.
+        /// Initializes a new instance of <see cref="ManagedServiceBase"/>.
         /// </summary>
-        protected GameServiceBase()
+        protected ManagedServiceBase()
         {
             this.serviceState = ServiceState.NotInitialized;
 
@@ -33,7 +33,7 @@ namespace OpenStory.Services
             this.stopSubscribers = new List<IServiceStateChanged>();
         }
 
-        #region IGameService members
+        #region IManagedService members
 
         /// <inheritdoc />
         public ServiceState Initialize()

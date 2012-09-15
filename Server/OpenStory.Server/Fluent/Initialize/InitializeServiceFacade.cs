@@ -14,7 +14,7 @@ namespace OpenStory.Server.Fluent.Initialize
 
         #region Implementation of IInitializeServiceFacade
 
-        public IInitializeServiceFacade WithLocal(IGameService local)
+        public IInitializeServiceFacade WithLocal(IManagedService local)
         {
             manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
             return this;

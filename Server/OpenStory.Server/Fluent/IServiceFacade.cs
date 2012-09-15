@@ -37,6 +37,6 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// Gets the service registered as local.
         /// </summary>
-        IGameService Local();
+        IManagedService Local();
     }
 }

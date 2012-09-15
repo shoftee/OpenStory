@@ -24,6 +24,7 @@ namespace OpenStory.Server.Management.Helpers
             {
                 throw new ArgumentNullException("memberInfo");
             }
+
             return Attribute.GetCustomAttribute(memberInfo, typeof(TAttribute)) as TAttribute;
         }
 
@@ -43,6 +44,7 @@ namespace OpenStory.Server.Management.Helpers
             {
                 throw new ArgumentNullException("memberInfo");
             }
+
             return memberInfo.IsDefined(typeof(TAttribute), false);
         }
 
@@ -64,6 +66,7 @@ namespace OpenStory.Server.Management.Helpers
             {
                 throw new ArgumentNullException("method");
             }
+
             return (TResult)method.Invoke(null, EmptyObjectArray);
         }
     }

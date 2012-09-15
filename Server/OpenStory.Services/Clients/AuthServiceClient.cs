@@ -6,7 +6,7 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client to the game authentication service.
     /// </summary>
-    public sealed class AuthServiceClient : GameServiceClient<IAuthService>, IAuthService
+    public sealed class AuthServiceClient : ManagedServiceClient<IAuthService>, IAuthService
     {
         /// <summary>
         /// Initialized a new instance of <see cref="AuthServiceClient"/> with the specified endpoint address.

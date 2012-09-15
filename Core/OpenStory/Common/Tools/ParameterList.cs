@@ -60,16 +60,9 @@ namespace OpenStory.Common.Tools
         /// Initializes a new instance of <see cref="ParameterList"/>.
         /// </summary>
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
-        public ParameterList(IDictionary<string, string> parameters)
+        private ParameterList(IDictionary<string, string> parameters)
         {
-            string error;
-            var parsed = ParseParameters(parameters, out error);
-            if (error != null)
-            {
-                throw new ArgumentException(error);
-            }
-
-            this.parameters = parsed;
+            this.parameters = new Dictionary<string, string>(parameters);
         }
 
         /// <summary>
@@ -80,7 +73,7 @@ namespace OpenStory.Common.Tools
         /// </remarks>
         /// <param name="commandLine">The command line to parse.</param>
         /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
-        public static Dictionary<string, string> ParseCommandLine(string commandLine)
+        private static Dictionary<string, string> ParseCommandLine(string commandLine)
         {
             var parsed = new Dictionary<string, string>();
             var matches = ParamRegex.Matches(commandLine);
@@ -133,11 +126,18 @@ namespace OpenStory.Common.Tools
         /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
         /// </summary>
         /// <returns>an instance of <see cref="ParameterList"/>.</returns>
-        public static ParameterList FromEnvironment()
+        public static ParameterList FromEnvironment(out string error)
         {
             var parameters = ParseCommandLine(Environment.CommandLine);
-            var list = new ParameterList(parameters);
-            return list;
+            var parsed = ParseParameters(parameters, out error);
+            if (error == null)
+            {
+                return new ParameterList(parsed);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)

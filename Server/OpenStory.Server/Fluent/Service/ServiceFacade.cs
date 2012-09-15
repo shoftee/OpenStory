@@ -35,7 +35,7 @@ namespace OpenStory.Server.Fluent.Service
         }
 
         /// <inheritdoc />
-        public IGameService Local()
+        public IManagedService Local()
         {
             return ServiceManager.GetManager().LocalService;
         }

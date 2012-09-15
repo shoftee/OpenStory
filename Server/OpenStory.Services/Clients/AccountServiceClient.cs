@@ -7,7 +7,7 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client for a game account service.
     /// </summary>
-    public sealed class AccountServiceClient : GameServiceClient<IAccountService>, IAccountService
+    public sealed class AccountServiceClient : ManagedServiceClient<IAccountService>, IAccountService
     {
         /// <summary>
         /// Initialized a new instance of <see cref="AccountServiceClient"/> with the specified endpoint address.

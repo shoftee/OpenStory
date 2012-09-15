@@ -39,10 +39,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\AppDomainHelpers.cs" />
     <Compile Include="Helpers\MetadataPair.cs" />
     <Compile Include="Helpers\ReflectionHelpers.cs" />
-    <Compile Include="Launcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

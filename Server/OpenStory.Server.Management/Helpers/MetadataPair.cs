@@ -41,6 +41,7 @@ namespace OpenStory.Server.Management.Helpers
             {
                 throw new ArgumentNullException("attribute");
             }
+
             this.MemberInfo = memberInfo;
             this.Attribute = attribute;
         }
