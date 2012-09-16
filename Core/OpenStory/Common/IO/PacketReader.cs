@@ -33,6 +33,9 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="buffer"/> is <c>null</c>.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="offset"/> or <paramref name="length"/> are negative.
+        /// </exception>
         /// <exception cref="ArraySegmentException">
         /// Thrown if the array segment given by the <paramref name="offset"/> and 
         /// <paramref name="length"/> parameters falls outside of the array's bounds.
@@ -44,8 +47,16 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("buffer");
             }
 
-            if (offset < 0 || buffer.Length < offset ||
-                length <= 0 || offset + length > buffer.Length)
+            if (offset < 0)
+            {
+                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be non-negative.");
+            }
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length", length, "'length' must be non-negative.");
+            }
+
+            if (buffer.Length < offset || offset + length > buffer.Length)
             {
                 throw ArraySegmentException.GetByStartAndLength(offset, length);
             }

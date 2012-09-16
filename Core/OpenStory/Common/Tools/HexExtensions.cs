@@ -58,11 +58,10 @@ namespace OpenStory.Common.Tools
         /// Constructs a hexadecimal digit string from a byte array.
         /// </summary>
         /// <param name="array">The byte array to translate to hexadecimal characters.</param>
-        /// <param name="lowercase">Whether to use lowercase or uppercase hexadecimal characters.</param>
         /// <param name="hyphenate">Whether to add hyphens between the byte hex.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
         /// <returns>the byte array as a hex-digit string.</returns>
-        public static string ToHex(this byte[] array, bool lowercase = false, bool hyphenate = false)
+        public static string ToHex(this byte[] array, bool hyphenate = false)
         {
             if (array == null)
             {
