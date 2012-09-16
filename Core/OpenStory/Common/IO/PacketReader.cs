@@ -388,7 +388,27 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public short ReadInt16()
         {
-            int start = this.CheckedAdvance(2);
+            return this.ReadInt16(false);
+        }
+
+        private short ReadInt16(bool peek)
+        {
+            int start;
+            if (peek)
+            {
+                // If we just wanna peek, don't advance.
+                if (!this.CanAdvance(2))
+                {
+                    throw PacketReadingException.EndOfStream();
+                }
+                start = this.currentOffset;
+            }
+            else
+            {
+                // Otherwise do advance.
+                start = this.CheckedAdvance(2);
+            }
+
             return LittleEndianBitConverter.ToInt16(this.buffer, start);
         }
 
@@ -436,9 +456,18 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public string ReadLengthString()
         {
-            short length = this.ReadInt16();
-            int start = this.CheckedAdvance(length);
-            return this.ReadString(start, length);
+            // We do this in a convoluted fashion to avoid moving the position forward if we're gonna fail.
+            short length = this.ReadInt16(true);
+
+            if (!this.CanAdvance(2 + length))
+            {
+                throw PacketReadingException.EndOfStream();
+            }
+
+            string s = this.ReadString(this.currentOffset + 2, length);
+            this.currentOffset += 2 + length;
+
+            return s;
         }
 
         /// <inheritdoc />
