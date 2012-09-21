@@ -56,9 +56,58 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentOutOfRangeException("length");
             }
+
             var segment = new byte[length];
             Buffer.BlockCopy(array, start, segment, 0, length);
             return segment;
+        }
+
+        /// <summary>
+        /// Concatenates the provided byte arrays.
+        /// </summary>
+        /// <param name="arrays">The arrays to concatenate.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <c>null</c>.</exception>
+        /// <returns>the resulting array.</returns>
+        public static byte[] FastJoin(params byte[][] arrays)
+        {
+            if (arrays == null)
+            {
+                throw new ArgumentNullException("arrays");
+            }
+
+            return FastJoinList(arrays);
+        }
+
+        /// <summary>
+        /// Concatenates the provided byte arrays.
+        /// </summary>
+        /// <param name="arrays">The arrays to concatenate.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <c>null</c>.</exception>
+        /// <returns>the resulting array.</returns>
+        public static byte[] FastJoin(IList<byte[]> arrays)
+        {
+            if (arrays == null)
+            {
+                throw new ArgumentNullException("arrays");
+            }
+
+            return FastJoinList(arrays);
+        }
+
+        private static byte[] FastJoinList(IList<byte[]> arrays)
+        {
+            var totalLength = arrays.Sum(s => s.Length);
+            var buffer = new byte[totalLength];
+
+            int offset = 0;
+            foreach (var array in arrays)
+            {
+                var count = array.Length;
+                Buffer.BlockCopy(array, 0, buffer, offset, count);
+                offset += count;
+            }
+
+            return buffer;
         }
     }
 }
