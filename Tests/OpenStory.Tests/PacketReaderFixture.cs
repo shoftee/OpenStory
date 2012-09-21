@@ -6,7 +6,7 @@ using OpenStory.Common.IO;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.IO.PacketReader")]
+    [TestFixture(Category = "IO", Description = "Tests for the OpenStory.Common.IO.PacketReader class")]
     public class PacketReaderFixture
     {
         private static readonly byte[] ZeroArray = new byte[] { };

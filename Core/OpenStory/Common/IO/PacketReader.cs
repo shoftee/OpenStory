@@ -258,9 +258,19 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadInt16(out short value)
         {
+            return TryReadInt16(out value, false);
+        }
+
+        private bool TryReadInt16(out short value, bool peek)
+        {
             if (this.CanAdvance(2))
             {
-                int start = this.UncheckedAdvance(2);
+                int start = this.currentOffset;
+                if (!peek)
+                {
+                    this.UncheckedAdvance(2);
+                }
+
                 value = LittleEndianBitConverter.ToInt16(this.buffer, start);
                 return true;
             }
@@ -304,16 +314,21 @@ namespace OpenStory.Common.IO
         public bool TryReadLengthString(out string result)
         {
             short length;
-            if (this.TryReadInt16(out length) && this.CanAdvance(length))
-            {
-                int start = this.UncheckedAdvance(length);
-                result = this.ReadString(start, length);
-                return true;
-            }
-            else
+            if (!this.TryReadInt16(out length, peek: true))
             {
                 return Misc.Fail(out result);
             }
+
+            if (!this.CanAdvance(2 + length))
+            {
+                return Misc.Fail(out result);
+            }
+
+            this.UncheckedAdvance(2);
+
+            int start = this.UncheckedAdvance(length);
+            result = this.ReadString(start, length);
+            return true;
         }
 
         /// <inheritdoc />
@@ -559,5 +574,96 @@ namespace OpenStory.Common.IO
         }
 
         #endregion
+
+        /// <summary>
+        /// Wraps the current packet reader in a safety block.
+        /// </summary>
+        /// <remarks>
+        /// On failure, this method will revert the position of the reader to what it was when the method was called.
+        /// </remarks>
+        /// <param name="readingCallback">The operation callback to execute on the reader.</param>
+        /// <returns>whether the reading completed successfully.</returns>
+        public bool Safe(Action<IUnsafePacketReader> readingCallback)
+        {
+            int start = this.currentOffset;
+            bool success;
+            try
+            {
+                readingCallback(this);
+                success = true;
+            }
+            catch (PacketReadingException)
+            {
+                this.currentOffset = start;
+                success = false;
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Wraps the current packet reader in a safety block, with a callback in case of failure.
+        /// </summary>
+        /// <remarks>
+        /// On failure, this method will rever the position of the reader to what it was when the method was called.
+        /// </remarks>
+        /// <param name="readingCallback">The operation callback to execute on the reader.</param>
+        /// <param name="failureCallback">The callback to execute on reading failure.</param>
+        /// <returns>whether the reading completed successfully.</returns>
+        public bool Safe(Action<IUnsafePacketReader> readingCallback, Action failureCallback)
+        {
+            int start = this.currentOffset;
+            bool success;
+            try
+            {
+                readingCallback(this);
+                success = true;
+            }
+            catch (PacketReadingException)
+            {
+                this.currentOffset = start;
+                success = false;
+            }
+
+            if (!success)
+            {
+                failureCallback();
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Wraps the current packet reader in a safety block, with a callback in case of failure.
+        /// </summary>
+        /// <remarks>
+        /// On failure, this method will rever the position of the reader to what it was when the method was called.
+        /// </remarks>
+        /// <param name="readingCallback">The operation callback to execute on the reader.</param>
+        /// <param name="failureCallback">The callback to execute on reading failure.</param>
+        /// <returns>on success, the value returned by the reading callback; otherwise, the value returned by the failure callback.</returns>
+        public T Safe<T>(Func<IUnsafePacketReader, T> readingCallback, Func<T> failureCallback)
+        {
+            int start = this.currentOffset;
+            var result = default(T);
+            bool success;
+            try
+            {
+                result = readingCallback(this);
+                success = true;
+            }
+            catch (PacketReadingException)
+            {
+                this.currentOffset = start;
+                success = false;
+            }
+
+            if (!success)
+            {
+                result = failureCallback();
+            }
+
+            return result;
+        }
     }
 }
