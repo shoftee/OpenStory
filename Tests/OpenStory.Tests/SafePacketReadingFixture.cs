@@ -567,6 +567,15 @@ namespace OpenStory.Tests
         }
 
         [Test]
+        public void SafeHandlingReturnsTrueOnSuccess2()
+        {
+            var reader = new PacketReader(Empty);
+
+            bool success = reader.Safe(r => { }, () => { });
+            Assert.IsTrue(success);
+        }
+
+        [Test]
         public void SafeHandlingReturnsFalseOnFailure()
         {
             var reader = new PacketReader(Empty);
