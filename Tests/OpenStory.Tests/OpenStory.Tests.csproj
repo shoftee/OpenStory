@@ -53,6 +53,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BoundedBufferFixture.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="PacketBuilderFixture.cs" />
     <Compile Include="PacketReaderFixtureBase.cs" />

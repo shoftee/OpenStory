@@ -11,12 +11,25 @@ namespace OpenStory.Common.IO
     {
         private bool isDisposed;
 
-        private MemoryStream MemoryStream { get; set; }
+        private MemoryStream stream;
+        private int freeSpace;
 
         /// <summary>
         /// Gets the number of remaining useable bytes in the buffer.
         /// </summary>
-        public int FreeSpace { get; private set; }
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        public int FreeSpace
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.freeSpace;
+            }
+            private set
+            {
+                this.freeSpace = value;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="BoundedBuffer"/> with no capacity.
@@ -54,12 +67,15 @@ namespace OpenStory.Common.IO
         /// <param name="buffer">The array to read from.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <param name="count">The number of bytes to append.</param>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer" /> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is negative or <paramref name="count"/> is non-positive.</exception>
         /// <exception cref="ArraySegmentException">Thrown if the array segment given by the <paramref name="offset"/> and <paramref name="count"/> parameters falls outside of the given array's bounds.</exception>
         /// <returns>the number of bytes that were stored.</returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
+            ThrowIfDisposed();
+
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
@@ -85,7 +101,7 @@ namespace OpenStory.Common.IO
         {
             int stored = Math.Min(this.FreeSpace, requested);
 
-            this.MemoryStream.Write(buffer, offset, stored);
+            this.stream.Write(buffer, offset, stored);
             this.FreeSpace -= stored;
 
             return stored;
@@ -95,9 +111,12 @@ namespace OpenStory.Common.IO
         /// Prepares the buffer for new data.
         /// </summary>
         /// <param name="newCapacity">The new capacity for the buffer.</param>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="newCapacity"/> is negative.</exception>
         public void Reset(int newCapacity)
         {
+            ThrowIfDisposed();
+
             if (newCapacity < 0)
             {
                 throw GetNewCapacityIsNegativeException(newCapacity);
@@ -110,18 +129,22 @@ namespace OpenStory.Common.IO
         /// Extracts the data from the <see cref="BoundedBuffer"/> and prepares it for the new data.
         /// </summary>
         /// <param name="newCapacity">The new capacity for the <see cref="BoundedBuffer"/>.</param>
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="newCapacity"/> is negative.</exception>
         /// <returns>the data that was in the <see cref="BoundedBuffer"/>.</returns>
         public byte[] ExtractAndReset(int newCapacity)
         {
+            ThrowIfDisposed();
+
             if (newCapacity < 0)
             {
                 throw GetNewCapacityIsNegativeException(newCapacity);
             }
 
             byte[] data = Arrays<byte>.Empty;
-            if (this.MemoryStream != null)
+            if (this.stream != null)
             {
-                data = this.MemoryStream.GetBuffer();
+                data = this.stream.GetBuffer();
             }
 
             this.ResetInternal(newCapacity);
@@ -131,7 +154,7 @@ namespace OpenStory.Common.IO
 
         private void ResetInternal(int newCapacity)
         {
-            this.MemoryStream = new MemoryStream(newCapacity);
+            this.stream = new MemoryStream(newCapacity);
             this.FreeSpace = newCapacity;
         }
 
@@ -154,11 +177,11 @@ namespace OpenStory.Common.IO
         {
             if (!this.isDisposed && disposing)
             {
-                var memoryStream = this.MemoryStream;
-                if (memoryStream != null)
+                var copy = this.stream;
+                if (copy != null)
                 {
-                    memoryStream.Dispose();
-                    this.MemoryStream = null;
+                    copy.Dispose();
+                    this.stream = null;
                 }
 
                 this.isDisposed = true;
@@ -168,6 +191,17 @@ namespace OpenStory.Common.IO
         #endregion
 
         #region Exception helpers
+
+        /// <exception cref="ObjectDisposedException">
+        /// Thrown if the <see cref="BoundedBuffer"/> has been disposed.
+        /// </exception>
+        private void ThrowIfDisposed()
+        {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException("stream");
+            }
+        }
 
         private static ArgumentOutOfRangeException GetCapacityIsNonPositiveException(int capacity)
         {
