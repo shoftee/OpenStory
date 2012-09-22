@@ -77,24 +77,24 @@ namespace OpenStory.Common.IO
         /// Writes a length-prefixed UTF8 string to the end of the packet.
         /// </summary>
         /// <remarks>The length of the stream is written first.</remarks>
-        /// <param name="s">The string to write.</param>
+        /// <param name="string">The string to write.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="s"/> is <c>null</c>.
+        /// Thrown if <paramref name="string"/> is <c>null</c>.
         /// </exception>
-        void WriteLengthString(string s);
+        void WriteLengthString(string @string);
 
         /// <summary>
         /// Writes a padded string to the end of the packet.
         /// </summary>
-        /// <param name="s">The string to write.</param>
+        /// <param name="string">The string to write.</param>
         /// <param name="padLength">The length to pad the string to.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="s"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="string"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="padLength"/> is a non-positive number.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="s"/> is longer than <paramref name="padLength"/>.
+        /// Thrown if <paramref name="string"/> is not shorter than <paramref name="padLength"/>.
         /// </exception>
-        void WritePaddedString(string s, int padLength);
+        void WritePaddedString(string @string, int padLength);
     }
 }

@@ -53,6 +53,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers.cs" />
+    <Compile Include="PacketBuilderFixture.cs" />
     <Compile Include="PacketReaderFixtureBase.cs" />
     <Compile Include="SafePacketReadingFixture.cs" />
     <Compile Include="UnsafePacketReadingFixture.cs" />

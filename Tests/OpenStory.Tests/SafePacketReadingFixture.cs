@@ -6,14 +6,14 @@ using OpenStory.Common.IO;
 namespace OpenStory.Tests
 {
     [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader safe reading tests.")]
-    public sealed class SafePacketReadingFixture : PacketReaderFixtureBase
+    sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Failure
 
         [Test]
         public void ReturnsFalseOnReadingInZeroLengthSegment()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             GracefullyFailsOnReadOperations(reader, 1, 2, 13, 10);
         }
@@ -75,74 +75,74 @@ namespace OpenStory.Tests
         [Test]
         public void ThrowsOnTryReadWithNegativeCount()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             byte[] bytes;
-            ThrowsAoore(() => reader.TryRead(-1, out bytes));
+            Helpers.ThrowsAoore(() => reader.TryRead(-1, out bytes));
         }
 
         [Test]
         public void ThrowsOnTrySkipWithNegativeCount()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
-            ThrowsAoore(() => reader.TrySkip(-1));
+            Helpers.ThrowsAoore(() => reader.TrySkip(-1));
         }
 
         [Test]
         public void ThrowsOnTrySkipToWithBadOffset()
         {
-            var buffer = GetRandomBytes(10);
+            var buffer = Helpers.GetRandomBytes(10);
             var reader = new PacketReader(buffer);
 
             reader.Skip(5);
-            ThrowsAoore(() => reader.TrySkipTo(1));
+            Helpers.ThrowsAoore(() => reader.TrySkipTo(1));
         }
 
         [Test]
         public void ThrowsOnTrySkipToWithNegativeOffset()
         {
-            var buffer = GetRandomBytes(10);
+            var buffer = Helpers.GetRandomBytes(10);
             var reader = new PacketReader(buffer);
 
-            ThrowsAoore(() => reader.TrySkipTo(-1));
+            Helpers.ThrowsAoore(() => reader.TrySkipTo(-1));
         }
 
         [Test]
         public void ThrowsOnTrySkipToWithBadOffsetInSegment()
         {
-            var buffer = GetRandomBytes(20);
+            var buffer = Helpers.GetRandomBytes(20);
             var reader = new PacketReader(buffer, 10, 10);
 
             reader.Skip(5);
-            ThrowsAoore(() => reader.TrySkipTo(1));
+            Helpers.ThrowsAoore(() => reader.TrySkipTo(1));
         }
 
         [Test]
         public void ThrowsOnTrySkipToWithNegativeOffsetInSegment()
         {
-            var buffer = GetRandomBytes(20);
+            var buffer = Helpers.GetRandomBytes(20);
             var reader = new PacketReader(buffer, 10, 10);
 
-            ThrowsAoore(() => reader.TrySkipTo(-1));
+            Helpers.ThrowsAoore(() => reader.TrySkipTo(-1));
         }
 
         [Test]
         public void ThrowsOnTryReadPaddedStringWithNonPositivePadLength()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             string result;
-            ThrowsAoore(() => reader.TryReadPaddedString(-1, out result));
+            Helpers.ThrowsAoore(() => reader.TryReadPaddedString(-1, out result));
         }
 
         [Test]
         public void ThrowsOnTryReadPaddedStringWithZeroPadLength()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             string result;
-            ThrowsAoore(() => reader.TryReadPaddedString(0, out result));
+            Helpers.ThrowsAoore(() => reader.TryReadPaddedString(0, out result));
         }
 
         [Test]
@@ -170,36 +170,36 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingThrowsOnNullReadingCallback()
         {
-            var reader = new PacketReader(Empty);
-            ThrowsAne(() => reader.Safe(null));
+            var reader = new PacketReader(Helpers.Empty);
+            Helpers.ThrowsAne(() => reader.Safe(null));
         }
 
         [Test]
         public void SafeHandlingThrowsOnNullReadingCallback2()
         {
-            var reader = new PacketReader(Empty);
-            ThrowsAne(() => reader.Safe(null, () => { }));
+            var reader = new PacketReader(Helpers.Empty);
+            Helpers.ThrowsAne(() => reader.Safe(null, () => { }));
         }
 
         [Test]
         public void SafeHandlingThrowsOnNullReadingCallback3()
         {
-            var reader = new PacketReader(Empty);
-            ThrowsAne(() => reader.Safe(null, () => 1));
+            var reader = new PacketReader(Helpers.Empty);
+            Helpers.ThrowsAne(() => reader.Safe(null, () => 1));
         }
 
         [Test]
         public void SafeHandlingThrowsOnNullFailureCallback()
         {
-            var reader = new PacketReader(Empty);
-            ThrowsAne(() => reader.Safe(r => { }, null));
+            var reader = new PacketReader(Helpers.Empty);
+            Helpers.ThrowsAne(() => reader.Safe(r => { }, null));
         }
 
         [Test]
         public void SafeHandlingThrowsOnNullFailureCallback2()
         {
-            var reader = new PacketReader(Empty);
-            ThrowsAne(() => reader.Safe(r => 1, null));
+            var reader = new PacketReader(Helpers.Empty);
+            Helpers.ThrowsAne(() => reader.Safe(r => 1, null));
         }
 
         #endregion
@@ -209,7 +209,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadBoolean()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadBoolean(out result));
@@ -218,7 +218,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadByte()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             byte result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadByte(out result));
@@ -227,7 +227,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadInt16()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             short result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt16(out result));
@@ -236,7 +236,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadUInt16()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ushort result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt16(out result));
@@ -245,7 +245,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadInt32()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             int result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt32(out result));
@@ -254,7 +254,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadUInt32()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             uint result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt32(out result));
@@ -263,7 +263,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadInt64()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             long result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt64(out result));
@@ -272,7 +272,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryReadUInt64()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ulong result;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt64(out result));
@@ -281,7 +281,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnFailureDuringTryRead()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             byte[] bytes;
             ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryRead(2, out bytes));
@@ -362,7 +362,7 @@ namespace OpenStory.Tests
         {
             const int Count = 100;
 
-            var buffer = GetRandomBytes(Count);
+            var buffer = Helpers.GetRandomBytes(Count);
             var reader = new PacketReader(buffer);
 
             byte[] bytes;
@@ -506,7 +506,7 @@ namespace OpenStory.Tests
         [Test]
         public void SkipWorksCorrectly()
         {
-            var buffer = GetRandomBytes(100);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             const int Offset = 10;
@@ -522,7 +522,7 @@ namespace OpenStory.Tests
         [Test]
         public void SkipToWorksCorrectly()
         {
-            var buffer = GetRandomBytes(100);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             const int ToSkip = 10;
@@ -538,7 +538,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingCallsReadingCallback()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool called = false;
             reader.Safe(r => called = true);
@@ -549,7 +549,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingCallsFailureCallback()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool called = false;
             reader.Safe(r => r.Skip(1), () => called = true);
@@ -560,7 +560,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingReturnsTrueOnSuccess()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool success = reader.Safe(r => { });
             Assert.IsTrue(success);
@@ -569,7 +569,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingReturnsTrueOnSuccess2()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool success = reader.Safe(r => { }, () => { });
             Assert.IsTrue(success);
@@ -578,7 +578,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingReturnsFalseOnFailure()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             bool success = reader.Safe(r => r.Skip(1));
             Assert.IsFalse(success);
@@ -590,7 +590,7 @@ namespace OpenStory.Tests
             const int Success = 0;
             const int Failure = 1;
 
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             int expected = Success;
             int actual = reader.Safe(r => Success, () => Failure);
@@ -603,7 +603,7 @@ namespace OpenStory.Tests
             const int Success = 0;
             const int Failure = 1;
 
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             int expected = Failure;
             int actual = reader.Safe(r =>
@@ -618,7 +618,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingResetsPositionOnFailure()
         {
-            var buffer = GetRandomBytes(100);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             int expected = reader.Remaining;
@@ -632,7 +632,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingResetsPositionOnFailure2()
         {
-            var buffer = GetRandomBytes(100);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             int expected = reader.Remaining;
@@ -647,7 +647,7 @@ namespace OpenStory.Tests
         [Test]
         public void SafeHandlingResetsPositionOnFailure3()
         {
-            var buffer = GetRandomBytes(100);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             int expected = reader.Remaining;

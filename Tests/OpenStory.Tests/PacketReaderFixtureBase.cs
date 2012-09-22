@@ -5,49 +5,24 @@ using OpenStory.Common.IO;
 namespace OpenStory.Tests
 {
     [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader common tests.")]
-    public class PacketReaderFixtureBase
+    class PacketReaderFixtureBase
     {
-        protected static readonly byte[] Empty = new byte[] { };
-        private static readonly Random Rng = new Random();
-
-        protected static void ThrowsAse(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArraySegmentException>());
-        }
-
-        protected static void ThrowsAne(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArgumentNullException>());
-        }
-
-        protected static void ThrowsAoore(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArgumentOutOfRangeException>());
-        }
-
-        protected static byte[] GetRandomBytes(int count)
-        {
-            var buffer = new byte[count];
-            Rng.NextBytes(buffer);
-            return buffer;
-        }
-
         [Test]
         public void ThrowsOnNullBuffer()
         {
-            ThrowsAne(() => new PacketReader((byte[])null));
+            Helpers.ThrowsAne(() => new PacketReader((byte[])null));
         }
 
         [Test]
         public void ThrowsOnNullBufferWithZeroLengthSegment()
         {
-            ThrowsAne(() => new PacketReader(null, 0, 0));
+            Helpers.ThrowsAne(() => new PacketReader(null, 0, 0));
         }
 
         [Test]
         public void ThrowsOnNullClone()
         {
-            ThrowsAne(() => new PacketReader((PacketReader)null));
+            Helpers.ThrowsAne(() => new PacketReader((PacketReader)null));
         }
 
         [Test]
@@ -55,7 +30,7 @@ namespace OpenStory.Tests
         {
             var buffer = new byte[10];
 
-            ThrowsAoore(() => new PacketReader(buffer, -1, 0));
+            Helpers.ThrowsAoore(() => new PacketReader(buffer, -1, 0));
         }
 
         [Test]
@@ -63,7 +38,7 @@ namespace OpenStory.Tests
         {
             var buffer = new byte[10];
 
-            ThrowsAoore(() => new PacketReader(buffer, 0, -1));
+            Helpers.ThrowsAoore(() => new PacketReader(buffer, 0, -1));
         }
 
         [Test]
@@ -71,7 +46,7 @@ namespace OpenStory.Tests
         {
             var buffer = new byte[10];
 
-            ThrowsAse(() => new PacketReader(buffer, 11, 0));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 11, 0));
         }
 
         [Test]
@@ -79,7 +54,7 @@ namespace OpenStory.Tests
         {
             var buffer = new byte[10];
 
-            ThrowsAse(() => new PacketReader(buffer, 0, 11));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 0, 11));
         }
 
         [Test]
@@ -87,11 +62,11 @@ namespace OpenStory.Tests
         {
             var buffer = new byte[10];
 
-            ThrowsAse(() => new PacketReader(buffer, 6, 5));
-            ThrowsAse(() => new PacketReader(buffer, 5, 6));
-            ThrowsAse(() => new PacketReader(buffer, 0, 11));
-            ThrowsAse(() => new PacketReader(buffer, 11, 0));
-            ThrowsAse(() => new PacketReader(buffer, 10, 1));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 6, 5));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 5, 6));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 0, 11));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 11, 0));
+            Helpers.ThrowsAse(() => new PacketReader(buffer, 10, 1));
         }
 
         [Test]
@@ -109,7 +84,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotThrowOnZeroOffsetAndLengthWithEmptyArray()
         {
-            Assert.That(() => new PacketReader(Empty, 0, 0), Throws.Nothing);
+            Assert.That(() => new PacketReader(Helpers.Empty, 0, 0), Throws.Nothing);
         }
 
         [Test]

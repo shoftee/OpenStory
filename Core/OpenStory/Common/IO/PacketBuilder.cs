@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Common.IO
 {
@@ -35,7 +36,8 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", capacity, "'capacity' must be a positive integer.");
+                const string Message = "'capacity' must be a positive integer.";
+                throw new ArgumentOutOfRangeException("capacity", capacity, Message);
             }
 
             this.stream = new MemoryStream(capacity);
@@ -112,7 +114,8 @@ namespace OpenStory.Common.IO
 
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", "'count' must be a non-negative integer.");
+                const string Message = "'count' must be a non-negative integer.";
+                throw new ArgumentOutOfRangeException("count", count, Message);
             }
 
             for (int i = 0; i < count; i++)
@@ -131,6 +134,7 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("bytes");
             }
+
             this.stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -145,45 +149,49 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WriteLengthString(string s)
+        public void WriteLengthString(string @string)
         {
             this.ThrowIfDisposed();
 
-            if (s == null)
+            if (@string == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException("string");
             }
 
-            this.WriteInt16((short)s.Length);
-            if (s.Length > 0)
+            this.WriteInt16((short)@string.Length);
+            if (@string.Length > 0)
             {
-                this.WriteDirect(Encoding.UTF8.GetBytes(s));
+                this.WriteDirect(Encoding.UTF8.GetBytes(@string));
             }
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WritePaddedString(string s, int padLength)
+        public void WritePaddedString(string @string, int padLength)
         {
             this.ThrowIfDisposed();
 
-            if (s == null)
+            if (@string == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException("string");
             }
+
             if (padLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("padLength", padLength,
-                                                      "The pad length must be a positive number.");
+                const string Message = "'padLength' must be a positive number.";
+                throw new ArgumentOutOfRangeException("padLength", padLength, Message);
             }
-            if (s.Length > padLength)
+
+            if (@string.Length > padLength - 1)
             {
-                throw new ArgumentOutOfRangeException("s", "The string is longer than the pad length.");
+                const string Message = "'string' is not shorter than 'padLength'.";
+                throw new ArgumentOutOfRangeException("string", Message);
             }
 
             var stringBytes = new byte[padLength];
-            Encoding.UTF8.GetBytes(s, 0, s.Length, stringBytes, 0);
-            stringBytes[s.Length] = 0;
+            Encoding.UTF8.GetBytes(@string, 0, @string.Length, stringBytes, 0);
+            stringBytes[@string.Length] = 0;
+
             this.WriteDirect(stringBytes);
         }
 
@@ -194,17 +202,17 @@ namespace OpenStory.Common.IO
         /// <returns>the copy of the byte buffer.</returns>
         public byte[] ToByteArray()
         {
+            this.ThrowIfDisposed();
+
             byte[] buffer = this.stream.GetBuffer();
             var length = (int)this.stream.Position;
-            var array = new byte[length];
-            Buffer.BlockCopy(buffer, 0, array, 0, length);
+            var array = buffer.CopySegment(0, length);
             return array;
         }
 
         private void WriteDirect(byte[] bytes)
         {
-            int length = bytes.Length;
-            this.stream.Write(bytes, 0, length);
+            this.stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <exception cref="ObjectDisposedException">

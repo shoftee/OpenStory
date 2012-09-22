@@ -8,5 +8,24 @@
   <FrameworkUtilisationTypeForMSTest>UseStaticAnalysis</FrameworkUtilisationTypeForMSTest>
   <EngineModes>Run all tests automatically:BFRydWU=;Run all tests manually:BUZhbHNl;Run impacted tests automatically, others manually (experimental!):CklzSW1wYWN0ZWQ=;Run pinned tests automatically, others manually:CElzUGlubmVk</EngineModes>
   <MetricsExclusionList>
+..\Core\OpenStory\OpenStory.csproj:Common\Auth\AuthenticationResult.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Auth\IChannel.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Auth\IWorld.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Auth\ServerStatus.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Data\IOpCodeTable.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\Elements.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\Gender.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\GuildRank.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\InventoryType.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\ItemType.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\JobClass.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\IPacketBuilder.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\ISafePacketReader.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\IUnsafePacketReader.cs
+..\Core\OpenStory\OpenStory.csproj:Cryptography\ICryptoAlgorithm.cs
+..\Core\OpenStory\OpenStory.csproj:Cryptography\VersionMaskType.cs
+..\Core\OpenStory\OpenStory.csproj:Networking\IDescriptorContainer.cs
+..\Core\OpenStory\OpenStory.csproj:Properties\AssemblyInfo.cs
+..\Core\OpenStory\OpenStory.csproj\Properties
 </MetricsExclusionList>
 </SolutionConfiguration>

@@ -6,14 +6,14 @@ using OpenStory.Common.Tools;
 namespace OpenStory.Tests
 {
     [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader unsafe reading tests.")]
-    public sealed class UnsafePacketReadingFixture : PacketReaderFixtureBase
+    sealed class UnsafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Throws
 
         [Test]
         public void ThrowsOnReadingInZeroLengthSegment()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreOnReadOperations(reader, 1, 13, 10);
         }
@@ -49,33 +49,33 @@ namespace OpenStory.Tests
         [Test]
         public void ThrowsOnReadBytesWithNegativeCount()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
-            ThrowsAoore(() => reader.ReadBytes(-1));
+            Helpers.ThrowsAoore(() => reader.ReadBytes(-1));
         }
 
         [Test]
         public void ThrowsOnSkipWithNegativeCount()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
-            ThrowsAoore(() => reader.Skip(-1));
+            Helpers.ThrowsAoore(() => reader.Skip(-1));
         }
 
         [Test]
         public void ThrowsOnReadPaddedStringWithNonPositivePadLength()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
-            ThrowsAoore(() => reader.ReadPaddedString(-1));
+            Helpers.ThrowsAoore(() => reader.ReadPaddedString(-1));
         }
 
         [Test]
         public void ThrowsOnReadPaddedStringWithZeroPadLength()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
-            ThrowsAoore(() => reader.ReadPaddedString(0));
+            Helpers.ThrowsAoore(() => reader.ReadPaddedString(0));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadBoolean()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadBoolean());
         }
@@ -113,7 +113,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringSkip()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.Skip(1));
         }
@@ -121,7 +121,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadByte()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadByte());
         }
@@ -129,7 +129,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadInt16()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadInt16());
         }
@@ -137,7 +137,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadUInt16()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadUInt16());
         }
@@ -145,7 +145,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadInt32()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadInt32());
         }
@@ -153,7 +153,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadUInt32()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadUInt32());
         }
@@ -161,7 +161,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadInt64()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadInt64());
         }
@@ -169,7 +169,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadUInt64()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadUInt64());
         }
@@ -177,7 +177,7 @@ namespace OpenStory.Tests
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadBytes()
         {
-            var reader = new PacketReader(Empty);
+            var reader = new PacketReader(Helpers.Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadBytes(2));
         }
@@ -248,7 +248,7 @@ namespace OpenStory.Tests
         {
             const int BufferSize = 100;
 
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
             var expected = buffer;
@@ -262,7 +262,7 @@ namespace OpenStory.Tests
         {
             const int BufferSize = 100;
 
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
             var expected = buffer;
@@ -278,7 +278,7 @@ namespace OpenStory.Tests
             const int Start = 10;
             const int Length = 80;
 
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer, Start, Length);
 
             var expected = buffer.CopySegment(Start, Length);
@@ -292,7 +292,7 @@ namespace OpenStory.Tests
         {
             const int BufferSize = 100;
             const int Offset = 10;
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
             reader.Skip(Offset);
@@ -311,7 +311,7 @@ namespace OpenStory.Tests
             const int Length = 80;
             const int Offset = 10;
 
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer, Start, Length);
 
             reader.Skip(Offset);
@@ -439,7 +439,7 @@ namespace OpenStory.Tests
         public void SkipsCorrectly()
         {
             const int BufferSize = 100;
-            var buffer = GetRandomBytes(BufferSize);
+            var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
             const int SkipLength = 10;
