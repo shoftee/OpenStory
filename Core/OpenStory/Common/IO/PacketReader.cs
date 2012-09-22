@@ -51,6 +51,7 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be non-negative.");
             }
+
             if (length < 0)
             {
                 throw new ArgumentOutOfRangeException("length", length, "'length' must be non-negative.");
@@ -152,7 +153,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        public int TrySkipTo(int offset)
+        public bool TrySkipTo(int offset)
         {
             if (offset < 0)
             {
@@ -165,15 +166,15 @@ namespace OpenStory.Common.IO
                 throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be ahead of the current position.");
             }
 
-            int skipped = this.segmentEnd - bufferOffset;
-            if (skipped < 0)
+            int remaining = this.segmentEnd - bufferOffset;
+            if (remaining < 0)
             {
-                return -1;
+                return false;
             }
             else
             {
                 this.currentOffset = bufferOffset;
-                return skipped;
+                return true;
             }
         }
 
@@ -334,9 +335,9 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadPaddedString(int length, out string result)
         {
-            if (length < 0)
+            if (length <= 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, "'length' must be non-negative.");
+                throw new ArgumentOutOfRangeException("length", length, "'length' must be positive.");
             }
 
             if (this.CanAdvance(length))

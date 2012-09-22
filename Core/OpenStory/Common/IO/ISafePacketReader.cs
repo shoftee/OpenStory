@@ -28,8 +28,8 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The new position to assign, relative to the start of the segment.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is negative.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is behind the current position of the stream.</exception>
-        /// <returns>the number of bytes that were skipped if the operation was successful; otherwise, <c>-1</c>.</returns>
-        int TrySkipTo(int offset);
+        /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+        bool TrySkipTo(int offset);
 
         /// <summary>
         /// Attempts to read a specified number of bytes into a buffer.

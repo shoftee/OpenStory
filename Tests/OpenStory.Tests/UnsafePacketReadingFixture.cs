@@ -1,79 +1,14 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 using OpenStory.Common.IO;
+using OpenStory.Common.Tools;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "IO", Description = "Tests for the OpenStory.Common.IO.PacketReader class")]
-    public sealed class PacketReaderFixture
+    [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader unsafe reading tests.")]
+    public sealed class UnsafePacketReadingFixture : PacketReaderFixtureBase
     {
-        private static readonly byte[] Empty = new byte[] { };
-        private static readonly Random Rng = new Random();
-
         #region Throws
-
-        [Test]
-        public void ThrowsOnNullBuffer()
-        {
-            ThrowsAne(() => new PacketReader((byte[])null));
-        }
-
-        [Test]
-        public void ThrowsOnNullBufferWithZeroLengthSegment()
-        {
-            ThrowsAne(() => new PacketReader(null, 0, 0));
-        }
-
-        [Test]
-        public void ThrowsOnNullClone()
-        {
-            ThrowsAne(() => new PacketReader((PacketReader)null));
-        }
-
-        [Test]
-        public void ThrowsOnNegativeOffset()
-        {
-            var buffer = new byte[10];
-
-            ThrowsAoore(() => new PacketReader(buffer, -1, 0));
-        }
-
-        [Test]
-        public void ThrowsOnNegativeLength()
-        {
-            var buffer = new byte[10];
-
-            ThrowsAoore(() => new PacketReader(buffer, 0, -1));
-        }
-
-        [Test]
-        public void ThrowsOnBadSegmentOffset()
-        {
-            var buffer = new byte[10];
-
-            ThrowsAse(() => new PacketReader(buffer, 11, 0));
-        }
-
-        [Test]
-        public void ThrowsOnBadSegmentLength()
-        {
-            var buffer = new byte[10];
-
-            ThrowsAse(() => new PacketReader(buffer, 0, 11));
-        }
-
-        [Test]
-        public void ThrowsOnBadSegmentOffsetOrLength()
-        {
-            var buffer = new byte[10];
-
-            ThrowsAse(() => new PacketReader(buffer, 6, 5));
-            ThrowsAse(() => new PacketReader(buffer, 5, 6));
-            ThrowsAse(() => new PacketReader(buffer, 0, 11));
-            ThrowsAse(() => new PacketReader(buffer, 11, 0));
-            ThrowsAse(() => new PacketReader(buffer, 10, 1));
-        }
 
         [Test]
         public void ThrowsOnReadingInZeroLengthSegment()
@@ -90,6 +25,25 @@ namespace OpenStory.Tests
             var reader = new PacketReader(buffer, buffer.Length, 0);
 
             ThrowsPreOnReadOperations(reader, 1, 13, 10);
+        }
+
+        private static void ThrowsPreOnReadOperations(PacketReader r, int skip, int padLength, int byteCount)
+        {
+            ThrowsPre(() => r.Skip(skip));
+
+            ThrowsPre(() => r.ReadBoolean());
+
+            ThrowsPre(() => r.ReadByte());
+            ThrowsPre(() => r.ReadInt16());
+            ThrowsPre(() => r.ReadUInt16());
+            ThrowsPre(() => r.ReadInt32());
+            ThrowsPre(() => r.ReadUInt32());
+            ThrowsPre(() => r.ReadInt64());
+            ThrowsPre(() => r.ReadUInt64());
+
+            ThrowsPre(() => r.ReadLengthString());
+            ThrowsPre(() => r.ReadPaddedString(padLength));
+            ThrowsPre(() => r.ReadBytes(byteCount));
         }
 
         [Test]
@@ -144,80 +98,9 @@ namespace OpenStory.Tests
             ThrowsPre(() => reader.ReadLengthString());
         }
 
-        private static void ThrowsPreOnReadOperations(PacketReader r, int skip, int padLength, int byteCount)
-        {
-            ThrowsPre(() => r.Skip(skip));
-
-            ThrowsPre(() => r.ReadBoolean());
-
-            ThrowsPre(() => r.ReadByte());
-            ThrowsPre(() => r.ReadInt16());
-            ThrowsPre(() => r.ReadUInt16());
-            ThrowsPre(() => r.ReadInt32());
-            ThrowsPre(() => r.ReadUInt32());
-            ThrowsPre(() => r.ReadInt64());
-            ThrowsPre(() => r.ReadUInt64());
-
-            ThrowsPre(() => r.ReadLengthString());
-            ThrowsPre(() => r.ReadPaddedString(padLength));
-            ThrowsPre(() => r.ReadBytes(byteCount));
-        }
-
-        private static void ThrowsPre(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<PacketReadingException>());
-        }
-
-        private static void ThrowsAse(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArraySegmentException>());
-        }
-
-        private static void ThrowsAne(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArgumentNullException>());
-        }
-
-        private static void ThrowsAoore(TestDelegate action)
-        {
-            Assert.That(action, Throws.TypeOf<ArgumentOutOfRangeException>());
-        }
-
         #endregion
 
         #region Does Not Throw
-
-        [Test]
-        public void DoesNotThrowOnNonNullBuffer()
-        {
-            Assert.That(() => new PacketReader(new byte[10]), Throws.Nothing);
-        }
-
-        [Test]
-        public void DoesNotThrowOnNonNullBufferWithSegment()
-        {
-            Assert.That(() => new PacketReader(new byte[10], 2, 6), Throws.Nothing);
-        }
-
-        [Test]
-        public void DoesNotThrowOnZeroOffsetAndLengthWithEmptyArray()
-        {
-            Assert.That(() => new PacketReader(Empty, 0, 0), Throws.Nothing);
-        }
-
-        [Test]
-        public void DoesNotThrowOnZeroOffsetAndLengthWithNonEmptyArray()
-        {
-            Assert.That(() => new PacketReader(new byte[10], 0, 0), Throws.Nothing);
-        }
-
-        [Test]
-        public void DoesNotThrowOnNonNullClone()
-        {
-            var reader = new PacketReader(new byte[10]);
-
-            Assert.That(() => new PacketReader(reader), Throws.Nothing);
-        }
 
         [Test]
         public void DoesNotMovePositionOnExceptionDuringReadBoolean()
@@ -225,6 +108,14 @@ namespace OpenStory.Tests
             var reader = new PacketReader(Empty);
 
             ThrowsPreAndDoesNotMovePosition(reader, () => reader.ReadBoolean());
+        }
+
+        [Test]
+        public void DoesNotMovePositionOnExceptionDuringSkip()
+        {
+            var reader = new PacketReader(Empty);
+
+            ThrowsPreAndDoesNotMovePosition(reader, () => reader.Skip(1));
         }
 
         [Test]
@@ -319,7 +210,10 @@ namespace OpenStory.Tests
             var buffer = Encoding.UTF8.GetBytes(paddedString);
             var reader = new PacketReader(buffer);
 
-            Assert.AreEqual(TestString, reader.ReadPaddedString(PadLength));
+            var expected = TestString;
+            var actual = reader.ReadPaddedString(PadLength);
+
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -331,7 +225,10 @@ namespace OpenStory.Tests
             var buffer = Encoding.UTF8.GetBytes(TestString);
             var reader = new PacketReader(buffer);
 
-            Assert.Less(reader.ReadPaddedString(PadLength).Length, PadLength);
+            int maximum = PadLength;
+            int actual = reader.ReadPaddedString(PadLength).Length;
+
+            Assert.Less(actual, maximum);
         }
 
         [Test]
@@ -340,36 +237,89 @@ namespace OpenStory.Tests
             var buffer = new byte[] { 2, 0, 48, 49 }; // "01"
             var reader = new PacketReader(buffer);
 
-            Assert.AreEqual("01", reader.ReadLengthString());
+            var expected = "01";
+            var actual = reader.ReadLengthString();
+
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void ReadsBytes()
         {
-            const int Count = 100;
+            const int BufferSize = 100;
 
-            var buffer = GetRandomBytes(Count);
+            var buffer = GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
-            CollectionAssert.AreEqual(buffer, reader.ReadBytes(Count));
+            var expected = buffer;
+            var actual = reader.ReadBytes(BufferSize);
+
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void ReadsAllBytesOnReadFully()
+        public void ReadFullyReadsAllBytes()
         {
-            const int Count = 100;
+            const int BufferSize = 100;
 
-            var buffer = GetRandomBytes(Count);
+            var buffer = GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
-            CollectionAssert.AreEqual(buffer, reader.ReadFully());
+            var expected = buffer;
+            var actual = reader.ReadFully();
+
+            CollectionAssert.AreEqual(expected, actual);
         }
 
-        private static byte[] GetRandomBytes(int count)
+        [Test]
+        public void ReadFullyReadsAllBytesInSegment()
         {
-            var buffer = new byte[count];
-            Rng.NextBytes(buffer);
-            return buffer;
+            const int BufferSize = 100;
+            const int Start = 10;
+            const int Length = 80;
+
+            var buffer = GetRandomBytes(BufferSize);
+            var reader = new PacketReader(buffer, Start, Length);
+
+            var expected = buffer.CopySegment(Start, Length);
+            var actual = reader.ReadFully();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void ReadFullyReadsAllRemainingBytes()
+        {
+            const int BufferSize = 100;
+            const int Offset = 10;
+            var buffer = GetRandomBytes(BufferSize);
+            var reader = new PacketReader(buffer);
+
+            reader.Skip(Offset);
+
+            var expected = buffer.CopySegment(Offset, BufferSize - Offset);
+            var actual = reader.ReadFully();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void ReadFullyReadsAllRemainingBytesInSegment()
+        {
+            const int BufferSize = 100;
+            const int Start = 10;
+            const int Length = 80;
+            const int Offset = 10;
+
+            var buffer = GetRandomBytes(BufferSize);
+            var reader = new PacketReader(buffer, Start, Length);
+
+            reader.Skip(Offset);
+
+            var expected = buffer.CopySegment(Start + Offset, Length - Offset);
+            var actual = reader.ReadFully();
+
+            CollectionAssert.AreEqual(expected, actual);            
         }
 
         [Test]
@@ -415,6 +365,7 @@ namespace OpenStory.Tests
 
             ushort actual = reader.ReadUInt16();
             ushort expected = (ushort)(buffer[0] + buffer[1] * 256);
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -427,6 +378,7 @@ namespace OpenStory.Tests
             int actual = reader.ReadInt32();
             int expected = (int)
                 (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -439,6 +391,7 @@ namespace OpenStory.Tests
             uint actual = reader.ReadUInt32();
             uint expected = (uint)
                 (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -480,7 +433,30 @@ namespace OpenStory.Tests
                 ((ulong)buffer[7] << 56);
 
             Assert.AreEqual(expected, actual);
+        }
 
+        [Test]
+        public void SkipsCorrectly()
+        {
+            const int BufferSize = 100;
+            var buffer = GetRandomBytes(BufferSize);
+            var reader = new PacketReader(buffer);
+
+            const int SkipLength = 10;
+
+            int oldRemaining = reader.Remaining;
+            reader.Skip(SkipLength);
+            int newRemaining = reader.Remaining;
+
+            int actualSkipLength = oldRemaining - newRemaining;
+            Assert.AreEqual(SkipLength, actualSkipLength);
+        }
+
+        #endregion
+
+        private static void ThrowsPre(TestDelegate action)
+        {
+            Assert.That(action, Throws.TypeOf<PacketReadingException>());
         }
 
         private static void ThrowsPreAndDoesNotMovePosition(PacketReader reader, TestDelegate action)
@@ -489,8 +465,5 @@ namespace OpenStory.Tests
             ThrowsPre(action);
             Assert.AreEqual(remainingOld, reader.Remaining);
         }
-
-        #endregion
-
     }
 }

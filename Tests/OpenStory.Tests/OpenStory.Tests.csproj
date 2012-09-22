@@ -53,7 +53,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="PacketReaderFixture.cs" />
+    <Compile Include="PacketReaderFixtureBase.cs" />
+    <Compile Include="SafePacketReadingFixture.cs" />
+    <Compile Include="UnsafePacketReadingFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
