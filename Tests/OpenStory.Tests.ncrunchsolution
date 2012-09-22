@@ -19,9 +19,12 @@
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\InventoryType.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\ItemType.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\JobClass.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\ArraySegmentException.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\ByteOrder.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\IO\IPacketBuilder.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\IO\ISafePacketReader.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\IO\IUnsafePacketReader.cs
+..\Core\OpenStory\OpenStory.csproj:Common\IO\PacketReadingException.cs
 ..\Core\OpenStory\OpenStory.csproj:Cryptography\ICryptoAlgorithm.cs
 ..\Core\OpenStory\OpenStory.csproj:Cryptography\VersionMaskType.cs
 ..\Core\OpenStory\OpenStory.csproj:Networking\IDescriptorContainer.cs
