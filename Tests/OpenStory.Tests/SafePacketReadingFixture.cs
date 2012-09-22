@@ -8,7 +8,7 @@ namespace OpenStory.Tests
     [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader safe reading tests.")]
     public sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
-        #region Throws
+        #region Failure
 
         [Test]
         public void ReturnsFalseOnReadingInZeroLengthSegment()
@@ -165,6 +165,41 @@ namespace OpenStory.Tests
 
             string result;
             ReturnsFalse(() => reader.TryReadLengthString(out result));
+        }
+
+        [Test]
+        public void SafeHandlingThrowsOnNullReadingCallback()
+        {
+            var reader = new PacketReader(Empty);
+            ThrowsAne(() => reader.Safe(null));
+        }
+
+        [Test]
+        public void SafeHandlingThrowsOnNullReadingCallback2()
+        {
+            var reader = new PacketReader(Empty);
+            ThrowsAne(() => reader.Safe(null, () => { }));
+        }
+
+        [Test]
+        public void SafeHandlingThrowsOnNullReadingCallback3()
+        {
+            var reader = new PacketReader(Empty);
+            ThrowsAne(() => reader.Safe(null, () => 1));
+        }
+
+        [Test]
+        public void SafeHandlingThrowsOnNullFailureCallback()
+        {
+            var reader = new PacketReader(Empty);
+            ThrowsAne(() => reader.Safe(r => { }, null));
+        }
+
+        [Test]
+        public void SafeHandlingThrowsOnNullFailureCallback2()
+        {
+            var reader = new PacketReader(Empty);
+            ThrowsAne(() => reader.Safe(r => 1, null));
         }
 
         #endregion
@@ -498,6 +533,134 @@ namespace OpenStory.Tests
             int actual = reader.Remaining;
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SafeHandlingCallsReadingCallback()
+        {
+            var reader = new PacketReader(Empty);
+
+            bool called = false;
+            reader.Safe(r => called = true);
+
+            Assert.IsTrue(called);
+        }
+
+        [Test]
+        public void SafeHandlingCallsFailureCallback()
+        {
+            var reader = new PacketReader(Empty);
+
+            bool called = false;
+            reader.Safe(r => r.Skip(1), () => called = true);
+
+            Assert.IsTrue(called);
+        }
+
+        [Test]
+        public void SafeHandlingReturnsTrueOnSuccess()
+        {
+            var reader = new PacketReader(Empty);
+
+            bool success = reader.Safe(r => { });
+            Assert.IsTrue(success);
+        }
+
+        [Test]
+        public void SafeHandlingReturnsFalseOnFailure()
+        {
+            var reader = new PacketReader(Empty);
+
+            bool success = reader.Safe(r => r.Skip(1));
+            Assert.IsFalse(success);
+        }
+
+        [Test]
+        public void SafeHandlingReturnsValueOnSuccess()
+        {
+            const int Success = 0;
+            const int Failure = 1;
+
+            var reader = new PacketReader(Empty);
+
+            int expected = Success;
+            int actual = reader.Safe(r => Success, () => Failure);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SafeHandlingReturnsValueOnFailure()
+        {
+            const int Success = 0;
+            const int Failure = 1;
+
+            var reader = new PacketReader(Empty);
+
+            int expected = Failure;
+            int actual = reader.Safe(r =>
+            {
+                r.Skip(1);
+                return Success;
+            }, () => Failure);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SafeHandlingResetsPositionOnFailure()
+        {
+            var buffer = GetRandomBytes(100);
+            var reader = new PacketReader(buffer);
+
+            int expected = reader.Remaining;
+            bool success = reader.Safe(FailingRead);
+            Assert.IsFalse(success);
+
+            int actual = reader.Remaining;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SafeHandlingResetsPositionOnFailure2()
+        {
+            var buffer = GetRandomBytes(100);
+            var reader = new PacketReader(buffer);
+
+            int expected = reader.Remaining;
+
+            bool success = reader.Safe(FailingRead, () => { });
+            Assert.IsFalse(success);
+
+            int actual = reader.Remaining;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SafeHandlingResetsPositionOnFailure3()
+        {
+            var buffer = GetRandomBytes(100);
+            var reader = new PacketReader(buffer);
+
+            int expected = reader.Remaining;
+
+            const int Failure = 2;
+            int value = reader.Safe(FailingReturningRead, () => Failure);
+            Assert.AreEqual(Failure, value);
+
+            int actual = reader.Remaining;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static void FailingRead(IUnsafePacketReader reader)
+        {
+            reader.Skip(reader.Remaining - 1);
+            reader.ReadInt32();
+        }
+
+        private static int FailingReturningRead(IUnsafePacketReader reader)
+        {
+            reader.Skip(reader.Remaining - 1);
+            return reader.ReadInt32();
         }
 
         #endregion

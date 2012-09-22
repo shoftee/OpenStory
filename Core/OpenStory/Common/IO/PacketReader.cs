@@ -583,9 +583,15 @@ namespace OpenStory.Common.IO
         /// On failure, this method will revert the position of the reader to what it was when the method was called.
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> is <c>null</c>.</exception>
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback)
         {
+            if (readingCallback == null)
+            {
+                throw new ArgumentNullException("readingCallback");
+            }
+
             int start = this.currentOffset;
             bool success;
             try
@@ -610,9 +616,20 @@ namespace OpenStory.Common.IO
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <c>null</c>.</exception>
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback, Action failureCallback)
         {
+            if (readingCallback == null)
+            {
+                throw new ArgumentNullException("readingCallback");
+            }
+
+            if (failureCallback == null)
+            {
+                throw new ArgumentNullException("failureCallback");
+            }
+
             int start = this.currentOffset;
             bool success;
             try
@@ -642,9 +659,20 @@ namespace OpenStory.Common.IO
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <c>null</c>.</exception>
         /// <returns>on success, the value returned by the reading callback; otherwise, the value returned by the failure callback.</returns>
         public T Safe<T>(Func<IUnsafePacketReader, T> readingCallback, Func<T> failureCallback)
         {
+            if (readingCallback == null)
+            {
+                throw new ArgumentNullException("readingCallback");
+            }
+
+            if (failureCallback == null)
+            {
+                throw new ArgumentNullException("failureCallback");
+            }
+
             int start = this.currentOffset;
             var result = default(T);
             bool success;
