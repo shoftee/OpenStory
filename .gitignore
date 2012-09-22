@@ -36,3 +36,4 @@ Database/*
 *.pfx
 *.pidb
 *.userprefs
+*.ncrunchsolution
