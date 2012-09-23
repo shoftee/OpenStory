@@ -10,26 +10,6 @@ namespace OpenStory.Server.Management
     {
         #region Implementation of INexusService
 
-        public ServiceOperationResult TryGetAccountServiceUri(Guid accessToken, out Uri uri)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryGetAuthServiceUri(Guid accessToken, out Uri uri)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryGetChannelServiceUri(Guid accessToken, out Uri uri)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryGetWorldServiceUri(Guid accessToken, out Uri uri)
-        {
-            throw new NotImplementedException();
-        }
-
         public ServiceOperationResult TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
         {
             throw new NotImplementedException();
