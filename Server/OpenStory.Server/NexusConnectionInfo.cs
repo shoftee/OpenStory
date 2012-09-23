@@ -49,21 +49,21 @@ namespace OpenStory.Server
                 return null;
             }
 
-            var accessTokenString = parameters[AccessTokenKey];
-
-            Guid accessToken;
-            if (accessTokenString == null || !Guid.TryParse(accessTokenString, out accessToken))
-            {
-                error = "Validation error: " + String.Format(TokenParseErrorFormat, AccessTokenKey);
-                return null;
-            }
-
             var nexusUriString = parameters[NexusUriKey];
 
             Uri nexusUri;
             if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out nexusUri))
             {
                 error = "Validation error: " + String.Format(NexusUriParseErrorFormat, NexusUriKey);
+                return null;
+            }
+
+            var accessTokenString = parameters[AccessTokenKey];
+
+            Guid accessToken;
+            if (accessTokenString == null || !Guid.TryParse(accessTokenString, out accessToken))
+            {
+                error = "Validation error: " + String.Format(TokenParseErrorFormat, AccessTokenKey);
                 return null;
             }
 

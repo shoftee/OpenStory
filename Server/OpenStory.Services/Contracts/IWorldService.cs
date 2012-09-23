@@ -6,7 +6,7 @@ namespace OpenStory.Services.Contracts
     /// Provides methods for operating with a game world service.
     /// </summary>
     [ServiceContract(Namespace = null, Name = "WorldService", CallbackContract = typeof(IServiceStateChanged))]
-    public interface IWorldService : IManagedService
+    public interface IWorldService : IGameService
     {
     }
 }

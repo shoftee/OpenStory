@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Server.Diagnostics
+namespace OpenStory.Server.Modules.Logging
 {
     /// <summary>
     /// Represents an <see cref="ILogger"/> implementation that does nothing.

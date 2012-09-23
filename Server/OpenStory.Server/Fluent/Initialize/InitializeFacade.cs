@@ -1,5 +1,5 @@
 ﻿using OpenStory.Server.Data;
-using OpenStory.Server.Diagnostics;
+using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Server.Fluent.Initialize
 {

@@ -37,11 +37,11 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// Gets the service registered as local.
         /// </summary>
-        IManagedService Local();
+        IGameService Local();
 
         /// <summary>
         /// Gets the service registered as local, cast to the specified service type.
         /// </summary>
-        TManagedService LocalAs<TManagedService>() where TManagedService : class, IManagedService;
+        TGameService LocalAs<TGameService>() where TGameService : class, IGameService;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using OpenStory.Server.Modules.Services;
 using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
@@ -9,20 +10,25 @@ namespace OpenStory.Server.Fluent.Initialize
         private readonly ServiceManager manager;
 
         private Guid accessToken;
-        private INexusServiceFragment nexusFragment;
 
         public InitializeServiceFacade(IInitializeFacade parent)
             : base(parent)
         {
-            manager = new ServiceManager();
+            this.manager = new ServiceManager();
         }
 
         #region Implementation of IInitializeServiceFacade
 
-        public IInitializeServiceFacade Host(IManagedService local, INexusServiceFragment fragment)
+        public IInitializeServiceFacade Host<TGameService>(TGameService local)
+            where TGameService : class, IGameService
         {
-            manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
-            this.nexusFragment = fragment;
+            this.manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
+            return this;
+        }
+
+        public IInitializeServiceFacade Through(INexusService nexus)
+        {
+            this.manager.RegisterComponent(ServiceManager.NexusServiceKey, nexus);
             return this;
         }
 
@@ -37,11 +43,13 @@ namespace OpenStory.Server.Fluent.Initialize
         public override IInitializeFacade Done()
         {
             this.manager.Initialize();
-            Uri uri;
-            this.nexusFragment.TryGetServiceUri(this.accessToken, out uri);
+            ServiceConfiguration configuration;
+            this.manager.Nexus.TryGetServiceConfiguration(this.accessToken, out configuration);
+
+            var uriString = configuration["ServiceUri"];
 
             // TODO: Return the ServiceHost reference somehow.
-            ServiceHelpers.OpenServiceHost(this.manager.LocalService, uri);
+            ServiceHelpers.OpenServiceHost(this.manager.Local, new Uri(uriString));
 
             ServiceManager.RegisterDefault(this.manager);
 

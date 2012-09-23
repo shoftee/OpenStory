@@ -1,6 +1,4 @@
-﻿using OpenStory.Server.Modules;
-
-namespace OpenStory.Server.Diagnostics
+namespace OpenStory.Server.Modules.Logging
 {
     /// <summary>
     /// Represents a logging manager.

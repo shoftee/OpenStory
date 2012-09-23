@@ -9,8 +9,12 @@ namespace OpenStory.Services.Contracts
     /// The callback interface for service state changes.
     /// </summary>
     [ServiceContract(Namespace = null, Name = "ServiceStateChangedCallback")]
-    internal interface IServiceStateChanged
+    public interface IServiceStateChanged
     {
+        /// <summary>
+        /// The method called when the state of the service changes.
+        /// </summary>
+        /// <param name="newState"></param>
         [OperationContract(IsOneWay = true)]
         void OnServiceStateChanged(ServiceState newState);
     }

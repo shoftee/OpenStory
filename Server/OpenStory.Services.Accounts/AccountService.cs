@@ -10,7 +10,7 @@ namespace OpenStory.Services.Account
     /// Represents an in-memory account activity service.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    internal sealed class AccountService : ManagedServiceBase, IAccountService
+    internal sealed class AccountService : RegisteredServiceBase, IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 

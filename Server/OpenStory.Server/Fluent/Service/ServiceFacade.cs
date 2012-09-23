@@ -1,3 +1,4 @@
+using OpenStory.Server.Modules.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent.Service
@@ -35,16 +36,16 @@ namespace OpenStory.Server.Fluent.Service
         }
 
         /// <inheritdoc />
-        public IManagedService Local()
+        public IGameService Local()
         {
-            return ServiceManager.GetManager().LocalAs<IManagedService>();
+            return ServiceManager.GetManager().LocalAs<IGameService>();
         }
 
         /// <inheritdoc />
-        public TManagedService LocalAs<TManagedService>()
-            where TManagedService : class, IManagedService
+        public TGameService LocalAs<TGameService>()
+            where TGameService : class, IGameService
         {
-            return ServiceManager.GetManager().LocalAs<TManagedService>();
+            return ServiceManager.GetManager().LocalAs<TGameService>();
         }
     }
 }

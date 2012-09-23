@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using OpenStory.Server;
-using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Fluent;
+using OpenStory.Server.Modules.Logging;
+using OpenStory.Services.Clients;
 
 namespace OpenStory.Services.Account
 {
@@ -29,12 +30,12 @@ namespace OpenStory.Services.Account
         private static void InitializeAndStart(NexusConnectionInfo configuration)
         {
             var service = new AccountService();
-            var nexusFragment = new AccountNexusFragment(configuration.NexusUri);
+            var nexus = new NexusServiceClient(configuration.NexusUri);
 
             OS.Initialize()
                 .Logger(new ConsoleLogger())
                 .Services()
-                    .Host(service, nexusFragment)
+                    .Host(service).Through(nexus)
                     .WithAccessToken(configuration.AccessToken)
                     .Done();
 

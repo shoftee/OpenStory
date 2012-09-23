@@ -1,4 +1,5 @@
 using System;
+using OpenStory.Server.Modules.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent.Service

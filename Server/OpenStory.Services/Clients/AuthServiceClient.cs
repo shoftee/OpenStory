@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
@@ -6,14 +8,14 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client to the game authentication service.
     /// </summary>
-    public sealed class AuthServiceClient : ManagedServiceClient<IAuthService>, IAuthService
+    public sealed class AuthServiceClient : GameServiceClientBase<IAuthService>, IAuthService
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="AuthServiceClient"/> with the specified endpoint address.
+        /// Initialized a new instance of <see cref="AuthServiceClient"/> with the specified endpoint.
         /// </summary>
-        /// <param name="uri">The URI of the service to connect to.</param>
-        public AuthServiceClient(Uri uri)
-            : base(uri)
+        /// <inheritdoc />
+        public AuthServiceClient(ServiceEndpoint endpoint)
+            : base(endpoint)
         {
         }
     }

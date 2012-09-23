@@ -9,7 +9,7 @@ namespace OpenStory.Services.Auth
     /// Represents a WCF service that hosts the Authentication Server instance.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    internal sealed class AuthService : ManagedServiceBase, IAuthService
+    internal sealed class AuthService : RegisteredServiceBase, IAuthService
     {
         private AuthServer server;
 

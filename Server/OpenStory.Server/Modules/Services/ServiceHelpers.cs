@@ -1,7 +1,7 @@
 using System;
 using System.ServiceModel;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Modules.Services
 {
     /// <summary>
     /// Provides helper methods for game services.

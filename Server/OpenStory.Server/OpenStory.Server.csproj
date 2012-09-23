@@ -48,9 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientBase.cs" />
-    <Compile Include="Data\ISendFeed.cs" />
-    <Compile Include="Data\IReceiveFeed.cs" />
-    <Compile Include="Diagnostics\NullLogger.cs" />
+    <Compile Include="Diagnostics\ISendFeed.cs" />
+    <Compile Include="Diagnostics\IReceiveFeed.cs" />
     <Compile Include="Fluent\IAccountServiceFacade.cs" />
     <Compile Include="Fluent\IAuthServiceFacade.cs" />
     <Compile Include="Fluent\IChannelServiceFacade.cs" />
@@ -72,14 +71,20 @@
     <Compile Include="IGameServer.cs" />
     <Compile Include="IServerSession.cs" />
     <Compile Include="Modules\ComponentKey.cs" />
+    <Compile Include="Modules\Logging\ConsoleLogger.cs" />
+    <Compile Include="Modules\Logging\ILogger.cs" />
+    <Compile Include="Modules\Logging\LogManager.cs" />
+    <Compile Include="Modules\Logging\NullLogger.cs" />
+    <Compile Include="Modules\Services\DefaultEndpointProvider.cs" />
+    <Compile Include="Modules\Services\IEndpointProvider.cs" />
+    <Compile Include="Modules\Services\ServiceHelpers.cs" />
+    <Compile Include="Modules\Services\ServiceManager.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\PacketProcessingEventArgs.cs" />
     <Compile Include="Processing\ServerGameSession.cs" />
     <Compile Include="Processing\ServerNetworkSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
     <Compile Include="ServerBase.cs" />
-    <Compile Include="Diagnostics\ConsoleLogger.cs" />
-    <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
     <Compile Include="Fluent\IInitializeManagersFacade.cs" />
     <Compile Include="Fluent\IInitializeManagerComponentsFacade.cs" />
@@ -89,7 +94,6 @@
     <Compile Include="Fluent\Initialize\InitializeManagersFacade.cs" />
     <Compile Include="Fluent\IFluentOsExtensions.cs" />
     <Compile Include="Fluent\Extensions\FluentOsExtensions.cs" />
-    <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
     <Compile Include="Modules\Default\DefaultDataManager.cs" />
     <Compile Include="Data\DataManager.cs" />
@@ -124,8 +128,6 @@
     </Compile>
     <Compile Include="ServerConfiguration.cs" />
     <Compile Include="NexusConnectionInfo.cs" />
-    <Compile Include="ServiceHelpers.cs" />
-    <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">

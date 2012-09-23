@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
@@ -7,14 +8,14 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client for a game account service.
     /// </summary>
-    public sealed class AccountServiceClient : ManagedServiceClient<IAccountService>, IAccountService
+    public sealed class AccountServiceClient : GameServiceClientBase<IAccountService>, IAccountService
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="AccountServiceClient"/> with the specified endpoint address.
+        /// Initialized a new instance of <see cref="AccountServiceClient"/> with the specified endpoint.
         /// </summary>
-        /// <param name="uri">The URI of the service to connect to.</param>
-        public AccountServiceClient(Uri uri)
-            : base(uri)
+        /// <inheritdoc />
+        public AccountServiceClient(ServiceEndpoint endpoint)
+            : base(endpoint)
         {
         }
 

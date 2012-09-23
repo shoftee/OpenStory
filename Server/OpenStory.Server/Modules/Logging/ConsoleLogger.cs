@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenStory.Server.Diagnostics
+namespace OpenStory.Server.Modules.Logging
 {
     /// <summary>
     /// Represents a simple console logger.

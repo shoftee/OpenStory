@@ -1,4 +1,4 @@
-using System;
+using System.ServiceModel.Description;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
@@ -6,14 +6,14 @@ namespace OpenStory.Services.Clients
     /// <summary>
     /// Represents a client to the game channel service.
     /// </summary>
-    public sealed class ChannelServiceClient : ManagedServiceClient<IChannelService>
+    public sealed class ChannelServiceClient : GameServiceClientBase<IChannelService>, IChannelService
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="ChannelServiceClient"/> with the specified endpoint address.
+        /// Initialized a new instance of <see cref="ChannelServiceClient"/> with the specified endpoint.
         /// </summary>
-        /// <param name="uri">The URI of the service to connect to.</param>
-        public ChannelServiceClient(Uri uri)
-            : base(uri)
+        /// <inheritdoc />
+        public ChannelServiceClient(ServiceEndpoint endpoint)
+            : base(endpoint)
         {
         }
     }

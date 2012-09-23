@@ -1,6 +1,6 @@
 using OpenStory.Server.Fluent;
 
-namespace OpenStory.Server.Diagnostics
+namespace OpenStory.Server.Modules.Logging
 {
     /// <summary>
     /// Provides methods for logging messages.
