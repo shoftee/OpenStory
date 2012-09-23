@@ -13,7 +13,7 @@ namespace OpenStory.Services.Account
             Console.Title = "OpenStory - Account Service";
 
             string error;
-            var configuration = ServiceConfiguration.FromCommandLine(out error);
+            var configuration = NexusConnectionInfo.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -26,7 +26,7 @@ namespace OpenStory.Services.Account
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static void InitializeAndStart(ServiceConfiguration configuration)
+        private static void InitializeAndStart(NexusConnectionInfo configuration)
         {
             var service = new AccountService();
             var nexusFragment = new AccountNexusFragment(configuration.NexusUri);

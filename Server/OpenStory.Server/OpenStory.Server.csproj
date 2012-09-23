@@ -123,7 +123,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="NexusConnectionInfo.cs" />
     <Compile Include="ServiceHelpers.cs" />
     <Compile Include="ServiceManager.cs" />
   </ItemGroup>

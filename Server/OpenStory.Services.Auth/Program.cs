@@ -14,7 +14,7 @@ namespace OpenStory.Services.Auth
             Console.Title = "OpenStory - Authentication Service";
 
             string error;
-            var configuration = ServiceConfiguration.FromCommandLine(out error);
+            var configuration = NexusConnectionInfo.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -27,7 +27,7 @@ namespace OpenStory.Services.Auth
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static void InitializeAndStart(ServiceConfiguration configuration)
+        private static void InitializeAndStart(NexusConnectionInfo configuration)
         {
             var authService = new AuthService();
             var nexusFragment = new AuthNexusFragment(configuration.NexusUri);

@@ -44,6 +44,12 @@ namespace OpenStory.Services.Clients
             return base.Channel.TryGetWorldServiceUri(accessToken, out uri);
         }
 
+        /// <inheritdoc />
+        public ServiceState TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
+        {
+            return base.Channel.TryGetServiceConfiguration(accessToken, out configuration);
+        }
+
         #endregion
     }
 }

@@ -58,6 +58,8 @@
     <Compile Include="Contracts\IWorldService.cs" />
     <Compile Include="Clients\RegistryServiceClient.cs" />
     <Compile Include="Clients\NexusServiceClient.cs" />
+    <Compile Include="Contracts\ServiceConfiguration.cs" />
+    <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
     <Compile Include="INexusServiceFragment.cs" />
     <Compile Include="ManagedServiceBase.cs" />
