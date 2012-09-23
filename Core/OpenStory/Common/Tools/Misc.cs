@@ -34,7 +34,7 @@ namespace OpenStory.Common.Tools
             value = default(T);
             return result;
         }
-
+        
         /// <summary>
         /// Wraps the provided list in a <see cref="ReadOnlyCollection{T}"/>.
         /// </summary>

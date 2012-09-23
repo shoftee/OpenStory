@@ -18,38 +18,22 @@ namespace OpenStory.Server
         public const string LocalServiceKey = "LocalService";
 
         /// <summary>
-        /// The name of the NexusService component.
-        /// </summary>
-        public const string NexusServiceKey = "NexusService";
-
-        /// <summary>
         /// Gets the service reference registered as local.
         /// </summary>
         public IManagedService LocalService { get; private set; }
-
-        /// <summary>
-        /// Get or sets the reference for the nexus service.
-        /// </summary>
-        public INexusService NexusService { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ServiceManager"/>.
         /// </summary>
         public ServiceManager()
         {
-            base.AllowComponent<INexusService>(NexusServiceKey);
-            base.AllowComponent<IManagedService>(LocalServiceKey);
+            base.RequireComponent<IManagedService>(LocalServiceKey);
         }
 
         /// <inheritdoc />
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
-            if (base.CheckComponent(NexusServiceKey))
-            {
-                this.NexusService = base.GetComponent<INexusService>(NexusServiceKey);
-            }
 
             if (base.CheckComponent(LocalServiceKey))
             {

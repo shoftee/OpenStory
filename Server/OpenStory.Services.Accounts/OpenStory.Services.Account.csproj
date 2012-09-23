@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountNexusFragment.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="ActiveAccount.cs" />
     <Compile Include="Program.cs" />

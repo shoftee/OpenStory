@@ -14,11 +14,11 @@ namespace OpenStory.Services.Clients
         /// </summary>
         /// <param name="uri">The URI of the service to connect to.</param>
         public RegistryServiceClient(Uri uri)
-            : base(ServiceHelpers.GetTcpBinding(), new EndpointAddress(uri))
+            : base(new NetTcpBinding(SecurityMode.Transport), new EndpointAddress(uri))
         {
         }
 
-        #region INexusService Members
+        #region IRegistryService Members
 
         /// <inheritdoc />
         public ServiceState TryRegisterAuthService(Uri uri, out Guid token)

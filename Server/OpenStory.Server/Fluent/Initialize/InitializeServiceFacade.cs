@@ -1,3 +1,5 @@
+using System;
+using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent.Initialize
@@ -5,6 +7,9 @@ namespace OpenStory.Server.Fluent.Initialize
     internal sealed class InitializeServiceFacade : NestedFacade<IInitializeFacade>, IInitializeServiceFacade
     {
         private readonly ServiceManager manager;
+
+        private Guid accessToken;
+        private INexusServiceFragment nexusFragment;
 
         public InitializeServiceFacade(IInitializeFacade parent)
             : base(parent)
@@ -14,15 +19,16 @@ namespace OpenStory.Server.Fluent.Initialize
 
         #region Implementation of IInitializeServiceFacade
 
-        public IInitializeServiceFacade WithLocal(IManagedService local)
+        public IInitializeServiceFacade Host(IManagedService local, INexusServiceFragment fragment)
         {
             manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
+            this.nexusFragment = fragment;
             return this;
         }
 
-        public IInitializeServiceFacade WithNexus(INexusService nexus)
+        public INestedFacade<IInitializeFacade> WithAccessToken(Guid token)
         {
-            manager.RegisterComponent(ServiceManager.NexusServiceKey, nexus);
+            this.accessToken = token;
             return this;
         }
 
@@ -31,6 +37,11 @@ namespace OpenStory.Server.Fluent.Initialize
         public override IInitializeFacade Done()
         {
             this.manager.Initialize();
+            Uri uri;
+            this.nexusFragment.TryGetServiceUri(this.accessToken, out uri);
+
+            // TODO: Return the ServiceHost reference somehow.
+            ServiceHelpers.OpenServiceHost(this.manager.LocalService, uri);
 
             ServiceManager.RegisterDefault(this.manager);
 

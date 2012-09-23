@@ -37,7 +37,14 @@ namespace OpenStory.Server.Fluent.Service
         /// <inheritdoc />
         public IManagedService Local()
         {
-            return ServiceManager.GetManager().LocalService;
+            return ServiceManager.GetManager().LocalAs<IManagedService>();
+        }
+
+        /// <inheritdoc />
+        public TManagedService LocalAs<TManagedService>()
+            where TManagedService : class, IManagedService
+        {
+            return ServiceManager.GetManager().LocalAs<TManagedService>();
         }
     }
 }

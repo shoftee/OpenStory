@@ -24,7 +24,7 @@ namespace OpenStory.Services.Clients
         /// </summary>
         /// <param name="uri">The URI of the service to connect to.</param>
         protected ManagedServiceClient(Uri uri)
-            : base(new InstanceContext(new ServiceStateChangedCallback()), ServiceHelpers.GetTcpBinding(), new EndpointAddress(uri))
+            : base(new InstanceContext(new ServiceStateChangedCallback()), new NetTcpBinding(SecurityMode.Transport), new EndpointAddress(uri))
         {
             var callback = (ServiceStateChangedCallback)base.InnerDuplexChannel.CallbackInstance.GetServiceInstance();
             callback.Handler = this;

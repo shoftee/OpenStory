@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using OpenStory.Common.Tools;
+using OpenStory.Server;
 using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Fluent;
 
@@ -13,30 +13,32 @@ namespace OpenStory.Services.Account
             Console.Title = "OpenStory - Account Service";
 
             string error;
-            var parameters = ParameterList.FromEnvironment(out error);
+            var configuration = ServiceConfiguration.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
+                Console.ReadLine();
                 return;
             }
 
-            Initialize(parameters);
-
-            var service = OS.Svc().Local();
-
-            ServiceHelpers.OpenServiceHost(service, ServiceConstants.Uris.AccountService);
-            OS.Log().Info("Service registered.");
+            InitializeAndStart(configuration);
 
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static void Initialize(ParameterList parameters)
+        private static void InitializeAndStart(ServiceConfiguration configuration)
         {
-            var accountService = new AccountService();
+            var service = new AccountService();
+            var nexusFragment = new AccountNexusFragment(configuration.NexusUri);
 
             OS.Initialize()
                 .Logger(new ConsoleLogger())
-                .Services().WithLocal(accountService).Done();
+                .Services()
+                    .Host(service, nexusFragment)
+                    .WithAccessToken(configuration.AccessToken)
+                    .Done();
+
+            OS.Log().Info("Service registered.");
         }
     }
 }

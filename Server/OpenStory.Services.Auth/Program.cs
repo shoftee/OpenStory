@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using OpenStory.Common.Tools;
+using OpenStory.Server;
 using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Diagnostics;
 using OpenStory.Server.Fluent;
@@ -14,33 +14,34 @@ namespace OpenStory.Services.Auth
             Console.Title = "OpenStory - Authentication Service";
 
             string error;
-            var parameters = ParameterList.FromEnvironment(out error);
+            var configuration = ServiceConfiguration.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
+                Console.ReadLine();
                 return;
             }
 
-            Initialize(parameters);
-
-            var service = OS.Svc().Local();
-
-            ServiceHelpers.OpenServiceHost(service, ServiceConstants.Uris.AuthService);
-            OS.Log().Info("Service registered.");
+            InitializeAndStart(configuration);
 
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static void Initialize(ParameterList parameters)
+        private static void InitializeAndStart(ServiceConfiguration configuration)
         {
             var authService = new AuthService();
+            var nexusFragment = new AuthNexusFragment(configuration.NexusUri);
 
             OS.Initialize()
                 .Logger(new ConsoleLogger())
                 .Services()
-                    .WithLocal(authService).Done()
+                    .Host(authService, nexusFragment)
+                    .WithAccessToken(configuration.AccessToken)
+                    .Done()
                 .DataManagers()
                     .DefaultManager(new AuthDataManager()).Done();
+
+            OS.Log().Info("Service registered.");
         }
     }
 }

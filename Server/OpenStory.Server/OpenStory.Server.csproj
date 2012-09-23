@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization">
     </Reference>
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientBase.cs" />
@@ -122,6 +123,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ServerConfiguration.cs" />
+    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="ServiceHelpers.cs" />
     <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>

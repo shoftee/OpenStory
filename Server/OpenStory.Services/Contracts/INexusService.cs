@@ -29,7 +29,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetAuthService(Guid accessToken, out Uri uri);
+        ServiceState TryGetAuthServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the authentication service.
@@ -40,7 +40,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetChannelService(Guid accessToken, out Uri uri);
+        ServiceState TryGetChannelServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the account service.
@@ -51,6 +51,6 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetWorldService(Guid accessToken, out Uri uri);
+        ServiceState TryGetWorldServiceUri(Guid accessToken, out Uri uri);
     }
 }

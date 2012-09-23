@@ -1,25 +1,13 @@
 using System;
 using System.ServiceModel;
 
-namespace OpenStory.Services
+namespace OpenStory.Server
 {
     /// <summary>
     /// Provides helper methods for game services.
     /// </summary>
-    public static class ServiceHelpers
+    internal static class ServiceHelpers
     {
-        /// <summary>
-        /// Provides a TCP binding.
-        /// </summary>
-        /// <returns>
-        /// a new instance of <see cref="NetTcpBinding"/> with <see cref="SecurityMode"/> set to <see cref="SecurityMode.Transport"/>.
-        /// </returns>
-        public static NetTcpBinding GetTcpBinding()
-        {
-            var binding = new NetTcpBinding(SecurityMode.Transport);
-            return binding;
-        }
-
         /// <summary>
         /// Creates a new <see cref="ServiceHost"/> around the specified service object, on the specified <see cref="Uri"/>, and opens it.
         /// </summary>

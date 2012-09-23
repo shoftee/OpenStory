@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel;
+using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent
@@ -13,12 +15,13 @@ namespace OpenStory.Server.Fluent
         /// Registers the "LocalService" component of the ServiceManager.
         /// </summary>
         /// <param name="local">The service reference to register.</param>
-        IInitializeServiceFacade WithLocal(IManagedService local);
+        /// <param name="nexusFragment">The nexus interface to use specifically for the newly hosted service.</param>
+        IInitializeServiceFacade Host(IManagedService local, INexusServiceFragment nexusFragment);
 
         /// <summary>
-        /// Registers the "NexusService" component of the ServiceManager.
+        /// Provides the access token required to register the service.
         /// </summary>
-        /// <param name="nexus">The service reference to register.</param>
-        IInitializeServiceFacade WithNexus(INexusService nexus);
+        /// <param name="token">The access token.</param>
+        INestedFacade<IInitializeFacade> WithAccessToken(Guid token);
     }
 }
