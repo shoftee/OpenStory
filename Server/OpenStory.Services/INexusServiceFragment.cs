@@ -14,6 +14,6 @@ namespace OpenStory.Services
         /// <param name="accessToken">The access token for the service.</param>
         /// <param name="uri">A variable to hold the URI.</param>
         /// <returns>The state of the queried service.</returns>
-        ServiceState TryGetServiceUri(Guid accessToken, out Uri uri);
+        ServiceOperationResult TryGetServiceUri(Guid accessToken, out Uri uri);
     }
 }

@@ -24,6 +24,6 @@ namespace OpenStory.Services
         }
 
         /// <inheritdoc />
-        public abstract ServiceState TryGetServiceUri(Guid accessToken, out Uri uri);
+        public abstract ServiceOperationResult TryGetServiceUri(Guid accessToken, out Uri uri);
     }
 }

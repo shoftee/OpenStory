@@ -18,7 +18,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetAccountServiceUri(Guid accessToken, out Uri uri);
+        ServiceOperationResult TryGetAccountServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the account service.
@@ -29,7 +29,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetAuthServiceUri(Guid accessToken, out Uri uri);
+        ServiceOperationResult TryGetAuthServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the authentication service.
@@ -40,7 +40,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetChannelServiceUri(Guid accessToken, out Uri uri);
+        ServiceOperationResult TryGetChannelServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the endpoint address for the account service.
@@ -51,7 +51,7 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetWorldServiceUri(Guid accessToken, out Uri uri);
+        ServiceOperationResult TryGetWorldServiceUri(Guid accessToken, out Uri uri);
 
         /// <summary>
         /// Retrieves the service configuration data for a service.
@@ -62,6 +62,6 @@ namespace OpenStory.Services.Contracts
         /// the <see cref="ServiceState"/> of the service if it was discovered successfully;
         /// otherwise, <see cref="ServiceState.Unknown"/>
         /// </returns>
-        ServiceState TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration);
+        ServiceOperationResult TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration);
     }
 }

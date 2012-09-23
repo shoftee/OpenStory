@@ -7,7 +7,7 @@ namespace OpenStory.Services.Auth
     {
         public AuthNexusFragment(Uri uri) : base(uri) { }
 
-        public override ServiceState TryGetServiceUri(Guid accessToken, out Uri uri)
+        public override ServiceOperationResult TryGetServiceUri(Guid accessToken, out Uri uri)
         {
             return base.Service.TryGetAuthServiceUri(accessToken, out uri);
         }

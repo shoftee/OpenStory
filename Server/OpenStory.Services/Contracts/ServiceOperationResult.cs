@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -20,7 +19,7 @@ namespace OpenStory.Services.Contracts
         /// Gets the exception that was thrown, if any.
         /// </summary>
         [DataMember]
-        public CommunicationException Error { get; private set; }
+        public Exception Error { get; private set; }
 
         /// <summary>
         /// Gets the state of the called game service.
@@ -48,7 +47,7 @@ namespace OpenStory.Services.Contracts
         /// </remarks>
         /// <param name="error">The exception to assign to this result.</param>
         /// <param name="serviceState">The state of the service, if known.</param>
-        public ServiceOperationResult(CommunicationException error, ServiceState serviceState = ServiceState.Unknown)
+        public ServiceOperationResult(Exception error, ServiceState serviceState = ServiceState.Unknown)
             : this(true, error, serviceState)
         {
 
@@ -60,12 +59,23 @@ namespace OpenStory.Services.Contracts
         /// <param name="failedLocally">Whether the operation failed locally.</param>
         /// <param name="error">The exception to assign to this result.</param>
         /// <param name="serviceState">The state of the service.</param>
-        public ServiceOperationResult(bool failedLocally, CommunicationException error, ServiceState serviceState)
+        public ServiceOperationResult(bool failedLocally, Exception error, ServiceState serviceState)
             : this()
         {
             this.FailedLocally = failedLocally;
             this.Error = error;
             this.ServiceState = serviceState;
+        }
+
+        /// <summary>
+        /// Constructs a local result instance from a remote result.
+        /// </summary>
+        /// <param name="remoteResult">The result that was received from a remote service.</param>
+        /// <returns>a transformed copy of the provided result.</returns>
+        public static ServiceOperationResult FromRemoteResult(ServiceOperationResult remoteResult)
+        {
+            var result = new ServiceOperationResult(false, remoteResult.Error, remoteResult.ServiceState);
+            return result;
         }
     }
 }

@@ -21,31 +21,31 @@ namespace OpenStory.Services.Clients
         #region Implementation of INexusService
 
         /// <inheritdoc />
-        public ServiceState TryGetAccountServiceUri(Guid accessToken, out Uri uri)
+        public ServiceOperationResult TryGetAccountServiceUri(Guid accessToken, out Uri uri)
         {
             return base.Channel.TryGetAccountServiceUri(accessToken, out uri);
         }
 
         /// <inheritdoc />
-        public ServiceState TryGetAuthServiceUri(Guid accessToken, out Uri uri)
+        public ServiceOperationResult TryGetAuthServiceUri(Guid accessToken, out Uri uri)
         {
             return base.Channel.TryGetAuthServiceUri(accessToken, out uri);
         }
 
         /// <inheritdoc />
-        public ServiceState TryGetChannelServiceUri(Guid accessToken, out Uri uri)
+        public ServiceOperationResult TryGetChannelServiceUri(Guid accessToken, out Uri uri)
         {
             return base.Channel.TryGetChannelServiceUri(accessToken, out uri);
         }
 
         /// <inheritdoc />
-        public ServiceState TryGetWorldServiceUri(Guid accessToken, out Uri uri)
+        public ServiceOperationResult TryGetWorldServiceUri(Guid accessToken, out Uri uri)
         {
             return base.Channel.TryGetWorldServiceUri(accessToken, out uri);
         }
 
         /// <inheritdoc />
-        public ServiceState TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
+        public ServiceOperationResult TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
         {
             return base.Channel.TryGetServiceConfiguration(accessToken, out configuration);
         }

@@ -13,24 +13,24 @@ namespace OpenStory.Services.Contracts
         /// Initializes the service.
         /// </summary>
         [OperationContract]
-        ServiceState Initialize();
+        ServiceOperationResult Initialize();
 
         /// <summary>
         /// Starts the service.
         /// </summary>
         [OperationContract]
-        ServiceState Start();
+        ServiceOperationResult Start();
 
         /// <summary>
         /// Stops the service.
         /// </summary>
         [OperationContract]
-        ServiceState Stop();
+        ServiceOperationResult Stop();
 
         /// <summary>
         /// Gets the service state.
         /// </summary>
         [OperationContract]
-        ServiceState GetServiceState();
+        ServiceOperationResult GetServiceState();
     }
 }

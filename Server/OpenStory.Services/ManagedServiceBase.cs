@@ -36,7 +36,7 @@ namespace OpenStory.Services
         #region IManagedService members
 
         /// <inheritdoc />
-        public ServiceState Initialize()
+        public ServiceOperationResult Initialize()
         {
             bool transition = false;
             switch (this.serviceState)
@@ -61,11 +61,11 @@ namespace OpenStory.Services
                 }
             }
 
-            return this.serviceState;
+            return new ServiceOperationResult(this.serviceState);
         }
 
         /// <inheritdoc />
-        public ServiceState Start()
+        public ServiceOperationResult Start()
         {
             bool transition = false;
             switch (this.serviceState)
@@ -92,11 +92,11 @@ namespace OpenStory.Services
                 }
             }
 
-            return this.serviceState;
+            return new ServiceOperationResult(this.serviceState);
         }
 
         /// <inheritdoc />
-        public ServiceState Stop()
+        public ServiceOperationResult Stop()
         {
             bool transition = false;
             switch (this.serviceState)
@@ -121,13 +121,13 @@ namespace OpenStory.Services
                 }
             }
 
-            return this.serviceState;
+            return new ServiceOperationResult(this.serviceState);
         }
 
         /// <inheritdoc />
-        public ServiceState GetServiceState()
+        public ServiceOperationResult GetServiceState()
         {
-            return this.serviceState;
+            return new ServiceOperationResult(this.serviceState);
         }
 
         #region Private methods

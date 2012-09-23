@@ -33,42 +33,44 @@ namespace OpenStory.Services.Clients
         #region Implementation of IManagedService
 
         /// <inheritdoc />
-        public ServiceState Initialize()
+        public ServiceOperationResult Initialize()
         {
             return HandleCommunicationExceptions(() => base.Channel.Initialize());
         }
 
         /// <inheritdoc />
-        public ServiceState Start()
+        public ServiceOperationResult Start()
         {
             return HandleCommunicationExceptions(() => base.Channel.Start());
         }
 
         /// <inheritdoc />
-        public ServiceState Stop()
+        public ServiceOperationResult Stop()
         {
             return HandleCommunicationExceptions(() => base.Channel.Stop());
         }
 
         /// <inheritdoc />
-        public ServiceState GetServiceState()
+        public ServiceOperationResult GetServiceState()
         {
             return HandleCommunicationExceptions(() => base.Channel.GetServiceState());
         }
 
-        private static ServiceState HandleCommunicationExceptions(Func<ServiceState> func)
+        private static ServiceOperationResult HandleCommunicationExceptions(Func<ServiceOperationResult> func)
         {
             try
             {
-                return func();
+                var remote = func();
+                var local = ServiceOperationResult.FromRemoteResult(remote);
+                return local;
             }
-            catch (CommunicationException)
+            catch (CommunicationException communicationException)
             {
-                return ServiceState.Unknown;
+                return new ServiceOperationResult(communicationException);
             }
-            catch (TimeoutException)
+            catch (TimeoutException timeoutException)
             {
-                return ServiceState.Unknown;
+                return new ServiceOperationResult(timeoutException);
             }
         }
 
