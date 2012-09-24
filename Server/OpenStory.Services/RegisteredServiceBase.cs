@@ -207,31 +207,34 @@ namespace OpenStory.Services
 
         private static void Notify(List<IServiceStateChanged> subscribers, ServiceState state, bool clear)
         {
-            var badSubscribers = new List<IServiceStateChanged>();
-            foreach (var subscriber in subscribers)
+            lock (subscribers)
             {
-                var communcationObject = (ICommunicationObject)subscriber;
-                if (communcationObject.State == CommunicationState.Opened)
+                var badSubscribers = new List<IServiceStateChanged>();
+                foreach (var subscriber in subscribers)
                 {
-                    subscriber.OnServiceStateChanged(state);
+                    var communcationObject = (ICommunicationObject)subscriber;
+                    if (communcationObject.State == CommunicationState.Opened)
+                    {
+                        subscriber.OnServiceStateChanged(state);
+                    }
+                    else
+                    {
+                        // Keep a list of unusable subscribers.
+                        badSubscribers.Add(subscriber);
+                    }
                 }
-                else
-                {
-                    // Keep a list of unusable subscribers.
-                    badSubscribers.Add(subscriber);
-                }
-            }
 
-            if (clear)
-            {
-                subscribers.Clear();
-            }
-            else if (badSubscribers.Count > 0)
-            {
-                // If we're not gonna clear all of 'em out, clear out just the bad ones.
-                foreach (var badSubscriber in badSubscribers)
+                if (clear)
                 {
-                    subscribers.Remove(badSubscriber);
+                    subscribers.Clear();
+                }
+                else if (badSubscribers.Count > 0)
+                {
+                    // If we're not gonna clear all of 'em out, clear out just the bad ones.
+                    foreach (var badSubscriber in badSubscribers)
+                    {
+                        subscribers.Remove(badSubscriber);
+                    }
                 }
             }
         }

@@ -80,7 +80,7 @@ namespace OpenStory.Server.Processing
 
             // CompareExchange returns the original value, hence:
             // => true means we were already pushing, don't start a second one.
-            // => false means we were not pushing and we should start now.
+            // => false means we were not pushing and we just toggled it, so we should start now.
             if (!this.isPushing.CompareExchange(comparand: false, newValue: true))
             {
                 this.StartPushing();
