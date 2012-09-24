@@ -21,39 +21,12 @@ namespace OpenStory.Services.Clients
         #region IRegistryService Members
 
         /// <inheritdoc />
-        public ServiceOperationResult TryRegisterAuthService(Uri uri, out Guid token)
+        public ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token)
         {
             var localToken = default(Guid);
-            var result = HandleServiceCall(() => base.Channel.TryRegisterAuthService(uri, out localToken));
+            var result = HandleServiceCall(() => base.Channel.TryRegisterService(configuration, out localToken));
             token = localToken;
             return ServiceOperationResult.FromRemoteResult(result);
-        }
-
-        /// <inheritdoc />
-        public ServiceOperationResult TryRegisterAccountService(Uri uri, out Guid token)
-        {
-            var localToken = default(Guid);
-            var result = HandleServiceCall(() => base.Channel.TryRegisterAccountService(uri, out localToken));
-            token = localToken;
-            return result;
-        }
-
-        /// <inheritdoc />
-        public ServiceOperationResult TryRegisterWorldService(Uri uri, int worldId, out Guid token)
-        {
-            var localToken = default(Guid);
-            var result = HandleServiceCall(() => base.Channel.TryRegisterWorldService(uri, worldId, out localToken));
-            token = localToken;
-            return result;
-        }
-
-        /// <inheritdoc />
-        public ServiceOperationResult TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token)
-        {
-            var localToken = default(Guid);
-            var result = HandleServiceCall(() => base.Channel.TryRegisterChannelService(uri, worldId, channelId, out localToken));
-            token = localToken;
-            return result;
         }
 
         /// <inheritdoc />

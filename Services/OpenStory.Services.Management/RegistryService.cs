@@ -7,22 +7,7 @@ namespace OpenStory.Services.Management
     {
         #region Implementation of IRegistryService
 
-        public ServiceOperationResult TryRegisterAuthService(Uri uri, out Guid token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryRegisterAccountService(Uri uri, out Guid token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryRegisterWorldService(Uri uri, int worldId, out Guid token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceOperationResult TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token)
+        public ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token)
         {
             throw new NotImplementedException();
         }

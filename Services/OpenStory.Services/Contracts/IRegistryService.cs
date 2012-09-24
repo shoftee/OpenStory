@@ -10,39 +10,12 @@ namespace OpenStory.Services.Contracts
     public interface IRegistryService
     {
         /// <summary>
-        /// Attempts to register an authentication service module.
+        /// Attempts to register a service with the specified configuration.
         /// </summary>
-        /// <param name="uri">The URI for the service.</param>
+        /// <param name="configuration">The configuration information for the service.</param>
         /// <param name="token">A variable to hold an access token for this registration.</param>
         /// <returns>an instance of <see cref="ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryRegisterAuthService(Uri uri, out Guid token);
-
-        /// <summary>
-        /// Attempts to register an account service module.
-        /// </summary>
-        /// <param name="uri">The URI for the service.</param>
-        /// <param name="token">A variable to hold an access token for this registration.</param>
-        /// <returns>an instance of <see cref="ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryRegisterAccountService(Uri uri, out Guid token);
-
-        /// <summary>
-        /// Attempts to register a world service module.
-        /// </summary>
-        /// <param name="uri">The URI for the service.</param>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <param name="token">A variable to hold an access token for this registration.</param>
-        /// <returns>an instance of <see cref="ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryRegisterWorldService(Uri uri, int worldId, out Guid token);
-
-        /// <summary>
-        /// Attempts to register a channel service module.
-        /// </summary>
-        /// <param name="uri">The URI for the service.</param>
-        /// <param name="worldId">The public world identifier for the service instance.</param>
-        /// <param name="channelId">The public channel identifier for the channel instance.</param>
-        /// <param name="token">A variable to hold an access token for this registration.</param>
-        /// <returns>an instance of <see cref="ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token);
+        ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token);
 
         /// <summary>
         /// Attempts to unregister the service with the specified token.
