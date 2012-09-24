@@ -7,6 +7,8 @@ namespace OpenStory.Services
     /// </summary>
     public static class ServiceConstants
     {
+        // TODO: This class is pretty useless, get rid of it?
+        
         #region Nested type: Uris
 
         /// <summary>

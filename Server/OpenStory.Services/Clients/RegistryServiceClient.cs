@@ -21,33 +21,70 @@ namespace OpenStory.Services.Clients
         #region IRegistryService Members
 
         /// <inheritdoc />
-        public ServiceState TryRegisterAuthService(Uri uri, out Guid token)
+        public ServiceOperationResult TryRegisterAuthService(Uri uri, out Guid token)
         {
-            return base.Channel.TryRegisterAuthService(uri, out token);
+            var localToken = default(Guid);
+            var result = HandleServiceCall(() => base.Channel.TryRegisterAuthService(uri, out localToken));
+            token = localToken;
+            return ServiceOperationResult.FromRemoteResult(result);
         }
 
         /// <inheritdoc />
-        public ServiceState TryRegisterAccountService(Uri uri, out Guid token)
+        public ServiceOperationResult TryRegisterAccountService(Uri uri, out Guid token)
         {
-            return base.Channel.TryRegisterAccountService(uri, out token);
+            var localToken = default(Guid);
+            var result = HandleServiceCall(() => base.Channel.TryRegisterAccountService(uri, out localToken));
+            token = localToken;
+            return result;
         }
 
         /// <inheritdoc />
-        public ServiceState TryRegisterWorldService(Uri uri, int worldId, out Guid token)
+        public ServiceOperationResult TryRegisterWorldService(Uri uri, int worldId, out Guid token)
         {
-            return base.Channel.TryRegisterWorldService(uri, worldId, out token);
+            var localToken = default(Guid);
+            var result = HandleServiceCall(() => base.Channel.TryRegisterWorldService(uri, worldId, out localToken));
+            token = localToken;
+            return result;
         }
 
         /// <inheritdoc />
-        public ServiceState TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token)
+        public ServiceOperationResult TryRegisterChannelService(Uri uri, int worldId, int channelId, out Guid token)
         {
-            return base.Channel.TryRegisterChannelService(uri, worldId, channelId, out token);
+            var localToken = default(Guid);
+            var result = HandleServiceCall(() => base.Channel.TryRegisterChannelService(uri, worldId, channelId, out localToken));
+            token = localToken;
+            return result;
         }
 
         /// <inheritdoc />
-        public ServiceState TryUnregisterService(Guid registrationToken)
+        public ServiceOperationResult TryUnregisterService(Guid registrationToken)
         {
-            return base.Channel.TryUnregisterService(registrationToken);
+            var result = HandleServiceCall(() => base.Channel.TryUnregisterService(registrationToken));
+            return result;
+        }
+
+        private static ServiceOperationResult HandleServiceCall(Func<ServiceOperationResult> func)
+        {
+            try
+            {
+                var result = func();
+                return ServiceOperationResult.FromRemoteResult(result);
+            }
+            catch (EndpointNotFoundException unreachable)
+            {
+                var result = new ServiceOperationResult(unreachable);
+                return result;
+            }
+            catch (TimeoutException timeout)
+            {
+                var result = new ServiceOperationResult(timeout);
+                return result;
+            }
+            catch (AddressAccessDeniedException accessDenied)
+            {
+                var result = new ServiceOperationResult(OperationState.Refused, accessDenied, ServiceState.Unknown);
+                return result;
+            }
         }
 
         #endregion

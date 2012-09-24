@@ -10,10 +10,10 @@ namespace OpenStory.Services.Contracts
     public struct ServiceOperationResult
     {
         /// <summary>
-        /// Gets whether the operation failed locally.
+        /// Gets the state of the operation.
         /// </summary>
         [DataMember]
-        public bool FailedLocally { get; private set; }
+        public OperationState OperationState { get; private set; }
 
         /// <summary>
         /// Gets the exception that was thrown, if any.
@@ -34,8 +34,8 @@ namespace OpenStory.Services.Contracts
         /// You may use this constructor for successfully completed operations.
         /// </remarks>
         /// <param name="serviceState">The state of the service, if known.</param>
-        public ServiceOperationResult(ServiceState serviceState = ServiceState.Unknown)
-            : this(false, null, serviceState)
+        public ServiceOperationResult(ServiceState serviceState)
+            : this(OperationState.Success, null, serviceState)
         {
         }
 
@@ -48,7 +48,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="error">The exception to assign to this result.</param>
         /// <param name="serviceState">The state of the service, if known.</param>
         public ServiceOperationResult(Exception error, ServiceState serviceState = ServiceState.Unknown)
-            : this(true, error, serviceState)
+            : this(OperationState.FailedLocally, error, serviceState)
         {
 
         }
@@ -56,13 +56,13 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
         /// </summary>
-        /// <param name="failedLocally">Whether the operation failed locally.</param>
+        /// <param name="operationState">The state of the operation.</param>
         /// <param name="error">The exception to assign to this result.</param>
         /// <param name="serviceState">The state of the service.</param>
-        public ServiceOperationResult(bool failedLocally, Exception error, ServiceState serviceState)
+        public ServiceOperationResult(OperationState operationState, Exception error, ServiceState serviceState)
             : this()
         {
-            this.FailedLocally = failedLocally;
+            this.OperationState = operationState;
             this.Error = error;
             this.ServiceState = serviceState;
         }
@@ -74,7 +74,12 @@ namespace OpenStory.Services.Contracts
         /// <returns>a transformed copy of the provided result.</returns>
         public static ServiceOperationResult FromRemoteResult(ServiceOperationResult remoteResult)
         {
-            var result = new ServiceOperationResult(false, remoteResult.Error, remoteResult.ServiceState);
+            var actualOperationState = remoteResult.OperationState;
+            if (actualOperationState == OperationState.FailedLocally)
+            {
+                actualOperationState = OperationState.FailedRemotely;
+            }
+            var result = new ServiceOperationResult(actualOperationState, remoteResult.Error, remoteResult.ServiceState);
             return result;
         }
     }

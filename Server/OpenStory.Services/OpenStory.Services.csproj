@@ -59,10 +59,10 @@
     <Compile Include="Contracts\IWorldService.cs" />
     <Compile Include="Clients\RegistryServiceClient.cs" />
     <Compile Include="Clients\NexusServiceClient.cs" />
+    <Compile Include="Contracts\OperationState.cs" />
     <Compile Include="Contracts\ServiceConfiguration.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
-    <Compile Include="INexusServiceFragment.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clients\WorldServiceClient.cs" />
