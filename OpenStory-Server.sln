@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Auth", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Account", "Server\OpenStory.Services.Accounts\OpenStory.Services.Account.csproj", "{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Synchronization", "Server\OpenStory.Synchronization\OpenStory.Synchronization.csproj", "{191C9EA9-4107-43F1-9E51-2098B303333C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory", "Core\OpenStory\OpenStory.csproj", "{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}"
 EndProject
 Global
@@ -110,16 +108,6 @@ Global
 		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|x86.ActiveCfg = Release|x86
 		{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}.Release|x86.Build.0 = Release|x86
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{191C9EA9-4107-43F1-9E51-2098B303333C}.Release|x86.ActiveCfg = Release|Any CPU
 		{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}.Debug|Mixed Platforms.Build.0 = Debug|x86

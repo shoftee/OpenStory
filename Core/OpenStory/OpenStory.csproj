@@ -132,6 +132,15 @@
     <Compile Include="Common\Tools\ParameterList.cs" />
     <Compile Include="Common\Tools\Time.cs" />
     <Compile Include="Common\Auth\ServerStatus.cs" />
+    <Compile Include="Synchronization\IRunnable.cs" />
+    <Compile Include="Synchronization\IScheduler.cs" />
+    <Compile Include="Synchronization\ISynchronized.cs" />
+    <Compile Include="Synchronization\QueueScheduler.cs" />
+    <Compile Include="Synchronization\Synchronizer.cs" />
+    <Compile Include="Synchronization\Synchronizer.Synchronized.cs" />
+    <Compile Include="Synchronization\TimeScheduler.cs" />
+    <Compile Include="Synchronization\TimeScheduler.ScheduledTask.cs" />
+    <Compile Include="Synchronization\TimeScheduler.Timeline.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

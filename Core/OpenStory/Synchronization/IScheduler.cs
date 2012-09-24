@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Synchronization
+namespace OpenStory.Synchronization
 {
     /// <summary>
     /// Provides methods for scheduling operations on <see cref="IRunnable"/> objects.
