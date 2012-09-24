@@ -1,7 +1,7 @@
 using System;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Server.Management
+namespace OpenStory.Services.Management
 {
     class RegistryService : IRegistryService
     {

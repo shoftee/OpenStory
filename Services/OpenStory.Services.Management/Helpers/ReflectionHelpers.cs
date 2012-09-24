@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace OpenStory.Server.Management.Helpers
+namespace OpenStory.Services.Management.Helpers
 {
     /// <summary>
     /// Contains helper methods for Reflection routines.

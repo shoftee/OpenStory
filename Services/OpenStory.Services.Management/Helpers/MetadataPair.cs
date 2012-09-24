@@ -1,7 +1,7 @@
 using System.Reflection;
 using System;
 
-namespace OpenStory.Server.Management.Helpers
+namespace OpenStory.Services.Management.Helpers
 {
     /// <summary>
     /// Represents a {<see cref="MemberInfo"/>, <see cref="Attribute"/>} pair.

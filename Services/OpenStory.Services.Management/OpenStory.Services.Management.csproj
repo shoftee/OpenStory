@@ -7,8 +7,8 @@
     <ProjectGuid>{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Server.Management</RootNamespace>
-    <AssemblyName>OpenStory.Server.Management</AssemblyName>
+    <RootNamespace>OpenStory.Services.Management</RootNamespace>
+    <AssemblyName>OpenStory.Services.Management</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\OpenStory.Server.Management.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\OpenStory.Services.Management.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\OpenStory.Server.Management.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OpenStory.Services.Management.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

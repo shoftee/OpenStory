@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Server.Management
+namespace OpenStory.Services.Management
 {
     class NexusService : INexusService 
     {

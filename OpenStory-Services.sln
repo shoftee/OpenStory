@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services", "Services\OpenStory.Services\OpenStory.Services.csproj", "{A53768F4-B0EC-4873-A127-171A15B63663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Management", "Services\OpenStory.Server.Management\OpenStory.Server.Management.csproj", "{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Management", "Services\OpenStory.Services.Management\OpenStory.Services.Management.csproj", "{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
