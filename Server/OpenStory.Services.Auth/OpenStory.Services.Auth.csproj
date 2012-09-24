@@ -54,6 +54,10 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\OpenStory.Services\OpenStory.Services.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
+      <Name>OpenStory.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server.Auth\OpenStory.Server.Auth.csproj">
       <Project>{6257C10F-74BB-4948-8BC1-3F867488044B}</Project>
       <Name>OpenStory.Server.Auth</Name>
@@ -61,10 +65,6 @@
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
-      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
