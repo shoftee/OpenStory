@@ -15,7 +15,7 @@ namespace OpenStory.Synchronization
         /// Represents a synchronization wrapper around another object.
         /// </summary>
         /// <typeparam name="T">The type of the object to synchronize.</typeparam>
-        private class Synchronized<T> : ISynchronized<T>, IRunnable
+        private sealed class Synchronized<T> : ISynchronized<T>, IRunnable
             where T : class
         {
             private readonly ConcurrentQueue<Action<T>> actions;
@@ -23,12 +23,12 @@ namespace OpenStory.Synchronization
             private readonly IScheduler scheduler;
 
             /// <summary>
-            /// Initializes a new Synchronized(T) wrapper around the specified object.
+            /// Initializes a new instance of <see cref="Synchronized{T}"/> around the specified object.
             /// </summary>
             /// <param name="obj">The object to wrap.</param>
             /// <param name="scheduler">An execution scheduler to use.</param>
             /// <exception cref="ArgumentNullException">
-            /// Thrown if <paramref name="obj"/> or <paramref name="scheduler"/> are <c>null</c>.
+            /// Thrown if either of <paramref name="obj"/> or <paramref name="scheduler"/> is <c>null</c>.
             /// </exception>
             public Synchronized(T obj, IScheduler scheduler)
             {
@@ -50,7 +50,7 @@ namespace OpenStory.Synchronization
             #region IRunnable Members
 
             /// <summary>
-            /// Runs a pending action for the Synchronized(T).
+            /// Runs a the next pending action for this instance.
             /// </summary>
             /// <exception cref="InvalidOperationException">
             /// Thrown if there is no pending action.
