@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Threading;
 using OpenStory.Server;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
 using OpenStory.Services.Clients;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
@@ -14,7 +16,7 @@ namespace OpenStory.Services.Account
             Console.Title = "OpenStory - Account Service";
 
             string error;
-            var configuration = NexusConnectionInfo.FromCommandLine(out error);
+            var info = NexusConnectionInfo.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -22,24 +24,51 @@ namespace OpenStory.Services.Account
                 return;
             }
 
-            InitializeAndStart(configuration);
+            ServiceConfiguration configuration;
+            var result = GetServiceConfiguration(info, out configuration);
 
-            Thread.Sleep(Timeout.Infinite);
-        }
+            var success = ServiceHelpers.ProcessGetConfigurationResult(result, out error);
+            if (!success)
+            {
+                Console.WriteLine(error);
+                Console.ReadLine();
+                return;
+            }
 
-        private static void InitializeAndStart(NexusConnectionInfo configuration)
-        {
             var service = new AccountService();
-            var nexus = new NexusServiceClient(configuration.NexusUri);
+            if (!service.Configure(configuration, out error))
+            {
+                Console.WriteLine(error);
+                Console.ReadLine();
+                return;
+            }
 
-            OS.Initialize()
-                .Logger(new ConsoleLogger())
-                .Services()
-                    .Host(service).Through(nexus)
-                    .WithAccessToken(configuration.AccessToken)
-                    .Done();
+            InitializeAndStart(service);
+            var uriString = configuration["ServiceUri"];
+
+            var host = ServiceHelpers.OpenServiceHost(service, new Uri(uriString));
 
             OS.Log().Info("Service registered.");
+            using (host)
+            {
+                Thread.Sleep(Timeout.Infinite);
+            }
+        }
+
+        private static ServiceOperationResult GetServiceConfiguration(NexusConnectionInfo info, out ServiceConfiguration configuration)
+        {
+            using (var nexus = new NexusServiceClient(info.NexusUri))
+            {
+                ServiceOperationResult result = nexus.TryGetServiceConfiguration(info.AccessToken, out configuration);
+                return result;
+            }
+        }
+
+        private static void InitializeAndStart(IGameService service)
+        {
+            OS.Initialize()
+                .Logger(new ConsoleLogger())
+                .Services().Host(service).Done();
         }
     }
 }

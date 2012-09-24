@@ -10,7 +10,7 @@ namespace OpenStory.Services.Account
     /// Represents an in-memory account activity service.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    internal sealed class AccountService : RegisteredServiceBase, IAccountService
+    internal sealed class AccountService : GameServiceBase, IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 
@@ -91,6 +91,16 @@ namespace OpenStory.Services.Account
                 lag = account.KeepAlive();
                 return true;
             }
+        }
+
+        #endregion
+
+        #region Overrides of GameServiceBase
+
+        public override bool Configure(ServiceConfiguration configuration, out string error)
+        {
+            error = null;
+            return true;
         }
 
         #endregion

@@ -77,7 +77,6 @@
     <Compile Include="Modules\Logging\NullLogger.cs" />
     <Compile Include="Modules\Services\DefaultEndpointProvider.cs" />
     <Compile Include="Modules\Services\IEndpointProvider.cs" />
-    <Compile Include="Modules\Services\ServiceHelpers.cs" />
     <Compile Include="Modules\Services\ServiceManager.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\PacketProcessingEventArgs.cs" />

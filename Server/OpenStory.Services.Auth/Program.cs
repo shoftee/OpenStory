@@ -5,6 +5,7 @@ using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
 using OpenStory.Services.Clients;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Auth
 {
@@ -15,7 +16,7 @@ namespace OpenStory.Services.Auth
             Console.Title = "OpenStory - Authentication Service";
 
             string error;
-            var configuration = NexusConnectionInfo.FromCommandLine(out error);
+            var info = NexusConnectionInfo.FromCommandLine(out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -23,26 +24,55 @@ namespace OpenStory.Services.Auth
                 return;
             }
 
-            InitializeAndStart(configuration);
+            ServiceConfiguration configuration;
+            var result = GetServiceConfiguration(info, out configuration);
 
-            Thread.Sleep(Timeout.Infinite);
+            var success = ServiceHelpers.ProcessGetConfigurationResult(result, out error);
+            if (!success)
+            {
+                Console.WriteLine(error);
+                Console.ReadLine();
+                return;
+            }
+
+            var service = new AuthService();
+
+            if (!service.Configure(configuration, out error))
+            {
+                Console.WriteLine(error);
+                Console.ReadLine();
+                return;
+            }
+
+            InitializeAndStart(service);
+            var uriString = configuration["ServiceUri"];
+
+            var host = ServiceHelpers.OpenServiceHost(service, new Uri(uriString));
+
+            OS.Log().Info("Service registered.");
+            using (host)
+            {
+                Thread.Sleep(Timeout.Infinite);
+            }
         }
 
-        private static void InitializeAndStart(NexusConnectionInfo configuration)
+        private static ServiceOperationResult GetServiceConfiguration(NexusConnectionInfo info, out ServiceConfiguration configuration)
         {
-            var authService = new AuthService();
-            var nexus = new NexusServiceClient(configuration.NexusUri);
+            using (var nexus = new NexusServiceClient(info.NexusUri))
+            {
+                ServiceOperationResult result = nexus.TryGetServiceConfiguration(info.AccessToken, out configuration);
+                return result;
+            }
+        }
 
+        private static void InitializeAndStart(IGameService service)
+        {
             OS.Initialize()
                 .Logger(new ConsoleLogger())
                 .Services()
-                    .Host(authService).Through(nexus)
-                    .WithAccessToken(configuration.AccessToken)
-                    .Done()
+                    .Host(service).Done()
                 .DataManagers()
                     .DefaultManager(new AuthDataManager()).Done();
-
-            OS.Log().Info("Service registered.");
         }
     }
 }

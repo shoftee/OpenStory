@@ -63,10 +63,12 @@
     <Compile Include="Contracts\ServiceConfiguration.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
+    <Compile Include="GameServiceBase.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clients\WorldServiceClient.cs" />
     <Compile Include="ServiceConstants.cs" />
+    <Compile Include="ServiceHelpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

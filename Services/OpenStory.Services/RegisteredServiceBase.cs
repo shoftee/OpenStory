@@ -7,7 +7,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Services
 {
     /// <summary>
-    /// Represents a base class for game services.
+    /// Represents a base class for registered services.
     /// </summary>
     public abstract class RegisteredServiceBase : IRegisteredService
     {

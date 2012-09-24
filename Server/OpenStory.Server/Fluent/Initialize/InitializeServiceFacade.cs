@@ -9,8 +9,6 @@ namespace OpenStory.Server.Fluent.Initialize
     {
         private readonly ServiceManager manager;
 
-        private Guid accessToken;
-
         public InitializeServiceFacade(IInitializeFacade parent)
             : base(parent)
         {
@@ -25,31 +23,11 @@ namespace OpenStory.Server.Fluent.Initialize
             this.manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
             return this;
         }
-
-        public IInitializeServiceFacade Through(INexusService nexus)
-        {
-            this.manager.RegisterComponent(ServiceManager.NexusServiceKey, nexus);
-            return this;
-        }
-
-        public INestedFacade<IInitializeFacade> WithAccessToken(Guid token)
-        {
-            this.accessToken = token;
-            return this;
-        }
-
         #endregion
 
         public override IInitializeFacade Done()
         {
             this.manager.Initialize();
-            ServiceConfiguration configuration;
-            this.manager.Nexus.TryGetServiceConfiguration(this.accessToken, out configuration);
-
-            var uriString = configuration["ServiceUri"];
-
-            // TODO: Return the ServiceHost reference somehow.
-            ServiceHelpers.OpenServiceHost(this.manager.Local, new Uri(uriString));
 
             ServiceManager.RegisterDefault(this.manager);
 

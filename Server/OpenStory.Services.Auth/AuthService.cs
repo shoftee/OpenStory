@@ -9,7 +9,7 @@ namespace OpenStory.Services.Auth
     /// Represents a WCF service that hosts the Authentication Server instance.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    internal sealed class AuthService : RegisteredServiceBase, IAuthService
+    internal sealed class AuthService : GameServiceBase, IAuthService
     {
         private AuthServer server;
 
@@ -37,5 +37,15 @@ namespace OpenStory.Services.Auth
 
             base.OnStopping();
         }
+
+        #region Overrides of GameServiceBase
+
+        public override bool Configure(ServiceConfiguration configuration, out string error)
+        {
+            error = null;
+            return true;
+        }
+
+        #endregion
     }
 }
