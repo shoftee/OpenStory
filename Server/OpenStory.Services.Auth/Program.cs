@@ -15,8 +15,10 @@ namespace OpenStory.Services.Auth
         {
             Console.Title = "OpenStory - Authentication Service";
 
+            Initialize();
+
             string error;
-            var info = NexusConnectionInfo.FromCommandLine(out error);
+            var service = Bootstrap.Service(() => new AuthService(), out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -24,53 +26,17 @@ namespace OpenStory.Services.Auth
                 return;
             }
 
-            ServiceConfiguration configuration;
-            var result = GetServiceConfiguration(info, out configuration);
-
-            var success = ServiceHelpers.ProcessGetConfigurationResult(result, out error);
-            if (!success)
+            using (service)
             {
-                Console.WriteLine(error);
-                Console.ReadLine();
-                return;
-            }
-
-            var service = new AuthService();
-
-            if (!service.Configure(configuration, out error))
-            {
-                Console.WriteLine(error);
-                Console.ReadLine();
-                return;
-            }
-
-            InitializeAndStart(service);
-            var uriString = configuration["ServiceUri"];
-
-            var host = ServiceHelpers.OpenServiceHost(service, new Uri(uriString));
-
-            OS.Log().Info("Service registered.");
-            using (host)
-            {
+                OS.Log().Info("Service registered.");
                 Thread.Sleep(Timeout.Infinite);
             }
         }
 
-        private static ServiceOperationResult GetServiceConfiguration(NexusConnectionInfo info, out ServiceConfiguration configuration)
-        {
-            using (var nexus = new NexusServiceClient(info.NexusUri))
-            {
-                ServiceOperationResult result = nexus.TryGetServiceConfiguration(info.AccessToken, out configuration);
-                return result;
-            }
-        }
-
-        private static void InitializeAndStart(IGameService service)
+        private static void Initialize()
         {
             OS.Initialize()
                 .Logger(new ConsoleLogger())
-                .Services()
-                    .Host(service).Done()
                 .DataManagers()
                     .DefaultManager(new AuthDataManager()).Done();
         }

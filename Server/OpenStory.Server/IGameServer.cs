@@ -18,7 +18,5 @@ namespace OpenStory.Server
         /// <param name="label">The label for the packet type.</param>
         /// <returns>an instance of <see cref="PacketBuilder"/>.</returns>
         PacketBuilder NewPacket(string label);
-
-
     }
 }

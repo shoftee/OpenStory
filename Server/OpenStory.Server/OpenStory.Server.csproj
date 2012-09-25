@@ -47,6 +47,7 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="ClientBase.cs" />
     <Compile Include="Diagnostics\ISendFeed.cs" />
     <Compile Include="Diagnostics\IReceiveFeed.cs" />

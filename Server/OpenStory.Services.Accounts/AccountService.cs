@@ -94,15 +94,5 @@ namespace OpenStory.Services.Account
         }
 
         #endregion
-
-        #region Overrides of GameServiceBase
-
-        public override bool Configure(ServiceConfiguration configuration, out string error)
-        {
-            error = null;
-            return true;
-        }
-
-        #endregion
     }
 }

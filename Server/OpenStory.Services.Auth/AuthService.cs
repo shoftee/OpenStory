@@ -37,15 +37,5 @@ namespace OpenStory.Services.Auth
 
             base.OnStopping();
         }
-
-        #region Overrides of GameServiceBase
-
-        public override bool Configure(ServiceConfiguration configuration, out string error)
-        {
-            error = null;
-            return true;
-        }
-
-        #endregion
     }
 }

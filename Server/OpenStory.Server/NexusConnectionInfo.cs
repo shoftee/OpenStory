@@ -27,7 +27,12 @@ namespace OpenStory.Server
         /// </summary>
         public Uri NexusUri { get; private set; }
 
-        private NexusConnectionInfo(Guid accessToken, Uri nexusUri)
+        /// <summary>
+        /// Initializes a new instance of <see cref="NexusConnectionInfo"/>.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="nexusUri">The URI of the nexus service.</param>
+        public NexusConnectionInfo(Guid accessToken, Uri nexusUri)
         {
             this.AccessToken = accessToken;
             this.NexusUri = nexusUri;
@@ -36,25 +41,19 @@ namespace OpenStory.Server
         /// <summary>
         /// Constructs a <see cref="NexusConnectionInfo"/> from the command-line parameters of the process.
         /// </summary>
+        /// <param name="parameters">The parameter list.</param>
         /// <param name="error">A variable to hold an error message.</param>
         /// <returns>
         /// an instance of <see cref="NexusConnectionInfo" /> on success, or <c>null</c> on failure.
         /// </returns>
-        public static NexusConnectionInfo FromCommandLine(out string error)
+        public static NexusConnectionInfo FromParameterList(ParameterList parameters, out string error)
         {
-            var parameters = ParameterList.FromEnvironment(out error);
-            if (error != null)
-            {
-                error = "Parse error: " + error;
-                return null;
-            }
-
             var nexusUriString = parameters[NexusUriKey];
 
             Uri nexusUri;
             if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out nexusUri))
             {
-                error = "Validation error: " + String.Format(NexusUriParseErrorFormat, NexusUriKey);
+                error = String.Format(NexusUriParseErrorFormat, NexusUriKey);
                 return null;
             }
 
@@ -63,12 +62,13 @@ namespace OpenStory.Server
             Guid accessToken;
             if (accessTokenString == null || !Guid.TryParse(accessTokenString, out accessToken))
             {
-                error = "Validation error: " + String.Format(TokenParseErrorFormat, AccessTokenKey);
+                error = String.Format(TokenParseErrorFormat, AccessTokenKey);
                 return null;
             }
 
-            var configuration = new NexusConnectionInfo(accessToken, nexusUri);
-            return configuration;
+            error = null;
+            var nexusConnectionInfo = new NexusConnectionInfo(accessToken, nexusUri);
+            return nexusConnectionInfo;
         }
     }
 }

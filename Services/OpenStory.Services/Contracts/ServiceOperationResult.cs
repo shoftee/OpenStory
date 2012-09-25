@@ -62,6 +62,15 @@ namespace OpenStory.Services.Contracts
         public ServiceOperationResult(OperationState operationState, Exception error, ServiceState serviceState)
             : this()
         {
+            if (!Enum.IsDefined(typeof(OperationState), operationState))
+            {
+                throw new ArgumentOutOfRangeException("operationState", operationState, "'operationState' must have a valid OperationState enum value.");
+            }
+            if (!Enum.IsDefined(typeof(ServiceState), serviceState))
+            {
+                throw new ArgumentOutOfRangeException("serviceState", serviceState, "'serviceState' must have a valid ServiceState enum value.");
+            }
+
             this.OperationState = operationState;
             this.Error = error;
             this.ServiceState = serviceState;
