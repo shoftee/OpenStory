@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ServiceModel;
 using System.Threading;
 using OpenStory.Server;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
-using OpenStory.Services.Clients;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
