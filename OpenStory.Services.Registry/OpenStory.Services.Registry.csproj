@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}</ProjectGuid>
+    <ProjectGuid>{6648124A-31D9-45D5-A575-6B92FEEB3200}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Services.Management</RootNamespace>
-    <AssemblyName>OpenStory.Services.Management</AssemblyName>
+    <RootNamespace>OpenStory.Services.Registry</RootNamespace>
+    <AssemblyName>OpenStory.Services.Registry</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,8 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\OpenStory.Services.Management.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,27 +28,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\OpenStory.Services.Management.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\MetadataPair.cs" />
-    <Compile Include="Helpers\ReflectionHelpers.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IRegistryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistryServiceClient.cs" />
+    <Compile Include="RegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj">
-      <Project>{6648124A-31D9-45D5-A575-6B92FEEB3200}</Project>
-      <Name>OpenStory.Services.Registry</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
+    <ProjectReference Include="..\Services\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>

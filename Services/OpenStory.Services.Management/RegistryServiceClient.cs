@@ -1,8 +1,9 @@
 using System;
 using System.ServiceModel;
 using OpenStory.Services.Contracts;
+using OpenStory.Services.Registry;
 
-namespace OpenStory.Services.Clients
+namespace OpenStory.Services.Management
 {
     /// <summary>
     /// Represents a client to a game nexus service.
@@ -33,6 +34,28 @@ namespace OpenStory.Services.Clients
         public ServiceOperationResult TryUnregisterService(Guid registrationToken)
         {
             var result = ServiceOperationResult.Of(() => base.Channel.TryUnregisterService(registrationToken));
+            return result;
+        }
+
+        /// <inheritdoc />
+        public ServiceOperationResult TryGetRegistrations(out Guid[] tokens)
+        {
+            var localTokens = default(Guid[]);
+            var result = ServiceOperationResult.Of(() => base.Channel.TryGetRegistrations(out localTokens));
+            tokens = localTokens;
+            return result;
+        }
+
+        #endregion
+
+        #region Implementation of INexusService
+
+        /// <inheritdoc />
+        public ServiceOperationResult TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
+        {
+            var localConfig = default(ServiceConfiguration);
+            var result = ServiceOperationResult.Of(() => base.Channel.TryGetServiceConfiguration(accessToken, out localConfig));
+            configuration = localConfig;
             return result;
         }
 

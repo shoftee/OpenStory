@@ -54,10 +54,8 @@
     <Compile Include="Contracts\IChannelService.cs" />
     <Compile Include="Contracts\IRegisteredService.cs" />
     <Compile Include="Contracts\INexusService.cs" />
-    <Compile Include="Contracts\IRegistryService.cs" />
     <Compile Include="Contracts\IServiceStateChanged.cs" />
     <Compile Include="Contracts\IWorldService.cs" />
-    <Compile Include="Clients\RegistryServiceClient.cs" />
     <Compile Include="Clients\NexusServiceClient.cs" />
     <Compile Include="Contracts\OperationState.cs" />
     <Compile Include="Contracts\ServiceConfiguration.cs" />
