@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -42,20 +43,6 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
         /// </summary>
-        /// <remarks>
-        /// You may use this constructor for local failures.
-        /// </remarks>
-        /// <param name="error">The exception to assign to this result.</param>
-        /// <param name="serviceState">The state of the service, if known.</param>
-        public ServiceOperationResult(Exception error, ServiceState serviceState = ServiceState.Unknown)
-            : this(OperationState.FailedLocally, error, serviceState)
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
-        /// </summary>
         /// <param name="operationState">The state of the operation.</param>
         /// <param name="error">The exception to assign to this result.</param>
         /// <param name="serviceState">The state of the service.</param>
@@ -90,6 +77,50 @@ namespace OpenStory.Services.Contracts
             }
             var result = new ServiceOperationResult(actualOperationState, remoteResult.Error, remoteResult.ServiceState);
             return result;
+        }
+
+        /// <summary>
+        /// Executes the provided call and catches possible communication exceptions.
+        /// </summary>
+        /// <param name="func">The service call to execute.</param>
+        /// <returns>the possibly transformed operation result returned by the call.</returns>
+        public static ServiceOperationResult Of(Func<ServiceOperationResult> func)
+        {
+            try
+            {
+                var result = func();
+                return FromRemoteResult(result);
+            }
+            catch (EndpointNotFoundException unreachable)
+            {
+                var result = LocalFailure(unreachable);
+                return result;
+            }
+            catch (TimeoutException timeout)
+            {
+                var result = LocalFailure(timeout);
+                return result;
+            }
+            catch (AddressAccessDeniedException accessDenied)
+            {
+                var result = new ServiceOperationResult(OperationState.Refused, accessDenied, ServiceState.Unknown);
+                return result;
+            }
+            catch (CommunicationException communicationException)
+            {
+                var result = RemoteFailure(communicationException);
+                return result;
+            }
+        }
+
+        private static ServiceOperationResult LocalFailure(Exception error)
+        {
+            return new ServiceOperationResult(OperationState.FailedLocally, error, ServiceState.Unknown);
+        }
+
+        private static ServiceOperationResult RemoteFailure(Exception error)
+        {
+            return new ServiceOperationResult(OperationState.FailedRemotely, error, ServiceState.Unknown);
         }
     }
 }

@@ -28,43 +28,25 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            return HandleCommunicationExceptions(() => base.Channel.Initialize());
+            return ServiceOperationResult.Of(() => base.Channel.Initialize());
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            return HandleCommunicationExceptions(() => base.Channel.Start());
+            return ServiceOperationResult.Of(() => base.Channel.Start());
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            return HandleCommunicationExceptions(() => base.Channel.Stop());
+            return ServiceOperationResult.Of(() => base.Channel.Stop());
         }
 
         /// <inheritdoc />
         public ServiceOperationResult GetServiceState()
         {
-            return HandleCommunicationExceptions(() => base.Channel.GetServiceState());
-        }
-
-        private static ServiceOperationResult HandleCommunicationExceptions(Func<ServiceOperationResult> func)
-        {
-            try
-            {
-                var remote = func();
-                var local = ServiceOperationResult.FromRemoteResult(remote);
-                return local;
-            }
-            catch (CommunicationException communicationException)
-            {
-                return new ServiceOperationResult(communicationException);
-            }
-            catch (TimeoutException timeoutException)
-            {
-                return new ServiceOperationResult(timeoutException);
-            }
+            return ServiceOperationResult.Of(() => base.Channel.GetServiceState());
         }
 
         #endregion

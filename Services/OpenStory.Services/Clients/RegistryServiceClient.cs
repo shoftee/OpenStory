@@ -24,40 +24,16 @@ namespace OpenStory.Services.Clients
         public ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token)
         {
             var localToken = default(Guid);
-            var result = HandleServiceCall(() => base.Channel.TryRegisterService(configuration, out localToken));
+            var result = ServiceOperationResult.Of(() => base.Channel.TryRegisterService(configuration, out localToken));
             token = localToken;
-            return ServiceOperationResult.FromRemoteResult(result);
+            return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult TryUnregisterService(Guid registrationToken)
         {
-            var result = HandleServiceCall(() => base.Channel.TryUnregisterService(registrationToken));
+            var result = ServiceOperationResult.Of(() => base.Channel.TryUnregisterService(registrationToken));
             return result;
-        }
-
-        private static ServiceOperationResult HandleServiceCall(Func<ServiceOperationResult> func)
-        {
-            try
-            {
-                var result = func();
-                return ServiceOperationResult.FromRemoteResult(result);
-            }
-            catch (EndpointNotFoundException unreachable)
-            {
-                var result = new ServiceOperationResult(unreachable);
-                return result;
-            }
-            catch (TimeoutException timeout)
-            {
-                var result = new ServiceOperationResult(timeout);
-                return result;
-            }
-            catch (AddressAccessDeniedException accessDenied)
-            {
-                var result = new ServiceOperationResult(OperationState.Refused, accessDenied, ServiceState.Unknown);
-                return result;
-            }
         }
 
         #endregion
