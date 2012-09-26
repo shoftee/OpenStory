@@ -28,25 +28,29 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            return ServiceOperationResult.Of(() => base.Channel.Initialize());
+            var result = ServiceOperationResult.Of(() => base.Channel.Initialize());
+            return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            return ServiceOperationResult.Of(() => base.Channel.Start());
+            var result = ServiceOperationResult.Of(() => base.Channel.Start());
+            return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            return ServiceOperationResult.Of(() => base.Channel.Stop());
+            var result = ServiceOperationResult.Of(() => base.Channel.Stop());
+            return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult GetServiceState()
         {
-            return ServiceOperationResult.Of(() => base.Channel.GetServiceState());
+            var result = ServiceOperationResult.Of(() => base.Channel.GetServiceState());
+            return result;
         }
 
         #endregion
