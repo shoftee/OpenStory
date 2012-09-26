@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IRegistryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisteredServiceClient.cs" />
     <Compile Include="RegistryService.cs" />
   </ItemGroup>
   <ItemGroup>

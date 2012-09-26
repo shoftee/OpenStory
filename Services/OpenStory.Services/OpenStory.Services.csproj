@@ -47,7 +47,6 @@
     <Compile Include="Clients\ChannelServiceClient.cs" />
     <Compile Include="Clients\GameServiceClientBase.cs" />
     <Compile Include="Contracts\IGameService.cs" />
-    <Compile Include="Clients\RegisteredServiceClient.cs" />
     <Compile Include="Clients\ServiceStateEventArgs.cs" />
     <Compile Include="Contracts\IAccountService.cs" />
     <Compile Include="Contracts\IAuthService.cs" />
