@@ -10,7 +10,7 @@ namespace OpenStory.Server.Fluent.Service
             throw new System.NotImplementedException();
         }
 
-        #region Implementation of IServiceGetterSetterFacade<IChannelService,IChannelServiceFacade>
+        #region Implementation of IServiceGetterFacade<IChannelService,IChannelServiceFacade>
 
         public IChannelService Get()
         {

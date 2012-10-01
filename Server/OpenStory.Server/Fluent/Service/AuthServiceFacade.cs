@@ -9,7 +9,7 @@ namespace OpenStory.Server.Fluent.Service
         {
         }
 
-        #region Implementation of IServiceGetterSetterFacade<IAuthService,IAuthServiceFacade>
+        #region Implementation of IServiceGetterFacade<IAuthService,IAuthServiceFacade>
 
         public IAuthService Get()
         {

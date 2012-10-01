@@ -11,20 +11,13 @@ namespace OpenStory.Server.Fluent
     /// Provides methods for getting and setting a service reference.
     /// </summary>
     /// <typeparam name="TServiceInterface">The type of the service reference.</typeparam>
-    /// <typeparam name="TFluentFacade">The type of the implementing interface.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IServiceGetterSetterFacade<TServiceInterface, TFluentFacade>
-        where TFluentFacade : class
+    public interface IServiceGetterFacade<TServiceInterface>
+        where TServiceInterface : IGameService
     {
         /// <summary>
         /// Gets the service reference.
         /// </summary>
         TServiceInterface Get();
-
-        /// <summary>
-        /// Sets the service reference.
-        /// </summary>
-        /// <param name="service">The service reference to set.</param>
-        TFluentFacade Set(TServiceInterface service);
     }
 }

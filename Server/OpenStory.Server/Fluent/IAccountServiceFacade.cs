@@ -9,7 +9,7 @@ namespace OpenStory.Server.Fluent
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IAccountServiceFacade :
         IFluentInterface,
-        IServiceGetterSetterFacade<IAccountService, IAccountServiceFacade>,
+        IServiceGetterFacade<IAccountService>,
         INestedFacade<IServiceFacade>
     {
     }

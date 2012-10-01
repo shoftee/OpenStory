@@ -9,7 +9,7 @@ namespace OpenStory.Server.Fluent.Service
         {
         }
 
-        #region Implementation of IServiceGetterSetterFacade<IWorldService,IWorldServiceFacade>
+        #region Implementation of IServiceGetterFacade<IWorldService,IWorldServiceFacade>
 
         public IWorldService Get()
         {

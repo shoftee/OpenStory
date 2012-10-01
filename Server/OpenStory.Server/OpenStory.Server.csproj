@@ -58,7 +58,7 @@
     <Compile Include="Fluent\IFluentInterface.cs" />
     <Compile Include="Fluent\IInitializeServiceFacade.cs" />
     <Compile Include="Fluent\Initialize\InitializeServiceFacade.cs" />
-    <Compile Include="Fluent\IServiceGetterSetterFacade.cs" />
+    <Compile Include="Fluent\IServiceGetterFacade.cs" />
     <Compile Include="Fluent\NestedFacade.cs" />
     <Compile Include="Fluent\Service\AccountServiceFacade.cs" />
     <Compile Include="Fluent\Service\AuthServiceFacade.cs" />
