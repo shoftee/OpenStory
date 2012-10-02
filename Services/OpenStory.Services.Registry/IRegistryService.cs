@@ -21,9 +21,9 @@ namespace OpenStory.Services.Registry
         /// <summary>
         /// Attempts to unregister the service with the specified token.
         /// </summary>
-        /// <param name="registrationToken">The registration token issued when the service was registered.</param>
+        /// <param name="token">The registration token issued when the service was registered.</param>
         /// <returns>an instance of <see cref="OpenStory.Services.Contracts.ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryUnregisterService(Guid registrationToken);
+        ServiceOperationResult TryUnregisterService(Guid token);
 
         /// <summary>
         /// Attempts to retrieve all registered tokens.
