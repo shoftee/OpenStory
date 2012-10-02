@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services", "Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Management", "Services\OpenStory.Services.Management\OpenStory.Services.Management.csproj", "{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Registry", "OpenStory.Services.Registry\OpenStory.Services.Registry.csproj", "{6648124A-31D9-45D5-A575-6B92FEEB3200}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Registry", "Services\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj", "{6648124A-31D9-45D5-A575-6B92FEEB3200}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
