@@ -17,11 +17,6 @@ namespace OpenStory.Server.Fluent.Service
             throw new System.NotImplementedException();
         }
 
-        public IChannelServiceFacade Set(IChannelService service)
-        {
-            throw new System.NotImplementedException();
-        }
-
         #endregion
     }
 }

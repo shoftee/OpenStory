@@ -16,11 +16,6 @@ namespace OpenStory.Server.Fluent.Service
             throw new System.NotImplementedException();
         }
 
-        public IWorldServiceFacade Set(IWorldService service)
-        {
-            throw new System.NotImplementedException();
-        }
-
         #endregion
     }
 }

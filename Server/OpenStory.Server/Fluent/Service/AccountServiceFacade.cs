@@ -21,11 +21,6 @@ namespace OpenStory.Server.Fluent.Service
             throw new NotImplementedException();
         }
 
-        public IAccountServiceFacade Set(IAccountService service)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

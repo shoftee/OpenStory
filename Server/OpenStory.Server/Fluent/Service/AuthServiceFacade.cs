@@ -16,11 +16,6 @@ namespace OpenStory.Server.Fluent.Service
             throw new System.NotImplementedException();
         }
 
-        public IAuthServiceFacade Set(IAuthService service)
-        {
-            throw new System.NotImplementedException();
-        }
-
         #endregion
     }
 }

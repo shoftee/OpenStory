@@ -39,14 +39,14 @@ namespace OpenStory.Services
             var uriString = configuration["ServiceUri"];
             if (uriString == null)
             {
-                error = "Service URI missing from configuration.";
+                error = "Service endpoint URI missing from configuration.";
                 return false;
             }
 
             Uri uri;
             if (!Uri.TryCreate(uriString, UriKind.Absolute, out uri))
             {
-                error = "Service URI is invalid.";
+                error = "Service endpoint URI is invalid.";
                 return false;
             }
 
@@ -62,6 +62,10 @@ namespace OpenStory.Services
         /// <summary>
         /// Called when the services is configuring itself.
         /// </summary>
+        /// <remarks>
+        /// When overriding this method in a derived class, please call the base implementation first 
+        /// and return <c>false</c> if it returns <c>false</c>.
+        /// </remarks>
         /// <param name="configuration">The configuration information.</param>
         /// <param name="error">A variable to hold a human-readable error message.</param>
         /// <returns><c>true</c> if configuration was successful; otherwise, <c>false</c>.</returns>

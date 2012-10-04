@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
@@ -10,11 +11,56 @@ namespace OpenStory.Services.Contracts
     public interface INexusService
     {
         /// <summary>
-        /// Retrieves the service configuration data for a service.
+        /// Attempts to retrieve the service configuration data for a service.
         /// </summary>
-        /// <param name="token">The access token key for the service to request the data for.</param>
-        /// <param name="configuration">A variable to hold the configuration.</param>
-        /// <returns>an instance of <see cref="ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryGetServiceConfiguration(Guid token, out ServiceConfiguration configuration);
+        /// <param name="token">An access token for the nexus operation.</param>
+        /// <returns>the result of the operation.</returns>
+        ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token);
+    }
+
+    /// <summary>
+    /// Provides methods for querying a nexus service for channel service information.
+    /// </summary>
+    [ServiceContract(Namespace = null, Name = "NexusChannelService")]
+    public interface INexusChannelService
+    {
+        /// <summary>
+        /// Attempts to retrieve the URI of a channel service.
+        /// </summary>
+        /// <param name="token">An access token for the nexus operation.</param>
+        /// <param name="channelId">The world-scoped identifier of the channel instance.</param>
+        /// <returns>the result of the operation.</returns>
+        ServiceOperationResult<Uri> GetChannelUri(Guid token, int channelId);
+    }
+
+    /// <summary>
+    /// Provides methods for querying a nexus service for world service information.
+    /// </summary>
+    [ServiceContract(Namespace = null, Name = "NexusWorldService")]
+    public interface INexusWorldService
+    {
+        /// <summary>
+        /// Attempts to retrieve the URI of the world service.
+        /// </summary>
+        /// <param name="token">An access token for the nexus operation.</param>
+        /// <param name="worldId">The identifier of the world instnace.</param>
+        /// <returns>the result of the operation.</returns>
+        ServiceOperationResult<Uri> GetWorldUri(Guid token, int worldId);
+
+        /// <summary>
+        /// Attempts to retrieve the list of channel load values for a world.
+        /// </summary>
+        /// <param name="token">An access token for the nexus operation.</param>
+        /// <param name="worldId">The world to query.</param>
+        /// <returns>the result of the operation.</returns>
+        ServiceOperationResult<Dictionary<int, int>> GetChannelUri(Guid token, int worldId);
+    }
+
+    /// <summary>
+    /// Provides methods for querying a nexus service for authentication service information.
+    /// </summary>
+    public interface INexusAuthService
+    {
+
     }
 }

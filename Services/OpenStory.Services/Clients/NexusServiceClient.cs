@@ -24,9 +24,9 @@ namespace OpenStory.Services.Clients
         #region Implementation of INexusService
 
         /// <inheritdoc />
-        public ServiceOperationResult TryGetServiceConfiguration(Guid token, out ServiceConfiguration configuration)
+        public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            return base.Channel.TryGetServiceConfiguration(token, out configuration);
+            return base.Channel.GetServiceConfiguration(token);
         }
 
         #endregion

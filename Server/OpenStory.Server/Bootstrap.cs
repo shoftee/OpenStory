@@ -36,8 +36,7 @@ namespace OpenStory.Server
                 return null;
             }
 
-            ServiceConfiguration configuration;
-            var result = GetServiceConfiguration(nexusConnectionInfo, out configuration);
+            var result = GetServiceConfiguration(nexusConnectionInfo);
 
             var success = CheckOperationResult(result, out error);
             if (!success)
@@ -46,6 +45,7 @@ namespace OpenStory.Server
                 return null;
             }
 
+            ServiceConfiguration configuration = result.Result;
             var service = provider();
             if (!service.Configure(configuration, out error))
             {
@@ -65,16 +65,16 @@ namespace OpenStory.Server
             return service;
         }
 
-        private static ServiceOperationResult GetServiceConfiguration(NexusConnectionInfo info, out ServiceConfiguration configuration)
+        private static ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(NexusConnectionInfo info)
         {
             using (var nexus = new NexusServiceClient(info.NexusUri))
             {
-                ServiceOperationResult result = nexus.TryGetServiceConfiguration(info.AccessToken, out configuration);
+                ServiceOperationResult<ServiceConfiguration> result = nexus.GetServiceConfiguration(info.AccessToken);
                 return result;
             }
         }
 
-        private static bool CheckOperationResult(ServiceOperationResult result, out string error)
+        private static bool CheckOperationResult(IServiceOperationResult result, out string error)
         {
             switch (result.OperationState)
             {
