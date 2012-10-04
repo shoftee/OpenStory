@@ -44,6 +44,7 @@
     <Compile Include="ChannelCharacter.cs" />
     <Compile Include="ChannelClient.cs" />
     <Compile Include="ChannelServer.cs" />
+    <Compile Include="ChannelServerConfiguration.cs" />
     <Compile Include="IChannelServer.cs" />
     <Compile Include="Maps\FieldLimitFlags.cs" />
     <Compile Include="Maps\FootholdTree.cs" />

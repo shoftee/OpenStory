@@ -10,8 +10,6 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public sealed class ChannelServer : ServerBase, IChannelServer
     {
-        private readonly int channelId = 0; // TODO
-
         private readonly List<ChannelClient> clients;
         private readonly PlayerRegistry players;
 
@@ -27,13 +25,26 @@ namespace OpenStory.Server.Channel
             get { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Gets the channel identifier.
+        /// </summary>
+        public int ChannelId { get; private set; }
+
+        /// <summary>
+        /// Gets the world identifier.
+        /// </summary>
+        public int WorldId { get; private set; }
+
         /// <inheritdoc />
         public IChannelWorld World { get; private set; }
 
         /// <inheritdoc />
-        public ChannelServer(ServerConfiguration configuration)
+        public ChannelServer(ChannelServerConfiguration configuration)
             : base(configuration)
         {
+            this.ChannelId = configuration.ChannelId;
+            this.WorldId = configuration.WorldId;
+
             this.clients = new List<ChannelClient>();
             this.players = new PlayerRegistry();
         }
@@ -62,7 +73,7 @@ namespace OpenStory.Server.Channel
 
             this.BroadcastIntoChannel(players.GetActive(ids), data);
 
-            this.World.BroadcastFromChannel(this.channelId, ids, data);
+            this.World.BroadcastFromChannel(this.ChannelId, ids, data);
         }
 
         // This method will be part of the service contract.
