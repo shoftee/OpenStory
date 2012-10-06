@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Server
@@ -6,16 +7,11 @@ namespace OpenStory.Server
     /// <summary>
     /// Represents connection information for a nexus service.
     /// </summary>
+    [Localizable(true)]
     public sealed class NexusConnectionInfo
     {
-        private const string AccessTokenKey = "AccessToken";
-        private const string NexusUriKey = "NexusUri";
-
-        private const string TokenParseErrorFormat =
-            "Could not parse nexus access token. Make sure you've entered a valid GUID value under the parameter '{0}' (case-sensitive).";
-
-        private const string NexusUriParseErrorFormat =
-            "Could not parse nexus URI string. Make sure you've entered a valid service URI under the parameter '{0}' (case-sensitive).";
+        private const string AccessTokenKey = @"AccessToken";
+        private const string NexusUriKey = @"NexusUri";
 
         /// <summary>
         /// Gets the access token required to communicate with the Nexus service.
@@ -53,7 +49,7 @@ namespace OpenStory.Server
             Uri nexusUri;
             if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out nexusUri))
             {
-                error = String.Format(NexusUriParseErrorFormat, NexusUriKey);
+                error = String.Format(Errors.BootstrapUriParseError, NexusUriKey);
                 return null;
             }
 
@@ -62,7 +58,7 @@ namespace OpenStory.Server
             Guid accessToken;
             if (accessTokenString == null || !Guid.TryParse(accessTokenString, out accessToken))
             {
-                error = String.Format(TokenParseErrorFormat, AccessTokenKey);
+                error = String.Format(Errors.BootstrapTokenParseError, AccessTokenKey);
                 return null;
             }
 

@@ -47,17 +47,43 @@ namespace OpenStory.Server.Registry
         /// <returns><c>true</c> if the member was added successfully; otherwise, <c>false</c>.</returns>
         public bool AddMember(TGroupMember member)
         {
-            return this.Members.Add(member);
+            var success = this.Members.Add(member);
+            if (success)
+            {
+                this.OnMemberAdded(member);
+            }
+            return success;
         }
 
         /// <summary>
-        /// Removes a member from the instance  .
+        /// Called when a member is added to the group.
+        /// </summary>
+        /// <param name="member">The member that was added.</param>
+        protected virtual void OnMemberAdded(TGroupMember member)
+        {
+        }
+
+        /// <summary>
+        /// Removes a member from the instance.
         /// </summary>
         /// <param name="member">The member to remove.</param>
         /// <returns><c>true</c> if the member was successfully found and removed from the group; otherwise, <c>false</c>.</returns>
         public bool RemoveMember(TGroupMember member)
         {
-            return this.Members.Remove(member);
+            var success = this.Members.Remove(member);
+            if (success)
+            {
+                this.OnMemberRemoved(member);
+            }
+            return success;
+        }
+
+        /// <summary>
+        /// Called when a member is removed from the group.
+        /// </summary>
+        /// <param name="member">The member that was removed.</param>
+        protected virtual void OnMemberRemoved(TGroupMember member)
+        {
         }
 
         /// <inheritdoc />

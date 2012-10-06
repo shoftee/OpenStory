@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -12,6 +13,7 @@ namespace OpenStory.Server.Processing
     /// <summary>
     /// Handles asynchronous packet processing.
     /// </summary>
+    [Localizable(true)]
     internal sealed class ServerGameSession : IServerSession
     {
         /// <summary>
@@ -19,20 +21,17 @@ namespace OpenStory.Server.Processing
         /// </summary>
         public event EventHandler ReadyForPush;
 
-        /// <summary>
-        /// The event is raised when a packet is pushed out.
-        /// </summary>
+        /// <inheritdoc />
         public event EventHandler<PacketProcessingEventArgs> PacketProcessing;
 
-        /// <summary>
-        /// The event is raised when the session is closing.
-        /// </summary>
+        /// <inheritdoc />
         public event EventHandler Closing
         {
             add { this.networkSession.Closing += value; }
             remove { this.networkSession.Closing -= value; }
         }
 
+        /// <inheritdoc />
         public int NetworkSessionId { get { return this.networkSession.NetworkSessionId; } }
 
         private readonly ServerNetworkSession networkSession;
@@ -54,16 +53,19 @@ namespace OpenStory.Server.Processing
             this.isPushing = false;
         }
 
+        /// <inheritdoc />
         public void Start(RollingIvFactory factory, HandshakeInfo info)
         {
             this.networkSession.Start(factory, info);
         }
 
+        /// <inheritdoc />
         public void Close()
         {
             this.networkSession.Close();
         }
 
+        /// <inheritdoc />
         public void WritePacket(byte[] packet)
         {
             this.networkSession.WritePacket(packet);
@@ -75,7 +77,7 @@ namespace OpenStory.Server.Processing
         {
             if (this.PacketProcessing == null)
             {
-                throw new InvalidOperationException("PacketProcessing event must have a subscriber.");
+                throw new InvalidOperationException(Exceptions.PacketProcessingEventHasNoSubscriber);
             }
 
             // CompareExchange returns the original value, hence:

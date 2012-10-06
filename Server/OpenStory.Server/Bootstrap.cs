@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Fluent;
 using OpenStory.Services;
@@ -10,6 +11,7 @@ namespace OpenStory.Server
     /// <summary>
     /// Bootstrapper.
     /// </summary>
+    [Localizable(true)]
     public static class Bootstrap
     {
         /// <summary>
@@ -25,14 +27,14 @@ namespace OpenStory.Server
             var parameters = ParameterList.FromEnvironment(out error);
             if (error != null)
             {
-                error = "Parse error: " + error;
+                error = String.Format(Errors.BootstrapParseError, error);
                 return null;
             }
 
             var nexusConnectionInfo = NexusConnectionInfo.FromParameterList(parameters, out error);
             if (error != null)
             {
-                error = "Validation error: " + error;
+                error = String.Format(Errors.BootstrapValidationError, error);
                 return null;
             }
 
@@ -41,7 +43,7 @@ namespace OpenStory.Server
             var success = CheckOperationResult(result, out error);
             if (!success)
             {
-                error = "Nexus connection error: " + error;
+                error = String.Format(Errors.BootstrapConnectionError, error);
                 return null;
             }
 
@@ -49,7 +51,7 @@ namespace OpenStory.Server
             var service = provider();
             if (!service.Configure(configuration, out error))
             {
-                error = "Configuration error: " + error;
+                error = String.Format(Errors.BootstrapConfigurationError, error);
                 return null;
             }
 
@@ -58,7 +60,7 @@ namespace OpenStory.Server
             service.OpenServiceHost(out error);
             if (error != null)
             {
-                error = "Service hosting error: " + error;
+                error = String.Format(Errors.BootstrapHostingError, error);
                 return null;
             }
 
@@ -83,15 +85,15 @@ namespace OpenStory.Server
                     return true;
 
                 case OperationState.FailedLocally:
-                    error = String.Format("Could not connect to the Nexus service: {0}", result.Error);
+                    error = String.Format(Errors.BootstrapCouldNotConnectToNexus, result.Error);
                     return false;
 
                 case OperationState.Refused:
-                    error = "The Nexus service refused the request. Are you sure your token is authorized?";
+                    error = Errors.BootstrapRequestRefused;
                     return false;
 
                 default:
-                    error = String.Format("The Nexus service encountered a problem when processing your request: {0}", result.Error);
+                    error = String.Format(Errors.BootstrapNexusGenericError, result.Error);
                     return false;
 
             }

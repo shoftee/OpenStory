@@ -31,7 +31,7 @@ namespace OpenStory.Server.Game
         {
             if (itemId <= 0)
             {
-                throw new ArgumentOutOfRangeException("itemId", itemId, "'itemId' must be a positive integer.");
+                throw new ArgumentOutOfRangeException("itemId", itemId, Exceptions.ItemIdMustBePositive);
             }
 
             this.ItemId = itemId;

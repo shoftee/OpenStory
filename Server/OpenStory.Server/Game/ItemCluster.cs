@@ -84,7 +84,7 @@ namespace OpenStory.Server.Game
             // we could go with just identity check.
             if (!this.Prototype.Equals(other.Prototype))
             {
-                throw new ArgumentException("The specified ItemCluster has a different prototype.", "other");
+                throw new ArgumentException(Exceptions.DifferentItemClusterPrototype, "other");
             }
 
             int freeSpace = this.ClusterCapacity - this.Quantity;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace OpenStory.Server
     /// <summary>
     /// A base class for services which handle public communication.
     /// </summary>
+    [Localizable(true)]
     public abstract class ServerBase : IGameServer
     {
         private readonly SocketAcceptor acceptor;
@@ -99,7 +101,7 @@ namespace OpenStory.Server
             ushort opCode;
             if (!this.OpCodes.TryGetOutgoingOpCode(label, out opCode))
             {
-                throw new ArgumentException("The provided label does not correspond to a known packet.", "label");
+                throw new ArgumentException(Exceptions.UnknownPacketLabel, "label");
             }
 
             var builder = new PacketBuilder();
@@ -171,7 +173,7 @@ namespace OpenStory.Server
         {
             if (!this.IsRunning)
             {
-                throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
+                throw new InvalidOperationException(Exceptions.ServerNotRunning);
             }
         }
 
@@ -185,7 +187,7 @@ namespace OpenStory.Server
         {
             if (this.IsRunning)
             {
-                throw new InvalidOperationException("The server is already running.");
+                throw new InvalidOperationException(Exceptions.ServerAlreadyRunning);
             }
         }
 

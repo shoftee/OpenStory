@@ -8,7 +8,7 @@ namespace OpenStory.Server.Modules.Logging
         /// <summary>
         /// The component name for the Logger object.
         /// </summary>
-        public const string LoggerKey = "Logger";
+        public const string LoggerKey = @"Logger";
 
         /// <summary>
         /// Gets the logger of this instance.

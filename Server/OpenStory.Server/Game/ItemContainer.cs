@@ -45,7 +45,7 @@ namespace OpenStory.Server.Game
             if (slotCapacity < 0)
             {
                 throw new ArgumentOutOfRangeException("slotCapacity", slotCapacity,
-                                                      "'slotCapacity' must be non-negative.");
+                                                      OpenStory.Exceptions.CapacityMustBeNonNegative);
             }
             this.SlotCapacity = slotCapacity;
 
@@ -62,13 +62,13 @@ namespace OpenStory.Server.Game
         {
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "'count' must be non-negative.");
+                throw new ArgumentOutOfRangeException("count", count, OpenStory.Exceptions.CountMustBeNonNegative);
             }
 
             int newCapacity = this.SlotCapacity + count;
             if (newCapacity > this.MaxCapacity)
             {
-                throw new ArgumentException("You cannot expand this container beyond its max capacity.", "count");
+                throw new ArgumentException(Exceptions.CannotExpandBeyondMaxCapacity, "count");
             }
 
             this.SlotCapacity = newCapacity;

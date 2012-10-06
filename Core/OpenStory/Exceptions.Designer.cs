@@ -22,7 +22,7 @@ namespace OpenStory {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Exceptions {
+    public class Exceptions {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace OpenStory {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Exceptions", typeof(Exceptions).Assembly);
@@ -51,7 +51,7 @@ namespace OpenStory {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The accept event has no subscribers..
         /// </summary>
-        internal static string AcceptEventHasNoSubscribers {
+        public static string AcceptEventHasNoSubscribers {
             get {
                 return ResourceManager.GetString("AcceptEventHasNoSubscribers", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided key array consist of exactly 32 bytes..
         /// </summary>
-        internal static string AesKeyMustBe32Bytes {
+        public static string AesKeyMustBe32Bytes {
             get {
                 return ResourceManager.GetString("AesKeyMustBe32Bytes", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The array segment [{0},{1}] does not fit into the array&apos;s bounds..
         /// </summary>
-        internal static string BadArraySegmentEndpoints {
+        public static string BadArraySegmentEndpoints {
             get {
                 return ResourceManager.GetString("BadArraySegmentEndpoints", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The array segment starting at {0} with length {1} does not fit into the array&apos;s bounds..
         /// </summary>
-        internal static string BadArraySegmentLength {
+        public static string BadArraySegmentLength {
             get {
                 return ResourceManager.GetString("BadArraySegmentLength", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided capacity must be a non-negative integer..
         /// </summary>
-        internal static string CapacityMustBeNonNegative {
+        public static string CapacityMustBeNonNegative {
             get {
                 return ResourceManager.GetString("CapacityMustBeNonNegative", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided capacity must be a positive integer..
         /// </summary>
-        internal static string CapacityMustBePositive {
+        public static string CapacityMustBePositive {
             get {
                 return ResourceManager.GetString("CapacityMustBePositive", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided count argument must be a non-negative integer..
         /// </summary>
-        internal static string CountMustBeNonNegative {
+        public static string CountMustBeNonNegative {
             get {
                 return ResourceManager.GetString("CountMustBeNonNegative", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided count must be a positive integer..
         /// </summary>
-        internal static string CountMustBePositive {
+        public static string CountMustBePositive {
             get {
                 return ResourceManager.GetString("CountMustBePositive", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; : Parameter name duplicate after trimming white-space..
         /// </summary>
-        internal static string DuplicateParameterNames {
+        public static string DuplicateParameterNames {
             get {
                 return ResourceManager.GetString("DuplicateParameterNames", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The end of the stream was reached..
         /// </summary>
-        internal static string EndOfStreamReached {
+        public static string EndOfStreamReached {
             get {
                 return ResourceManager.GetString("EndOfStreamReached", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The event cannot have more than one subscriber..
         /// </summary>
-        internal static string EventMustHaveOnlyOneSubscriber {
+        public static string EventMustHaveOnlyOneSubscriber {
             get {
                 return ResourceManager.GetString("EventMustHaveOnlyOneSubscriber", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided number must be a valid key identifier..
         /// </summary>
-        internal static string InvalidKeyIdentifier {
+        public static string InvalidKeyIdentifier {
             get {
                 return ResourceManager.GetString("InvalidKeyIdentifier", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided IV must be exactly 4 bytes long..
         /// </summary>
-        internal static string IvMustBe4Bytes {
+        public static string IvMustBe4Bytes {
             get {
                 return ResourceManager.GetString("IvMustBe4Bytes", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided length must be a non-negative integer..
         /// </summary>
-        internal static string LengthMustBeNonNegative {
+        public static string LengthMustBeNonNegative {
             get {
                 return ResourceManager.GetString("LengthMustBeNonNegative", resourceCulture);
             }
@@ -190,7 +190,7 @@ namespace OpenStory {
         ///   Looks up a localized string similar to This instance does not have a socket attached to it.
         ///Please attach one before starting it..
         /// </summary>
-        internal static string NoSocketAttached {
+        public static string NoSocketAttached {
             get {
                 return ResourceManager.GetString("NoSocketAttached", resourceCulture);
             }
@@ -199,7 +199,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided offset must be ahead of the current position..
         /// </summary>
-        internal static string OffsetMustBeAheadOfCurrentPosition {
+        public static string OffsetMustBeAheadOfCurrentPosition {
             get {
                 return ResourceManager.GetString("OffsetMustBeAheadOfCurrentPosition", resourceCulture);
             }
@@ -208,7 +208,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided offset must be a non-negative integer..
         /// </summary>
-        internal static string OffsetMustBeNonNegative {
+        public static string OffsetMustBeNonNegative {
             get {
                 return ResourceManager.GetString("OffsetMustBeNonNegative", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The packet length must be a number larger than 2..
         /// </summary>
-        internal static string PacketLengthMustBeMoreThan2Bytes {
+        public static string PacketLengthMustBeMoreThan2Bytes {
             get {
                 return ResourceManager.GetString("PacketLengthMustBeMoreThan2Bytes", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided padding length must be a positive integer..
         /// </summary>
-        internal static string PaddingLengthMustBePositive {
+        public static string PaddingLengthMustBePositive {
             get {
                 return ResourceManager.GetString("PaddingLengthMustBePositive", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The components of the provided point must be larger than Int16.MinValue..
         /// </summary>
-        internal static string PointComponentsMustBeLargerThanMinValue {
+        public static string PointComponentsMustBeLargerThanMinValue {
             get {
                 return ResourceManager.GetString("PointComponentsMustBeLargerThanMinValue", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The receive event has no subscribers..
         /// </summary>
-        internal static string ReceiveEventHasNoSubscribers {
+        public static string ReceiveEventHasNoSubscribers {
             get {
                 return ResourceManager.GetString("ReceiveEventHasNoSubscribers", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The segment must have at least {0} elements..
         /// </summary>
-        internal static string SegmentTooShort {
+        public static string SegmentTooShort {
             get {
                 return ResourceManager.GetString("SegmentTooShort", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to This session is already active..
         /// </summary>
-        internal static string SessionAlreadyActive {
+        public static string SessionAlreadyActive {
             get {
                 return ResourceManager.GetString("SessionAlreadyActive", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The network session is not open..
         /// </summary>
-        internal static string SessionIsNotActive {
+        public static string SessionIsNotActive {
             get {
                 return ResourceManager.GetString("SessionIsNotActive", resourceCulture);
             }
@@ -280,7 +280,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided table must consist of exactly 256 bytes..
         /// </summary>
-        internal static string ShuffleTableMustBe256Bytes {
+        public static string ShuffleTableMustBe256Bytes {
             get {
                 return ResourceManager.GetString("ShuffleTableMustBe256Bytes", resourceCulture);
             }
@@ -289,7 +289,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The length of the provided string must be an even number..
         /// </summary>
-        internal static string StringLengthMustBeEven {
+        public static string StringLengthMustBeEven {
             get {
                 return ResourceManager.GetString("StringLengthMustBeEven", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided string must be shorter than the provided padding length..
         /// </summary>
-        internal static string StringMustBeShorterThanPaddingLength {
+        public static string StringMustBeShorterThanPaddingLength {
             get {
                 return ResourceManager.GetString("StringMustBeShorterThanPaddingLength", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided string must consist only of hexadecimal digits..
         /// </summary>
-        internal static string StringMustContainOnlyHexDigits {
+        public static string StringMustContainOnlyHexDigits {
             get {
                 return ResourceManager.GetString("StringMustContainOnlyHexDigits", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace OpenStory {
         /// <summary>
         ///   Looks up a localized string similar to The provided collection of bindings must contain exactly {0} elements..
         /// </summary>
-        internal static string WrongKeyBindingCount {
+        public static string WrongKeyBindingCount {
             get {
                 return ResourceManager.GetString("WrongKeyBindingCount", resourceCulture);
             }

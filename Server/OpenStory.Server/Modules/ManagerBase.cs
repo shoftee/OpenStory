@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace OpenStory.Server.Modules
 {
     /// <summary>
     /// Represents a base class for server managers.
     /// </summary>
+    [Localizable(true)]
     public abstract class ManagerBase
     {
         private bool isInitialized;
@@ -273,25 +275,23 @@ namespace OpenStory.Server.Modules
 
         private static InvalidOperationException GetModuleNotInitializedException()
         {
-            return new InvalidOperationException("The module has not been initialized yet.");
+            return new InvalidOperationException(Exceptions.ModuleNotInitialized);
         }
 
         private static InvalidOperationException GetModuleInitializedException()
         {
-            return new InvalidOperationException("You cannot change this module because it has been initialized.");
+            return new InvalidOperationException(Exceptions.CannotChangeInitializedModule);
         }
 
-        private static ArgumentOutOfRangeException GetIncompatibleTypeException(object instance, string typeFullName)
+        private static ArgumentException GetIncompatibleTypeException(object instance, string typeFullName)
         {
-            const string Format = "'instance' must be assignable to '{0}'";
-
-            string message = String.Format(Format, typeFullName);
-            return new ArgumentOutOfRangeException("instance", message);
+            string message = String.Format(Exceptions.ObjectNotAssignableToType, typeFullName);
+            return new ArgumentException("instance", message);
         }
 
         private static ArgumentOutOfRangeException GetUnknownComponentNameException(string name)
         {
-            return new ArgumentOutOfRangeException("name", name, "'name' must be the name of a required or allowed component.");
+            return new ArgumentOutOfRangeException("name", name, Exceptions.UnknownComponentName);
         }
     }
 }

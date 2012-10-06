@@ -30,11 +30,11 @@ namespace OpenStory.Server
         {
             if (channelId < 0)
             {
-                throw new ArgumentOutOfRangeException("channelId", channelId, "'channelId' must be a non-negative integer.");
+                throw new ArgumentOutOfRangeException("channelId", channelId, Exceptions.ChannelIdMustBeNonNegative);
             }
             if (mapId < 0)
             {
-                throw new ArgumentOutOfRangeException("mapId", mapId, "'mapId' must be a non-negative integer.");
+                throw new ArgumentOutOfRangeException("mapId", mapId, Exceptions.MapIdMustBeNonNegative);
             }
 
             this.ChannelId = channelId;

@@ -12,17 +12,17 @@ namespace OpenStory.Server.Modules.Services
         /// <summary>
         /// The name of the LocalService component.
         /// </summary>
-        public const string LocalServiceKey = "LocalService";
+        public const string LocalServiceKey = @"LocalService";
 
         /// <summary>
         /// The name of the LocalService component.
         /// </summary>
-        public const string NexusServiceKey = "NexusService";
+        public const string NexusServiceKey = @"NexusService";
 
         /// <summary>
         /// The name of the EndpointProvider component.
         /// </summary>
-        public const string EndpointProviderKey = "EndpointProvider";
+        public const string EndpointProviderKey = @"EndpointProvider";
 
         /// <summary>
         /// Gets the service reference registered as local.
