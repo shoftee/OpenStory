@@ -60,7 +60,7 @@ namespace OpenStory.Synchronization
                 Action<T> objectAction;
                 if (!this.actions.TryDequeue(out objectAction))
                 {
-                    throw new InvalidOperationException("There is no pending action for this IRunnable.");
+                    return;
                 }
 
                 Task.Factory.StartNew(this.GetAction(objectAction));

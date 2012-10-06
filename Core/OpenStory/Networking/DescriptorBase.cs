@@ -8,6 +8,8 @@ namespace OpenStory.Networking
     /// </summary>
     internal abstract class DescriptorBase : IDisposable
     {
+        private bool isDisposed;
+
         /// <summary>
         /// The event is raised when a connection error occurs.
         /// </summary>
@@ -40,6 +42,8 @@ namespace OpenStory.Networking
             {
                 throw new ArgumentNullException("container");
             }
+
+            this.isDisposed = false;
 
             this.SocketArgs = new SocketAsyncEventArgs();
             this.Container = container;
@@ -103,10 +107,16 @@ namespace OpenStory.Networking
         {
             this.Close();
 
-            if (this.SocketArgs != null)
+            if (disposing && !this.isDisposed)
             {
-                this.SocketArgs.Dispose();
-                this.SocketArgs = null;
+                var args = this.SocketArgs;
+                if (args != null)
+                {
+                    args.Dispose();
+                    this.SocketArgs = null;
+                }
+
+                this.isDisposed = true;
             }
         }
 

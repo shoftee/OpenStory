@@ -82,10 +82,10 @@ namespace OpenStory.Common.IO
         /// Reads a null-terminated string and advances the position past the padding.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="length"/> is non-positive.
+        /// Thrown if <paramref name="paddingLength"/> is non-positive.
         /// </exception>
         /// <returns>the string that was read from the stream.</returns>
-        string ReadPaddedString(int length);
+        string ReadPaddedString(int paddingLength);
 
         /// <summary>
         /// Reads a byte as a <see cref="System.Boolean"/>.

@@ -37,6 +37,15 @@ namespace OpenStory.Cryptography
         /// <param name="decryptor">The IV used for decryption.</param>
         protected EndpointCrypto(RollingIv encryptor, RollingIv decryptor)
         {
+            if (encryptor == null)
+            {
+                throw new ArgumentNullException("encryptor");
+            }
+            if (decryptor == null)
+            {
+                throw new ArgumentNullException("decryptor");
+            }
+
             this.encryptor = encryptor;
             this.decryptor = decryptor;
         }

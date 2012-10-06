@@ -1,4 +1,6 @@
-﻿namespace OpenStory.Cryptography
+﻿using System;
+
+namespace OpenStory.Cryptography
 {
     /// <summary>
     /// Represents a cryptographic transformer for client-side sessions.
@@ -17,6 +19,19 @@
         /// <returns></returns>
         public static EndpointCrypto New(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+            if (clientIv == null)
+            {
+                throw new ArgumentNullException("clientIv");
+            }
+            if (serverIv == null)
+            {
+                throw new ArgumentNullException("serverIv");
+            }
+
             var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.None);
             var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.Complement);
 

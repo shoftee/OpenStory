@@ -14,8 +14,8 @@ namespace OpenStory.Cryptography
         /// Initializes a new instance of <see cref="KmstEncryptor"/>.
         /// </summary>
         /// <inheritdoc />
-        public KmstEncryptor(byte[] table, byte[] initialValue)
-            : base(table, initialValue)
+        public KmstEncryptor(byte[] table, byte[] initialIv)
+            : base(table, initialIv)
         {
         }
 

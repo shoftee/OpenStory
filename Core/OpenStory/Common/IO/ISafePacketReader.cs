@@ -129,15 +129,15 @@ namespace OpenStory.Common.IO
         /// <remarks>
         /// If the read was unsuccessful, <paramref name="result"/> is set to <c>null</c>.
         /// Otherwise, <paramref name="result"/> contains the string read from the stream, 
-        /// and the stream is advanced <paramref name="length"/> positions.
+        /// and the stream is advanced <paramref name="paddingLength"/> positions.
         /// </remarks>
-        /// <param name="length">The length of the padded string segment.</param>
+        /// <param name="paddingLength">The length of the padded string segment.</param>
         /// <param name="result">A variable to hold the string.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="length"/> is negative.
+        /// Thrown if <paramref name="paddingLength"/> is negative.
         /// </exception>
         /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
-        bool TryReadPaddedString(int length, out string result);
+        bool TryReadPaddedString(int paddingLength, out string result);
 
         /// <summary>
         /// Attempts to read a byte as a <see cref="System.Boolean"/>.

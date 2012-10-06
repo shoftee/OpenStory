@@ -69,7 +69,7 @@ namespace OpenStory.Server
         {
             using (var nexus = new NexusServiceClient(info.NexusUri))
             {
-                ServiceOperationResult<ServiceConfiguration> result = nexus.GetServiceConfiguration(info.AccessToken);
+                var result = nexus.GetServiceConfiguration(info.AccessToken);
                 return result;
             }
         }
