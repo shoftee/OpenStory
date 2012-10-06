@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 using OpenStory.Common.Data;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -119,7 +120,8 @@ namespace OpenStory.Server
                           clientIv.ToHex(hyphenate: true),
                           serverIv.ToHex(hyphenate: true));
 
-            var info = new ConfiguredHandshakeInfo(Settings.Default.MapleVersion, "2", clientIv, serverIv);
+            // TODO: Load constants from configuration thingie?
+            var info = new ConfiguredHandshakeInfo(0x000E, Settings.Default.MapleVersion, "2", clientIv, serverIv, 0x05);
             session.Start(this.ivFactory, info);
         }
 
@@ -139,8 +141,8 @@ namespace OpenStory.Server
         private void HandleReadyForPush(object sender, EventArgs e)
         {
             var wrapper = (ServerGameSession)sender;
-            // TODO: do on another thread.
-            wrapper.Push();
+
+            ThreadPool.QueueUserWorkItem(state => wrapper.Push());
         }
 
         private string GetLabel(ushort opCode)
@@ -169,10 +171,7 @@ namespace OpenStory.Server
         {
             if (!this.IsRunning)
             {
-                const string Message =
-                    "The server has not been started. Call the Start method before using it.";
-
-                throw new InvalidOperationException(Message);
+                throw new InvalidOperationException("The server has not been started. Call the Start method before using it.");
             }
         }
 
@@ -186,9 +185,7 @@ namespace OpenStory.Server
         {
             if (this.IsRunning)
             {
-                const string Message = "The server is already running.";
-
-                throw new InvalidOperationException(Message);
+                throw new InvalidOperationException("The server is already running.");
             }
         }
 
