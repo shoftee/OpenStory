@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net.Sockets;
 
 namespace OpenStory.Networking
@@ -6,6 +7,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network receive buffer.
     /// </summary>
+    [Localizable(true)]
     internal sealed class ReceiveDescriptor : DescriptorBase
     {
         /// <summary>
@@ -25,8 +27,7 @@ namespace OpenStory.Networking
         /// data immediately or copy it into another buffer.
         /// </para></remarks>
         /// <exception cref="InvalidOperationException">
-        /// Thrown when attempting to subscribe to the event when there is already one subscriber,
-        /// or when attempting to unsubscribe from the event when there are no subscribers.
+        /// Thrown when attempting to subscribe to the event when there is already one subscriber.
         /// </exception>
         public event EventHandler<DataArrivedEventArgs> DataArrived
         {
@@ -34,16 +35,12 @@ namespace OpenStory.Networking
             {
                 if (this.DataArrivedInternal != null)
                 {
-                    throw new InvalidOperationException("The event should not have more than one subscriber.");
+                    throw new InvalidOperationException(Exceptions.EventMustHaveOnlyOneSubscriber);
                 }
                 this.DataArrivedInternal += value;
             }
             remove
             {
-                if (this.DataArrivedInternal == null)
-                {
-                    throw new InvalidOperationException("The event has no subscribers.");
-                }
                 this.DataArrivedInternal -= value;
             }
         }
@@ -100,7 +97,7 @@ namespace OpenStory.Networking
         {
             if (this.DataArrivedInternal == null)
             {
-                throw new InvalidOperationException("DataArrived has no subscribers.");
+                throw new InvalidOperationException(Exceptions.ReceiveEventHasNoSubscribers);
             }
 
             this.SetFreshBuffer();

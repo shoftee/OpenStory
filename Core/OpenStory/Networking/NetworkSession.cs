@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net.Sockets;
 using OpenStory.Common;
 
@@ -7,6 +8,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents a network session used for sending and receiving data.
     /// </summary>
+    [Localizable(true)]
     public sealed class NetworkSession : IDescriptorContainer, IDisposable
     {
         #region Events
@@ -71,7 +73,7 @@ namespace OpenStory.Networking
         /// </summary>
         public NetworkSession()
         {
-            this.isActive = new AtomicBoolean(false);
+            this.isActive = false;
 
             this.receiveDescriptor = new ReceiveDescriptor(this);
             this.sendDescriptor = new SendDescriptor(this);
@@ -116,16 +118,11 @@ namespace OpenStory.Networking
         {
             if (this.Socket == null)
             {
-                const string Message =
-@"This instance does not have a socket attached to it.
-Please use AttachSocket(Socket) to attach one before starting it.";
-
-                throw new InvalidOperationException(
-                    Message);
+                throw new InvalidOperationException(Exceptions.NoSocketAttached);
             }
             if (this.isActive.CompareExchange(comparand: false, newValue: true))
             {
-                throw new InvalidOperationException("This session is already active.");
+                throw new InvalidOperationException(Exceptions.SessionAlreadyActive);
             }
 
             this.receiveDescriptor.StartReceive();

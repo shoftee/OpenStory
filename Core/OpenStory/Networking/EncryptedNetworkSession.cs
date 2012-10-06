@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -13,6 +14,7 @@ namespace OpenStory.Networking
     /// This class provides the packet bufferring and decryption logic for inbound packets,
     /// as well as the logic to write outbound packets.
     /// </remarks>
+    [Localizable(true)]
     public abstract class EncryptedNetworkSession : IDisposable
     {
         #region Events
@@ -204,7 +206,7 @@ namespace OpenStory.Networking
         {
             if (this.PacketReceived == null)
             {
-                throw new InvalidOperationException("'PacketReceived' has no subscribers.");
+                throw new InvalidOperationException(Exceptions.ReceiveEventHasNoSubscribers);
             }
         }
 

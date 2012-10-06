@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 
@@ -7,6 +8,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents a simple connection acceptor.
     /// </summary>
+    [Localizable(true)]
     public sealed class SocketAcceptor : IDisposable
     {
         /// <summary>
@@ -77,7 +79,7 @@ namespace OpenStory.Networking
         {
             if (this.SocketAccepted == null)
             {
-                throw new InvalidOperationException("The 'SocketAccepted' event has no subscribers.");
+                throw new InvalidOperationException(Exceptions.AcceptEventHasNoSubscribers);
             }
 
             this.acceptSocket = this.GetAcceptSocket();

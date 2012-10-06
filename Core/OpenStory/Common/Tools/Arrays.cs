@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenStory.Common.IO;
 
 namespace OpenStory.Common.Tools
 {
@@ -35,30 +36,38 @@ namespace OpenStory.Common.Tools
         /// Extracts a segment from a given array.
         /// </summary>
         /// <param name="array">The source array.</param>
-        /// <param name="start">The start of the segment.</param>
+        /// <param name="offset">The start of the segment.</param>
         /// <param name="length">The length of the segment.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="start"/> is negative or outside the range of the array, 
-        /// or if <paramref name="length"/> is negative or the segment ends outside the array's bounds.</exception>
+        /// Thrown if <paramref name="offset"/> or <paramref name="length"/> are negative.
+        /// </exception>
+        /// <exception cref="ArraySegmentException">
+        /// Thrown if the array segment defined by <paramref name="offset"/> and <paramref name="length"/>
+        /// does not fit the bounds of the provided array.
+        /// </exception>
         /// <returns>a copy of the segment.</returns>
-        public static byte[] CopySegment(this byte[] array, int start, int length)
+        public static byte[] CopySegment(this byte[] array, int offset, int length)
         {
             if (array == null)
             {
                 throw new ArgumentNullException("array");
             }
-            if (start < 0 || array.Length <= start)
+            if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("start");
+                throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
-            if (length < 0 || array.Length < start + length)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException("length", length, Exceptions.LengthMustBeNonNegative);
+            }
+            if (array.Length <= offset || array.Length < offset + length)
+            {
+                throw ArraySegmentException.GetByStartAndLength(offset, length);
             }
 
             var segment = new byte[length];
-            Buffer.BlockCopy(array, start, segment, 0, length);
+            Buffer.BlockCopy(array, offset, segment, 0, length);
             return segment;
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace OpenStory.Common.IO
 {
@@ -10,6 +8,7 @@ namespace OpenStory.Common.IO
     /// Thrown when there is a problem with reading a packet.
     /// </summary>
     [Serializable]
+    [Localizable(true)]
     public sealed class PacketReadingException : Exception
     {
         /// <summary>
@@ -21,6 +20,9 @@ namespace OpenStory.Common.IO
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PacketReadingException"/>.
+        /// </summary>
         /// <inheritdoc />
         private PacketReadingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -32,7 +34,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         public static PacketReadingException EndOfStream()
         {
-            return new PacketReadingException("The end of the stream was reached.");
+            return new PacketReadingException(Exceptions.EndOfStreamReached);
         }
     }
 }

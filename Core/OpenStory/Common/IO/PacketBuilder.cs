@@ -15,7 +15,7 @@ namespace OpenStory.Common.IO
     {
         private bool isDisposed;
 
-        private readonly MemoryStream stream;
+        private MemoryStream stream;
 
         /// <summary>
         /// Initializes a new <see cref="PacketBuilder"/> instance with the default capacity.
@@ -36,8 +36,7 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                const string Message = "'capacity' must be a positive integer.";
-                throw new ArgumentOutOfRangeException("capacity", capacity, Message);
+                throw new ArgumentOutOfRangeException("capacity", capacity, Exceptions.CapacityMustBePositive);
             }
 
             this.stream = new MemoryStream(capacity);
@@ -114,8 +113,7 @@ namespace OpenStory.Common.IO
 
             if (count < 0)
             {
-                const string Message = "'count' must be a non-negative integer.";
-                throw new ArgumentOutOfRangeException("count", count, Message);
+                throw new ArgumentOutOfRangeException("count", count, Exceptions.CountMustBeNonNegative);
             }
 
             for (int i = 0; i < count; i++)
@@ -167,7 +165,7 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
-        public void WritePaddedString(string @string, int padLength)
+        public void WritePaddedString(string @string, int paddingLength)
         {
             this.ThrowIfDisposed();
 
@@ -176,19 +174,17 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("string");
             }
 
-            if (padLength <= 0)
+            if (paddingLength <= 0)
             {
-                const string Message = "'padLength' must be a positive number.";
-                throw new ArgumentOutOfRangeException("padLength", padLength, Message);
+                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, Exceptions.PaddingLengthMustBePositive);
             }
 
-            if (@string.Length > padLength - 1)
+            if (@string.Length > paddingLength - 1)
             {
-                const string Message = "'string' is not shorter than 'padLength'.";
-                throw new ArgumentOutOfRangeException("string", Message);
+                throw new ArgumentOutOfRangeException("string", Exceptions.StringMustBeShorterThanPaddingLength);
             }
 
-            var stringBytes = new byte[padLength];
+            var stringBytes = new byte[paddingLength];
             Encoding.UTF8.GetBytes(@string, 0, @string.Length, stringBytes, 0);
             stringBytes[@string.Length] = 0;
 
@@ -240,11 +236,14 @@ namespace OpenStory.Common.IO
                 return;
             }
 
-            this.isDisposed = true;
-            if (this.stream != null)
+            var localStream = this.stream;
+            if (localStream != null)
             {
-                this.stream.Dispose();
+                localStream.Dispose();
+                this.stream = null;
             }
+
+            this.isDisposed = true;
         }
 
         #endregion

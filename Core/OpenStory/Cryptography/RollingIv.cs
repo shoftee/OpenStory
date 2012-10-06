@@ -32,7 +32,15 @@ namespace OpenStory.Cryptography
                 throw new ArgumentNullException("algorithm");
             }
 
-            ThrowIfIvIsNullOrWrongLength(initialIv, "initialIv");
+            if (initialIv == null)
+            {
+                throw new ArgumentNullException("initialIv");
+            }
+
+            if (initialIv.Length != 4)
+            {
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "initialIv");
+            }
 
             this.algorithm = algorithm;
             this.iv = initialIv.FastClone();
@@ -70,7 +78,7 @@ namespace OpenStory.Cryptography
         {
             if (length < 2)
             {
-                throw new ArgumentOutOfRangeException("length", length, "The packet length must be at least 2.");
+                throw new ArgumentOutOfRangeException("length", length, Exceptions.PacketLengthMustBeMoreThan2Bytes);
             }
 
             int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask);
@@ -100,7 +108,15 @@ namespace OpenStory.Cryptography
         /// <returns>the packet length extracted from the array.</returns>
         public static int GetPacketLength(byte[] header)
         {
-            ThrowIfHeaderNullOrTooShort(header);
+            if (header == null)
+            {
+                throw new ArgumentNullException("header");
+            }
+            if (header.Length < 4)
+            {
+                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                throw new ArgumentException(message, "header");
+            }
 
             return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
         }
@@ -112,7 +128,15 @@ namespace OpenStory.Cryptography
         /// <returns><c>true</c> if the header is valid; otherwise, <c>false</c>.</returns>
         public bool ValidateHeader(byte[] header)
         {
-            ThrowIfHeaderNullOrTooShort(header);
+            if (header == null)
+            {
+                throw new ArgumentNullException("header");
+            }
+            if (header.Length < 4)
+            {
+                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                throw new ArgumentException(message, "header");
+            }
 
             return ValidateHeaderInternal(header, this.iv, this.versionMask);
         }
@@ -135,7 +159,15 @@ namespace OpenStory.Cryptography
         /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
         public bool TryGetLength(byte[] header, out int length)
         {
-            ThrowIfHeaderNullOrTooShort(header);
+            if (header == null)
+            {
+                throw new ArgumentNullException("header");
+            }
+            if (header.Length < 4)
+            {
+                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                throw new ArgumentException(message, "header");
+            }
 
             if (ValidateHeaderInternal(header, this.iv, this.versionMask))
             {
@@ -165,8 +197,25 @@ namespace OpenStory.Cryptography
         /// <returns>the version mask encoded into the header.</returns>
         public static ushort GetVersion(byte[] header, byte[] iv)
         {
-            ThrowIfHeaderNullOrTooShort(header);
-            ThrowIfIvIsNullOrWrongLength(iv, "iv");
+            if (header == null)
+            {
+                throw new ArgumentNullException("header");
+            }
+            if (header.Length < 4)
+            {
+                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                throw new ArgumentException(message, "header");
+            }
+
+            if (iv == null)
+            {
+                throw new ArgumentNullException("iv");
+            }
+
+            if (iv.Length != 4)
+            {
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+            }
 
             return GetVersionInternal(header, iv);
         }
@@ -187,38 +236,6 @@ namespace OpenStory.Cryptography
         }
 
         #region Exception methods
-
-        private static void ThrowIfIvIsNullOrWrongLength(byte[] iv, string parameterName)
-        {
-            if (iv == null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
-
-            if (iv.Length != 4)
-            {
-                const string Format = "Argument '{0}' does not have exactly 4 elements.";
-                string message = String.Format(Format, parameterName);
-                throw new ArgumentException(message, parameterName);
-            }
-        }
-
-        private static void ThrowIfHeaderNullOrTooShort(byte[] header)
-        {
-            if (header == null)
-            {
-                throw new ArgumentNullException("header");
-            }
-            if (header.Length < 4)
-            {
-                throw GetSegmentTooShortException(4, "header");
-            }
-        }
-
-        private static ArgumentException GetSegmentTooShortException(int lowBound, string parameterName)
-        {
-            return new ArgumentException("The segment must have at least " + lowBound + " elements.", parameterName);
-        }
 
         #endregion
     }

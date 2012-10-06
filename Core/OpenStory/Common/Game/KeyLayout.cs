@@ -45,7 +45,8 @@ namespace OpenStory.Common.Game
             }
             if (bindings.Count != GameConstants.KeyCount)
             {
-                throw new ArgumentException("'bindings' must contain exactly " + GameConstants.KeyCount + " elements.");
+                var message = String.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
+                throw new ArgumentException(message);
             }
 
             this.bindings.AddRange(bindings);
@@ -85,7 +86,7 @@ namespace OpenStory.Common.Game
             if (GameConstants.KeyCount <= keyId)
             {
                 throw new ArgumentOutOfRangeException(
-                    "keyId", keyId, "'keyId' must be a valid key identifier.");
+                    "keyId", keyId, Exceptions.InvalidKeyIdentifier);
             }
         }
     }

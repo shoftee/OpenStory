@@ -11,6 +11,7 @@ namespace OpenStory.Common.Game
         /// Gets the X component of the point.
         /// </summary>
         public short X { get; private set; }
+
         /// <summary>
         /// Gets the Y component of the point.
         /// </summary>
@@ -74,7 +75,7 @@ namespace OpenStory.Common.Game
         {
             if (a.X == short.MinValue || a.Y == short.MinValue)
             {
-                throw new ArgumentOutOfRangeException("a", "The components of the provided point must be larger than Int16.MinValue.");
+                throw new ArgumentException(Exceptions.PointComponentsMustBeLargerThanMinValue, "a");
             }
 
             return new PointS((short)(-a.X), (short)(-a.Y));

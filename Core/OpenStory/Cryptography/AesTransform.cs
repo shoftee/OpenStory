@@ -37,12 +37,12 @@ namespace OpenStory.Cryptography
         /// The provided arrays are copied into the <see cref="AesTransform"/> instance to avoid mutation.
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
-        /// <param name="initialValue">The initial value for the shuffle transformation.</param>
+        /// <param name="initialIv">The initial value for the shuffle transformation.</param>
         /// <param name="key">The AES key.</param>
         /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided parameters has an invalid number of elements.</exception>
-        public AesTransform(byte[] table, byte[] initialValue, byte[] key)
-            : base(table, initialValue)
+        public AesTransform(byte[] table, byte[] initialIv, byte[] key)
+            : base(table, initialIv)
         {
             if (key == null)
             {
@@ -50,7 +50,7 @@ namespace OpenStory.Cryptography
             }
             if (key.Length != 32)
             {
-                throw new ArgumentException("'key' must have exactly 32 elements.", "key");
+                throw new ArgumentException(Exceptions.AesKeyMustBe32Bytes, "key");
             }
 
             this.key = key.FastClone();

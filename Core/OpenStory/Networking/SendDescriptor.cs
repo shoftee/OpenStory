@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Net.Sockets;
 using OpenStory.Common;
 
@@ -8,6 +9,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an asynchronous network send buffer.
     /// </summary>
+    [Localizable(true)]
     internal sealed class SendDescriptor : DescriptorBase
     {
         private readonly AtomicBoolean isSending;
@@ -45,7 +47,7 @@ namespace OpenStory.Networking
         {
             if (!base.Container.IsActive)
             {
-                throw new InvalidOperationException("The network session is not open.");
+                throw new InvalidOperationException(Exceptions.SessionIsNotActive);
             }
             if (data == null)
             {

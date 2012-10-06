@@ -87,14 +87,14 @@ namespace OpenStory.Common.IO
         /// Writes a padded string to the end of the packet.
         /// </summary>
         /// <param name="string">The string to write.</param>
-        /// <param name="padLength">The length to pad the string to.</param>
+        /// <param name="paddingLength">The length to pad the string to.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="string"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="padLength"/> is a non-positive number.
+        /// Thrown if <paramref name="paddingLength"/> is a non-positive number.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="string"/> is not shorter than <paramref name="padLength"/>.
+        /// Thrown if <paramref name="string"/> is not shorter than <paramref name="paddingLength"/>.
         /// </exception>
-        void WritePaddedString(string @string, int padLength);
+        void WritePaddedString(string @string, int paddingLength);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,13 +10,19 @@ namespace OpenStory.Common.Tools
     /// <summary>
     /// Represents a command line parameter list.
     /// </summary>
+    [Localizable(true)]
     public sealed class ParameterList
     {
+        private const char QuotationMark = '\"';
+        private const string ParameterRegexPattern = @"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?";
+        
         private const RegexOptions ParamRegexOptions =
             RegexOptions.Compiled
             | RegexOptions.Singleline
             | RegexOptions.CultureInvariant
             | RegexOptions.ExplicitCapture;
+
+        private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
 
         /// <summary>
         /// Regular Expression pattern for matching parameter key-value pairs.
@@ -32,10 +39,7 @@ namespace OpenStory.Common.Tools
         /// * Do not put a digit as the first character of a key name. After that it's fine.
         /// * Keys are case-sensitive.
         /// </remarks>
-        private static readonly Regex ParamRegex = new Regex(@"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?", ParamRegexOptions);
-
-        private const char QuotationMark = '\"';
-        private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
+        private static readonly Regex ParamRegex = new Regex(ParameterRegexPattern, ParamRegexOptions);
 
         private readonly Dictionary<string, string> parameters;
 
@@ -75,6 +79,11 @@ namespace OpenStory.Common.Tools
         /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
         private static Dictionary<string, string> ParseCommandLine(string commandLine)
         {
+            if (commandLine == null)
+            {
+                throw new ArgumentNullException("commandLine");
+            }
+
             var parsed = new Dictionary<string, string>();
             var matches = ParamRegex.Matches(commandLine);
             foreach (Match match in matches)
@@ -149,25 +158,17 @@ namespace OpenStory.Common.Tools
                 string value = entry.Value.Trim().Trim(QuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    const string DuplicateParameterNames =
-                        "'{0}' : Parameter name duplicate after trimming white-space.";
-
-                    error = String.Format(InvariantCulture, DuplicateParameterNames, name);
+                    error = String.Format(Errors.DuplicateParameterNames, name);
                     return null;
                 }
                 else if (name.Any(Char.IsWhiteSpace))
                 {
-                    const string NoWhiteSpaceInParameterName =
-                        "'{0}' : Parameter names cannot contain white-space characters.";
-                    error = String.Format(InvariantCulture, NoWhiteSpaceInParameterName, name);
+                    error = String.Format(Errors.NoWhiteSpaceInParameterName, name);
                     return null;
                 }
                 else if (value.Any(c => c == QuotationMark))
                 {
-                    const string NoQuotationMarksInParameterValue =
-                        "'{0}' : Parameter values cannot contain quotation marks.";
-
-                    error = String.Format(InvariantCulture, NoQuotationMarksInParameterValue, value);
+                    error = String.Format(Errors.NoQuotationMarksInParameterValue, value);
                     return null;
                 }
 

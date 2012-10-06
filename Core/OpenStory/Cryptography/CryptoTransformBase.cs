@@ -34,31 +34,31 @@ namespace OpenStory.Cryptography
         /// The provided arrays are copied into the <see cref="CryptoTransformBase"/> instance to avoid mutation.
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
-        /// <param name="initialValue">The initial value for the shuffle transformation.</param>
+        /// <param name="initialIv">The initial value for the shuffle transformation.</param>
         /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown if any of the provided parameters has an invalid number of elements.</exception>
-        protected CryptoTransformBase(byte[] table, byte[] initialValue)
+        /// <exception cref="ArgumentException">Thrown if any of the provided arrays has an invalid number of elements.</exception>
+        protected CryptoTransformBase(byte[] table, byte[] initialIv)
         {
             if (table == null)
             {
                 throw new ArgumentNullException("table");
             }
-            if (initialValue == null)
+            if (initialIv == null)
             {
-                throw new ArgumentNullException("initialValue");
+                throw new ArgumentNullException("initialIv");
             }
 
             if (table.Length != 256)
             {
-                throw new ArgumentException("'table' must have exactly 256 elements.", "table");
+                throw new ArgumentException(Exceptions.ShuffleTableMustBe256Bytes, "table");
             }
-            if (initialValue.Length != 4)
+            if (initialIv.Length != 4)
             {
-                throw new ArgumentException("'initialValue' must have exactly 4 elements.", "initialValue");
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "initialIv");
             }
 
             this.table = table.FastClone();
-            this.initialValue = initialValue.FastClone();
+            this.initialValue = initialIv.FastClone();
         }
 
         /// <inheritdoc />
@@ -117,7 +117,7 @@ namespace OpenStory.Cryptography
             }
             else if (iv.Length != 4)
             {
-                throw new ArgumentException("'iv' must have exactly 4 elements.");
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes);
             }
 
             var copy = data.FastClone();

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Globalization;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace OpenStory.Common.IO
@@ -15,6 +15,7 @@ namespace OpenStory.Common.IO
     /// falls outside of an array's bounds.
     /// </remarks>
     [Serializable]
+    [Localizable(true)]
     public sealed class ArraySegmentException : Exception
     {
         /// <summary>
@@ -41,10 +42,8 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
-            const string LengthFormat =
-                "The array segment starting at {0} with length {1} does not fit into the array's bounds.";
 
-            string formatted = String.Format(CultureInfo.InvariantCulture, LengthFormat, startOffset, length);
+            string formatted = String.Format(Exceptions.BadArraySegmentLength, startOffset, length);
             return new ArraySegmentException(formatted);
         }
 
@@ -57,10 +56,7 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndEnd(int startOffset, int endOffset)
         {
-            const string BoundsFormat =
-                "The array segment [{0},{1}] does not fit into the array's bounds.";
-
-            string formatted = String.Format(CultureInfo.InvariantCulture, BoundsFormat, startOffset, endOffset);
+            string formatted = String.Format(Exceptions.BadArraySegmentEndpoints, startOffset, endOffset);
             return new ArraySegmentException(formatted);
         }
     }

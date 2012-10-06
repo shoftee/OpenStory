@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InvalidKeyIdentifier" xml:space="preserve">
+    <value>The provided number must be a valid key identifier.</value>
+    <comment>Thrown when an invalid key identifier is passed to the GetKeyBinding or SetKeyBinding methods.</comment>
+  </data>
+  <data name="WrongKeyBindingCount" xml:space="preserve">
+    <value>The provided collection of bindings must contain exactly {0} elements.</value>
+    <comment>Thrown when the KeyLayout constructor is passed an invalid number of KeyBinding elements.</comment>
+  </data>
+  <data name="PointComponentsMustBeLargerThanMinValue" xml:space="preserve">
+    <value>The components of the provided point must be larger than Int16.MinValue.</value>
+    <comment>Thrown when the components of a PointS are equal to Int16.MinValue and you attempt to negate them.</comment>
+  </data>
+  <data name="BadArraySegmentEndpoints" xml:space="preserve">
+    <value>The array segment [{0},{1}] does not fit into the array's bounds.</value>
+    <comment>Thrown when an array segment defined by endpoints does not fit into the array's bounds.</comment>
+  </data>
+  <data name="BadArraySegmentLength" xml:space="preserve">
+    <value>The array segment starting at {0} with length {1} does not fit into the array's bounds.</value>
+    <comment>Thrown when an array segment defined by offset and length does not fit into the array's bounds.</comment>
+  </data>
+  <data name="CapacityMustBePositive" xml:space="preserve">
+    <value>The provided capacity must be a positive integer.</value>
+    <comment>Thrown when the value of a capacity argument is a non-positive integer.</comment>
+  </data>
+  <data name="CapacityMustBeNonNegative" xml:space="preserve">
+    <value>The provided capacity must be a non-negative integer.</value>
+    <comment>Thrown when the value of a capacity argument is a negative integer.</comment>
+  </data>
+  <data name="CountMustBePositive" xml:space="preserve">
+    <value>The provided count must be a positive integer.</value>
+    <comment>Thrown when the value of a count argument is a non-positive integer.</comment>
+  </data>
+  <data name="OffsetMustBeNonNegative" xml:space="preserve">
+    <value>The provided offset must be a non-negative integer.</value>
+    <comment>Thrown when the value of an offset argument is a negative integer.</comment>
+  </data>
+  <data name="CountMustBeNonNegative" xml:space="preserve">
+    <value>The provided count argument must be a non-negative integer.</value>
+    <comment>Thrown when the value of a count argument is a negative integer.</comment>
+  </data>
+  <data name="PaddingLengthMustBePositive" xml:space="preserve">
+    <value>The provided padding length must be a positive integer.</value>
+    <comment>Thrown when the value of the padding length argument is a non-positive integer.</comment>
+  </data>
+  <data name="StringMustBeShorterThanPaddingLength" xml:space="preserve">
+    <value>The provided string must be shorter than the provided padding length.</value>
+    <comment>Thrown when the provided string is not shorter than the provided padding length.</comment>
+  </data>
+  <data name="LengthMustBeNonNegative" xml:space="preserve">
+    <value>The provided length must be a non-negative integer.</value>
+    <comment>Thrown when the value of a length argument is a negative integer.</comment>
+  </data>
+  <data name="OffsetMustBeAheadOfCurrentPosition" xml:space="preserve">
+    <value>The provided offset must be ahead of the current position.</value>
+    <comment>Thrown when the value of an offset argument is not ahead of the current stream position.</comment>
+  </data>
+  <data name="EndOfStreamReached" xml:space="preserve">
+    <value>The end of the stream was reached.</value>
+    <comment>Thrown when the end of a stream was reached during a reading operation.</comment>
+  </data>
+  <data name="StringLengthMustBeEven" xml:space="preserve">
+    <value>The length of the provided string must be an even number.</value>
+    <comment>Thrown when the length of a string argument is not an even number.</comment>
+  </data>
+  <data name="StringMustContainOnlyHexDigits" xml:space="preserve">
+    <value>The provided string must consist only of hexadecimal digits.</value>
+    <comment>Thrown when a string argument contains characters that are not hexadecimal digits.</comment>
+  </data>
+  <data name="DuplicateParameterNames" xml:space="preserve">
+    <value>'{0}' : Parameter name duplicate after trimming white-space.</value>
+  </data>
+  <data name="AesKeyMustBe32Bytes" xml:space="preserve">
+    <value>The provided key array consist of exactly 32 bytes.</value>
+    <comment>Thrown when the an AES key array is not 32 bytes long.</comment>
+  </data>
+  <data name="ShuffleTableMustBe256Bytes" xml:space="preserve">
+    <value>The provided table must consist of exactly 256 bytes.</value>
+    <comment>Thrown when a shuffle table argument is not exactly 256 bytes long.</comment>
+  </data>
+  <data name="IvMustBe4Bytes" xml:space="preserve">
+    <value>The provided IV must be exactly 4 bytes long.</value>
+    <comment>Thrown when a provided IV array is not exactly 4 bytes long.</comment>
+  </data>
+  <data name="SegmentTooShort" xml:space="preserve">
+    <value>The segment must have at least {0} elements.</value>
+    <comment>Thrown when a segment does not have enough elements.</comment>
+  </data>
+  <data name="PacketLengthMustBeMoreThan2Bytes">
+    <value xml:space="preserve">The packet length must be a number larger than 2.</value>
+    <comment>Thrown when a packet length less than 2 when constructing a header for the packet.</comment>
+  </data>
+  <data name="ReceiveEventHasNoSubscribers">
+    <value xml:space="preserve">The receive event has no subscribers.</value>
+  </data>
+  <data name="NoSocketAttached">
+    <value xml:space="preserve">This instance does not have a socket attached to it.
+Please attach one before starting it.</value>
+  </data>
+  <data name="SessionAlreadyActive">
+    <value xml:space="preserve">This session is already active.</value>
+  </data>
+  <data name="EventMustHaveOnlyOneSubscriber">
+    <value xml:space="preserve">The event cannot have more than one subscriber.</value>
+  </data>
+  <data name="SessionIsNotActive">
+    <value xml:space="preserve">The network session is not open.</value>
+  </data>
+  <data name="AcceptEventHasNoSubscribers">
+    <value xml:space="preserve">The accept event has no subscribers.</value>
+  </data>
+</root>

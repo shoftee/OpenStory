@@ -49,12 +49,12 @@ namespace OpenStory.Common.IO
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be non-negative.");
+                throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
 
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, "'length' must be non-negative.");
+                throw new ArgumentOutOfRangeException("length", length, Exceptions.LengthMustBeNonNegative);
             }
 
             if (buffer.Length < offset || offset + length > buffer.Length)
@@ -157,13 +157,13 @@ namespace OpenStory.Common.IO
         {
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be non-negative.");
+                throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
 
             int bufferOffset = this.segmentStart + offset;
             if (bufferOffset < this.currentOffset)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, "'offset' must be ahead of the current position.");
+                throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeAheadOfCurrentPosition);
             }
 
             int remaining = this.segmentEnd - bufferOffset;
@@ -333,17 +333,17 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        public bool TryReadPaddedString(int length, out string result)
+        public bool TryReadPaddedString(int paddingLength, out string result)
         {
-            if (length <= 0)
+            if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, "'length' must be positive.");
+                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, Exceptions.PaddingLengthMustBePositive);
             }
 
-            if (this.CanAdvance(length))
+            if (this.CanAdvance(paddingLength))
             {
-                int start = this.UncheckedAdvance(length);
-                result = this.ReadNullTerminatedString(start, length);
+                int start = this.UncheckedAdvance(paddingLength);
+                result = this.ReadNullTerminatedString(start, paddingLength);
                 return true;
             }
             else
@@ -488,15 +488,15 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
-        public string ReadPaddedString(int length)
+        public string ReadPaddedString(int paddingLength)
         {
-            if (length <= 0)
+            if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, "'length' must be a positive integer.");
+                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, Exceptions.PaddingLengthMustBePositive);
             }
 
-            int start = this.CheckedAdvance(length);
-            return this.ReadNullTerminatedString(start, length);
+            int start = this.CheckedAdvance(paddingLength);
+            return this.ReadNullTerminatedString(start, paddingLength);
         }
 
         /// <inheritdoc />
@@ -570,7 +570,7 @@ namespace OpenStory.Common.IO
         {
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "'count' must be non-negative.");
+                throw new ArgumentOutOfRangeException("count", count, Exceptions.CountMustBeNonNegative);
             }
         }
 

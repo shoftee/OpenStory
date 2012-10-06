@@ -25,10 +25,10 @@ namespace OpenStory.Common.Tools
             }
             if ((hex.Length & 1) != 0)
             {
-                throw new ArgumentException("The string must have even length", "hex");
+                throw new ArgumentException(Exceptions.StringLengthMustBeEven, "hex");
             }
 
-            const string HexDigits = "0123456789ABCDEF";
+            const string HexDigits = @"0123456789ABCDEF";
 
             var bytes = new byte[hex.Length >> 1];
             int arrayLength = bytes.Length;
@@ -39,14 +39,14 @@ namespace OpenStory.Common.Tools
                 int digit = HexDigits.IndexOf(uppercase[index]);
                 if (digit == -1)
                 {
-                    throw new ArgumentException("The string must consist only of hex digits.", "hex");
+                    throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
                 var b = (byte)(digit << 4);
 
                 digit = HexDigits.IndexOf(uppercase[index | 1]);
                 if (digit == -1)
                 {
-                    throw new ArgumentException("The string must consist only of hex digits.", "hex");
+                    throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
                 b |= (byte)digit;
                 bytes[i] = b;
