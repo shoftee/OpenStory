@@ -55,19 +55,19 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="version">The game version.</param>
         /// <param name="remove"></param>
-        /// <param name="unknown"></param>
+        /// <param name="subversion"></param>
         /// <returns>the generated patch location number.</returns>
-        public static int GeneratePatchLocation(short version, bool remove, byte unknown)
+        public static int GeneratePatchLocation(short version, bool remove, byte subversion)
         {
             // Thanks to Diamondo25 for this.
-            int ret = 0;
-            ret ^= (version & 0x7FFF);
+            int location = 0;
+            location ^= (version & 0x7FFF);
             if (remove)
             {
-                ret ^= 0x8000;
+                location ^= 0x8000;
             }
-            ret ^= (unknown << 16);
-            return ret;
+            location ^= (subversion << 16);
+            return location;
         }
     }
 }
