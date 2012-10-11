@@ -1,5 +1,4 @@
-﻿using System;
-using OpenStory.Common.Game;
+﻿using OpenStory.Common.Game;
 
 namespace OpenStory.Common.IO
 {

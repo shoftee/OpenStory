@@ -3,7 +3,7 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Represents handshake information.
     /// </summary>
-    public class HandshakeInfo
+    public abstract class HandshakeInfo
     {
         /// <summary>
         /// Gets or sets the 16-bit header for the handshake.
@@ -38,9 +38,8 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Initializes a new instance of <see cref="HandshakeInfo"/>.
         /// </summary>
-        public HandshakeInfo()
+        protected HandshakeInfo()
         {
         }
-
     }
 }
