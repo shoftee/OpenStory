@@ -33,5 +33,30 @@ namespace OpenStory.Common.IO
             builder.WriteInt16(vector.X);
             builder.WriteInt16(vector.Y);
         }
+
+        /// <summary>
+        /// Reads a flags instance.
+        /// </summary>
+        /// <typeparam name="TFlags">The <see cref="Flags"/>-derived type to read into.</typeparam>
+        /// <param name="reader">The reader to use.</param>
+        public static TFlags ReadFlags<TFlags>(this IUnsafePacketReader reader)
+            where TFlags : Flags, new()
+        {
+            var flags = new TFlags();
+            flags.Read(reader);
+            return flags;
+        }
+
+        /// <summary>
+        /// Writes a flags instance.
+        /// </summary>
+        /// <typeparam name="TFlags">The <see cref="Flags"/>-derived type to read into.</typeparam>
+        /// <param name="builder">The builder to use.</param>
+        /// <param name="flags">The instance to write.</param>
+        public static void WriteFlags<TFlags>(this IPacketBuilder builder, TFlags flags)
+            where TFlags : Flags
+        {
+            flags.Write(builder);
+        }
     }
 }

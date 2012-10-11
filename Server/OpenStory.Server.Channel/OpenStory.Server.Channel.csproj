@@ -46,7 +46,8 @@
     <Compile Include="ChannelServer.cs" />
     <Compile Include="ChannelServerConfiguration.cs" />
     <Compile Include="IChannelServer.cs" />
-    <Compile Include="Maps\FieldLimitFlags.cs" />
+    <Compile Include="Maps\FieldLimitLabel.cs" />
+    <Compile Include="Maps\FieldLimits.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
     <Compile Include="Maps\IMapObject.cs" />
     <Compile Include="Maps\IPortal.cs" />

@@ -87,7 +87,9 @@
     <Compile Include="Common\Game\KeyLayout.cs" />
     <Compile Include="Common\Game\PointS.cs" />
     <Compile Include="Common\IO\ArraySegmentException.cs" />
+    <Compile Include="Common\IO\Flags.cs" />
     <Compile Include="Common\IO\HandshakeInfo.cs" />
+    <Compile Include="Common\IO\IntFlags.cs" />
     <Compile Include="Common\IO\IoExtensions.cs" />
     <Compile Include="Common\IO\IPacketBuilder.cs" />
     <Compile Include="Common\IO\ISafePacketReader.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Common\IO\LittleEndianBitConverter.cs" />
     <Compile Include="Common\IO\BoundedBuffer.cs" />
     <Compile Include="Common\IO\ByteOrder.cs" />
+    <Compile Include="Common\IO\LongFlags.cs" />
     <Compile Include="Common\IO\PacketBuilder.cs" />
     <Compile Include="Common\IO\PacketReadingException.cs" />
     <Compile Include="Common\IO\PacketReader.cs" />

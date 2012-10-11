@@ -18,6 +18,6 @@ namespace OpenStory.Server.Auth.Data
         /// <summary>
         /// Some other unknown error?
         /// </summary>
-        Error
+        Error,
     }
 }
