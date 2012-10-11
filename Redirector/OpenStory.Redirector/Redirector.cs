@@ -104,7 +104,7 @@ namespace OpenStory.Redirector
                 if (port != this.initialAcceptor.Port)
                 {
                     var endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
-                    this.GetNewChannelAcceptor(ref this.channelAcceptor, endpoint);
+                    GetNewChannelAcceptor(ref this.channelAcceptor, endpoint);
                     this.PassEndpointToSocketsFrom(this.channelAcceptor, endpoint);
 
                     BindInternal(this.channelAcceptor);
@@ -118,7 +118,7 @@ namespace OpenStory.Redirector
             }
         }
 
-        private void GetNewChannelAcceptor(ref SocketAcceptor acceptor, IPEndPoint endpoint)
+        private static void GetNewChannelAcceptor(ref SocketAcceptor acceptor, IPEndPoint endpoint)
         {
             if (acceptor != null)
             {
