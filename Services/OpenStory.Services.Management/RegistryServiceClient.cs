@@ -22,27 +22,23 @@ namespace OpenStory.Services.Management
         #region IRegistryService Members
 
         /// <inheritdoc />
-        public ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token)
+        public ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration)
         {
-            var localToken = default(Guid);
-            var result = ServiceOperationResult.Of(() => base.Channel.TryRegisterService(configuration, out localToken));
-            token = localToken;
+            var result = ServiceOperationResult<Guid>.Of(() => base.Channel.RegisterService(configuration));
             return result;
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult TryUnregisterService(Guid registrationToken)
+        public ServiceOperationResult UnregisterService(Guid token)
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.TryUnregisterService(registrationToken));
+            var result = ServiceOperationResult.Of(() => base.Channel.UnregisterService(token));
             return result;
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult TryGetRegistrations(out Guid[] tokens)
+        public ServiceOperationResult<Guid[]> GetRegistrations()
         {
-            var localTokens = default(Guid[]);
-            var result = ServiceOperationResult.Of(() => base.Channel.TryGetRegistrations(out localTokens));
-            tokens = localTokens;
+            var result = ServiceOperationResult<Guid[]>.Of(() => base.Channel.GetRegistrations());
             return result;
         }
 
@@ -51,11 +47,9 @@ namespace OpenStory.Services.Management
         #region Implementation of INexusService
 
         /// <inheritdoc />
-        public ServiceOperationResult TryGetServiceConfiguration(Guid accessToken, out ServiceConfiguration configuration)
+        public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            var localConfig = default(ServiceConfiguration);
-            var result = ServiceOperationResult.Of(() => base.Channel.TryGetServiceConfiguration(accessToken, out localConfig));
-            configuration = localConfig;
+            var result = ServiceOperationResult<ServiceConfiguration>.Of(() => base.Channel.GetServiceConfiguration(token));
             return result;
         }
 

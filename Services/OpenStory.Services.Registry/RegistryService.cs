@@ -23,17 +23,16 @@ namespace OpenStory.Services.Registry
         #region Implementation of IRegistryService
 
         /// <inheritdoc />
-        public ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token)
+        public ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration)
         {
             Guid guid = Guid.NewGuid();
             this.configurations.Add(guid, configuration);
-            token = guid;
 
-            return new ServiceOperationResult(ServiceState.Running);
+            return new ServiceOperationResult<Guid>(guid, ServiceState.Running);
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult TryUnregisterService(Guid token)
+        public ServiceOperationResult UnregisterService(Guid token)
         {
             this.configurations.Remove(token);
 
@@ -41,11 +40,11 @@ namespace OpenStory.Services.Registry
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult TryGetRegistrations(out Guid[] tokens)
+        public ServiceOperationResult<Guid[]> GetRegistrations()
         {
-            tokens = configurations.Keys.ToArray();
+            var tokens = configurations.Keys.ToArray();
 
-            return new ServiceOperationResult(ServiceState.Running);
+            return new ServiceOperationResult<Guid[]>(tokens, ServiceState.Running);
         }
 
         #endregion
@@ -53,11 +52,11 @@ namespace OpenStory.Services.Registry
         #region Implementation of INexusService
 
         /// <inheritdoc />
-        public ServiceOperationResult TryGetServiceConfiguration(Guid token, out ServiceConfiguration configuration)
+        public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            configuration = this.configurations[token];
+            var configuration = this.configurations[token];
 
-            return new ServiceOperationResult(ServiceState.Running);
+            return new ServiceOperationResult<ServiceConfiguration>(configuration, ServiceState.Running);
         }
 
         #endregion

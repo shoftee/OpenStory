@@ -14,22 +14,20 @@ namespace OpenStory.Services.Registry
         /// Attempts to register a service with the specified configuration.
         /// </summary>
         /// <param name="configuration">The configuration information for the service.</param>
-        /// <param name="token">A variable to hold an access token for this registration.</param>
         /// <returns>an instance of <see cref="OpenStory.Services.Contracts.ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryRegisterService(ServiceConfiguration configuration, out Guid token);
+        ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration);
 
         /// <summary>
         /// Attempts to unregister the service with the specified token.
         /// </summary>
         /// <param name="token">The registration token issued when the service was registered.</param>
         /// <returns>an instance of <see cref="OpenStory.Services.Contracts.ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryUnregisterService(Guid token);
+        ServiceOperationResult UnregisterService(Guid token);
 
         /// <summary>
         /// Attempts to retrieve all registered tokens.
         /// </summary>
-        /// <param name="tokens">A variable to hold the token array.</param>
         /// <returns>an instance of <see cref="OpenStory.Services.Contracts.ServiceOperationResult"/>.</returns>
-        ServiceOperationResult TryGetRegistrations(out Guid[] tokens);
+        ServiceOperationResult<Guid[]> GetRegistrations();
     }
 }

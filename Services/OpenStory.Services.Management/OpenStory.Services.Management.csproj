@@ -40,8 +40,6 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\MetadataPair.cs" />
-    <Compile Include="Helpers\ReflectionHelpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryServiceClient.cs" />
