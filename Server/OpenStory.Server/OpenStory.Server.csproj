@@ -81,7 +81,6 @@
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
     <Compile Include="IGameServer.cs" />
     <Compile Include="IServerSession.cs" />
-    <Compile Include="Modules\ComponentKey.cs" />
     <Compile Include="Modules\Logging\ConsoleLogger.cs" />
     <Compile Include="Modules\Logging\ILogger.cs" />
     <Compile Include="Modules\Logging\LogManager.cs" />

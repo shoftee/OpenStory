@@ -136,6 +136,8 @@ namespace OpenStory.Server.Modules
         /// <param name="instance">The instance for the component entry.</param>
         /// <inheritdoc cref="ThrowIfInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> does not refer to a known component.</exception>
+        /// <exception cref="ArgumentException">Thrown if <typeparamref name="TComponent"/> is incompatible with the type for the component referred to by <paramref name="name"/>.</exception>
         public void RegisterComponent<TComponent>(string name, TComponent instance)
             where TComponent : class
         {
@@ -178,6 +180,7 @@ namespace OpenStory.Server.Modules
         /// <param name="name">The name of the component.</param>
         /// <inheritdoc cref="ThrowIfNotInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> does not refer to a known component.</exception>
         /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>; or <c>null</c> if there is no registered instance.</returns>
         protected TComponent GetComponent<TComponent>(string name)
             where TComponent : class
@@ -203,6 +206,7 @@ namespace OpenStory.Server.Modules
         /// </summary>
         /// <param name="name">The name of the component slot to check.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> does not refer to a known component.</exception>
         /// <returns><c>true</c> if there is an instance registered; otherwise, <c>false</c>.</returns>
         protected bool CheckComponent(string name)
         {
@@ -219,7 +223,6 @@ namespace OpenStory.Server.Modules
             var key = this.keys[name];
             bool isPresent = this.instances[key] != null;
             return isPresent;
-
         }
 
         /// <summary>
@@ -262,9 +265,7 @@ namespace OpenStory.Server.Modules
                 object instance = entry.Value;
                 if (key.IsRequired && instance == null)
                 {
-                    const string NotInitializedFormat = "The required component '{0}' has not been initialized.";
-
-                    error = String.Format(NotInitializedFormat, key.Name);
+                    error = String.Format(Errors.ModulesRequiredComponentNotInitialized, key.Name);
                     return false;
                 }
             }
@@ -286,12 +287,54 @@ namespace OpenStory.Server.Modules
         private static ArgumentException GetIncompatibleTypeException(object instance, string typeFullName)
         {
             string message = String.Format(Exceptions.ObjectNotAssignableToType, typeFullName);
-            return new ArgumentException("instance", message);
+            return new ArgumentException(message, "instance");
         }
 
-        private static ArgumentOutOfRangeException GetUnknownComponentNameException(string name)
+        private static ArgumentException GetUnknownComponentNameException(string name)
         {
-            return new ArgumentOutOfRangeException("name", name, Exceptions.UnknownComponentName);
+            return new ArgumentException(Exceptions.UnknownComponentName, "name");
         }
+
+        #region Nested type: ComponentKey
+
+        private struct ComponentKey : IEquatable<ComponentKey>
+        {
+            public string Name { get; private set; }
+            public bool IsRequired { get; private set; }
+
+            public ComponentKey(string name, bool isRequired)
+                : this()
+            {
+                this.Name = name;
+                this.IsRequired = isRequired;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is ComponentKey)
+                {
+                    return this.Equals((ComponentKey)obj);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public bool Equals(ComponentKey other)
+            {
+                return string.Equals(this.Name, other.Name) && this.IsRequired.Equals(other.IsRequired);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((this.Name != null ? this.Name.GetHashCode() : 0) * 397) ^ this.IsRequired.GetHashCode();
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -150,4 +150,7 @@
   <data name="ChannelIdMustBeNonNegative">
     <value xml:space="preserve">The channel identifier must be a non-negative integer.</value>
   </data>
+  <data name="ModulesRequiredComponentNotInitialized">
+    <value xml:space="preserve">The required component '{0}' has not been initialized.</value>
+  </data>
 </root>

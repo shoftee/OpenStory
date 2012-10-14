@@ -158,5 +158,14 @@ namespace OpenStory.Server {
                 return ResourceManager.GetString("ChannelIdMustBeNonNegative", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The required component &apos;{0}&apos; has not been initialized..
+        /// </summary>
+        public static string ModulesRequiredComponentNotInitialized {
+            get {
+                return ResourceManager.GetString("ModulesRequiredComponentNotInitialized", resourceCulture);
+            }
+        }
     }
 }
