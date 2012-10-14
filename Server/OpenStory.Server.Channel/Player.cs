@@ -50,5 +50,17 @@ namespace OpenStory.Server.Channel
 
             // TODO: There are still more things to add to ChannelCharacter
         }
+
+        /// <summary>
+        /// Gets the extension object of this player instance for the specified key.
+        /// </summary>
+        /// <typeparam name="TPlayerExtension">The type of the extension interface.</typeparam>
+        /// <param name="key">The key for the extension.</param>
+        /// <returns>an instance of <typeparamref name="TPlayerExtension"/>.</returns>
+        TPlayerExtension GetExtension<TPlayerExtension>(string key)
+            where TPlayerExtension : IPlayerExtension
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

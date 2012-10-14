@@ -46,6 +46,7 @@
     <Compile Include="ChannelServer.cs" />
     <Compile Include="ChannelServerConfiguration.cs" />
     <Compile Include="IChannelServer.cs" />
+    <Compile Include="IPlayerExtension.cs" />
     <Compile Include="Maps\FieldLimitLabel.cs" />
     <Compile Include="Maps\FieldLimits.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Maps\MapObjectConstructor.cs" />
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerExtensionManager.cs" />
     <Compile Include="PlayerRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
