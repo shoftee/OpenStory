@@ -12,7 +12,7 @@ namespace OpenStory.Server.Modules.Logging
         {
             lock (Console.Out)
             {
-                Console.WriteLine("[Info] " + format, args);
+                Console.WriteLine(Strings.ConsoleLoggerInfoPrefix + @" " + format, args);
             }
         }
 
@@ -21,7 +21,7 @@ namespace OpenStory.Server.Modules.Logging
         {
             lock (Console.Out)
             {
-                Console.WriteLine("[Warning] " + format, args);
+                Console.WriteLine(Strings.ConsoleLoggerWarningPrefix + @" " + format, args);
             }
         }
 
@@ -30,7 +30,7 @@ namespace OpenStory.Server.Modules.Logging
         {
             lock (Console.Out)
             {
-                Console.WriteLine("[Error] " + format, args);
+                Console.WriteLine(Strings.ConsoleLoggerErrorPrefix + @" " + format, args);
             }
         }
     }
