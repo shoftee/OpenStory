@@ -21,15 +21,6 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReadingException"/>.
-        /// </summary>
-        /// <inheritdoc />
-        private PacketReadingException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        /// <summary>
         /// Constructs a <see cref="PacketReadingException"/> which states that the end of the stream was reached.
         /// </summary>
         public static PacketReadingException EndOfStream()

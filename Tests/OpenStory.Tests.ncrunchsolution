@@ -1,6 +1,6 @@
 <SolutionConfiguration>
   <FileVersion>1</FileVersion>
-  <AutoEnableOnStartup>Default</AutoEnableOnStartup>
+  <AutoEnableOnStartup>True</AutoEnableOnStartup>
   <AllowParallelTestExecution>false</AllowParallelTestExecution>
   <FrameworkUtilisationTypeForNUnit>UseDynamicAnalysis</FrameworkUtilisationTypeForNUnit>
   <FrameworkUtilisationTypeForGallio>UseStaticAnalysis</FrameworkUtilisationTypeForGallio>
@@ -14,6 +14,7 @@
 ..\Core\OpenStory\OpenStory.csproj:Common\Auth\ServerStatus.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Data\IOpCodeTable.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\Elements.cs
+..\Core\OpenStory\OpenStory.csproj:Common\Game\GameConstants.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\Gender.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\GuildRank.cs
 ..\Core\OpenStory\OpenStory.csproj:Common\Game\InventoryType.cs
@@ -27,8 +28,14 @@
 ..\Core\OpenStory\OpenStory.csproj:Common\IO\PacketReadingException.cs
 ..\Core\OpenStory\OpenStory.csproj:Cryptography\ICryptoAlgorithm.cs
 ..\Core\OpenStory\OpenStory.csproj:Cryptography\VersionMaskType.cs
+..\Core\OpenStory\OpenStory.csproj:Errors.Designer.cs
+..\Core\OpenStory\OpenStory.csproj:Exceptions.Designer.cs
 ..\Core\OpenStory\OpenStory.csproj:Networking\IDescriptorContainer.cs
 ..\Core\OpenStory\OpenStory.csproj:Properties\AssemblyInfo.cs
+..\Core\OpenStory\OpenStory.csproj:Synchronization\IRunnable.cs
+..\Core\OpenStory\OpenStory.csproj:Synchronization\IScheduler.cs
+..\Core\OpenStory\OpenStory.csproj:Synchronization\ISynchronized.cs
 ..\Core\OpenStory\OpenStory.csproj\Properties
+OpenStory.Tests\OpenStory.Tests.csproj
 </MetricsExclusionList>
 </SolutionConfiguration>

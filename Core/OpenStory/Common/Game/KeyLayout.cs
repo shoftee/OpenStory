@@ -43,6 +43,7 @@ namespace OpenStory.Common.Game
             {
                 throw new ArgumentNullException("bindings");
             }
+
             if (bindings.Count != GameConstants.KeyCount)
             {
                 var message = String.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
@@ -63,6 +64,7 @@ namespace OpenStory.Common.Game
         public KeyBinding GetKeyBinding(byte keyId)
         {
             ThrowIfInvalidId(keyId);
+
             return this.bindings[keyId];
         }
 
@@ -78,6 +80,7 @@ namespace OpenStory.Common.Game
         public void SetKeyBinding(byte keyId, byte type, int action)
         {
             ThrowIfInvalidId(keyId);
+
             this.bindings[keyId] = new KeyBinding(type, action);
         }
 
@@ -85,8 +88,7 @@ namespace OpenStory.Common.Game
         {
             if (GameConstants.KeyCount <= keyId)
             {
-                throw new ArgumentOutOfRangeException(
-                    "keyId", keyId, Exceptions.InvalidKeyIdentifier);
+                throw new ArgumentOutOfRangeException("keyId", keyId, Exceptions.InvalidKeyIdentifier);
             }
         }
     }

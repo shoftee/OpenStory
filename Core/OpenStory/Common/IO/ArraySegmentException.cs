@@ -27,12 +27,6 @@ namespace OpenStory.Common.IO
         {
         }
 
-        /// <inheritdoc />
-        private ArraySegmentException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
         /// <summary>
         /// Gets a new instance of <see cref="ArraySegmentException"/> with a message that
         /// an array segment with a given start offset and length does not fit into the array's bounds.
@@ -42,21 +36,7 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
-
             string formatted = String.Format(Exceptions.BadArraySegmentLength, startOffset, length);
-            return new ArraySegmentException(formatted);
-        }
-
-        /// <summary>
-        /// Gets a new instance of <see cref="ArraySegmentException"/> with a message that
-        /// an array segment with given start and end offsets does not fit into the array's bounds.
-        /// </summary>
-        /// <param name="startOffset">The start offset of the invalid segment.</param>
-        /// <param name="endOffset">The end offset of the invalid segment.</param>
-        /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
-        public static ArraySegmentException GetByStartAndEnd(int startOffset, int endOffset)
-        {
-            string formatted = String.Format(Exceptions.BadArraySegmentEndpoints, startOffset, endOffset);
             return new ArraySegmentException(formatted);
         }
     }
