@@ -7,7 +7,6 @@ namespace OpenStory.Server.Data
     /// </summary>
     /// <typeparam name="TSerializable">The type of data that is being sent.</typeparam>
     public interface ISendFeed<in TSerializable>
-        where TSerializable : ISerializable
     {
         /// <summary>
         /// Pushes the provided data into the feed.

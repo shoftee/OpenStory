@@ -36,14 +36,8 @@ namespace OpenStory.Server.Registry
         public PlayerLocation GetLocation(int playerId)
         {
             PlayerLocation location;
-            if (this.locations.TryGetValue(playerId, out location))
-            {
-                return location;
-            }
-            else
-            {
-                return null;
-            }
+            this.locations.TryGetValue(playerId, out location);
+            return location;
         }
 
         /// <inheritdoc />
