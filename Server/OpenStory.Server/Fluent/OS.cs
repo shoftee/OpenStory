@@ -30,7 +30,7 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// The entry point for the lookup fluent interface.
         /// </summary>
-        public static ILookupFacade Reg()
+        public static ILookupFacade Lookup()
         {
             return new LookupFacade();
         }
