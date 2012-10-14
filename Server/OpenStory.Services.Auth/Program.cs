@@ -12,7 +12,7 @@ namespace OpenStory.Services.Auth
     {
         private static void Main()
         {
-            Console.Title = "OpenStory - Authentication Service";
+            Console.Title = @"OpenStory - Authentication Service";
 
             Initialize();
 
@@ -36,8 +36,7 @@ namespace OpenStory.Services.Auth
         {
             OS.Initialize()
                 .Logger(new ConsoleLogger())
-                .Managers<DataManager>()
-                    .DefaultManager(new AuthDataManager()).Done();
+                .Manager<DataManager>(new AuthDataManager());
         }
     }
 }

@@ -14,6 +14,14 @@ namespace OpenStory.Server.Fluent.Initialize
         }
 
         /// <inheritdoc />
+        public IInitializeFacade Manager<TManager>(TManager instance)
+            where TManager : ManagerBase
+        {
+            ManagerBase<TManager>.RegisterDefault(instance);
+            return this;
+        }
+
+        /// <inheritdoc />
         public IInitializeFacade Logger(ILogger logger)
         {
             var instance = new LogManager();
