@@ -16,7 +16,7 @@ namespace OpenStory.Server.Channel
         /// <inheritdoc />
         public override string Name
         {
-            get { return "Channel"; }
+            get { return @"Channel"; }
         }
 
         /// <inheritdoc />

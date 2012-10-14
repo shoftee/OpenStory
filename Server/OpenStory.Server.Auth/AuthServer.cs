@@ -1,11 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
-using OpenStory.Server.Fluent;
-using OpenStory.Services.Clients;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
 {

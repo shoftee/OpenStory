@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Server.Data.Providers
+﻿namespace OpenStory.Server.Data.Providers
 {
     /// <summary>
     /// Provides methods for data operations with accounts.

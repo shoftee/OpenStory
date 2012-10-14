@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 using OpenStory.Common.Data;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;

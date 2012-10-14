@@ -49,8 +49,8 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="ClientBase.cs" />
-    <Compile Include="Diagnostics\ISendFeed.cs" />
-    <Compile Include="Diagnostics\IReceiveFeed.cs" />
+    <Compile Include="Data\IReceiveFeed.cs" />
+    <Compile Include="Data\ISendFeed.cs" />
     <Compile Include="Errors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
