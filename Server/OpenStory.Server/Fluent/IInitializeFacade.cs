@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using OpenStory.Server.Data;
+using OpenStory.Server.Modules;
 using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Server.Fluent
@@ -11,9 +12,11 @@ namespace OpenStory.Server.Fluent
     public interface IInitializeFacade : IFluentInterface
     {
         /// <summary>
-        /// The entry point to the <see cref="DataManager"/> initialization facade.
+        /// The entry point to a <typeparamref name="TManager"/> initialization facade.
         /// </summary>
-        IInitializeManagersFacade<DataManager> DataManagers();
+        /// <typeparam name="TManager">The type of the managers to initialize.</typeparam>
+        IInitializeManagersFacade<TManager> Managers<TManager>() 
+            where TManager : ManagerBase;
 
         /// <summary>
         /// Initializes the <see cref="ILogger"/> component of the default <see cref="LogManager"/>.

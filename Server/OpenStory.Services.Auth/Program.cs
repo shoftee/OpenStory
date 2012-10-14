@@ -2,6 +2,7 @@
 using System.Threading;
 using OpenStory.Server;
 using OpenStory.Server.Auth.Data;
+using OpenStory.Server.Data;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
 
@@ -35,7 +36,7 @@ namespace OpenStory.Services.Auth
         {
             OS.Initialize()
                 .Logger(new ConsoleLogger())
-                .DataManagers()
+                .Managers<DataManager>()
                     .DefaultManager(new AuthDataManager()).Done();
         }
     }

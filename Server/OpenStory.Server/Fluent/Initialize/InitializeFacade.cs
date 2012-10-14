@@ -1,4 +1,5 @@
 ﻿using OpenStory.Server.Data;
+using OpenStory.Server.Modules;
 using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Server.Fluent.Initialize
@@ -6,9 +7,10 @@ namespace OpenStory.Server.Fluent.Initialize
     internal sealed class InitializeFacade : IInitializeFacade
     {
         /// <inheritdoc />
-        public IInitializeManagersFacade<DataManager> DataManagers()
+        public IInitializeManagersFacade<TManager> Managers<TManager>()
+            where TManager : ManagerBase
         {
-            return new InitializeManagersFacade<DataManager>(this);
+            return new InitializeManagersFacade<TManager>(this);
         }
 
         /// <inheritdoc />
