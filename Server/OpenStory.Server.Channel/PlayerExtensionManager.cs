@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace OpenStory.Server.Channel
 {
-    class PlayerExtensionManager
+    internal sealed class PlayerExtensionManager
     {
+        public static readonly PlayerExtensionManager Instance = new PlayerExtensionManager();
+
         private readonly Dictionary<Type, object> factories;
-
-        private readonly Dictionary<PlayerExtensionKey, IPlayerExtension> extensions;
-
+        private readonly Dictionary<Key, IPlayerExtension> extensions;
+        
         private PlayerExtensionManager()
         {
             this.factories = new Dictionary<Type, object>();
-            this.extensions = new Dictionary<PlayerExtensionKey, IPlayerExtension>();
+            this.extensions = new Dictionary<Key, IPlayerExtension>();
         }
 
         public void Register<TPlayerExtension>(Func<TPlayerExtension> factoryMethod)
@@ -29,65 +30,70 @@ namespace OpenStory.Server.Channel
             var method = (Func<TPlayerExtension>)this.factories[extensionType];
 
             var extension = method();
-            extensions.Add(new PlayerExtensionKey(extensionType, playerId), extension);
+            extensions.Add(new Key(extensionType, playerId), extension);
             return extension;
         }
 
         public TPlayerExtension Get<TPlayerExtension>(int playerId)
         {
             var extensionType = typeof(TPlayerExtension);
-            var extension = extensions[new PlayerExtensionKey(extensionType, playerId)];
+            var extension = extensions[new Key(extensionType, playerId)];
             return (TPlayerExtension)extension;
         }
-    }
 
-    struct PlayerExtensionKey : IEquatable<PlayerExtensionKey>
-    {
-        public Type ExtensionType { get; private set; }
-        public int PlayerId { get; private set; }
+        #region Nested type: Key
 
-        public PlayerExtensionKey(Type extensionType, int playerId)
-            : this()
+        private struct Key : IEquatable<Key>
         {
-            this.ExtensionType = extensionType;
-            this.PlayerId = playerId;
-        }
+            public Type ExtensionType { get; private set; }
+            public int PlayerId { get; private set; }
 
-        #region Implementation of IEquatable<PlayerExtensionKey>
-
-        public bool Equals(PlayerExtensionKey other)
-        {
-            return this.ExtensionType == other.ExtensionType
-                && this.PlayerId == other.PlayerId;
-        }
-
-        #endregion
-
-        public override bool Equals(object obj)
-        {
-            return obj is PlayerExtensionKey && Equals((PlayerExtensionKey)obj);
-        }
-
-        #region Equality members
-
-        public override int GetHashCode()
-        {
-            unchecked
+            public Key(Type extensionType, int playerId)
+                : this()
             {
-                return ((this.ExtensionType != null ? this.ExtensionType.GetHashCode() : 0) * 397) ^ this.PlayerId;
+                this.ExtensionType = extensionType;
+                this.PlayerId = playerId;
             }
-        }
 
-        public static bool operator ==(PlayerExtensionKey left, PlayerExtensionKey right)
-        {
-            return left.Equals(right);
-        }
+            #region Implementation of IEquatable<Key>
 
-        public static bool operator !=(PlayerExtensionKey left, PlayerExtensionKey right)
-        {
-            return !left.Equals(right);
+            public bool Equals(Key other)
+            {
+                return this.ExtensionType == other.ExtensionType
+                    && this.PlayerId == other.PlayerId;
+            }
+
+            #endregion
+
+            public override bool Equals(object obj)
+            {
+                return obj is Key && Equals((Key)obj);
+            }
+
+            #region Equality members
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((this.ExtensionType != null ? this.ExtensionType.GetHashCode() : 0) * 397) ^ this.PlayerId;
+                }
+            }
+
+            public static bool operator ==(Key left, Key right)
+            {
+                return left.Equals(right);
+            }
+
+            public static bool operator !=(Key left, Key right)
+            {
+                return !left.Equals(right);
+            }
+
+            #endregion
         }
 
         #endregion
     }
+
 }

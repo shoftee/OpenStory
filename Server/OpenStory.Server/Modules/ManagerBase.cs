@@ -38,6 +38,7 @@ namespace OpenStory.Server.Modules
             this.ThrowIfInitialized();
 
             this.OnInitializing();
+
             this.InitializeAndThrowOnError();
 
             this.isInitialized = true;
