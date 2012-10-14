@@ -49,7 +49,7 @@ namespace OpenStory.Server.Modules.Services
             base.AllowComponent<IEndpointProvider>(EndpointProviderKey);
         }
 
-        /// <inheritdoc />
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitializing()
         {
             if (!base.CheckComponent(EndpointProviderKey))
@@ -60,7 +60,7 @@ namespace OpenStory.Server.Modules.Services
             base.OnInitializing();
         }
 
-        /// <inheritdoc />
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitialized()
         {
             base.OnInitialized();

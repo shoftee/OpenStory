@@ -37,7 +37,7 @@ namespace OpenStory.Server.Data
             base.AllowComponent<IAccountProvider>(AccountsKey);
         }
 
-        /// <inheritdoc/>
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitialized()
         {
             base.OnInitialized();

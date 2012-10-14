@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Server.Auth.Policy
 {
     /// <summary>
     /// Represents a pair of simple account credentials.

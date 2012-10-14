@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
+using OpenStory.Server.Auth.Policy;
 
 namespace OpenStory.Server.Auth
 {

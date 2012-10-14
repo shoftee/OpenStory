@@ -52,15 +52,25 @@ namespace OpenStory.Server.Channel
         }
 
         /// <summary>
-        /// Gets the extension object of this player instance for the specified key.
+        /// Gets an extension object of this player instance.
         /// </summary>
         /// <typeparam name="TPlayerExtension">The type of the extension interface.</typeparam>
-        /// <param name="key">The key for the extension.</param>
         /// <returns>an instance of <typeparamref name="TPlayerExtension"/>.</returns>
-        TPlayerExtension GetExtension<TPlayerExtension>(string key)
+        private TPlayerExtension GetExtension<TPlayerExtension>()
             where TPlayerExtension : IPlayerExtension
         {
-            throw new System.NotImplementedException();
+            return PlayerExtensionManager.Instance.Get<TPlayerExtension>(this.CharacterId);
+        }
+
+        /// <summary>
+        /// Creates a new extension object for this player instance.
+        /// </summary>
+        /// <typeparam name="TPlayerExtension">The type of the extension interface.</typeparam>
+        /// <returns>an instance of <typeparamref name="TPlayerExtension"/>.</returns>
+        private TPlayerExtension CreateExtension<TPlayerExtension>()
+            where TPlayerExtension : IPlayerExtension
+        {
+            return PlayerExtensionManager.Instance.Create<TPlayerExtension>(this.CharacterId);
         }
     }
 }

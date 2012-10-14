@@ -2,7 +2,7 @@ using System;
 using OpenStory.Server.Data;
 using OpenStory.Services.Contracts;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Server.Auth.Policy
 {
     internal abstract class AuthPolicyBase
     {

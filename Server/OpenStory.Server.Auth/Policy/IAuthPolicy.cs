@@ -1,6 +1,6 @@
 using OpenStory.Common.Auth;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Server.Auth.Policy
 {
     /// <summary>
     /// Provides authentication methods.

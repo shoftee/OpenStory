@@ -1,5 +1,6 @@
 using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
+using OpenStory.Server.Auth.Policy;
 
 namespace OpenStory.Server.Auth
 {
@@ -18,7 +19,7 @@ namespace OpenStory.Server.Auth
         /// <summary>
         /// Retrieves the authentication policy for this <see cref="IAuthServer"/>.
         /// </summary>
-        /// <returns>an instance of <see cref="OpenStory.Server.Auth.IAuthPolicy{TCredentials}"/>.</returns>
+        /// <returns>an instance of <see cref="IAuthPolicy{TCredentials}"/>.</returns>
         IAuthPolicy<SimpleCredentials> GetAuthPolicy();
     }
 }

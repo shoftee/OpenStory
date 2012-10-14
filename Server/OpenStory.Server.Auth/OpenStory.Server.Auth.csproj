@@ -49,7 +49,6 @@
     <Compile Include="AuthClient.cs" />
     <Compile Include="AuthClientState.cs" />
     <Compile Include="AuthConfiguration.cs" />
-    <Compile Include="AuthPolicyBase.cs" />
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="ActiveChannel.cs" />
@@ -60,11 +59,12 @@
     <Compile Include="Data\Providers\IAuthCharacterProvider.cs" />
     <Compile Include="Data\Providers\IWorldInfoProvider.cs" />
     <Compile Include="Data\WorldInfo.cs" />
-    <Compile Include="IAuthPolicy.cs" />
     <Compile Include="IAuthServer.cs" />
+    <Compile Include="Policy\AuthPolicyBase.cs" />
+    <Compile Include="Policy\IAuthPolicy.cs" />
+    <Compile Include="Policy\SimpleAuthPolicy.cs" />
+    <Compile Include="Policy\SimpleCredentials.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleAuthPolicy.cs" />
-    <Compile Include="SimpleCredentials.cs" />
     <Compile Include="ActiveWorld.cs" />
   </ItemGroup>
   <ItemGroup>

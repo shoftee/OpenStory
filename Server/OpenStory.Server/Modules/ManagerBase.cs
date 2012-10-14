@@ -182,7 +182,7 @@ namespace OpenStory.Server.Modules
         /// <inheritdoc cref="ThrowIfNotInitialized()" select="exception[@cref='InvalidOperationException']" />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> does not refer to a known component.</exception>
-        /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>; or <c>null</c> if there is no registered instance.</returns>
+        /// <returns>the registered instance, cast to <typeparamref name="TComponent"/>, or <c>null</c> if there is no registered instance.</returns>
         protected TComponent GetComponent<TComponent>(string name)
             where TComponent : class
         {

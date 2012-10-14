@@ -5,7 +5,7 @@ using OpenStory.Cryptography;
 using OpenStory.Server.Data;
 using OpenStory.Server.Fluent;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Server.Auth.Policy
 {
     internal sealed class SimpleAuthPolicy : AuthPolicyBase, IAuthPolicy<SimpleCredentials>
     {

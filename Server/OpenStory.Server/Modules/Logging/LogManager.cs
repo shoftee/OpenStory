@@ -23,7 +23,7 @@ namespace OpenStory.Server.Modules.Logging
             base.AllowComponent<ILogger>(LoggerKey);
         }
 
-        /// <inheritdoc />
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitializing()
         {
             // If there is no internal logger registered at this point, register a null logger.
@@ -35,7 +35,7 @@ namespace OpenStory.Server.Modules.Logging
             base.OnInitializing();
         }
 
-        /// <inheritdoc />
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitialized()
         {
             base.OnInitialized();

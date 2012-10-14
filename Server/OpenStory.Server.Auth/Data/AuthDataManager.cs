@@ -37,7 +37,7 @@ namespace OpenStory.Server.Auth.Data
             base.AllowComponent<IWorldInfoProvider>(WorldsKey);
         }
 
-        /// <inheritdoc />
+        /// <summary><inheritdoc /></summary>
         protected override void OnInitialized()
         {
             base.OnInitialized();
