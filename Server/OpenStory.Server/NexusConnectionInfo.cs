@@ -46,8 +46,8 @@ namespace OpenStory.Server
         {
             var nexusUriString = parameters[NexusUriKey];
 
-            Uri nexusUri;
-            if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out nexusUri))
+            Uri uri;
+            if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out uri))
             {
                 error = String.Format(Errors.BootstrapUriParseError, NexusUriKey);
                 return null;
@@ -55,16 +55,16 @@ namespace OpenStory.Server
 
             var accessTokenString = parameters[AccessTokenKey];
 
-            Guid accessToken;
-            if (accessTokenString == null || !Guid.TryParse(accessTokenString, out accessToken))
+            Guid token;
+            if (accessTokenString == null || !Guid.TryParse(accessTokenString, out token))
             {
                 error = String.Format(Errors.BootstrapTokenParseError, AccessTokenKey);
                 return null;
             }
 
             error = null;
-            var nexusConnectionInfo = new NexusConnectionInfo(accessToken, nexusUri);
-            return nexusConnectionInfo;
+            var result = new NexusConnectionInfo(token, uri);
+            return result;
         }
     }
 }

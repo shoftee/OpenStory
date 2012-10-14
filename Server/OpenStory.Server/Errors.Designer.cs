@@ -22,7 +22,7 @@ namespace OpenStory.Server {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Errors {
+    public class Errors {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace OpenStory.Server {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Server.Errors", typeof(Errors).Assembly);
@@ -51,7 +51,7 @@ namespace OpenStory.Server {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Configuration error: {0}.
         /// </summary>
-        internal static string BootstrapConfigurationError {
+        public static string BootstrapConfigurationError {
             get {
                 return ResourceManager.GetString("BootstrapConfigurationError", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Nexus connection error: {0}.
         /// </summary>
-        internal static string BootstrapConnectionError {
+        public static string BootstrapConnectionError {
             get {
                 return ResourceManager.GetString("BootstrapConnectionError", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Could not connect to the Nexus service: {0}.
         /// </summary>
-        internal static string BootstrapCouldNotConnectToNexus {
+        public static string BootstrapCouldNotConnectToNexus {
             get {
                 return ResourceManager.GetString("BootstrapCouldNotConnectToNexus", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Service hosting error: {0}.
         /// </summary>
-        internal static string BootstrapHostingError {
+        public static string BootstrapHostingError {
             get {
                 return ResourceManager.GetString("BootstrapHostingError", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The Nexus service encountered a problem when processing your request: {0}.
         /// </summary>
-        internal static string BootstrapNexusGenericError {
+        public static string BootstrapNexusGenericError {
             get {
                 return ResourceManager.GetString("BootstrapNexusGenericError", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Parse error: {0}.
         /// </summary>
-        internal static string BootstrapParseError {
+        public static string BootstrapParseError {
             get {
                 return ResourceManager.GetString("BootstrapParseError", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The Nexus service refused the request. Are you sure your token is authorized?.
         /// </summary>
-        internal static string BootstrapRequestRefused {
+        public static string BootstrapRequestRefused {
             get {
                 return ResourceManager.GetString("BootstrapRequestRefused", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Could not parse nexus access token. Make sure you&apos;ve entered a valid GUID value under the parameter &apos;{0}&apos; (case-sensitive)..
         /// </summary>
-        internal static string BootstrapTokenParseError {
+        public static string BootstrapTokenParseError {
             get {
                 return ResourceManager.GetString("BootstrapTokenParseError", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Could not parse nexus URI string. Make sure you&apos;ve entered a valid service URI under the parameter &apos;{0}&apos; (case-sensitive)..
         /// </summary>
-        internal static string BootstrapUriParseError {
+        public static string BootstrapUriParseError {
             get {
                 return ResourceManager.GetString("BootstrapUriParseError", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to Validation error: {0}.
         /// </summary>
-        internal static string BootstrapValidationError {
+        public static string BootstrapValidationError {
             get {
                 return ResourceManager.GetString("BootstrapValidationError", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The channel identifier must be a non-negative integer..
         /// </summary>
-        internal static string ChannelIdMustBeNonNegative {
+        public static string ChannelIdMustBeNonNegative {
             get {
                 return ResourceManager.GetString("ChannelIdMustBeNonNegative", resourceCulture);
             }

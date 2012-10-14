@@ -158,12 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Errors.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Errors.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Exceptions.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

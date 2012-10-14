@@ -22,7 +22,7 @@ namespace OpenStory.Server {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Exceptions {
+    public class Exceptions {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace OpenStory.Server {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Server.Exceptions", typeof(Exceptions).Assembly);
@@ -51,7 +51,7 @@ namespace OpenStory.Server {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to You cannot change this module because it has been initialized..
         /// </summary>
-        internal static string CannotChangeInitializedModule {
+        public static string CannotChangeInitializedModule {
             get {
                 return ResourceManager.GetString("CannotChangeInitializedModule", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to You cannot expand this container beyond its max capacity..
         /// </summary>
-        internal static string CannotExpandBeyondMaxCapacity {
+        public static string CannotExpandBeyondMaxCapacity {
             get {
                 return ResourceManager.GetString("CannotExpandBeyondMaxCapacity", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The channel identifier must be a non-negative integer..
         /// </summary>
-        internal static string ChannelIdMustBeNonNegative {
+        public static string ChannelIdMustBeNonNegative {
             get {
                 return ResourceManager.GetString("ChannelIdMustBeNonNegative", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The provided item cluster has a different prototype..
         /// </summary>
-        internal static string DifferentItemClusterPrototype {
+        public static string DifferentItemClusterPrototype {
             get {
                 return ResourceManager.GetString("DifferentItemClusterPrototype", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The item identifier must be a positive integer..
         /// </summary>
-        internal static string ItemIdMustBePositive {
+        public static string ItemIdMustBePositive {
             get {
                 return ResourceManager.GetString("ItemIdMustBePositive", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The map identifier must be a non-negative integer..
         /// </summary>
-        internal static string MapIdMustBeNonNegative {
+        public static string MapIdMustBeNonNegative {
             get {
                 return ResourceManager.GetString("MapIdMustBeNonNegative", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The module has not been initialized yet..
         /// </summary>
-        internal static string ModuleNotInitialized {
+        public static string ModuleNotInitialized {
             get {
                 return ResourceManager.GetString("ModuleNotInitialized", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The provided object instance must be assignable to the type &apos;{0}&apos;.
         /// </summary>
-        internal static string ObjectNotAssignableToType {
+        public static string ObjectNotAssignableToType {
             get {
                 return ResourceManager.GetString("ObjectNotAssignableToType", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The packet processing event must have a subscriber..
         /// </summary>
-        internal static string PacketProcessingEventHasNoSubscriber {
+        public static string PacketProcessingEventHasNoSubscriber {
             get {
                 return ResourceManager.GetString("PacketProcessingEventHasNoSubscriber", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The server is already running..
         /// </summary>
-        internal static string ServerAlreadyRunning {
+        public static string ServerAlreadyRunning {
             get {
                 return ResourceManager.GetString("ServerAlreadyRunning", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The server is not running. Start it before using it..
         /// </summary>
-        internal static string ServerNotRunning {
+        public static string ServerNotRunning {
             get {
                 return ResourceManager.GetString("ServerNotRunning", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The provided name must be the that of a required or allowed component..
         /// </summary>
-        internal static string UnknownComponentName {
+        public static string UnknownComponentName {
             get {
                 return ResourceManager.GetString("UnknownComponentName", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace OpenStory.Server {
         /// <summary>
         ///   Looks up a localized string similar to The provided label does not correspond to a known packet..
         /// </summary>
-        internal static string UnknownPacketLabel {
+        public static string UnknownPacketLabel {
             get {
                 return ResourceManager.GetString("UnknownPacketLabel", resourceCulture);
             }
