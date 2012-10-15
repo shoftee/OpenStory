@@ -1,4 +1,5 @@
 ﻿using OpenStory.Server.Data;
+using OpenStory.Server.Fluent.Config;
 using OpenStory.Server.Fluent.Extensions;
 using OpenStory.Server.Fluent.Initialize;
 using OpenStory.Server.Fluent.Lookup;
@@ -13,11 +14,37 @@ namespace OpenStory.Server.Fluent
     public static class OS
     {
         /// <summary>
+        /// The entry point for the configuration fluent interface.
+        /// </summary>
+        /// <returns></returns>
+        public static IConfigFacade Config()
+        {
+            return new ConfigFacade();
+        }
+
+        /// <summary>
         /// The entry point for the initialization fluent interface.
         /// </summary>
         public static IInitializeFacade Initialize()
         {
             return new InitializeFacade();
+        }
+        
+        /// <summary>
+        /// Retrieves the default <see cref="ILogger"/> instance.
+        /// </summary>
+        /// <returns>an instance of <see cref="ILogger"/>.</returns>
+        public static ILogger Log()
+        {
+            return LogManager.GetManager().Logger;
+        }
+        
+        /// <summary>
+        /// The entry point for the lookup fluent interface.
+        /// </summary>
+        public static ILookupFacade Lookup()
+        {
+            return new LookupFacade();
         }
 
         /// <summary>
@@ -26,14 +53,6 @@ namespace OpenStory.Server.Fluent
         public static IServiceFacade Svc()
         {
             return new ServiceFacade();
-        }
-
-        /// <summary>
-        /// The entry point for the lookup fluent interface.
-        /// </summary>
-        public static ILookupFacade Lookup()
-        {
-            return new LookupFacade();
         }
 
         /// <summary>
@@ -62,15 +81,6 @@ namespace OpenStory.Server.Fluent
         public static DataManager Data()
         {
             return DataManager.GetManager();
-        }
-
-        /// <summary>
-        /// Retrieves the default <see cref="ILogger"/> instance.
-        /// </summary>
-        /// <returns>an instance of <see cref="ILogger"/>.</returns>
-        public static ILogger Log()
-        {
-            return LogManager.GetManager().Logger;
         }
     }
 }
