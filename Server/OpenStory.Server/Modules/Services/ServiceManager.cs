@@ -10,17 +10,17 @@ namespace OpenStory.Server.Modules.Services
     public class ServiceManager : ManagerBase<ServiceManager>
     {
         /// <summary>
-        /// The name of the LocalService component.
+        /// The name of the <see cref="Local"/> component.
         /// </summary>
         public const string LocalServiceKey = @"LocalService";
 
         /// <summary>
-        /// The name of the LocalService component.
+        /// The name of the <see cref="Nexus"/> component.
         /// </summary>
         public const string NexusServiceKey = @"NexusService";
 
         /// <summary>
-        /// The name of the EndpointProvider component.
+        /// The name of the <see cref="EndpointProvider"/> component.
         /// </summary>
         public const string EndpointProviderKey = @"EndpointProvider";
 

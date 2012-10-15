@@ -11,7 +11,7 @@ namespace OpenStory.Server.Modules.Config
     public sealed class ConfigManager : ManagerBase<ConfigManager>
     {
         /// <summary>
-        /// The name of the "Provider" component.
+        /// The name of the <see cref="Provider"/> component.
         /// </summary>
         public const string ProviderKey = "Provider";
 

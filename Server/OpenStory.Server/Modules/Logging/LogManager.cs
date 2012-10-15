@@ -6,7 +6,7 @@ namespace OpenStory.Server.Modules.Logging
     public sealed class LogManager : ManagerBase<LogManager>
     {
         /// <summary>
-        /// The component name for the Logger object.
+        /// The name of the <see cref="Logger"/> component.
         /// </summary>
         public const string LoggerKey = @"Logger";
 

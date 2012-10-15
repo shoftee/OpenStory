@@ -9,12 +9,12 @@ namespace OpenStory.Server.Data
     public class DataManager : ManagerBase<DataManager>
     {
         /// <summary>
-        /// The name of the IBanProvider component.
+        /// The name of the <see cref="Bans"/> component.
         /// </summary>
         public const string BansKey = "Bans";
 
         /// <summary>
-        /// The name of the IAccountProvider component.
+        /// The name of the <see cref="Accounts"/> component.
         /// </summary>
         public const string AccountsKey = "Accounts";
 

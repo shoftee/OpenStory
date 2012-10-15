@@ -9,12 +9,12 @@ namespace OpenStory.Server.Auth.Data
     public sealed class AuthDataManager : DataManager
     {
         /// <summary>
-        /// The name of the Characters component.
+        /// The name of the <see cref="Characters"/> component.
         /// </summary>
         public const string CharactersKey = "Characters";
 
         /// <summary>
-        /// The name of the Worlds component.
+        /// The name of the <see cref="Worlds"/> component.
         /// </summary>
         public const string WorldsKey = "Worlds";
 

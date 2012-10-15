@@ -9,12 +9,12 @@ namespace OpenStory.Server.Modules.Sample
     public sealed class ExampleManager : ManagerBase<ExampleManager>
     {
         /// <summary>
-        /// The name of the "Service" component.
+        /// The name of the <see cref="Service"/> component.
         /// </summary>
         public const string ServiceKey = "ServiceName";
 
         /// <summary>
-        /// The name of the "InternalService" component.
+        /// The name of the <see cref="InternalService"/> component.
         /// </summary>
         internal const string InternalServiceKey = "InternalServiceName";
 
