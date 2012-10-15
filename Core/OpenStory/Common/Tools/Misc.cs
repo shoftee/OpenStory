@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace OpenStory.Common.Tools
 {
@@ -34,7 +35,7 @@ namespace OpenStory.Common.Tools
             value = default(T);
             return result;
         }
-        
+
         /// <summary>
         /// Wraps the provided list in a <see cref="ReadOnlyCollection{T}"/>.
         /// </summary>
@@ -52,6 +53,42 @@ namespace OpenStory.Common.Tools
             }
 
             return new ReadOnlyCollection<T>(list);
+        }
+
+        /// <summary>
+        /// Executes the provided action in a read-lock block.
+        /// </summary>
+        /// <param name="lock">The lock to use.</param>
+        /// <param name="action">The action to execute.</param>
+        public static void ReadLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
+        {
+            @lock.EnterReadLock();
+            try
+            {
+                action(@lock);
+            }
+            finally
+            {
+                @lock.ExitReadLock();
+            }
+        }
+
+        /// <summary>
+        /// Executes the provided action in a write-lock block.
+        /// </summary>
+        /// <param name="lock">The lock to use.</param>
+        /// <param name="action">The action to execute.</param>
+        public static void WriteLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
+        {
+            @lock.EnterWriteLock();
+            try
+            {
+                action(@lock);
+            }
+            finally
+            {
+                @lock.ExitWriteLock();
+            }
         }
     }
 }
