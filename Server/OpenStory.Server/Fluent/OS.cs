@@ -1,6 +1,7 @@
 ﻿using OpenStory.Server.Data;
 using OpenStory.Server.Fluent.Extensions;
 using OpenStory.Server.Fluent.Initialize;
+using OpenStory.Server.Fluent.Lookup;
 using OpenStory.Server.Fluent.Service;
 using OpenStory.Server.Modules.Logging;
 

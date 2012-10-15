@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using OpenStory.Server.Modules;
 using OpenStory.Server.Registry;
 
 namespace OpenStory.Server.Fluent
@@ -11,27 +10,8 @@ namespace OpenStory.Server.Fluent
     public interface ILookupFacade : IFluentInterface
     {
         /// <summary>
-        /// Gets the location registry.
+        /// Gets the character lookup facade.
         /// </summary>
-        ILocationRegistry Location();
-    }
-
-    internal sealed class LookupFacade : ILookupFacade
-    {
-        private readonly LookupManager manager;
-
-        public LookupFacade()
-        {
-            this.manager = LookupManager.GetManager();
-        }
-
-        #region Implementation of ILookupFacade
-
-        public ILocationRegistry Location()
-        {
-            return this.manager.Location;
-        }
-
-        #endregion
+        ICharacterLookupFacade Character();
     }
 }

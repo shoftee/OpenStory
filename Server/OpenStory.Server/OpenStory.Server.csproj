@@ -61,15 +61,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Exceptions.resx</DependentUpon>
     </Compile>
+    <Compile Include="Fluent\Config\ConfigFacade.cs" />
+    <Compile Include="Fluent\Config\DomainConfigFacade.cs" />
     <Compile Include="Fluent\IAccountServiceFacade.cs" />
     <Compile Include="Fluent\IAuthServiceFacade.cs" />
     <Compile Include="Fluent\IChannelServiceFacade.cs" />
     <Compile Include="Fluent\IChannelsServiceFacade.cs" />
+    <Compile Include="Fluent\ICharacterLookupFacade.cs" />
+    <Compile Include="Fluent\IConfigFacade.cs" />
+    <Compile Include="Fluent\IDomainConfigFacade.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />
     <Compile Include="Fluent\IInitializeServiceFacade.cs" />
     <Compile Include="Fluent\Initialize\InitializeServiceFacade.cs" />
     <Compile Include="Fluent\ILookupFacade.cs" />
     <Compile Include="Fluent\IServiceGetterFacade.cs" />
+    <Compile Include="Fluent\Lookup\LookupFacade.cs" />
     <Compile Include="Fluent\NestedFacade.cs" />
     <Compile Include="Fluent\Service\AccountServiceFacade.cs" />
     <Compile Include="Fluent\Service\AuthServiceFacade.cs" />
@@ -82,6 +88,9 @@
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
     <Compile Include="IGameServer.cs" />
     <Compile Include="IServerSession.cs" />
+    <Compile Include="Modules\Config\ConfigManager.cs" />
+    <Compile Include="Modules\Config\DomainConfig.cs" />
+    <Compile Include="Modules\Config\IConfigDataProvider.cs" />
     <Compile Include="Modules\Logging\ConsoleLogger.cs" />
     <Compile Include="Modules\Logging\ILogger.cs" />
     <Compile Include="Modules\Logging\LogManager.cs" />
@@ -99,6 +108,7 @@
     <Compile Include="Processing\ServerGameSession.cs" />
     <Compile Include="Processing\ServerNetworkSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
+    <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="ServerBase.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
     <Compile Include="Fluent\IInitializeManagersFacade.cs" />
@@ -180,6 +190,7 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
