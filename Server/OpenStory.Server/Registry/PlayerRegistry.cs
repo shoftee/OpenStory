@@ -6,7 +6,7 @@ using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Registry
 {
-    internal sealed class PlayerRegistry
+    internal sealed class PlayerRegistry : IPlayerRegistry
     {
         private readonly Dictionary<int, IPlayer> playerIdLookup;
         private readonly Dictionary<string, IPlayer> playerNameLookup;
@@ -15,22 +15,12 @@ namespace OpenStory.Server.Registry
 
         public IPlayer this[int id]
         {
-            get
-            {
-                var player = default(IPlayer);
-                this.@lock.ReadLock(l => this.playerIdLookup.TryGetValue(id, out player));
-                return player;
-            }
+            get { return this.GetById(id); }
         }
 
         public IPlayer this[string name]
         {
-            get
-            {
-                var player = default(IPlayer);
-                this.@lock.ReadLock(l => this.playerNameLookup.TryGetValue(name, out player));
-                return player;
-            }
+            get { return this.GetByName(name); }
         }
 
         public PlayerRegistry()
@@ -41,9 +31,46 @@ namespace OpenStory.Server.Registry
             this.@lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         }
 
+        /// <inheritdoc />
         public void RegisterPlayer(IPlayer player)
         {
             this.@lock.WriteLock(l => this.AddPlayer(player));
+        }
+
+        /// <inheritdoc />
+        public void UnregisterPlayer(IPlayer player)
+        {
+            this.@lock.WriteLock(l => this.RemovePlayer(player));
+        }
+
+        /// <inheritdoc />
+        public IPlayer GetById(int id)
+        {
+            var player = default(IPlayer);
+            this.@lock.ReadLock(l => this.playerIdLookup.TryGetValue(id, out player));
+            return player;
+        }
+
+        /// <inheritdoc />
+        public IPlayer GetByName(string name)
+        {
+            var player = default(IPlayer);
+            this.@lock.ReadLock(l => this.playerNameLookup.TryGetValue(name, out player));
+            return player;
+        }
+
+        /// <inheritdoc />
+        public void ScanLocked(Action<IEnumerable<IPlayer>> action)
+        {
+            this.@lock.ReadLock(l => action(this.playerIdLookup.Values));
+        }
+
+        /// <inheritdoc />
+        public void ScanCopied(Action<IEnumerable<IPlayer>> action)
+        {
+            var players = new List<IPlayer>(0);
+            this.@lock.ReadLock(l => players = this.playerIdLookup.Values.ToList());
+            action(players);
         }
 
         private void AddPlayer(IPlayer player)
@@ -52,43 +79,10 @@ namespace OpenStory.Server.Registry
             this.playerNameLookup.Add(player.CharacterName, player);
         }
 
-        public void UnregisterPlayer(IPlayer player)
-        {
-            this.@lock.WriteLock(l => this.RemovePlayer(player));
-        }
-
         private void RemovePlayer(IPlayer player)
         {
             this.playerIdLookup.Remove(player.CharacterId);
             this.playerNameLookup.Remove(player.CharacterName);
-        }
-
-        /// <summary>
-        /// Runs a scan on the player instances, while locking the registry.
-        /// </summary>
-        /// <remarks>
-        /// <para>The objects in the instance list will not become unregistered during the scan.</para>
-        /// <para>The scan will however block write operations on the registry.</para>
-        /// </remarks>
-        /// <param name="action">The action to execute during the scan.</param>
-        public void ScanLocked(Action<IEnumerable<IPlayer>> action)
-        {
-            this.@lock.ReadLock(l => action(this.playerIdLookup.Values));
-        }
-
-        /// <summary>
-        /// Runs a scan on a copy of the player instance list.
-        /// </summary>
-        /// <remarks>
-        /// <para>The objects in the instance list may become unregistered during the scan.</para>
-        /// <para>The scan will not block write operations to the registry.</para>
-        /// </remarks>
-        /// <param name="action">The action to execute during the scan.</param>
-        public void ScanCopied(Action<IEnumerable<IPlayer>> action)
-        {
-            List<IPlayer> players = new List<IPlayer>(0);
-            this.@lock.ReadLock(l => players = this.playerIdLookup.Values.ToList());
-            action(players);
         }
     }
 }

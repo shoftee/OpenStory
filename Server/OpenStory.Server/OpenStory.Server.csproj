@@ -108,6 +108,7 @@
     <Compile Include="Processing\ServerGameSession.cs" />
     <Compile Include="Processing\ServerNetworkSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
+    <Compile Include="Registry\IPlayerRegistry.cs" />
     <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="ServerBase.cs" />
     <Compile Include="Fluent\IInitializeFacade.cs" />
