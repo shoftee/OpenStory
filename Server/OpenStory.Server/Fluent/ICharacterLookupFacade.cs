@@ -16,13 +16,6 @@ namespace OpenStory.Server.Fluent
         PlayerLocation Location(int id);
 
         /// <summary>
-        /// Gets the location of a player.
-        /// </summary>
-        /// <param name="name">The name of the player's character.</param>
-        /// <returns>a <see cref="PlayerLocation"/> object, or <c>null</c> if the player was not found.</returns>
-        PlayerLocation Location(string name);
-
-        /// <summary>
         /// Gets the character name for a player.
         /// </summary>
         /// <param name="id">The identifier of the player.</param>

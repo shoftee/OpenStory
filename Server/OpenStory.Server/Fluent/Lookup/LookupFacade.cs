@@ -15,7 +15,7 @@ namespace OpenStory.Server.Fluent.Lookup
 
         public ICharacterLookupFacade Character()
         {
-            return new CharacterLookupFacade();
+            return new CharacterLookupFacade(this.manager);
         }
 
         #endregion
@@ -23,26 +23,44 @@ namespace OpenStory.Server.Fluent.Lookup
 
     internal class CharacterLookupFacade : ICharacterLookupFacade
     {
+        private readonly LookupManager manager;
+
+        public CharacterLookupFacade(LookupManager manager)
+        {
+            this.manager = manager;
+        }
+
         #region Implementation of ICharacterLookupFacade
 
         public PlayerLocation Location(int id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public PlayerLocation Location(string name)
-        {
-            throw new System.NotImplementedException();
+            return manager.Location.GetLocation(id);
         }
 
         public string Name(int id)
         {
-            throw new System.NotImplementedException();
+            var player = manager.Players.GetById(id);
+            if (player == null)
+            {
+                return null;
+            }
+            else
+            {
+                return player.CharacterName;
+            }
         }
 
         public int? Id(string name)
         {
-            throw new System.NotImplementedException();
+            var player = manager.Players.GetByName(name);
+            if (player == null)
+            {
+                return null;
+            }
+            else
+            {
+                return player.CharacterId;
+            }
         }
 
         #endregion
