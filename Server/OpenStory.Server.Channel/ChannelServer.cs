@@ -10,13 +10,15 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public sealed class ChannelServer : ServerBase, IChannelServer
     {
+        private const string ServerName = @"Channel";
+
         private readonly List<ChannelClient> clients;
         private readonly PlayerRegistry players;
 
         /// <inheritdoc />
         public override string Name
         {
-            get { return @"Channel"; }
+            get { return ServerName; }
         }
 
         /// <inheritdoc />
@@ -39,7 +41,7 @@ namespace OpenStory.Server.Channel
         public IChannelWorld World { get; private set; }
 
         /// <inheritdoc />
-        public ChannelServer(ChannelServerConfiguration configuration)
+        public ChannelServer(ChannelConfiguration configuration)
             : base(configuration)
         {
             this.ChannelId = configuration.ChannelId;
@@ -53,7 +55,7 @@ namespace OpenStory.Server.Channel
         protected override void OnConnectionOpen(IServerSession serverSession)
         {
             var newClient = new ChannelClient(this, serverSession);
-            this.clients.Add(newClient); // NOTE: Happens both in Auth and Channel servers, pull up?
+            this.clients.Add(newClient);
         }
 
         /// <inheritdoc />

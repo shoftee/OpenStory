@@ -11,7 +11,7 @@ namespace OpenStory.Server.Auth
     /// </summary>
     public sealed class AuthServer : ServerBase, IAuthServer
     {
-        private const string ServerName = "Auth";
+        private const string ServerName = @"Auth";
 
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
 

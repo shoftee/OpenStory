@@ -21,42 +21,32 @@ namespace OpenStory.Networking
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> SocketError;
 
-        private readonly IPEndPoint localEndPoint;
         private SocketAsyncEventArgs socketArgs;
         private Socket acceptSocket;
         private bool isDisposed;
 
         /// <summary>
-        /// Gets the <see cref="IPAddress"/> to which this instance is bound.
+        /// Gets the bound endpoint for the acceptor.
         /// </summary>
-        public IPAddress Address { get; private set; }
-
-        /// <summary>
-        /// Gets the port to which this instance is bound.
-        /// </summary>
-        public int Port { get; private set; }
+        public IPEndPoint Endpoint { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="SocketAcceptor"/>.
         /// </summary>
-        /// <param name="address">The <see cref="IPAddress"/> to accept connections through.</param>
-        /// <param name="port">The port to listen to for incoming connections.</param>
+        /// <param name="endpoint">The <see cref="IPEndPoint"/> to accept connections through.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="address"/> is <c>null</c>.
+        /// Thrown if <paramref name="endpoint"/> is <c>null</c>.
         /// </exception>
-        public SocketAcceptor(IPAddress address, int port)
+        public SocketAcceptor(IPEndPoint endpoint)
         {
-            if (address == null)
+            if (endpoint == null)
             {
-                throw new ArgumentNullException("address");
+                throw new ArgumentNullException("endpoint");
             }
 
             this.isDisposed = false;
 
-            this.Port = port;
-            this.Address = address;
-
-            this.localEndPoint = new IPEndPoint(this.Address, this.Port);
+            this.Endpoint = endpoint;
         }
 
         /// <inheritdoc />
@@ -103,7 +93,7 @@ namespace OpenStory.Networking
             this.socketArgs.Completed += (o, e) => this.EndAcceptAsynchronous(e);
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(this.localEndPoint);
+            socket.Bind(this.Endpoint);
             socket.Listen(100);
 
             return socket;

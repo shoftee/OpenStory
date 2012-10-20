@@ -5,7 +5,7 @@ namespace OpenStory.Server.Channel
     /// <summary>
     /// Represents a configuration for a channel server.
     /// </summary>
-    public sealed class ChannelServerConfiguration : ServerConfiguration
+    public sealed class ChannelConfiguration : ServerConfiguration
     {
         /// <summary>
         /// Gets the configured world identifier.
@@ -18,14 +18,13 @@ namespace OpenStory.Server.Channel
         public int ChannelId { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ChannelServerConfiguration"/>.
+        /// Initializes a new instance of <see cref="ChannelConfiguration"/>.
         /// </summary>
-        /// <param name="address"><inheritdoc /></param>
-        /// <param name="port"><inheritdoc /></param>
+        /// <param name="endpoint"><inheritdoc /></param>
         /// <param name="worldId">The world identifier for the server.</param>
         /// <param name="channelId">The channel identifier for the server.</param>
-        public ChannelServerConfiguration(IPAddress address, int port, int worldId, int channelId)
-            : base(address, port)
+        public ChannelConfiguration(IPEndPoint endpoint, int worldId, int channelId)
+            : base(endpoint)
         {
             this.WorldId = worldId;
             this.ChannelId = channelId;

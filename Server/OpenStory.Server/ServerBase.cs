@@ -55,7 +55,7 @@ namespace OpenStory.Server
 
             this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
 
-            this.acceptor = new SocketAcceptor(configuration.Address, configuration.Port);
+            this.acceptor = new SocketAcceptor(configuration.Endpoint);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
         }
 
@@ -67,7 +67,7 @@ namespace OpenStory.Server
             this.ThrowIfRunning();
             this.IsRunning = true;
 
-            OS.Log().Info("[{0}] Listening on port {1}.", this.Name, this.acceptor.Port);
+            OS.Log().Info("[{0}] Listening on port {1}.", this.Name, this.acceptor.Endpoint.Port);
             this.acceptor.Start();
         }
 

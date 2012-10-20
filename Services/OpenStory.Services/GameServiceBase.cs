@@ -36,17 +36,10 @@ namespace OpenStory.Services
         {
             ThrowIfDisposed();
 
-            var uriString = configuration.Get<string>("ServiceUri");
-            if (uriString == null)
+            var uri = configuration.Get<Uri>("ServiceUri");
+            if (uri == null)
             {
                 error = "Service endpoint URI missing from configuration.";
-                return false;
-            }
-
-            Uri uri;
-            if (!Uri.TryCreate(uriString, UriKind.Absolute, out uri))
-            {
-                error = "Service endpoint URI is invalid.";
                 return false;
             }
 

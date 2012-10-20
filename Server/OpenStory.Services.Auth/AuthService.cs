@@ -11,15 +11,31 @@ namespace OpenStory.Services.Auth
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     internal sealed class AuthService : GameServiceBase, IAuthService
     {
+        private AuthConfiguration serverConfiguration;
+
         private AuthServer server;
+
+        protected override bool OnConfiguring(ServiceConfiguration configuration, out string error)
+        {
+            var endpoint = configuration.Get<IPEndPoint>("Endpoint");
+            if (endpoint == null)
+            {
+                error = "Entry point address definition missing from configuration.";
+                return false;
+            }
+
+            this.serverConfiguration = new AuthConfiguration(endpoint);
+
+            error = null;
+            return true;
+        }
 
         /// <inheritdoc />
         protected override void OnInitializing()
         {
             base.OnInitializing();
 
-            var config = new AuthConfiguration(IPAddress.Any, 8484);
-            this.server = new AuthServer(config);
+            this.server = new AuthServer(this.serverConfiguration);
         }
 
         /// <inheritdoc />

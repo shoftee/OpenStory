@@ -20,7 +20,7 @@ namespace OpenStory.Redirector
 
         public Redirector(IPEndPoint endpoint)
         {
-            this.initialAcceptor = new SocketAcceptor(IPAddress.Any, endpoint.Port);
+            this.initialAcceptor = new SocketAcceptor(endpoint);
             this.PassEndpointToSocketsFrom(this.initialAcceptor, endpoint);
         }
 
@@ -32,7 +32,7 @@ namespace OpenStory.Redirector
 
         private static void BindInternal(SocketAcceptor acceptor)
         {
-            Logger.Write(LogMessageType.Connection, "Listening for clients on port {0}.", acceptor.Port);
+            Logger.Write(LogMessageType.Connection, "Listening for clients on port {0}.", acceptor.Endpoint.Port);
 
             acceptor.Start();
         }
@@ -62,7 +62,7 @@ namespace OpenStory.Redirector
             var serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             this.serverLink.AttachSocket(serverSocket);
             Logger.Write(LogMessageType.Connection, "Connecting to server {0}", endpoint);
-            serverSocket.Connect(endpoint.Address, endpoint.Port);
+            serverSocket.Connect(endpoint);
             Logger.Write(LogMessageType.Connection, "Successfully connected to server {0}", endpoint);
             this.serverLink.Start();
         }
@@ -101,7 +101,7 @@ namespace OpenStory.Redirector
                 builder.WriteBytes(reader.ReadBytes(14));
                 this.serverLink.Close();
 
-                if (port != this.initialAcceptor.Port)
+                if (port != this.initialAcceptor.Endpoint.Port)
                 {
                     var endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
                     GetNewChannelAcceptor(ref this.channelAcceptor, endpoint);
@@ -125,7 +125,7 @@ namespace OpenStory.Redirector
                 acceptor.Dispose();
             }
 
-            acceptor = new SocketAcceptor(endpoint.Address, endpoint.Port);
+            acceptor = new SocketAcceptor(endpoint);
         }
 
         private void HandleClientPacketReceived(object sender, PacketReceivedEventArgs e)

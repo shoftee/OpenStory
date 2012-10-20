@@ -8,8 +8,8 @@ namespace OpenStory.Server.Auth
     public sealed class AuthConfiguration : ServerConfiguration
     {
         /// <inheritdoc />
-        public AuthConfiguration(IPAddress address, int port)
-            : base(address, port)
+        public AuthConfiguration(IPEndPoint endpoint)
+            : base(endpoint)
         {
         }
     }
