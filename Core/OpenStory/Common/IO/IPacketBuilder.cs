@@ -8,46 +8,46 @@ namespace OpenStory.Common.IO
     public interface IPacketBuilder
     {
         /// <summary>
-        /// Writes a <see cref="System.Int64"/> to the end of the packet.
+        /// Writes a <see cref="Byte"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        void WriteInt64(long number);
+        void WriteByte(byte number);
 
         /// <summary>
-        /// Writes a <see cref="System.UInt64"/> to the end of the packet.
-        /// </summary>
-        /// <param name="number">The value to write.</param>
-        void WriteInt64(ulong number);
-
-        /// <summary>
-        /// Writes a <see cref="System.Int32"/> to the end of the packet.
-        /// </summary>
-        /// <param name="number">The value to write.</param>
-        void WriteInt32(int number);
-
-        /// <summary>
-        /// Writes a <see cref="System.UInt32"/> to the end of the packet.
-        /// </summary>
-        /// <param name="number">The value to write.</param>
-        void WriteInt32(uint number);
-
-        /// <summary>
-        /// Writes a <see cref="System.Int16"/> to the end of the packet.
+        /// Writes a <see cref="Int16"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
         void WriteInt16(short number);
 
         /// <summary>
-        /// Writes a <see cref="System.UInt16"/> to the end of the packet.
+        /// Writes a <see cref="UInt16"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
         void WriteInt16(ushort number);
 
         /// <summary>
-        /// Writes a <see cref="System.Byte"/> to the end of the packet.
+        /// Writes a <see cref="Int32"/> to the end of the packet.
         /// </summary>
         /// <param name="number">The value to write.</param>
-        void WriteByte(byte number);
+        void WriteInt32(int number);
+
+        /// <summary>
+        /// Writes a <see cref="UInt32"/> to the end of the packet.
+        /// </summary>
+        /// <param name="number">The value to write.</param>
+        void WriteInt32(uint number);
+
+        /// <summary>
+        /// Writes a <see cref="Int64"/> to the end of the packet.
+        /// </summary>
+        /// <param name="number">The value to write.</param>
+        void WriteInt64(long number);
+
+        /// <summary>
+        /// Writes a <see cref="UInt64"/> to the end of the packet.
+        /// </summary>
+        /// <param name="number">The value to write.</param>
+        void WriteInt64(ulong number);
 
         /// <summary>
         /// Writes a specified number of 0-value bytes to the end of the packet.
@@ -68,13 +68,13 @@ namespace OpenStory.Common.IO
         void WriteBytes(byte[] bytes);
 
         /// <summary>
-        /// Writes a <see cref="System.Boolean"/> to the end of the packet.
+        /// Writes a <see cref="Boolean"/> to the end of the packet.
         /// </summary>
         /// <param name="boolean">The value to write.</param>
         void WriteBoolean(bool boolean);
 
         /// <summary>
-        /// Writes a length-prefixed UTF8 string to the end of the packet.
+        /// Writes a length-prefixed UTF-8 string to the end of the packet.
         /// </summary>
         /// <remarks>The length of the stream is written first.</remarks>
         /// <param name="string">The string to write.</param>

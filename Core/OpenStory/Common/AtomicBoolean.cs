@@ -4,14 +4,22 @@ using System.Threading;
 namespace OpenStory.Common
 {
     /// <summary>
-    /// Represents a thread-safe <see cref="T:System.Boolean"/> value.
+    /// Represents a thread-safe <see cref="Boolean"/> value.
     /// </summary>
     public sealed class AtomicBoolean
     {
         /// <summary>
-        /// Since bleeping Interlocked doesn't work with Boolean.
+        /// Since bleeping <see cref="Interlocked"/> doesn't work with Boolean.
         /// </summary>
         private int value;
+
+        /// <summary>
+        /// Gets the current value of the <see cref="AtomicBoolean"/>.
+        /// </summary>
+        public bool Value
+        {
+            get { return Convert.ToBoolean(this.value); }
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AtomicBoolean"/>.
@@ -20,14 +28,6 @@ namespace OpenStory.Common
         public AtomicBoolean(bool initialValue)
         {
             this.value = Convert.ToInt32(initialValue);
-        }
-
-        /// <summary>
-        /// Gets the current value of the AtomicBoolean.
-        /// </summary>
-        public bool Value
-        {
-            get { return Convert.ToBoolean(this.value); }
         }
 
         /// <summary>
@@ -56,6 +56,8 @@ namespace OpenStory.Common
             return Convert.ToBoolean(result);
         }
 
+        #region Cast methods
+
         /// <summary>
         /// Creates a new instance of <see cref="AtomicBoolean"/> from a provided <see cref="System.Boolean"/>.
         /// </summary>
@@ -67,7 +69,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
+        /// Extracts a <see cref="Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
@@ -84,7 +86,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Boolean"/> from an <see cref="AtomicBoolean"/> instance.
+        /// Extracts a <see cref="Boolean"/> from an <see cref="AtomicBoolean"/> instance.
         /// </summary>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public bool ToBoolean()
@@ -93,7 +95,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
+        /// Extracts a <see cref="Boolean"/> from an instance of <see cref="AtomicBoolean"/>.
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
@@ -106,7 +108,10 @@ namespace OpenStory.Common
             {
                 throw new ArgumentNullException("atomicBoolean");
             }
+
             return atomicBoolean.Value;
         }
+
+        #endregion
     }
 }

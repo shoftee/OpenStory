@@ -4,11 +4,19 @@ using System.Threading;
 namespace OpenStory.Common
 {
     /// <summary>
-    /// Represents a thread-safe <see cref="T:System.Int32"/> value.
+    /// Represents a thread-safe <see cref="Int32"/> value.
     /// </summary>
     public sealed class AtomicInteger
     {
         private int value;
+
+        /// <summary>
+        /// Gets the current value of the <see cref="AtomicInteger"/>.
+        /// </summary>
+        public int Value
+        {
+            get { return this.value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AtomicInteger"/> with the given value.
@@ -17,14 +25,6 @@ namespace OpenStory.Common
         public AtomicInteger(int initialValue)
         {
             this.value = initialValue;
-        }
-
-        /// <summary>
-        /// The current value of the <see cref="AtomicInteger"/>.
-        /// </summary>
-        public int Value
-        {
-            get { return this.value; }
         }
 
         /// <summary>
@@ -69,8 +69,10 @@ namespace OpenStory.Common
             return Interlocked.CompareExchange(ref this.value, newValue, comparand);
         }
 
+        #region Cast methods
+
         /// <summary>
-        /// Creates a new instance of <see cref="AtomicInteger"/> from a provided <see cref="System.Int32"/>.
+        /// Creates a new instance of <see cref="AtomicInteger"/> from a provided <see cref="Int32"/>.
         /// </summary>
         /// <param name="value">The number to convert.</param>
         /// <returns>a new instance of <see cref="AtomicInteger"/> with the given initial value.</returns>
@@ -80,7 +82,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Int32"/> from an instance of <see cref="AtomicInteger"/>.
+        /// Extracts a <see cref="Int32"/> from an instance of <see cref="AtomicInteger"/>.
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
@@ -97,7 +99,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Int32"/> from an <see cref="AtomicInteger"/> instance.
+        /// Extracts a <see cref="Int32"/> from an <see cref="AtomicInteger"/> instance.
         /// </summary>
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public int ToInt32()
@@ -106,7 +108,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a <see cref="System.Int32"/> from an instance of <see cref="AtomicInteger"/>.
+        /// Extracts a <see cref="Int32"/> from an instance of <see cref="AtomicInteger"/>.
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
@@ -119,7 +121,10 @@ namespace OpenStory.Common
             {
                 throw new ArgumentNullException("atomicInteger");
             }
+
             return atomicInteger.value;
         }
+
+        #endregion
     }
 }

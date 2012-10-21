@@ -6,7 +6,7 @@ This is the cryptography component of OpenStory. Duh.
 
 Thanks go out to the people who ripped out the IV shuffle routine and cryptographic keys from the MapleStory binaries. Personal thanks to @Diamondo25 for his KMST stuff <3
 
-## Points of interest:
+## Points of interest
 
 ### `CryptoTransformBase` class
 
