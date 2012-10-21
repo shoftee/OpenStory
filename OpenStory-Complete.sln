@@ -25,7 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Registry
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{C0505C9F-2648-49A3-9CE5-0748FF9DFB06}"
 	ProjectSection(SolutionItems) = preProject
-		README.MD = README.MD
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9173C40B-42AA-40B4-9EE8-608DA0E0C878}"
+	ProjectSection(SolutionItems) = preProject
+		Core\readme.md = Core\readme.md
 	EndProjectSection
 EndProject
 Global
@@ -111,5 +116,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9173C40B-42AA-40B4-9EE8-608DA0E0C878} = {C0505C9F-2648-49A3-9CE5-0748FF9DFB06}
 	EndGlobalSection
 EndGlobal
