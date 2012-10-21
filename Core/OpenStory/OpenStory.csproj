@@ -192,7 +192,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Common\readme.md" />
     <None Include="Cryptography\readme.md" />
+    <None Include="Networking\readme.md" />
     <None Include="readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
