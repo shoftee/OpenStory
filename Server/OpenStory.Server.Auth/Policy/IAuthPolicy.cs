@@ -1,4 +1,4 @@
-using OpenStory.Common.Auth;
+using OpenStory.Common.Game;
 
 namespace OpenStory.Server.Auth.Policy
 {

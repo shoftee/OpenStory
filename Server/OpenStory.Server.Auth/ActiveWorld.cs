@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using OpenStory.Common.Auth;
+using OpenStory.Common.Game;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Auth.Data;
 using OpenStory.Server.Data;

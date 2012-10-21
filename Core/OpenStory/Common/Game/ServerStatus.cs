@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace OpenStory.Common.Auth
+namespace OpenStory.Common.Game
 {
     /// <summary>
     /// World status options.

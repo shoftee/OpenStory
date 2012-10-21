@@ -1,5 +1,5 @@
 using System;
-using OpenStory.Common.Auth;
+using OpenStory.Common.Game;
 using OpenStory.Common.IO;
 using OpenStory.Server.Auth.Policy;
 using OpenStory.Server.Processing;

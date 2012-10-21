@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Common.Auth
+namespace OpenStory.Common.Game
 {
     /// <summary>
     /// Provides properties for game channels.

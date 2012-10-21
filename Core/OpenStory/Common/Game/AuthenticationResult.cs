@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace OpenStory.Common.Auth
+namespace OpenStory.Common.Game
 {
     /// <summary>
     /// A response code for an authentication attempt.

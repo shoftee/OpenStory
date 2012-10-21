@@ -1,5 +1,5 @@
-using OpenStory.Common.Auth;
 using OpenStory.Common.Data;
+using OpenStory.Common.Game;
 using OpenStory.Server.Auth.Policy;
 
 namespace OpenStory.Server.Auth

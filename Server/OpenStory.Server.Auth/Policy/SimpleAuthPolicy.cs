@@ -1,5 +1,5 @@
 using System;
-using OpenStory.Common.Auth;
+using OpenStory.Common.Game;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Server.Data;

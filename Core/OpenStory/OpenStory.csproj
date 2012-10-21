@@ -93,21 +93,22 @@
   <ItemGroup>
     <Compile Include="Common\AtomicBoolean.cs" />
     <Compile Include="Common\AtomicInteger.cs" />
-    <Compile Include="Common\Auth\AuthenticationResult.cs" />
-    <Compile Include="Common\Auth\IChannel.cs" />
-    <Compile Include="Common\Auth\IWorld.cs" />
     <Compile Include="Common\Data\IOpCodeTable.cs" />
     <Compile Include="Common\Data\OpCodeTable.cs" />
+    <Compile Include="Common\Game\AuthenticationResult.cs" />
     <Compile Include="Common\Game\GameConstants.cs" />
     <Compile Include="Common\Game\Elements.cs" />
     <Compile Include="Common\Game\Gender.cs" />
     <Compile Include="Common\Game\GuildRank.cs" />
+    <Compile Include="Common\Game\IChannel.cs" />
+    <Compile Include="Common\Game\IWorld.cs" />
     <Compile Include="Common\Game\KeyBinding.cs" />
     <Compile Include="Common\Game\InventoryType.cs" />
     <Compile Include="Common\Game\ItemType.cs" />
     <Compile Include="Common\Game\JobClass.cs" />
     <Compile Include="Common\Game\KeyLayout.cs" />
     <Compile Include="Common\Game\PointS.cs" />
+    <Compile Include="Common\Game\ServerStatus.cs" />
     <Compile Include="Common\IO\ArraySegmentException.cs" />
     <Compile Include="Common\IO\Flags.cs" />
     <Compile Include="Common\IO\HandshakeInfo.cs" />
@@ -166,7 +167,6 @@
     <Compile Include="Common\Tools\Misc.cs" />
     <Compile Include="Common\Tools\ParameterList.cs" />
     <Compile Include="Common\Tools\Time.cs" />
-    <Compile Include="Common\Auth\ServerStatus.cs" />
     <Compile Include="Synchronization\IRunnable.cs" />
     <Compile Include="Synchronization\IScheduler.cs" />
     <Compile Include="Synchronization\ISynchronized.cs" />
