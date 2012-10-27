@@ -1,7 +1,4 @@
-using System;
-using OpenStory.Common.IO;
-
-namespace OpenStory.Common.Data
+namespace OpenStory.Common
 {
     /// <summary>
     /// Provides methods for looking up packet labels and op codes.

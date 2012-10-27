@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenStory.Common.IO;
 
-namespace OpenStory.Common.Data
+namespace OpenStory.Common
 {
     /// <summary>
     /// Represents a lookup table for packet op codes and labels.

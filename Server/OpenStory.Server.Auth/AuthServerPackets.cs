@@ -1,4 +1,4 @@
-using OpenStory.Common.Data;
+using OpenStory.Common;
 
 namespace OpenStory.Server.Auth
 {
