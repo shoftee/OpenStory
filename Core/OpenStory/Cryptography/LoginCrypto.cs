@@ -28,9 +28,9 @@ namespace OpenStory.Cryptography
         /// <returns>the MD5 hash of the provided string.</returns>
         public static string GetMd5HashString(string str, bool lowercase = false)
         {
-            byte[] strBytes = Encoding.UTF7.GetBytes(str);
-            byte[] hashBytes = Md5CryptoProvider.ComputeHash(strBytes);
-            return hashBytes.ToHex(lowercase);
+            byte[] bytes = Encoding.UTF7.GetBytes(str);
+            byte[] hashed = Md5CryptoProvider.ComputeHash(bytes);
+            return hashed.ToHex(lowercase);
         }
 
         /// <summary>
@@ -41,23 +41,24 @@ namespace OpenStory.Cryptography
         /// <returns>the encrypted string.</returns>
         public static string RsaEncryptPassword(string password, RSAParameters parameters)
         {
-            RSA rsa = GetRsaWithParameters(parameters);
-
             string passwordHash = GetMd5HashString(password, true);
             byte[] passwordHashBytes = Encoding.UTF7.GetBytes(passwordHash);
 
-            byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);
-            return encryptedHashBytes.ToHex();
+            using (var rsa = GetRsaWithParameters(parameters))
+            {
+                byte[] encryptedHashBytes = rsa.EncryptValue(passwordHashBytes);
+                return encryptedHashBytes.ToHex();
+            }
         }
 
         /// <summary>
         /// Generates an integer for the "patch location" value sent during handshake.
         /// </summary>
         /// <param name="version">The game version.</param>
-        /// <param name="remove"></param>
-        /// <param name="subversion"></param>
+        /// <param name="subversion">The game sub-version.</param>
+        /// <param name="remove">Whether to remove. Something.</param>
         /// <returns>the generated patch location number.</returns>
-        public static int GeneratePatchLocation(short version, bool remove, byte subversion)
+        public static int GeneratePatchLocation(short version, byte subversion, bool remove)
         {
             // Thanks to Diamondo25 for this.
             int location = 0;

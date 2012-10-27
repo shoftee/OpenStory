@@ -17,8 +17,10 @@ namespace OpenStory.Server
     /// A base class for services which handle public communication.
     /// </summary>
     [Localizable(true)]
-    public abstract class ServerBase : IGameServer
+    public abstract class ServerBase : IGameServer, IDisposable
     {
+        private bool isDisposed;
+
         private readonly SocketAcceptor acceptor;
         private readonly RollingIvFactory ivFactory;
 
@@ -190,6 +192,14 @@ namespace OpenStory.Server
             }
         }
 
+        private void ThrowIfDisposed()
+        {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException(@"acceptor");
+            }
+        }
+
         #endregion
 
         #region IV generation
@@ -209,6 +219,37 @@ namespace OpenStory.Server
             while (number == 0);
 
             return BitConverter.GetBytes(number);
+        }
+
+        #endregion
+
+        #region Implementation of IDisposable
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Called when the object is being disposed.
+        /// </summary>
+        /// <remarks>
+        /// When overriding this method, call the base implementation before your logic.
+        /// </remarks>
+        /// <param name="disposing">Whether the object is disposed during a dispose operation or during finalization.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !this.isDisposed)
+            {
+                if (this.acceptor != null)
+                {
+                    this.acceptor.Dispose();
+                }
+
+                this.isDisposed = true;
+            }
         }
 
         #endregion

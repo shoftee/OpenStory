@@ -6,11 +6,12 @@ using OpenStory.Common.Tools;
 
 namespace OpenStory.Server.Registry
 {
-    internal sealed class PlayerRegistry : IPlayerRegistry
+    internal sealed class PlayerRegistry : IPlayerRegistry, IDisposable
     {
         private readonly Dictionary<int, IPlayer> playerIdLookup;
         private readonly Dictionary<string, IPlayer> playerNameLookup;
 
+        private bool isDisposed;
         private readonly ReaderWriterLockSlim @lock;
 
         public IPlayer this[int id]
@@ -84,5 +85,24 @@ namespace OpenStory.Server.Registry
             this.playerIdLookup.Remove(player.CharacterId);
             this.playerNameLookup.Remove(player.CharacterName);
         }
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            if (!this.isDisposed)
+            {
+                if (this.@lock != null)
+                {
+                    this.@lock.Dispose();
+                }
+
+                this.isDisposed = true;
+            }
+
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }
