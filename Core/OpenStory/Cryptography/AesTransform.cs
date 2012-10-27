@@ -17,14 +17,12 @@ namespace OpenStory.Cryptography
 
         private static ICryptoTransform GetTransformer(byte[] key)
         {
-            var cipher = new RijndaelManaged()
+            using (var cipher = new RijndaelManaged())
             {
-                Padding = PaddingMode.None,
-                Mode = CipherMode.ECB,
-                Key = key
-            };
-            using (cipher)
-            {
+                cipher.Padding = PaddingMode.None;
+                cipher.Mode = CipherMode.ECB;
+                cipher.Key = key;
+
                 var transform = cipher.CreateEncryptor();
                 return transform;
             }

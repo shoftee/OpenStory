@@ -14,7 +14,7 @@ Credits go out to, and I never thought I'd say this, Java, for the `AtomicBoolea
 
 ### `Game` namespace
 
-`OpenStory.Common.Game` contains game structures that have the same usage in both client and server endpoints.
+`OpenStory.Common.Game` contains game-related structures that have the same usage in both client and server endpoints.
 
 ### `Tools` namespace
 

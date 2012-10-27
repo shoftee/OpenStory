@@ -94,8 +94,8 @@
   <ItemGroup>
     <Compile Include="Common\AtomicBoolean.cs" />
     <Compile Include="Common\AtomicInteger.cs" />
-    <Compile Include="Common\Data\IOpCodeTable.cs" />
-    <Compile Include="Common\Data\OpCodeTable.cs" />
+    <Compile Include="Common\IOpCodeTable.cs" />
+    <Compile Include="Common\OpCodeTable.cs" />
     <Compile Include="Common\Game\AuthenticationResult.cs" />
     <Compile Include="Common\Game\GameConstants.cs" />
     <Compile Include="Common\Game\Elements.cs" />
