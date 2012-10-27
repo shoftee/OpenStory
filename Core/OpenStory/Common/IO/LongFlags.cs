@@ -16,8 +16,14 @@ namespace OpenStory.Common.IO
         protected LongFlags(LongFlags other) : base(other) { }
 
         /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
         public sealed override void Write(IPacketBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
             // TODO: Actually figure out if this is how they're packed.
 
             var bitCount = base.Bits.Length;
@@ -43,10 +49,15 @@ namespace OpenStory.Common.IO
                 builder.WriteInt64(numbers[i]);
             }
         }
-        
+
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
         /// <inheritdoc />
         public sealed override void Read(IUnsafePacketReader reader)
         {
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
             int bitCount = base.Bits.Length;
             int numberCount = bitCount / LongBitCount;
 

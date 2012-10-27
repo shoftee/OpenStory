@@ -43,9 +43,9 @@ namespace OpenStory.Services.Registry
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult GetServiceState()
+        public ServiceOperationResult Ping()
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.GetServiceState());
+            var result = ServiceOperationResult.Of(() => base.Channel.Ping());
             return result;
         }
 

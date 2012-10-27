@@ -125,7 +125,7 @@ namespace OpenStory.Services
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult GetServiceState()
+        public ServiceOperationResult Ping()
         {
             return new ServiceOperationResult(this.serviceState);
         }

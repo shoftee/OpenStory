@@ -64,6 +64,15 @@ namespace OpenStory.Cryptography
         /// <inheritdoc />
         public byte[] ShuffleIv(byte[] iv)
         {
+            if (iv == null)
+            {
+                throw new ArgumentNullException("iv");
+            }
+            if (iv.Length != 4)
+            {
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+            }
+
             byte[] shuffled = this.initialValue.FastClone();
 
             for (int i = 0; i < 4; i++)
@@ -82,6 +91,15 @@ namespace OpenStory.Cryptography
         /// <param name="ivInput">The IV input byte.</param>
         protected void ShuffleIvStep(byte[] shuffled, byte ivInput)
         {
+            if (shuffled == null)
+            {
+                throw new ArgumentNullException("shuffled");
+            }
+            if (shuffled.Length != 4)
+            {
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "shuffled");
+            }
+
             byte tableInput = this.table[ivInput];
 
             shuffled[0] += (byte)(this.table[shuffled[1]] - ivInput);

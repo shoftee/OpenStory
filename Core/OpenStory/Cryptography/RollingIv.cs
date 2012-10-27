@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
@@ -114,7 +115,7 @@ namespace OpenStory.Cryptography
             }
             if (header.Length < 4)
             {
-                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -134,7 +135,7 @@ namespace OpenStory.Cryptography
             }
             if (header.Length < 4)
             {
-                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -165,7 +166,7 @@ namespace OpenStory.Cryptography
             }
             if (header.Length < 4)
             {
-                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -203,7 +204,7 @@ namespace OpenStory.Cryptography
             }
             if (header.Length < 4)
             {
-                var message = String.Format(Exceptions.SegmentTooShort, 4);
+                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 

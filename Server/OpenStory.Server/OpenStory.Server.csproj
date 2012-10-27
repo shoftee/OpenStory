@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\OpenStory.Server.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\OpenStory.Server.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -104,6 +105,7 @@
     <Compile Include="Modules\Services\IEndpointProvider.cs" />
     <Compile Include="Modules\Services\ServiceManager.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
+    <Compile Include="Processing\IPacketProcessor.cs" />
     <Compile Include="Processing\PacketProcessingEventArgs.cs" />
     <Compile Include="Processing\ServerGameSession.cs" />
     <Compile Include="Processing\ServerNetworkSession.cs" />

@@ -15,7 +15,7 @@ namespace OpenStory.Common.Tools
     {
         private const char QuotationMark = '\"';
         private const string ParameterRegexPattern = @"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?";
-        
+
         private const RegexOptions ParamRegexOptions =
             RegexOptions.Compiled
             | RegexOptions.Singleline
@@ -109,7 +109,7 @@ namespace OpenStory.Common.Tools
             var args = new string[count];
             int index = 0;
 
-            var entries = this.parameters.OrderBy(item => item.Key, StringComparer.InvariantCulture);
+            var entries = this.parameters.OrderBy(item => item.Key, StringComparer.OrdinalIgnoreCase);
             foreach (var entry in entries)
             {
                 var name = entry.Key;
@@ -151,24 +151,24 @@ namespace OpenStory.Common.Tools
 
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)
         {
-            var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.InvariantCulture);
+            var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
             foreach (var entry in parameters)
             {
                 string name = entry.Key.Trim();
                 string value = entry.Value.Trim().Trim(QuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    error = String.Format(Errors.DuplicateParameterNames, name);
+                    error = String.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
                     return null;
                 }
                 else if (name.Any(Char.IsWhiteSpace))
                 {
-                    error = String.Format(Errors.NoWhiteSpaceInParameterName, name);
+                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
                     return null;
                 }
                 else if (value.Any(c => c == QuotationMark))
                 {
-                    error = String.Format(Errors.NoQuotationMarksInParameterValue, value);
+                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
                     return null;
                 }
 

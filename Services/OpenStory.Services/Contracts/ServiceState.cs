@@ -4,10 +4,9 @@ using System.Runtime.Serialization;
 namespace OpenStory.Services.Contracts
 {
     /// <summary>
-    /// Represents an operational state of a game service.
+    /// Specifies the operational state of a game service.
     /// </summary>
     [Serializable]
-    [DataContract]
     public enum ServiceState
     {
         /// <summary>

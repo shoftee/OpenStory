@@ -5,7 +5,7 @@ namespace OpenStory.Common.Game
     /// <summary>
     /// A two-dimensional point.
     /// </summary>
-    public struct PointS
+    public struct PointS : IEquatable<PointS>
     {
         /// <summary>
         /// Gets the X component of the point.
@@ -55,15 +55,27 @@ namespace OpenStory.Common.Game
             return new PointS(x, y);
         }
 
+        /// <inheritdoc cref="Add(PointS, PointS)" />
+        public static PointS operator +(PointS a, PointS b)
+        {
+            return Add(a, b);
+        }
+
         /// <summary>
         /// Sums of the components of two points.
         /// </summary>
         /// <param name="a">A point.</param>
         /// <param name="b">A point.</param>
         /// <returns>a <see cref="PointS"/> with the summed components.</returns>
-        public static PointS operator +(PointS a, PointS b)
+        public static PointS Add(PointS a, PointS b)
         {
             return new PointS((short)(a.X + b.X), (short)(a.Y + b.Y));
+        }
+
+        /// <inheritdoc cref="Negate(PointS)" />
+        public static PointS operator -(PointS a)
+        {
+            return Negate(a);
         }
 
         /// <summary>
@@ -71,7 +83,7 @@ namespace OpenStory.Common.Game
         /// </summary>
         /// <param name="a">A point.</param>
         /// <returns>a <see cref="PointS"/> with negated components.</returns>
-        public static PointS operator -(PointS a)
+        public static PointS Negate(PointS a)
         {
             if (a.X == short.MinValue || a.Y == short.MinValue)
             {
@@ -80,5 +92,58 @@ namespace OpenStory.Common.Game
 
             return new PointS((short)(-a.X), (short)(-a.Y));
         }
+
+        /// <summary>
+        /// Checks two <see cref="PointS"/> objects for value equality.
+        /// </summary>
+        /// <param name="a">A point.</param>
+        /// <param name="b">A point.</param>
+        public static bool operator ==(PointS a, PointS b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
+
+        /// <summary>
+        /// Checks two <see cref="PointS"/> objects for value inequality.
+        /// </summary>
+        /// <param name="a">A point.</param>
+        /// <param name="b">A point.</param>
+        public static bool operator !=(PointS a, PointS b)
+        {
+            return !(a == b);
+        }
+
+        #region Implementation of IEquatable<PointS>
+
+        /// <inheritdoc />
+        public bool Equals(PointS other)
+        {
+            return this.X == other.X && this.Y == other.Y;
+        }
+
+        #endregion
+
+        #region Equality members
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            return obj is PointS && Equals((PointS)obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (this.X.GetHashCode() * 397) ^ this.Y.GetHashCode();
+            }
+        }
+
+        #endregion
     }
 }

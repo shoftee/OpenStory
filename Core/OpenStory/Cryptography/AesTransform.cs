@@ -17,7 +17,7 @@ namespace OpenStory.Cryptography
 
         private static ICryptoTransform GetTransformer(byte[] key)
         {
-            var cipher = new RijndaelManaged
+            var cipher = new RijndaelManaged()
             {
                 Padding = PaddingMode.None,
                 Mode = CipherMode.ECB,

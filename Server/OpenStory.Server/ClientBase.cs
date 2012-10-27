@@ -156,10 +156,16 @@ namespace OpenStory.Server
 
         private static void LogDisconnectReason(IAccountSession session, string reason)
         {
-            var sessionIdString = session != null ? session.SessionId.ToString(CultureInfo.InvariantCulture) : "(N/A)";
             var reasonString = String.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
 
-            OS.Log().Info("Session #{0} was closed: {1}", sessionIdString, reasonString);
+            if (session != null)
+            {
+                OS.Log().Info("Account session #{0} was closed: {1}", session.SessionId, reasonString);
+            }
+            else
+            {
+                OS.Log().Info("Session was closed: {0}", reasonString);
+            }
         }
     }
 }

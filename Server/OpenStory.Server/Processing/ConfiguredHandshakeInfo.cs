@@ -18,7 +18,7 @@ namespace OpenStory.Server.Processing
         {
             this.Header = header;
             this.Version = version;
-            this.SubVersion = subversion;
+            this.Subversion = subversion;
             this.ClientIv = clientIv;
             this.ServerIv = serverIv;
             this.ServerId = serverId;
@@ -35,7 +35,7 @@ namespace OpenStory.Server.Processing
 
             this.Header = facade.Get<ushort>("Header");
             this.Version = facade.Get<ushort>("Version");
-            this.SubVersion = facade.Get<string>("SubVersion");
+            this.Subversion = facade.Get<string>("Subversion");
             this.ServerId = facade.Get<byte>("ServerId");
 
             this.ClientIv = clientIv;

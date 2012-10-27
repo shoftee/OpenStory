@@ -3,7 +3,7 @@ using System;
 namespace OpenStory.Services.Contracts
 {
     /// <summary>
-    /// The state of a service operation.
+    /// Specifies the state of a service operation.
     /// </summary>
     [Serializable]
     public enum OperationState

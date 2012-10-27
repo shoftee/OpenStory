@@ -1,4 +1,5 @@
-﻿using OpenStory.Common.Game;
+﻿using System;
+using OpenStory.Common.Game;
 
 namespace OpenStory.Common.IO
 {
@@ -14,9 +15,15 @@ namespace OpenStory.Common.IO
         /// Reads a <see cref="PointS"/>.
         /// </summary>
         /// <param name="reader">The <see cref="IUnsafePacketReader">packet reader</see> to use.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
         /// <returns>a <see cref="PointS"/> that was read.</returns>
         public static PointS ReadVector(this IUnsafePacketReader reader)
         {
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+
             var x = reader.ReadInt16();
             var y = reader.ReadInt16();
             return new PointS(x, y);
@@ -27,8 +34,14 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="builder">The <see cref="PacketBuilder">packet builder</see> to use.</param>
         /// <param name="vector">The <see cref="PointS"/> to write.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
         public static void WriteVector(this IPacketBuilder builder, PointS vector)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
             builder.WriteInt16(vector.X);
             builder.WriteInt16(vector.Y);
         }
@@ -38,9 +51,15 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <typeparam name="TFlags">The <see cref="Flags"/>-derived type to read into.</typeparam>
         /// <param name="reader">The reader to use.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
         public static TFlags ReadFlags<TFlags>(this IUnsafePacketReader reader)
             where TFlags : Flags, new()
         {
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+
             var flags = new TFlags();
             flags.Read(reader);
             return flags;
@@ -52,9 +71,19 @@ namespace OpenStory.Common.IO
         /// <typeparam name="TFlags">The <see cref="Flags"/>-derived type to read into.</typeparam>
         /// <param name="builder">The builder to use.</param>
         /// <param name="flags">The instance to write.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> or <paramref name="flags"/> is <c>null</c>.</exception>
         public static void WriteFlags<TFlags>(this IPacketBuilder builder, TFlags flags)
             where TFlags : Flags
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+            if (flags == null)
+            {
+                throw new ArgumentNullException("flags");
+            }
+
             flags.Write(builder);
         }
     }

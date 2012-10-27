@@ -1,4 +1,6 @@
-﻿namespace OpenStory.Common.Tools
+﻿using System;
+
+namespace OpenStory.Common.Tools
 {
     /// <summary>
     /// Generic array helpers!
@@ -15,9 +17,15 @@
         /// Creates a reversed copy of the provided array.
         /// </summary>
         /// <param name="array">The array to reverse.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
         /// <returns>a reversed copy of the array.</returns>
         public static T[] Reverse(T[] array)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
             int length = array.Length;
 
             var copy = new T[length];
@@ -35,9 +43,15 @@
         /// Reverses the provided array in-place.
         /// </summary>
         /// <param name="array">The array to reverse.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
         /// <returns>the same instance.</returns>
         public static T[] ReverseInPlace(T[] array)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
             int length = array.Length;
             int half = length / 2;
             for (int i = 0; i < half; i++)

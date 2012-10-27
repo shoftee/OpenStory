@@ -27,9 +27,9 @@ namespace OpenStory.Services.Contracts
         ServiceOperationResult Stop();
 
         /// <summary>
-        /// Gets the service state.
+        /// Pings the service, causing it to return its state.
         /// </summary>
         [OperationContract]
-        ServiceOperationResult GetServiceState();
+        ServiceOperationResult Ping();
     }
 }

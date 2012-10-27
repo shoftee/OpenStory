@@ -139,8 +139,14 @@ namespace OpenStory.Networking
         /// </remarks>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The packet data that was received.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <c>null</c>.</exception>
         protected virtual void OnDataArrived(object sender, DataArrivedEventArgs args)
         {
+            if (args == null)
+            {
+                throw new ArgumentNullException("args");
+            }
+
             byte[] data = args.Data;
             int position = 0, remaining = data.Length;
             while (this.PacketBuffer.FreeSpace == 0)

@@ -69,7 +69,7 @@ namespace OpenStory.Server.Processing
             {
                 builder.WriteInt16(info.Header);
                 builder.WriteInt16(info.Version);
-                builder.WriteLengthString(info.SubVersion);
+                builder.WriteLengthString(info.Subversion);
                 builder.WriteBytes(info.ClientIv);
                 builder.WriteBytes(info.ServerIv);
 

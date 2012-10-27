@@ -1,10 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
-
     /// <summary>
     /// Represents a generic result of a service call.
     /// </summary>
@@ -55,33 +55,17 @@ namespace OpenStory.Services.Contracts
         {
             if (!Enum.IsDefined(typeof(OperationState), operationState))
             {
-                throw new ArgumentOutOfRangeException("operationState", operationState, "'operationState' must have a valid OperationState enum value.");
+                throw new InvalidEnumArgumentException("operationState", (int)operationState, typeof(OperationState));
             }
             if (!Enum.IsDefined(typeof(ServiceState), serviceState))
             {
-                throw new ArgumentOutOfRangeException("serviceState", serviceState, "'serviceState' must have a valid ServiceState enum value.");
+                throw new InvalidEnumArgumentException("serviceState", (int)serviceState, typeof(ServiceState));
             }
 
             this.Result = result;
             this.OperationState = operationState;
             this.Error = error;
             this.ServiceState = serviceState;
-        }
-
-        /// <summary>
-        /// Constructs a local result instance from a remote result.
-        /// </summary>
-        /// <param name="remoteResult">The result that was received from a remote service.</param>
-        /// <returns>a transformed copy of the provided result.</returns>
-        public static ServiceOperationResult<TResult> FromRemoteResult<TResult>(ServiceOperationResult<TResult> remoteResult)
-        {
-            var actualOperationState = remoteResult.OperationState;
-            if (actualOperationState == OperationState.FailedLocally)
-            {
-                actualOperationState = OperationState.FailedRemotely;
-            }
-            var result = new ServiceOperationResult<TResult>(remoteResult.Result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
-            return result;
         }
 
         /// <summary>
@@ -116,6 +100,22 @@ namespace OpenStory.Services.Contracts
                 var result = RemoteFailure<TResult>(communicationException);
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Constructs a local result instance from a remote result.
+        /// </summary>
+        /// <param name="remoteResult">The result that was received from a remote service.</param>
+        /// <returns>a transformed copy of the provided result.</returns>
+        private static ServiceOperationResult<TResult> FromRemoteResult<TResult>(ServiceOperationResult<TResult> remoteResult)
+        {
+            var actualOperationState = remoteResult.OperationState;
+            if (actualOperationState == OperationState.FailedLocally)
+            {
+                actualOperationState = OperationState.FailedRemotely;
+            }
+            var result = new ServiceOperationResult<TResult>(remoteResult.Result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
+            return result;
         }
 
         private static ServiceOperationResult<TResult> LocalFailure<TResult>(Exception error)

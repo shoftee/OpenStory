@@ -16,8 +16,14 @@ namespace OpenStory.Common.IO
         protected IntFlags(IntFlags other) : base(other) { }
 
         /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
         public sealed override void Write(IPacketBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
             // TODO: Actually figure out if this is how they're packed.
 
             int bitCount = base.Bits.Length;
@@ -45,17 +51,23 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
         public sealed override void Read(IUnsafePacketReader reader)
         {
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+
             int bitCount = base.Bits.Length;
             int numberCount = bitCount / IntBitCount;
-            
+
             for (int i = 0; i < numberCount; i++)
             {
                 uint number = reader.ReadUInt32();
                 int startIndex = i * IntBitCount;
                 int endIndex = Math.Min(startIndex + IntBitCount, bitCount);
-                for(int j = startIndex; j < endIndex; j ++)
+                for (int j = startIndex; j < endIndex; j++)
                 {
                     base.Bits[j] = Convert.ToBoolean(number & 1);
                     number >>= 1;

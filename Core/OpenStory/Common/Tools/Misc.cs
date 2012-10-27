@@ -60,8 +60,18 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="lock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <c>null</c>.</exception>
         public static void ReadLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
         {
+            if (@lock == null)
+            {
+                throw new ArgumentNullException("lock");
+            }
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             @lock.EnterReadLock();
             try
             {
@@ -78,8 +88,18 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="lock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <c>null</c>.</exception>
         public static void WriteLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
         {
+            if (@lock == null)
+            {
+                throw new ArgumentNullException("lock");
+            }
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             @lock.EnterWriteLock();
             try
             {

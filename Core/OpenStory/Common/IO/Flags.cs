@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 namespace OpenStory.Common.IO
@@ -27,8 +28,14 @@ namespace OpenStory.Common.IO
         /// Initializes a new instance of <see cref="Bits"/>.
         /// </summary>
         /// <param name="capacity">The length of the bit array.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="capacity"/> is non-positive.</exception>
         protected Flags(int capacity)
         {
+            if (capacity <= 0)
+            {
+                throw new ArgumentOutOfRangeException("capacity", capacity, Exceptions.CapacityMustBePositive);
+            }
+
             this.Bits = new BitArray(capacity);
         }
 
@@ -36,8 +43,14 @@ namespace OpenStory.Common.IO
         /// Initializes a new instance of <see cref="Bits"/>.
         /// </summary>
         /// <param name="other">The instance to copy from.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <c>null</c>.</exception>
         protected Flags(Flags other)
         {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
             this.Bits = new BitArray(other.Bits);
         }
 

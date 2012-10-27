@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -29,9 +30,19 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="callback">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <c>null</c>.</exception>
         /// <returns><c>true</c> if there was a result; otherwise, <c>false</c>.</returns>
         public static bool InvokeForSingle(this IDbCommand command, Action<IDataRecord> callback)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+            if (callback == null)
+            {
+                throw new ArgumentNullException("callback");
+            }
+
             // I actually feel quite awesome about this method, it saves me a lot of writing.
             using (var connection = GetConnection())
             {
@@ -62,10 +73,22 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags to pass when executing the data reader. Defaults to <see cref="CommandBehavior.Default"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidEnumArgumentException">Thrown if <paramref name="commandBehavior"/> has an invalid value.</exception>
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
-        public static IEnumerable<IDataRecord> Enumerate(this IDbCommand command,
-                                                         CommandBehavior commandBehavior = CommandBehavior.Default)
+        public static IEnumerable<IDataRecord> Enumerate(
+            this IDbCommand command,
+            CommandBehavior commandBehavior = CommandBehavior.Default)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+            if (!Enum.IsDefined(typeof(CommandBehavior), commandBehavior))
+            {
+                throw new InvalidEnumArgumentException("commandBehavior", (int)commandBehavior, typeof(CommandBehavior));
+            }
+
             using (var connection = GetConnection())
             {
                 command.Connection = connection;
@@ -87,9 +110,19 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="callback">The action to perform on each record.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <c>null</c>.</exception>
         /// <returns>the number of records in the result set.</returns>
         public static int InvokeForAll(this IDbCommand command, Action<IDataRecord> callback)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+            if (callback == null)
+            {
+                throw new ArgumentNullException("callback");
+            }
+
             int count = 0;
             foreach (var record in command.Enumerate())
             {
@@ -104,9 +137,15 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <typeparam name="TResult">The type to cast the result to.</typeparam>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
         /// <returns> the result from the query, cast to <typeparamref name="TResult"/>. </returns>
         public static TResult GetScalar<TResult>(this IDbCommand command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+
             using (var connection = GetConnection())
             {
                 command.Connection = connection;
@@ -123,9 +162,15 @@ namespace OpenStory.Common.Tools
         /// Executes the provided <see cref="IDbCommand"/> as a non-query and returns the number of rows affected.
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute as a non-query.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
         /// <returns>the number of rows affected by the <see cref="SqlCommand"/>.</returns>
         public static int InvokeNonQuery(this IDbCommand command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+
             using (var connection = GetConnection())
             {
                 command.Connection = connection;
@@ -141,9 +186,15 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Executes the provided <see cref="IDbCommand"/> 
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="command">The command to execute as a stored procedure.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
         public static void InvokeStoredProcedure(this IDbCommand command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException("command");
+            }
+
             command.CommandType = CommandType.StoredProcedure;
             command.CommandTimeout = 60;
 

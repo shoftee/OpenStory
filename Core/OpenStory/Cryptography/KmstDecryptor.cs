@@ -1,3 +1,4 @@
+using System;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
@@ -19,6 +20,19 @@ namespace OpenStory.Cryptography
         /// <inheritdoc />
         public override void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+            if (iv == null)
+            {
+                throw new ArgumentNullException("iv");
+            }
+            if (iv.Length != 4)
+            {
+                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+            }
+
             // Thanks to Diamondo25 for this.
             byte[] stepIv = iv.FastClone();
             for (int i = segmentStart; i < segmentEnd; i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace OpenStory.Common.IO
@@ -36,7 +37,7 @@ namespace OpenStory.Common.IO
         /// <returns>an instance of <see cref="ArraySegmentException"/>.</returns>
         public static ArraySegmentException GetByStartAndLength(int startOffset, int length)
         {
-            string formatted = String.Format(Exceptions.BadArraySegmentLength, startOffset, length);
+            string formatted = String.Format(CultureInfo.CurrentCulture, Exceptions.BadArraySegmentLength, startOffset, length);
             return new ArraySegmentException(formatted);
         }
     }
