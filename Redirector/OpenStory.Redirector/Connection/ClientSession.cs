@@ -88,7 +88,7 @@ namespace OpenStory.Redirector.Connection
             Logger.Write(
                 LogMessageType.Connection,
                 "Received handshake. Version {0}-{1}, CIV {2} SIV {3}",
-                info.Version, info.SubVersion,
+                info.Version, info.Subversion,
                 info.ClientIv.ToHex(hyphenate: true),
                 info.ServerIv.ToHex(hyphenate: true));
 

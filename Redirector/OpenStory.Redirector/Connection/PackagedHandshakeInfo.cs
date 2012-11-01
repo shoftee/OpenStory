@@ -31,7 +31,7 @@ namespace OpenStory.Redirector.Connection
 
             this.Header = opCode;
             this.Version = version;
-            this.SubVersion = subversion;
+            this.Subversion = subversion;
             this.ClientIv = clientIv;
             this.ServerIv = serverIv;
             this.ServerId = serverId;
