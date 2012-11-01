@@ -76,6 +76,8 @@
     <Compile Include="Fluent\Initialize\InitializeServiceFacade.cs" />
     <Compile Include="Fluent\ILookupFacade.cs" />
     <Compile Include="Fluent\IServiceGetterFacade.cs" />
+    <Compile Include="Fluent\Lookup\CharacterLookupFacade.cs" />
+    <Compile Include="Fluent\Lookup\CharactersLookupFacade.cs" />
     <Compile Include="Fluent\Lookup\LookupFacade.cs" />
     <Compile Include="Fluent\NestedFacade.cs" />
     <Compile Include="Fluent\Service\AccountServiceFacade.cs" />

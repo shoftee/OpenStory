@@ -61,7 +61,6 @@
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerExtensionManager.cs" />
-    <Compile Include="PlayerRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,5 +13,19 @@ namespace OpenStory.Server.Fluent
         /// Gets the character lookup facade.
         /// </summary>
         ICharacterLookupFacade Character();
+
+        /// <summary>
+        /// Gets the multi-character lookup facade.
+        /// </summary>
+        ICharactersLookupFacade Characters();
+    }
+
+    /// <summary>
+    /// The entry point for the multi-character fluent interface.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface ICharactersLookupFacade
+    {
+
     }
 }

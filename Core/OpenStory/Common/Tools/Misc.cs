@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 
 namespace OpenStory.Common.Tools
@@ -58,56 +59,111 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
-        /// <param name="lock">The lock to use.</param>
+        /// <param name="rwLock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <c>null</c>.</exception>
-        public static void ReadLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="action"/> is <c>null</c>.</exception>
+        public static void ReadLock(this ReaderWriterLockSlim rwLock, Action action)
         {
-            if (@lock == null)
+            if (rwLock == null)
             {
-                throw new ArgumentNullException("lock");
+                throw new ArgumentNullException("rwLock");
             }
             if (action == null)
             {
                 throw new ArgumentNullException("action");
             }
 
-            @lock.EnterReadLock();
+            rwLock.EnterReadLock();
             try
             {
-                action(@lock);
+                action();
             }
             finally
             {
-                @lock.ExitReadLock();
+                rwLock.ExitReadLock();
+            }
+        }
+
+        /// <summary>
+        /// Executes the provided action in a read-lock block.
+        /// </summary>
+        /// <param name="rwLock">The lock to use.</param>
+        /// <param name="func">The action to execute.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
+        public static T ReadLock<T>(this ReaderWriterLockSlim rwLock, Func<T> func)
+        {
+            if (rwLock == null)
+            {
+                throw new ArgumentNullException("rwLock");
+            }
+            if (func == null)
+            {
+                throw new ArgumentNullException("func");
+            }
+
+            rwLock.EnterReadLock();
+            try
+            {
+                return func();
+            }
+            finally
+            {
+                rwLock.ExitReadLock();
             }
         }
 
         /// <summary>
         /// Executes the provided action in a write-lock block.
         /// </summary>
-        /// <param name="lock">The lock to use.</param>
+        /// <param name="rwLock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <c>null</c>.</exception>
-        public static void WriteLock(this ReaderWriterLockSlim @lock, Action<ReaderWriterLockSlim> action)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="action"/> is <c>null</c>.</exception>
+        public static void WriteLock(this ReaderWriterLockSlim rwLock, Action action)
         {
-            if (@lock == null)
+            if (rwLock == null)
             {
-                throw new ArgumentNullException("lock");
+                throw new ArgumentNullException("rwLock");
             }
             if (action == null)
             {
                 throw new ArgumentNullException("action");
             }
 
-            @lock.EnterWriteLock();
+            rwLock.EnterWriteLock();
             try
             {
-                action(@lock);
+                action();
             }
             finally
             {
-                @lock.ExitWriteLock();
+                rwLock.ExitWriteLock();
+            }
+        }
+        /// <summary>
+        /// Executes the provided action in a write-lock block.
+        /// </summary>
+        /// <param name="rwLock">The lock to use.</param>
+        /// <param name="func">The action to execute.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
+        public static T WriteLock<T>(this ReaderWriterLockSlim rwLock, Func<T> func)
+        {
+            if (rwLock == null)
+            {
+                throw new ArgumentNullException("rwLock");
+            }
+            if (func == null)
+            {
+                throw new ArgumentNullException("func");
+            }
+
+            rwLock.EnterWriteLock();
+            try
+            {
+                return func();
+            }
+            finally
+            {
+                rwLock.ExitWriteLock();
             }
         }
     }

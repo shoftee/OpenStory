@@ -34,5 +34,10 @@ namespace OpenStory.Server
         /// Gets the ID of the map the player is currently in.
         /// </summary>
         int MapId { get; }
+
+        /// <summary>
+        /// Gets the client instance of the player.
+        /// </summary>
+        ClientBase Client { get; }
     }
 }

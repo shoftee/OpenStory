@@ -41,17 +41,7 @@ namespace OpenStory.Server.Registry
         /// <para>The objects in the instance list will not become unregistered during the scan.</para>
         /// <para>The scan will however block write operations on the registry.</para>
         /// </remarks>
-        /// <param name="action">The action to execute during the scan.</param>
-        void ScanLocked(Action<IEnumerable<IPlayer>> action);
-
-        /// <summary>
-        /// Runs a scan on a copy of the player instance list.
-        /// </summary>
-        /// <remarks>
-        /// <para>The objects in the instance list may become unregistered during the scan.</para>
-        /// <para>The scan will not block write operations to the registry.</para>
-        /// </remarks>
-        /// <param name="action">The action to execute during the scan.</param>
-        void ScanCopied(Action<IEnumerable<IPlayer>> action);
+        /// <param name="whitelist">A list of player identifiers to match.</param>
+        IEnumerable<IPlayer> Scan(IEnumerable<int> whitelist);
     }
 }

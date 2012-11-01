@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common;
+using OpenStory.Server.Fluent;
+using OpenStory.Server.Modules;
+using OpenStory.Server.Registry;
 
 namespace OpenStory.Server.Channel
 {
@@ -13,7 +16,6 @@ namespace OpenStory.Server.Channel
         private const string ServerName = @"Channel";
 
         private readonly List<ChannelClient> clients;
-        private readonly PlayerRegistry players;
 
         /// <inheritdoc />
         public override string Name
@@ -48,7 +50,6 @@ namespace OpenStory.Server.Channel
             this.WorldId = configuration.WorldId;
 
             this.clients = new List<ChannelClient>();
-            this.players = new PlayerRegistry();
         }
 
         /// <inheritdoc />
@@ -73,7 +74,8 @@ namespace OpenStory.Server.Channel
             // Arrays are more efficient for remoting operations.
             int[] ids = targetIds.ToArray();
 
-            this.BroadcastIntoChannel(players.GetActive(ids), data);
+            var playerRegistry = LookupManager.GetManager().Players;
+            this.BroadcastIntoChannel(playerRegistry.Scan(ids).Select(p => p.CharacterId), data);
 
             this.World.BroadcastFromChannel(this.ChannelId, ids, data);
         }
@@ -86,9 +88,8 @@ namespace OpenStory.Server.Channel
         /// <param name="data"></param>
         public void BroadcastIntoChannel(IEnumerable<int> targetIds, byte[] data)
         {
-            var targets = from targetId in targetIds
-                          select this.players.GetById(targetId) into target
-                          where target != null
+            var playerRegistry = LookupManager.GetManager().Players;
+            var targets = from target in playerRegistry.Scan(targetIds)
                           select target;
 
             foreach (var player in targets)

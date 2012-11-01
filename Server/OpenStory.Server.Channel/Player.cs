@@ -28,11 +28,13 @@ namespace OpenStory.Server.Channel
         public int Meso { get; private set; }
         public int Experience { get; private set; }
 
-        public ChannelClient Client { get; private set; }
+        private readonly ChannelClient client;
+
+        ClientBase IPlayer.Client { get { return this.client; } }
 
         private Player(ChannelClient client, ChannelCharacter character)
         {
-            this.Client = client;
+            this.client = client;
 
             // Get what we can from the transfer object.
             this.CharacterId = character.Id;

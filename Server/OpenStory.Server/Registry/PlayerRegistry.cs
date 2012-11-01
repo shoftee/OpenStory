@@ -12,7 +12,7 @@ namespace OpenStory.Server.Registry
         private readonly Dictionary<string, IPlayer> playerNameLookup;
 
         private bool isDisposed;
-        private readonly ReaderWriterLockSlim @lock;
+        private readonly ReaderWriterLockSlim l;
 
         public IPlayer this[int id]
         {
@@ -29,49 +29,55 @@ namespace OpenStory.Server.Registry
             this.playerIdLookup = new Dictionary<int, IPlayer>();
             this.playerNameLookup = new Dictionary<string, IPlayer>();
 
-            this.@lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.l = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         }
 
         /// <inheritdoc />
         public void RegisterPlayer(IPlayer player)
         {
-            this.@lock.WriteLock(l => this.AddPlayer(player));
+            this.l.WriteLock(() => this.AddPlayer(player));
         }
 
         /// <inheritdoc />
         public void UnregisterPlayer(IPlayer player)
         {
-            this.@lock.WriteLock(l => this.RemovePlayer(player));
+            this.l.WriteLock(() => this.RemovePlayer(player));
         }
 
         /// <inheritdoc />
         public IPlayer GetById(int id)
         {
-            var player = default(IPlayer);
-            this.@lock.ReadLock(l => this.playerIdLookup.TryGetValue(id, out player));
-            return player;
+            return this.l.ReadLock(() => this.GetPlayerOrNull(id));
         }
 
         /// <inheritdoc />
         public IPlayer GetByName(string name)
         {
+            return this.l.ReadLock(() => GetPlayerOrNull(name));
+        }
+
+        private IPlayer GetPlayerOrNull(int id)
+        {
             var player = default(IPlayer);
-            this.@lock.ReadLock(l => this.playerNameLookup.TryGetValue(name, out player));
+            this.playerIdLookup.TryGetValue(id, out player);
             return player;
         }
 
-        /// <inheritdoc />
-        public void ScanLocked(Action<IEnumerable<IPlayer>> action)
+        private IPlayer GetPlayerOrNull(string name)
         {
-            this.@lock.ReadLock(l => action(this.playerIdLookup.Values));
+            var player = default(IPlayer);
+            this.playerNameLookup.TryGetValue(name, out player);
+            return player;
         }
 
-        /// <inheritdoc />
-        public void ScanCopied(Action<IEnumerable<IPlayer>> action)
+        public IEnumerable<IPlayer> Scan(IEnumerable<int> whitelist)
         {
-            var players = new List<IPlayer>(0);
-            this.@lock.ReadLock(l => players = this.playerIdLookup.Values.ToList());
-            action(players);
+            return this.l.ReadLock(() => this.GetByIds(whitelist).ToList());
+        }
+
+        private IEnumerable<IPlayer> GetByIds(IEnumerable<int> ids)
+        {
+            return ids.Select(this.GetPlayerOrNull).Where(player => player != null);
         }
 
         private void AddPlayer(IPlayer player)
@@ -92,9 +98,9 @@ namespace OpenStory.Server.Registry
         {
             if (!this.isDisposed)
             {
-                if (this.@lock != null)
+                if (this.l != null)
                 {
-                    this.@lock.Dispose();
+                    this.l.Dispose();
                 }
 
                 this.isDisposed = true;
