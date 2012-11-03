@@ -164,7 +164,6 @@ namespace OpenStory.Common.IO
         public void Dispose()
         {
             this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>

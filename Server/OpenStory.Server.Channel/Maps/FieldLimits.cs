@@ -1,4 +1,3 @@
-using OpenStory.Common.Game;
 using OpenStory.Common.IO;
 
 namespace OpenStory.Server.Channel.Maps

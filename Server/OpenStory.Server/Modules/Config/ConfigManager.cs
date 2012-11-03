@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Server.Modules.Config
+﻿namespace OpenStory.Server.Modules.Config
 {
     /// <summary>
     /// The manager responsible for accessing and modifying configuration entries.

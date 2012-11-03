@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using OpenStory.Common.Game;
 

@@ -58,16 +58,28 @@ namespace OpenStory.Server.Registry
 
         private IPlayer GetPlayerOrNull(int id)
         {
-            var player = default(IPlayer);
-            this.playerIdLookup.TryGetValue(id, out player);
-            return player;
+            IPlayer player;
+            if (this.playerIdLookup.TryGetValue(id, out player))
+            {
+                return player;
+            }
+            else
+            {
+                return default(IPlayer);
+            }
         }
 
         private IPlayer GetPlayerOrNull(string name)
         {
-            var player = default(IPlayer);
-            this.playerNameLookup.TryGetValue(name, out player);
-            return player;
+            IPlayer player;
+            if (this.playerNameLookup.TryGetValue(name, out player))
+            {
+                return player;
+            }
+            else
+            {
+                return default(IPlayer);
+            }
         }
 
         public IEnumerable<IPlayer> Scan(IEnumerable<int> whitelist)
@@ -105,8 +117,6 @@ namespace OpenStory.Server.Registry
 
                 this.isDisposed = true;
             }
-
-            GC.SuppressFinalize(this);
         }
 
         #endregion

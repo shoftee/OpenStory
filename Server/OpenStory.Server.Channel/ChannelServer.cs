@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common;
-using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules;
-using OpenStory.Server.Registry;
 
 namespace OpenStory.Server.Channel
 {

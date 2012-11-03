@@ -10,7 +10,7 @@ namespace OpenStory.Services.Account
     {
         private static void Main()
         {
-            Console.Title = "OpenStory - Account Service";
+            Console.Title = @"OpenStory - Account Service";
 
             Initialize();
 

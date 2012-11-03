@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using OpenStory.Common.Game;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Auth.Data;
-using OpenStory.Server.Data;
 
 namespace OpenStory.Server.Auth
 {

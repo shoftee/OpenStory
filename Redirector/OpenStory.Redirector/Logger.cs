@@ -26,7 +26,7 @@ namespace OpenStory.Redirector
             Console.ForegroundColor = LogColors[messageType];
             Console.Write(type);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" " + formatted);
+            Console.Write(@" " + formatted);
 
             Console.ForegroundColor = lastColor;
 

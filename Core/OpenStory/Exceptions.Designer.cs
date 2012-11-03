@@ -278,6 +278,15 @@ namespace OpenStory {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The session already has a socket attached to it..
+        /// </summary>
+        public static string SessionSocketAlreadyAttached {
+            get {
+                return ResourceManager.GetString("SessionSocketAlreadyAttached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The provided table must consist of exactly 256 bytes..
         /// </summary>
         public static string ShuffleTableMustBe256Bytes {

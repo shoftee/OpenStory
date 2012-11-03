@@ -1,5 +1,4 @@
-﻿using OpenStory.Server.Data;
-using OpenStory.Server.Modules;
+﻿using OpenStory.Server.Modules;
 using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Server.Fluent.Initialize

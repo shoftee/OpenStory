@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Server.Modules.Config
+﻿namespace OpenStory.Server.Modules.Config
 {
     /// <summary>
     /// Provides methods for storing and retrieving configuration entries.

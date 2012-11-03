@@ -227,4 +227,7 @@ Please attach one before starting it.</value>
   <data name="AcceptEventHasNoSubscribers">
     <value xml:space="preserve">The accept event has no subscribers.</value>
   </data>
+  <data name="SessionSocketAlreadyAttached">
+    <value xml:space="preserve">The session already has a socket attached to it.</value>
+  </data>
 </root>

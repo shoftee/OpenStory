@@ -2,6 +2,7 @@
 
 namespace OpenStory.Server.Channel.Maps
 {
+    [Serializable]
     internal enum FieldLimitLabel
     {
         Jump = 0,//0x1,

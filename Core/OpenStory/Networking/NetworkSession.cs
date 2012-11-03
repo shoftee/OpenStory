@@ -66,7 +66,7 @@ namespace OpenStory.Networking
 
         #endregion
 
-        #region Constructors and instance construction
+        #region Construction
 
         /// <summary>
         /// Initializes a new instance of <see cref="NetworkSession"/>.
@@ -93,7 +93,7 @@ namespace OpenStory.Networking
         {
             if (this.Socket != null)
             {
-                throw new InvalidOperationException("This session already has a socket attached to it.");
+                throw new InvalidOperationException(Exceptions.SessionSocketAlreadyAttached);
             }
             if (socket == null)
             {
@@ -105,7 +105,7 @@ namespace OpenStory.Networking
 
         #endregion
 
-        #region Connection methods
+        #region Socket operations
 
         /// <summary>
         /// Starts the receive process.
@@ -148,8 +148,6 @@ namespace OpenStory.Networking
             this.sendDescriptor.Close();
         }
 
-        #endregion
-
         /// <summary>
         /// Writes a byte array to the network stream.
         /// </summary>
@@ -162,7 +160,10 @@ namespace OpenStory.Networking
             }
         }
 
-        #region IDescriptorContainer explicit implementations
+        #endregion
+
+
+        #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />
         bool IDescriptorContainer.IsActive

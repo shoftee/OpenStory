@@ -1,6 +1,4 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Description;
+﻿using System.ServiceModel.Description;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients

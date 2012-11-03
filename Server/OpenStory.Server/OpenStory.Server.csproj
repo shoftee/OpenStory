@@ -69,6 +69,7 @@
     <Compile Include="Fluent\IChannelServiceFacade.cs" />
     <Compile Include="Fluent\IChannelsServiceFacade.cs" />
     <Compile Include="Fluent\ICharacterLookupFacade.cs" />
+    <Compile Include="Fluent\ICharactersLookupFacade.cs" />
     <Compile Include="Fluent\IConfigFacade.cs" />
     <Compile Include="Fluent\IDomainConfigFacade.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />

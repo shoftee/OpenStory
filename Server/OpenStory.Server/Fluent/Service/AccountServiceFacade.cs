@@ -14,7 +14,7 @@ namespace OpenStory.Server.Fluent.Service
             this.manager = ServiceManager.GetManager();
         }
 
-        #region Implementation of IServiceGetterFacade<IAccountService,IAccountServiceFacade>
+        #region Implementation of IServiceGetterFacade<IAccountService>
 
         public IAccountService Get()
         {

@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Fluent

@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using OpenStory.Server.Registry;
 
 namespace OpenStory.Server.Fluent
 {
@@ -18,14 +17,5 @@ namespace OpenStory.Server.Fluent
         /// Gets the multi-character lookup facade.
         /// </summary>
         ICharactersLookupFacade Characters();
-    }
-
-    /// <summary>
-    /// The entry point for the multi-character fluent interface.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface ICharactersLookupFacade
-    {
-
     }
 }

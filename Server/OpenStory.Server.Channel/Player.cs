@@ -6,6 +6,14 @@ namespace OpenStory.Server.Channel
     {
         #region Visible info
 
+        public int CharacterId { get; private set; }
+        public string CharacterName { get; private set; }
+        public int JobId { get; private set; }
+        public int Level { get; private set; }
+
+        public int ChannelId { get; private set; }
+        public int MapId { get; private set; }
+
         public int WorldId { get; private set; }
 
         public Gender Gender { get; private set; }
@@ -14,14 +22,6 @@ namespace OpenStory.Server.Channel
         public int SkinColor { get; private set; }
 
         public int Fame { get; private set; }
-
-        public int CharacterId { get; private set; }
-        public string CharacterName { get; private set; }
-        public int JobId { get; private set; }
-        public int Level { get; private set; }
-
-        public int ChannelId { get; private set; }
-        public int MapId { get; private set; }
 
         #endregion
 

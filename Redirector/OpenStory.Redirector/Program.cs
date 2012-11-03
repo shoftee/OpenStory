@@ -26,7 +26,7 @@ namespace OpenStory.Redirector
                 return;
             }
 
-            Console.Title = "OpenStory.Redirector - " + info.Port;
+            Console.Title = @"OpenStory.Redirector - " + info.Port;
             using (var redirector = new Redirector(info))
             {
                 redirector.Bind();
@@ -37,8 +37,8 @@ namespace OpenStory.Redirector
 
         private static IPEndPoint ParseCommandLine(ParameterList parameters)
         {
-            string hostString = parameters["host"];
-            string portString = parameters["port"];
+            string hostString = parameters[@"host"];
+            string portString = parameters[@"port"];
 
             IPAddress ipAddress;
             if (String.IsNullOrEmpty(hostString) || !IPAddress.TryParse(hostString, out ipAddress))
