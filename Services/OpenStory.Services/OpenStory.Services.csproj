@@ -62,6 +62,7 @@
     <Compile Include="Contracts\OperationState.cs" />
     <Compile Include="Contracts\ServiceConfiguration.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
+    <Compile Include="Contracts\ServiceSettings.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
     <Compile Include="GameServiceBase.cs" />
     <Compile Include="RegisteredServiceBase.cs" />

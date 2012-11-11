@@ -15,6 +15,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
         /// <returns>the result of the operation.</returns>
+        [OperationContract]
         ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token);
     }
 
@@ -30,6 +31,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="channelId">The world-scoped identifier of the channel instance.</param>
         /// <returns>the result of the operation.</returns>
+        [OperationContract]
         ServiceOperationResult<Uri> GetChannelUri(Guid token, int channelId);
     }
 
@@ -45,6 +47,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="worldId">The identifier of the world instnace.</param>
         /// <returns>the result of the operation.</returns>
+        [OperationContract]
         ServiceOperationResult<Uri> GetWorldUri(Guid token, int worldId);
 
         /// <summary>
@@ -53,14 +56,22 @@ namespace OpenStory.Services.Contracts
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="worldId">The world to query.</param>
         /// <returns>the result of the operation.</returns>
+        [OperationContract]
         ServiceOperationResult<Dictionary<int, Uri>> GetChannelUris(Guid token, int worldId);
     }
 
     /// <summary>
     /// Provides methods for querying a nexus service for authentication service information.
     /// </summary>
+    [ServiceContract(Namespace = null, Name = "NexusAuthService")]
     public interface INexusAuthService
     {
-
+        /// <summary>
+        /// Attempts to retrieve the URI of the auth service.
+        /// </summary>
+        /// <param name="token">An access token for the nexus operation.</param>
+        /// <returns>the result of the operation.</returns>
+        [OperationContract]
+        ServiceOperationResult<Uri> GetAuthUri(Guid token);
     }
 }

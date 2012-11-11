@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -23,6 +24,10 @@ namespace OpenStory.Services.Contracts
                 object value;
                 this.data.TryGetValue(key, out value);
                 return value;
+            }
+            private set
+            {
+                this.data[key] = value;
             }
         }
 
@@ -63,6 +68,41 @@ namespace OpenStory.Services.Contracts
             {
                 return (T)value;
             }
+        }
+
+        /// <summary>
+        /// Creates a service configuration for an auth service.
+        /// </summary>
+        public static ServiceConfiguration Auth(Uri uri)
+        {
+            var config = new ServiceConfiguration(ServiceSettings.Auth.Template);
+            config[ServiceSettings.Uri.Key] = uri;
+            return config;
+        }
+
+        /// <summary>
+        /// Creates a service configuration for an world service.
+        /// </summary>
+        public static ServiceConfiguration World(Uri uri, int worldId, int channelCount = 6)
+        {
+            var config = new ServiceConfiguration(ServiceSettings.World.Template);
+            config[ServiceSettings.Uri.Key] = uri;
+            config[ServiceSettings.World.Id] = worldId;
+            config[ServiceSettings.World.ChannelCount] = channelCount;
+            return config;
+        }
+
+        /// <summary>
+        /// Creates a service configuration for an channel service.
+        /// </summary>
+        public static ServiceConfiguration Channel(Uri uri, int worldId, int channelId, int playerCapacity = 100)
+        {
+            var config = new ServiceConfiguration(ServiceSettings.Channel.Template);
+            config[ServiceSettings.Uri.Key] = uri;
+            config[ServiceSettings.Channel.WorldId] = worldId;
+            config[ServiceSettings.Channel.ChannelId] = channelId;
+            config[ServiceSettings.Channel.PlayerCapacity] = playerCapacity;
+            return config;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace OpenStory.Services
         {
             ThrowIfDisposed();
 
-            var uri = configuration.Get<Uri>("ServiceUri");
+            var uri = configuration.Get<Uri>(ServiceSettings.Uri.Key);
             if (uri == null)
             {
                 error = "Service endpoint URI missing from configuration.";
@@ -57,7 +57,7 @@ namespace OpenStory.Services
         /// </summary>
         /// <remarks>
         /// When overriding this method in a derived class, please call the base implementation first 
-        /// and return <c>false</c> if it returns <c>false</c>.
+        /// and return <c>false</c> if it returns <c>false</c>, without changing the error variable.
         /// </remarks>
         /// <param name="configuration">The configuration information.</param>
         /// <param name="error">A variable to hold a human-readable error message.</param>
