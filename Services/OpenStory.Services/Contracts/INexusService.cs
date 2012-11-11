@@ -53,7 +53,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="worldId">The world to query.</param>
         /// <returns>the result of the operation.</returns>
-        ServiceOperationResult<Dictionary<int, int>> GetChannelUri(Guid token, int worldId);
+        ServiceOperationResult<Dictionary<int, Uri>> GetChannelUris(Guid token, int worldId);
     }
 
     /// <summary>

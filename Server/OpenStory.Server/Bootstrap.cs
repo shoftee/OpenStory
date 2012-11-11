@@ -40,14 +40,13 @@ namespace OpenStory.Server
 
             var result = GetServiceConfiguration(nexusConnectionInfo);
 
-            var success = CheckOperationResult(result, out error);
-            if (!success)
+            if (!CheckOperationResult(result, out error))
             {
                 error = String.Format(Errors.BootstrapConnectionError, error);
                 return null;
             }
 
-            ServiceConfiguration configuration = result.Result;
+            var configuration = result.Result;
             var service = provider();
             if (!service.Configure(configuration, out error))
             {
