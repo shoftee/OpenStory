@@ -7,10 +7,10 @@ using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Auth.Policy
 {
-    internal sealed class SimpleAuthPolicy : AuthPolicyBase, IAuthPolicy<SimpleCredentials>
+    internal sealed class SimpleAuthPolicy : AuthPolicyBase<SimpleCredentials>
     {
         /// <inheritdoc />
-        public AuthenticationResult Authenticate(SimpleCredentials credentials, out IAccountSession session)
+        public override AuthenticationResult Authenticate(SimpleCredentials credentials, out IAccountSession session)
         {
             string accountName = credentials.AccountName;
             Account account = OS.Data().Accounts.LoadByUserName(accountName);

@@ -1,13 +1,31 @@
 using System;
+using OpenStory.Common.Game;
 using OpenStory.Server.Data;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth.Policy
 {
-    internal abstract class AuthPolicyBase
+    internal abstract class AuthPolicyBase<TCredentials> : IAuthPolicy<TCredentials>
     {
         protected AuthPolicyBase()
         {
+        }
+
+        #region Implementation of IAuthPolicy<in TCredentials>
+
+        public abstract AuthenticationResult Authenticate(TCredentials credentials, out IAccountSession session);
+
+        #endregion
+        /// <summary>
+        /// Provides an <see cref="IAccountSession"/> with the specified properties.
+        /// </summary>
+        /// <param name="parent">The account service handling this session.</param>
+        /// <param name="sessionId">The account session ID.</param>
+        /// <param name="data">The account data for this session.</param>
+        /// <returns>a reference to the constructed <see cref="IAccountSession"/>.</returns>
+        protected static IAccountSession GetSession(IAccountService parent, int sessionId, Account data)
+        {
+            return new AccountSession(parent, sessionId, data);
         }
 
         private sealed class AccountSession : IAccountSession
@@ -48,18 +66,6 @@ namespace OpenStory.Server.Auth.Policy
             {
                 this.service.TryUnregisterSession(this.AccountId);
             }
-        }
-
-        /// <summary>
-        /// Provides an <see cref="IAccountSession"/> with the specified properties.
-        /// </summary>
-        /// <param name="parent">The account service handling this session.</param>
-        /// <param name="sessionId">The account session ID.</param>
-        /// <param name="data">The account data for this session.</param>
-        /// <returns>a reference to the constructed <see cref="IAccountSession"/>.</returns>
-        protected static IAccountSession GetSession(IAccountService parent, int sessionId, Account data)
-        {
-            return new AccountSession(parent, sessionId, data);
         }
     }
 }
