@@ -21,6 +21,7 @@ namespace OpenStory.Server.Fluent.Initialize
             this.manager.RegisterComponent(ServiceManager.LocalServiceKey, local);
             return this;
         }
+
         #endregion
 
         public override IInitializeFacade Done()

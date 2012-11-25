@@ -39,7 +39,6 @@ namespace OpenStory.Server
             }
 
             var result = GetServiceConfiguration(nexusConnectionInfo);
-
             if (!CheckOperationResult(result, out error))
             {
                 error = String.Format(Errors.BootstrapConnectionError, error);
@@ -93,7 +92,6 @@ namespace OpenStory.Server
                 default:
                     error = String.Format(Errors.BootstrapNexusGenericError, result.Error);
                     return false;
-
             }
         }
     }
