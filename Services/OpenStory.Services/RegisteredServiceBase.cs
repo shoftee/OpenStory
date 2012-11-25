@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using OpenStory.Services.Contracts;
@@ -38,19 +39,11 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            bool transition = false;
-            switch (this.serviceState)
-            {
-                case ServiceState.NotInitialized:
-                    SubscribeForCallback(this.initializeSubscribers);
-                    transition = true;
-                    break;
-                case ServiceState.Initializing:
-                    SubscribeForCallback(this.initializeSubscribers);
-                    break;
-            }
+            SubscribeForStates(this.initializeSubscribers, this.serviceState,
+                               ServiceState.NotInitialized,
+                               ServiceState.Initializing);
 
-            if (transition)
+            if (this.serviceState == ServiceState.NotInitialized)
             {
                 this.HandleStateChange(this.serviceState, ServiceState.Initializing);
 
@@ -67,21 +60,13 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            bool transition = false;
-            switch (this.serviceState)
-            {
-                case ServiceState.Ready:
-                    SubscribeForCallback(this.startSubscribers);
-                    transition = true;
-                    break;
-                case ServiceState.NotInitialized:
-                case ServiceState.Initializing:
-                case ServiceState.Starting:
-                    SubscribeForCallback(this.startSubscribers);
-                    break;
-            }
+            SubscribeForStates(this.startSubscribers, this.serviceState,
+                               ServiceState.Ready,
+                               ServiceState.NotInitialized,
+                               ServiceState.Initializing,
+                               ServiceState.Starting);
 
-            if (transition)
+            if (this.serviceState == ServiceState.Ready)
             {
                 this.HandleStateChange(this.serviceState, ServiceState.Starting);
 
@@ -98,23 +83,15 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            bool transition = false;
-            switch (this.serviceState)
-            {
-                case ServiceState.Running:
-                    SubscribeForCallback(this.stopSubscribers);
-                    transition = true;
-                    break;
-                case ServiceState.Stopping:
-                    SubscribeForCallback(this.stopSubscribers);
-                    break;
-            }
+            SubscribeForStates(this.stopSubscribers, this.serviceState,
+                               ServiceState.Running,
+                               ServiceState.Stopping);
 
-            if (transition)
+            if (this.serviceState == ServiceState.Running)
             {
                 this.HandleStateChange(this.serviceState, ServiceState.Stopping);
 
-                var task = GetStopTask();
+                var task = this.GetStopTask();
                 if (task.Status == TaskStatus.Created)
                 {
                     task.Start();
@@ -212,7 +189,13 @@ namespace OpenStory.Services
                 var badSubscribers = new List<IServiceStateChanged>();
                 foreach (var subscriber in subscribers)
                 {
+
+// ReSharper disable SuspiciousTypeConversion.Global
+// ReSharper disable PossibleInvalidCastException
                     var communcationObject = (ICommunicationObject)subscriber;
+// ReSharper restore PossibleInvalidCastException
+// ReSharper restore SuspiciousTypeConversion.Global
+
                     if (communcationObject.State == CommunicationState.Opened)
                     {
                         subscriber.OnServiceStateChanged(state);
@@ -294,5 +277,12 @@ namespace OpenStory.Services
         {
         }
 
+        private static void SubscribeForStates(List<IServiceStateChanged> subscribers, ServiceState currentState, params ServiceState[] states)
+        {
+            if (states.Any(state => state == currentState))
+            {
+                SubscribeForCallback(subscribers);
+            }
+        }
     }
 }
