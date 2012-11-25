@@ -10,7 +10,7 @@ namespace OpenStory.Server
     /// Represents a base class for all server clients.
     /// This class is abstract.
     /// </summary>
-    public abstract class ClientBase
+    public abstract class ClientBase : IDisposable
     {
         /// <summary>
         /// The number of pings a client is allowed to miss before being disconnected.
@@ -21,6 +21,8 @@ namespace OpenStory.Server
         /// The period between pings, in milliseconds.
         /// </summary>
         private const int PingInterval = 15000;
+
+        private bool isDisposed;
 
         /// <summary>
         /// Gets the client's session object.
@@ -66,6 +68,8 @@ namespace OpenStory.Server
             {
                 throw new ArgumentNullException("session");
             }
+
+            this.isDisposed = false;
 
             this.Session = session;
             this.Session.PacketProcessing += this.OnPacketProcessing;
@@ -143,14 +147,39 @@ namespace OpenStory.Server
         public void Disconnect(string reason = null)
         {
             LogDisconnectReason(this.AccountSession, reason);
+        }
 
-            if (this.AccountSession != null)
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Called when the object is being freed from usage.
+        /// </summary>
+        /// <remarks>
+        /// When overriding in a derived class, please call the base implementation after your code.
+        /// </remarks>
+        /// <param name="disposing">Whether the method is being called during disposal or finalization of the object.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !this.isDisposed)
             {
-                this.AccountSession.Dispose();
-                this.AccountSession = null;
+                var account = this.AccountSession;
+                if (account != null)
+                {
+                    account.Dispose();
+                    this.AccountSession = null;
+                }
+
+                this.keepAliveTimer.Dispose();
+
+                this.Session.Close();
+
+                this.isDisposed = true;
             }
-            this.keepAliveTimer.Dispose();
-            this.Session.Close();
         }
 
         private static void LogDisconnectReason(IAccountSession session, string reason)
