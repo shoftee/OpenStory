@@ -72,14 +72,14 @@ namespace OpenStory.Services
         /// Attempts to open a service host for this game service.
         /// </summary>
         /// <param name="error">A variable to hold a human-readable error message.</param>
-        public void OpenServiceHost(out string error)
+        public bool OpenServiceHost(out string error)
         {
             ThrowIfDisposed();
 
             if (this.serviceHost != null)
             {
                 error = "There was a previous attempt to host this service instance.";
-                return;
+                return false;
             }
 
             bool success = true;
@@ -104,6 +104,8 @@ namespace OpenStory.Services
                     host.Close();
                 }
             }
+
+            return success;
         }
 
         private void ThrowIfDisposed()

@@ -56,8 +56,7 @@ namespace OpenStory.Server
 
             OS.Initialize().Services().Host(service).Done();
 
-            service.OpenServiceHost(out error);
-            if (error != null)
+            if (!service.OpenServiceHost(out error))
             {
                 error = String.Format(Errors.BootstrapHostingError, error);
                 return null;
