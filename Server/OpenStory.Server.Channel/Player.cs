@@ -54,25 +54,25 @@ namespace OpenStory.Server.Channel
         }
 
         /// <summary>
-        /// Gets an extension object of this player instance.
+        /// Gets an facet object of this player instance.
         /// </summary>
-        /// <typeparam name="TPlayerExtension">The type of the extension interface.</typeparam>
-        /// <returns>an instance of <typeparamref name="TPlayerExtension"/>.</returns>
-        private TPlayerExtension GetExtension<TPlayerExtension>()
-            where TPlayerExtension : IPlayerExtension
+        /// <typeparam name="TPlayerFacet">The type of the facet interface.</typeparam>
+        /// <returns>an instance of <typeparamref name="TPlayerFacet"/>.</returns>
+        private TPlayerFacet GetFacet<TPlayerFacet>()
+            where TPlayerFacet : IPlayerFacet
         {
-            return PlayerExtensionManager.Instance.Get<TPlayerExtension>(this.CharacterId);
+            return PlayerFacetManager.Instance.Get<TPlayerFacet>(this.CharacterId);
         }
 
         /// <summary>
-        /// Creates a new extension object for this player instance.
+        /// Creates a new facet object for this player instance.
         /// </summary>
-        /// <typeparam name="TPlayerExtension">The type of the extension interface.</typeparam>
-        /// <returns>an instance of <typeparamref name="TPlayerExtension"/>.</returns>
-        private TPlayerExtension CreateExtension<TPlayerExtension>()
-            where TPlayerExtension : IPlayerExtension
+        /// <typeparam name="TPlayerFacet">The type of the facet interface.</typeparam>
+        /// <returns>an instance of <typeparamref name="TPlayerFacet"/>.</returns>
+        private TPlayerFacet CreateFacet<TPlayerFacet>()
+            where TPlayerFacet : IPlayerFacet
         {
-            return PlayerExtensionManager.Instance.Create<TPlayerExtension>(this.CharacterId);
+            return PlayerFacetManager.Instance.Create<TPlayerFacet>(this.CharacterId);
         }
     }
 }
