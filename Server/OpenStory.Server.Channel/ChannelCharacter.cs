@@ -5,7 +5,7 @@ namespace OpenStory.Server.Channel
 {
     internal class ChannelCharacter : Character
     {
-        public ChannelCharacter(IDataRecord record) : base(record)
+        public ChannelCharacter()
         {
         }
     }

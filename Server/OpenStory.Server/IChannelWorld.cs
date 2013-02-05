@@ -16,6 +16,6 @@ namespace OpenStory.Server
         /// <param name="channelId">The ID of the source channel.</param>
         /// <param name="targets">The IDs of the recepients of the message.</param>
         /// <param name="data">The message to broadcast.</param>
-        void BroadcastFromChannel(int channelId, int[] targets, byte[] data);
+        void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data);
     }
 }

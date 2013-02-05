@@ -9,55 +9,55 @@ namespace OpenStory.Server.Registry
     /// </summary>
     public sealed class LocationRegistry : ILocationRegistry
     {
-        private readonly Dictionary<int, PlayerLocation> locations;
+        private readonly Dictionary<CharacterKey, PlayerLocation> locations;
 
         /// <summary>
         /// Initializes a new instance of <see cref="LocationRegistry"/>.
         /// </summary>
         public LocationRegistry()
         {
-            this.locations = new Dictionary<int, PlayerLocation>();
+            this.locations = new Dictionary<CharacterKey, PlayerLocation>();
         }
 
         /// <inheritdoc />
-        public Dictionary<int, PlayerLocation> GetLocationsForAll(IEnumerable<int> playerIds)
+        public Dictionary<CharacterKey, PlayerLocation> GetLocationsForAll(IEnumerable<CharacterKey> keys)
         {
-            if (playerIds == null)
+            if (keys == null)
             {
-                throw new ArgumentNullException("playerIds");
+                throw new ArgumentNullException("keys");
             }
 
-            return playerIds
+            return keys
                 .Distinct()
-                .ToDictionary(playerId => playerId, this.GetLocation);
+                .ToDictionary(key => key, this.GetLocation);
         }
 
         /// <inheritdoc />
-        public PlayerLocation GetLocation(int playerId)
+        public PlayerLocation GetLocation(CharacterKey key)
         {
             PlayerLocation location;
-            this.locations.TryGetValue(playerId, out location);
+            this.locations.TryGetValue(key, out location);
             return location;
         }
 
         /// <inheritdoc />
-        public void SetLocation(int playerId, int channelId, int mapId)
+        public void SetLocation(CharacterKey key, int channelId, int mapId)
         {
             var location = new PlayerLocation(channelId, mapId);
-            if (this.locations.ContainsKey(playerId))
+            if (this.locations.ContainsKey(key))
             {
-                this.locations[playerId] = location;
+                this.locations[key] = location;
             }
             else
             {
-                this.locations.Add(playerId, location);
+                this.locations.Add(key, location);
             }
         }
 
         /// <inheritdoc />
-        public void RemoveLocation(int playerId)
+        public void RemoveLocation(CharacterKey key)
         {
-            this.locations.Remove(playerId);
+            this.locations.Remove(key);
         }
     }
 }

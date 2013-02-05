@@ -8,7 +8,7 @@ namespace OpenStory.Server.Auth.Data
     /// </summary>
     public sealed class AuthCharacter : Character
     {
-        internal AuthCharacter(IDataRecord record) : base(record)
+        internal AuthCharacter()
         {
         }
     }

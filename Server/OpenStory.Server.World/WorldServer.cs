@@ -18,7 +18,7 @@ namespace OpenStory.Server.World
         }
 
         /// <inheritdoc />
-        public void BroadcastFromChannel(int channelId, int[] targets, byte[] data)
+        public void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data)
         {
             throw new NotImplementedException();
         }

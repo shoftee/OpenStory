@@ -41,6 +41,6 @@ namespace OpenStory.Server.Registry
         /// <para>The scan will however block write operations on the registry.</para>
         /// </remarks>
         /// <param name="whitelist">A list of player identifiers to match.</param>
-        IEnumerable<IPlayer> Scan(IEnumerable<int> whitelist);
+        IEnumerable<IPlayer> Scan(IEnumerable<CharacterKey> whitelist);
     }
 }

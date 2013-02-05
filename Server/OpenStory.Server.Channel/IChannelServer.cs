@@ -15,9 +15,9 @@ namespace OpenStory.Server.Channel
         /// <summary>
         /// Broadcasts a message to the whole world server.
         /// </summary>
-        /// <param name="sourceId">The ID of the sender.</param>
-        /// <param name="targetIds">The IDs of the recepients of the message.</param>
+        /// <param name="sourceKey">The ID of the sender.</param>
+        /// <param name="targets">The IDs of the recepients of the message.</param>
         /// <param name="data">The message to broadcast.</param>
-        void BroadcastToWorld(int sourceId, IEnumerable<int> targetIds, byte[] data);
+        void BroadcastToWorld(CharacterKey sourceKey, IEnumerable<CharacterKey> targets, byte[] data);
     }
 }

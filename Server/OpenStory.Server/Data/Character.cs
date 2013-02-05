@@ -9,14 +9,9 @@ namespace OpenStory.Server.Data
     public abstract class Character
     {
         /// <summary>
-        /// Gets the ID of the Character.
+        /// Gets the unique identifier for this character.
         /// </summary>
-        public int Id { get; private set; }
-
-        /// <summary>
-        /// Gets the Name of the Character.
-        /// </summary>
-        public string Name { get; private set; }
+        public CharacterKey Key { get; private set; }
 
         /// <summary>
         /// Gets the ID of the world the Character resides in.
@@ -62,27 +57,5 @@ namespace OpenStory.Server.Data
         /// Gets the buddy list capacity of the Character.
         /// </summary>
         public int BuddyListCapacity { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="Character"/>.
-        /// </summary>
-        /// <param name="record">The data record containing the character data.</param>
-        protected Character(IDataRecord record)
-        {
-            this.Id = (int)record["CharacterId"];
-            this.WorldId = (int)record["WorldId"];
-            this.Name = (string)record["CharacterName"];
-
-            this.Gender = (Gender)record["Gender"];
-            this.HairId = (int)record["HairId"];
-            this.FaceId = (int)record["FaceId"];
-            this.SkinColor = (int)record["SkinColor"];
-
-            this.Fame = (int)record["Fame"];
-            this.JobId = (int)record["JobId"];
-            this.Level = (int)record["Level"];
-
-            this.BuddyListCapacity = (int)record["BuddyListCapacity"];
-        }
     }
 }

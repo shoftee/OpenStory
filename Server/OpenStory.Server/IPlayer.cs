@@ -6,14 +6,9 @@ namespace OpenStory.Server
     public interface IPlayer
     {
         /// <summary>
-        /// Gets the internal ID for the character of this player.
+        /// Gets the unique identifier for the character of this player.
         /// </summary>
-        int CharacterId { get; }
-
-        /// <summary>
-        /// Gets the in-game name for the character of this player.
-        /// </summary>
-        string CharacterName { get; }
+        CharacterKey Key { get; }
 
         /// <summary>
         /// Gets the ID of the channel the player is currently in.

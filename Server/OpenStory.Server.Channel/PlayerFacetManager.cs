@@ -22,21 +22,21 @@ namespace OpenStory.Server.Channel
             this.factories.Add(typeof(TPlayerFacet), factoryMethod);
         }
 
-        public TPlayerFacet Create<TPlayerFacet>(int playerId)
+        public TPlayerFacet Create<TPlayerFacet>(CharacterKey key)
             where TPlayerFacet : IPlayerFacet
         {
             var facetType = typeof(TPlayerFacet);
             var method = (Func<TPlayerFacet>)this.factories[facetType];
 
             var facet = method();
-            this.facets.Add(new Key(facetType, playerId), facet);
+            this.facets.Add(new Key(facetType, key.Id), facet);
             return facet;
         }
 
-        public TPlayerFacet Get<TPlayerFacet>(int playerId)
+        public TPlayerFacet Get<TPlayerFacet>(CharacterKey key)
         {
             var facetType = typeof(TPlayerFacet);
-            var facet = this.facets[new Key(facetType, playerId)];
+            var facet = this.facets[new Key(facetType, key.Id)];
             return (TPlayerFacet)facet;
         }
 

@@ -13,12 +13,12 @@ namespace OpenStory.Server.Fluent.Lookup
 
         #region Implementation of ICharacterLookupFacade
 
-        public PlayerLocation Location(int id)
+        public PlayerLocation Location(CharacterKey key)
         {
-            return this.manager.Location.GetLocation(id);
+            return this.manager.Location.GetLocation(key);
         }
 
-        public string Name(int id)
+        public CharacterKey Character(int id)
         {
             var player = this.manager.Players.GetById(id);
             if (player == null)
@@ -27,11 +27,11 @@ namespace OpenStory.Server.Fluent.Lookup
             }
             else
             {
-                return player.CharacterName;
+                return player.Key;
             }
         }
 
-        public int? Id(string name)
+        public CharacterKey Character(string name)
         {
             var player = this.manager.Players.GetByName(name);
             if (player == null)
@@ -40,7 +40,7 @@ namespace OpenStory.Server.Fluent.Lookup
             }
             else
             {
-                return player.CharacterId;
+                return player.Key;
             }
         }
 

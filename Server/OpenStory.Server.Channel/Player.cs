@@ -6,8 +6,7 @@ namespace OpenStory.Server.Channel
     {
         #region Visible info
 
-        public int CharacterId { get; private set; }
-        public string CharacterName { get; private set; }
+        public CharacterKey Key { get; private set; }
         public int JobId { get; private set; }
         public int Level { get; private set; }
 
@@ -37,8 +36,7 @@ namespace OpenStory.Server.Channel
             this.client = client;
 
             // Get what we can from the transfer object.
-            this.CharacterId = character.Id;
-            this.CharacterName = character.Name;
+            this.Key = character.Key;
             this.WorldId = character.WorldId;
 
             this.Gender = character.Gender;
@@ -61,7 +59,7 @@ namespace OpenStory.Server.Channel
         private TPlayerFacet GetFacet<TPlayerFacet>()
             where TPlayerFacet : IPlayerFacet
         {
-            return PlayerFacetManager.Instance.Get<TPlayerFacet>(this.CharacterId);
+            return PlayerFacetManager.Instance.Get<TPlayerFacet>(this.Key);
         }
 
         /// <summary>
@@ -72,7 +70,7 @@ namespace OpenStory.Server.Channel
         private TPlayerFacet CreateFacet<TPlayerFacet>()
             where TPlayerFacet : IPlayerFacet
         {
-            return PlayerFacetManager.Instance.Create<TPlayerFacet>(this.CharacterId);
+            return PlayerFacetManager.Instance.Create<TPlayerFacet>(this.Key);
         }
     }
 }

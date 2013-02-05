@@ -58,39 +58,39 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        public void BroadcastToWorld(int sourceId, IEnumerable<int> targetIds, byte[] data)
+        public void BroadcastToWorld(CharacterKey sourceKey, IEnumerable<CharacterKey> targets, byte[] data)
         {
-            var ids = from id in targetIds
-                      where id != sourceId
+            var ids = from id in targets
+                      where id != sourceKey
                       select id;
 
             this.BroadcastToWorld(ids, data);
         }
 
-        private void BroadcastToWorld(IEnumerable<int> targetIds, byte[] data)
+        private void BroadcastToWorld(IEnumerable<CharacterKey> targets, byte[] data)
         {
             // Arrays are more efficient for remoting operations.
-            int[] ids = targetIds.ToArray();
+            CharacterKey[] keys = targets.ToArray();
 
             var playerRegistry = LookupManager.GetManager().Players;
-            this.BroadcastIntoChannel(playerRegistry.Scan(ids).Select(p => p.CharacterId), data);
+            this.BroadcastIntoChannel(playerRegistry.Scan(keys).Select(p => p.Key), data);
 
-            this.World.BroadcastFromChannel(this.ChannelId, ids, data);
+            this.World.BroadcastFromChannel(this.ChannelId, keys, data);
         }
 
         // This method will be part of the service contract.
         /// <summary>
         /// Broadcasts a packet to the targets that reside in the current channel.
         /// </summary>
-        /// <param name="targetIds"></param>
+        /// <param name="targets"></param>
         /// <param name="data"></param>
-        public void BroadcastIntoChannel(IEnumerable<int> targetIds, byte[] data)
+        public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
             var playerRegistry = LookupManager.GetManager().Players;
-            var targets = from target in playerRegistry.Scan(targetIds)
+            var targetPlayers = from target in playerRegistry.Scan(targets)
                           select target;
 
-            foreach (var player in targets)
+            foreach (var player in targetPlayers)
             {
                 player.Client.WritePacket(data);
             }
