@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="CharacterExtensionComparer.cs" />
     <Compile Include="CharacterKey.cs" />
     <Compile Include="ClientBase.cs" />
     <Compile Include="Data\IReceiveFeed.cs" />
@@ -91,7 +92,9 @@
     <Compile Include="Fluent\IWorldServiceFacade.cs" />
     <Compile Include="Fluent\IWorldsServiceFacade.cs" />
     <Compile Include="Fluent\Service\WorldServiceFacade.cs" />
+    <Compile Include="ICharacterExtension.cs" />
     <Compile Include="IGameServer.cs" />
+    <Compile Include="IllegalPacketException.cs" />
     <Compile Include="IServerSession.cs" />
     <Compile Include="Modules\Config\ConfigManager.cs" />
     <Compile Include="Modules\Config\DomainConfig.cs" />

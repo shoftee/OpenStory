@@ -84,6 +84,5 @@ namespace OpenStory.Server
         {
             return !Equals(left, right);
         }
-
     }
 }
