@@ -50,6 +50,8 @@
     <Compile Include="ChannelClient.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="ChannelConfiguration.cs" />
+    <Compile Include="Data\BuddyListEntry.cs" />
+    <Compile Include="Data\BuddyListEntryStatus.cs" />
     <Compile Include="IChannelServer.cs" />
     <Compile Include="IPlayerFacet.cs" />
     <Compile Include="Maps\FieldLimitLabel.cs" />
