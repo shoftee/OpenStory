@@ -18,7 +18,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets a fresh reader over the packet's content.
         /// </summary>
-        public PacketReader Reader
+        public IUnsafePacketReader Reader
         {
             get { return new PacketReader(this.reader); }
         }

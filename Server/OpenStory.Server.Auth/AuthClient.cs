@@ -62,29 +62,35 @@ namespace OpenStory.Server.Auth
                 case "Authenticate":
                     this.HandleAuthentication(reader);
                     break;
+
                 case "ValidatePin":
                     this.HandlePinValidation(reader);
                     break;
+
                 case "AssignPin":
                     this.HandlePinAssignment(reader);
                     break;
+
                 case "WorldListRequest":
                 case "WorldListRefresh":
                     this.HandleWorldListRequest(reader);
                     break;
+                
                 case "ChannelSelect":
                     this.HandleChannelSelect(reader);
                     break;
+                
                 case "CharacterListRequest":
                     this.HandleCharacterListRequest(reader);
                     break;
+                
                 case "CharacterSelect":
                     this.HandleCharacterSelect(reader);
                     break;
             }
         }
 
-        private void HandleAuthentication(PacketReader reader)
+        private void HandleAuthentication(IUnsafePacketReader reader)
         {
             if (this.State != AuthClientState.PreAuthentication)
             {
@@ -92,19 +98,8 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
-            string userName;
-            if (!reader.TryReadLengthString(out userName))
-            {
-                base.Disconnect("Invalid user name format.");
-                return;
-            }
-
-            string password;
-            if (!reader.TryReadLengthString(out password))
-            {
-                base.Disconnect("Invalid password format.");
-                return;
-            }
+            string userName = reader.ReadLengthString();
+            string password = reader.ReadLengthString();
 
             // TODO: more stuff to read, later.
             var authPolicy = this.server.GetAuthPolicy();
@@ -132,32 +127,32 @@ namespace OpenStory.Server.Auth
             }
         }
 
-        private void HandleCharacterSelect(PacketReader reader)
+        private void HandleCharacterSelect(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }
 
-        private void HandleCharacterListRequest(PacketReader reader)
+        private void HandleCharacterListRequest(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }
 
-        private void HandleChannelSelect(PacketReader reader)
+        private void HandleChannelSelect(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }
 
-        private void HandleWorldListRequest(PacketReader reader)
+        private void HandleWorldListRequest(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }
 
-        private void HandlePinAssignment(PacketReader reader)
+        private void HandlePinAssignment(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }
 
-        private void HandlePinValidation(PacketReader reader)
+        private void HandlePinValidation(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();
         }

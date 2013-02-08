@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using OpenStory.Common;
+using OpenStory.Common.IO;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Processing;
 
@@ -119,7 +120,22 @@ namespace OpenStory.Server
             }
             else
             {
-                this.ProcessPacket(e);
+                try
+                {
+                    this.ProcessPacket(e);
+                }
+                catch (IllegalPacketException)
+                {
+                    // TODO: Use IllegalPacketException for penalizing naughty clients.
+
+                    OS.Log().Info("Received illegal packet. Client disconnected.");
+                    this.Disconnect("Illegal packet.");
+                }
+                catch (PacketReadingException)
+                {
+                    OS.Log().Info("Received incomplete packet. Client disconnected.");
+                    this.Disconnect("Incomplete packet.");
+                }
             }
         }
 
