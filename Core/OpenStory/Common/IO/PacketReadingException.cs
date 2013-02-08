@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace OpenStory.Common.IO
 {
@@ -14,10 +15,12 @@ namespace OpenStory.Common.IO
         /// Initializes a new instance of <see cref="PacketReadingException"/>.
         /// </summary>
         /// <inheritdoc />
-        private PacketReadingException(string message)
-            : base(message)
-        {
-        }
+        private PacketReadingException(string message) : base(message) { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PacketReadingException"/>.
+        /// </summary>
+        private PacketReadingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         /// <summary>
         /// Constructs a <see cref="PacketReadingException"/> which states that the end of the stream was reached.

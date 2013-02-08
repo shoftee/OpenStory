@@ -15,32 +15,21 @@ namespace OpenStory.Server
         /// <summary>
         /// Initializes a new instance of <see cref="IllegalPacketException"/>.
         /// </summary>
-        public IllegalPacketException()
-        {
-        }
+        public IllegalPacketException() { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="IllegalPacketException"/>.
         /// </summary>
-        public IllegalPacketException(string message)
-            : base(message)
-        {
-        }
+        public IllegalPacketException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="IllegalPacketException"/>.
         /// </summary>
-        public IllegalPacketException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+        public IllegalPacketException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="IllegalPacketException"/>.
         /// </summary>
-        protected IllegalPacketException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        protected IllegalPacketException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }
