@@ -84,36 +84,6 @@ namespace OpenStory.Server.Auth
             }
         }
 
-        private void HandleCharacterSelect(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HandleCharacterListRequest(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HandleChannelSelect(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HandleWorldListRequest(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HandlePinAssignment(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HandlePinValidation(PacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
         private void HandleAuthentication(PacketReader reader)
         {
             if (this.State != AuthClientState.PreAuthentication)
@@ -160,6 +130,36 @@ namespace OpenStory.Server.Auth
                 builder.WriteInt16(0x0000);
                 this.Session.WritePacket(builder.ToByteArray());
             }
+        }
+
+        private void HandleCharacterSelect(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleCharacterListRequest(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleChannelSelect(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleWorldListRequest(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePinAssignment(PacketReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePinValidation(PacketReader reader)
+        {
+            throw new NotImplementedException();
         }
     }
 }

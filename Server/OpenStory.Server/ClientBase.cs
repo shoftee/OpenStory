@@ -15,7 +15,7 @@ namespace OpenStory.Server
         /// <summary>
         /// The number of pings a client is allowed to miss before being disconnected.
         /// </summary>
-        private const int PingsAllowed = 3;
+        private const int MissedPingsAllowed = 3;
 
         /// <summary>
         /// The period between pings, in milliseconds.
@@ -88,7 +88,7 @@ namespace OpenStory.Server
         private void HandlePing(object sender, ElapsedEventArgs e)
         {
             OS.Log().Info("PING {0}", this.sentPings.Value);
-            if (this.sentPings.Increment() > PingsAllowed)
+            if (this.sentPings.Increment() > MissedPingsAllowed)
             {
                 this.Disconnect("No ping response.");
                 return;
