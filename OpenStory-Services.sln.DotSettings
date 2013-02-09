@@ -2,5 +2,7 @@
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=CCF0AB8D0E71104F9D42E17D14A2C747/AbsolutePath/@EntryValue">F:\OpenStory\OpenStory.sln.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=CCF0AB8D0E71104F9D42E17D14A2C747/RelativePath/@EntryValue">..\OpenStory.sln.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=CCF0AB8D0E71104F9D42E17D14A2C747/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileCCF0AB8D0E71104F9D42E17D14A2C747/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileCCF0AB8D0E71104F9D42E17D14A2C747/RelativePriority/@EntryValue">2</s:Double>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AF_003A_005COpenStory_005COpenStory_002Esln_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AF_003A_005COpenStory_005COpenStory_002Esln_002EDotSettings/RelativePriority/@EntryValue">1</s:Double></wpf:ResourceDictionary>
