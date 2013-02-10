@@ -60,8 +60,8 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\OpenStory.Services\OpenStory.Services.csproj">
-      <Project>{a53768f4-b0ec-4873-a127-171a15b63663}</Project>
+    <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">

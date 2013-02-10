@@ -117,6 +117,20 @@ namespace OpenStory.Services.Contracts
         {
             return new ServiceOperationResult(OperationState.FailedRemotely, error, ServiceState.Unknown);
         }
+        
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            string result;
+            if (this.Error == null)
+            {
+                result = String.Format("Svc: {0}, Op: {1}", this.ServiceState, this.OperationState);
+            }
+            else
+            {
+                result = String.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
+            }
+            return result;
+        }
     }
-
 }

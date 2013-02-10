@@ -52,17 +52,17 @@
     <Compile Include="RegistryServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Registry\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj">
       <Project>{6648124A-31D9-45D5-A575-6B92FEEB3200}</Project>
       <Name>OpenStory.Services.Registry</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
+    <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
