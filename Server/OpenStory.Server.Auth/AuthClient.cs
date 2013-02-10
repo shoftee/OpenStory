@@ -75,20 +75,22 @@ namespace OpenStory.Server.Auth
                 case "WorldListRefresh":
                     this.HandleWorldListRequest(reader);
                     break;
-                
+
                 case "ChannelSelect":
                     this.HandleChannelSelect(reader);
                     break;
-                
+
                 case "CharacterListRequest":
                     this.HandleCharacterListRequest(reader);
                     break;
-                
+
                 case "CharacterSelect":
                     this.HandleCharacterSelect(reader);
                     break;
             }
         }
+
+        #region Authentication
 
         private void HandleAuthentication(IUnsafePacketReader reader)
         {
@@ -98,14 +100,14 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
-            string userName = reader.ReadLengthString();
-            string password = reader.ReadLengthString();
-
             // TODO: more stuff to read, later.
-            var authPolicy = this.server.GetAuthPolicy();
+            var userName = reader.ReadLengthString();
+            var password = reader.ReadLengthString();
+
             var credentials = new SimpleCredentials(userName, password);
 
             IAccountSession accountSession;
+            var authPolicy = this.server.GetAuthPolicy();
             var result = authPolicy.Authenticate(credentials, out accountSession);
             if (result == AuthenticationResult.Success)
             {
@@ -119,12 +121,39 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
+            byte[] packet;
             using (var builder = this.server.NewPacket("AuthenticationResponse"))
             {
                 builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);
-                this.Session.WritePacket(builder.ToByteArray());
+
+                if (this.IsAuthenticated)
+                {
+                    builder.WriteInt32(accountSession.AccountId);
+                    builder.WriteZeroes(5);
+                    builder.WriteLengthString(accountSession.AccountName);
+                    builder.WriteByte(2);
+                    builder.WriteByte(0);
+                    builder.WriteInt64(0);
+                    builder.WriteByte(0);
+                    builder.WriteInt64(0);
+                    builder.WriteInt32(0);
+                    builder.WriteInt16(257);
+                    builder.WriteInt32(0);
+                    builder.WriteInt32(0);
+                }
+
+                packet = builder.ToByteArray();
             }
+
+            this.Session.WritePacket(packet);
+        }
+
+        #endregion
+
+        private void HandleWorldListRequest(IUnsafePacketReader reader)
+        {
+            throw new NotImplementedException();
         }
 
         private void HandleCharacterSelect(IUnsafePacketReader reader)
@@ -141,12 +170,7 @@ namespace OpenStory.Server.Auth
         {
             throw new NotImplementedException();
         }
-
-        private void HandleWorldListRequest(IUnsafePacketReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         private void HandlePinAssignment(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();

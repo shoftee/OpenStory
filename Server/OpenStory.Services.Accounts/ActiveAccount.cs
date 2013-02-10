@@ -76,7 +76,8 @@ namespace OpenStory.Services.Account
 
             this.LastKeepAlive = newTimestamp;
 
-            return newTimestamp - oldTimestamp;
+            var lag = newTimestamp - oldTimestamp;
+            return lag;
         }
     }
 }

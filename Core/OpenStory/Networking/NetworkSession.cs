@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common;
 
@@ -63,6 +64,30 @@ namespace OpenStory.Networking
 
         /// <inheritdoc />
         public Socket Socket { get; private set; }
+
+        /// <summary>
+        /// Gets the remote endpoint of the session.
+        /// </summary>
+        public IPEndPoint RemoteEndpoint
+        {
+            get
+            {
+                if (this.Socket == null)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    var endpoint = this.Socket.RemoteEndPoint as IPEndPoint;
+                    return endpoint;
+                }
+                catch (ObjectDisposedException)
+                {
+                    return null;
+                }
+            }
+        }
 
         #endregion
 

@@ -34,6 +34,11 @@ namespace OpenStory.Common.Game
         AlreadyLoggedIn = 0x07,
 
         /// <summary>
+        /// The server has too many active connections.
+        /// </summary>
+        TooManyConnections = 0x0A,
+
+        /// <summary>
         /// This is the first time the account is logged into, show the License Agreement.
         /// </summary>
         FirstRun = 0x17
