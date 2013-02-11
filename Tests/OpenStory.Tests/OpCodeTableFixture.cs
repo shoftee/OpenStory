@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
-using OpenStory.Common.Data;
+using OpenStory.Common;
 
 namespace OpenStory.Tests
 {
