@@ -4,7 +4,7 @@ using OpenStory.Services.Registry;
 
 namespace OpenStory.Services.Management
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
@@ -17,7 +17,7 @@ namespace OpenStory.Services.Management
             var registrations = result.Result;
             if (registrations != null)
             {
-                Console.WriteLine("Registrations: {0} ({1})", String.Join(", ", registrations), registrations.Length);
+                Console.WriteLine("Registrations: [{0}]({1})", String.Join(", ", registrations), registrations.Length);
             }
 
             Thread.Sleep(Timeout.Infinite);

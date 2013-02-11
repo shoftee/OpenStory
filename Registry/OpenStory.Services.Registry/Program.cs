@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace OpenStory.Services.Registry
 {
-    internal sealed class Program
+    internal static class Program
     {
         private static void Main()
         {
