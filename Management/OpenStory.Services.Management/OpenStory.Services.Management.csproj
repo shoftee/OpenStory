@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}</ProjectGuid>
+    <ProjectGuid>{244428B5-6322-4C50-B553-CDACA18B1720}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenStory.Services.Management</RootNamespace>

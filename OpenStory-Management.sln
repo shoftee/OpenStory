@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Management", "Management\OpenStory.Services.Management\OpenStory.Services.Management.csproj", "{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Registry", "Registry", "{8DFD086E-ABD6-4500-B9CB-485BE2CF7E70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services", "Registry\OpenStory.Services\OpenStory.Services.csproj", "{A53768F4-B0EC-4873-A127-171A15B63663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Registry", "Registry\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj", "{6648124A-31D9-45D5-A575-6B92FEEB3200}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Services.Management", "Management\OpenStory.Services.Management\OpenStory.Services.Management.csproj", "{244428B5-6322-4C50-B553-CDACA18B1720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,24 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10434841-3BBE-4ED9-B6C9-77D26E47DAF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A53768F4-B0EC-4873-A127-171A15B63663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A53768F4-B0EC-4873-A127-171A15B63663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A53768F4-B0EC-4873-A127-171A15B63663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A53768F4-B0EC-4873-A127-171A15B63663}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6648124A-31D9-45D5-A575-6B92FEEB3200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6648124A-31D9-45D5-A575-6B92FEEB3200}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6648124A-31D9-45D5-A575-6B92FEEB3200}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6648124A-31D9-45D5-A575-6B92FEEB3200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{244428B5-6322-4C50-B553-CDACA18B1720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244428B5-6322-4C50-B553-CDACA18B1720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244428B5-6322-4C50-B553-CDACA18B1720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244428B5-6322-4C50-B553-CDACA18B1720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A53768F4-B0EC-4873-A127-171A15B63663} = {8DFD086E-ABD6-4500-B9CB-485BE2CF7E70}
-		{6648124A-31D9-45D5-A575-6B92FEEB3200} = {8DFD086E-ABD6-4500-B9CB-485BE2CF7E70}
 	EndGlobalSection
 EndGlobal
