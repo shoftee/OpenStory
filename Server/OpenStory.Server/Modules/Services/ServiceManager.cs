@@ -45,7 +45,8 @@ namespace OpenStory.Server.Modules.Services
         public ServiceManager()
         {
             base.RequireComponent<IGameService>(LocalServiceKey);
-            base.RequireComponent<INexusService>(LocalServiceKey);
+            base.RequireComponent<INexusService>(NexusServiceKey);
+
             base.AllowComponent<IEndpointProvider>(EndpointProviderKey);
         }
 
