@@ -29,7 +29,7 @@ namespace OpenStory.IntegrationTests
             IRegistryService registryClient = new RegistryServiceClient(nexusUri);
 
             var accountUri = new Uri("net.tcp://localhost/OpenStory/Account");
-            var accountConfig = ServiceConfiguration.Auth(accountUri);
+            var accountConfig = ServiceConfiguration.Account(accountUri);
             var accountGuid = registryClient.RegisterService(accountConfig).Result;
             var accountInfo = new NexusConnectionInfo(accountGuid, nexusUri);
 
@@ -41,18 +41,8 @@ namespace OpenStory.IntegrationTests
                 return;
             }
 
-            var authUri = new Uri("net.tcp://localhost/OpenStory/Auth");
-            var authConfig = ServiceConfiguration.Auth(authUri);
-            var authGuid = registryClient.RegisterService(authConfig).Result;
-            var authInfo = new NexusConnectionInfo(authGuid, nexusUri);
-            Bootstrap.Service(() => new AuthService(), authInfo, out error);
-            if (error != null)
-            {
-                Console.WriteLine(error);
-                return;
-            }
-
             Console.WriteLine("Woot!");
+            Console.ReadLine();
         }
     }
 }

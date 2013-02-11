@@ -81,6 +81,16 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
+        /// Creates a service configuration for an account service.
+        /// </summary>
+        public static ServiceConfiguration Account(Uri uri)
+        {
+            var config = new ServiceConfiguration(ServiceSettings.Account.Template);
+            config[ServiceSettings.Uri.Key] = uri;
+            return config;
+        }
+
+        /// <summary>
         /// Creates a service configuration for an world service.
         /// </summary>
         public static ServiceConfiguration World(Uri uri, int worldId, int channelCount = 6)

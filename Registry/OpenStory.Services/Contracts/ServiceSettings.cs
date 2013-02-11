@@ -27,6 +27,27 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
+        /// Contains definitions for account service settings.
+        /// </summary>
+        public static class Account
+        {
+            /// <summary>
+            /// The constant used as the authentication service type setting value.
+            /// </summary>
+            public const string ServiceType = "Account";
+
+            /// <summary>
+            /// The template for the auth service configurations.
+            /// </summary>
+            internal static readonly IDictionary<string, object> Template =
+                new Dictionary<string, object>()
+                {
+                    { ServiceTypeKey, ServiceType },
+                    { Uri.Key, "" },
+                };
+        }
+
+        /// <summary>
         /// Contains definitions for auth service settings.
         /// </summary>
         public static class Auth
