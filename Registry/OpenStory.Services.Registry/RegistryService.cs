@@ -54,9 +54,15 @@ namespace OpenStory.Services.Registry
         /// <inheritdoc />
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            var configuration = this.configurations[token];
-
-            return new ServiceOperationResult<ServiceConfiguration>(configuration, ServiceState.Running);
+            ServiceConfiguration configuration;
+            if (this.configurations.TryGetValue(token, out configuration))
+            {
+                return new ServiceOperationResult<ServiceConfiguration>(configuration, ServiceState.Running);
+            }
+            else
+            {
+                return new ServiceOperationResult<ServiceConfiguration>(OperationState.Refused, ServiceState.Running);
+            }
         }
 
         #endregion

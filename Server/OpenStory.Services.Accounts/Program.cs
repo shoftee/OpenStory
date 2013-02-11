@@ -25,7 +25,6 @@ namespace OpenStory.Services.Account
 
             using (service)
             {
-                OS.Log().Info("Service registered.");
                 Thread.Sleep(Timeout.Infinite);
             }
         }

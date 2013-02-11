@@ -7,15 +7,16 @@ namespace OpenStory.Server.Auth.Policy
 {
     internal abstract class AuthPolicyBase<TCredentials> : IAuthPolicy<TCredentials>
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AuthPolicyBase{TCredentials}" />.
+        /// </summary>
         protected AuthPolicyBase()
         {
         }
 
-        #region Implementation of IAuthPolicy<in TCredentials>
-
+        /// <inheritdoc />
         public abstract AuthenticationResult Authenticate(TCredentials credentials, out IAccountSession session);
 
-        #endregion
         /// <summary>
         /// Provides an <see cref="IAccountSession"/> with the specified properties.
         /// </summary>
@@ -27,7 +28,10 @@ namespace OpenStory.Server.Auth.Policy
         {
             return new AccountSession(parent, sessionId, data);
         }
-
+        
+        /// <summary>
+        /// A secret implementation of <see cref="IAccountSession"/>
+        /// </summary>
         private sealed class AccountSession : IAccountSession
         {
             private readonly IAccountService service;
@@ -56,6 +60,7 @@ namespace OpenStory.Server.Auth.Policy
                 this.service = service;
             }
 
+            /// <inheritdoc />
             public bool TryKeepAlive(out TimeSpan lag)
             {
                 return this.service.TryKeepAlive(this.AccountId, out lag);

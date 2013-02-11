@@ -36,6 +36,19 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
+        /// Initializes a new instance of <see cref="ServiceOperationResult"/>
+        /// </summary>
+        /// <remarks>
+        /// You may use this constructor for operations that completed without a valid result.
+        /// </remarks>
+        /// <param name="operationState">The state of the operation.</param>
+        /// <param name="serviceState">The state of the service, if known.</param>
+        public ServiceOperationResult(OperationState operationState, ServiceState serviceState)
+            : this(operationState, null, serviceState)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
         /// </summary>
         /// <param name="operationState">The state of the operation.</param>

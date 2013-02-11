@@ -31,7 +31,7 @@ namespace OpenStory.Services.Contracts
         public T Result { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
+        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>.
         /// </summary>
         /// <remarks>
         /// You may use this constructor for successfully completed operations.
@@ -44,7 +44,20 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
+        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>
+        /// </summary>
+        /// <remarks>
+        /// You may use this constructor for operations that completed without a valid result.
+        /// </remarks>
+        /// <param name="operationState">The state of the operation.</param>
+        /// <param name="serviceState">The state of the service, if known.</param>
+        public ServiceOperationResult(OperationState operationState, ServiceState serviceState)
+            : this(default(T), operationState, null, serviceState)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>.
         /// </summary>
         /// <param name="result">The result of the service operation.</param>
         /// <param name="operationState">The state of the operation.</param>

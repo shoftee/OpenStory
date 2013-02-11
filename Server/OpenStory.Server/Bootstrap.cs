@@ -37,12 +37,20 @@ namespace OpenStory.Server
                 error = String.Format(Errors.BootstrapValidationError, error);
                 return null;
             }
+            else
+            {
+                OS.Log().Info(@"Nexus URI = '{0}', Access Token = '{1}'", nexusConnectionInfo.NexusUri, nexusConnectionInfo.AccessToken);
+            }
 
             var result = GetServiceConfiguration(nexusConnectionInfo);
             if (!CheckOperationResult(result, out error))
             {
                 error = String.Format(Errors.BootstrapConnectionError, error);
                 return null;
+            }
+            else
+            {
+                OS.Log().Info(@"Configuration acquired.");
             }
 
             var configuration = result.Result;
@@ -52,6 +60,10 @@ namespace OpenStory.Server
                 error = String.Format(Errors.BootstrapConfigurationError, error);
                 return null;
             }
+            else
+            {
+                OS.Log().Info(@"Service configured.");
+            }
 
             OS.Initialize().Services().Host(service).Done();
 
@@ -59,6 +71,10 @@ namespace OpenStory.Server
             {
                 error = String.Format(Errors.BootstrapHostingError, error);
                 return null;
+            }
+            else
+            {
+                OS.Log().Info(@"Service registered.");
             }
 
             return service;
