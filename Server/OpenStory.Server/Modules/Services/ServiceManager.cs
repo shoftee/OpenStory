@@ -15,11 +15,6 @@ namespace OpenStory.Server.Modules.Services
         public const string LocalServiceKey = @"LocalService";
 
         /// <summary>
-        /// The name of the <see cref="Nexus"/> component.
-        /// </summary>
-        public const string NexusServiceKey = @"NexusService";
-
-        /// <summary>
         /// The name of the <see cref="EndpointProvider"/> component.
         /// </summary>
         public const string EndpointProviderKey = @"EndpointProvider";
@@ -28,11 +23,6 @@ namespace OpenStory.Server.Modules.Services
         /// Gets the service reference registered as local.
         /// </summary>
         public IGameService Local { get; private set; }
-
-        /// <summary>
-        /// Gets the nexus service reference.
-        /// </summary>
-        public INexusService Nexus { get; private set; }
 
         /// <summary>
         /// Gets the endpoint provider.
@@ -45,7 +35,6 @@ namespace OpenStory.Server.Modules.Services
         public ServiceManager()
         {
             base.RequireComponent<IGameService>(LocalServiceKey);
-            base.RequireComponent<INexusService>(NexusServiceKey);
 
             base.AllowComponent<IEndpointProvider>(EndpointProviderKey);
         }
@@ -67,7 +56,6 @@ namespace OpenStory.Server.Modules.Services
             base.OnInitialized();
 
             this.Local = base.GetComponent<IGameService>(LocalServiceKey);
-            this.Nexus = base.GetComponent<INexusService>(NexusServiceKey);
 
             this.EndpointProvider = base.GetComponent<IEndpointProvider>(EndpointProviderKey);
         }
