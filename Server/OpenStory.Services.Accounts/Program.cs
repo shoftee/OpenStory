@@ -18,6 +18,8 @@ namespace OpenStory.Services.Account
             var service = Bootstrap.Service(() => new AccountService(), out error);
             if (error != null)
             {
+                Console.Title = @"OpenStory - Account Service - Error";
+                
                 Console.WriteLine(error);
                 Console.ReadLine();
                 return;
@@ -25,6 +27,8 @@ namespace OpenStory.Services.Account
 
             using (service)
             {
+                Console.Title = @"OpenStory - Account Service - Running";
+                
                 Thread.Sleep(Timeout.Infinite);
             }
         }

@@ -20,6 +20,8 @@ namespace OpenStory.Services.Auth
             var service = Bootstrap.Service(() => new AuthService(), out error);
             if (error != null)
             {
+                Console.Title = @"OpenStory - Authentication Service - Error";
+                
                 Console.WriteLine(error);
                 Console.ReadLine();
                 return;
@@ -27,6 +29,8 @@ namespace OpenStory.Services.Auth
 
             using (service)
             {
+                Console.Title = @"OpenStory - Authentication Service - Running";
+                
                 Thread.Sleep(Timeout.Infinite);
             }
         }

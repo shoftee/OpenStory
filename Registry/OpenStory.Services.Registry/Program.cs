@@ -16,6 +16,7 @@ namespace OpenStory.Services.Registry
             {
                 host.Open();
 
+                Console.Title = @"OpenStory - Registry Service - Running";
                 Console.WriteLine("Registry hosted at: {0}", uri);
 
                 Thread.Sleep(Timeout.Infinite);
