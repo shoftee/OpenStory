@@ -2,6 +2,8 @@
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=EAF9E2A4D0BB4B4C9837879BC663BC0B/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=EAF9E2A4D0BB4B4C9837879BC663BC0B/AbsolutePath/@EntryValue">F:\OpenStory\OpenStory.sln.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=EAF9E2A4D0BB4B4C9837879BC663BC0B/RelativePath/@EntryValue">..\..\OpenStory.sln.DotSettings</s:String>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileEAF9E2A4D0BB4B4C9837879BC663BC0B/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileEAF9E2A4D0BB4B4C9837879BC663BC0B/RelativePriority/@EntryValue">2</s:Double>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AF_003A_005COpenStory_005COpenStory_002Esln_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AF_003A_005COpenStory_005COpenStory_002Esln_002EDotSettings/RelativePriority/@EntryValue">1</s:Double>
 	<s:Boolean x:Key="/Default/Environment/UnitTesting/DisabledProviders/=MSTest/@EntryIndexedValue">True</s:Boolean>

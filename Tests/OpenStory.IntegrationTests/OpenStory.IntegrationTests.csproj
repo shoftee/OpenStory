@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4EB62B37-0664-492D-8DC4-E1A65A23A415}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenStory.IntegrationTests</RootNamespace>
+    <AssemblyName>OpenStory.IntegrationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Registry\OpenStory.Services.Registry\OpenStory.Services.Registry.csproj">
+      <Project>{6648124A-31D9-45D5-A575-6B92FEEB3200}</Project>
+      <Name>OpenStory.Services.Registry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
+      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
+      <Name>OpenStory.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Server\OpenStory.Server\OpenStory.Server.csproj">
+      <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
+      <Name>OpenStory.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Server\OpenStory.Services.Accounts\OpenStory.Services.Account.csproj">
+      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
+      <Name>OpenStory.Services.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Server\OpenStory.Services.Auth\OpenStory.Services.Auth.csproj">
+      <Project>{8541F0DD-C79A-48CD-972C-96BC7AD29AB8}</Project>
+      <Name>OpenStory.Services.Auth</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
