@@ -68,6 +68,9 @@
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clients\WorldServiceClient.cs" />
+    <Compile Include="Registry\IRegistryService.cs" />
+    <Compile Include="Registry\RegisteredServiceClient.cs" />
+    <Compile Include="Registry\RegistryServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ServiceOperationResult.Generic.cs" />
