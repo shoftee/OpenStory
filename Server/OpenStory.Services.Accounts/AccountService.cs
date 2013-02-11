@@ -10,12 +10,15 @@ namespace OpenStory.Services.Account
     /// Represents an in-memory account activity service.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    internal sealed class AccountService : GameServiceBase, IAccountService
+    public sealed class AccountService : GameServiceBase, IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
 
         private readonly AtomicInteger currentSessionId;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AccountService"/>.
+        /// </summary>
         public AccountService()
         {
             this.activeAccounts = new Dictionary<int, ActiveAccount>(256);

@@ -14,6 +14,13 @@ namespace OpenStory.Services
         private Uri serviceUri;
 
         /// <summary>
+        /// Initializes a new instance of <see cref="GameServiceBase"/>.
+        /// </summary>
+        protected GameServiceBase()
+        {
+        }
+
+        /// <summary>
         /// Gets the URI where this service is hosted.
         /// </summary>
         protected Uri ServiceUri
@@ -25,6 +32,7 @@ namespace OpenStory.Services
                 return this.serviceUri;
             }
         }
+        
 
         /// <summary>
         /// Configures the game service.

@@ -8,7 +8,7 @@ namespace OpenStory.Services.Registry
 {
     /// <inheritdoc />
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
-    internal sealed class RegistryService : IRegistryService
+    public sealed class RegistryService : IRegistryService
     {
         private readonly Dictionary<Guid, ServiceConfiguration> configurations;
 
