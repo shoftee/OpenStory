@@ -39,9 +39,10 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            SubscribeForStates(this.initializeSubscribers, this.serviceState,
-                               ServiceState.NotInitialized,
-                               ServiceState.Initializing);
+            SubscribeForStates(
+                this.initializeSubscribers, this.serviceState,
+                ServiceState.NotInitialized,
+                ServiceState.Initializing);
 
             if (this.serviceState == ServiceState.NotInitialized)
             {
@@ -60,11 +61,12 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            SubscribeForStates(this.startSubscribers, this.serviceState,
-                               ServiceState.Ready,
-                               ServiceState.NotInitialized,
-                               ServiceState.Initializing,
-                               ServiceState.Starting);
+            SubscribeForStates(
+                this.startSubscribers, this.serviceState,
+                ServiceState.Ready,
+                ServiceState.NotInitialized,
+                ServiceState.Initializing,
+                ServiceState.Starting);
 
             if (this.serviceState == ServiceState.Ready)
             {
@@ -83,9 +85,10 @@ namespace OpenStory.Services
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            SubscribeForStates(this.stopSubscribers, this.serviceState,
-                               ServiceState.Running,
-                               ServiceState.Stopping);
+            SubscribeForStates(
+                this.stopSubscribers, this.serviceState,
+                ServiceState.Running,
+                ServiceState.Stopping);
 
             if (this.serviceState == ServiceState.Running)
             {

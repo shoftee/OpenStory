@@ -32,7 +32,6 @@ namespace OpenStory.Services
                 return this.serviceUri;
             }
         }
-        
 
         /// <summary>
         /// Configures the game service.
