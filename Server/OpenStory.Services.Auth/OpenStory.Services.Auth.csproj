@@ -39,6 +39,9 @@
     <StartupObject>OpenStory.Services.Auth.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="NodaTime">
       <HintPath>..\..\packages\NodaTime.1.0.1\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
