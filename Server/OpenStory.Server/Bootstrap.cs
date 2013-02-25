@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Ninject;
 using OpenStory.Common.Tools;
 using OpenStory.Server.Fluent;
 using OpenStory.Services;
@@ -18,10 +19,10 @@ namespace OpenStory.Server
         /// Bootstraps a service instance.
         /// </summary>
         /// <typeparam name="TGameService">The concrete type of the service.</typeparam>
-        /// <param name="provider">A delegate which provides the boostrapper with a service object.</param>
+        /// <param name="kernel">The kernel object to use when resolving the service.</param>
         /// <param name="error">A varible to hold any error messages.</param>
         /// <returns>an instance of <typeparamref name="TGameService"/>, or <c>null</c> if there was an error.</returns>
-        public static TGameService Service<TGameService>(Func<TGameService> provider, out string error)
+        public static TGameService Service<TGameService>(IKernel kernel, out string error)
             where TGameService : GameServiceBase
         {
             var parameters = ParameterList.FromEnvironment(out error);
@@ -42,18 +43,18 @@ namespace OpenStory.Server
                 OS.Log().Info(@"Nexus URI = '{0}', Access Token = '{1}'", nexusConnectionInfo.NexusUri, nexusConnectionInfo.AccessToken);
             }
 
-            return Service(provider, nexusConnectionInfo, out error);
+            return Service<TGameService>(kernel, nexusConnectionInfo, out error);
         }
 
         /// <summary>
         /// Bootstraps a service instance with a provided nexus connection details object.
         /// </summary>
         /// <typeparam name="TGameService">The concrete type of the service.</typeparam>
-        /// <param name="provider">A delegate which provides the boostrapper with a service object.</param>
+        /// <param name="kernel">The kernel object to use when resolving the service.</param>
         /// <param name="nexusConnectionInfo">The nexus connection information for the service.</param>
         /// <param name="error">A varible to hold any error messages.</param>
         /// <returns>an instance of <typeparamref name="TGameService"/>, or <c>null</c> if there was an error.</returns>
-        public static TGameService Service<TGameService>(Func<TGameService> provider, NexusConnectionInfo nexusConnectionInfo, out string error)
+        public static TGameService Service<TGameService>(IKernel kernel, NexusConnectionInfo nexusConnectionInfo, out string error)
             where TGameService : GameServiceBase
         {
             var result = GetServiceConfiguration(nexusConnectionInfo);
@@ -68,7 +69,7 @@ namespace OpenStory.Server
             }
 
             var configuration = result.Result;
-            var service = provider();
+            var service = kernel.Get<TGameService>();
             if (!service.Configure(configuration, out error))
             {
                 error = String.Format(Errors.BootstrapConfigurationError, error);
@@ -78,11 +79,6 @@ namespace OpenStory.Server
             {
                 OS.Log().Info(@"Service configured.");
             }
-
-            OS.Initialize()
-                .Services()
-                    .Host(service)
-                    .Done();
 
             if (!service.OpenServiceHost(out error))
             {

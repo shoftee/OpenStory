@@ -1,4 +1,5 @@
-﻿using OpenStory.Server.Data;
+﻿using Ninject;
+using OpenStory.Server.Data;
 using OpenStory.Server.Fluent.Config;
 using OpenStory.Server.Fluent.Extensions;
 using OpenStory.Server.Fluent.Initialize;
@@ -13,6 +14,8 @@ namespace OpenStory.Server.Fluent
     /// </summary>
     public static class OS
     {
+        private static IKernel ninject;
+
         /// <summary>
         /// The entry point for the configuration fluent interface.
         /// </summary>
@@ -25,9 +28,9 @@ namespace OpenStory.Server.Fluent
         /// <summary>
         /// The entry point for the initialization fluent interface.
         /// </summary>
-        public static IInitializeFacade Initialize()
+        public static void Initialize(IKernel kernel)
         {
-            return new InitializeFacade();
+            ninject = kernel;
         }
         
         /// <summary>
@@ -36,7 +39,7 @@ namespace OpenStory.Server.Fluent
         /// <returns>an instance of <see cref="ILogger"/>.</returns>
         public static ILogger Log()
         {
-            return LogManager.GetManager().Logger;
+            return ninject.Get<ILogger>();
         }
         
         /// <summary>
@@ -44,7 +47,7 @@ namespace OpenStory.Server.Fluent
         /// </summary>
         public static ILookupFacade Lookup()
         {
-            return new LookupFacade();
+            return ninject.Get<ILookupFacade>();
         }
 
         /// <summary>
@@ -52,15 +55,7 @@ namespace OpenStory.Server.Fluent
         /// </summary>
         public static IServiceFacade Svc()
         {
-            return new ServiceFacade();
-        }
-
-        /// <summary>
-        /// The entry point for fluent interface extensions.
-        /// </summary>
-        public static IFluentOsExtensions Ex()
-        {
-            return new FluentOsExtensions();
+            return ninject.Get<IServiceFacade>();
         }
 
         /// <summary>
@@ -82,5 +77,19 @@ namespace OpenStory.Server.Fluent
         {
             return DataManager.GetManager();
         }
+
+        #region Extensions
+        
+        private static readonly IFluentOsExtensions OsEx = new FluentOsExtensions();
+
+        /// <summary>
+        /// The entry point for fluent interface extensions.
+        /// </summary>
+        public static IFluentOsExtensions Ex()
+        {
+            return OsEx;
+        }
+
+        #endregion
     }
 }

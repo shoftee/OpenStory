@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using Ninject;
 using OpenStory.Server;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
@@ -18,11 +19,11 @@ namespace OpenStory.IntegrationTests
     {
         static void Main(string[] args)
         {
-            OS.Initialize().Logger(new ConsoleLogger());
+            var kernel = Initialize();
 
             var nexusUri = new Uri("net.tcp://localhost/OpenStory/Registry");
 
-            var registry = new RegistryService();
+            var registry = kernel.Get<RegistryService>();
             var host = new ServiceHost(registry, nexusUri);
             host.Open();
 
@@ -34,7 +35,7 @@ namespace OpenStory.IntegrationTests
             var accountInfo = new NexusConnectionInfo(accountGuid, nexusUri);
 
             string error;
-            Bootstrap.Service(() => new AccountService(), accountInfo, out error);
+            Bootstrap.Service<AccountService>(kernel, accountInfo, out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -44,5 +45,18 @@ namespace OpenStory.IntegrationTests
             Console.WriteLine("Woot!");
             Console.ReadLine();
         }
+
+        private static IKernel Initialize()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<ILogger>().ToConstant(new ConsoleLogger()).InSingletonScope();
+            kernel.Bind<AccountService>().ToConstant(new AccountService());
+            kernel.Bind<RegistryService>().ToMethod(c => new RegistryService());
+
+            OS.Initialize(kernel);
+
+            return kernel;
+        }
+
     }
 }

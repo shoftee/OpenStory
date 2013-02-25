@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Ninject;
 using OpenStory.Server;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
@@ -12,10 +13,10 @@ namespace OpenStory.Services.Account
         {
             Console.Title = @"OpenStory - Account Service";
 
-            Initialize();
+            var kernel = Initialize();
 
             string error;
-            var service = Bootstrap.Service(() => new AccountService(), out error);
+            var service = Bootstrap.Service<AccountService>(kernel, out error);
             if (error != null)
             {
                 Console.Title = @"OpenStory - Account Service - Error";
@@ -33,11 +34,15 @@ namespace OpenStory.Services.Account
             }
         }
 
-
-        private static void Initialize()
+        private static IKernel Initialize()
         {
-            OS.Initialize()
-                .Logger(new ConsoleLogger());
+            var kernel = new StandardKernel();
+            kernel.Bind<ILogger>().ToConstant(new ConsoleLogger()).InSingletonScope();
+            kernel.Bind<AccountService>().ToConstant(new AccountService());
+
+            OS.Initialize(kernel);
+
+            return kernel;
         }
     }
 }
