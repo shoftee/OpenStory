@@ -1,104 +1,115 @@
 using System;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader common tests.")]
+    [TestFixture]
+    [Category("OpenStory.Common.IO.PacketReader")]
     class PacketReaderFixtureBase
     {
-        [Test]
-        public void ThrowsOnNullBuffer()
+        protected static PacketReader EmptyReader
         {
-            Helpers.ThrowsAne(() => new PacketReader((byte[])null));
+            get { return new PacketReader(Helpers.Empty); }
         }
 
         [Test]
-        public void ThrowsOnNullBufferWithZeroLengthSegment()
+        public void Should_Throw_On_Null_Buffer()
         {
-            Helpers.ThrowsAne(() => new PacketReader(null, 0, 0));
+            Action construction = () => new PacketReader((byte[])null);
+            construction.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsOnNullClone()
+        public void Should_Throw_On_Null_Buffer_With_Zero_Length_Segment()
         {
-            Helpers.ThrowsAne(() => new PacketReader((PacketReader)null));
+            Action construction = () => new PacketReader(null, 0, 0);
+            construction.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsOnNegativeOffset()
+        public void Should_Throw_On_Construction_From_Null_Clone()
         {
-            var buffer = new byte[10];
-
-            Helpers.ThrowsAoore(() => new PacketReader(buffer, -1, 0));
+            Action construction = () => new PacketReader((PacketReader)null);
+            construction.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsOnNegativeLength()
+        public void Should_Throw_On_Negative_Offset()
         {
-            var buffer = new byte[10];
-
-            Helpers.ThrowsAoore(() => new PacketReader(buffer, 0, -1));
+            Action construction = () => new PacketReader(new byte[10], -1, 0);
+            construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnBadSegmentOffset()
+        public void Should_Throw_On_Negative_Length()
         {
-            var buffer = new byte[10];
-
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 11, 0));
+            Action construction = () => new PacketReader(new byte[10], 0, -1);
+            construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnBadSegmentLength()
+        public void Should_Throw_On_Bad_Segment_Offset()
         {
-            var buffer = new byte[10];
-
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 0, 11));
+            Action construction = () => new PacketReader(new byte[10], 11, 0);
+            construction.ShouldThrow<ArraySegmentException>();
         }
 
         [Test]
-        public void ThrowsOnBadSegmentOffsetOrLength()
+        public void Should_Throw_On_Bad_Segment_Length()
         {
-            var buffer = new byte[10];
-
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 6, 5));
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 5, 6));
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 0, 11));
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 11, 0));
-            Helpers.ThrowsAse(() => new PacketReader(buffer, 10, 1));
+            Action construction = () => new PacketReader(new byte[10], 0, 11);
+            construction.ShouldThrow<ArraySegmentException>();
         }
 
         [Test]
-        public void DoesNotThrowOnNonNullBuffer()
+        [TestCase(10, 6, 5)]
+        [TestCase(10, 5, 6)]
+        [TestCase(10, 0, 11)]
+        [TestCase(10, 11, 0)]
+        [TestCase(10, 10, 1)]
+        [TestCase(10, 1, 10)]
+        public void Should_Throw_On_Bad_Segment_Length_Combination(int bufferLength, int segmentOffset, int segmentLength)
         {
-            Assert.That(() => new PacketReader(new byte[10]), Throws.Nothing);
+            Action construction = () => new PacketReader(new byte[bufferLength], segmentOffset, segmentLength);
+            construction.ShouldThrow<ArraySegmentException>();
         }
 
         [Test]
-        public void DoesNotThrowOnNonNullBufferWithSegment()
+        public void Should_Not_Throw_On_Non_Null_Buffer()
         {
-            Assert.That(() => new PacketReader(new byte[10], 2, 6), Throws.Nothing);
+            Action construction = () => new PacketReader(new byte[10]);
+            construction.ShouldNotThrow();
         }
 
         [Test]
-        public void DoesNotThrowOnZeroOffsetAndLengthWithEmptyArray()
+        public void Should_Not_Throw_On_Non_Null_Buffer_With_Segment()
         {
-            Assert.That(() => new PacketReader(Helpers.Empty, 0, 0), Throws.Nothing);
+            Action construction = () => new PacketReader(new byte[10], 2, 6);
+            construction.ShouldNotThrow();
         }
 
         [Test]
-        public void DoesNotThrowOnZeroOffsetAndLengthWithNonEmptyArray()
+        public void Should_Not_Throw_On_Zero_Offset_And_Length_With_Empty_Buffer()
         {
-            Assert.That(() => new PacketReader(new byte[10], 0, 0), Throws.Nothing);
+            Action construction = () => new PacketReader(Helpers.Empty, 0, 0);
+            construction.ShouldNotThrow();
         }
 
         [Test]
-        public void DoesNotThrowOnNonNullClone()
+        public void Should_Not_Throw_Zero_Offset_And_Length_With_Non_Empty_Buffer()
+        {
+            Action construction = () => new PacketReader(new byte[10], 0, 0);
+            construction.ShouldNotThrow();
+        }
+
+        [Test]
+        public void Should_Not_Throw_On_Construction_From_Non_Null_Clone()
         {
             var reader = new PacketReader(new byte[10]);
-
-            Assert.That(() => new PacketReader(reader), Throws.Nothing);
+            Action construction = () => new PacketReader(reader);
+            construction.ShouldNotThrow();
         }
     }
 }

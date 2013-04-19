@@ -1,111 +1,177 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketBuilder tests.")]
+    [TestFixture]
+    [Category("OpenStory.Common.IO.PacketBuilder")]
     sealed class PacketBuilderFixture
     {
+        private static PacketBuilder DefaultBuilder
+        {
+            get { return new PacketBuilder(); }
+        }
+
         #region Failure
 
         [Test]
-        public void ThrowsOnZeroCapacity()
+        public void Constructor_Should_Throw_On_Zero_Capacity()
         {
-            Helpers.ThrowsAoore(() => new PacketBuilder(0));
+            Action construction = () => new PacketBuilder(0);
+            construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnNegativeCapacity()
+        public void Constructor_Should_Throw_On_Negative_Capacity()
         {
-            Helpers.ThrowsAoore(() => new PacketBuilder(-1));
+            Action construction = () => new PacketBuilder(-1);
+            construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOdeAfterDisposed()
+        public void WriteBoolean_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteBoolean(true));
+        }
+
+        [Test]
+        public void WriteByte_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteByte(0x77));
+        }
+
+        [Test]
+        public void WriteInt16_Should_Throw_After_Disposal_Signed()
+        {
+            ShouldThrowOde(b => b.WriteInt16(0x7777));
+        }
+
+        [Test]
+        public void WriteInt16_Should_Throw_After_Disposal_Unsigned()
+        {
+            ShouldThrowOde(b => b.WriteInt16(0x8889));
+        }
+
+        [Test]
+        public void WriteInt32_Should_Throw_After_Disposal_Signed()
+        {
+            ShouldThrowOde(b => b.WriteInt32(0x77777777));
+        }
+
+        [Test]
+        public void WriteInt32_Should_Throw_After_Disposal_Unsigned()
+        {
+            ShouldThrowOde(b => b.WriteInt32(0x88888889));
+        }
+
+        [Test]
+        public void WriteInt64_Should_Throw_After_Disposal_Signed()
+        {
+            ShouldThrowOde(b => b.WriteInt64(0x7777777777777777));
+        }
+
+        [Test]
+        public void WriteInt64_Should_Throw_After_Disposal_Unsigned()
+        {
+            ShouldThrowOde(b => b.WriteInt64(0x8888888888888889));
+        }
+
+        [Test]
+        public void WriteBytes_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteBytes(new byte[] { 123, 43, 32, 123 }));
+        }
+
+        [Test]
+        public void WriteLengthString_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteLengthString("1234"));
+        }
+
+        [Test]
+        public void WritePaddedString_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WritePaddedString("shoftee", 13));
+        }
+
+        [Test]
+        public void WriteZeroes_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteZeroes(123));
+        }
+
+        [Test]
+        public void ToByteArray_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.ToByteArray());
+        }
+
+        [Test]
+        public void WriteVector_Should_Throw_After_Disposal()
+        {
+            ShouldThrowOde(b => b.WriteVector(new PointS(123, 321)));
+        }
+
+        private static void ShouldThrowOde(Action<PacketBuilder> operation)
         {
             var builder = new PacketBuilder();
             builder.Dispose();
 
-            ThrowsOdeOnWriteOperations(builder);
-        }
-
-        private static void ThrowsOdeOnWriteOperations(PacketBuilder b)
-        {
-            Helpers.ThrowsOde(() => b.WriteBoolean(true));
-
-            Helpers.ThrowsOde(() => b.WriteByte(0x77));
-            Helpers.ThrowsOde(() => b.WriteInt16(0x7777));
-            Helpers.ThrowsOde(() => b.WriteInt16(0x8889));
-            Helpers.ThrowsOde(() => b.WriteInt32(0x77777777));
-            Helpers.ThrowsOde(() => b.WriteInt32(0x88888889));
-            Helpers.ThrowsOde(() => b.WriteInt64(0x7777777777777777));
-            Helpers.ThrowsOde(() => b.WriteInt64(0x8888888888888889));
-            Helpers.ThrowsOde(() => b.WriteBytes(new byte[] { 123, 43, 32, 123 }));
-            Helpers.ThrowsOde(() => b.WriteLengthString("1234"));
-            Helpers.ThrowsOde(() => b.WritePaddedString("shoftee", 13));
-            Helpers.ThrowsOde(() => b.WriteZeroes(123));
-            Helpers.ThrowsOde(() => b.ToByteArray());
-
-            Helpers.ThrowsOde(() => b.WriteVector(new PointS(123, 321)));
+            builder.Invoking(operation).ShouldThrow<ObjectDisposedException>();
         }
 
         [Test]
-        public void ThrowsOnNegativeZeroCount()
+        public void WriteZero_Should_Throw_On_Negative_Zero_Count()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAoore(() => builder.WriteZeroes(-1));
+            DefaultBuilder.Invoking(b => b.WriteZeroes(-1))
+                          .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnNegativePadding()
+        public void WritePaddedString_Should_Throw_On_Negative_Padding()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAoore(() => builder.WritePaddedString("123", -1));
+            DefaultBuilder.Invoking(b => b.WritePaddedString("123", -1))
+                          .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnZeroPadding()
+        public void WritePaddedString_Should_Throw_On_Zero_Padding()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAoore(() => builder.WritePaddedString("123", 0));
+            DefaultBuilder.Invoking(b => b.WritePaddedString("123", 0))
+                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnInsufficientPadding()
+        public void WritePaddedString_Should_Throw_On_Insufficient_Padding()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAoore(() => builder.WritePaddedString("123", 3));
+            DefaultBuilder.Invoking(b => b.WritePaddedString("123", 3))
+                   .ShouldThrow<ArgumentException>();
         }
 
         [Test]
-        public void ThrowsOnNullPaddedString()
+        public void WritePaddedString_Should_Throw_On_Null_String()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAne(() => builder.WritePaddedString(null, 13));
+            DefaultBuilder.Invoking(b => b.WritePaddedString(null, 13))
+                          .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsOnNullLengthString()
+        public void WriteLengthString_Should_Throw_On_Null_String()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAne(() => builder.WriteLengthString(null));
+            DefaultBuilder.Invoking(b => b.WriteLengthString(null))
+                          .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsOnNullByteArray()
+        public void Default_Constructor_Should_Throw_On_Null_Buffer()
         {
-            var builder = new PacketBuilder();
-
-            Helpers.ThrowsAne(() => builder.WriteBytes(null));
+            DefaultBuilder.Invoking(b => b.WriteBytes(null))
+                          .ShouldThrow<ArgumentNullException>();
         }
 
         #endregion
@@ -113,183 +179,185 @@ namespace OpenStory.Tests
         #region Non-failure
 
         [Test]
-        public void DoesNotThrowOnDefaultCapacity()
-        {
-            Assert.DoesNotThrow(() => new PacketBuilder());
-        }
-
-        [Test]
-        public void DoesNotThrowOnPositiveCapacity()
-        {
-            Assert.DoesNotThrow(() => new PacketBuilder(32));
-        }
-
-        [Test]
-        public void DoesNotThrowOnDoubleDispose()
+        public void Double_Dispose_Should_Not_Throw()
         {
             var builder = new PacketBuilder();
+            builder.Dispose();
 
-            builder.Dispose();
-            builder.Dispose();
+            builder.Invoking(b => b.Dispose()).ShouldNotThrow();
         }
 
         [Test]
-        public void WritesByte()
+        public void Byte_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
             builder.WriteByte(123);
-            var array = builder.ToByteArray();
-            Assert.AreEqual(123, array[0]);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 123 });
         }
 
         [Test]
-        public void WritesLittleEndianSignedInt16Correctly()
+        public void Int16_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x87, 0x79, };
             builder.WriteInt16(0x7987);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x87, 0x79, });
         }
 
         [Test]
-        public void WritesLittleEndianUnsignedInt16Correctly()
+        public void UInt16_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x87, 0x89, };
             builder.WriteInt16(0x8987);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x87, 0x89, });
         }
 
         [Test]
-        public void WritesLittleEndianSignedInt32Correctly()
+        public void Int32_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x12, 0x34, 0x87, 0x79, };
             builder.WriteInt32(0x79873412);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x79, });
         }
 
         [Test]
-        public void WritesLittleEndianUnsignedInt32Correctly()
+        public void UInt32_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x12, 0x34, 0x87, 0x89, };
             builder.WriteInt32(0x89873412);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x89, });
         }
 
         [Test]
-        public void WritesLittleEndianSignedInt64Correctly()
+        public void Int64_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x79, };
             builder.WriteInt64(0x7987341278563412);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x79, });
         }
 
         [Test]
-        public void WritesLittleEndianUnsignedInt64Correctly()
+        public void UInt64_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x89, };
             builder.WriteInt64(0x8987341278563412);
-            var actual = builder.ToByteArray();
-            CollectionAssert.AreEqual(expected, actual);
+
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x89, });
         }
 
         [Test]
-        public void WritesBooleanCorrectly()
+        public void True_And_False_Are_Written_As_Integers_Correctly()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x1, 0x0, 0x1, 0x0, 0x1, 0x0 };
+            builder.WriteBoolean(true);
+            builder.WriteBoolean(false);
+            builder.WriteBoolean(true);
+            builder.WriteBoolean(false);
+            builder.WriteBoolean(true);
+            builder.WriteBoolean(false);
 
-            builder.WriteBoolean(true);
-            builder.WriteBoolean(false);
-            builder.WriteBoolean(true);
-            builder.WriteBoolean(false);
-            builder.WriteBoolean(true);
-            builder.WriteBoolean(false);
-            var actual = builder.ToByteArray();
-
-            CollectionAssert.AreEqual(expected, actual);
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x1, 0x0, 0x1, 0x0, 0x1, 0x0 });
         }
 
         [Test]
-        public void WritesLengthStringCorrectly()
+        public void LengthString_Length_Should_Be_Written_In_LittleEndian()
         {
             var builder = new PacketBuilder();
-
-            var expected = new byte[] { 0x02, 0x00, 0x30, 0x31, }; // "01";
 
             builder.WriteLengthString("01");
-            var actual = builder.ToByteArray();
 
-            CollectionAssert.AreEqual(expected, actual);
+            builder.ToByteArray()
+                   .Take(2)
+                   .Should().ContainInOrder(new byte[] { 0x02, 0x00 });
         }
 
         [Test]
-        public void WritesPaddedStringCorrectly()
+        public void LengthString_String_Should_Be_Written_In_Utf8()
         {
             var builder = new PacketBuilder();
 
-            var expected = new byte[] { 0x31, 0x32, 0x33, 0x34, 0x00 }; // "1234\0";
+            const string TestString = "01";
+            builder.WriteLengthString(TestString);
+
+            var stringBytes = Encoding.UTF8.GetBytes(TestString);
+            builder.ToByteArray()
+                   .Skip(2)
+                   .Should().ContainInOrder(stringBytes);
+        }
+
+        [Test]
+        public void PaddedString_Should_Be_Null_Terminated()
+        {
+            var builder = new PacketBuilder();
 
             const string TestString = "1234";
-            const int PadLength = 13;
-            builder.WritePaddedString(TestString, PadLength);
-            var actual = builder.ToByteArray();
+            const int Padding = 13;
+            builder.WritePaddedString(TestString, Padding);
 
-            for(int i = 0; i < PadLength; i ++)
-            {
-                if (i == TestString.Length)
-                {
-                    Assert.AreEqual(0, actual[i]);
-                }
-                else if (i < TestString.Length)
-                {
-                    Assert.AreEqual((byte)TestString[i], actual[i]);
-                }
-            }
+            builder.ToByteArray()
+                   .Skip(TestString.Length).First()
+                   .Should().Be(0);
         }
 
         [Test]
-        public void WritesZeroesCorrectly()
+        public void PaddedString_Should_Be_Written_In_Utf8()
         {
             var builder = new PacketBuilder();
-            var expected = new byte[] { 0x12, 0x34, 0, 0, 0, 0, 0, 0x56 };
+
+            const string TestString = "1234";
+            builder.WritePaddedString(TestString, 13);
+
+            var stringBytes = Encoding.UTF8.GetBytes(TestString);
+            builder.ToByteArray()
+                   .Take(TestString.Length)
+                   .Should().ContainInOrder(stringBytes);
+        }
+
+        [Test]
+        public void WriteZeroes_Should_Zeroes()
+        {
+            var builder = new PacketBuilder();
 
             builder.WriteByte(0x12);
             builder.WriteByte(0x34);
             builder.WriteZeroes(5);
             builder.WriteByte(0x56);
-            var actual = builder.ToByteArray();
 
-            CollectionAssert.AreEqual(expected, actual);
+            builder.ToByteArray()
+                   .Skip(2).Take(5)
+                   .Should().OnlyContain(b => b == 0);
         }
 
         [Test]
-        public void WritesBytesCorrectly()
+        public void WriteBytes_Should_Write_Same_Bytes()
         {
             var builder = new PacketBuilder();
-            var expected = new byte[] { 0x12, 0x34, 0x56, 0x78, };
 
-            builder.WriteBytes(expected);
-            var actual = builder.ToByteArray();
+            builder.WriteBytes(new byte[] { 0x12, 0x34, 0x56, 0x78, });
 
-            CollectionAssert.AreEqual(expected, actual);
+            builder.ToByteArray()
+                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, });
         }
 
         #endregion

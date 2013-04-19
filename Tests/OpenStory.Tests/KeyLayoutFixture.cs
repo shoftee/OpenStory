@@ -1,82 +1,110 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.Game", Description = "KeyBinding tests.")]
+    [TestFixture]
+    [Category("OpenStory.Common.Game.KeyLayout")]
     public sealed class KeyLayoutFixture
     {
-        [Test]
-        public void DoesNotThrowOnCorrectNumberOfBindings()
+
+        private static KeyBinding[] DummyBindingList
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            Assert.DoesNotThrow(() => new KeyLayout(bindings));
+            get
+            {
+                return Enumerable.Range(0, GameConstants.KeyCount)
+                                 .Select(i => new KeyBinding((byte)i, i))
+                                 .ToArray();
+            }
+        }
+
+        private static KeyBinding[] DummyBindingListIncorrect
+        {
+            get
+            {
+                return Enumerable.Range(0, GameConstants.KeyCount + 1)
+                                 .Select(i => new KeyBinding((byte)i, i))
+                                 .ToArray();
+            }
+        }
+
+        private static byte InvalidKeyId
+        {
+            get { return (byte)(GameConstants.KeyCount + 1); }
         }
 
         [Test]
-        public void ThrowsOnIncorrectNumberOfBindings()
+        public void Constructor_Should_Not_Throw_On_Correct_Binding_Count()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount + 1).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            Assert.Throws<ArgumentException>(() => new KeyLayout(bindings));
+            Action construction = () => new KeyLayout(DummyBindingList);
+            construction.ShouldNotThrow();
         }
 
         [Test]
-        public void ThrowsOnNullCollection()
+        public void Constructor_Should_Throw_On_Incorrect_Binding_Count()
         {
-            Assert.Throws<ArgumentNullException>(() => new KeyLayout(null));
+            Action construction = () => new KeyLayout(DummyBindingListIncorrect);
+            construction.ShouldThrow<ArgumentException>();
         }
 
         [Test]
-        public void BindingListIsTheSame()
+        public void Constructor_Should_Throw_On_Null_Collection()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            var layout = new KeyLayout(bindings);
-            CollectionAssert.AreEqual(bindings, layout.Bindings);
+            Action construction = () => new KeyLayout(null);
+            construction.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void GetKeyBindingsThrowsOnInvalidId()
+        public void Constructed_Bindings_List_Should_Be_The_Same()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            var layout = new KeyLayout(bindings);
+            var layout = new KeyLayout(DummyBindingList);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => layout.GetKeyBinding((byte)(GameConstants.KeyCount + 1)));
+            layout.Bindings.Should().HaveSameCount(DummyBindingList);
+            layout.Bindings.ShouldAllBeEquivalentTo(
+                DummyBindingList,
+                eq => eq.Including(kb => kb.ActionId)
+                        .Including(kb => kb.ActionTypeId));
         }
 
         [Test]
-        public void GetKeyBindingsWorksCorrectly()
+        public void GetKeyBinding_Should_Throw_On_Invalid_Id()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            var layout = new KeyLayout(bindings);
+            var layout = new KeyLayout(DummyBindingList);
 
-            var binding = layout.GetKeyBinding(0);
-
-            Assert.AreEqual(binding.ActionTypeId, layout.Bindings[0].ActionTypeId);
-            Assert.AreEqual(binding.ActionId, layout.Bindings[0].ActionId);
+            layout.Invoking(l => l.GetKeyBinding(InvalidKeyId))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void SetKeyBindingsThrowsOnInvalidId()
+        public void GetKeyBinding_Should_Return_Correct_Binding()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            var layout = new KeyLayout(bindings);
+            var layout = new KeyLayout(DummyBindingList);
+            VerifyKeyBinding(layout.GetKeyBinding(0), layout.Bindings[0]);
+        }
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => layout.SetKeyBinding((byte)(GameConstants.KeyCount + 1), 0, 0));
+        private static void VerifyKeyBinding(KeyBinding actual, KeyBinding expected)
+        {
+            actual.ShouldHave().Properties(b => b.ActionTypeId, b => b.ActionId).EqualTo(expected);
         }
 
         [Test]
-        public void SetKeyBindingsWorksCorrectly()
+        public void SetKeyBinding_Should_Throw_On_Invalid_Id()
         {
-            var bindings = Enumerable.Range(0, GameConstants.KeyCount).Select(i => new KeyBinding((byte)i, i)).ToArray();
-            var layout = new KeyLayout(bindings);
+            var layout = new KeyLayout(DummyBindingList);
+            layout.Invoking(l => l.SetKeyBinding(InvalidKeyId, 0, 0))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
+        }
 
+        [Test]
+        public void SetKeyBinding_Should_Set_Correct_Binding()
+        {
+            var layout = new KeyLayout(DummyBindingList.ToArray());
             layout.SetKeyBinding(0, 1, 10);
-            var binding = layout.GetKeyBinding(0);
 
-            Assert.AreEqual(binding.ActionTypeId, layout.Bindings[0].ActionTypeId);
-            Assert.AreEqual(binding.ActionId, layout.Bindings[0].ActionId);
+            VerifyKeyBinding(layout.GetKeyBinding(0), layout.Bindings[0]);
         }
     }
 }

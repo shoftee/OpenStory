@@ -1,65 +1,67 @@
 ﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.Game", Description = "PointS tests.")]
+    [TestFixture]
+    [Category("OpenStory.Common.Game.PointS")]
     public sealed class PointSFixture
     {
         [Test]
-        public void MaxComponentsWorks()
+        public void MaxComponents_Should_Return_Correct_PointS()
         {
             var a = new PointS(10, 20);
             var b = new PointS(-20, 30);
 
             var c = PointS.MaxComponents(a, b);
 
-            Assert.AreEqual(c.X, Math.Max(a.X, b.X));
-            Assert.AreEqual(c.Y, Math.Max(a.Y, b.Y));
+            c.X.Should().Be(10);
+            c.Y.Should().Be(30);
         }
 
         [Test]
-        public void MinComponentsWorks()
+        public void MinComponents_Should_Return_Correct_PointS()
         {
             var a = new PointS(-20, 30);
             var b = new PointS(20, -40);
 
             var c = PointS.MinComponents(a, b);
 
-            Assert.AreEqual(c.X, Math.Min(a.X, b.X));
-            Assert.AreEqual(c.Y, Math.Min(a.Y, b.Y));
+            c.X.Should().Be(-20);
+            c.Y.Should().Be(-40);
         }
 
         [Test]
-        public void PointAdditionWorks()
+        public void Binary_Plus_Operator_Should_Return_Correct_PointS()
         {
             var a = new PointS(-20, 20);
             var b = new PointS(20, -20);
             var c = a + b;
 
-            Assert.AreEqual(c.X, a.X + b.X);
-            Assert.AreEqual(c.Y, a.Y + b.Y);
+            c.X.Should().Be(0);
+            c.Y.Should().Be(0);
         }
 
         [Test]
-        public void PointNegationWorks()
+        public void Unary_Minus_Operator_Should_Return_Correct_PointS()
         {
             var a = new PointS(20, -20);
 
             var b = -a;
 
-            Assert.AreEqual(a.X, -b.X);
-            Assert.AreEqual(a.Y, -b.Y);
+            b.X.Should().Be(-20);
+            b.Y.Should().Be(20);
         }
 
         [Test]
-        public void PointNegationThrowsOnMinValue()
+        public void Unary_Minus_Operator_Should_Throw_On_MinValue()
         {
-            var a = new PointS(Int16.MinValue, Int16.MinValue);
+            var point = new PointS(Int16.MinValue, Int16.MinValue);
 
-            Assert.Throws<ArgumentException>(() => { var b = -a; });
-            Assert.Throws<ArgumentException>(() => { var b = -a; });
+            point.Invoking(a => { var b = -a; })
+                 .ShouldThrow<ArgumentException>();
         }
     }
 }

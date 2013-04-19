@@ -181,7 +181,7 @@ namespace OpenStory.Common.IO
 
             if (@string.Length > paddingLength - 1)
             {
-                throw new ArgumentOutOfRangeException("string", Exceptions.StringMustBeShorterThanPaddingLength);
+                throw new ArgumentException(Exceptions.StringMustBeShorterThanPaddingLength);
             }
 
             var stringBytes = new byte[paddingLength];

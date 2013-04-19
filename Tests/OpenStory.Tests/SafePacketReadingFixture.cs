@@ -1,25 +1,25 @@
 using System;
 using System.Text;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
 
 namespace OpenStory.Tests
 {
-    [TestFixture(Category = "OpenStory.Common.IO", Description = "PacketReader safe reading tests.")]
+    [TestFixture]
+    [Category("OpenStory.Common.IO.PacketReader.Safe")]
     sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Failure
 
         [Test]
-        public void ReturnsFalseOnReadingInZeroLengthSegment()
+        public void Should_Return_False_On_Reading_In_Zero_Length_Segment()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            GracefullyFailsOnReadOperations(reader, 1, 2, 13, 10);
+            GracefullyFailsOnReadOperations(EmptyReader, 1, 2, 13, 10);
         }
 
         [Test]
-        public void ReturnsFalseOnReadingInZeroLengthOffsetSegment()
+        public void Should_Return_False_On_Reading_In_Offset_Zero_Length_Segment()
         {
             var buffer = new byte[] { 1, };
             var reader = new PacketReader(buffer, buffer.Length, 0);
@@ -29,177 +29,181 @@ namespace OpenStory.Tests
 
         private static void GracefullyFailsOnReadOperations(ISafePacketReader r, int skip, int skipToOffset, int padLength, int byteCount)
         {
-            ReturnsFalse(() => r.TrySkipTo(skipToOffset));
+            r.TrySkipTo(skipToOffset).Should().BeFalse();
 
-            ReturnsFalse(() => r.TrySkip(skip));
+            r.TrySkip(skip).Should().BeFalse();
 
             bool @bool;
-            ReturnsFalse(() => r.TryReadBoolean(out @bool));
+            r.TryReadBoolean(out @bool).Should().BeFalse();
 
             byte @byte;
-            ReturnsFalse(() => r.TryReadByte(out @byte));
+            r.TryReadByte(out @byte).Should().BeFalse();
 
             short @short;
-            ReturnsFalse(() => r.TryReadInt16(out @short));
+            r.TryReadInt16(out @short).Should().BeFalse();
 
             ushort @ushort;
-            ReturnsFalse(() => r.TryReadUInt16(out @ushort));
+            r.TryReadUInt16(out @ushort).Should().BeFalse();
 
             int @int;
-            ReturnsFalse(() => r.TryReadInt32(out @int));
+            r.TryReadInt32(out @int).Should().BeFalse();
 
             uint @uint;
-            ReturnsFalse(() => r.TryReadUInt32(out @uint));
+            r.TryReadUInt32(out @uint).Should().BeFalse();
 
             long @long;
-            ReturnsFalse(() => r.TryReadInt64(out @long));
+            r.TryReadInt64(out @long).Should().BeFalse();
 
             ulong @ulong;
-            ReturnsFalse(() => r.TryReadUInt64(out @ulong));
+            r.TryReadUInt64(out @ulong).Should().BeFalse();
 
             string lengthString;
-            ReturnsFalse(() => r.TryReadLengthString(out lengthString));
+            r.TryReadLengthString(out lengthString).Should().BeFalse();
 
             string padString;
-            ReturnsFalse(() => r.TryReadPaddedString(padLength, out padString));
+            r.TryReadPaddedString(padLength, out padString).Should().BeFalse();
 
             byte[] bytes;
-            ReturnsFalse(() => r.TryRead(byteCount, out bytes));
-        }
-
-        private static void ReturnsFalse(Func<bool> action)
-        {
-            Assert.IsFalse(action());
+            r.TryRead(byteCount, out bytes).Should().BeFalse();
         }
 
         [Test]
-        public void ThrowsOnTryReadWithNegativeCount()
+        public void TryRead_Should_Throw_When_Count_Is_Negative()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            byte[] bytes;
-            Helpers.ThrowsAoore(() => reader.TryRead(-1, out bytes));
+            EmptyReader.Invoking(
+                r =>
+                {
+                    byte[] bytes;
+                    r.TryRead(-1, out bytes);
+                }).ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTrySkipWithNegativeCount()
+        public void TrySkip_Should_Throw_When_Count_Is_Negative()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            Helpers.ThrowsAoore(() => reader.TrySkip(-1));
+            EmptyReader.Invoking(r => r.TrySkip(-1))
+                       .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTrySkipToWithBadOffset()
+        public void TrySkipTo_Should_Throw_When_Offset_Is_Before_Current_Position()
         {
             var buffer = Helpers.GetRandomBytes(10);
             var reader = new PacketReader(buffer);
 
             reader.Skip(5);
-            Helpers.ThrowsAoore(() => reader.TrySkipTo(1));
+
+            reader.Invoking(r => r.TrySkipTo(1))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTrySkipToWithNegativeOffset()
+        public void TrySkipTo_Should_Throw_When_Offset_Is_Negative()
         {
             var buffer = Helpers.GetRandomBytes(10);
             var reader = new PacketReader(buffer);
 
-            Helpers.ThrowsAoore(() => reader.TrySkipTo(-1));
+            reader.Invoking(r => r.TrySkipTo(-1))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTrySkipToWithBadOffsetInSegment()
+        public void TrySkipTo_Should_Throw_When_Offset_Is_Before_Current_Position_In_Segment()
         {
             var buffer = Helpers.GetRandomBytes(20);
             var reader = new PacketReader(buffer, 10, 10);
 
             reader.Skip(5);
-            Helpers.ThrowsAoore(() => reader.TrySkipTo(1));
+
+            reader.Invoking(r => r.TrySkipTo(1))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTrySkipToWithNegativeOffsetInSegment()
+        public void TrySkipTo_Should_Throw_When_Offset_Is_Negative_In_Segment()
         {
             var buffer = Helpers.GetRandomBytes(20);
             var reader = new PacketReader(buffer, 10, 10);
 
-            Helpers.ThrowsAoore(() => reader.TrySkipTo(-1));
+            reader.Invoking(r => r.TrySkipTo(-1))
+                  .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTryReadPaddedStringWithNonPositivePadLength()
+        public void TryReadPaddedString_Should_Throw_When_PadLength_Is_Negative()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            string result;
-            Helpers.ThrowsAoore(() => reader.TryReadPaddedString(-1, out result));
+            EmptyReader.Invoking(
+                r =>
+                {
+                    string result;
+                    r.TryReadPaddedString(-1, out result);
+                }).ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ThrowsOnTryReadPaddedStringWithZeroPadLength()
+        public void TryReadPaddedString_Should_Throw_When_PadLength_Is_Zero()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            string result;
-            Helpers.ThrowsAoore(() => reader.TryReadPaddedString(0, out result));
+            EmptyReader.Invoking(
+                r =>
+                {
+                    string result;
+                    r.TryReadPaddedString(0, out result);
+                }).ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
-        public void ReturnsFalseOnTryReadPaddedStringWithMissingData()
+        public void TryReadPaddedString_Should_Return_False_When_Data_Is_Missing()
         {
-            const int ExpectedLength = 13;
-
             var buffer = new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, };
             var reader = new PacketReader(buffer);
 
             string result;
-            ReturnsFalse(() => reader.TryReadPaddedString(ExpectedLength, out result));
+            reader.TryReadPaddedString(13, out result).Should().BeFalse();
         }
 
         [Test]
-        public void ReturnsFalseOnTryReadLengthStringWithMissingData()
+        public void TryReadLengthString_Should_Return_False_When_Data_Is_Missing()
         {
             var buffer = new byte[] { 12, 0 }; // Length of 12.
             var reader = new PacketReader(buffer);
 
             string result;
-            ReturnsFalse(() => reader.TryReadLengthString(out result));
+            reader.TryReadLengthString(out result).Should().BeFalse();
         }
 
         [Test]
-        public void SafeHandlingThrowsOnNullReadingCallback()
+        public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_1()
         {
-            var reader = new PacketReader(Helpers.Empty);
-            Helpers.ThrowsAne(() => reader.Safe(null));
+            EmptyReader.Invoking(r => r.Safe(null))
+                       .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void SafeHandlingThrowsOnNullReadingCallback2()
+        public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_2()
         {
-            var reader = new PacketReader(Helpers.Empty);
-            Helpers.ThrowsAne(() => reader.Safe(null, () => { }));
+            EmptyReader.Invoking(r => r.Safe(null, () => { }))
+                       .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void SafeHandlingThrowsOnNullReadingCallback3()
+        public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_3()
         {
-            var reader = new PacketReader(Helpers.Empty);
-            Helpers.ThrowsAne(() => reader.Safe(null, () => 1));
+            EmptyReader.Invoking(r => r.Safe(null, () => 1))
+                       .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void SafeHandlingThrowsOnNullFailureCallback()
+        public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_1()
         {
-            var reader = new PacketReader(Helpers.Empty);
-            Helpers.ThrowsAne(() => reader.Safe(r => { }, null));
+            EmptyReader.Invoking(r1 => r1.Safe(r2 => { }, null))
+                       .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void SafeHandlingThrowsOnNullFailureCallback2()
+        public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_2()
         {
-            var reader = new PacketReader(Helpers.Empty);
-            Helpers.ThrowsAne(() => reader.Safe(r => 1, null));
+            EmptyReader.Invoking(r1 => r1.Safe(r2 => 1, null))
+                       .ShouldThrow<ArgumentNullException>();
         }
 
         #endregion
@@ -207,172 +211,144 @@ namespace OpenStory.Tests
         #region Does Not Throw
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadBoolean()
+        public void TryReadBoolean_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             bool result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadBoolean(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadBoolean(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadByte()
+        public void TryReadByte_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             byte result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadByte(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadByte(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadInt16()
+        public void TryReadInt16_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             short result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt16(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt16(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadUInt16()
+        public void TryReadUInt16_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             ushort result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt16(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt16(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadInt32()
+        public void TryReadInt32_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             int result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt32(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt32(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadUInt32()
+        public void TryReadUInt32_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             uint result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt32(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt32(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadInt64()
+        public void TryReadInt64_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             long result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadInt64(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt64(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadUInt64()
+        public void TryReadUInt64_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             ulong result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadUInt64(out result));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt64(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryRead()
+        public void TryRead_Does_Not_Move_Position_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             byte[] bytes;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryRead(2, out bytes));
+            ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryRead(2, out bytes));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadLengthString()
+        public void TryReadLengthString_Does_Not_Move_Position_On_Failure()
         {
             var buffer = new byte[] { 1, 0 }; // Length of 1.
             var reader = new PacketReader(buffer);
 
             string result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadLengthString(out result));
+            ReturnsFalseAndDoesNotMovePosition(reader, r => r.TryReadLengthString(out result));
         }
 
         [Test]
-        public void DoesNotMovePositionOnFailureDuringTryReadPaddedString()
+        public void TryReadPaddedString_Does_Not_Move_Position_On_Failure()
         {
             var buffer = new byte[] { 1, 2, 3, };
             var reader = new PacketReader(buffer);
 
             string result;
-            ReturnsFalseAndDoesNotMovePosition(reader, () => reader.TryReadPaddedString(buffer.Length + 1, out result));
+            ReturnsFalseAndDoesNotMovePosition(reader, r => r.TryReadPaddedString(buffer.Length + 1, out result));
         }
 
-        private static void ReturnsFalseAndDoesNotMovePosition(PacketReader reader, Func<bool> action)
+        private static void ReturnsFalseAndDoesNotMovePosition(PacketReader reader, Func<PacketReader, bool> action)
         {
             int oldRemaining = reader.Remaining;
-            Assert.IsFalse(action());
-            Assert.AreEqual(oldRemaining, reader.Remaining);
+            action(reader).Should().BeFalse();
+            reader.Remaining.Should().Be(oldRemaining);
         }
 
         [Test]
-        public void ReadPaddedStringIsReturnedWithoutPadding()
+        public void TryReadPaddedString_Should_Return_String_Without_Padding()
         {
-            const int PadLength = 13;
             const string TestString = "shoftee";
-            string paddedString = TestString.PadRight(PadLength, '\0');
+            string paddedString = TestString.PadRight(13, '\0');
 
             var buffer = Encoding.UTF8.GetBytes(paddedString);
             var reader = new PacketReader(buffer);
 
             string result;
-            bool success = reader.TryReadPaddedString(PadLength, out result);
-            Assert.IsTrue(success);
-            Assert.AreEqual(TestString, result);
+            reader.TryReadPaddedString(13, out result);
+            result.Should().Be(TestString);
         }
 
         [Test]
-        public void ReadPaddedStringIsShorterThanPadding()
+        public void TryReadPaddedString_Should_Return_Strings_Shorter_Than_Padding()
         {
-            const int PadLength = 13;
-            const string TestString = "shoftee_shoftee_shoftee";
-
-            var buffer = Encoding.UTF8.GetBytes(TestString);
+            var buffer = Encoding.UTF8.GetBytes("shoftee_shoftee_shoftee");
             var reader = new PacketReader(buffer);
 
             string result;
-            bool success = reader.TryReadPaddedString(PadLength, out result);
-            Assert.IsTrue(success);
-            Assert.Less(result.Length, PadLength);
+            reader.TryReadPaddedString(13, out result);
+            result.Length.Should().BeLessThan(13);
         }
 
         [Test]
-        public void ReadLengthStringMatches()
+        public void TryReadLengthString_Should_Return_Same_String()
         {
-            var buffer = new byte[] { 2, 0, 48, 49 }; // "01"
-            var reader = new PacketReader(buffer);
+            var reader = new PacketReader(new byte[] { 2, 0, 48, 49 });
 
             string result;
-            bool success = reader.TryReadLengthString(out result);
-            Assert.IsTrue(success);
-            Assert.AreEqual("01", result);
+            reader.TryReadLengthString(out result).Should().BeTrue();
+
+            result.Should().Be("01");
         }
 
         [Test]
-        public void ReadsBytes()
+        public void TryRead_Should_Return_Same_Bytes()
         {
-            const int Count = 100;
-
-            var buffer = Helpers.GetRandomBytes(Count);
+            var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             byte[] bytes;
-            bool success = reader.TryRead(Count, out bytes);
-            Assert.IsTrue(success);
-            CollectionAssert.AreEqual(buffer, bytes);
+            reader.TryRead(100, out bytes).Should().BeTrue();
+            bytes.Should().ContainInOrder(buffer);
         }
 
         [Test]
-        public void ReadsSingleBytes()
+        public void TryReadByte_Should_Return_Same_Bytes()
         {
             var buffer = new byte[] { 0, 1, 0, 2, 0, 3, 0, 4, };
             var reader = new PacketReader(buffer);
@@ -380,14 +356,13 @@ namespace OpenStory.Tests
             foreach (var b in buffer)
             {
                 byte result;
-                bool success = reader.TryReadByte(out result);
-                Assert.IsTrue(success);
-                Assert.AreEqual(b, result);
+                reader.TryReadByte(out result).Should().BeTrue();
+                result.Should().Be(b);
             }
         }
 
         [Test]
-        public void ReadsBooleans()
+        public void TryReadBoolean_Should_Return_Correct_Values()
         {
             var buffer = new byte[] { 0, 1, 0, 2, 0, 3, 0, 4, };
             var reader = new PacketReader(buffer);
@@ -395,72 +370,77 @@ namespace OpenStory.Tests
             foreach (var b in buffer)
             {
                 bool result;
-                bool success = reader.TryReadBoolean(out result);
-                Assert.IsTrue(success);
-                Assert.AreEqual(b != 0, result);
+                reader.TryReadBoolean(out result).Should().BeTrue();
+                result.Should().Be(b != 0);
             }
         }
 
         [Test]
-        public void ReadsLittleEndianInt16Correctly()
+        public void TryReadInt16_Should_Read_In_LittleEndian()
         {
-            var buffer = new byte[] { 15, 100, };
+            var buffer = new byte[] { 15, 255, };
             var reader = new PacketReader(buffer);
 
-            short expected = (short)(buffer[0] + buffer[1] * 256);
-            short actual;
-            bool success = reader.TryReadInt16(out actual);
-            Assert.IsTrue(success);
+            int expected =
+                ((buffer[0]) +
+                 (buffer[1] << 8));
 
-            Assert.AreEqual(expected, actual);
+            short actual;
+            reader.TryReadInt16(out actual).Should().BeTrue();
+            actual.Should().Be((short)expected);
         }
 
         [Test]
-        public void ReadsLittleEndianUInt16Correctly()
+        public void TryReadUInt16_Should_Read_In_LittleEndian()
         {
             var buffer = new byte[] { 15, 200, };
             var reader = new PacketReader(buffer);
 
-            ushort expected = (ushort)(buffer[0] + buffer[1] * 256);
-            ushort actual;
-            bool success = reader.TryReadUInt16(out actual);
-            Assert.IsTrue(success);
+            int expected =
+                ((buffer[0]) +
+                 (buffer[1] << 8));
 
-            Assert.AreEqual(expected, actual);
+            ushort actual;
+            reader.TryReadUInt16(out actual).Should().BeTrue();
+            actual.Should().Be((ushort)expected);
         }
 
         [Test]
-        public void ReadsLittleEndianInt32Correctly()
+        public void TryReadInt32_Should_Read_In_LittleEndian()
         {
             var buffer = new byte[] { 123, 23, 23, 123, };
             var reader = new PacketReader(buffer);
 
-            int expected = (int)
-                (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
-            int actual;
-            bool success = reader.TryReadInt32(out actual);
-            Assert.IsTrue(success);
+            int expected =
+                ((buffer[0]) +
+                 (buffer[1] << 8) +
+                 (buffer[2] << 16) +
+                 (buffer[3] << 24));
 
-            Assert.AreEqual(expected, actual);
+            int actual;
+            reader.TryReadInt32(out actual).Should().BeTrue();
+            actual.Should().Be(expected);
         }
 
         [Test]
-        public void ReadsLittleEndianUInt32Correctly()
+        public void TryReadUInt32_Should_Read_In_LittleEndian()
         {
             var buffer = new byte[] { 123, 234, 23, 234, };
             var reader = new PacketReader(buffer);
 
-            uint expected = (uint)
-             (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
-            uint actual;
-            bool success = reader.TryReadUInt32(out actual);
-            Assert.IsTrue(success);
+            uint expected =
+                ((uint)buffer[0]) +
+                ((uint)buffer[1] << 8) +
+                ((uint)buffer[2] << 16) +
+                ((uint)buffer[3] << 24);
 
-            Assert.AreEqual(expected, actual);
+            uint actual;
+            reader.TryReadUInt32(out actual).Should().BeTrue();
+            actual.Should().Be(expected);
         }
 
         [Test]
-        public void ReadsLittleEndianInt64Correctly()
+        public void TryReadInt64_Should_Read_In_LittleEndian()
         {
             var buffer = new byte[] { 123, 234, 123, 234, 123, 23, 34, 255, };
             var reader = new PacketReader(buffer);
@@ -474,15 +454,14 @@ namespace OpenStory.Tests
                 ((long)buffer[5] << 40) +
                 ((long)buffer[6] << 48) +
                 ((long)buffer[7] << 56);
-            long actual;
-            bool success = reader.TryReadInt64(out actual);
-            Assert.IsTrue(success);
 
-            Assert.AreEqual(expected, actual);
+            long actual;
+            reader.TryReadInt64(out actual).Should().BeTrue();
+            actual.Should().Be(expected);
         }
 
         [Test]
-        public void ReadsLittleEndianUInt64Correctly()
+        public void TryReadUInt64_Should_Read_In_LittleEndian()
         {
             var buffer = new byte[] { 123, 234, 123, 234, 123, 23, 34, 255, };
             var reader = new PacketReader(buffer);
@@ -496,168 +475,136 @@ namespace OpenStory.Tests
                 ((ulong)buffer[5] << 40) +
                 ((ulong)buffer[6] << 48) +
                 ((ulong)buffer[7] << 56);
+
             ulong actual;
-            bool success = reader.TryReadUInt64(out actual);
-            Assert.IsTrue(success);
-
-            Assert.AreEqual(expected, actual);
+            reader.TryReadUInt64(out actual).Should().BeTrue();
+            actual.Should().Be(expected);
         }
 
         [Test]
-        public void SkipWorksCorrectly()
+        public void TrySkip_Should_Skip_Correct_Number_Of_Bytes()
         {
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
-            const int Offset = 10;
-            int expected = reader.Remaining - Offset;
-
-            bool success = reader.TrySkip(Offset);
-            Assert.IsTrue(success);
-            int actual = reader.Remaining;
-
-            Assert.AreEqual(expected, actual);
+            reader.TrySkip(70).Should().BeTrue();
+            
+            reader.Remaining.Should().Be(30);
         }
 
         [Test]
-        public void SkipToWorksCorrectly()
+        public void TrySkipTo_Should_Skip_To_Correct_Offset()
         {
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
-            const int ToSkip = 10;
-            int expected = reader.Remaining - ToSkip;
+            reader.TrySkipTo(10).Should().BeTrue();
 
-            bool success = reader.TrySkipTo(ToSkip);
-            Assert.IsTrue(success);
-            int actual = reader.Remaining;
-
-            Assert.AreEqual(expected, actual);
+            reader.Remaining.Should().Be(90);
         }
 
         [Test]
-        public void SafeHandlingCallsReadingCallback()
+        public void Safe_Handling_Should_Call_ReadingCallback()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             bool called = false;
-            reader.Safe(r => called = true);
 
-            Assert.IsTrue(called);
+            EmptyReader.Safe(r => called = true);
+
+            called.Should().BeTrue();
         }
 
         [Test]
-        public void SafeHandlingCallsFailureCallback()
+        public void Safe_Handling_Should_Call_FailureCallback()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
             bool called = false;
-            reader.Safe(r => r.Skip(1), () => called = true);
 
-            Assert.IsTrue(called);
+            EmptyReader.Safe(r => r.Skip(1), () => called = true);
+
+            called.Should().BeTrue();
         }
 
         [Test]
-        public void SafeHandlingReturnsTrueOnSuccess()
+        public void Safe_Handling_Should_Return_True_On_Success_1()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            bool success = reader.Safe(r => { });
-            Assert.IsTrue(success);
+            EmptyReader.Safe(r => { }).Should().BeTrue();
         }
 
         [Test]
-        public void SafeHandlingReturnsTrueOnSuccess2()
+        public void Safe_Handling_Should_Return_True_On_Success_2()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            bool success = reader.Safe(r => { }, () => { });
-            Assert.IsTrue(success);
+            EmptyReader.Safe(r => { }, () => { })
+                .Should().BeTrue();
         }
 
         [Test]
-        public void SafeHandlingReturnsFalseOnFailure()
+        public void Safe_Handling_Should_Return_False_On_Failure()
         {
-            var reader = new PacketReader(Helpers.Empty);
-
-            bool success = reader.Safe(r => r.Skip(1));
-            Assert.IsFalse(success);
+            EmptyReader.Safe(r => r.Skip(1))
+                       .Should().BeFalse();
         }
 
         [Test]
-        public void SafeHandlingReturnsValueOnSuccess()
+        public void Safe_Handling_Should_Return_Value_On_Success()
         {
             const int Success = 0;
             const int Failure = 1;
 
-            var reader = new PacketReader(Helpers.Empty);
-
-            int expected = Success;
-            int actual = reader.Safe(r => Success, () => Failure);
-            Assert.AreEqual(expected, actual);
+            EmptyReader.Safe(r => Success, () => Failure)
+                       .Should().Be(Success);
         }
 
         [Test]
-        public void SafeHandlingReturnsValueOnFailure()
+        public void Safe_Handling_Should_Return_Value_On_Failure()
         {
-            const int Success = 0;
             const int Failure = 1;
 
-            var reader = new PacketReader(Helpers.Empty);
-
-            int expected = Failure;
-            int actual = reader.Safe(r =>
-            {
-                r.Skip(1);
-                return Success;
-            }, () => Failure);
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void SafeHandlingResetsPositionOnFailure()
-        {
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
-            int expected = reader.Remaining;
-            bool success = reader.Safe(FailingRead);
-            Assert.IsFalse(success);
-
-            int actual = reader.Remaining;
-            Assert.AreEqual(expected, actual);
+            reader.Safe(FailingReturningRead, () => Failure)
+                  .Should().Be(Failure);
         }
 
         [Test]
-        public void SafeHandlingResetsPositionOnFailure2()
+        public void Safe_Handling_Should_Reset_Position_On_Failure_1()
         {
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             int expected = reader.Remaining;
 
-            bool success = reader.Safe(FailingRead, () => { });
-            Assert.IsFalse(success);
+            reader.Safe(FailingRead)
+                  .Should().BeFalse();
 
-            int actual = reader.Remaining;
-            Assert.AreEqual(expected, actual);
+            reader.Remaining.Should().Be(expected);
         }
 
         [Test]
-        public void SafeHandlingResetsPositionOnFailure3()
+        public void Safe_Handling_Should_Reset_Position_On_Failure_2()
         {
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
             int expected = reader.Remaining;
+
+            reader.Safe(FailingRead, () => { })
+                  .Should().BeFalse();
+
+            reader.Remaining.Should().Be(expected);
+        }
+
+        [Test]
+        public void Safe_Handling_Should_Reset_Position_On_Failure_3()
+        {
+            var buffer = Helpers.GetRandomBytes(100);
+            var reader = new PacketReader(buffer);
 
             const int Failure = 2;
-            int value = reader.Safe(FailingReturningRead, () => Failure);
-            Assert.AreEqual(Failure, value);
+            int expected = reader.Remaining;
+            reader.Safe(FailingReturningRead, () => Failure)
+                  .Should().Be(Failure);
 
-            int actual = reader.Remaining;
-            Assert.AreEqual(expected, actual);
+            reader.Remaining.Should().Be(expected);
         }
 
         private static void FailingRead(IUnsafePacketReader reader)
