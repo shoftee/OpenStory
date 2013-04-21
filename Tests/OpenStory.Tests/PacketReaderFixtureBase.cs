@@ -2,18 +2,14 @@ using System;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
+using CommonExceptions = OpenStory.Exceptions;
 
 namespace OpenStory.Tests
 {
     [TestFixture]
-    [Category("OpenStory.Common.IO.PacketReader")]
     class PacketReaderFixtureBase
     {
-        protected static PacketReader EmptyReader
-        {
-            get { return new PacketReader(Helpers.Empty); }
-        }
-
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Null_Buffer()
         {
@@ -21,6 +17,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Null_Buffer_With_Zero_Length_Segment()
         {
@@ -28,6 +25,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Construction_From_Null_Clone()
         {
@@ -35,6 +33,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Negative_Offset()
         {
@@ -42,6 +41,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Negative_Length()
         {
@@ -49,6 +49,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Bad_Segment_Offset()
         {
@@ -56,6 +57,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArraySegmentException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Throw_On_Bad_Segment_Length()
         {
@@ -63,6 +65,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArraySegmentException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         [TestCase(10, 6, 5)]
         [TestCase(10, 5, 6)]
@@ -76,6 +79,7 @@ namespace OpenStory.Tests
             construction.ShouldThrow<ArraySegmentException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Not_Throw_On_Non_Null_Buffer()
         {
@@ -90,6 +94,7 @@ namespace OpenStory.Tests
             construction.ShouldNotThrow();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Not_Throw_On_Zero_Offset_And_Length_With_Empty_Buffer()
         {
@@ -97,6 +102,7 @@ namespace OpenStory.Tests
             construction.ShouldNotThrow();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Not_Throw_Zero_Offset_And_Length_With_Non_Empty_Buffer()
         {
@@ -104,6 +110,7 @@ namespace OpenStory.Tests
             construction.ShouldNotThrow();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Not_Throw_On_Construction_From_Non_Null_Clone()
         {

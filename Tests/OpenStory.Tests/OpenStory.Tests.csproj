@@ -67,6 +67,7 @@
     <Compile Include="OpCodeTableFixture.cs" />
     <Compile Include="PointSFixture.cs" />
     <Compile Include="KeyLayoutFixture.cs" />
+    <Compile Include="ToolsFixture.cs" />
     <Compile Include="UnsafePacketReadingFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

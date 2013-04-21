@@ -3,21 +3,23 @@ using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
+using CommonExceptions = OpenStory.Exceptions;
 
 namespace OpenStory.Tests
 {
     [TestFixture]
-    [Category("OpenStory.Common.IO.PacketReader.Safe")]
     sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Failure
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Should_Return_False_On_Reading_In_Zero_Length_Segment()
         {
             GracefullyFailsOnReadOperations(EmptyReader, 1, 2, 13, 10);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Should_Return_False_On_Reading_In_Offset_Zero_Length_Segment()
         {
@@ -67,17 +69,21 @@ namespace OpenStory.Tests
             r.TryRead(byteCount, out bytes).Should().BeFalse();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryRead_Should_Throw_When_Count_Is_Negative()
         {
-            EmptyReader.Invoking(
-                r =>
-                {
-                    byte[] bytes;
-                    r.TryRead(-1, out bytes);
-                }).ShouldThrow<ArgumentOutOfRangeException>();
+            EmptyReader
+                .Invoking(
+                    r =>
+                    {
+                        byte[] bytes;
+                        r.TryRead(-1, out bytes);
+                    })
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkip_Should_Throw_When_Count_Is_Negative()
         {
@@ -85,6 +91,7 @@ namespace OpenStory.Tests
                        .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkipTo_Should_Throw_When_Offset_Is_Before_Current_Position()
         {
@@ -97,6 +104,7 @@ namespace OpenStory.Tests
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkipTo_Should_Throw_When_Offset_Is_Negative()
         {
@@ -107,6 +115,7 @@ namespace OpenStory.Tests
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkipTo_Should_Throw_When_Offset_Is_Before_Current_Position_In_Segment()
         {
@@ -119,6 +128,7 @@ namespace OpenStory.Tests
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkipTo_Should_Throw_When_Offset_Is_Negative_In_Segment()
         {
@@ -129,28 +139,23 @@ namespace OpenStory.Tests
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
-        public void TryReadPaddedString_Should_Throw_When_PadLength_Is_Negative()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void TryReadPaddedString_Should_Throw_When_PadLength_Is_Non_Positive(int padding)
         {
-            EmptyReader.Invoking(
-                r =>
-                {
-                    string result;
-                    r.TryReadPaddedString(-1, out result);
-                }).ShouldThrow<ArgumentOutOfRangeException>();
+            EmptyReader
+                .Invoking(
+                    r =>
+                    {
+                        string result;
+                        r.TryReadPaddedString(padding, out result);
+                    })
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
-        [Test]
-        public void TryReadPaddedString_Should_Throw_When_PadLength_Is_Zero()
-        {
-            EmptyReader.Invoking(
-                r =>
-                {
-                    string result;
-                    r.TryReadPaddedString(0, out result);
-                }).ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadPaddedString_Should_Return_False_When_Data_Is_Missing()
         {
@@ -161,6 +166,7 @@ namespace OpenStory.Tests
             reader.TryReadPaddedString(13, out result).Should().BeFalse();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadLengthString_Should_Return_False_When_Data_Is_Missing()
         {
@@ -171,6 +177,7 @@ namespace OpenStory.Tests
             reader.TryReadLengthString(out result).Should().BeFalse();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_1()
         {
@@ -178,6 +185,7 @@ namespace OpenStory.Tests
                        .ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_2()
         {
@@ -185,6 +193,7 @@ namespace OpenStory.Tests
                        .ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_3()
         {
@@ -192,6 +201,7 @@ namespace OpenStory.Tests
                        .ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_1()
         {
@@ -199,6 +209,7 @@ namespace OpenStory.Tests
                        .ShouldThrow<ArgumentNullException>();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_2()
         {
@@ -210,6 +221,7 @@ namespace OpenStory.Tests
 
         #region Does Not Throw
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadBoolean_Does_Not_Move_Position_On_Failure()
         {
@@ -217,6 +229,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadBoolean(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadByte_Does_Not_Move_Position_On_Failure()
         {
@@ -224,6 +237,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadByte(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt16_Does_Not_Move_Position_On_Failure()
         {
@@ -231,6 +245,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt16(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt16_Does_Not_Move_Position_On_Failure()
         {
@@ -238,6 +253,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt16(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt32_Does_Not_Move_Position_On_Failure()
         {
@@ -245,6 +261,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt32(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt32_Does_Not_Move_Position_On_Failure()
         {
@@ -252,6 +269,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt32(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt64_Does_Not_Move_Position_On_Failure()
         {
@@ -259,6 +277,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadInt64(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt64_Does_Not_Move_Position_On_Failure()
         {
@@ -266,6 +285,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryReadUInt64(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryRead_Does_Not_Move_Position_On_Failure()
         {
@@ -273,6 +293,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(EmptyReader, r => r.TryRead(2, out bytes));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadLengthString_Does_Not_Move_Position_On_Failure()
         {
@@ -283,6 +304,7 @@ namespace OpenStory.Tests
             ReturnsFalseAndDoesNotMovePosition(reader, r => r.TryReadLengthString(out result));
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadPaddedString_Does_Not_Move_Position_On_Failure()
         {
@@ -300,6 +322,7 @@ namespace OpenStory.Tests
             reader.Remaining.Should().Be(oldRemaining);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadPaddedString_Should_Return_String_Without_Padding()
         {
@@ -314,6 +337,7 @@ namespace OpenStory.Tests
             result.Should().Be(TestString);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadPaddedString_Should_Return_Strings_Shorter_Than_Padding()
         {
@@ -325,6 +349,7 @@ namespace OpenStory.Tests
             result.Length.Should().BeLessThan(13);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadLengthString_Should_Return_Same_String()
         {
@@ -336,6 +361,7 @@ namespace OpenStory.Tests
             result.Should().Be("01");
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryRead_Should_Return_Same_Bytes()
         {
@@ -347,6 +373,7 @@ namespace OpenStory.Tests
             bytes.Should().ContainInOrder(buffer);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadByte_Should_Return_Same_Bytes()
         {
@@ -361,6 +388,7 @@ namespace OpenStory.Tests
             }
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadBoolean_Should_Return_Correct_Values()
         {
@@ -375,6 +403,7 @@ namespace OpenStory.Tests
             }
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt16_Should_Read_In_LittleEndian()
         {
@@ -390,6 +419,7 @@ namespace OpenStory.Tests
             actual.Should().Be((short)expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt16_Should_Read_In_LittleEndian()
         {
@@ -405,6 +435,7 @@ namespace OpenStory.Tests
             actual.Should().Be((ushort)expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt32_Should_Read_In_LittleEndian()
         {
@@ -422,6 +453,7 @@ namespace OpenStory.Tests
             actual.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt32_Should_Read_In_LittleEndian()
         {
@@ -439,6 +471,7 @@ namespace OpenStory.Tests
             actual.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadInt64_Should_Read_In_LittleEndian()
         {
@@ -460,6 +493,7 @@ namespace OpenStory.Tests
             actual.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TryReadUInt64_Should_Read_In_LittleEndian()
         {
@@ -481,6 +515,7 @@ namespace OpenStory.Tests
             actual.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkip_Should_Skip_Correct_Number_Of_Bytes()
         {
@@ -492,6 +527,7 @@ namespace OpenStory.Tests
             reader.Remaining.Should().Be(30);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void TrySkipTo_Should_Skip_To_Correct_Offset()
         {
@@ -503,6 +539,7 @@ namespace OpenStory.Tests
             reader.Remaining.Should().Be(90);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Call_ReadingCallback()
         {
@@ -513,6 +550,7 @@ namespace OpenStory.Tests
             called.Should().BeTrue();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Call_FailureCallback()
         {
@@ -523,12 +561,14 @@ namespace OpenStory.Tests
             called.Should().BeTrue();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_True_On_Success_1()
         {
             EmptyReader.Safe(r => { }).Should().BeTrue();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_True_On_Success_2()
         {
@@ -536,6 +576,7 @@ namespace OpenStory.Tests
                 .Should().BeTrue();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_False_On_Failure()
         {
@@ -543,6 +584,7 @@ namespace OpenStory.Tests
                        .Should().BeFalse();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_Value_On_Success()
         {
@@ -553,6 +595,7 @@ namespace OpenStory.Tests
                        .Should().Be(Success);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_Value_On_Failure()
         {
@@ -565,6 +608,7 @@ namespace OpenStory.Tests
                   .Should().Be(Failure);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Reset_Position_On_Failure_1()
         {
@@ -579,6 +623,7 @@ namespace OpenStory.Tests
             reader.Remaining.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Reset_Position_On_Failure_2()
         {
@@ -593,6 +638,7 @@ namespace OpenStory.Tests
             reader.Remaining.Should().Be(expected);
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Reset_Position_On_Failure_3()
         {
@@ -620,5 +666,10 @@ namespace OpenStory.Tests
         }
 
         #endregion
+
+        private static PacketReader EmptyReader
+        {
+            get { return new PacketReader(Helpers.Empty); }
+        }
     }
 }

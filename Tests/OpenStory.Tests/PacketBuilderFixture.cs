@@ -5,6 +5,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
+using CommonExceptions = OpenStory.Exceptions;
 
 namespace OpenStory.Tests
 {
@@ -20,16 +21,11 @@ namespace OpenStory.Tests
         #region Failure
 
         [Test]
-        public void Constructor_Should_Throw_On_Zero_Capacity()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void Constructor_Should_Throw_On_Non_Positive_Capacity(int capacity)
         {
-            Action construction = () => new PacketBuilder(0);
-            construction.ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
-        [Test]
-        public void Constructor_Should_Throw_On_Negative_Capacity()
-        {
-            Action construction = () => new PacketBuilder(-1);
+            Action construction = () => new PacketBuilder(capacity);
             construction.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
@@ -133,24 +129,19 @@ namespace OpenStory.Tests
         }
 
         [Test]
-        public void WritePaddedString_Should_Throw_On_Negative_Padding()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void WritePaddedString_Should_Throw_On_Non_Positive_Padding(int padding)
         {
-            DefaultBuilder.Invoking(b => b.WritePaddedString("123", -1))
+            DefaultBuilder.Invoking(b => b.WritePaddedString("123", padding))
                           .ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
-        [Test]
-        public void WritePaddedString_Should_Throw_On_Zero_Padding()
-        {
-            DefaultBuilder.Invoking(b => b.WritePaddedString("123", 0))
-                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
         public void WritePaddedString_Should_Throw_On_Insufficient_Padding()
         {
             DefaultBuilder.Invoking(b => b.WritePaddedString("123", 3))
-                   .ShouldThrow<ArgumentException>();
+                          .ShouldThrow<ArgumentException>();
         }
 
         [Test]

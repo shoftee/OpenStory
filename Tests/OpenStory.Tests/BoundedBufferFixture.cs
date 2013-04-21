@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
+using CommonExceptions = OpenStory.Exceptions;
 
 namespace OpenStory.Tests
 {
@@ -11,19 +12,14 @@ namespace OpenStory.Tests
     sealed class BoundedBufferFixture
     {
         [Test]
-        public void Constructor_Should_Throw_On_Negative_Capacity()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void Constructor_Should_Throw_On_Non_Positive_Capacity(int capacity)
         {
             Action action = () => new BoundedBuffer(-1);
             action.ShouldThrow<ArgumentOutOfRangeException>();
         }
-
-        [Test]
-        public void Constructor_Should_Throw_On_Zero_Capacity()
-        {
-            Action action = () => new BoundedBuffer(0);
-            action.ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
+        
         [Test]
         public void AppendFill_Should_Throw_On_Null_Buffer()
         {
@@ -43,21 +39,15 @@ namespace OpenStory.Tests
         }
 
         [Test]
-        public void AppendFill_Should_Throw_On_Negative_Count()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void AppendFill_Should_Throw_On_Non_Positive_Count(int count)
         {
             var buffer = new BoundedBuffer();
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, -1))
+            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, count))
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
-
-        [Test]
-        public void AppendFill_Should_Throw_On_Zero_Count()
-        {
-            var buffer = new BoundedBuffer();
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, 0))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
+        
         [Test]
         public void AppendFill_Should_Throw_On_Bad_Segment_Offset()
         {
@@ -78,9 +68,15 @@ namespace OpenStory.Tests
         public void Reset_Should_Throw_On_Negative_Capacity()
         {
             var buffer = new BoundedBuffer(32);
-            
+
             buffer.Invoking(b => b.Reset(-1))
                   .ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
+        [Test]
+        public void ExtractAndReset_Should_Throw_On_Negative_Capacity()
+        {
+            var buffer = new BoundedBuffer(32);
 
             buffer.Invoking(b => b.ExtractAndReset(-1))
                   .ShouldThrow<ArgumentOutOfRangeException>();
@@ -91,6 +87,7 @@ namespace OpenStory.Tests
         {
             var buffer = new BoundedBuffer(32);
             buffer.Dispose();
+
             buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, 0))
                   .ShouldThrow<ObjectDisposedException>();
         }
@@ -106,7 +103,7 @@ namespace OpenStory.Tests
         }
 
         [Test]
-        public void ExtractAndReset_Should_Throw_After_Disposal() 
+        public void ExtractAndReset_Should_Throw_After_Disposal()
         {
             var buffer = new BoundedBuffer(32);
             buffer.Dispose();

@@ -46,7 +46,7 @@ namespace OpenStory.Common.Game
 
             if (bindings.Count != GameConstants.KeyCount)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
+                var message = String.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
                 throw new ArgumentException(message);
             }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
+using CommonExceptions = OpenStory.Exceptions;
 
 namespace OpenStory.Tests
 {
@@ -47,7 +48,8 @@ namespace OpenStory.Tests
         public void Constructor_Should_Throw_On_Incorrect_Binding_Count()
         {
             Action construction = () => new KeyLayout(DummyBindingListIncorrect);
-            construction.ShouldThrow<ArgumentException>();
+            construction.ShouldThrow<ArgumentException>()
+                        .WithMessage(String.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount));
         }
 
         [Test]
