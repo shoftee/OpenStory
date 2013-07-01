@@ -4,7 +4,7 @@ using OpenStory.Server.Auth.Policy;
 namespace OpenStory.Server.Auth
 {
     /// <summary>
-    /// Provides methods for querying an auth server.
+    /// Provides methods for querying an authentication server.
     /// </summary>
     internal interface IAuthServer : IGameServer
     {

@@ -4,6 +4,7 @@ using Ninject;
 using OpenStory.Server;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
@@ -38,7 +39,7 @@ namespace OpenStory.Services.Account
         {
             var kernel = new StandardKernel();
             kernel.Bind<ILogger>().ToConstant(new ConsoleLogger()).InSingletonScope();
-            kernel.Bind<AccountService>().ToConstant(new AccountService());
+            kernel.Bind<IAccountService>().ToConstant(new AccountService());
 
             OS.Initialize(kernel);
 

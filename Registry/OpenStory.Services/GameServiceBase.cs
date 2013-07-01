@@ -1,5 +1,6 @@
 using System;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services
@@ -12,6 +13,7 @@ namespace OpenStory.Services
         private bool isDisposed;
         private ServiceHost serviceHost;
         private Uri serviceUri;
+        private ServiceConfiguration serviceConfiguration;
 
         /// <summary>
         /// Initializes a new instance of <see cref="GameServiceBase"/>.
@@ -56,6 +58,7 @@ namespace OpenStory.Services
             }
 
             this.serviceUri = uri;
+            this.serviceConfiguration = configuration;
             return true;
         }
 

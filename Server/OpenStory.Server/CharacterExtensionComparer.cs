@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server
 {
@@ -7,26 +8,27 @@ namespace OpenStory.Server
     /// </summary>
     public class CharacterExtensionComparer : EqualityComparer<ICharacterExtension>
     {
-        private static readonly EqualityComparer<CharacterKey> DefaultKeyComparer = EqualityComparer<CharacterKey>.Default;
-
-        private static readonly CharacterExtensionComparer InternalInstance = new CharacterExtensionComparer();
-        private CharacterExtensionComparer() { }
-
+        private readonly IEqualityComparer<CharacterKey> keyComparer;
+        
         /// <summary>
-        /// Gets the singleton instance.
+        /// Initializes a new instance of the <see cref="CharacterExtensionComparer"/> class.
         /// </summary>
-        public static CharacterExtensionComparer Instance { get { return InternalInstance; } }
+        /// <param name="keyComparer">The <see cref="IEqualityComparer{CharacterKey}" /> to use internally.</param>
+        public CharacterExtensionComparer(IEqualityComparer<CharacterKey> keyComparer)
+        {
+            this.keyComparer = keyComparer;
+        }
 
         /// <inheritdoc />
         public override bool Equals(ICharacterExtension x, ICharacterExtension y)
         {
-            return DefaultKeyComparer.Equals(x.Key, y.Key);
+            return keyComparer.Equals(x.Key, y.Key);
         }
 
         /// <inheritdoc />
         public override int GetHashCode(ICharacterExtension obj)
         {
-            return obj != null ? DefaultKeyComparer.GetHashCode(obj.Key) : 0;
+            return obj != null ? keyComparer.GetHashCode(obj.Key) : 0;
         }
     }
 }

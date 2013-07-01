@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common;
+using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Channel
@@ -82,13 +83,13 @@ namespace OpenStory.Server.Channel
         /// <summary>
         /// Broadcasts a packet to the targets that reside in the current channel.
         /// </summary>
-        /// <param name="targets"></param>
-        /// <param name="data"></param>
+        /// <param name="targets">The characters to broadcast to.</param>
+        /// <param name="data">The packet payload to broadcast.</param>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
             var playerRegistry = LookupManager.GetManager().Players;
             var targetPlayers = from target in playerRegistry.Scan(targets)
-                          select target;
+                                select target;
 
             foreach (var player in targetPlayers)
             {

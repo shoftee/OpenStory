@@ -41,7 +41,7 @@ namespace OpenStory.Server
         public string RemoteAddress { get; private set; }
 
         /// <summary>
-        /// Gets the account session object.
+        /// Gets or sets the account session object.
         /// </summary>
         /// <remarks>
         /// This object is null if the client has not logged in.
@@ -52,7 +52,7 @@ namespace OpenStory.Server
         private readonly AtomicInteger sentPings;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ClientBase"/>.
+        /// Initializes a new instance of the <see cref="ClientBase"/> class.
         /// </summary>
         /// <param name="server">The server that handles this client.</param>
         /// <param name="session">The session object for this client.</param>

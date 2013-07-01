@@ -1,10 +1,6 @@
 ﻿using Ninject;
-using OpenStory.Server.Data;
 using OpenStory.Server.Fluent.Config;
 using OpenStory.Server.Fluent.Extensions;
-using OpenStory.Server.Fluent.Initialize;
-using OpenStory.Server.Fluent.Lookup;
-using OpenStory.Server.Fluent.Service;
 using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Server.Fluent
@@ -59,23 +55,24 @@ namespace OpenStory.Server.Fluent
         }
 
         /// <summary>
-        /// Retrieves the <see cref="DataManager"/> registered for the provided type.
+        /// Gets a service instance for the provided type.
         /// </summary>
-        /// <typeparam name="TDataManager">The type to get the manager of.</typeparam>
-        /// <returns>an instance of <tupeparamref name="TDataManager" />, or <c>null</c> if no manager was found.</returns>
-        public static TDataManager Data<TDataManager>()
-            where TDataManager : DataManager
+        /// <typeparam name="TService">The type of the service to get an instance of.</typeparam>
+        /// <returns>the service instance.</returns>
+        public static TService Get<TService>()
         {
-            return DataManager.GetManager<TDataManager>();
+            return ninject.TryGet<TService>();
         }
 
         /// <summary>
-        /// Retrieves the default <see cref="DataManager"/>.
+        /// Gets a service instance for the provided type.
         /// </summary>
-        /// <returns>an instance of <see cref="DataManager"/>, or <c>null</c> if there was no registered default.</returns>
-        public static DataManager Data()
+        /// <typeparam name="TService">The type of the service to get an instance of.</typeparam>
+        /// <param name="name">The name of the instance. </param>
+        /// <returns>the service instance.</returns>
+        public static TService Get<TService>(string name)
         {
-            return DataManager.GetManager();
+            return ninject.TryGet<TService>(name);
         }
 
         #region Extensions

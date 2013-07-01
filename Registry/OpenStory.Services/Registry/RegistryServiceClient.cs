@@ -1,9 +1,9 @@
 using System;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
-using OpenStory.Services.Registry;
 
-namespace OpenStory.Services.Management
+namespace OpenStory.Services.Registry
 {
     /// <summary>
     /// Represents a client to a game nexus service.

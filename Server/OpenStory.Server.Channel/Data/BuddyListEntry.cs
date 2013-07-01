@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Channel.Data
 {
@@ -26,7 +27,7 @@ namespace OpenStory.Server.Channel.Data
         public int? ChannelId { get; private set; }
 
         /// <summary>
-        /// Gets whether the buddy is currently visible.
+        /// Gets a value indicating whether the buddy is currently visible.
         /// </summary>
         public bool Visible { get; private set; }
 

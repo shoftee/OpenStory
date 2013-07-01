@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthServerConfigurator.cs" />
     <Compile Include="AuthService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +67,10 @@
     <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server.Auth\OpenStory.Server.Auth.csproj">
       <Project>{6257C10F-74BB-4948-8BC1-3F867488044B}</Project>

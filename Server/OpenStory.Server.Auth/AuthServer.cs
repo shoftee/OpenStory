@@ -2,7 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common;
 using OpenStory.Common.Game;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Auth.Policy;
+using OpenStory.Server.Fluent;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
 {
@@ -30,19 +33,20 @@ namespace OpenStory.Server.Auth
         private readonly List<AuthClient> clients;
         private readonly List<IWorld> worlds;
 
-        private readonly SimpleAuthPolicy authPolicy;
+        private readonly AuthConfiguration authConfiguration;
+        private readonly IAuthPolicy<SimpleCredentials> authPolicy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthServer"/> class.
         /// </summary>
-        /// <inheritdoc />
-        public AuthServer(ServerConfiguration configuration)
-            : base(configuration)
+        public AuthServer(AuthConfiguration authConfiguration, IAuthPolicy<SimpleCredentials> authPolicy)
+            : base(authConfiguration)
         {
             this.worlds = new List<IWorld>();
             this.clients = new List<AuthClient>();
 
-            this.authPolicy = new SimpleAuthPolicy();
+            this.authConfiguration = authConfiguration;
+            this.authPolicy = authPolicy;
         }
 
         #region IAuthServer Members
@@ -50,14 +54,14 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         public IWorld GetWorldById(int worldId)
         {
-            base.ThrowIfNotRunning();
+            this.ThrowIfNotRunning();
             return this.worlds.First(w => w.Id == worldId);
         }
 
         /// <inheritdoc />
         public IAuthPolicy<SimpleCredentials> GetAuthPolicy()
         {
-            base.ThrowIfNotRunning();
+            this.ThrowIfNotRunning();
             return this.authPolicy;
         }
 

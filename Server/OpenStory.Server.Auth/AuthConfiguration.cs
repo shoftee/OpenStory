@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Server.Auth
 {
@@ -8,8 +9,8 @@ namespace OpenStory.Server.Auth
     public sealed class AuthConfiguration : ServerConfiguration
     {
         /// <inheritdoc />
-        public AuthConfiguration(IPEndPoint endpoint)
-            : base(endpoint)
+        public AuthConfiguration(ServiceConfiguration configuration)
+            : base(configuration)
         {
         }
     }

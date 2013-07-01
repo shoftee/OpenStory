@@ -55,6 +55,10 @@
     <Compile Include="RegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>

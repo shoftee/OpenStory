@@ -6,10 +6,12 @@ using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
+using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Properties;
+using CommonExceptions = OpenStory.Framework.Model.Common.Exceptions;
 
 namespace OpenStory.Server
 {
@@ -53,12 +55,12 @@ namespace OpenStory.Server
                 throw new ArgumentNullException("configuration");
             }
 
-            this.IsRunning = false;
-
-            this.ivFactory = IvFactories.GetEmsFactory(Settings.Default.MapleVersion);
+            this.ivFactory = IvFactories.GetEmsFactory(configuration.Version);
 
             this.acceptor = new SocketAcceptor(configuration.Endpoint);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
+            
+            this.IsRunning = false;
         }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace OpenStory.Server
             ushort opCode;
             if (!this.OpCodes.TryGetOutgoingOpCode(label, out opCode))
             {
-                throw new ArgumentException(Exceptions.UnknownPacketLabel, "label");
+                throw new ArgumentException(CommonExceptions.UnknownPacketLabel, "label");
             }
 
             var builder = new PacketBuilder();
@@ -174,7 +176,7 @@ namespace OpenStory.Server
         {
             if (!this.IsRunning)
             {
-                throw new InvalidOperationException(Exceptions.ServerNotRunning);
+                throw new InvalidOperationException(CommonExceptions.ServerNotRunning);
             }
         }
 
@@ -188,7 +190,7 @@ namespace OpenStory.Server
         {
             if (this.IsRunning)
             {
-                throw new InvalidOperationException(Exceptions.ServerAlreadyRunning);
+                throw new InvalidOperationException(CommonExceptions.ServerAlreadyRunning);
             }
         }
 

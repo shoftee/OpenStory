@@ -53,6 +53,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
+      <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>
+      <Name>OpenStory.Framework.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>

@@ -1,4 +1,5 @@
 using System;
+using CommonExceptions = OpenStory.Framework.Model.Common.Exceptions;
 
 namespace OpenStory.Server
 {
@@ -30,11 +31,11 @@ namespace OpenStory.Server
         {
             if (channelId < 0)
             {
-                throw new ArgumentOutOfRangeException("channelId", channelId, Exceptions.ChannelIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("channelId", channelId, CommonExceptions.ChannelIdMustBeNonNegative);
             }
             if (mapId < 0)
             {
-                throw new ArgumentOutOfRangeException("mapId", mapId, Exceptions.MapIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("mapId", mapId, CommonExceptions.MapIdMustBeNonNegative);
             }
 
             this.ChannelId = channelId;

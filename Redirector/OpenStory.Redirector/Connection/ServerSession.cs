@@ -33,7 +33,7 @@ namespace OpenStory.Redirector.Connection
 
         private static byte[] ConstructHandshakePacket(HandshakeInfo info)
         {
-            using (var builder = new PacketBuilder(16))
+            using (var builder = new PacketBuilder())
             {
                 builder.WriteInt16(info.Header);
                 builder.WriteInt16(info.Version);

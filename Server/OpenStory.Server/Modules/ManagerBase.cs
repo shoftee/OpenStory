@@ -277,23 +277,23 @@ namespace OpenStory.Server.Modules
 
         private static InvalidOperationException GetModuleNotInitializedException()
         {
-            return new InvalidOperationException(Exceptions.ModuleNotInitialized);
+            return new InvalidOperationException(Framework.Model.Common.Exceptions.ModuleNotInitialized);
         }
 
         private static InvalidOperationException GetModuleInitializedException()
         {
-            return new InvalidOperationException(Exceptions.CannotChangeInitializedModule);
+            return new InvalidOperationException(Framework.Model.Common.Exceptions.CannotChangeInitializedModule);
         }
 
         private static ArgumentException GetIncompatibleTypeException(object instance, string typeFullName)
         {
-            string message = String.Format(Exceptions.ObjectNotAssignableToType, typeFullName);
+            string message = String.Format(Framework.Model.Common.Exceptions.ObjectNotAssignableToType, typeFullName);
             return new ArgumentException(message, "instance");
         }
 
         private static ArgumentException GetUnknownComponentNameException(string name)
         {
-            return new ArgumentException(Exceptions.UnknownComponentName, "name");
+            return new ArgumentException(Framework.Model.Common.Exceptions.UnknownComponentName, "name");
         }
 
         #region Nested type: ComponentKey

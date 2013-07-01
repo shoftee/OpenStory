@@ -18,7 +18,7 @@ namespace OpenStory.Server.Auth.Policy
         public string Password { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SimpleCredentials"/>.
+        /// Initializes a new instance of the <see cref="SimpleCredentials"/> class.
         /// </summary>
         /// <param name="accountName">The account name.</param>
         /// <param name="password">The password.</param>
@@ -29,6 +29,7 @@ namespace OpenStory.Server.Auth.Policy
             {
                 throw new ArgumentNullException("accountName");
             }
+
             if (password == null)
             {
                 throw new ArgumentNullException("password");

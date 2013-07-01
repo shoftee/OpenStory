@@ -31,7 +31,7 @@ namespace OpenStory.Server.Channel.Maps
         /// <summary>
         /// Constructs a new object with the given constructor delegate, giving it a proper map object ID.
         /// </summary>
-        /// <param name="constructor">An (int) => (IMapObject) delegate used to construct the map object.</param>
+        /// <param name="constructor">An <see cref="Func{Int32, IMapObject}"/>-like delegate used to construct the map object.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <c>null</c>.</exception>
         public void AddMapObject(MapObjectConstructor constructor)
         {
@@ -58,6 +58,7 @@ namespace OpenStory.Server.Channel.Maps
             {
                 return null;
             }
+
             return mapObject;
         }
 
@@ -73,6 +74,7 @@ namespace OpenStory.Server.Channel.Maps
             {
                 return null;
             }
+
             return portal;
         }
 

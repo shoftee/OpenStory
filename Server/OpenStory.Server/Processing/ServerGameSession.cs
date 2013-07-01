@@ -7,6 +7,7 @@ using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Networking;
 using OpenStory.Server.Fluent;
+using CommonExceptions = OpenStory.Framework.Model.Common.Exceptions;
 
 namespace OpenStory.Server.Processing
 {
@@ -32,7 +33,10 @@ namespace OpenStory.Server.Processing
         }
 
         /// <inheritdoc />
-        public int NetworkSessionId { get { return this.networkSession.NetworkSessionId; } }
+        public int NetworkSessionId
+        {
+            get { return this.networkSession.NetworkSessionId; }
+        }
 
         private readonly ServerNetworkSession networkSession;
 
@@ -77,7 +81,7 @@ namespace OpenStory.Server.Processing
         {
             if (this.PacketProcessing == null)
             {
-                throw new InvalidOperationException(Exceptions.PacketProcessingEventHasNoSubscriber);
+                throw new InvalidOperationException(CommonExceptions.PacketProcessingEventHasNoSubscriber);
             }
 
             // CompareExchange returns the original value, hence:

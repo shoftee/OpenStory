@@ -25,7 +25,7 @@ namespace OpenStory.Server.Auth
         public int LoginAttempts { get; private set; }
 
         /// <summary>
-        /// Gets whether the client has authenticated.
+        /// Gets a value indicating whether the client has authenticated.
         /// </summary>
         public bool IsAuthenticated { get; private set; }
 
@@ -35,8 +35,7 @@ namespace OpenStory.Server.Auth
         public AuthClientState State { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AuthClient"/>.
-        /// and binds it with a network session.
+        /// Initializes a new instance of the <see cref="AuthClient"/> class and binds it with a network session.
         /// </summary>
         /// <param name="server">The authentication server instance which is handling this client.</param>
         /// <param name="session">The network session to bind the instance to.</param>
@@ -96,7 +95,7 @@ namespace OpenStory.Server.Auth
         {
             if (this.State != AuthClientState.PreAuthentication)
             {
-                base.Disconnect("Invalid client authentication state.");
+                this.Disconnect("Invalid client authentication state.");
                 return;
             }
 
@@ -112,12 +111,12 @@ namespace OpenStory.Server.Auth
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
-                base.AccountSession = accountSession;
+                this.AccountSession = accountSession;
                 this.State = AuthClientState.PostAuthentication;
             }
             else if (this.LoginAttempts++ > MaxLoginAttempts)
             {
-                base.Disconnect("Too many login attempts.");
+                this.Disconnect("Too many login attempts.");
                 return;
             }
 

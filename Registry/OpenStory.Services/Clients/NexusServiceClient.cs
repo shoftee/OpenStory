@@ -1,6 +1,7 @@
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
@@ -26,7 +27,11 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            return base.Channel.GetServiceConfiguration(token);
+            var result = ServiceOperationResult<ServiceConfiguration>.Of(
+                () => base.Channel.GetServiceConfiguration(token)
+            );
+
+            return result;
         }
 
         #endregion

@@ -8,6 +8,5 @@ namespace OpenStory.Server.Fluent
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface ICharactersLookupFacade
     {
-
     }
 }

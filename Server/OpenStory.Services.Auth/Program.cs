@@ -2,8 +2,7 @@
 using System.Threading;
 using Ninject;
 using OpenStory.Server;
-using OpenStory.Server.Auth.Data;
-using OpenStory.Server.Data;
+using OpenStory.Server.Auth;
 using OpenStory.Server.Fluent;
 using OpenStory.Server.Modules.Logging;
 
@@ -39,10 +38,8 @@ namespace OpenStory.Services.Auth
         private static IKernel Initialize()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ILogger>().ToConstant(new ConsoleLogger()).InSingletonScope();
-            kernel.Bind<DataManager>().ToConstant(new AuthDataManager()).InSingletonScope();
-
-            kernel.Bind<AuthService>().ToConstant(new AuthService());
+            kernel.Bind<ILogger>().To<ConsoleLogger>().InSingletonScope();
+            kernel.Bind<AuthService>().ToSelf();
 
             OS.Initialize(kernel);
 

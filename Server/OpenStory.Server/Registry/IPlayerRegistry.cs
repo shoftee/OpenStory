@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Registry
 {

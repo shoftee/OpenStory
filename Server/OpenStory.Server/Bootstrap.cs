@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Ninject;
 using OpenStory.Common.Tools;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Fluent;
 using OpenStory.Services;
 using OpenStory.Services.Clients;
@@ -10,7 +11,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Server
 {
     /// <summary>
-    /// Bootstrapper.
+    /// Bootstrap tool.
     /// </summary>
     [Localizable(true)]
     public static class Bootstrap
@@ -20,7 +21,7 @@ namespace OpenStory.Server
         /// </summary>
         /// <typeparam name="TGameService">The concrete type of the service.</typeparam>
         /// <param name="kernel">The kernel object to use when resolving the service.</param>
-        /// <param name="error">A varible to hold any error messages.</param>
+        /// <param name="error">A variable to hold any error messages.</param>
         /// <returns>an instance of <typeparamref name="TGameService"/>, or <c>null</c> if there was an error.</returns>
         public static TGameService Service<TGameService>(IKernel kernel, out string error)
             where TGameService : GameServiceBase
@@ -52,7 +53,7 @@ namespace OpenStory.Server
         /// <typeparam name="TGameService">The concrete type of the service.</typeparam>
         /// <param name="kernel">The kernel object to use when resolving the service.</param>
         /// <param name="nexusConnectionInfo">The nexus connection information for the service.</param>
-        /// <param name="error">A varible to hold any error messages.</param>
+        /// <param name="error">A variable to hold any error messages.</param>
         /// <returns>an instance of <typeparamref name="TGameService"/>, or <c>null</c> if there was an error.</returns>
         public static TGameService Service<TGameService>(IKernel kernel, NexusConnectionInfo nexusConnectionInfo, out string error)
             where TGameService : GameServiceBase

@@ -1,6 +1,8 @@
-﻿using System.Net;
-using System.ServiceModel;
+﻿using System.ServiceModel;
+using OpenStory.Common.Tools;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Auth;
+using OpenStory.Server.Fluent;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Auth
@@ -11,24 +13,13 @@ namespace OpenStory.Services.Auth
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public sealed class AuthService : GameServiceBase, IAuthService
     {
-        private AuthConfiguration serverConfiguration;
-
         private AuthServer server;
 
         /// <inheritdoc />
         protected override bool OnConfiguring(ServiceConfiguration configuration, out string error)
         {
-            var endpoint = configuration.Get<IPEndPoint>("Endpoint");
-            if (endpoint == null)
-            {
-                error = "Entry point address definition missing from configuration.";
-                return false;
-            }
-
-            this.serverConfiguration = new AuthConfiguration(endpoint);
-
-            error = null;
-            return true;
+            var configurator = OS.Get<IServerConfigurator>();
+            return configurator.CheckConfiguration(configuration, out error);
         }
 
         /// <inheritdoc />
@@ -36,7 +27,7 @@ namespace OpenStory.Services.Auth
         {
             base.OnInitializing();
 
-            this.server = new AuthServer(this.serverConfiguration);
+            this.server = OS.Get<AuthServer>();
         }
 
         /// <inheritdoc />

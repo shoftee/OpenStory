@@ -1,4 +1,5 @@
 ﻿using OpenStory.Common.Game;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Channel
 {
@@ -18,7 +19,7 @@ namespace OpenStory.Server.Channel
         public Gender Gender { get; private set; }
         public int HairId { get; private set; }
         public int FaceId { get; private set; }
-        public int SkinColor { get; private set; }
+        public int SkinColorId { get; private set; }
 
         public int Fame { get; private set; }
 
@@ -42,7 +43,7 @@ namespace OpenStory.Server.Channel
             this.Gender = character.Gender;
             this.HairId = character.HairId;
             this.FaceId = character.FaceId;
-            this.SkinColor = character.SkinColor;
+            this.SkinColorId = character.SkinColorId;
 
             this.JobId = character.JobId;
             this.Fame = character.Fame;

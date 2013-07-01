@@ -61,13 +61,6 @@
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="ActiveChannel.cs" />
-    <Compile Include="Data\AuthCharacter.cs" />
-    <Compile Include="Data\AuthDataManager.cs" />
-    <Compile Include="Data\CharacterCreateResult.cs" />
-    <Compile Include="Data\CharacterRemoveResult.cs" />
-    <Compile Include="Data\Providers\IAuthCharacterProvider.cs" />
-    <Compile Include="Data\Providers\IWorldInfoProvider.cs" />
-    <Compile Include="Data\WorldInfo.cs" />
     <Compile Include="IAuthServer.cs" />
     <Compile Include="Policy\AuthPolicyBase.cs" />
     <Compile Include="Policy\IAuthPolicy.cs" />
@@ -84,6 +77,18 @@
     <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Model.Auth\OpenStory.Framework.Model.Auth.csproj">
+      <Project>{5FEA929B-DFB3-4449-837C-751BD9AC5773}</Project>
+      <Name>OpenStory.Framework.Model.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
+      <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>
+      <Name>OpenStory.Framework.Model.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>

@@ -57,19 +57,11 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="CharacterExtensionComparer.cs" />
-    <Compile Include="CharacterKey.cs" />
     <Compile Include="ClientBase.cs" />
-    <Compile Include="Data\IReceiveFeed.cs" />
-    <Compile Include="Data\ISendFeed.cs" />
     <Compile Include="Errors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Errors.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Exceptions.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Exceptions.resx</DependentUpon>
     </Compile>
     <Compile Include="Fluent\Config\ConfigFacade.cs" />
     <Compile Include="Fluent\Config\DomainConfigFacade.cs" />
@@ -137,22 +129,9 @@
     <Compile Include="Fluent\IFluentOsExtensions.cs" />
     <Compile Include="Fluent\Extensions\FluentOsExtensions.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
-    <Compile Include="Data\DataManager.cs" />
     <Compile Include="Fluent\OS.cs" />
     <Compile Include="Modules\ManagerBase.TManagerBase.cs" />
     <Compile Include="Modules\ManagerBase.cs" />
-    <Compile Include="Data\Account.cs" />
-    <Compile Include="Data\AccountStatus.cs" />
-    <Compile Include="Data\BanType.cs" />
-    <Compile Include="Data\Character.cs" />
-    <Compile Include="Data\GameMasterLevel.cs" />
-    <Compile Include="Data\Providers\IAccountProvider.cs" />
-    <Compile Include="Data\Providers\IBanProvider.cs" />
-    <Compile Include="Game\ItemContainer.cs" />
-    <Compile Include="Game\ItemCluster.cs" />
-    <Compile Include="Game\ItemInfo.cs" />
-    <Compile Include="Game\Inventory.cs" />
-    <Compile Include="IAccountSession.cs" />
     <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Registry\IPlayerGroup.cs" />
@@ -167,7 +146,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ServerConfiguration.cs" />
     <Compile Include="NexusConnectionInfo.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -184,6 +162,14 @@
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
+      <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>
+      <Name>OpenStory.Framework.Model.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -198,10 +184,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Errors.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Exceptions.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

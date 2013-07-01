@@ -1,3 +1,4 @@
+using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Modules;
 
 namespace OpenStory.Server.Fluent.Lookup

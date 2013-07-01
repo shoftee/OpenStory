@@ -1,6 +1,6 @@
 using System;
 using OpenStory.Common.Game;
-using OpenStory.Server.Data;
+using OpenStory.Framework.Model.Common;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth.Policy
@@ -8,7 +8,7 @@ namespace OpenStory.Server.Auth.Policy
     internal abstract class AuthPolicyBase<TCredentials> : IAuthPolicy<TCredentials>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="AuthPolicyBase{TCredentials}" />.
+        /// Initializes a new instance of the <see cref="AuthPolicyBase{TCredentials}" /> class.
         /// </summary>
         protected AuthPolicyBase()
         {
@@ -46,7 +46,7 @@ namespace OpenStory.Server.Auth.Policy
             public string AccountName { get; private set; }
 
             /// <summary>
-            /// Initializes a new instance of <see cref="AccountSession"/>.
+            /// Initializes a new instance of the <see cref="AccountSession"/> class.
             /// </summary>
             /// <param name="service">The <see cref="IAccountService"/> managing this session.</param>
             /// <param name="sessionId">The session identifier.</param>
