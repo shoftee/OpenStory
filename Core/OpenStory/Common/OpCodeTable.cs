@@ -12,7 +12,7 @@ namespace OpenStory.Common
         private readonly Dictionary<string, ushort> outgoingTable;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="OpCodeTable"/>.
+        /// Initializes a new instance of the <see cref="OpCodeTable"/> class.
         /// </summary>
         protected OpCodeTable()
         {

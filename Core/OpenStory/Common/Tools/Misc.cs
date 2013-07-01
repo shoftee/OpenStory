@@ -67,6 +67,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("rwLock");
             }
+
             if (action == null)
             {
                 throw new ArgumentNullException("action");
@@ -86,6 +87,7 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
+        /// <typeparam name="T">The return type of the callback.</typeparam>
         /// <param name="rwLock">The lock to use.</param>
         /// <param name="func">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
@@ -95,6 +97,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("rwLock");
             }
+
             if (func == null)
             {
                 throw new ArgumentNullException("func");
@@ -123,6 +126,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("rwLock");
             }
+
             if (action == null)
             {
                 throw new ArgumentNullException("action");
@@ -141,6 +145,7 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Executes the provided action in a write-lock block.
         /// </summary>
+        /// <typeparam name="T">The return type of the callback.</typeparam>
         /// <param name="rwLock">The lock to use.</param>
         /// <param name="func">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
@@ -150,6 +155,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("rwLock");
             }
+
             if (func == null)
             {
                 throw new ArgumentNullException("func");

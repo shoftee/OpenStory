@@ -94,7 +94,7 @@ namespace OpenStory.Networking
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NetworkSession"/>.
+        /// Initializes a new instance of the <see cref="NetworkSession"/> class.
         /// </summary>
         public NetworkSession()
         {
@@ -120,6 +120,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(Exceptions.SessionSocketAlreadyAttached);
             }
+
             if (socket == null)
             {
                 throw new ArgumentNullException("socket");
@@ -145,6 +146,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(Exceptions.NoSocketAttached);
             }
+
             if (this.isActive.CompareExchange(comparand: false, newValue: true))
             {
                 throw new InvalidOperationException(Exceptions.SessionAlreadyActive);
@@ -186,8 +188,7 @@ namespace OpenStory.Networking
         }
 
         #endregion
-
-
+        
         #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />

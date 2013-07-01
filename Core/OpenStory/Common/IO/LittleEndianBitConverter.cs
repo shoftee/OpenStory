@@ -43,10 +43,12 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("buffer");
             }
+
             if (offset < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
+
             if (offset > buffer.Length || offset + count > buffer.Length)
             {
                 throw ArraySegmentException.GetByStartAndLength(offset, count);
@@ -58,6 +60,7 @@ namespace OpenStory.Common.IO
             {
                 result = unchecked((result << 8) | buffer[position]);
             }
+
             return result;
         }
 

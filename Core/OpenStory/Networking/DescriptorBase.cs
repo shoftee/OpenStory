@@ -26,7 +26,7 @@ namespace OpenStory.Networking
         protected SocketAsyncEventArgs SocketArgs { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DescriptorBase"/>.
+        /// Initializes a new instance of the <see cref="DescriptorBase"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor initializes the 

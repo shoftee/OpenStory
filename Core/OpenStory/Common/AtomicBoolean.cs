@@ -22,7 +22,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AtomicBoolean"/>.
+        /// Initializes a new instance of the <see cref="AtomicBoolean"/> class.
         /// </summary>
         /// <param name="initialValue">The initial value.</param>
         public AtomicBoolean(bool initialValue)
@@ -80,8 +80,9 @@ namespace OpenStory.Common
         {
             if (atomicBoolean == null)
             {
-                throw new ArgumentNullException("atomicBoolean");
+                throw new InvalidCastException();
             }
+
             return atomicBoolean.Value;
         }
 
@@ -106,7 +107,7 @@ namespace OpenStory.Common
         {
             if (atomicBoolean == null)
             {
-                throw new ArgumentNullException("atomicBoolean");
+                throw new InvalidCastException();
             }
 
             return atomicBoolean.Value;

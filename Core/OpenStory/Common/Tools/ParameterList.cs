@@ -28,16 +28,18 @@ namespace OpenStory.Common.Tools
         /// Regular Expression pattern for matching parameter key-value pairs.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// This pattern will match strings that look like:
         /// * --some-flag-name
         /// * --some-key-name="some value"
-        /// 
+        /// </para><para>
         /// General rules:
         /// * Do not put spaces in the key name.
         /// * Do not put spaces around the equals sign.
         /// * Always put values in quotation marks, even if there are no spaces in the value.
         /// * Do not put a digit as the first character of a key name. After that it's fine.
         /// * Keys are case-sensitive.
+        /// </para>
         /// </remarks>
         private static readonly Regex ParamRegex = new Regex(ParameterRegexPattern, ParamRegexOptions);
 
@@ -61,7 +63,7 @@ namespace OpenStory.Common.Tools
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ParameterList"/>.
+        /// Initializes a new instance of the <see cref="ParameterList"/> class.
         /// </summary>
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
         private ParameterList(IDictionary<string, string> parameters)
@@ -93,6 +95,7 @@ namespace OpenStory.Common.Tools
                 var value = groups[2].Value;
                 parsed.Add(key, value);
             }
+
             return parsed;
         }
 
@@ -114,15 +117,15 @@ namespace OpenStory.Common.Tools
             {
                 var name = entry.Key;
                 var value = entry.Value;
-                if (String.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     const string NoValueEntry = @"--{0}";
-                    args[index] = String.Format(InvariantCulture, NoValueEntry, name);
+                    args[index] = string.Format(InvariantCulture, NoValueEntry, name);
                 }
                 else
                 {
                     const string ValueEntry = @"--{0}=""{1}""";
-                    args[index] = String.Format(InvariantCulture, ValueEntry, name, value);
+                    args[index] = string.Format(InvariantCulture, ValueEntry, name, value);
                 }
 
                 index++;
@@ -158,17 +161,17 @@ namespace OpenStory.Common.Tools
                 string value = entry.Value.Trim().Trim(QuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
                     return null;
                 }
-                else if (name.Any(Char.IsWhiteSpace))
+                else if (name.Any(char.IsWhiteSpace))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
                     return null;
                 }
                 else if (value.Any(c => c == QuotationMark))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
                     return null;
                 }
 

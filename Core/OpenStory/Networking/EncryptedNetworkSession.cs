@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -11,7 +12,7 @@ namespace OpenStory.Networking
     /// Represents a base class for encrypted network sessions.
     /// </summary>
     /// <remarks>
-    /// This class provides the packet bufferring and decryption logic for inbound packets,
+    /// This class provides the packet buffering and decryption logic for inbound packets,
     /// as well as the logic to write outbound packets.
     /// </remarks>
     [Localizable(true)]
@@ -46,21 +47,22 @@ namespace OpenStory.Networking
         protected BoundedBuffer PacketBuffer { get; private set; }
 
         /// <summary>
-        /// Gets the internal NetworkSession instance.
+        /// Gets or sets the internal NetworkSession instance.
         /// </summary>
         protected NetworkSession Session { get; private set; }
 
         /// <summary>
-        /// Gets the cryptographic transformer for this session.
+        /// Gets or sets the cryptographic transformer for this session.
         /// </summary>
         protected EndpointCrypto Crypto { get; set; }
 
         #endregion
 
         /// <summary>
-        /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
+        /// Initializes a new instance of the <see cref="EncryptedNetworkSession"/> class with no specified socket.
         /// </summary>
         /// <remarks>
+        /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
         /// Call <see cref="AttachSocket(Socket)"/> before starting the network operations.
         /// </remarks>
         protected EncryptedNetworkSession()
@@ -95,7 +97,10 @@ namespace OpenStory.Networking
         private void OnClosing(object sender, EventArgs e)
         {
             var handler = this.Closing;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         /// <summary>
@@ -231,7 +236,7 @@ namespace OpenStory.Networking
         /// <param name="disposing">Whether the method is being called for disposal or finalization.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !isDisposed)
+            if (disposing && !this.isDisposed)
             {
                 var session = this.Session;
                 if (session != null)

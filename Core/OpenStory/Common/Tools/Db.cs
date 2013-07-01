@@ -14,7 +14,16 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// A delegate that returns a database connection.
         /// </summary>
-        public static Func<IDbConnection> GetConnection = GetConnectionDefault;
+        private static Func<IDbConnection> newConnection = GetConnectionDefault;
+
+        /// <summary>
+        /// Gets or sets the delegate that returns a database connection.
+        /// </summary>
+        public static Func<IDbConnection> NewConnection
+        {
+            get { return newConnection; }
+            set { newConnection = value; }
+        }
 
         /// <summary>
         /// Gets a <see cref="IDbConnection"/>.
@@ -22,7 +31,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the <see cref="IDbConnection"/> instance.</returns>
         private static IDbConnection GetConnectionDefault()
         {
-            throw new NotImplementedException("You need to set Db.GetConnection to use the DB helpers.");
+            throw new NotImplementedException("You need to set Db.newConnection to use the DB helpers.");
         }
 
         /// <summary>
@@ -38,13 +47,14 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("command");
             }
+
             if (callback == null)
             {
                 throw new ArgumentNullException("callback");
             }
 
             // I actually feel quite awesome about this method, it saves me a lot of writing.
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -52,7 +62,7 @@ namespace OpenStory.Common.Tools
                 connection.Open();
                 using (var record = command.ExecuteReader(CommandBehavior.SingleRow))
                 {
-                    if (record.Read())
+                    if (record != null && record.Read())
                     {
                         callback(record);
                         result = true;
@@ -62,6 +72,7 @@ namespace OpenStory.Common.Tools
                         result = false;
                     }
                 }
+
                 connection.Close();
 
                 return result;
@@ -84,23 +95,30 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("command");
             }
+
             if (!Enum.IsDefined(typeof(CommandBehavior), commandBehavior))
             {
                 throw new InvalidEnumArgumentException("commandBehavior", (int)commandBehavior, typeof(CommandBehavior));
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
                 connection.Open();
                 using (var record = command.ExecuteReader(commandBehavior))
                 {
+                    if (record == null)
+                    {
+                        yield break;
+                    }
+
                     while (record.Read())
                     {
                         yield return record;
                     }
                 }
+
                 connection.Close();
             }
         }
@@ -118,6 +136,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("command");
             }
+
             if (callback == null)
             {
                 throw new ArgumentNullException("callback");
@@ -129,6 +148,7 @@ namespace OpenStory.Common.Tools
                 callback.Invoke(record);
                 count++;
             }
+
             return count;
         }
 
@@ -146,7 +166,7 @@ namespace OpenStory.Common.Tools
                 throw new ArgumentNullException("command");
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -171,7 +191,7 @@ namespace OpenStory.Common.Tools
                 throw new ArgumentNullException("command");
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -198,7 +218,7 @@ namespace OpenStory.Common.Tools
             command.CommandType = CommandType.StoredProcedure;
             command.CommandTimeout = 60;
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 

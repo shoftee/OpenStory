@@ -16,17 +16,19 @@ namespace OpenStory.Cryptography
         /// <param name="factory">The <see cref="RollingIvFactory"/> instance to use.</param>
         /// <param name="clientIv">The IV for the client.</param>
         /// <param name="serverIv">The IV for the server.</param>
-        /// <returns></returns>
+        /// <returns>a new <see cref="EndpointCrypto"/> instance.</returns>
         public static EndpointCrypto New(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
             if (factory == null)
             {
                 throw new ArgumentNullException("factory");
             }
+
             if (clientIv == null)
             {
                 throw new ArgumentNullException("clientIv");
             }
+
             if (serverIv == null)
             {
                 throw new ArgumentNullException("serverIv");

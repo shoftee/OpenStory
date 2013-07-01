@@ -14,7 +14,7 @@ namespace OpenStory.Networking
         public SocketError Error { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SocketErrorEventArgs"/>.
+        /// Initializes a new instance of the <see cref="SocketErrorEventArgs"/> class.
         /// </summary>
         /// <param name="error">The <see cref="SocketError"/> to wrap.</param>
         public SocketErrorEventArgs(SocketError error)

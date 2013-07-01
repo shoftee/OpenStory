@@ -14,7 +14,7 @@ namespace OpenStory.Synchronization
         private readonly ConcurrentQueue<Task> tasks;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="QueueScheduler"/>.
+        /// Initializes a new instance of the <see cref="QueueScheduler"/> class.
         /// </summary>
         public QueueScheduler()
         {

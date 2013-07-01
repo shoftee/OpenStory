@@ -36,7 +36,7 @@ namespace OpenStory.Common.IO
         public byte ServerId { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HandshakeInfo"/>.
+        /// Initializes a new instance of the <see cref="HandshakeInfo"/> class.
         /// </summary>
         protected HandshakeInfo()
         {

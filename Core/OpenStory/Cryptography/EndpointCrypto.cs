@@ -28,10 +28,10 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="EndpointCrypto"/>.
+        /// Initializes a new instance of the <see cref="EndpointCrypto"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
+        /// This constructor initializes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
         /// </remarks>
         /// <param name="encryptor">The IV used for encryption.</param>
         /// <param name="decryptor">The IV used for decryption.</param>
@@ -41,6 +41,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("encryptor");
             }
+
             if (decryptor == null)
             {
                 throw new ArgumentNullException("decryptor");

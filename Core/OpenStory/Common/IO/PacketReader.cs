@@ -25,7 +25,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReader"/> using the given byte array segment as a buffer.
+        /// Initializes a new instance of the <see cref="PacketReader"/> class using the given byte array segment as a buffer.
         /// </summary>
         /// <param name="buffer">The byte array to use as a buffer.</param>
         /// <param name="offset">The start of the buffer segment.</param>
@@ -68,7 +68,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReader"/> over the given byte array.
+        /// Initializes a new instance of the <see cref="PacketReader"/> class over the given byte array.
         /// </summary>
         /// <param name="buffer">The byte array to read from.</param>
         /// <exception cref="ArgumentNullException">
@@ -87,7 +87,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReader"/>, with the same internal buffer segment and offset as an existing one.
+        /// Initializes a new instance of the <see cref="PacketReader"/> class, with the same internal buffer segment and offset as an existing one.
         /// </summary>
         /// <param name="other">The <see cref="PacketReader"/> instance to clone.</param>
         public PacketReader(PacketReader other)
@@ -118,6 +118,7 @@ namespace OpenStory.Common.IO
                 count++;
                 currentPosition++;
             }
+
             return this.ReadString(start, count);
         }
 
@@ -259,7 +260,7 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadInt16(out short value)
         {
-            return TryReadInt16(out value, false);
+            return this.TryReadInt16(out value, false);
         }
 
         private bool TryReadInt16(out short value, bool peek)
@@ -417,6 +418,7 @@ namespace OpenStory.Common.IO
                 {
                     throw PacketReadingException.EndOfStream();
                 }
+
                 start = this.currentOffset;
             }
             else
@@ -612,7 +614,7 @@ namespace OpenStory.Common.IO
         /// Wraps the current packet reader in a safety block, with a callback in case of failure.
         /// </summary>
         /// <remarks>
-        /// On failure, this method will rever the position of the reader to what it was when the method was called.
+        /// On failure, this method will revert the position of the reader to what it was when the method was called.
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
@@ -655,8 +657,9 @@ namespace OpenStory.Common.IO
         /// Wraps the current packet reader in a safety block, with a callback in case of failure.
         /// </summary>
         /// <remarks>
-        /// On failure, this method will rever the position of the reader to what it was when the method was called.
+        /// On failure, this method will revert the position of the reader to what it was when the method was called.
         /// </remarks>
+        /// <typeparam name="T">The return type of the callbacks.</typeparam>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <c>null</c>.</exception>

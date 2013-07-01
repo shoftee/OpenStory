@@ -16,7 +16,7 @@
         public int ActionId { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="KeyBinding"/>.
+        /// Initializes a new instance of the <see cref="KeyBinding"/> class.
         /// </summary>
         /// <param name="actionTypeId">The action type identifier for the binding.</param>
         /// <param name="actionId">The action identifier for the binding.</param>

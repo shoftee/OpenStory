@@ -31,7 +31,7 @@ namespace OpenStory.Networking
         public IPEndPoint Endpoint { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SocketAcceptor"/>.
+        /// Initializes a new instance of the <see cref="SocketAcceptor"/> class.
         /// </summary>
         /// <param name="endpoint">The <see cref="IPEndPoint"/> to accept connections through.</param>
         /// <exception cref="ArgumentNullException">

@@ -23,6 +23,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("hex");
             }
+
             if ((hex.Length & 1) != 0)
             {
                 throw new ArgumentException(Exceptions.StringLengthMustBeEven, "hex");
@@ -41,6 +42,7 @@ namespace OpenStory.Common.Tools
                 {
                     throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
+
                 var b = (byte)(digit << 4);
 
                 digit = HexDigits.IndexOf(uppercase[index | 1]);
@@ -48,9 +50,11 @@ namespace OpenStory.Common.Tools
                 {
                     throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
+
                 b |= (byte)digit;
                 bytes[i] = b;
             }
+
             return bytes;
         }
 
@@ -79,6 +83,7 @@ namespace OpenStory.Common.Tools
 
                 builder.AppendFormat("{0:X2}", array[i]);
             }
+
             return builder.ToString();
         }
     }

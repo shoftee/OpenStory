@@ -12,15 +12,22 @@ namespace OpenStory.Common.IO
     public sealed class PacketReadingException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReadingException"/>.
+        /// Initializes a new instance of the <see cref="PacketReadingException"/> class.
         /// </summary>
         /// <inheritdoc />
-        private PacketReadingException(string message) : base(message) { }
+        private PacketReadingException(string message)
+            : base(message)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReadingException"/>.
+        /// Initializes a new instance of the <see cref="PacketReadingException"/> class.
         /// </summary>
-        private PacketReadingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        /// <inheritdoc />
+        private PacketReadingException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
 
         /// <summary>
         /// Constructs a <see cref="PacketReadingException"/> which states that the end of the stream was reached.

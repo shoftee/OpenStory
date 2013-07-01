@@ -19,7 +19,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AtomicInteger"/> with the given value.
+        /// Initializes a new instance of the <see cref="AtomicInteger"/> class with the given value.
         /// </summary>
         /// <param name="initialValue">The initial value.</param>
         public AtomicInteger(int initialValue)
@@ -93,8 +93,9 @@ namespace OpenStory.Common
         {
             if (atomicInteger == null)
             {
-                throw new ArgumentNullException("atomicInteger");
+                throw new InvalidCastException();
             }
+
             return atomicInteger.value;
         }
 
@@ -119,7 +120,7 @@ namespace OpenStory.Common
         {
             if (atomicInteger == null)
             {
-                throw new ArgumentNullException("atomicInteger");
+                throw new InvalidCastException();
             }
 
             return atomicInteger.value;

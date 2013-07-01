@@ -52,14 +52,17 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("array");
             }
+
             if (offset < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
+
             if (length < 0)
             {
                 throw new ArgumentOutOfRangeException("length", length, Exceptions.LengthMustBeNonNegative);
             }
+
             if (array.Length <= offset || array.Length < offset + length)
             {
                 throw ArraySegmentException.GetByStartAndLength(offset, length);

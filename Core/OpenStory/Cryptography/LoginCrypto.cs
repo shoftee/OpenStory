@@ -61,12 +61,13 @@ namespace OpenStory.Cryptography
         {
             // Thanks to Diamondo25 for this.
             int location = 0;
-            location ^= (version & 0x7FFF);
+            location ^= version & 0x7FFF;
             if (remove)
             {
                 location ^= 0x8000;
             }
-            location ^= (subversion << 16);
+
+            location ^= subversion << 16;
             return location;
         }
     }

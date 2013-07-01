@@ -18,7 +18,7 @@ namespace OpenStory.Common.Game
         public short Y { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PointS"/>.
+        /// Initializes a new instance of the <see cref="PointS"/> struct.
         /// </summary>
         /// <param name="x">The value to initialize the X component with.</param>
         /// <param name="y">The value to initialize the Y component with.</param>
@@ -32,8 +32,6 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets the maximum components between two points.
         /// </summary>
-        /// <param name="a">A point.</param>
-        /// <param name="b">A point.</param>
         /// <returns>a new <see cref="PointS"/> which has the maximized components.</returns>
         public static PointS MaxComponents(PointS a, PointS b)
         {
@@ -45,8 +43,6 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets the minimum components between two points.
         /// </summary>
-        /// <param name="a">A point.</param>
-        /// <param name="b">A point.</param>
         /// <returns>a new <see cref="PointS"/> which has the minimized components.</returns>
         public static PointS MinComponents(PointS a, PointS b)
         {
@@ -64,8 +60,6 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Sums of the components of two points.
         /// </summary>
-        /// <param name="a">A point.</param>
-        /// <param name="b">A point.</param>
         /// <returns>a <see cref="PointS"/> with the summed components.</returns>
         public static PointS Add(PointS a, PointS b)
         {
@@ -96,8 +90,6 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Checks two <see cref="PointS"/> objects for value equality.
         /// </summary>
-        /// <param name="a">A point.</param>
-        /// <param name="b">A point.</param>
         public static bool operator ==(PointS a, PointS b)
         {
             return a.X == b.X && a.Y == b.Y;
@@ -106,8 +98,6 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Checks two <see cref="PointS"/> objects for value inequality.
         /// </summary>
-        /// <param name="a">A point.</param>
-        /// <param name="b">A point.</param>
         public static bool operator !=(PointS a, PointS b)
         {
             return !(a == b);
@@ -132,7 +122,8 @@ namespace OpenStory.Common.Game
             {
                 return false;
             }
-            return obj is PointS && Equals((PointS)obj);
+
+            return obj is PointS && this.Equals((PointS)obj);
         }
 
         /// <inheritdoc />

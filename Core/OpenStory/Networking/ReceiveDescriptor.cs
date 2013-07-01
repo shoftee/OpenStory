@@ -22,7 +22,7 @@ namespace OpenStory.Networking
         /// This event supports only one subscriber. Attempts to subscribe more than once will throw 
         /// <see cref="InvalidOperationException"/>.
         /// </para><para>
-        /// The bufferred data is not persistent. After the event is raised, the underlying data will 
+        /// The buffered data is not persistent. After the event is raised, the underlying data will 
         /// be overwritten by a new segment. Because of this, the subscriber should either use the 
         /// data immediately or copy it into another buffer.
         /// </para></remarks>
@@ -37,6 +37,7 @@ namespace OpenStory.Networking
                 {
                     throw new InvalidOperationException(Exceptions.EventMustHaveOnlyOneSubscriber);
                 }
+
                 this.DataArrivedInternal += value;
             }
             remove
@@ -50,7 +51,7 @@ namespace OpenStory.Networking
         private byte[] receiveBuffer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ReceiveDescriptor"/>.
+        /// Initializes a new instance of the <see cref="ReceiveDescriptor"/> class.
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> for the new instance.</param>
         /// <exception cref="ArgumentNullException">
@@ -59,7 +60,7 @@ namespace OpenStory.Networking
         public ReceiveDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            base.SocketArgs.Completed += this.EndReceiveAsynchronous;
+            this.SocketArgs.Completed += this.EndReceiveAsynchronous;
 
             this.ClearBuffer();
         }
@@ -75,12 +76,12 @@ namespace OpenStory.Networking
         private void ClearBuffer()
         {
             this.receiveBuffer = null;
-            base.SocketArgs.SetBuffer(null, 0, 0);
+            this.SocketArgs.SetBuffer(null, 0, 0);
         }
 
         private void ResetPositions()
         {
-            base.SocketArgs.SetBuffer(this.receiveBuffer, 0, BufferSize);
+            this.SocketArgs.SetBuffer(this.receiveBuffer, 0, BufferSize);
         }
 
         #endregion
@@ -91,7 +92,7 @@ namespace OpenStory.Networking
         /// Starts the receive process.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the <see cref="DataArrived"/> event has no subscibers.
+        /// Thrown if the <see cref="DataArrived"/> event has no subscribers.
         /// </exception>
         public void StartReceive()
         {
@@ -107,7 +108,7 @@ namespace OpenStory.Networking
 
         private void BeginReceive()
         {
-            if (!base.Container.IsActive)
+            if (!this.Container.IsActive)
             {
                 return;
             }
@@ -118,9 +119,9 @@ namespace OpenStory.Networking
                 // the operation completed synchronously.
                 // As long as that is happening, this loop will handle
                 // the data transfer synchronously as well.
-                while (!base.Container.Socket.ReceiveAsync(base.SocketArgs))
+                while (!this.Container.Socket.ReceiveAsync(this.SocketArgs))
                 {
-                    if (!this.EndReceiveSynchronous(base.SocketArgs))
+                    if (!this.EndReceiveSynchronous(this.SocketArgs))
                     {
                         break;
                     }
@@ -128,7 +129,7 @@ namespace OpenStory.Networking
             }
             catch (ObjectDisposedException)
             {
-                base.Container.Close();
+                this.Container.Close();
             }
         }
 
@@ -168,7 +169,7 @@ namespace OpenStory.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                base.OnError(args);
+                this.OnError(args);
                 return false;
             }
 

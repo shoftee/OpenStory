@@ -79,6 +79,7 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("builder");
             }
+
             if (flags == null)
             {
                 throw new ArgumentNullException("flags");

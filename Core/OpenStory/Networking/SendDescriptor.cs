@@ -18,7 +18,7 @@ namespace OpenStory.Networking
         private int sentBytes;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SendDescriptor"/>.
+        /// Initializes a new instance of the <see cref="SendDescriptor"/> class.
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> containing this instance.</param>
         /// <exception cref="ArgumentNullException">
@@ -27,7 +27,7 @@ namespace OpenStory.Networking
         public SendDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            base.SocketArgs.Completed += this.EndSendAsynchronous;
+            this.SocketArgs.Completed += this.EndSendAsynchronous;
 
             this.isSending = new AtomicBoolean(false);
             this.queue = new ConcurrentQueue<byte[]>();
@@ -45,10 +45,11 @@ namespace OpenStory.Networking
         /// </exception>
         public void Write(byte[] data)
         {
-            if (!base.Container.IsActive)
+            if (!this.Container.IsActive)
             {
                 throw new InvalidOperationException(Exceptions.SessionIsNotActive);
             }
+
             if (data == null)
             {
                 throw new ArgumentNullException("data");
@@ -92,9 +93,9 @@ namespace OpenStory.Networking
                 // if the operation completed synchronously.
                 // As long as the socket operation completes synchronously,
                 // this loop will handle the transfers synchronously too.
-                while (!base.Container.Socket.SendAsync(base.SocketArgs))
+                while (!this.Container.Socket.SendAsync(this.SocketArgs))
                 {
-                    if (!this.EndSendSynchronous(base.SocketArgs))
+                    if (!this.EndSendSynchronous(this.SocketArgs))
                     {
                         break;
                     }
@@ -118,8 +119,7 @@ namespace OpenStory.Networking
             this.queue.TryPeek(out segment);
 
             // Since we're sure segment is not null, we can dereference it.
-            base.SocketArgs.SetBuffer(segment, this.sentBytes,
-                                      segment.Length - this.sentBytes);
+            this.SocketArgs.SetBuffer(segment, this.sentBytes, segment.Length - this.sentBytes);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace OpenStory.Networking
                 // BytesTransferred is set to -1 if the socket was closed before the 
                 // last operation ended. This may happen because we requested it,
                 // or because of a network failure. OnError actually checks for this.
-                base.OnError(args);
+                this.OnError(args);
                 return false;
             }
 

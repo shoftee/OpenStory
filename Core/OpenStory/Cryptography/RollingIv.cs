@@ -15,7 +15,7 @@ namespace OpenStory.Cryptography
         private byte[] iv;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RollingIv"/>.
+        /// Initializes a new instance of the <see cref="RollingIv"/> class.
         /// </summary>
         /// <param name="algorithm">The <see cref="ICryptoAlgorithm"/> instance for this session.</param>
         /// <param name="initialIv">The initial IV for this instance.</param>
@@ -62,9 +62,9 @@ namespace OpenStory.Cryptography
                 throw new ArgumentNullException("data");
             }
 
-            algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
+            this.algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
 
-            this.iv = algorithm.ShuffleIv(this.iv);
+            this.iv = this.algorithm.ShuffleIv(this.iv);
         }
 
         /// <summary>
@@ -82,17 +82,18 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException("length", length, Exceptions.PacketLengthMustBeMoreThan2Bytes);
             }
 
-            int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask);
+            int encodedVersion = ((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask;
             int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
 
             var header = new byte[4];
             unchecked
             {
                 header[0] = (byte)(encodedVersion >> 8);
-                header[1] = (byte)(encodedVersion);
+                header[1] = (byte)encodedVersion;
                 header[2] = (byte)(encodedLength >> 8);
-                header[3] = (byte)(encodedLength);
+                header[3] = (byte)encodedLength;
             }
+
             return header;
         }
 
@@ -113,9 +114,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -133,9 +135,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -164,9 +167,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -202,9 +206,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 

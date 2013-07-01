@@ -24,6 +24,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Reads a specified number of bytes.
         /// </summary>
+        /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="count"/> is negative.
         /// </exception>
@@ -81,6 +82,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Reads a null-terminated string and advances the position past the padding.
         /// </summary>
+        /// <param name="paddingLength">The expected padding length.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="paddingLength"/> is non-positive.
         /// </exception>

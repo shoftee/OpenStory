@@ -10,10 +10,16 @@ namespace OpenStory.Common.IO
         private const int IntBitCount = 32;
 
         /// <inheritdoc />
-        protected IntFlags(int capacity) : base(capacity) { }
+        protected IntFlags(int capacity)
+            : base(capacity)
+        {
+        }
 
         /// <inheritdoc />
-        protected IntFlags(IntFlags other) : base(other) { }
+        protected IntFlags(IntFlags other)
+            : base(other)
+        {
+        }
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
@@ -26,7 +32,7 @@ namespace OpenStory.Common.IO
 
             // TODO: Actually figure out if this is how they're packed.
 
-            int bitCount = base.Bits.Length;
+            int bitCount = this.Bits.Length;
             int numberCount = bitCount / IntBitCount;
             var numbers = new uint[numberCount];
 
@@ -41,7 +47,8 @@ namespace OpenStory.Common.IO
                 {
                     numbers[numberIndex] <<= 1;
                 }
-                numbers[numberIndex] |= Convert.ToUInt32(base.Bits[i]);
+
+                numbers[numberIndex] |= Convert.ToUInt32(this.Bits[i]);
             }
 
             for (int i = 0; i < numberCount; i++)
@@ -59,7 +66,7 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("reader");
             }
 
-            int bitCount = base.Bits.Length;
+            int bitCount = this.Bits.Length;
             int numberCount = bitCount / IntBitCount;
 
             for (int i = 0; i < numberCount; i++)
@@ -69,7 +76,7 @@ namespace OpenStory.Common.IO
                 int endIndex = Math.Min(startIndex + IntBitCount, bitCount);
                 for (int j = startIndex; j < endIndex; j++)
                 {
-                    base.Bits[j] = Convert.ToBoolean(number & 1);
+                    this.Bits[j] = Convert.ToBoolean(number & 1);
                     number >>= 1;
                 }
             }

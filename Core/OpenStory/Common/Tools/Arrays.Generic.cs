@@ -66,5 +66,4 @@ namespace OpenStory.Common.Tools
             return array;
         }
     }
-
 }

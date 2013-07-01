@@ -18,28 +18,11 @@ namespace OpenStory.Common.IO
         private MemoryStream stream;
 
         /// <summary>
-        /// Initializes a new <see cref="PacketBuilder"/> instance with the default capacity.
+        /// Initializes a new instance of the <see cref="PacketBuilder"/> class with the default capacity.
         /// </summary>
         public PacketBuilder()
         {
             this.stream = new MemoryStream();
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PacketBuilder"/> instance.
-        /// </summary>
-        /// <param name="capacity">The initial capacity for the underlying stream.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="capacity"/> is non-positive.
-        /// </exception>
-        public PacketBuilder(int capacity)
-        {
-            if (capacity <= 0)
-            {
-                throw new ArgumentOutOfRangeException("capacity", capacity, Exceptions.CapacityMustBePositive);
-            }
-
-            this.stream = new MemoryStream(capacity);
         }
 
         /// <inheritdoc />
@@ -211,6 +194,9 @@ namespace OpenStory.Common.IO
             this.stream.Write(bytes, 0, bytes.Length);
         }
 
+        /// <summary>
+        /// Throws a new <see cref="ObjectDisposedException"/> if the current object is disposed.
+        /// </summary>
         /// <exception cref="ObjectDisposedException">
         /// Thrown if the <see cref="PacketBuilder"/> has been disposed.
         /// </exception>

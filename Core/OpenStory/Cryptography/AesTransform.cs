@@ -29,7 +29,7 @@ namespace OpenStory.Cryptography
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AesTransform"/>.
+        /// Initializes a new instance of the <see cref="AesTransform"/> class.
         /// </summary>
         /// <remarks>
         /// The provided arrays are copied into the <see cref="AesTransform"/> instance to avoid mutation.
@@ -46,6 +46,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("key");
             }
+
             if (key.Length != 32)
             {
                 throw new ArgumentException(Exceptions.AesKeyMustBe32Bytes, "key");
@@ -67,14 +68,14 @@ namespace OpenStory.Cryptography
             int blockStart = segmentStart;
             int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
 
-            TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
+            this.TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
 
             blockStart += FirstBlockLength;
             while (blockStart < segmentEnd)
             {
                 blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-                TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
+                this.TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
 
                 blockStart += BlockLength;
             }
@@ -93,7 +94,7 @@ namespace OpenStory.Cryptography
         /// <param name="iv">The IV to use for the transformation.</param>
         /// <param name="blockStart">The start offset of the block.</param>
         /// <param name="blockEnd">The end offset of the block.</param>
-        /// <param name="xorBlock">An array to use for the internal xor operations.</param>
+        /// <param name="xorBlock">An array to use for the internal XOR operations.</param>
         private void TransformBlock(byte[] data, byte[] iv, int blockStart, int blockEnd, byte[] xorBlock)
         {
             FillXorBlock(iv, xorBlock);
