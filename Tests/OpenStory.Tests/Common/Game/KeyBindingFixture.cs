@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.Game
 {
     [TestFixture]
     [Category("OpenStory.Common.Game.KeyBinding")]

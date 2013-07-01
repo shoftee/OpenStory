@@ -1,8 +1,6 @@
 using System;
-using NUnit.Framework;
-using OpenStory.Common.IO;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common
 {
     static internal class Helpers
     {

@@ -2,9 +2,8 @@ using System;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
-using CommonExceptions = OpenStory.Exceptions;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     class PacketReaderFixtureBase
@@ -87,6 +86,7 @@ namespace OpenStory.Tests
             construction.ShouldNotThrow();
         }
 
+        [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]
         public void Should_Not_Throw_On_Non_Null_Buffer_With_Segment()
         {

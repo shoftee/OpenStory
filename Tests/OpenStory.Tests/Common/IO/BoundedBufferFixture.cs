@@ -3,9 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
-using CommonExceptions = OpenStory.Exceptions;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.BoundedBuffer")]

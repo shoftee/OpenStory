@@ -4,9 +4,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
-using CommonExceptions = OpenStory.Exceptions;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     sealed class UnsafePacketReadingFixture

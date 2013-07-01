@@ -3,9 +3,8 @@ using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.IO;
-using CommonExceptions = OpenStory.Exceptions;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     sealed class SafePacketReadingFixture : PacketReaderFixtureBase

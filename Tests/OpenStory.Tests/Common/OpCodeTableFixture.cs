@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.OpCodeTable")]
@@ -173,7 +173,7 @@ namespace OpenStory.Tests
 
             protected override void LoadOpCodesInternal()
             {
-                LoadOpCodesInternalCount++;
+                this.LoadOpCodesInternalCount++;
             }
 
             #endregion

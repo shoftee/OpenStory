@@ -5,9 +5,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
-using CommonExceptions = OpenStory.Exceptions;
 
-namespace OpenStory.Tests
+namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.PacketBuilder")]
@@ -19,15 +18,6 @@ namespace OpenStory.Tests
         }
 
         #region Failure
-
-        [Test]
-        [TestCase(-1)]
-        [TestCase(0)]
-        public void Constructor_Should_Throw_On_Non_Positive_Capacity(int capacity)
-        {
-            Action construction = () => new PacketBuilder(capacity);
-            construction.ShouldThrow<ArgumentOutOfRangeException>();
-        }
 
         [Test]
         public void WriteBoolean_Should_Throw_After_Disposal()
