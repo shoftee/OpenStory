@@ -19,7 +19,7 @@ namespace OpenStory.Framework.Model.Common
         public string Name { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CharacterKey"/>.
+        /// Initializes a new instance ofthe  <see cref="CharacterKey"/> class.
         /// </summary>
         /// <param name="id">The numeric identifier.</param>
         /// <param name="name">The string identifier.</param>
@@ -36,7 +36,8 @@ namespace OpenStory.Framework.Model.Common
             {
                 return true;
             }
-            if (Equals(other, null))
+
+            if (object.Equals(other, null))
             {
                 return false;
             }
@@ -47,11 +48,12 @@ namespace OpenStory.Framework.Model.Common
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
             {
                 return true;
             }
-            if (Equals(obj, null))
+
+            if (object.Equals(obj, null))
             {
                 return false;
             }
@@ -71,7 +73,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         public static bool operator ==(CharacterKey left, CharacterKey right)
         {
-            return Equals(left, right);
+            return object.Equals(left, right);
         }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         public static bool operator !=(CharacterKey left, CharacterKey right)
         {
-            return !Equals(left, right);
+            return !object.Equals(left, right);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace OpenStory.Server.Modules.Config
             else
             {
                 string format = "The configuration key '{0}' did not correspond to an existing entry.";
-                string message = String.Format(format, key);
+                string message = string.Format(format, key);
                 throw new KeyNotFoundException(message);
             }
         }

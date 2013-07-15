@@ -123,10 +123,10 @@ namespace OpenStory.Server.Processing
         private bool PushAsync(byte[] packet)
         {
             var reader = new PacketReader(packet);
-            ushort opCode;
-            if (!reader.TryReadUInt16(out opCode))
+            ushort packetCode;
+            if (!reader.TryReadUInt16(out packetCode))
             {
-                LogPacketWithoutOpCode();
+                LogPacketWithoutPacketCode();
 
                 this.networkSession.Close();
 
@@ -134,11 +134,11 @@ namespace OpenStory.Server.Processing
                 return true;
             }
 
-            string label = this.getLabel.Invoke(opCode);
+            string label = this.getLabel.Invoke(packetCode);
             if (label == null)
             {
                 // Bad SERVER. Most likely. We don't know this packet.
-                LogUnknownPacket(opCode, reader);
+                LogUnknownPacket(packetCode, reader);
 
                 // Take the blame and try the next one! :<
                 return false;
@@ -199,22 +199,25 @@ namespace OpenStory.Server.Processing
         private void OnReadyForPush()
         {
             var handler = this.ReadyForPush;
-            if (handler != null) handler.Invoke(this, EventArgs.Empty);
+            if (handler != null)
+            {
+                handler.Invoke(this, EventArgs.Empty);
+            }
         }
 
         #endregion
 
         #region Logging
 
-        private static void LogPacketWithoutOpCode()
+        private static void LogPacketWithoutPacketCode()
         {
-            OS.Log().Info("A packet without an op-code was received.");
+            OS.Log().Info("A packet without a packet code was received.");
         }
 
-        private static void LogUnknownPacket(ushort opCode, PacketReader reader)
+        private static void LogUnknownPacket(ushort packetCode, PacketReader reader)
         {
-            const string Format = "Unknown Op Code 0x{0:4X} - {1}";
-            OS.Log().Warning(Format, opCode, reader.ReadFully().ToHex());
+            const string Format = "Unknown Packet Code 0x{0:4X} - {1}";
+            OS.Log().Warning(Format, packetCode, reader.ReadFully().ToHex());
         }
 
         #endregion

@@ -34,7 +34,7 @@ namespace OpenStory.Framework.Model.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ItemContainer{TItemInfo}"/>.
+        /// Initializes a new instance of the <see cref="ItemContainer{TItemInfo}"/> class.
         /// </summary>
         /// <param name="slotCapacity">The initial slot capacity.</param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -44,9 +44,10 @@ namespace OpenStory.Framework.Model.Common
         {
             if (slotCapacity < 0)
             {
-                throw new ArgumentOutOfRangeException("slotCapacity", slotCapacity,
-                                                      OpenStory.Exceptions.CapacityMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(
+                    "slotCapacity", slotCapacity, OpenStory.Exceptions.CapacityMustBeNonNegative);
             }
+
             this.SlotCapacity = slotCapacity;
 
             this.slots = new Dictionary<int, ItemCluster<TItemInfo>>(slotCapacity);
@@ -62,7 +63,8 @@ namespace OpenStory.Framework.Model.Common
         {
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, OpenStory.Exceptions.CountMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(
+                    "count", count, OpenStory.Exceptions.CountMustBeNonNegative);
             }
 
             int newCapacity = this.SlotCapacity + count;

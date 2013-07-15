@@ -58,9 +58,9 @@ namespace OpenStory.Tests.Common.Game
         [Test]
         public void Unary_Minus_Operator_Should_Throw_On_MinValue()
         {
-            var point = new PointS(Int16.MinValue, Int16.MinValue);
+            var point = new PointS(short.MinValue, short.MinValue);
 
-            point.Invoking(a => { var b = -a; })
+            point.Invoking(a => (-a).Whatever())
                  .ShouldThrow<ArgumentException>();
         }
 
@@ -105,7 +105,7 @@ namespace OpenStory.Tests.Common.Game
         {
             var point1 = new PointS(1, 2);
             var point2 = new PointS(1, 2);
-            Equals(point1, point2).Should().BeTrue();
+            object.Equals(point1, point2).Should().BeTrue();
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace OpenStory.Tests.Common.Game
         {
             var point1 = new PointS(1, 2);
             var point2 = new PointS(2, 3);
-            Equals(point1, point2).Should().BeFalse();
+            object.Equals(point1, point2).Should().BeFalse();
         }
 
         [Test]

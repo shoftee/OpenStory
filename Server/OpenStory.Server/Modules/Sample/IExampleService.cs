@@ -11,7 +11,7 @@ namespace OpenStory.Server.Modules.Sample
         /// <summary>
         /// Does something awesome.
         /// </summary>
-        /// <param name="name">Your name plx.</param>
+        /// <param name="name">Your name please.</param>
         /// <returns>you tell me.</returns>
         string DoSomethingAwesome(string name);
     }

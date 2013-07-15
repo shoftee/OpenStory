@@ -13,7 +13,7 @@ namespace OpenStory.Server.Modules
         private readonly Dictionary<Type, TManagerBase> managers;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ManagerStore{TManagerBase}"/>.
+        /// Initializes a new instance of the <see cref="ManagerStore{TManagerBase}"/> class.
         /// </summary>
         public ManagerStore()
         {

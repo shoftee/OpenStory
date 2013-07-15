@@ -13,7 +13,7 @@ namespace OpenStory.Server.Registry
         private readonly Dictionary<CharacterKey, PlayerLocation> locations;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LocationRegistry"/>.
+        /// Initializes a new instance of the <see cref="LocationRegistry"/> class.
         /// </summary>
         public LocationRegistry()
         {

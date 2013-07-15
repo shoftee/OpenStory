@@ -12,7 +12,7 @@ namespace OpenStory.Server.Fluent
         protected TParent Parent { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NestedFacade{TParent}"/>.
+        /// Initializes a new instance of the <see cref="NestedFacade{TParent}"/> class.
         /// </summary>
         /// <param name="parent">The parent facade object.</param>
         protected NestedFacade(TParent parent)

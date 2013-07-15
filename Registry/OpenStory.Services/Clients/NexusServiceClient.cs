@@ -15,7 +15,7 @@ namespace OpenStory.Services.Clients
         private static readonly NetTcpBinding Binding = new NetTcpBinding(SecurityMode.Transport);
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NexusServiceClient"/>.
+        /// Initializes a new instance of the <see cref="NexusServiceClient"/> class.
         /// </summary>
         public NexusServiceClient(Uri uri)
             : base(new ServiceEndpoint(Contract, Binding, new EndpointAddress(uri)))
@@ -28,8 +28,7 @@ namespace OpenStory.Services.Clients
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
             var result = ServiceOperationResult<ServiceConfiguration>.Of(
-                () => base.Channel.GetServiceConfiguration(token)
-            );
+                () => this.Channel.GetServiceConfiguration(token));
 
             return result;
         }

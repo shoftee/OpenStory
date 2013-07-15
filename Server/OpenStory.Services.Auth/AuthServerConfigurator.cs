@@ -4,7 +4,7 @@ using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Auth
 {
-    class AuthServerConfigurator : IServerConfigurator
+    internal class AuthServerConfigurator : IServerConfigurator
     {
         public bool CheckConfiguration(ServiceConfiguration configuration, out string error)
         {

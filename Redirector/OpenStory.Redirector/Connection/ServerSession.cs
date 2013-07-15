@@ -7,7 +7,7 @@ namespace OpenStory.Redirector.Connection
     internal sealed class ServerSession : EncryptedNetworkSession
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerSession"/>
+        /// Initializes a new instance of the <see cref="ServerSession"/> class.
         /// </summary>
         public ServerSession()
         {

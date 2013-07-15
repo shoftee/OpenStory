@@ -75,6 +75,7 @@ namespace OpenStory.Synchronization
                     tasks.Add(node.Task);
                     node = node.Next;
                 }
+
                 this.front = node;
                 return tasks;
             }
@@ -91,6 +92,7 @@ namespace OpenStory.Synchronization
                 {
                     newNode.Next = node.Next;
                 }
+
                 node.Next = newNode;
             }
 

@@ -9,7 +9,10 @@ namespace OpenStory.Server.Modules.Services
         private static readonly NetTcpBinding DefaultBinding = new NetTcpBinding(SecurityMode.Transport);
 
         public static readonly IEndpointProvider Instance = new DefaultEndpointProvider();
-        private DefaultEndpointProvider() { }
+
+        private DefaultEndpointProvider()
+        {
+        }
 
         #region Implementation of IEndpointProvider
 

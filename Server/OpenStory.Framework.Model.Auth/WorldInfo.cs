@@ -24,14 +24,14 @@ namespace OpenStory.Framework.Model.Auth
         public int ChannelCount { get; set; }
 
         /// <summary>
-        /// Initializes this World object with the default values.
+        /// Initializes a new instance of the <see cref="WorldInfo"/> class.
         /// </summary>
         public WorldInfo()
         {
         }
 
         /// <summary>
-        /// Initializes this World object from a given <see cref="IDataRecord"/>.
+        /// Initializes a new instance of the <see cref="WorldInfo"/> class.
         /// </summary>
         /// <param name="record">The record containing the data for this object.</param>
         /// <exception cref="ArgumentNullException">

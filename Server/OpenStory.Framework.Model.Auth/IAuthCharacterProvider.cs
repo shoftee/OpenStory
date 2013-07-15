@@ -18,7 +18,7 @@ namespace OpenStory.Framework.Model.Auth
         /// Saves a new character.
         /// </summary>
         /// <param name="character">The <see cref="AuthCharacter"/> object to save.</param>
-        /// <returns>a <see cref="CharacterCreateResult"/> for the opertaion.</returns>
+        /// <returns>a <see cref="CharacterCreateResult"/> for the operation.</returns>
         CharacterCreateResult SaveNew(AuthCharacter character);
 
         /// <summary>

@@ -40,19 +40,19 @@ namespace OpenStory.Redirector
             string hostString = parameters[@"host"];
             string portString = parameters[@"port"];
 
-            IPAddress ipAddress;
-            if (String.IsNullOrEmpty(hostString) || !IPAddress.TryParse(hostString, out ipAddress))
+            IPAddress host;
+            if (string.IsNullOrEmpty(hostString) || !IPAddress.TryParse(hostString, out host))
             {
                 return null;
             }
 
             int port;
-            if (String.IsNullOrEmpty(portString) || !int.TryParse(portString, out port))
+            if (string.IsNullOrEmpty(portString) || !int.TryParse(portString, out port))
             {
                 return null;
             }
 
-            return new IPEndPoint(ipAddress, port);
+            return new IPEndPoint(host, port);
         }
 
         private static void ShowHelpMessage()

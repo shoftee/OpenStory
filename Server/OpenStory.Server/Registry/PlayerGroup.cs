@@ -20,7 +20,7 @@ namespace OpenStory.Server.Registry
         protected HashSet<TGroupMember> Members { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier.
+        /// Initializes a new instance of the <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> class with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         protected PlayerGroup(int id)
@@ -30,7 +30,7 @@ namespace OpenStory.Server.Registry
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier and members.
+        /// Initializes a new instance of the <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> class  with the specified identifier and members.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         /// <param name="members">The initial member list of this group.</param>
@@ -52,6 +52,7 @@ namespace OpenStory.Server.Registry
             {
                 this.OnMemberAdded(member);
             }
+
             return success;
         }
 
@@ -75,6 +76,7 @@ namespace OpenStory.Server.Registry
             {
                 this.OnMemberRemoved(member);
             }
+
             return success;
         }
 

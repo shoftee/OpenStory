@@ -23,7 +23,7 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        protected override IOpCodeTable OpCodes
+        protected override IPacketCodeTable OpCodes
         {
             get { throw new NotImplementedException(); }
         }
@@ -79,7 +79,6 @@ namespace OpenStory.Server.Channel
             this.World.BroadcastFromChannel(this.ChannelId, keys, data);
         }
 
-        // This method will be part of the service contract.
         /// <summary>
         /// Broadcasts a packet to the targets that reside in the current channel.
         /// </summary>
@@ -87,6 +86,7 @@ namespace OpenStory.Server.Channel
         /// <param name="data">The packet payload to broadcast.</param>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
+            // This method will be part of the service contract.
             var playerRegistry = LookupManager.GetManager().Players;
             var targetPlayers = from target in playerRegistry.Scan(targets)
                                 select target;

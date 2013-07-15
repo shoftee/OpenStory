@@ -16,7 +16,7 @@ namespace OpenStory.Services
         private ServiceConfiguration serviceConfiguration;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GameServiceBase"/>.
+        /// Initializes a new instance of the <see cref="GameServiceBase"/> class.
         /// </summary>
         protected GameServiceBase()
         {
@@ -29,8 +29,7 @@ namespace OpenStory.Services
         {
             get
             {
-                ThrowIfDisposed();
-
+                this.ThrowIfDisposed();
                 return this.serviceUri;
             }
         }
@@ -43,7 +42,7 @@ namespace OpenStory.Services
         /// <returns><c>true</c> if configuration was successful; otherwise, <c>false</c>.</returns>
         public bool Configure(ServiceConfiguration configuration, out string error)
         {
-            ThrowIfDisposed();
+            this.ThrowIfDisposed();
 
             var uri = configuration.Get<Uri>(ServiceSettings.Uri.Key);
             if (uri == null)
@@ -84,7 +83,7 @@ namespace OpenStory.Services
         /// <param name="error">A variable to hold a human-readable error message.</param>
         public bool OpenServiceHost(out string error)
         {
-            ThrowIfDisposed();
+            this.ThrowIfDisposed();
 
             if (this.serviceHost != null)
             {

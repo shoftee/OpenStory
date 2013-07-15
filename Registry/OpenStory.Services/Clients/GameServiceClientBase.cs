@@ -10,9 +10,9 @@ namespace OpenStory.Services.Clients
         where TServiceInterface : class
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="ChannelServiceClient"/> with the specified endpoint address.
+        /// Initialized a new instance of the <see cref="GameServiceClientBase{TServiceInterface}"/> class with the specified endpoint address.
         /// </summary>
-        /// <param name="endpoint">The endpoing information for the service.</param>
+        /// <param name="endpoint">The endpoint information for the service.</param>
         protected GameServiceClientBase(ServiceEndpoint endpoint)
             : base(endpoint)
         {

@@ -26,7 +26,7 @@ namespace OpenStory.Server.Processing
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerNetworkSession"/>
+        /// Initializes a new instance of the <see cref="ServerNetworkSession"/> class.
         /// </summary>
         public ServerNetworkSession()
         {
@@ -47,6 +47,7 @@ namespace OpenStory.Server.Processing
             {
                 throw new ArgumentNullException("factory");
             }
+
             if (info == null)
             {
                 throw new ArgumentNullException("info");

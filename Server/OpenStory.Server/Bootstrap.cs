@@ -29,14 +29,14 @@ namespace OpenStory.Server
             var parameters = ParameterList.FromEnvironment(out error);
             if (error != null)
             {
-                error = String.Format(Errors.BootstrapParseError, error);
+                error = string.Format(Errors.BootstrapParseError, error);
                 return null;
             }
 
             var nexusConnectionInfo = NexusConnectionInfo.FromParameterList(parameters, out error);
             if (error != null)
             {
-                error = String.Format(Errors.BootstrapValidationError, error);
+                error = string.Format(Errors.BootstrapValidationError, error);
                 return null;
             }
             else
@@ -61,7 +61,7 @@ namespace OpenStory.Server
             var result = GetServiceConfiguration(nexusConnectionInfo);
             if (!CheckOperationResult(result, out error))
             {
-                error = String.Format(Errors.BootstrapConnectionError, error);
+                error = string.Format(Errors.BootstrapConnectionError, error);
                 return null;
             }
             else
@@ -73,7 +73,7 @@ namespace OpenStory.Server
             var service = kernel.Get<TGameService>();
             if (!service.Configure(configuration, out error))
             {
-                error = String.Format(Errors.BootstrapConfigurationError, error);
+                error = string.Format(Errors.BootstrapConfigurationError, error);
                 return null;
             }
             else
@@ -83,7 +83,7 @@ namespace OpenStory.Server
 
             if (!service.OpenServiceHost(out error))
             {
-                error = String.Format(Errors.BootstrapHostingError, error);
+                error = string.Format(Errors.BootstrapHostingError, error);
                 return null;
             }
             else
@@ -112,7 +112,7 @@ namespace OpenStory.Server
                     return true;
 
                 case OperationState.FailedLocally:
-                    error = String.Format(Errors.BootstrapCouldNotConnectToNexus, result.Error);
+                    error = string.Format(Errors.BootstrapCouldNotConnectToNexus, result.Error);
                     return false;
 
                 case OperationState.Refused:
@@ -120,7 +120,7 @@ namespace OpenStory.Server
                     return false;
 
                 default:
-                    error = String.Format(Errors.BootstrapNexusGenericError, result.Error);
+                    error = string.Format(Errors.BootstrapNexusGenericError, result.Error);
                     return false;
             }
         }

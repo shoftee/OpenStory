@@ -22,13 +22,13 @@ namespace OpenStory.Server
         /// <inheritdoc />
         public override bool Equals(ICharacterExtension x, ICharacterExtension y)
         {
-            return keyComparer.Equals(x.Key, y.Key);
+            return this.keyComparer.Equals(x.Key, y.Key);
         }
 
         /// <inheritdoc />
         public override int GetHashCode(ICharacterExtension obj)
         {
-            return obj != null ? keyComparer.GetHashCode(obj.Key) : 0;
+            return obj != null ? this.keyComparer.GetHashCode(obj.Key) : 0;
         }
     }
 }

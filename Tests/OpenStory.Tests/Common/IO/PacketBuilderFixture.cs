@@ -10,7 +10,7 @@ namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.PacketBuilder")]
-    sealed class PacketBuilderFixture
+    internal sealed class PacketBuilderFixture
     {
         private static PacketBuilder DefaultBuilder
         {

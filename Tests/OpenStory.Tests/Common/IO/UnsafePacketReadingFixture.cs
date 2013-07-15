@@ -8,7 +8,7 @@ using OpenStory.Common.Tools;
 namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
-    sealed class UnsafePacketReadingFixture
+    internal sealed class UnsafePacketReadingFixture
     {
         #region Throws
 
@@ -337,11 +337,7 @@ namespace OpenStory.Tests.Common.IO
             var reader = new PacketReader(buffer);
 
             int actual = reader.ReadInt32();
-            int expected =
-                ((buffer[0]) +
-                 (buffer[1] << 8) +
-                 (buffer[2] << 16) +
-                 (buffer[3] << 24));
+            int expected = (buffer[0]) + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24);
 
             actual.Should().Be(expected);
         }
@@ -354,8 +350,7 @@ namespace OpenStory.Tests.Common.IO
             var reader = new PacketReader(buffer);
 
             uint actual = reader.ReadUInt32();
-            uint expected = (uint)
-                (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
+            uint expected = (uint) (buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24));
 
             actual.Should().Be(expected);
         }
@@ -368,15 +363,7 @@ namespace OpenStory.Tests.Common.IO
             var reader = new PacketReader(buffer);
 
             long actual = reader.ReadInt64();
-            long expected =
-                ((long)buffer[0]) +
-                ((long)buffer[1] << 8) +
-                ((long)buffer[2] << 16) +
-                ((long)buffer[3] << 24) +
-                ((long)buffer[4] << 32) +
-                ((long)buffer[5] << 40) +
-                ((long)buffer[6] << 48) +
-                ((long)buffer[7] << 56);
+            long expected = buffer[0] + ((long)buffer[1] << 8) + ((long)buffer[2] << 16) + ((long)buffer[3] << 24) + ((long)buffer[4] << 32) + ((long)buffer[5] << 40) + ((long)buffer[6] << 48) + ((long)buffer[7] << 56);
 
             actual.Should().Be(expected);
         }
@@ -389,15 +376,7 @@ namespace OpenStory.Tests.Common.IO
             var reader = new PacketReader(buffer);
 
             ulong actual = reader.ReadUInt64();
-            ulong expected =
-                ((ulong)buffer[0]) +
-                ((ulong)buffer[1] << 8) +
-                ((ulong)buffer[2] << 16) +
-                ((ulong)buffer[3] << 24) +
-                ((ulong)buffer[4] << 32) +
-                ((ulong)buffer[5] << 40) +
-                ((ulong)buffer[6] << 48) +
-                ((ulong)buffer[7] << 56);
+            ulong expected = buffer[0] + ((ulong)buffer[1] << 8) + ((ulong)buffer[2] << 16) + ((ulong)buffer[3] << 24) + ((ulong)buffer[4] << 32) + ((ulong)buffer[5] << 40) + ((ulong)buffer[6] << 48) + ((ulong)buffer[7] << 56);
 
             actual.Should().Be(expected);
         }

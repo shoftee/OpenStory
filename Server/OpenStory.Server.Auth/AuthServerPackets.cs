@@ -2,17 +2,17 @@ using OpenStory.Common;
 
 namespace OpenStory.Server.Auth
 {
-    internal sealed class AuthServerPackets : OpCodeTable
+    internal sealed class AuthServerPackets : PacketCodeTable
     {
         public AuthServerPackets()
         {
-            this.LoadOpCodes();
+            this.LoadPacketCodes();
         }
 
-        #region Overrides of OpCodeTable
+        #region Overrides of PacketCodeTable
 
         /// <inheritdoc select="summary"/>
-        protected override void LoadOpCodesInternal()
+        protected override void LoadPacketCodesInternal()
         {
             this.AddIncoming(0x0011, "Pong");
             this.AddIncoming(0x0019, "RsaCryptoRequest");

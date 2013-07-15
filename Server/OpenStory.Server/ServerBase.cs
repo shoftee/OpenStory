@@ -29,7 +29,7 @@ namespace OpenStory.Server
         /// <summary>
         /// Gets the known op-code table for this server.
         /// </summary>
-        protected abstract IOpCodeTable OpCodes { get; }
+        protected abstract IPacketCodeTable OpCodes { get; }
 
         /// <summary>
         /// Gets the name of the server.
@@ -42,7 +42,7 @@ namespace OpenStory.Server
         public bool IsRunning { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerBase"/>.
+        /// Initializes a new instance of the <see cref="ServerBase"/> class.
         /// </summary>
         /// <param name="configuration">The server configuration.</param>
         /// <exception cref="ArgumentNullException">
@@ -59,7 +59,7 @@ namespace OpenStory.Server
 
             this.acceptor = new SocketAcceptor(configuration.Endpoint);
             this.acceptor.SocketAccepted += (s, e) => this.HandleAccept(e.Socket);
-            
+
             this.IsRunning = false;
         }
 
@@ -101,14 +101,14 @@ namespace OpenStory.Server
         /// <inheritdoc />
         public PacketBuilder NewPacket(string label)
         {
-            ushort opCode;
-            if (!this.OpCodes.TryGetOutgoingOpCode(label, out opCode))
+            ushort packetCode;
+            if (!this.OpCodes.TryGetOutgoingCode(label, out packetCode))
             {
                 throw new ArgumentException(CommonExceptions.UnknownPacketLabel, "label");
             }
 
             var builder = new PacketBuilder();
-            builder.WriteInt16(opCode);
+            builder.WriteInt16(packetCode);
             return builder;
         }
 
@@ -120,10 +120,11 @@ namespace OpenStory.Server
             var session = this.GetServerSession(socket);
             this.OnConnectionOpen(session);
 
-            OS.Log().Info("Network session {0} started : CIV {1} SIV {2}.",
-                          session.NetworkSessionId,
-                          clientIv.ToHex(hyphenate: true),
-                          serverIv.ToHex(hyphenate: true));
+            OS.Log().Info(
+                "Network session {0} started : CIV {1} SIV {2}.",
+                session.NetworkSessionId,
+                clientIv.ToHex(hyphenate: true),
+                serverIv.ToHex(hyphenate: true));
 
             // TODO: Load constants from configuration thingie?
             var info = new ConfiguredHandshakeInfo(0x000E, Settings.Default.MapleVersion, "2", clientIv, serverIv, 0x05);
@@ -133,10 +134,10 @@ namespace OpenStory.Server
         private IServerSession GetServerSession(Socket socket)
         {
             var session = new ServerNetworkSession();
-            var wrapper = new ServerGameSession(session, GetLabel);
+            var wrapper = new ServerGameSession(session, this.GetLabel);
 
             wrapper.Closing += OnConnectionClose;
-            wrapper.ReadyForPush += HandleReadyForPush;
+            wrapper.ReadyForPush += this.HandleReadyForPush;
 
             session.AttachSocket(socket);
 
@@ -150,10 +151,10 @@ namespace OpenStory.Server
             ThreadPool.QueueUserWorkItem(state => wrapper.Push());
         }
 
-        private string GetLabel(ushort opCode)
+        private string GetLabel(ushort packetCode)
         {
             string label;
-            this.OpCodes.TryGetIncomingLabel(opCode, out label);
+            this.OpCodes.TryGetIncomingLabel(packetCode, out label);
             return label;
         }
 
@@ -217,7 +218,10 @@ namespace OpenStory.Server
             // Just in case we hit that 1 in 2147483648 chance.
             // Things go very bad if the IV is 0.
             int number;
-            do number = Rng.Next();
+            do
+            {
+                number = Rng.Next();
+            }
             while (number == 0);
 
             return BitConverter.GetBytes(number);

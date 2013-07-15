@@ -44,7 +44,7 @@ namespace OpenStory.Framework.Model.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ItemCluster{TItemInfo}"/>.
+        /// Initializes a new instance of the <see cref="ItemCluster{TItemInfo}"/> class.
         /// </summary>
         /// <param name="prototype">The <see cref="ItemInfo"/> to use as an item prototype.</param>
         /// <exception cref="ArgumentNullException">

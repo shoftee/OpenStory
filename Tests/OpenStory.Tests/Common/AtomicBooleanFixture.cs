@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common;
@@ -169,7 +166,7 @@ namespace OpenStory.Tests.Common
         [Test]
         public void Explicit_Cast_Should_Throw_On_Casting_Null()
         {
-            Action action = () => { var b = (bool)((AtomicBoolean)null); };
+            Action action = () => ((bool)(AtomicBoolean)null).Whatever();
 
             action.ShouldThrow<InvalidCastException>();
         }

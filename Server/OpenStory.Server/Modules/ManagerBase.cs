@@ -17,7 +17,7 @@ namespace OpenStory.Server.Modules
         private readonly Dictionary<ComponentKey, object> instances;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ManagerBase"/>.
+        /// Initializes a new instance of the <see cref="ManagerBase"/> class.
         /// </summary>
         protected ManagerBase()
         {
@@ -148,6 +148,7 @@ namespace OpenStory.Server.Modules
             {
                 throw new ArgumentNullException("name");
             }
+
             if (instance == null)
             {
                 throw new ArgumentNullException("instance");
@@ -160,12 +161,13 @@ namespace OpenStory.Server.Modules
             {
                 throw GetUnknownComponentNameException(name);
             }
+
             if (!required.IsAssignableFrom(type))
             {
                 throw GetIncompatibleTypeException(instance, required.FullName);
             }
 
-            RegisterComponentInternal(name, instance);
+            this.RegisterComponentInternal(name, instance);
         }
 
         private void RegisterComponentInternal(string name, object instance)
@@ -266,7 +268,7 @@ namespace OpenStory.Server.Modules
                 object instance = entry.Value;
                 if (key.IsRequired && instance == null)
                 {
-                    error = String.Format(Errors.ModulesRequiredComponentNotInitialized, key.Name);
+                    error = string.Format(Errors.ModulesRequiredComponentNotInitialized, key.Name);
                     return false;
                 }
             }
@@ -287,7 +289,7 @@ namespace OpenStory.Server.Modules
 
         private static ArgumentException GetIncompatibleTypeException(object instance, string typeFullName)
         {
-            string message = String.Format(Framework.Model.Common.Exceptions.ObjectNotAssignableToType, typeFullName);
+            string message = string.Format(Framework.Model.Common.Exceptions.ObjectNotAssignableToType, typeFullName);
             return new ArgumentException(message, "instance");
         }
 
@@ -301,6 +303,7 @@ namespace OpenStory.Server.Modules
         private struct ComponentKey : IEquatable<ComponentKey>
         {
             public string Name { get; private set; }
+
             public bool IsRequired { get; private set; }
 
             public ComponentKey(string name, bool isRequired)

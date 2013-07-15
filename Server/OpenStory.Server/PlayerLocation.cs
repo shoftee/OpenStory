@@ -20,7 +20,7 @@ namespace OpenStory.Server
         public int MapId { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PlayerLocation"/>.
+        /// Initializes a new instance of the <see cref="PlayerLocation"/> class.
         /// </summary>
         /// <param name="channelId">The ID of the Channel.</param>
         /// <param name="mapId">The ID of the Map.</param>
@@ -33,6 +33,7 @@ namespace OpenStory.Server
             {
                 throw new ArgumentOutOfRangeException("channelId", channelId, CommonExceptions.ChannelIdMustBeNonNegative);
             }
+
             if (mapId < 0)
             {
                 throw new ArgumentOutOfRangeException("mapId", mapId, CommonExceptions.MapIdMustBeNonNegative);
@@ -49,6 +50,7 @@ namespace OpenStory.Server
             {
                 return false;
             }
+
             return this.EqualsInternal(other);
         }
 
@@ -89,7 +91,7 @@ namespace OpenStory.Server
         /// <returns><c>true</c> if the two objects are equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(PlayerLocation location1, PlayerLocation location2)
         {
-            return Equals(location1, location2);
+            return object.Equals(location1, location2);
         }
 
         /// <summary>

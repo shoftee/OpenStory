@@ -10,7 +10,7 @@ namespace OpenStory.Services.Registry
     public sealed class RegisteredServiceClient : DuplexClientBase<IRegisteredService>, IRegisteredService
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="RegisteredServiceClient"/> with the specified endpoint address.
+        /// Initializes a new instance of the <see cref="RegisteredServiceClient"/> class with the specified endpoint address.
         /// </summary>
         /// <param name="endpoint">The service endpoint information.</param>
         /// <param name="stateChangedHandler">The handler for the service state changes.</param>
@@ -24,28 +24,28 @@ namespace OpenStory.Services.Registry
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.Initialize());
+            var result = ServiceOperationResult.Of(() => this.Channel.Initialize());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.Start());
+            var result = ServiceOperationResult.Of(() => this.Channel.Start());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.Stop());
+            var result = ServiceOperationResult.Of(() => this.Channel.Stop());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Ping()
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.Ping());
+            var result = ServiceOperationResult.Of(() => this.Channel.Ping());
             return result;
         }
 

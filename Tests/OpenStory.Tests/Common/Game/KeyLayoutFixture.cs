@@ -10,7 +10,6 @@ namespace OpenStory.Tests.Common.Game
     [Category("OpenStory.Common.Game.KeyLayout")]
     public sealed class KeyLayoutFixture
     {
-
         private static KeyBinding[] DummyBindingList
         {
             get
@@ -48,7 +47,7 @@ namespace OpenStory.Tests.Common.Game
         {
             Action construction = () => new KeyLayout(DummyBindingListIncorrect);
             construction.ShouldThrow<ArgumentException>()
-                        .WithMessage(String.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount));
+                        .WithMessage(string.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount));
         }
 
         [Test]

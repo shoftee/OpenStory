@@ -9,7 +9,6 @@ namespace OpenStory.Services.Management
         private static void Main()
         {
             // TODO: Add Management/Diagnostic hooks into all Services. Preferably easily customizable ones. Dunno about dynamic.
-
             var uri = new Uri("net.tcp://localhost/OpenStory/Registry");
             IRegistryService client = new RegistryServiceClient(uri);
             var result = client.GetRegistrations();
@@ -17,7 +16,7 @@ namespace OpenStory.Services.Management
             var registrations = result.Result;
             if (registrations != null)
             {
-                Console.WriteLine("Registrations: [{0}]({1})", String.Join(", ", registrations), registrations.Length);
+                Console.WriteLine("Registrations: [{0}]({1})", string.Join(", ", registrations), registrations.Length);
             }
 
             Thread.Sleep(Timeout.Infinite);

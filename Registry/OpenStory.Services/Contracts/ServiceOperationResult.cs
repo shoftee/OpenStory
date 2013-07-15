@@ -24,7 +24,7 @@ namespace OpenStory.Services.Contracts
         public ServiceState ServiceState { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
+        /// Initializes a new instance of the <see cref="ServiceOperationResult"/> struct.
         /// </summary>
         /// <remarks>
         /// You may use this constructor for successfully completed operations.
@@ -36,7 +36,7 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>
+        /// Initializes a new instance of the <see cref="ServiceOperationResult"/> struct.
         /// </summary>
         /// <remarks>
         /// You may use this constructor for operations that completed without a valid result.
@@ -49,7 +49,7 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult"/>.
+        /// Initializes a new instance of the <see cref="ServiceOperationResult"/> struct.
         /// </summary>
         /// <param name="operationState">The state of the operation.</param>
         /// <param name="error">The exception to assign to this result.</param>
@@ -61,6 +61,7 @@ namespace OpenStory.Services.Contracts
             {
                 throw new InvalidEnumArgumentException("operationState", (int)operationState, typeof(OperationState));
             }
+
             if (!Enum.IsDefined(typeof(ServiceState), serviceState))
             {
                 throw new InvalidEnumArgumentException("serviceState", (int)serviceState, typeof(ServiceState));
@@ -117,6 +118,7 @@ namespace OpenStory.Services.Contracts
             {
                 actualOperationState = OperationState.FailedRemotely;
             }
+
             var result = new ServiceOperationResult(actualOperationState, remoteResult.Error, remoteResult.ServiceState);
             return result;
         }
@@ -137,12 +139,13 @@ namespace OpenStory.Services.Contracts
             string result;
             if (this.Error == null)
             {
-                result = String.Format("Svc: {0}, Op: {1}", this.ServiceState, this.OperationState);
+                result = string.Format("Svc: {0}, Op: {1}", this.ServiceState, this.OperationState);
             }
             else
             {
-                result = String.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
+                result = string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
             }
+
             return result;
         }
     }

@@ -65,6 +65,7 @@ namespace OpenStory.Server
             {
                 throw new ArgumentNullException("server");
             }
+
             if (session == null)
             {
                 throw new ArgumentNullException("session");
@@ -127,7 +128,6 @@ namespace OpenStory.Server
                 catch (IllegalPacketException)
                 {
                     // TODO: Use IllegalPacketException for penalizing naughty clients.
-
                     OS.Log().Info("Received illegal packet. Client disconnected.");
                     this.Disconnect("Illegal packet.");
                 }
@@ -200,7 +200,7 @@ namespace OpenStory.Server
 
         private static void LogDisconnectReason(IAccountSession session, string reason)
         {
-            var reasonString = String.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
+            var reasonString = string.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
 
             if (session != null)
             {

@@ -6,7 +6,7 @@ using OpenStory.Common.IO;
 namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
-    class PacketReaderFixtureBase
+    internal class PacketReaderFixtureBase
     {
         [Category("OpenStory.Common.IO.PacketReader.General")]
         [Test]

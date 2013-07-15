@@ -24,7 +24,7 @@ namespace OpenStory.Server.Processing
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketProcessingEventArgs"/>.
+        /// Initializes a new instance of the <see cref="PacketProcessingEventArgs"/> class.
         /// </summary>
         /// <param name="label">The known label of the packet.</param>
         /// <param name="reader">The packet reader, after having read the label code.</param>

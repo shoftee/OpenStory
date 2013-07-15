@@ -57,7 +57,7 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public IPlayer GetByName(string name)
         {
-            return this.l.ReadLock(() => GetPlayerOrNull(name));
+            return this.l.ReadLock(() => this.GetPlayerOrNull(name));
         }
 
         private IPlayer GetPlayerOrNull(int id)
@@ -69,7 +69,7 @@ namespace OpenStory.Server.Registry
             }
             else
             {
-                return GetPlayerOrNull(key);
+                return this.GetPlayerOrNull(key);
             }
         }
 
@@ -82,7 +82,7 @@ namespace OpenStory.Server.Registry
             }
             else
             {
-                return GetPlayerOrNull(key);
+                return this.GetPlayerOrNull(key);
             }
         }
 

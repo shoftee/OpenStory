@@ -34,7 +34,6 @@ namespace OpenStory.Redirector.Connection
                 0x33, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00
             };
 
-
         private static readonly AesTransform CryptoTransform = new AesTransform(ShuffleTable, ShuffleInitialValue, AesKey);
 
         public static RollingIvFactory GetFactoryForVersion(ushort version)

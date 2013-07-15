@@ -21,7 +21,7 @@ namespace OpenStory.Framework.Model.Common
         public int ClusterCapacity { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ItemInfo"/>.
+        /// Initializes a new instance of the <see cref="ItemInfo"/> class.
         /// </summary>
         /// <param name="itemId">The identifier for the item.</param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -44,6 +44,7 @@ namespace OpenStory.Framework.Model.Common
             {
                 return true;
             }
+
             if (obj == null)
             {
                 return false;

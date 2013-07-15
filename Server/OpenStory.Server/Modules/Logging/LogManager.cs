@@ -16,11 +16,11 @@ namespace OpenStory.Server.Modules.Logging
         public ILogger Logger { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LogManager"/>.
+        /// Initializes a new instance of the <see cref="LogManager"/> class.
         /// </summary>
         public LogManager()
         {
-            base.AllowComponent<ILogger>(LoggerKey);
+            this.AllowComponent<ILogger>(LoggerKey);
         }
 
         /// <summary><inheritdoc /></summary>
@@ -40,7 +40,7 @@ namespace OpenStory.Server.Modules.Logging
         {
             base.OnInitialized();
 
-            this.Logger = base.GetComponent<ILogger>(LoggerKey);
+            this.Logger = this.GetComponent<ILogger>(LoggerKey);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace OpenStory.Framework.Model.Common
     public enum GameMasterLevel : byte
     {
         /// <summary>
-        /// The user is a normal player and has no game master priviledges.
+        /// The user is a normal player and has no game master priviliges.
         /// </summary>
         None = 0,
 

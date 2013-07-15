@@ -16,11 +16,11 @@
         public IConfigDataProvider Provider { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ConfigManager"/>.
+        /// Initializes a new instance of the <see cref="ConfigManager"/> class.
         /// </summary>
         public ConfigManager()
         {
-            base.RequireComponent<IConfigDataProvider>(ProviderKey);
+            this.RequireComponent<IConfigDataProvider>(ProviderKey);
         }
 
         /// <summary><inheritdoc /></summary>
@@ -28,7 +28,7 @@
         {
             base.OnInitialized();
 
-            this.Provider = base.GetComponent<IConfigDataProvider>(ProviderKey);
+            this.Provider = this.GetComponent<IConfigDataProvider>(ProviderKey);
         }
 
         /// <summary>

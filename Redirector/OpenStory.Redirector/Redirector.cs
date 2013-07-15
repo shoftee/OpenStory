@@ -89,7 +89,7 @@ namespace OpenStory.Redirector
                 var builder = new PacketBuilder();
                 builder.WriteBytes(reader.ReadBytes(4));
 
-                string ip = String.Join(".", reader.ReadBytes(4));
+                string ip = string.Join(".", reader.ReadBytes(4));
                 ushort port = reader.ReadUInt16();
 
                 // Loopback is 127.0.0.1
@@ -140,10 +140,16 @@ namespace OpenStory.Redirector
             if (this.isDisposed)
             {
                 var localAcceptor = this.initialAcceptor;
-                if (localAcceptor != null) localAcceptor.Dispose();
+                if (localAcceptor != null)
+                {
+                    localAcceptor.Dispose();
+                }
 
                 localAcceptor = this.channelAcceptor;
-                if (localAcceptor != null) localAcceptor.Dispose();
+                if (localAcceptor != null)
+                {
+                    localAcceptor.Dispose();
+                }
 
                 this.isDisposed = true;
             }

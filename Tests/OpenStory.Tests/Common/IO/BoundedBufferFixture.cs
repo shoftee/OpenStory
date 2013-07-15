@@ -8,7 +8,7 @@ namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.BoundedBuffer")]
-    sealed class BoundedBufferFixture
+    internal sealed class BoundedBufferFixture
     {
         [Test]
         [TestCase(-1)]
@@ -18,7 +18,7 @@ namespace OpenStory.Tests.Common.IO
             Action action = () => new BoundedBuffer(-1);
             action.ShouldThrow<ArgumentOutOfRangeException>();
         }
-        
+
         [Test]
         public void AppendFill_Should_Throw_On_Null_Buffer()
         {
@@ -46,7 +46,7 @@ namespace OpenStory.Tests.Common.IO
             buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, count))
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
-        
+
         [Test]
         public void AppendFill_Should_Throw_On_Bad_Segment_Offset()
         {
@@ -117,7 +117,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new BoundedBuffer(32);
             buffer.Dispose();
 
-            buffer.Invoking(b => { var freeSpace = b.FreeSpace; })
+            buffer.Invoking(b => b.FreeSpace.Whatever())
                   .ShouldThrow<ObjectDisposedException>();
         }
 

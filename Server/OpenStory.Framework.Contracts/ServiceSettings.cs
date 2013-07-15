@@ -40,7 +40,7 @@ namespace OpenStory.Framework.Contracts
                 new Dictionary<string, object>()
                 {
                     { ServiceTypeKey, ServiceType },
-                    { Uri.Key, "" },
+                    { Uri.Key, string.Empty },
                 };
         }
 
@@ -61,7 +61,7 @@ namespace OpenStory.Framework.Contracts
                 new Dictionary<string, object>()
                 {
                     { ServiceTypeKey, ServiceType },
-                    { Uri.Key, "" },
+                    { Uri.Key, string.Empty },
                 };
         }
 
@@ -92,7 +92,7 @@ namespace OpenStory.Framework.Contracts
                 new Dictionary<string, object>()
                 {
                     { ServiceTypeKey, ServiceType },
-                    { Uri.Key, "" },
+                    { Uri.Key, string.Empty },
                     { Id, -1 },
                     { ChannelCount, -1 },
                 };
@@ -130,7 +130,7 @@ namespace OpenStory.Framework.Contracts
                 new Dictionary<string, object>()
                 {
                     { ServiceTypeKey, ServiceType },
-                    { Uri.Key, "" },
+                    { Uri.Key, string.Empty },
                     { ChannelId, -1 },
                     { PlayerCapacity, -1 },
                 };

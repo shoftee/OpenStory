@@ -30,8 +30,6 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("builder");
             }
 
-            // TODO: Actually figure out if this is how they're packed.
-
             int bitCount = this.Bits.Length;
             int numberCount = bitCount / IntBitCount;
             var numbers = new uint[numberCount];
@@ -45,6 +43,7 @@ namespace OpenStory.Common.IO
                 }
                 else
                 {
+                    // TODO: Actually figure out if this is how they're packed.
                     numbers[numberIndex] <<= 1;
                 }
 

@@ -22,7 +22,7 @@ namespace OpenStory.Framework.Contracts
         public ushort Version { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerConfiguration"/>.
+        /// Initializes a new instance of the <see cref="ServerConfiguration"/> class.
         /// </summary>
         /// <param name="configuration">The object containing the configuration values.</param>
         protected ServerConfiguration(ServiceConfiguration configuration)

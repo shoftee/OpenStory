@@ -24,7 +24,7 @@ namespace OpenStory.Services.Contracts
         Initializing,
 
         /// <summary>
-        /// The service is ready to start opertaion.
+        /// The service is ready to start operation.
         /// </summary>
         Ready,
 

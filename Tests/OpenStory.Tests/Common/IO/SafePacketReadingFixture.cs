@@ -7,7 +7,7 @@ using OpenStory.Common.IO;
 namespace OpenStory.Tests.Common.IO
 {
     [TestFixture]
-    sealed class SafePacketReadingFixture : PacketReaderFixtureBase
+    internal sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Failure
 
@@ -409,9 +409,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 15, 255, };
             var reader = new PacketReader(buffer);
 
-            int expected =
-                ((buffer[0]) +
-                 (buffer[1] << 8));
+            int expected = (buffer[0]) + (buffer[1] << 8);
 
             short actual;
             reader.TryReadInt16(out actual).Should().BeTrue();
@@ -425,9 +423,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 15, 200, };
             var reader = new PacketReader(buffer);
 
-            int expected =
-                ((buffer[0]) +
-                 (buffer[1] << 8));
+            int expected = (buffer[0]) + (buffer[1] << 8);
 
             ushort actual;
             reader.TryReadUInt16(out actual).Should().BeTrue();
@@ -441,11 +437,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 123, 23, 23, 123, };
             var reader = new PacketReader(buffer);
 
-            int expected =
-                ((buffer[0]) +
-                 (buffer[1] << 8) +
-                 (buffer[2] << 16) +
-                 (buffer[3] << 24));
+            int expected = (buffer[0]) + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24);
 
             int actual;
             reader.TryReadInt32(out actual).Should().BeTrue();
@@ -459,11 +451,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 123, 234, 23, 234, };
             var reader = new PacketReader(buffer);
 
-            uint expected =
-                ((uint)buffer[0]) +
-                ((uint)buffer[1] << 8) +
-                ((uint)buffer[2] << 16) +
-                ((uint)buffer[3] << 24);
+            uint expected = buffer[0] + ((uint)buffer[1] << 8) + ((uint)buffer[2] << 16) + ((uint)buffer[3] << 24);
 
             uint actual;
             reader.TryReadUInt32(out actual).Should().BeTrue();
@@ -477,15 +465,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 123, 234, 123, 234, 123, 23, 34, 255, };
             var reader = new PacketReader(buffer);
 
-            long expected =
-                ((long)buffer[0]) +
-                ((long)buffer[1] << 8) +
-                ((long)buffer[2] << 16) +
-                ((long)buffer[3] << 24) +
-                ((long)buffer[4] << 32) +
-                ((long)buffer[5] << 40) +
-                ((long)buffer[6] << 48) +
-                ((long)buffer[7] << 56);
+            long expected = buffer[0] + ((long)buffer[1] << 8) + ((long)buffer[2] << 16) + ((long)buffer[3] << 24) + ((long)buffer[4] << 32) + ((long)buffer[5] << 40) + ((long)buffer[6] << 48) + ((long)buffer[7] << 56);
 
             long actual;
             reader.TryReadInt64(out actual).Should().BeTrue();
@@ -499,15 +479,7 @@ namespace OpenStory.Tests.Common.IO
             var buffer = new byte[] { 123, 234, 123, 234, 123, 23, 34, 255, };
             var reader = new PacketReader(buffer);
 
-            ulong expected =
-                ((ulong)buffer[0]) +
-                ((ulong)buffer[1] << 8) +
-                ((ulong)buffer[2] << 16) +
-                ((ulong)buffer[3] << 24) +
-                ((ulong)buffer[4] << 32) +
-                ((ulong)buffer[5] << 40) +
-                ((ulong)buffer[6] << 48) +
-                ((ulong)buffer[7] << 56);
+            ulong expected = buffer[0] + ((ulong)buffer[1] << 8) + ((ulong)buffer[2] << 16) + ((ulong)buffer[3] << 24) + ((ulong)buffer[4] << 32) + ((ulong)buffer[5] << 40) + ((ulong)buffer[6] << 48) + ((ulong)buffer[7] << 56);
 
             ulong actual;
             reader.TryReadUInt64(out actual).Should().BeTrue();
@@ -522,7 +494,7 @@ namespace OpenStory.Tests.Common.IO
             var reader = new PacketReader(buffer);
 
             reader.TrySkip(70).Should().BeTrue();
-            
+
             reader.Remaining.Should().Be(30);
         }
 

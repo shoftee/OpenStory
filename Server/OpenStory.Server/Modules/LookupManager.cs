@@ -28,12 +28,12 @@ namespace OpenStory.Server.Modules
         public IPlayerRegistry Players { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LookupManager"/>.
+        /// Initializes a new instance of the <see cref="LookupManager"/> class.
         /// </summary>
         public LookupManager()
         {
-            base.AllowComponent<ILocationRegistry>(LocationKey);
-            base.AllowComponent<IPlayerRegistry>(PlayersKey);
+            this.AllowComponent<ILocationRegistry>(LocationKey);
+            this.AllowComponent<IPlayerRegistry>(PlayersKey);
         }
 
         /// <summary><inheritdoc /></summary>
@@ -41,8 +41,8 @@ namespace OpenStory.Server.Modules
         {
             base.OnInitialized();
 
-            this.Location = base.GetComponent<ILocationRegistry>(LocationKey);
-            this.Players = base.GetComponent<IPlayerRegistry>(PlayersKey);
+            this.Location = this.GetComponent<ILocationRegistry>(LocationKey);
+            this.Players = this.GetComponent<IPlayerRegistry>(PlayersKey);
         }
     }
 }

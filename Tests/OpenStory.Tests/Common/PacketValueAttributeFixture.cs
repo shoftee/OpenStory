@@ -8,7 +8,7 @@ namespace OpenStory.Tests.Common
     [TestFixture]
     public sealed class PacketValueAttributeFixture
     {
-        enum TestEnum
+        private enum TestEnum
         {
             [PacketValue(0x1234)]
             Defined,
@@ -20,7 +20,7 @@ namespace OpenStory.Tests.Common
         [Test]
         public void ToPacketValue_Should_Throw_If_Member_Not_Defined()
         {
-            const TestEnum Value = ((TestEnum)20);
+            const TestEnum Value = (TestEnum)20;
             Value.Invoking(v => v.ToPacketValue()).ShouldThrow<ArgumentOutOfRangeException>();
         }
 

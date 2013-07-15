@@ -11,6 +11,10 @@ namespace OpenStory.Server.Channel.Maps
         private readonly Dictionary<string, IPortal> portals;
         private readonly AtomicInteger rollingObjectId;
 
+        public int MapId { get; private set; }
+
+        public int ChannelId { get; private set; }
+
         private Map()
         {
             this.mapObjects = new Dictionary<int, IMapObject>();
@@ -24,9 +28,6 @@ namespace OpenStory.Server.Channel.Maps
             this.MapId = mapId;
             this.ChannelId = channelId;
         }
-
-        public int MapId { get; private set; }
-        public int ChannelId { get; private set; }
 
         /// <summary>
         /// Constructs a new object with the given constructor delegate, giving it a proper map object ID.

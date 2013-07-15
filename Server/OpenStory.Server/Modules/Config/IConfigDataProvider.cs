@@ -13,7 +13,6 @@
         /// <param name="value">The value to store.</param>
         void StoreObject(string domain, string key, object value);
 
-
         /// <summary>
         /// Retrieves an object for the specified domain and key.
         /// </summary>

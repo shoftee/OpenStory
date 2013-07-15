@@ -19,7 +19,7 @@ namespace OpenStory.Server.Auth
         private static readonly AuthServerPackets OpCodesInternal = new AuthServerPackets();
 
         /// <inheritdoc />
-        protected override IOpCodeTable OpCodes
+        protected override IPacketCodeTable OpCodes
         {
             get { return OpCodesInternal; }
         }

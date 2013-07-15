@@ -52,8 +52,8 @@
     <Compile Include="Common\AtomicBoolean.cs" />
     <Compile Include="Common\AtomicInteger.cs" />
     <Compile Include="Common\PacketValueAttribute.cs" />
-    <Compile Include="Common\IOpCodeTable.cs" />
-    <Compile Include="Common\OpCodeTable.cs" />
+    <Compile Include="Common\IPacketCodeTable.cs" />
+    <Compile Include="Common\PacketCodeTable.cs" />
     <Compile Include="Common\Game\AuthenticationResult.cs" />
     <Compile Include="Common\Game\GameConstants.cs" />
     <Compile Include="Common\Game\Elements.cs" />
@@ -111,7 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Exceptions.resx</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Networking\DataArrivedEventArgs.cs" />
     <Compile Include="Networking\DescriptorBase.cs" />
     <Compile Include="Networking\EncryptedNetworkSession.cs" />

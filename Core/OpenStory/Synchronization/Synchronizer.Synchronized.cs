@@ -36,6 +36,7 @@ namespace OpenStory.Synchronization
                 {
                     throw new ArgumentNullException("obj");
                 }
+
                 if (scheduler == null)
                 {
                     throw new ArgumentNullException("scheduler");

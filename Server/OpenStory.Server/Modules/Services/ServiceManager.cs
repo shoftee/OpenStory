@@ -30,19 +30,19 @@ namespace OpenStory.Server.Modules.Services
         public IEndpointProvider EndpointProvider { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceManager"/>.
+        /// Initializes a new instance of the <see cref="ServiceManager"/> class.
         /// </summary>
         public ServiceManager()
         {
-            base.RequireComponent<IGameService>(LocalServiceKey);
+            this.RequireComponent<IGameService>(LocalServiceKey);
 
-            base.AllowComponent<IEndpointProvider>(EndpointProviderKey);
+            this.AllowComponent<IEndpointProvider>(EndpointProviderKey);
         }
 
         /// <summary><inheritdoc /></summary>
         protected override void OnInitializing()
         {
-            if (!base.CheckComponent(EndpointProviderKey))
+            if (!this.CheckComponent(EndpointProviderKey))
             {
                 this.RegisterComponent(EndpointProviderKey, DefaultEndpointProvider.Instance);
             }
@@ -55,9 +55,9 @@ namespace OpenStory.Server.Modules.Services
         {
             base.OnInitialized();
 
-            this.Local = base.GetComponent<IGameService>(LocalServiceKey);
+            this.Local = this.GetComponent<IGameService>(LocalServiceKey);
 
-            this.EndpointProvider = base.GetComponent<IEndpointProvider>(EndpointProviderKey);
+            this.EndpointProvider = this.GetComponent<IEndpointProvider>(EndpointProviderKey);
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace OpenStory.Server.Processing
     internal sealed class ConfiguredHandshakeInfo : HandshakeInfo
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="HandshakeInfo"/> with some predefined values.
+        /// Initializes a new instance of the <see cref="ConfiguredHandshakeInfo"/> class with some predefined values.
         /// </summary>
         /// <param name="header">The header of the handshake packet.</param>
         /// <param name="version">The game version.</param>
@@ -25,7 +25,7 @@ namespace OpenStory.Server.Processing
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HandshakeInfo"/> with the server-configured values.
+        /// Initializes a new instance of the <see cref="ConfiguredHandshakeInfo"/> class with the server-configured values.
         /// </summary>
         /// <param name="clientIv">The client cryptographic IV.</param>
         /// <param name="serverIv">The server cryptographic IV.</param>

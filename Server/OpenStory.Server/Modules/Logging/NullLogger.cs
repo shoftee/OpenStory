@@ -9,7 +9,10 @@ namespace OpenStory.Server.Modules.Logging
         /// The singleton instance of the <see cref="NullLogger"/> type.
         /// </summary>
         public static readonly NullLogger Instance = new NullLogger();
-        private NullLogger() { }
+
+        private NullLogger()
+        {
+        }
 
         /// <inheritdoc />
         /// <remarks>

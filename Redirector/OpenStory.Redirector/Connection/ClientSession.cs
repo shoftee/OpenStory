@@ -18,7 +18,7 @@ namespace OpenStory.Redirector.Connection
         #region Constructors and instance construction
 
         /// <summary>
-        /// Initializes a new instance of the Session class.
+        /// Initializes a new instance of the <see cref="ClientSession"/> class.
         /// </summary>
         public ClientSession()
         {
@@ -32,7 +32,7 @@ namespace OpenStory.Redirector.Connection
         /// </summary>
         public void Start()
         {
-            base.ThrowIfNoPacketReceivedSubscriber();
+            this.ThrowIfNoPacketReceivedSubscriber();
 
             if (this.HandshakeReceived == null)
             {
@@ -40,9 +40,9 @@ namespace OpenStory.Redirector.Connection
             }
 
             // Make space for the hello packet.
-            base.PacketBuffer.Reset(32);
+            this.PacketBuffer.Reset(32);
 
-            base.Session.Start();
+            this.Session.Start();
         }
 
         #region Incoming logic
@@ -88,7 +88,8 @@ namespace OpenStory.Redirector.Connection
             Logger.Write(
                 LogMessageType.Connection,
                 "Received handshake. Version {0}-{1}, CIV {2} SIV {3}",
-                info.Version, info.Subversion,
+                info.Version, 
+                info.Subversion,
                 info.ClientIv.ToHex(hyphenate: true),
                 info.ServerIv.ToHex(hyphenate: true));
 

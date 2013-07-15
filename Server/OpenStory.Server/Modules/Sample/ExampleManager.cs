@@ -29,21 +29,21 @@ namespace OpenStory.Server.Modules.Sample
         internal IExampleInternalService InternalService { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ExampleManager"/>.
+        /// Initializes a new instance of the <see cref="ExampleManager"/> class.
         /// </summary>
         public ExampleManager()
         {
-            base.RequireComponent<IExampleService>(ServiceKey);
-            base.AllowComponent<IExampleInternalService>(InternalServiceKey);
+            this.RequireComponent<IExampleService>(ServiceKey);
+            this.AllowComponent<IExampleInternalService>(InternalServiceKey);
         }
 
         /// <summary><inheritdoc /></summary>
         protected override void OnInitializing()
         {
-            if (!base.CheckComponent(InternalServiceKey))
+            if (!this.CheckComponent(InternalServiceKey))
             {
                 // No component was registered for this key. We register the default one.
-                base.RegisterComponent(InternalServiceKey, DefaultExampleInternalService.Instance);
+                this.RegisterComponent(InternalServiceKey, DefaultExampleInternalService.Instance);
             }
 
             base.OnInitializing();
@@ -54,8 +54,8 @@ namespace OpenStory.Server.Modules.Sample
         {
             base.OnInitialized();
 
-            this.Service = base.GetComponent<IExampleService>(ServiceKey);
-            this.InternalService = base.GetComponent<IExampleInternalService>(InternalServiceKey);
+            this.Service = this.GetComponent<IExampleService>(ServiceKey);
+            this.InternalService = this.GetComponent<IExampleInternalService>(InternalServiceKey);
         }
     }
 }

@@ -32,9 +32,9 @@ namespace OpenStory.Framework.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceConfiguration"/>.
+        /// Initializes a new instance of the <see cref="ServiceConfiguration"/> class.
         /// </summary>
-        /// <param name="parameters">The configuration parameters to initalize the instance with.</param>
+        /// <param name="parameters">The configuration parameters to initialize the instance with.</param>
         public ServiceConfiguration(IDictionary<string, object> parameters)
         {
             this.data = new Dictionary<string, object>(parameters);
@@ -77,7 +77,7 @@ namespace OpenStory.Framework.Contracts
         /// <exception cref="KeyNotFoundException">
         /// Thrown if <paramref name="throwIfMissing"/> is <c>true</c> and the <paramref name="key"/> does not correspond to an existing entry.
         /// </exception>
-        /// <returns>the value of the found entry cast to <typeparamref name="T"/>, or the default value for the nullable version of the type.</returns>
+        /// <returns>the value of the found entry cast to <typeparamref name="T"/>, or the default value for <see cref="Nullable{T}"/>.</returns>
         public T? GetValue<T>(string key, bool throwIfMissing = false)
             where T : struct
         {

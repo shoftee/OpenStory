@@ -17,7 +17,7 @@ namespace OpenStory.Services.Account
         private readonly AtomicInteger currentSessionId;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AccountService"/>.
+        /// Initializes a new instance of the <see cref="AccountService"/> class.
         /// </summary>
         public AccountService()
         {
@@ -76,6 +76,7 @@ namespace OpenStory.Services.Account
                 {
                     account.UnregisterCharacter();
                 }
+
                 return true;
             }
         }
