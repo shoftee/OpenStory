@@ -1,8 +1,8 @@
 using System;
 
-namespace OpenStory.Tests.Common
+namespace OpenStory.Tests
 {
-    static internal class Helpers
+    public static class Helpers
     {
         public static readonly byte[] Empty = new byte[] { };
 

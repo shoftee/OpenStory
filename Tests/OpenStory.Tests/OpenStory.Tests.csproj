@@ -61,7 +61,6 @@
     <Compile Include="Common\Game\KeyBindingFixture.cs" />
     <Compile Include="Common\Game\KeyLayoutFixture.cs" />
     <Compile Include="Common\Game\PointSFixture.cs" />
-    <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\IO\BoundedBufferFixture.cs" />
     <Compile Include="Common\IO\ByteOrderFixture.cs" />
     <Compile Include="Common\IO\FlagsFixture.cs" />
@@ -73,13 +72,16 @@
     <Compile Include="Common\PacketValueAttributeFixture.cs" />
     <Compile Include="Common\Tools\ArraysFixture.cs" />
     <Compile Include="Common\Tools\HexExtensionsFixture.cs" />
-    <Compile Include="FluentAssertionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.TestHelpers\OpenStory.TestHelpers.csproj">
+      <Project>{E4CB15FD-2BA9-47E9-84B5-8D7B18FF5B3F}</Project>
+      <Name>OpenStory.TestHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
