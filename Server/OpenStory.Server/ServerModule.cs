@@ -1,4 +1,5 @@
-﻿using Ninject.Extensions.Factory;
+﻿using System.Security.Cryptography;
+using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
@@ -33,6 +34,10 @@ namespace OpenStory.Server
 
             // IGameServiceFactory requires GameServiceBase.
             Bind<IGameServiceFactory>().ToFactory();
+
+            // IvGenerator requires RandomNumberGenerator.
+            Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
+            Bind<IvGenerator>().ToSelf();
 
             // Bootstrapper.
             Bind<Bootstrapper>().ToSelf().InSingletonScope();

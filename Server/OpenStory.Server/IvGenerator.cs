@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Security.Cryptography;
 
 namespace OpenStory.Server
 {
     /// <summary>
-    /// A utility class that generates IV byte arrays.
+    /// Represents an object that generates IV byte arrays.
     /// </summary>
-    public static class IvGenerator
+    public class IvGenerator
     {
-        #region IV generation
+        private readonly RandomNumberGenerator rng;
 
-        private static readonly RNGCryptoServiceProvider Crypto = new RNGCryptoServiceProvider();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IvGenerator"/> class.
+        /// </summary>
+        /// <param name="rng">The random number generator to use.</param>
+        public IvGenerator(RandomNumberGenerator rng)
+        {
+            this.rng = rng;
+        }
 
         /// <summary>
         /// Returns a new non-zero 4-byte IV array.
         /// </summary>
         /// <returns>a generated 4-byte IV array.</returns>
-        public static byte[] GetNewIv()
+        public byte[] GetNewIv()
         {
             var iv = new byte[4];
-            Crypto.GetNonZeroBytes(iv);
+            this.rng.GetNonZeroBytes(iv);
             return iv;
         }
-
-        #endregion
     }
 }

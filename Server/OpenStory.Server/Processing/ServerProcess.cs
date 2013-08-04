@@ -16,6 +16,7 @@ namespace OpenStory.Server.Processing
     internal sealed class ServerProcess : IServerProcess, IDisposable
     {
         private readonly IServerSessionFactory sessionFactory;
+        private readonly IvGenerator ivGenerator;
         private readonly ILogger logger;
         
         private SocketAcceptor acceptor;
@@ -34,10 +35,12 @@ namespace OpenStory.Server.Processing
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
         /// </summary>
         /// <param name="sessionFactory">The <see cref="IServerSessionFactory"/> for this server.</param>
+        /// <param name="ivGenerator">The <see cref="IvGenerator"/> for this server.</param>
         /// <param name="logger">The logger to use for this server.</param>
-        public ServerProcess(IServerSessionFactory sessionFactory, ILogger logger)
+        public ServerProcess(IServerSessionFactory sessionFactory, IvGenerator ivGenerator, ILogger logger)
         {
             this.sessionFactory = sessionFactory;
+            this.ivGenerator = ivGenerator;
             this.logger = logger;
         }
 
@@ -76,8 +79,8 @@ namespace OpenStory.Server.Processing
 
         private void OnSocketAccepted(object sender, SocketEventArgs e)
         {
-            byte[] clientIv = IvGenerator.GetNewIv();
-            byte[] serverIv = IvGenerator.GetNewIv();
+            byte[] clientIv = this.ivGenerator.GetNewIv();
+            byte[] serverIv = this.ivGenerator.GetNewIv();
 
             var session = this.sessionFactory.CreateSession();
             session.ReadyForPush += this.OnReadyForPush;
