@@ -117,7 +117,7 @@ namespace OpenStory.Services
 
         private void CompleteInitialization(Task task)
         {
-            this.HandleStateChange(this.serviceState, ServiceState.Running);
+            this.HandleStateChange(this.serviceState, ServiceState.Ready);
         }
 
         private void CompleteStart(Task task)

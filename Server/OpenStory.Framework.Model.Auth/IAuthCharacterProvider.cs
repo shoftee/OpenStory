@@ -11,7 +11,7 @@ namespace OpenStory.Framework.Model.Auth
         /// Checks if a name is available for use.
         /// </summary>
         /// <param name="name">The name to check.</param>
-        /// <returns><c>true</c> if the name is available; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the name is available; otherwise, <see langword="false"/>.</returns>
         bool IsNameAvailable(string name);
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace OpenStory.Framework.Model.Auth
         /// Retrieves an instance of <see cref="AuthCharacter"/>.
         /// </summary>
         /// <param name="characterId">The identifier for the character.</param>
-        /// <returns>an instance of <see cref="AuthCharacter"/>, or <c>null</c> if there was no match.</returns>
+        /// <returns>an instance of <see cref="AuthCharacter"/>, or <see langword="null"/> if there was no match.</returns>
         AuthCharacter GetAuthCharacter(int characterId);
 
         /// <summary>

@@ -3,47 +3,41 @@ using System.Threading;
 using Ninject;
 using OpenStory.Server;
 using OpenStory.Server.Auth;
-using OpenStory.Server.Fluent;
-using OpenStory.Server.Modules.Logging;
 
 namespace OpenStory.Services.Auth
 {
     internal static class Program
     {
+        private const string Title = @"OpenStory - Authentication Service";
+        private const string TitleStatusFormat = @"OpenStory - Authentication Service - {0}";
+
         private static void Main()
         {
-            Console.Title = @"OpenStory - Authentication Service";
+            Console.Title = Title;
 
-            var kernel = Initialize();
+            var bootstrapper = Initialize();
 
-            string error;
-            var service = Bootstrap.Service<AuthService>(kernel, out error);
-            if (error != null)
+            try
             {
-                Console.Title = @"OpenStory - Authentication Service - Error";
-                
-                Console.WriteLine(error);
-                Console.ReadLine();
-                return;
+                using (bootstrapper.Service())
+                {
+                    Console.Title = string.Format(TitleStatusFormat, "Running");
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
-
-            using (service)
+            catch (BootstrapException exception)
             {
-                Console.Title = @"OpenStory - Authentication Service - Running";
-                
-                Thread.Sleep(Timeout.Infinite);
+                Console.Title = string.Format(TitleStatusFormat, "Error");
+                Console.WriteLine(exception);
+                Console.ReadLine();
             }
         }
 
-        private static IKernel Initialize()
+        private static Bootstrapper Initialize()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ILogger>().To<ConsoleLogger>().InSingletonScope();
-            kernel.Bind<AuthService>().ToSelf();
-
-            OS.Initialize(kernel);
-
-            return kernel;
+            kernel.Load(new AuthServerModule());
+            return kernel.Get<Bootstrapper>();
         }
     }
 }

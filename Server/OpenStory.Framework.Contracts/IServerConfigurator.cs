@@ -2,6 +2,6 @@
 {
     public interface IServerConfigurator
     {
-        bool CheckConfiguration(ServiceConfiguration configuration, out string error);
+        void ValidateConfiguration(ServiceConfiguration configuration);
     }
 }

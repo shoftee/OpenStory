@@ -16,7 +16,7 @@ namespace OpenStory.Networking
         private const int BufferSize = 1460;
 
         /// <summary>
-        /// The event is raised when a data segment has been successfully received.
+        /// Occurs when a data segment has been successfully received.
         /// </summary>
         /// <remarks><para>
         /// This event supports only one subscriber. Attempts to subscribe more than once will throw 
@@ -55,7 +55,7 @@ namespace OpenStory.Networking
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> for the new instance.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="container"/> is <c>null</c>.
+        /// Thrown if <paramref name="container"/> is <see langword="null"/>.
         /// </exception>
         public ReceiveDescriptor(IDescriptorContainer container)
             : base(container)
@@ -136,18 +136,19 @@ namespace OpenStory.Networking
         /// <summary>
         /// Synchronous EndReceive.
         /// </summary>
-        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
-        /// <returns><c>true</c> if there is more data to send; otherwise, <c>false</c>.</returns>
+        /// <param name="args">The <see cref="SocketAsyncEventArgs"/> object for this operation.</param>
+        /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
         private bool EndReceiveSynchronous(SocketAsyncEventArgs args)
         {
             return this.HandleTransferredData(args);
         }
 
         /// <summary>
-        /// Asynchronous EndReceive method, also the callback for the Completed event.
+        /// Asynchronous EndReceive, also the callback for the Completed event.
         /// </summary>
-        /// <param name="sender">The sender of the Completed event.</param>
-        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
+        /// <remarks>
+        /// If there is more data to send, this method will call <see cref="BeginReceive()"/>.
+        /// </remarks>
         private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
         {
             if (this.HandleTransferredData(args))
@@ -160,10 +161,10 @@ namespace OpenStory.Networking
         /// Handles the transferred data for the operation.
         /// </summary>
         /// <remarks>
-        /// This method returns <c>false</c> on connection errors.
+        /// This method returns <see langword="false"/> on connection errors.
         /// </remarks>
-        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
-        /// <returns><c>true</c> if there is more data to send; otherwise, <c>false</c>.</returns>
+        /// <param name="args">The <see cref="SocketAsyncEventArgs"/> object for this operation.</param>
+        /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
         private bool HandleTransferredData(SocketAsyncEventArgs args)
         {
             int transferred = args.BytesTransferred;

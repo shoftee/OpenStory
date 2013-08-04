@@ -14,7 +14,7 @@ namespace OpenStory.Cryptography
         /// The array given in <paramref name="data"/> will be modified.
         /// </remarks>
         /// <param name="data">The array to encrypt.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public static void Encrypt(byte[] data)
         {
             if (data == null)
@@ -95,7 +95,7 @@ namespace OpenStory.Cryptography
         /// The array given in <paramref name="data"/> will be modified.
         /// </remarks>
         /// <param name="data">The array to decrypt.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public static void Decrypt(byte[] data)
         {
             if (data == null)

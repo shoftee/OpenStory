@@ -1,5 +1,6 @@
 ﻿using OpenStory.Common.Game;
 using OpenStory.Framework.Model.Common;
+using OpenStory.Server.Processing;
 
 namespace OpenStory.Server.Channel
 {

@@ -48,7 +48,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         /// <param name="prototype">The <see cref="ItemInfo"/> to use as an item prototype.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="prototype"/> is <c>null</c>.
+        /// Thrown if <paramref name="prototype"/> is <see langword="null"/>.
         /// </exception>
         protected ItemCluster(TItemInfo prototype)
         {
@@ -66,7 +66,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         /// <param name="other">The ItemCluster to merge.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="other"/> is <c>null</c>.
+        /// Thrown if <paramref name="other"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="other"/> is for a different item prototype than the current instance.
@@ -100,10 +100,10 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         /// <param name="other">The cluster to merge from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="other"/> is <c>null</c>.
+        /// Thrown if <paramref name="other"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>
-        /// <c>true</c> if the cluster is compatible and there is remaining capacity to contain more items; otherwise, <c>false</c>.
+        /// <see langword="true"/> if the cluster is compatible and there is remaining capacity to contain more items; otherwise, <see langword="false"/>.
         /// </returns>
         public bool CanMergeWith(ItemCluster<TItemInfo> other)
         {

@@ -21,12 +21,12 @@ namespace OpenStory.Networking
         #region Events
 
         /// <summary>
-        /// The event is raised when an incoming packet is fully received.
+        /// Occurs when an incoming packet is fully received.
         /// </summary>
         public event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
         /// <summary>
-        /// The event is raised when the session begins closing.
+        /// Occurs when the session begins closing.
         /// </summary>
         public event EventHandler Closing;
 
@@ -78,11 +78,11 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Attaches a <see cref="Socket"/> to this ServerSession instance.
+        /// Attaches a <see cref="Socket"/> to this session.
         /// </summary>
-        /// <param name="socket">The Socket to attach. </param>
+        /// <param name="socket">The <see cref="Socket"/> to attach. </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket"/> is <c>null</c>.
+        /// Thrown if <paramref name="socket"/> is <see langword="null"/>.
         /// </exception>
         public void AttachSocket(Socket socket)
         {
@@ -120,7 +120,7 @@ namespace OpenStory.Networking
         /// </summary>
         /// <param name="packet">The data to send.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="packet" /> is <c>null</c>.
+        /// Thrown if <paramref name="packet" /> is <see langword="null"/>.
         /// </exception>
         public void WritePacket(byte[] packet)
         {
@@ -144,7 +144,7 @@ namespace OpenStory.Networking
         /// </remarks>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The packet data that was received.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <see langword="null"/>.</exception>
         protected virtual void OnDataArrived(object sender, DataArrivedEventArgs args)
         {
             if (args == null)
@@ -206,7 +206,7 @@ namespace OpenStory.Networking
 
         private void OnPacketReceived(PacketReceivedEventArgs args)
         {
-            this.PacketReceived(this, args);
+            this.PacketReceived.Invoke(this, args);
         }
 
         /// <summary>

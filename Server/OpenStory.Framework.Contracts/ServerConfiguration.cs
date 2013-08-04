@@ -7,7 +7,7 @@ namespace OpenStory.Framework.Contracts
     /// Represents a set of server configuration settings.
     /// </summary>
     [DataContract]
-    public abstract class ServerConfiguration
+    public class ServerConfiguration
     {
         /// <summary>
         /// Gets the entry point definition for the server.
@@ -25,7 +25,7 @@ namespace OpenStory.Framework.Contracts
         /// Initializes a new instance of the <see cref="ServerConfiguration"/> class.
         /// </summary>
         /// <param name="configuration">The object containing the configuration values.</param>
-        protected ServerConfiguration(ServiceConfiguration configuration)
+        public ServerConfiguration(ServiceConfiguration configuration)
         {
             this.Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
             this.Version = configuration.Get<ushort>("Version", true);

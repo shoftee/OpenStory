@@ -44,7 +44,7 @@ namespace OpenStory.Server.Registry
         /// Adds a new member to the instance.
         /// </summary>
         /// <param name="member">The new member to add.</param>
-        /// <returns><c>true</c> if the member was added successfully; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the member was added successfully; otherwise, <see langword="false"/>.</returns>
         public bool AddMember(TGroupMember member)
         {
             var success = this.Members.Add(member);
@@ -68,7 +68,7 @@ namespace OpenStory.Server.Registry
         /// Removes a member from the instance.
         /// </summary>
         /// <param name="member">The member to remove.</param>
-        /// <returns><c>true</c> if the member was successfully found and removed from the group; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the member was successfully found and removed from the group; otherwise, <see langword="false"/>.</returns>
         public bool RemoveMember(TGroupMember member)
         {
             var success = this.Members.Remove(member);

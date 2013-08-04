@@ -24,14 +24,14 @@ namespace OpenStory.Server.Registry
         /// Gets a player by the character identifier.
         /// </summary>
         /// <param name="id">The character identifier.</param>
-        /// <returns>the matched player instance, or <c>null</c> if there was no match.</returns>
+        /// <returns>the matched player instance, or <see langword="null"/> if there was no match.</returns>
         IPlayer GetById(int id);
 
         /// <summary>
         /// Gets a player by the character name.
         /// </summary>
         /// <param name="name">The character name.</param>
-        /// <returns>the matched player instance, or <c>null</c> if there was no match.</returns>
+        /// <returns>the matched player instance, or <see langword="null"/> if there was no match.</returns>
         IPlayer GetByName(string name);
 
         /// <summary>

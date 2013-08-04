@@ -31,7 +31,7 @@ namespace OpenStory.Common.Game
         /// </summary>
         /// <param name="bindings">The bindings to use for this instance.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="bindings"/> is <c>null</c>.
+        /// Thrown if <paramref name="bindings"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="bindings"/> does not have exactly <see cref="GameConstants.KeyCount"/> elements.

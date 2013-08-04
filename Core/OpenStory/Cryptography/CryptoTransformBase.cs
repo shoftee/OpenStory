@@ -35,7 +35,7 @@ namespace OpenStory.Cryptography
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
         /// <param name="initialIv">The initial value for the shuffle transformation.</param>
-        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided arrays has an invalid number of elements.</exception>
         protected CryptoTransformBase(byte[] table, byte[] initialIv)
         {

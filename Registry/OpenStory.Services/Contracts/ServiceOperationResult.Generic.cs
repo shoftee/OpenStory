@@ -12,6 +12,9 @@ namespace OpenStory.Services.Contracts
     [DataContract]
     public struct ServiceOperationResult<T> : IServiceOperationResult
     {
+        [DataMember]
+        private T result;
+
         /// <inheritdoc />
         [DataMember]
         public OperationState OperationState { get; private set; }
@@ -23,12 +26,6 @@ namespace OpenStory.Services.Contracts
         /// <inheritdoc />
         [DataMember]
         public ServiceState ServiceState { get; private set; }
-
-        /// <summary>
-        /// Gets the result of the operation.
-        /// </summary>
-        [DataMember]
-        public T Result { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceOperationResult{T}"/> struct.
@@ -76,10 +73,26 @@ namespace OpenStory.Services.Contracts
                 throw new InvalidEnumArgumentException("serviceState", (int)serviceState, typeof(ServiceState));
             }
 
-            this.Result = result;
+            this.result = result;
             this.OperationState = operationState;
             this.Error = error;
             this.ServiceState = serviceState;
+        }
+
+        /// <summary>
+        /// Gets the result of this service operation.
+        /// </summary>
+        /// <param name="throwOnError">Denotes whether to throw an exception if there was an error.</param>
+        /// <exception>Thrown if the operation failed and <paramref name="throwOnError"/> is set to <see langword="false"/>.</exception>
+        /// <returns> the result of the wrapped service operation, or the default value for <typeparamref name="T"/> if the operation failed.</returns>
+        public T GetResult(bool throwOnError = true)
+        {
+            if (this.Error != null && throwOnError)
+            {
+                throw Error;
+            }
+
+            return this.result;
         }
 
         /// <summary>
@@ -129,7 +142,7 @@ namespace OpenStory.Services.Contracts
                 actualOperationState = OperationState.FailedRemotely;
             }
 
-            var result = new ServiceOperationResult<TResult>(remoteResult.Result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
+            var result = new ServiceOperationResult<TResult>(remoteResult.result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
             return result;
         }
 
@@ -146,17 +159,14 @@ namespace OpenStory.Services.Contracts
         /// <inheritdoc />
         public override string ToString()
         {
-            string result;
             if (this.Error == null)
             {
-                result = string.Format("Svc: {0}, Op: {1}, Result: {2}", this.ServiceState, this.OperationState, this.Result);
+                return string.Format("Svc: {0}, Op: {1}, Result: {2}", this.ServiceState, this.OperationState, this.result);
             }
             else
             {
-                result = string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
+                return string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
             }
-
-            return result;
         }
     }
 }

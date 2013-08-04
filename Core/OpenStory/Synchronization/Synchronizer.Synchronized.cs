@@ -28,7 +28,7 @@ namespace OpenStory.Synchronization
             /// <param name="obj">The object to wrap.</param>
             /// <param name="scheduler">An execution scheduler to use.</param>
             /// <exception cref="ArgumentNullException">
-            /// Thrown if either of <paramref name="obj"/> or <paramref name="scheduler"/> is <c>null</c>.
+            /// Thrown if either of <paramref name="obj"/> or <paramref name="scheduler"/> is <see langword="null"/>.
             /// </exception>
             public Synchronized(T obj, IScheduler scheduler)
             {
@@ -76,7 +76,7 @@ namespace OpenStory.Synchronization
             /// </summary>
             /// <param name="action">The action to execute.</param>
             /// <exception cref="ArgumentNullException">
-            /// Thrown if <paramref name="action"/> is <c>null</c>.
+            /// Thrown if <paramref name="action"/> is <see langword="null"/>.
             /// </exception>
             public void Schedule(Action<T> action)
             {

@@ -22,7 +22,7 @@ namespace OpenStory.Redirector.Connection
         {
             this.ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = ServerCrypto.New(factory, info.ClientIv, info.ServerIv);
+            this.Crypto = EndpointCrypto.Server(factory, info.ClientIv, info.ServerIv);
 
             byte[] helloPacket = ConstructHandshakePacket(info);
             this.Session.Start();

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenStory.Server
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Provides information for an account session.
@@ -27,8 +27,8 @@ namespace OpenStory.Server
         /// </summary>
         /// <param name="lag">A variable to hold the lag since the last keep alive attempt.</param>
         /// <returns>
-        /// <c>true</c> if the signal was received successfully and the account was active at that time; 
-        /// <c>false</c> if the connection was broken or the account was not active.
+        /// <see langword="true"/> if the signal was received successfully and the account was active at that time; 
+        /// <see langword="false"/> if the connection was broken or the account was not active.
         /// </returns>
         bool TryKeepAlive(out TimeSpan lag);
     }

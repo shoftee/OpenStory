@@ -6,9 +6,9 @@ using OpenStory.Framework.Model.Common;
 namespace OpenStory.Server.Registry
 {
     /// <summary>
-    /// A registry for player locations.
+    /// Represents a registry for player locations.
     /// </summary>
-    public sealed class LocationRegistry : ILocationRegistry
+    internal sealed class LocationRegistry : ILocationRegistry
     {
         private readonly Dictionary<CharacterKey, PlayerLocation> locations;
 

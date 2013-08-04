@@ -33,7 +33,7 @@ namespace OpenStory.Server.Channel.Maps
         /// Constructs a new object with the given constructor delegate, giving it a proper map object ID.
         /// </summary>
         /// <param name="constructor">An <see cref="Func{Int32, IMapObject}"/>-like delegate used to construct the map object.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <see langword="null"/>.</exception>
         public void AddMapObject(MapObjectConstructor constructor)
         {
             if (constructor == null)

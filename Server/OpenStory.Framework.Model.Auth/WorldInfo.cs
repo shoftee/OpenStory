@@ -35,7 +35,7 @@ namespace OpenStory.Framework.Model.Auth
         /// </summary>
         /// <param name="record">The record containing the data for this object.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="record"/> is <c>null</c>.
+        /// Thrown if <paramref name="record"/> is <see langword="null"/>.
         /// </exception>
         public WorldInfo(IDataRecord record)
         {

@@ -93,7 +93,7 @@ namespace OpenStory.Common.IO
         /// Reads a byte as a <see cref="System.Boolean"/>.
         /// </summary>
         /// <remarks>
-        /// The returned value is <c>true</c> if the read byte is not equal to <c>0</c>.
+        /// The returned value is <see langword="true"/> if the read byte is not equal to <c>0</c>.
         /// </remarks>
         /// <returns>the value that was read from the stream.</returns>
         bool ReadBoolean();

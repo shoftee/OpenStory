@@ -6,7 +6,7 @@ namespace OpenStory.Server.Channel
     /// <summary>
     /// Provides methods for operating with a Channel Server.
     /// </summary>
-    internal interface IChannelServer : IGameServer
+    internal interface IChannelServer
     {
         /// <summary>
         /// Gets the World Server link object for this Channel Server.

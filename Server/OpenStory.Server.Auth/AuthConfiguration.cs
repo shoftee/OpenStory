@@ -4,7 +4,7 @@ using OpenStory.Framework.Contracts;
 namespace OpenStory.Server.Auth
 {
     /// <summary>
-    /// Represents an AuthServer configuration.
+    /// Represents an AuthOperator configuration.
     /// </summary>
     public sealed class AuthConfiguration : ServerConfiguration
     {

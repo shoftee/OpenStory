@@ -44,7 +44,7 @@ namespace OpenStory.Common
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
         public bool TryGetOutgoingCode(string label, out ushort code)
         {
@@ -62,9 +62,9 @@ namespace OpenStory.Common
         /// <param name="label">The label for the outgoing packet.</param>
         /// <param name="code">The packet code of the outgoing packet.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
-        /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddOutgoing(string label, ushort code)
         {
             if (label == null)
@@ -87,9 +87,9 @@ namespace OpenStory.Common
         /// <param name="code">The packet code pf the incoming packet.</param>
         /// <param name="label">The label for the incoming packet.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="label"/> is <c>null</c>.
+        /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
-        /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddIncoming(ushort code, string label)
         {
             if (label == null)

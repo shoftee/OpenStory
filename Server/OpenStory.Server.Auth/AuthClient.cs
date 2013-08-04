@@ -1,15 +1,17 @@
 using System;
+using Ninject.Extensions.Logging;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
-using OpenStory.Server.Auth.Policy;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
 {
     /// <summary>
     /// Represents a client for the Authentication Server.
     /// </summary>
-    internal sealed class AuthClient : ClientBase
+    public sealed class AuthClient : ClientBase
     {
         /// <summary>
         /// Denotes the maximum number of allowed failed 
@@ -17,7 +19,7 @@ namespace OpenStory.Server.Auth
         /// </summary>
         private const int MaxLoginAttempts = 3;
 
-        private readonly IAuthServer server;
+        private readonly IAuthenticator authenticator;
 
         /// <summary>
         /// Gets the number of failed login attempts for this client.
@@ -34,24 +36,25 @@ namespace OpenStory.Server.Auth
         /// </summary>
         public AuthClientState State { get; private set; }
 
+        /// <inheritdoc/>
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthClient"/> class and binds it with a network session.
         /// </summary>
-        /// <param name="server">The authentication server instance which is handling this client.</param>
-        /// <param name="session">The network session to bind the instance to.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the provider parameters is <c>null</c>.
-        /// </exception>
-        public AuthClient(IAuthServer server, IServerSession session)
-            : base(server, session)
+        /// <param name="session"><inheritdoc/></param>
+        /// <param name="authenticator">The <see cref="IAuthenticator"/> to use for authenticating the user.</param>
+        /// <param name="packetFactory"><inheritdoc/></param>
+        /// <param name="logger"><inheritdoc/></param>
+        public AuthClient(IServerSession session, IAuthenticator authenticator, IPacketFactory packetFactory, ILogger logger)
+            : base(session, packetFactory, logger)
         {
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
             this.State = AuthClientState.PreAuthentication;
 
-            this.server = server;
+            this.authenticator = authenticator;
         }
 
+        /// <inheritdoc/>
         protected override void ProcessPacket(PacketProcessingEventArgs args)
         {
             string label = args.Label;
@@ -100,14 +103,8 @@ namespace OpenStory.Server.Auth
             }
 
             // TODO: more stuff to read, later.
-            var userName = reader.ReadLengthString();
-            var password = reader.ReadLengthString();
-
-            var credentials = new SimpleCredentials(userName, password);
-
             IAccountSession accountSession;
-            var authPolicy = this.server.GetAuthPolicy();
-            var result = authPolicy.Authenticate(credentials, out accountSession);
+            var result = this.authenticator.Authenticate(reader, out accountSession);
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
@@ -121,7 +118,7 @@ namespace OpenStory.Server.Auth
             }
 
             byte[] packet;
-            using (var builder = this.server.NewPacket("AuthenticationResponse"))
+            using (var builder = this.PacketFactory.NewPacket("AuthenticationResponse"))
             {
                 builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);

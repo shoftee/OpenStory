@@ -10,7 +10,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="code">The packet code to look up the label of.</param>
         /// <param name="label">A variable to hold the result.</param>
-        /// <returns><c>true</c> if there was an incoming packet code for the label; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if there was an incoming packet code for the label; otherwise, <see langword="false"/>.</returns>
         bool TryGetIncomingLabel(ushort code, out string label);
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="label">The label for the outgoing packet.</param>
         /// <param name="code">The variable to hold the result.</param>
-        /// <returns><c>true</c> if there was an outgoing packet with the label; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if there was an outgoing packet with the label; otherwise, <see langword="false"/>.</returns>
         bool TryGetOutgoingCode(string label, out ushort code);
     }
 }

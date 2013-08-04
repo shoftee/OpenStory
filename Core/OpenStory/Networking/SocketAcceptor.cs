@@ -12,12 +12,12 @@ namespace OpenStory.Networking
     public sealed class SocketAcceptor : IDisposable
     {
         /// <summary>
-        /// The event raised when a new socket connection has been accepted.
+        /// Occurs when a new socket connection has been accepted.
         /// </summary>
         public event EventHandler<SocketEventArgs> SocketAccepted;
 
         /// <summary>
-        /// The event raised when a socket error occurs.
+        /// Occurs when a socket error occurs.
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> SocketError;
 
@@ -34,9 +34,7 @@ namespace OpenStory.Networking
         /// Initializes a new instance of the <see cref="SocketAcceptor"/> class.
         /// </summary>
         /// <param name="endpoint">The <see cref="IPEndPoint"/> to accept connections through.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="endpoint"/> is <c>null</c>.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="endpoint"/> is <see langword="null"/>.</exception>
         public SocketAcceptor(IPEndPoint endpoint)
         {
             if (endpoint == null)
@@ -62,9 +60,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Starts the process of accepting connections.
         /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the <see cref="SocketAccepted"/> event has no subscribers.
-        /// </exception>
+        /// <exception cref="InvalidOperationException">Thrown if the <see cref="SocketAccepted"/> event has no subscribers.</exception>
         public void Start()
         {
             if (this.SocketAccepted == null)
@@ -118,7 +114,7 @@ namespace OpenStory.Networking
         /// Handles a synchronous socket accept operation. 
         /// </summary>
         /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>
-        /// <returns><c>true</c> if the socket was handled successfully; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the socket was handled successfully; otherwise, <see langword="false"/>.</returns>
         private bool EndAcceptSynchronous(SocketAsyncEventArgs eventArgs)
         {
             if (eventArgs.SocketError != System.Net.Sockets.SocketError.Success)

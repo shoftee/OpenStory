@@ -43,7 +43,7 @@ namespace OpenStory.Common.IO
         /// Initializes a new instance of the <see cref="Flags"/> class.
         /// </summary>
         /// <param name="other">The instance to copy from.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <see langword="null"/>.</exception>
         protected Flags(Flags other)
         {
             if (other == null)

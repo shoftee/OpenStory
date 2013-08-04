@@ -22,7 +22,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <inheritdoc />
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
         public sealed override void Write(IPacketBuilder builder)
         {
             if (builder == null)
@@ -56,7 +56,7 @@ namespace OpenStory.Common.IO
             }
         }
 
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <see langword="null"/>.</exception>
         /// <inheritdoc />
         public sealed override void Read(IUnsafePacketReader reader)
         {

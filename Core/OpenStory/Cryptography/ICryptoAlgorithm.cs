@@ -35,7 +35,7 @@ namespace OpenStory.Cryptography
         /// <param name="data">The data to transform.</param>
         /// <param name="iv">The IV to use for the transformation.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the parameters are <c>null</c>.
+        /// Thrown if any of the parameters are <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="iv"/> does not have exactly 4 elements.

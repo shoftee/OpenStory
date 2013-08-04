@@ -21,7 +21,7 @@ namespace OpenStory.Cryptography
         /// <param name="initialIv">The initial IV for this instance.</param>
         /// <param name="versionMask">The version mask used for header creation.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="algorithm"/> or <paramref name="initialIv"/> is <c>null</c>.
+        /// Thrown if <paramref name="algorithm"/> or <paramref name="initialIv"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="initialIv"/> does not have exactly 4 elements.
@@ -54,7 +54,7 @@ namespace OpenStory.Cryptography
         /// Transforms the specified data in-place.
         /// </summary>
         /// <param name="data">The array to transform. This array will be directly modified.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public void Transform(byte[] data)
         {
             if (data == null)
@@ -102,7 +102,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="header">The array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> is <c>null</c>.
+        /// Thrown if <paramref name="header"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements.
@@ -128,7 +128,7 @@ namespace OpenStory.Cryptography
         /// Determines whether the start of an array is a valid packet header.
         /// </summary>
         /// <param name="header">The raw packet data to validate.</param>
-        /// <returns><c>true</c> if the header is valid; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the header is valid; otherwise, <see langword="false"/>.</returns>
         public bool ValidateHeader(byte[] header)
         {
             if (header == null)
@@ -155,12 +155,12 @@ namespace OpenStory.Cryptography
         /// <param name="header">The header byte array to process.</param>
         /// <param name="length">A variable to hold the result.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> is <c>null</c>.
+        /// Thrown if <paramref name="header"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements.
         /// </exception>
-        /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the extraction was successful; otherwise, <see langword="false"/>.</returns>
         public bool TryGetLength(byte[] header, out int length)
         {
             if (header == null)
@@ -193,7 +193,7 @@ namespace OpenStory.Cryptography
         /// <param name="iv">The IV to use for the decoding.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="header"/> 
-        /// or <paramref name="iv"/> are <c>null</c>.
+        /// or <paramref name="iv"/> are <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements or

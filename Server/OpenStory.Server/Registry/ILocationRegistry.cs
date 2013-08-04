@@ -17,12 +17,12 @@ namespace OpenStory.Server.Registry
         /// </remarks>
         /// <param name="keys">A <see cref="IEnumerable{CharacterKey}"/> with the identifiers of the players to locate.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="keys"/> is <c>null</c>.
+        /// Thrown if <paramref name="keys"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>
         /// a <see cref="Dictionary{CharacterKey, PlayerLocation}"/> 
         /// mapping each input player identifier to a <see cref="PlayerLocation"/> 
-        /// instance, or to <c>null</c> if the player was not located.
+        /// instance, or to <see langword="null"/> if the player was not located.
         /// </returns>
         Dictionary<CharacterKey, PlayerLocation> GetLocationsForAll(IEnumerable<CharacterKey> keys);
 
@@ -30,7 +30,7 @@ namespace OpenStory.Server.Registry
         /// Gets a <see cref="PlayerLocation"/> instance for the given player identifier.
         /// </summary>
         /// <param name="key">The identifier of the player to locate.</param>
-        /// <returns>a <see cref="PlayerLocation"/> instance, or <c>null</c> if the player was not found.</returns>
+        /// <returns>a <see cref="PlayerLocation"/> instance, or <see langword="null"/> if the player was not found.</returns>
         PlayerLocation GetLocation(CharacterKey key);
 
         /// <summary>

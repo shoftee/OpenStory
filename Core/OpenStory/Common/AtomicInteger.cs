@@ -86,7 +86,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicInteger" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicInteger" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static explicit operator int(AtomicInteger atomicInteger)
@@ -113,7 +113,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicInteger" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicInteger" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static int ToInt32(AtomicInteger atomicInteger)

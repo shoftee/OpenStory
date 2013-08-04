@@ -31,7 +31,7 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The start of the buffer segment.</param>
         /// <param name="length">The length of the buffer segment.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
+        /// Thrown if <paramref name="buffer"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="offset"/> or <paramref name="length"/> are negative.
@@ -72,7 +72,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="buffer">The byte array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer" /> is <c>null</c>.
+        /// Thrown if <paramref name="buffer" /> is <see langword="null"/>.
         /// </exception>
         public PacketReader(byte[] buffer)
         {
@@ -532,7 +532,7 @@ namespace OpenStory.Common.IO
         /// Determines whether the position can safely advance by a number of bytes.
         /// </summary>
         /// <param name="count">The number of bytes to advance by.</param>
-        /// <returns><c>true</c> if advancing is safe; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if advancing is safe; otherwise, <see langword="false"/>.</returns>
         private bool CanAdvance(int count)
         {
             return this.currentOffset + count <= this.segmentEnd;
@@ -585,7 +585,7 @@ namespace OpenStory.Common.IO
         /// On failure, this method will revert the position of the reader to what it was when the method was called.
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> is <see langword="null"/>.</exception>
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback)
         {
@@ -618,7 +618,7 @@ namespace OpenStory.Common.IO
         /// </remarks>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <see langword="null"/>.</exception>
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback, Action failureCallback)
         {
@@ -662,7 +662,7 @@ namespace OpenStory.Common.IO
         /// <typeparam name="T">The return type of the callbacks.</typeparam>
         /// <param name="readingCallback">The operation callback to execute on the reader.</param>
         /// <param name="failureCallback">The callback to execute on reading failure.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="readingCallback"/> or <paramref name="failureCallback"/> is <see langword="null"/>.</exception>
         /// <returns>on success, the value returned by the reading callback; otherwise, the value returned by the failure callback.</returns>
         public T Safe<T>(Func<IUnsafePacketReader, T> readingCallback, Func<T> failureCallback)
         {

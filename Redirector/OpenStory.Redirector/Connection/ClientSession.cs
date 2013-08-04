@@ -9,7 +9,7 @@ namespace OpenStory.Redirector.Connection
     internal sealed class ClientSession : EncryptedNetworkSession
     {
         /// <summary>
-        /// The event is raised after the hello packet is processed.
+        /// Occurs after the hello packet is processed.
         /// </summary>
         public event EventHandler<HandshakeReceivedEventArgs> HandshakeReceived;
 
@@ -81,7 +81,7 @@ namespace OpenStory.Redirector.Connection
             }
 
             var factory = Helpers.GetFactoryForVersion(info.Version);
-            this.Crypto = ClientCrypto.New(factory, info.ClientIv, info.ServerIv);
+            this.Crypto = EndpointCrypto.Client(factory, info.ClientIv, info.ServerIv);
 
             this.receivedHelloPacket = true;
 

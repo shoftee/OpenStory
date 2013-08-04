@@ -88,7 +88,6 @@
     <Compile Include="Common\Tools\Arrays.Generic.cs" />
     <Compile Include="Common\Tools\HexExtensions.cs" />
     <Compile Include="Cryptography\AesTransform.cs" />
-    <Compile Include="Cryptography\ClientCrypto.cs" />
     <Compile Include="Cryptography\CryptoTransformBase.cs" />
     <Compile Include="Cryptography\CustomCrypto.cs" />
     <Compile Include="Cryptography\EndpointCrypto.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RollingIv.cs" />
     <Compile Include="Cryptography\RollingIvFactory.cs" />
-    <Compile Include="Cryptography\ServerCrypto.cs" />
     <Compile Include="Cryptography\VersionMaskType.cs" />
     <Compile Include="Errors.Designer.cs">
       <AutoGen>True</AutoGen>

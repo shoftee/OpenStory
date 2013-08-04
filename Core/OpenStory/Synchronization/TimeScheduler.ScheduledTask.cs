@@ -30,7 +30,7 @@ namespace OpenStory.Synchronization
             /// <param name="action">The action to schedule for execution.</param>
             /// <param name="scheduledTime">The time to execute the action at.</param>
             /// <param name="cancellationToken">The <see cref="CancellationToken"/> to listen to.</param>
-            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <c>null</c>.</exception>
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="action"/> is <see langword="null"/>.</exception>
             public ScheduledTask(Action action, DateTime scheduledTime, CancellationToken cancellationToken)
             {
                 if (action == null)

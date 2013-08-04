@@ -2,48 +2,44 @@
 using System.Threading;
 using Ninject;
 using OpenStory.Server;
-using OpenStory.Server.Fluent;
-using OpenStory.Server.Modules.Logging;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
 {
     internal static class Program
     {
+        private const string Title = @"OpenStory - Account Service";
+        private const string TitleStatusFormat = @"OpenStory - Account Service - {0}";
+
         private static void Main()
         {
-            Console.Title = @"OpenStory - Account Service";
+            Console.Title = Title;
 
-            var kernel = Initialize();
+            var bootstrapper = Initialize();
 
-            string error;
-            var service = Bootstrap.Service<AccountService>(kernel, out error);
-            if (error != null)
+            try
             {
-                Console.Title = @"OpenStory - Account Service - Error";
-                
-                Console.WriteLine(error);
-                Console.ReadLine();
-                return;
+                using (bootstrapper.Service())
+                {
+                    Console.Title = string.Format(TitleStatusFormat, "Running");
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
-
-            using (service)
+            catch (BootstrapException exception)
             {
-                Console.Title = @"OpenStory - Account Service - Running";
-                
-                Thread.Sleep(Timeout.Infinite);
+                Console.Title = string.Format(TitleStatusFormat, "Error");
+                Console.WriteLine(exception);
+                Console.ReadLine();
             }
         }
 
-        private static IKernel Initialize()
+        private static Bootstrapper Initialize()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ILogger>().ToConstant(new ConsoleLogger()).InSingletonScope();
-            kernel.Bind<IAccountService>().ToConstant(new AccountService());
+            
+            kernel.Bind<IAccountService, GameServiceBase>().To<AccountService>().InSingletonScope();
 
-            OS.Initialize(kernel);
-
-            return kernel;
+            return kernel.Get<Bootstrapper>();
         }
     }
 }

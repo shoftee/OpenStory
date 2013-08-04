@@ -29,7 +29,7 @@ namespace OpenStory.Synchronization
             /// Inserts the given task into the Timeline, after the first task which is strictly chronologically before it.
             /// </summary>
             /// <param name="task">The task to insert.</param>
-            /// <exception cref="ArgumentNullException">Thrown if <paramref name="task"/> is <c>null</c>.</exception>
+            /// <exception cref="ArgumentNullException">Thrown if <paramref name="task"/> is <see langword="null"/>.</exception>
             /// <exception cref="InvalidOperationException">Thrown if <paramref name="task"/> is already cancelled.</exception>
             public void Insert(ScheduledTask task)
             {
@@ -117,7 +117,7 @@ namespace OpenStory.Synchronization
                 /// Initializes a new instance of the TimelineNode class, with the given scheduled task.
                 /// </summary>
                 /// <param name="task">The task for this TimelineNode.</param>
-                /// <param name="next">Optional. The TimelineNode to use as a next node reference. The default value is <c>null</c>.</param>
+                /// <param name="next">Optional. The TimelineNode to use as a next node reference. The default value is <see langword="null"/>.</param>
                 public TimelineNode(ScheduledTask task, TimelineNode next = null)
                 {
                     this.Task = task;

@@ -70,6 +70,9 @@
     <Compile Include="Registry\IRegistryService.cs" />
     <Compile Include="Registry\RegisteredServiceClient.cs" />
     <Compile Include="Registry\RegistryServiceClient.cs" />
+    <Compile Include="ServiceConfigurationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ServiceOperationResult.Generic.cs" />

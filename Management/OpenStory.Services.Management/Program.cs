@@ -13,7 +13,7 @@ namespace OpenStory.Services.Management
             IRegistryService client = new RegistryServiceClient(uri);
             var result = client.GetRegistrations();
 
-            var registrations = result.Result;
+            var registrations = result.GetResult(false);
             if (registrations != null)
             {
                 Console.WriteLine("Registrations: [{0}]({1})", string.Join(", ", registrations), registrations.Length);

@@ -47,7 +47,7 @@ namespace OpenStory.Framework.Contracts
         /// <param name="key">The key of the entry to retrieve.</param>
         /// <param name="throwIfMissing">Whether to throw an exception if an entry is not found.</param>
         /// <exception cref="KeyNotFoundException">
-        /// Thrown if <paramref name="throwIfMissing"/> is <c>true</c> and the <paramref name="key"/> does not correspond to an existing entry.
+        /// Thrown if <paramref name="throwIfMissing"/> is <see langword="true"/> and the <paramref name="key"/> does not correspond to an existing entry.
         /// </exception>
         /// <returns>the value of the found entry cast to <typeparamref name="T"/>, or the default value for the type.</returns>
         public T Get<T>(string key, bool throwIfMissing = false)
@@ -75,7 +75,7 @@ namespace OpenStory.Framework.Contracts
         /// <param name="key">The key of the entry to retrieve.</param>
         /// <param name="throwIfMissing">Whether to throw an exception if an entry is not found.</param>
         /// <exception cref="KeyNotFoundException">
-        /// Thrown if <paramref name="throwIfMissing"/> is <c>true</c> and the <paramref name="key"/> does not correspond to an existing entry.
+        /// Thrown if <paramref name="throwIfMissing"/> is <see langword="true"/> and the <paramref name="key"/> does not correspond to an existing entry.
         /// </exception>
         /// <returns>the value of the found entry cast to <typeparamref name="T"/>, or the default value for <see cref="Nullable{T}"/>.</returns>
         public T? GetValue<T>(string key, bool throwIfMissing = false)

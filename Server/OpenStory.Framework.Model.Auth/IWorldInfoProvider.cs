@@ -11,7 +11,7 @@ namespace OpenStory.Framework.Model.Auth
         /// Gets the configuration data for a world.
         /// </summary>
         /// <param name="id">The identifier of the world.</param>
-        /// <returns>an instance of <see cref="WorldInfo"/> representing the record in the database, or <c>null</c> if none was found.</returns>
+        /// <returns>an instance of <see cref="WorldInfo"/> representing the record in the database, or <see langword="null"/> if none was found.</returns>
         WorldInfo GetWorldById(int id);
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace OpenStory.Cryptography
         /// <param name="table">The shuffle transformation table.</param>
         /// <param name="initialIv">The initial value for the shuffle transformation.</param>
         /// <param name="key">The AES key.</param>
-        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided parameters has an invalid number of elements.</exception>
         public AesTransform(byte[] table, byte[] initialIv, byte[] key)
             : base(table, initialIv)

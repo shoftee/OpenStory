@@ -13,7 +13,7 @@ namespace OpenStory.Common.Tools
     [Localizable(true)]
     public sealed class ParameterList
     {
-        private const char QuotationMark = '\"';
+        private const char DoubleQuotationMark = '\"';
         private const string ParameterRegexPattern = @"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?";
 
         private const RegexOptions ParamRegexOptions =
@@ -50,7 +50,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="key">The name of the parameter.</param>
         /// <returns>
-        /// the value of the parameter, <see cref="string.Empty"/> if the parameter has no value, or <c>null</c> if there is no such parameter.
+        /// the value of the parameter, <see cref="string.Empty"/> if the parameter has no value, or <see langword="null"/> if there is no such parameter.
         /// </returns>
         public string this[string key]
         {
@@ -137,7 +137,20 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
         /// </summary>
+        /// <exception cref="FormatException">Thrown if the provided parameter list has an invalid format.</exception>
         /// <returns>an instance of <see cref="ParameterList"/>.</returns>
+        public static ParameterList FromEnvironment()
+        {
+            var parameters = ParseCommandLine(Environment.CommandLine);
+            var parsed = ParseParameters(parameters);
+            return new ParameterList(parsed);
+        }
+
+        /// <summary>
+        /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
+        /// </summary>
+        /// <param name="error">A variable to hold any error messages.</param>
+        /// <returns>an instance of <see cref="ParameterList"/>, or <see langword="null"/> if there were errors.</returns>
         public static ParameterList FromEnvironment(out string error)
         {
             var parameters = ParseCommandLine(Environment.CommandLine);
@@ -152,13 +165,42 @@ namespace OpenStory.Common.Tools
             }
         }
 
+        private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters)
+        {
+            var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
+            foreach (var entry in parameters)
+            {
+                string name = entry.Key.Trim();
+                string value = entry.Value.Trim().Trim(DoubleQuotationMark);
+                if (parsed.ContainsKey(name))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    throw new FormatException(error);
+                }
+                else if (name.Any(char.IsWhiteSpace))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    throw new FormatException(error);
+                }
+                else if (value.Any(c => c == DoubleQuotationMark))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    throw new FormatException(error);
+                }
+
+                parsed.Add(name, value);
+            }
+
+            return parsed;
+        }
+
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)
         {
             var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
             foreach (var entry in parameters)
             {
                 string name = entry.Key.Trim();
-                string value = entry.Value.Trim().Trim(QuotationMark);
+                string value = entry.Value.Trim().Trim(DoubleQuotationMark);
                 if (parsed.ContainsKey(name))
                 {
                     error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
@@ -169,7 +211,7 @@ namespace OpenStory.Common.Tools
                     error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
                     return null;
                 }
-                else if (value.Any(c => c == QuotationMark))
+                else if (value.Any(c => c == DoubleQuotationMark))
                 {
                     error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
                     return null;

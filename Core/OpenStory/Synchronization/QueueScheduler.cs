@@ -26,7 +26,7 @@ namespace OpenStory.Synchronization
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="runnable"/> is <c>null</c>.
+        /// Thrown if <paramref name="runnable"/> is <see langword="null"/>.
         /// </exception>
         public void Schedule(IRunnable runnable)
         {

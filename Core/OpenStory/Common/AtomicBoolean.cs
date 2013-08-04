@@ -73,7 +73,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicBoolean" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public static explicit operator bool(AtomicBoolean atomicBoolean)
@@ -100,7 +100,7 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicBoolean" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public static bool ToBoolean(AtomicBoolean atomicBoolean)

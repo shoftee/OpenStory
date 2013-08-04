@@ -23,7 +23,7 @@ namespace OpenStory.Networking
         /// </summary>
         /// <param name="packet">The packet data.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="packet" /> is <c>null</c>.
+        /// Thrown if <paramref name="packet" /> is <see langword="null"/>.
         /// </exception>
         public PacketReceivedEventArgs(byte[] packet)
         {

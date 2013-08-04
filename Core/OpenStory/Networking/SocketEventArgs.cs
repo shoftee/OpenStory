@@ -17,7 +17,7 @@ namespace OpenStory.Networking
         /// Initializes a new instance of the <see cref="SocketEventArgs"/> class.
         /// </summary>
         /// <param name="socket">The socket for this instance.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="socket"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="socket"/> is <see langword="null"/>.</exception>
         public SocketEventArgs(Socket socket)
         {
             if (socket == null)

@@ -44,6 +44,7 @@
     <Compile Include="AccountStatus.cs" />
     <Compile Include="BanType.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="CharacterExtensionComparer.cs" />
     <Compile Include="CharacterKey.cs" />
     <Compile Include="Exceptions.Designer.cs">
       <DependentUpon>Exceptions.resx</DependentUpon>
@@ -51,6 +52,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="GameMasterLevel.cs" />
+    <Compile Include="ICharacterExtension.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="ItemCluster.cs" />
     <Compile Include="ItemContainer.cs" />

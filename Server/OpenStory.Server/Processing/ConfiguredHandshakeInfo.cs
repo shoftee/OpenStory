@@ -1,5 +1,4 @@
 using OpenStory.Common.IO;
-using OpenStory.Server.Fluent;
 
 namespace OpenStory.Server.Processing
 {
@@ -22,24 +21,6 @@ namespace OpenStory.Server.Processing
             this.ClientIv = clientIv;
             this.ServerIv = serverIv;
             this.ServerId = serverId;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfiguredHandshakeInfo"/> class with the server-configured values.
-        /// </summary>
-        /// <param name="clientIv">The client cryptographic IV.</param>
-        /// <param name="serverIv">The server cryptographic IV.</param>
-        public ConfiguredHandshakeInfo(byte[] clientIv, byte[] serverIv)
-        {
-            var facade = OS.Config().Domain("Handshake");
-
-            this.Header = facade.Get<ushort>("Header");
-            this.Version = facade.Get<ushort>("Version");
-            this.Subversion = facade.Get<string>("Subversion");
-            this.ServerId = facade.Get<byte>("ServerId");
-
-            this.ClientIv = clientIv;
-            this.ServerIv = serverIv;
         }
     }
 }

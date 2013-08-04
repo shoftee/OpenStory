@@ -63,7 +63,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="bytes">The bytes to write.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="bytes"/> is <c>null</c>.
+        /// Thrown if <paramref name="bytes"/> is <see langword="null"/>.
         /// </exception>
         void WriteBytes(byte[] bytes);
 
@@ -79,7 +79,7 @@ namespace OpenStory.Common.IO
         /// <remarks>The length of the stream is written first.</remarks>
         /// <param name="string">The string to write.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="string"/> is <c>null</c>.
+        /// Thrown if <paramref name="string"/> is <see langword="null"/>.
         /// </exception>
         void WriteLengthString(string @string);
 
@@ -88,7 +88,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="string">The string to write.</param>
         /// <param name="paddingLength">The length to pad the string to.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="string"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="string"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="paddingLength"/> is a non-positive number.
         /// </exception>
