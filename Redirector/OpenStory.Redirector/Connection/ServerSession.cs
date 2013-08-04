@@ -41,8 +41,8 @@ namespace OpenStory.Redirector.Connection
                 builder.WriteBytes(info.ClientIv);
                 builder.WriteBytes(info.ServerIv);
 
-                // Server ID (used for localizations and test servers)
-                builder.WriteByte(info.ServerId);
+                // Locale ID (used for localizations and test servers)
+                builder.WriteByte(info.LocaleId);
 
                 return builder.ToByteArray();
             }

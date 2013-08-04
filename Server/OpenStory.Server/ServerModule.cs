@@ -27,17 +27,18 @@ namespace OpenStory.Server
             Bind<IServerSession>().To<ServerSession>();
             Bind<IServerSessionFactory>().ToFactory();
 
-            // ServerProcess requires ServiceConfiguration, IServerSessionFactory and ILogger
+            // IvGenerator requires RandomNumberGenerator.
+            Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
+            Bind<IvGenerator>().ToSelf();
+            
+            // ServerProcess requires IServerSessionFactory, IvGenerator and ILogger
             Bind<IServerProcess>().To<ServerProcess>();
 
+            // GameServer requires IServerConfigurator, IServerProcess, IServerOperator
             Bind<GameServiceBase>().To<GameServer>();
 
             // IGameServiceFactory requires GameServiceBase.
             Bind<IGameServiceFactory>().ToFactory();
-
-            // IvGenerator requires RandomNumberGenerator.
-            Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
-            Bind<IvGenerator>().ToSelf();
 
             // Bootstrapper.
             Bind<Bootstrapper>().ToSelf().InSingletonScope();

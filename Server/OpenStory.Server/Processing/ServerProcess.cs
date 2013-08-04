@@ -18,7 +18,9 @@ namespace OpenStory.Server.Processing
         private readonly IServerSessionFactory sessionFactory;
         private readonly IvGenerator ivGenerator;
         private readonly ILogger logger;
-        
+
+        private ServerConfiguration serverConfiguration;
+
         private SocketAcceptor acceptor;
         private RollingIvFactory ivFactory;
         private bool isDisposed;
@@ -49,10 +51,16 @@ namespace OpenStory.Server.Processing
         {
             this.ThrowIfRunning();
 
-            var serverConfiguration = new ServerConfiguration(configuration);
-            this.ivFactory = IvFactories.GetEmsFactory(serverConfiguration.Version);
-            this.acceptor = new SocketAcceptor(serverConfiguration.Endpoint);
+            this.serverConfiguration = new ServerConfiguration(configuration);
 
+            this.ConfigureInternal();
+        }
+
+        private void ConfigureInternal()
+        {
+            this.ivFactory = IvFactories.GetEmsFactory(this.serverConfiguration.Version);
+
+            this.acceptor = new SocketAcceptor(this.serverConfiguration.Endpoint);
             this.acceptor.SocketAccepted += this.OnSocketAccepted;
         }
 
@@ -87,9 +95,9 @@ namespace OpenStory.Server.Processing
             session.AttachSocket(e.Socket);
             this.OnConnectionOpened(session);
 
-            // TODO: Load constants from configuration thingie?
-            var info = new ConfiguredHandshakeInfo(0x000E, Settings.Default.MapleVersion, "2", clientIv, serverIv, 0x05);
-            session.Start(this.ivFactory, info);
+            var info = new ConfiguredHandshakeInfo(this.serverConfiguration, clientIv, serverIv);
+            var crypto = EndpointCrypto.Server(this.ivFactory, clientIv, serverIv);
+            session.Start(crypto, info);
         }
 
         private void OnConnectionOpened(IServerSession session)

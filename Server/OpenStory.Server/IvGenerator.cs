@@ -7,15 +7,15 @@ namespace OpenStory.Server
     /// </summary>
     public class IvGenerator
     {
-        private readonly RandomNumberGenerator rng;
+        private readonly RandomNumberGenerator randomNumberGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IvGenerator"/> class.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        public IvGenerator(RandomNumberGenerator rng)
+        /// <param name="randomNumberGenerator">The random number generator to use.</param>
+        public IvGenerator(RandomNumberGenerator randomNumberGenerator)
         {
-            this.rng = rng;
+            this.randomNumberGenerator = randomNumberGenerator;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace OpenStory.Server
         public byte[] GetNewIv()
         {
             var iv = new byte[4];
-            this.rng.GetNonZeroBytes(iv);
+            this.randomNumberGenerator.GetNonZeroBytes(iv);
             return iv;
         }
     }

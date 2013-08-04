@@ -1,26 +1,25 @@
 using OpenStory.Common.IO;
+using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Server.Processing
 {
     internal sealed class ConfiguredHandshakeInfo : HandshakeInfo
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfiguredHandshakeInfo"/> class with some predefined values.
+        /// Initializes a new instance of the <see cref="ConfiguredHandshakeInfo"/> class.
         /// </summary>
-        /// <param name="header">The header of the handshake packet.</param>
-        /// <param name="version">The game version.</param>
-        /// <param name="subversion">The game sub-version.</param>
+        /// <param name="configuration">The server configuration.</param>
         /// <param name="clientIv">The client cryptographic IV.</param>
         /// <param name="serverIv">The server cryptographic IV.</param>
-        /// <param name="serverId">The server identifier.</param>
-        public ConfiguredHandshakeInfo(ushort header, ushort version, string subversion, byte[] clientIv, byte[] serverIv, byte serverId)
+        public ConfiguredHandshakeInfo(ServerConfiguration configuration, byte[] clientIv, byte[] serverIv)
         {
-            this.Header = header;
-            this.Version = version;
-            this.Subversion = subversion;
+            this.Header = configuration.Header;
+            this.Version = configuration.Version;
+            this.Subversion = configuration.Subversion;
+            this.LocaleId = configuration.LocaleId;
+
             this.ClientIv = clientIv;
             this.ServerIv = serverIv;
-            this.ServerId = serverId;
         }
     }
 }

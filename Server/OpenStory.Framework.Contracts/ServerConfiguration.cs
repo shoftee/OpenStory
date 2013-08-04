@@ -10,16 +10,34 @@ namespace OpenStory.Framework.Contracts
     public class ServerConfiguration
     {
         /// <summary>
+        /// Gets the game version for the server.
+        /// </summary>
+        [DataMember]
+        public ushort Header { get; private set; }
+
+        /// <summary>
+        /// Gets the game version for the server.
+        /// </summary>
+        [DataMember]
+        public ushort Version { get; private set; }
+
+        /// <summary>
+        /// Gets the game sub-version for the server.
+        /// </summary>
+        [DataMember]
+        public string Subversion { get; private set; }
+
+        /// <summary>
+        /// Gets the locale ID for the server.
+        /// </summary>
+        [DataMember]
+        public byte LocaleId { get; private set; }
+
+        /// <summary>
         /// Gets the entry point definition for the server.
         /// </summary>
         [DataMember]
         public IPEndPoint Endpoint { get; private set; }
-
-        /// <summary>
-        /// Get the game version for the server.
-        /// </summary>
-        [DataMember]
-        public ushort Version { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerConfiguration"/> class.
@@ -28,7 +46,11 @@ namespace OpenStory.Framework.Contracts
         public ServerConfiguration(ServiceConfiguration configuration)
         {
             this.Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
+
+            this.Header = configuration.Get<ushort>("Header", true);
             this.Version = configuration.Get<ushort>("Version", true);
+            this.Subversion = configuration.Get<string>("Subversion", true);
+            this.LocaleId = configuration.Get<byte>("LocaleId", true);
         }
     }
 }

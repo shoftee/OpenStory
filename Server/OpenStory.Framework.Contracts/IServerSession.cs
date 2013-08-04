@@ -36,9 +36,9 @@ namespace OpenStory.Framework.Contracts
         /// <summary>
         /// Initiates the session operations.
         /// </summary>
-        /// <param name="factory">The <see cref="RollingIvFactory"/> to use to create <see cref="RollingIv"/> instances.</param>
+        /// <param name="crypto">The <see cref="EndpointCrypto"/> for the session.</param>
         /// <param name="info">The information for the handshake process.</param>
-        void Start(RollingIvFactory factory, HandshakeInfo info);
+        void Start(EndpointCrypto crypto, HandshakeInfo info);
 
         /// <summary>
         /// Attaches a <see cref="Socket"/> to this session.

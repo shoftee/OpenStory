@@ -59,13 +59,13 @@ namespace OpenStory.Server.Processing
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="factory"/> or <paramref name="info"/> are <see langword="null"/>.
+        /// Thrown if <paramref name="crypto"/> or <paramref name="info"/> are <see langword="null"/>.
         /// </exception>
-        public void Start(RollingIvFactory factory, HandshakeInfo info)
+        public void Start(EndpointCrypto crypto, HandshakeInfo info)
         {
-            if (factory == null)
+            if (crypto == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException("crypto");
             }
 
             if (info == null)
@@ -75,10 +75,10 @@ namespace OpenStory.Server.Processing
 
             this.ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = EndpointCrypto.Server(factory, info.ClientIv, info.ServerIv);
+            this.Crypto = crypto;
             byte[] handshake = ConstructHandshakePacket(info);
-            logger.Debug(@"Network session {0} started.", this.NetworkSessionId);
 
+            logger.Debug(@"Network session {0} started.", this.NetworkSessionId);
             this.Session.Start();
             this.Session.Write(handshake);
         }
@@ -95,8 +95,8 @@ namespace OpenStory.Server.Processing
                 builder.WriteBytes(info.ClientIv);
                 builder.WriteBytes(info.ServerIv);
 
-                // Server ID (used for localizations and test servers)
-                builder.WriteByte(info.ServerId);
+                // Locale ID (used for localizations and test servers)
+                builder.WriteByte(info.LocaleId);
 
                 return builder.ToByteArray();
             }

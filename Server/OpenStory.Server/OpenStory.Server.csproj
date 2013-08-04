@@ -86,7 +86,6 @@
     <Compile Include="Processing\NetTcpEndpointProvider.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\IServerOperator.cs" />
-    <Compile Include="Processing\IServerFactory.cs" />
     <Compile Include="Processing\ParameterListNexusConnectionProvider.cs" />
     <Compile Include="Processing\PacketFactory.cs" />
     <Compile Include="Processing\ServerSession.cs" />
@@ -119,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
-      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Project>{5bef25e3-9b8f-4e67-8b95-5dd39520d60e}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">

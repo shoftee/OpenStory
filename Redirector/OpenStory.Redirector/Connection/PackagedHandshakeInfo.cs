@@ -40,7 +40,7 @@ namespace OpenStory.Redirector.Connection
             this.Subversion = subversion;
             this.ClientIv = clientIv;
             this.ServerIv = serverIv;
-            this.ServerId = serverId;
+            this.LocaleId = serverId;
 
             return true;
         }

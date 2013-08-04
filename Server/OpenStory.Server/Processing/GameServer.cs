@@ -9,22 +9,20 @@ namespace OpenStory.Server.Processing
     public class GameServer : GameServiceBase
     {
         private readonly IServerConfigurator configurator;
-        private readonly IServerFactory serverFactory;
-
-        private IServerProcess serverProcess;
-        private IServerOperator serverOperator;
+        private readonly IServerProcess serverProcess;
+        private readonly IServerOperator serverOperator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServer"/> type.
         /// </summary>
         /// <param name="configurator">The <see cref="IServerConfigurator"/> to use for this server.</param>
-        /// <param name="serverFactory">The <see cref="IServerFactory"/> to use when creating <see cref="IServerOperator"/> objects.</param>
-        public GameServer(
-            IServerConfigurator configurator,
-            IServerFactory serverFactory)
+        /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
+        /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
+        public GameServer(IServerConfigurator configurator, IServerProcess serverProcess, IServerOperator serverOperator)
         {
             this.configurator = configurator;
-            this.serverFactory = serverFactory;
+            this.serverProcess = serverProcess;
+            this.serverOperator = serverOperator;
         }
 
         /// <inheritdoc />
@@ -37,12 +35,8 @@ namespace OpenStory.Server.Processing
         protected override void OnInitializing()
         {
             base.OnInitializing();
-            
 
-            this.serverProcess = this.serverFactory.CreateProcess();
             this.serverProcess.Configure(this.ServiceConfiguration);
-
-            this.serverOperator = this.serverFactory.CreateOperator();
             this.serverOperator.Configure(this.ServiceConfiguration);
 
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
@@ -63,7 +57,7 @@ namespace OpenStory.Server.Processing
 
             base.OnStopping();
         }
-    
+
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
             var session = args.ServerSession;
