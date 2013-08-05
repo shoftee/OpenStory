@@ -19,6 +19,8 @@ namespace OpenStory.Server
             // No dependencies:
             Bind<IPlayerRegistry>().To<PlayerRegistry>();
             Bind<ILocationRegistry>().To<LocationRegistry>();
+            Bind<IPacketScheduler>().To<PacketScheduler>();
+            Bind<INexusConnectionProvider>().To<EnvironmentNexusConnectionProvider>();
 
             // PacketFactory requires IPacketCodeTable
             Bind<IPacketFactory>().To<PacketFactory>();

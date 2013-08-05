@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -93,67 +92,6 @@ namespace OpenStory.Services.Contracts
             }
 
             return this.result;
-        }
-
-        /// <summary>
-        /// Executes the provided call and catches possible communication exceptions.
-        /// </summary>
-        /// <param name="func">The service call to execute.</param>
-        /// <returns>the possibly transformed operation result returned by the call.</returns>
-        public static ServiceOperationResult<TResult> Of<TResult>(Func<ServiceOperationResult<TResult>> func)
-        {
-            try
-            {
-                var result = func();
-                return FromRemoteResult(result);
-            }
-            catch (EndpointNotFoundException unreachable)
-            {
-                var result = LocalFailure<TResult>(unreachable);
-                return result;
-            }
-            catch (TimeoutException timeout)
-            {
-                var result = LocalFailure<TResult>(timeout);
-                return result;
-            }
-            catch (AddressAccessDeniedException accessDenied)
-            {
-                var result = new ServiceOperationResult<TResult>(default(TResult), OperationState.Refused, accessDenied, ServiceState.Unknown);
-                return result;
-            }
-            catch (CommunicationException communicationException)
-            {
-                var result = RemoteFailure<TResult>(communicationException);
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Constructs a local result instance from a remote result.
-        /// </summary>
-        /// <param name="remoteResult">The result that was received from a remote service.</param>
-        /// <returns>a transformed copy of the provided result.</returns>
-        private static ServiceOperationResult<TResult> FromRemoteResult<TResult>(ServiceOperationResult<TResult> remoteResult)
-        {
-            var actualOperationState = remoteResult.OperationState;
-            if (actualOperationState == OperationState.FailedLocally)
-            {
-                actualOperationState = OperationState.FailedRemotely;
-            }
-
-            var result = new ServiceOperationResult<TResult>(remoteResult.result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
-            return result;
-        }
-
-        private static ServiceOperationResult<TResult> LocalFailure<TResult>(Exception error)
-        {
-            return new ServiceOperationResult<TResult>(default(TResult), OperationState.FailedLocally, error, ServiceState.Unknown);
-        }
-
-        private static ServiceOperationResult<TResult> RemoteFailure<TResult>(Exception error)
-        {
-            return new ServiceOperationResult<TResult>(default(TResult), OperationState.FailedRemotely, error, ServiceState.Unknown);
         }
 
         /// <inheritdoc />

@@ -27,9 +27,7 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            var result = ServiceOperationResult<ServiceConfiguration>.Of(
-                () => this.Channel.GetServiceConfiguration(token));
-
+            var result = this.Call(() => this.Channel.GetServiceConfiguration(token));
             return result;
         }
 

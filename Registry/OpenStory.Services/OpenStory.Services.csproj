@@ -61,6 +61,7 @@
     <Compile Include="Contracts\IWorldService.cs" />
     <Compile Include="Clients\NexusServiceClient.cs" />
     <Compile Include="Contracts\OperationState.cs" />
+    <Compile Include="Contracts\ServiceExtensions.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
     <Compile Include="GameServiceBase.cs" />

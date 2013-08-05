@@ -60,5 +60,10 @@ namespace OpenStory.Framework.Contracts
         /// Closes the session.
         /// </summary>
         void Close();
+
+        /// <summary>
+        /// Starts the asynchronous packet sending process.
+        /// </summary>
+        void Push();
     }
 }

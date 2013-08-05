@@ -24,28 +24,28 @@ namespace OpenStory.Services.Registry
         /// <inheritdoc />
         public ServiceOperationResult Initialize()
         {
-            var result = ServiceOperationResult.Of(() => this.Channel.Initialize());
+            var result = this.Call(() => this.Channel.Initialize());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Start()
         {
-            var result = ServiceOperationResult.Of(() => this.Channel.Start());
+            var result = this.Call(() => this.Channel.Start());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Stop()
         {
-            var result = ServiceOperationResult.Of(() => this.Channel.Stop());
+            var result = this.Call(() => this.Channel.Stop());
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult Ping()
         {
-            var result = ServiceOperationResult.Of(() => this.Channel.Ping());
+            var result = this.Call(() => this.Channel.Ping());
             return result;
         }
 

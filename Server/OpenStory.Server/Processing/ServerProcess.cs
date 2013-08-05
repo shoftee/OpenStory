@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading;
 using Ninject.Extensions.Logging;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
-using OpenStory.Server.Properties;
 
 namespace OpenStory.Server.Processing
 {
@@ -16,6 +14,7 @@ namespace OpenStory.Server.Processing
     internal sealed class ServerProcess : IServerProcess, IDisposable
     {
         private readonly IServerSessionFactory sessionFactory;
+        private readonly IPacketScheduler packetScheduler;
         private readonly IvGenerator ivGenerator;
         private readonly ILogger logger;
 
@@ -37,11 +36,13 @@ namespace OpenStory.Server.Processing
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
         /// </summary>
         /// <param name="sessionFactory">The <see cref="IServerSessionFactory"/> for this server.</param>
+        /// <param name="packetScheduler">The <see cref="IPacketScheduler"/> for this server.</param>
         /// <param name="ivGenerator">The <see cref="IvGenerator"/> for this server.</param>
         /// <param name="logger">The logger to use for this server.</param>
-        public ServerProcess(IServerSessionFactory sessionFactory, IvGenerator ivGenerator, ILogger logger)
+        public ServerProcess(IServerSessionFactory sessionFactory, IPacketScheduler packetScheduler, IvGenerator ivGenerator, ILogger logger)
         {
             this.sessionFactory = sessionFactory;
+            this.packetScheduler = packetScheduler;
             this.ivGenerator = ivGenerator;
             this.logger = logger;
         }
@@ -91,7 +92,7 @@ namespace OpenStory.Server.Processing
             byte[] serverIv = this.ivGenerator.GetNewIv();
 
             var session = this.sessionFactory.CreateSession();
-            session.ReadyForPush += this.OnReadyForPush;
+            this.packetScheduler.Register(session);
             session.AttachSocket(e.Socket);
             this.OnConnectionOpened(session);
 
@@ -108,12 +109,6 @@ namespace OpenStory.Server.Processing
                 var args = new ServerSessionEventArgs(session);
                 handler.Invoke(this, args);
             }
-        }
-
-        private void OnReadyForPush(object sender, EventArgs e)
-        {
-            var session = (ServerSession)sender;
-            ThreadPool.QueueUserWorkItem(_ => session.Push());
         }
 
         #region Exception methods

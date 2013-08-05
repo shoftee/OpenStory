@@ -29,15 +29,15 @@ namespace OpenStory.Server.Processing
         protected override void OnConfiguring(ServiceConfiguration configuration)
         {
             this.configurator.ValidateConfiguration(configuration);
+
+            this.serverProcess.Configure(this.ServiceConfiguration);
+            this.serverOperator.Configure(this.ServiceConfiguration);
         }
 
         /// <inheritdoc />
         protected override void OnInitializing()
         {
             base.OnInitializing();
-
-            this.serverProcess.Configure(this.ServiceConfiguration);
-            this.serverOperator.Configure(this.ServiceConfiguration);
 
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
         }

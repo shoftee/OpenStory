@@ -83,10 +83,12 @@
     <Compile Include="IllegalPacketException.cs" />
     <Compile Include="Processing\IPacketFactory.cs" />
     <Compile Include="IvGenerator.cs" />
+    <Compile Include="Processing\IPacketScheduler.cs" />
     <Compile Include="Processing\NetTcpEndpointProvider.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\IServerOperator.cs" />
-    <Compile Include="Processing\ParameterListNexusConnectionProvider.cs" />
+    <Compile Include="Processing\PacketScheduler.cs" />
+    <Compile Include="Processing\EnvironmentNexusConnectionProvider.cs" />
     <Compile Include="Processing\PacketFactory.cs" />
     <Compile Include="Processing\ServerSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />

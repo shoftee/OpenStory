@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -72,81 +71,17 @@ namespace OpenStory.Services.Contracts
             this.ServiceState = serviceState;
         }
 
-        /// <summary>
-        /// Executes the provided call and catches possible communication exceptions.
-        /// </summary>
-        /// <param name="func">The service call to execute.</param>
-        /// <returns>the possibly transformed operation result returned by the call.</returns>
-        public static ServiceOperationResult Of(Func<ServiceOperationResult> func)
-        {
-            try
-            {
-                var result = func();
-                return FromRemoteResult(result);
-            }
-            catch (EndpointNotFoundException unreachable)
-            {
-                var result = LocalFailure(unreachable);
-                return result;
-            }
-            catch (TimeoutException timeout)
-            {
-                var result = LocalFailure(timeout);
-                return result;
-            }
-            catch (AddressAccessDeniedException accessDenied)
-            {
-                var result = new ServiceOperationResult(OperationState.Refused, accessDenied, ServiceState.Unknown);
-                return result;
-            }
-            catch (CommunicationException communicationException)
-            {
-                var result = RemoteFailure(communicationException);
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Constructs a local result instance from a remote result.
-        /// </summary>
-        /// <param name="remoteResult">The result that was received from a remote service.</param>
-        /// <returns>a transformed copy of the provided result.</returns>
-        private static ServiceOperationResult FromRemoteResult(ServiceOperationResult remoteResult)
-        {
-            var actualOperationState = remoteResult.OperationState;
-            if (actualOperationState == OperationState.FailedLocally)
-            {
-                actualOperationState = OperationState.FailedRemotely;
-            }
-
-            var result = new ServiceOperationResult(actualOperationState, remoteResult.Error, remoteResult.ServiceState);
-            return result;
-        }
-
-        private static ServiceOperationResult LocalFailure(Exception error)
-        {
-            return new ServiceOperationResult(OperationState.FailedLocally, error, ServiceState.Unknown);
-        }
-
-        private static ServiceOperationResult RemoteFailure(Exception error)
-        {
-            return new ServiceOperationResult(OperationState.FailedRemotely, error, ServiceState.Unknown);
-        }
-        
         /// <inheritdoc />
         public override string ToString()
         {
-            string result;
             if (this.Error == null)
             {
-                result = string.Format("Svc: {0}, Op: {1}", this.ServiceState, this.OperationState);
+                return string.Format("Svc: {0}, Op: {1}", this.ServiceState, this.OperationState);
             }
             else
             {
-                result = string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
+                return string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
             }
-
-            return result;
         }
     }
 }
