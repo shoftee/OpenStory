@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using OpenStory.Framework.Contracts;
+using OpenStory.Server.Processing;
 
-namespace OpenStory.Server.Processing
+namespace OpenStory.Server
 {
     /// <summary>
     /// A base class for <see cref="IServerOperator"/> implementations.
     /// </summary>
     /// <typeparam name="TClient">The type of the clients to handle in this <see cref="IServerOperator"/>.</typeparam>
     public abstract class ServerOperator<TClient> : IServerOperator
+        where TClient : ClientBase
     {
         /// <summary>
         /// Gets the list of registered clients.

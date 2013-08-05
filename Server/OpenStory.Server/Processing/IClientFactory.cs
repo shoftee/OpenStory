@@ -1,19 +1,19 @@
-﻿using OpenStory.Framework.Contracts;
+using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Server.Processing
 {
     /// <summary>
-    /// Provides methods for creating clients.
+    /// Provides methods for creating client instances.
     /// </summary>
-    /// <typeparam name="TClient">The type of the client, derived from <see cref="ClientBase"/>.</typeparam>
+    /// <typeparam name="TClient">The type of the clients.</typeparam>
     public interface IClientFactory<out TClient>
         where TClient : ClientBase
     {
         /// <summary>
-        /// Creates a <typeparamref name="TClient"/> instance for the provided <see cref="IServerSession"/>.
+        /// Creates a new client instance.
         /// </summary>
-        /// <param name="session">The <see cref="IServerSession"/> to create a client for.</param>
-        /// <returns>The created <typeparamref name="TClient"/>.</returns>
+        /// <param name="session">The underlying session for the new client.</param>
+        /// <returns>the new <typeparamref name="TClient"/> instance.</returns>
         TClient CreateClient(IServerSession session);
     }
 }

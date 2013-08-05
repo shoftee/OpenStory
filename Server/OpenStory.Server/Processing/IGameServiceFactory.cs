@@ -1,7 +1,6 @@
-﻿using OpenStory.Server.Processing;
-using OpenStory.Services;
+﻿using OpenStory.Services;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// Provides methods for creating <see cref="GameServiceBase"/> instances.

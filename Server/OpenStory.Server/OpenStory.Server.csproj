@@ -72,14 +72,14 @@
   <ItemGroup>
     <Compile Include="BootstrapException.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="IGameServiceFactory.cs" />
+    <Compile Include="Processing\IClientFactory.cs" />
+    <Compile Include="Processing\IGameServiceFactory.cs" />
     <Compile Include="Processing\ClientBase.cs" />
     <Compile Include="Errors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Errors.resx</DependentUpon>
     </Compile>
-    <Compile Include="Processing\IClientFactory.cs" />
     <Compile Include="IllegalPacketException.cs" />
     <Compile Include="Processing\IPacketFactory.cs" />
     <Compile Include="IvGenerator.cs" />
