@@ -117,40 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BootstrapParseError" xml:space="preserve">
-    <value>Parse error: {0}</value>
+  <data name="BootstrapConnectionError" xml:space="preserve">
+    <value>Nexus connection error: {0}</value>
   </data>
-  <data name="BootstrapValidationError" xml:space="preserve">
-    <value>Validation error: {0}</value>
+  <data name="BootstrapConfigurationError" xml:space="preserve">
+    <value>Configuration error: {0}</value>
   </data>
-  <data name="BootstrapConnectionError">
-    <value xml:space="preserve">Nexus connection error: {0}</value>
+  <data name="BootstrapHostingError" xml:space="preserve">
+    <value>Service hosting error: {0}</value>
   </data>
-  <data name="BootstrapConfigurationError">
-    <value xml:space="preserve">Configuration error: {0}</value>
+  <data name="BootstrapCouldNotConnectToNexus" xml:space="preserve">
+    <value>Could not connect to the Nexus service.</value>
   </data>
-  <data name="BootstrapHostingError">
-    <value xml:space="preserve">Service hosting error: {0}</value>
+  <data name="BootstrapRequestRefused" xml:space="preserve">
+    <value>The Nexus service refused the request. Are you sure your token is authorized?</value>
   </data>
-  <data name="BootstrapCouldNotConnectToNexus">
-    <value xml:space="preserve">Could not connect to the Nexus service: {0}</value>
+  <data name="BootstrapNexusGenericError" xml:space="preserve">
+    <value>The Nexus service encountered a problem when processing your request.</value>
   </data>
-  <data name="BootstrapRequestRefused">
-    <value xml:space="preserve">The Nexus service refused the request. Are you sure your token is authorized?</value>
+  <data name="BootstrapUriParseError" xml:space="preserve">
+    <value>Could not parse nexus URI string. Make sure you've entered a valid service URI under the parameter '{0}' (case-sensitive).</value>
   </data>
-  <data name="BootstrapNexusGenericError">
-    <value xml:space="preserve">The Nexus service encountered a problem when processing your request: {0}</value>
+  <data name="BootstrapTokenParseError" xml:space="preserve">
+    <value>Could not parse nexus access token. Make sure you've entered a valid GUID value under the parameter '{0}' (case-sensitive).</value>
   </data>
-  <data name="BootstrapUriParseError">
-    <value xml:space="preserve">Could not parse nexus URI string. Make sure you've entered a valid service URI under the parameter '{0}' (case-sensitive).</value>
+  <data name="ChannelIdMustBeNonNegative" xml:space="preserve">
+    <value>The channel identifier must be a non-negative integer.</value>
   </data>
-  <data name="BootstrapTokenParseError">
-    <value xml:space="preserve">Could not parse nexus access token. Make sure you've entered a valid GUID value under the parameter '{0}' (case-sensitive).</value>
-  </data>
-  <data name="ChannelIdMustBeNonNegative">
-    <value xml:space="preserve">The channel identifier must be a non-negative integer.</value>
-  </data>
-  <data name="ModulesRequiredComponentNotInitialized">
-    <value xml:space="preserve">The required component '{0}' has not been initialized.</value>
+  <data name="BootstrapGenericError" xml:space="preserve">
+    <value>There was an error during the bootstrapping process.</value>
   </data>
 </root>

@@ -7,7 +7,7 @@ namespace OpenStory.Framework.Contracts
     /// Represents connection information for a nexus service.
     /// </summary>
     [Localizable(true)]
-    public sealed class NexusConnection
+    public sealed class NexusConnectionInfo
     {
         /// <summary>
         /// Gets the access token required to communicate with the Nexus service.
@@ -20,11 +20,11 @@ namespace OpenStory.Framework.Contracts
         public Uri NexusUri { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NexusConnection"/> class.
+        /// Initializes a new instance of the <see cref="NexusConnectionInfo"/> class.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="nexusUri">The URI of the nexus service.</param>
-        public NexusConnection(Guid accessToken, Uri nexusUri)
+        public NexusConnectionInfo(Guid accessToken, Uri nexusUri)
         {
             this.AccessToken = accessToken;
             this.NexusUri = nexusUri;

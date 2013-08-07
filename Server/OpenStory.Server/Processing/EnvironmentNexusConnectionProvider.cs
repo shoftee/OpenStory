@@ -5,7 +5,7 @@ using OpenStory.Framework.Contracts;
 namespace OpenStory.Server.Processing
 {
     /// <summary>
-    /// Creates <see cref="NexusConnection"/> objects from data passed during command-line initialization.
+    /// Creates <see cref="NexusConnectionInfo"/> objects from data passed during command-line initialization.
     /// </summary>
     public sealed class EnvironmentNexusConnectionProvider : INexusConnectionProvider
     {
@@ -13,16 +13,16 @@ namespace OpenStory.Server.Processing
         private const string NexusUriKey = @"NexusUri";
 
         /// <summary>
-        /// Creates a <see cref="NexusConnection"/> object from the command-line parameter list.
+        /// Creates a <see cref="NexusConnectionInfo"/> object from the command-line parameter list.
         /// </summary>
-        public NexusConnection GetConnection()
+        public NexusConnectionInfo GetConnectionInfo()
         {
             var parameters = ParameterList.FromEnvironment();
             var connection = FromParameterList(parameters);
             return connection;
         }
 
-        private static NexusConnection FromParameterList(ParameterList parameters)
+        private static NexusConnectionInfo FromParameterList(ParameterList parameters)
         {
             var nexusUriString = parameters[NexusUriKey];
 
@@ -42,7 +42,7 @@ namespace OpenStory.Server.Processing
                 throw new FormatException(error);
             }
 
-            var result = new NexusConnection(token, uri);
+            var result = new NexusConnectionInfo(token, uri);
             return result;
         }
     }

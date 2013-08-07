@@ -1,13 +1,13 @@
 ﻿namespace OpenStory.Framework.Contracts
 {
     /// <summary>
-    /// Provides methods for creating <see cref="NexusConnection"/> objects.
+    /// Provides methods for creating <see cref="NexusConnectionInfo"/> objects.
     /// </summary>
     public interface INexusConnectionProvider
     {
         /// <summary>
-        /// Gets a <see cref="NexusConnection"/> object.
+        /// Gets a <see cref="NexusConnectionInfo"/> object.
         /// </summary>
-        NexusConnection GetConnection();
+        NexusConnectionInfo GetConnectionInfo();
     }
 }
