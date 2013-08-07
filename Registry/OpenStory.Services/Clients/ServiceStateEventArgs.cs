@@ -14,7 +14,7 @@ namespace OpenStory.Services.Clients
         public ServiceState NewState { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceStateEventArgs"/>.
+        /// Initializes a new instance of the <see cref="ServiceStateEventArgs"/> class.
         /// </summary>
         /// <param name="newState">The new state of the service.</param>
         internal ServiceStateEventArgs(ServiceState newState)

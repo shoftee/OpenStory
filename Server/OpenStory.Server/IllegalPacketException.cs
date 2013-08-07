@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace OpenStory.Server
 {
@@ -13,23 +10,34 @@ namespace OpenStory.Server
     public class IllegalPacketException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="IllegalPacketException"/>.
+        /// Initializes a new instance of the <see cref="IllegalPacketException"/> class.
         /// </summary>
-        public IllegalPacketException() { }
+        public IllegalPacketException()
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="IllegalPacketException"/>.
+        /// Initializes a new instance of the <see cref="IllegalPacketException"/> class.
         /// </summary>
-        public IllegalPacketException(string message) : base(message) { }
+        public IllegalPacketException(string message)
+            : base(message)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="IllegalPacketException"/>.
+        /// Initializes a new instance of the <see cref="IllegalPacketException"/> class.
         /// </summary>
-        public IllegalPacketException(string message, Exception inner) : base(message, inner) { }
+        public IllegalPacketException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="IllegalPacketException"/>.
+        /// Initializes a new instance of the <see cref="IllegalPacketException"/> class.
         /// </summary>
-        protected IllegalPacketException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected IllegalPacketException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

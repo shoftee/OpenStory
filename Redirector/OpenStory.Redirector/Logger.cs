@@ -8,12 +8,12 @@ namespace OpenStory.Redirector
         private static readonly Dictionary<LogMessageType, ConsoleColor> LogColors =
             new Dictionary<LogMessageType, ConsoleColor>
                 {
-                    {LogMessageType.Error, ConsoleColor.Red},
-                    {LogMessageType.Warning, ConsoleColor.Yellow},
-                    {LogMessageType.Info, ConsoleColor.Blue},
-                    {LogMessageType.Connection, ConsoleColor.Green},
-                    {LogMessageType.DataLoad, ConsoleColor.Cyan},
-                    {LogMessageType.Exception, ConsoleColor.Magenta},
+                    { LogMessageType.Error, ConsoleColor.Red },
+                    { LogMessageType.Warning, ConsoleColor.Yellow },
+                    { LogMessageType.Info, ConsoleColor.Blue },
+                    { LogMessageType.Connection, ConsoleColor.Green },
+                    { LogMessageType.DataLoad, ConsoleColor.Cyan },
+                    { LogMessageType.Exception, ConsoleColor.Magenta },
                 };
 
         public static void Write(LogMessageType messageType, string message, params object[] args)

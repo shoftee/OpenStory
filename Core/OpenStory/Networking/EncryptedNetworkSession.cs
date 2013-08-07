@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -11,7 +12,7 @@ namespace OpenStory.Networking
     /// Represents a base class for encrypted network sessions.
     /// </summary>
     /// <remarks>
-    /// This class provides the packet bufferring and decryption logic for inbound packets,
+    /// This class provides the packet buffering and decryption logic for inbound packets,
     /// as well as the logic to write outbound packets.
     /// </remarks>
     [Localizable(true)]
@@ -20,12 +21,12 @@ namespace OpenStory.Networking
         #region Events
 
         /// <summary>
-        /// The event is raised when an incoming packet is fully received.
+        /// Occurs when an incoming packet is fully received.
         /// </summary>
         public event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
         /// <summary>
-        /// The event is raised when the session begins closing.
+        /// Occurs when the session begins closing.
         /// </summary>
         public event EventHandler Closing;
 
@@ -46,21 +47,22 @@ namespace OpenStory.Networking
         protected BoundedBuffer PacketBuffer { get; private set; }
 
         /// <summary>
-        /// Gets the internal NetworkSession instance.
+        /// Gets or sets the internal NetworkSession instance.
         /// </summary>
         protected NetworkSession Session { get; private set; }
 
         /// <summary>
-        /// Gets the cryptographic transformer for this session.
+        /// Gets or sets the cryptographic transformer for this session.
         /// </summary>
         protected EndpointCrypto Crypto { get; set; }
 
         #endregion
 
         /// <summary>
-        /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
+        /// Initializes a new instance of the <see cref="EncryptedNetworkSession"/> class with no specified socket.
         /// </summary>
         /// <remarks>
+        /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
         /// Call <see cref="AttachSocket(Socket)"/> before starting the network operations.
         /// </remarks>
         protected EncryptedNetworkSession()
@@ -76,11 +78,11 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Attaches a <see cref="Socket"/> to this ServerSession instance.
+        /// Attaches a <see cref="Socket"/> to this session.
         /// </summary>
-        /// <param name="socket">The Socket to attach. </param>
+        /// <param name="socket">The <see cref="Socket"/> to attach. </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket"/> is <c>null</c>.
+        /// Thrown if <paramref name="socket"/> is <see langword="null"/>.
         /// </exception>
         public void AttachSocket(Socket socket)
         {
@@ -95,7 +97,10 @@ namespace OpenStory.Networking
         private void OnClosing(object sender, EventArgs e)
         {
             var handler = this.Closing;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         /// <summary>
@@ -115,7 +120,7 @@ namespace OpenStory.Networking
         /// </summary>
         /// <param name="packet">The data to send.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="packet" /> is <c>null</c>.
+        /// Thrown if <paramref name="packet" /> is <see langword="null"/>.
         /// </exception>
         public void WritePacket(byte[] packet)
         {
@@ -139,7 +144,7 @@ namespace OpenStory.Networking
         /// </remarks>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The packet data that was received.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <see langword="null"/>.</exception>
         protected virtual void OnDataArrived(object sender, DataArrivedEventArgs args)
         {
             if (args == null)
@@ -201,7 +206,7 @@ namespace OpenStory.Networking
 
         private void OnPacketReceived(PacketReceivedEventArgs args)
         {
-            this.PacketReceived(this, args);
+            this.PacketReceived.Invoke(this, args);
         }
 
         /// <summary>
@@ -231,7 +236,7 @@ namespace OpenStory.Networking
         /// <param name="disposing">Whether the method is being called for disposal or finalization.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !isDisposed)
+            if (disposing && !this.isDisposed)
             {
                 var session = this.Session;
                 if (session != null)

@@ -3,6 +3,7 @@
     internal interface IPortal
     {
         int Id { get; }
+
         string Name { get; }
     }
 }

@@ -1,4 +1,5 @@
 using System.Net;
+using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Server.Channel
 {
@@ -13,21 +14,16 @@ namespace OpenStory.Server.Channel
         public int WorldId { get; private set; }
 
         /// <summary>
-        /// Get sthe configured channel identifier.
+        /// Gets the configured channel identifier.
         /// </summary>
         public int ChannelId { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="ChannelConfiguration"/>.
-        /// </summary>
-        /// <param name="endpoint"><inheritdoc /></param>
-        /// <param name="worldId">The world identifier for the server.</param>
-        /// <param name="channelId">The channel identifier for the server.</param>
-        public ChannelConfiguration(IPEndPoint endpoint, int worldId, int channelId)
-            : base(endpoint)
+        /// <inheritdoc />
+        public ChannelConfiguration(ServiceConfiguration configuration)
+            : base(configuration)
         {
-            this.WorldId = worldId;
-            this.ChannelId = channelId;
+            this.WorldId = configuration.Get<int>("World");
+            this.ChannelId = configuration.Get<int>("Channel");
         }
     }
 }

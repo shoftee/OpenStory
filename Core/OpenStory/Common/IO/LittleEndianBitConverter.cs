@@ -29,7 +29,7 @@ namespace OpenStory.Common.IO
         /// <param name="offset">The index of the start of the segment.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="buffer"/> is <c>null</c>.
+        /// Thrown if <paramref name="buffer"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <para>Thrown if <paramref name="offset"/> falls outside the bounds of <paramref name="buffer"/>, </para>
@@ -43,10 +43,12 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("buffer");
             }
+
             if (offset < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
+
             if (offset > buffer.Length || offset + count > buffer.Length)
             {
                 throw ArraySegmentException.GetByStartAndLength(offset, count);
@@ -58,6 +60,7 @@ namespace OpenStory.Common.IO
             {
                 result = unchecked((result << 8) | buffer[position]);
             }
+
             return result;
         }
 

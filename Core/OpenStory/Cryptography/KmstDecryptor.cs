@@ -24,10 +24,12 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("data");
             }
+
             if (iv == null)
             {
                 throw new ArgumentNullException("iv");
             }
+
             if (iv.Length != 4)
             {
                 throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
@@ -39,7 +41,7 @@ namespace OpenStory.Cryptography
             {
                 byte initial = data[i];
 
-                byte x = (byte)(initial ^ base.Table[stepIv[0]]);
+                byte x = (byte)(initial ^ this.Table[stepIv[0]]);
                 byte b = (byte)((x >> 1) & 0x55);
                 byte a = (byte)((x & 0xD5) << 1);
                 byte r = (byte)(a | b);
@@ -47,7 +49,7 @@ namespace OpenStory.Cryptography
                 data[i] = (byte)((r >> 4) | (r << 4));
 
                 // NOTE: passing the new value is CORRECT.
-                base.ShuffleIvStep(stepIv, data[i]);
+                this.ShuffleIvStep(stepIv, data[i]);
             }
         }
     }

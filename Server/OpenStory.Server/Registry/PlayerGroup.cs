@@ -20,7 +20,7 @@ namespace OpenStory.Server.Registry
         protected HashSet<TGroupMember> Members { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier.
+        /// Initializes a new instance of the <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> class with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         protected PlayerGroup(int id)
@@ -30,7 +30,7 @@ namespace OpenStory.Server.Registry
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> with the specified identifier and members.
+        /// Initializes a new instance of the <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> class  with the specified identifier and members.
         /// </summary>
         /// <param name="id">The identifier for the new group.</param>
         /// <param name="members">The initial member list of this group.</param>
@@ -44,7 +44,7 @@ namespace OpenStory.Server.Registry
         /// Adds a new member to the instance.
         /// </summary>
         /// <param name="member">The new member to add.</param>
-        /// <returns><c>true</c> if the member was added successfully; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the member was added successfully; otherwise, <see langword="false"/>.</returns>
         public bool AddMember(TGroupMember member)
         {
             var success = this.Members.Add(member);
@@ -52,6 +52,7 @@ namespace OpenStory.Server.Registry
             {
                 this.OnMemberAdded(member);
             }
+
             return success;
         }
 
@@ -67,7 +68,7 @@ namespace OpenStory.Server.Registry
         /// Removes a member from the instance.
         /// </summary>
         /// <param name="member">The member to remove.</param>
-        /// <returns><c>true</c> if the member was successfully found and removed from the group; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the member was successfully found and removed from the group; otherwise, <see langword="false"/>.</returns>
         public bool RemoveMember(TGroupMember member)
         {
             var success = this.Members.Remove(member);
@@ -75,6 +76,7 @@ namespace OpenStory.Server.Registry
             {
                 this.OnMemberRemoved(member);
             }
+
             return success;
         }
 

@@ -24,19 +24,19 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
-            return base.Channel.TryRegisterSession(accountId, out sessionId);
+            return this.Channel.TryRegisterSession(accountId, out sessionId);
         }
 
         /// <inheritdoc />
         public bool TryRegisterCharacter(int accountId, int characterId)
         {
-            return base.Channel.TryRegisterCharacter(accountId, characterId);
+            return this.Channel.TryRegisterCharacter(accountId, characterId);
         }
 
         /// <inheritdoc />
         public bool TryUnregisterSession(int accountId)
         {
-            return base.Channel.TryUnregisterSession(accountId);
+            return this.Channel.TryUnregisterSession(accountId);
         }
 
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace OpenStory.Services.Clients
         {
             try
             {
-                return base.Channel.TryKeepAlive(accountId, out lag);
+                return this.Channel.TryKeepAlive(accountId, out lag);
             }
             catch (EndpointNotFoundException)
             {

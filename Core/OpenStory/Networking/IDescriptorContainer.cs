@@ -13,7 +13,7 @@ namespace OpenStory.Networking
         Socket Socket { get; }
 
         /// <summary>
-        /// Gets whether the session is active.
+        /// Gets a value indicating whether the session is active.
         /// </summary>
         bool IsActive { get; }
 

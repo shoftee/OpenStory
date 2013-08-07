@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -12,6 +11,9 @@ namespace OpenStory.Services.Contracts
     [DataContract]
     public struct ServiceOperationResult<T> : IServiceOperationResult
     {
+        [DataMember]
+        private T result;
+
         /// <inheritdoc />
         [DataMember]
         public OperationState OperationState { get; private set; }
@@ -25,13 +27,7 @@ namespace OpenStory.Services.Contracts
         public ServiceState ServiceState { get; private set; }
 
         /// <summary>
-        /// Gets the result of the operation.
-        /// </summary>
-        [DataMember]
-        public T Result { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>.
+        /// Initializes a new instance of the <see cref="ServiceOperationResult{T}"/> struct.
         /// </summary>
         /// <remarks>
         /// You may use this constructor for successfully completed operations.
@@ -44,7 +40,7 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>
+        /// Initializes a new instance of the <see cref="ServiceOperationResult{T}"/> struct
         /// </summary>
         /// <remarks>
         /// You may use this constructor for operations that completed without a valid result.
@@ -57,7 +53,7 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceOperationResult{T}"/>.
+        /// Initializes a new instance of the <see cref="ServiceOperationResult{T}"/> struct.
         /// </summary>
         /// <param name="result">The result of the service operation.</param>
         /// <param name="operationState">The state of the operation.</param>
@@ -70,90 +66,45 @@ namespace OpenStory.Services.Contracts
             {
                 throw new InvalidEnumArgumentException("operationState", (int)operationState, typeof(OperationState));
             }
+
             if (!Enum.IsDefined(typeof(ServiceState), serviceState))
             {
                 throw new InvalidEnumArgumentException("serviceState", (int)serviceState, typeof(ServiceState));
             }
 
-            this.Result = result;
+            this.result = result;
             this.OperationState = operationState;
             this.Error = error;
             this.ServiceState = serviceState;
         }
 
         /// <summary>
-        /// Executes the provided call and catches possible communication exceptions.
+        /// Gets the result of this service operation.
         /// </summary>
-        /// <param name="func">The service call to execute.</param>
-        /// <returns>the possibly transformed operation result returned by the call.</returns>
-        public static ServiceOperationResult<TResult> Of<TResult>(Func<ServiceOperationResult<TResult>> func)
+        /// <param name="throwOnError">Denotes whether to throw an exception if there was an error.</param>
+        /// <exception>Thrown if the operation failed and <paramref name="throwOnError"/> is set to <see langword="false"/>.</exception>
+        /// <returns> the result of the wrapped service operation, or the default value for <typeparamref name="T"/> if the operation failed.</returns>
+        public T GetResult(bool throwOnError = true)
         {
-            try
+            if (this.Error != null && throwOnError)
             {
-                var result = func();
-                return FromRemoteResult(result);
+                throw Error;
             }
-            catch (EndpointNotFoundException unreachable)
-            {
-                var result = LocalFailure<TResult>(unreachable);
-                return result;
-            }
-            catch (TimeoutException timeout)
-            {
-                var result = LocalFailure<TResult>(timeout);
-                return result;
-            }
-            catch (AddressAccessDeniedException accessDenied)
-            {
-                var result = new ServiceOperationResult<TResult>(default(TResult), OperationState.Refused, accessDenied, ServiceState.Unknown);
-                return result;
-            }
-            catch (CommunicationException communicationException)
-            {
-                var result = RemoteFailure<TResult>(communicationException);
-                return result;
-            }
-        }
 
-        /// <summary>
-        /// Constructs a local result instance from a remote result.
-        /// </summary>
-        /// <param name="remoteResult">The result that was received from a remote service.</param>
-        /// <returns>a transformed copy of the provided result.</returns>
-        private static ServiceOperationResult<TResult> FromRemoteResult<TResult>(ServiceOperationResult<TResult> remoteResult)
-        {
-            var actualOperationState = remoteResult.OperationState;
-            if (actualOperationState == OperationState.FailedLocally)
-            {
-                actualOperationState = OperationState.FailedRemotely;
-            }
-            var result = new ServiceOperationResult<TResult>(remoteResult.Result, actualOperationState, remoteResult.Error, remoteResult.ServiceState);
-            return result;
-        }
-
-        private static ServiceOperationResult<TResult> LocalFailure<TResult>(Exception error)
-        {
-            return new ServiceOperationResult<TResult>(default(TResult), OperationState.FailedLocally, error, ServiceState.Unknown);
-        }
-
-        private static ServiceOperationResult<TResult> RemoteFailure<TResult>(Exception error)
-        {
-            return new ServiceOperationResult<TResult>(default(TResult), OperationState.FailedRemotely, error, ServiceState.Unknown);
+            return this.result;
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            string result;
             if (this.Error == null)
             {
-                result = String.Format("Svc: {0}, Op: {1}, Result: {2}", this.ServiceState, this.OperationState, this.Result);
+                return string.Format("Svc: {0}, Op: {1}, Result: {2}", this.ServiceState, this.OperationState, this.result);
             }
             else
             {
-                result = String.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
+                return string.Format("Svc: {0}, Error: {1}", this.ServiceState, this.Error.Message);
             }
-            return result;
         }
     }
 }

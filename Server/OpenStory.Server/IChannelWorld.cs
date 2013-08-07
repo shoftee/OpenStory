@@ -1,3 +1,5 @@
+using OpenStory.Framework.Model.Common;
+
 namespace OpenStory.Server
 {
     /// <summary>
@@ -14,7 +16,7 @@ namespace OpenStory.Server
         /// Broadcasts a message from the specified channel ID, to the specified targets.
         /// </summary>
         /// <param name="channelId">The ID of the source channel.</param>
-        /// <param name="targets">The IDs of the recepients of the message.</param>
+        /// <param name="targets">The IDs of the recipients of the message.</param>
         /// <param name="data">The message to broadcast.</param>
         void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data);
     }

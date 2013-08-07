@@ -39,11 +39,25 @@
     <StartupObject>OpenStory.Services.Auth.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime">
-      <HintPath>..\..\packages\NodaTime.1.0.1\lib\net35-Client\NodaTime.dll</HintPath>
+    <Reference Include="Ninject.Extensions.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging.Log4Net">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.Log4net.3.0.1.0\lib\net40\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=1.1.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NodaTime.1.1.0\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="System">
     </Reference>
@@ -53,7 +67,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +79,10 @@
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server.Auth\OpenStory.Server.Auth.csproj">
       <Project>{6257C10F-74BB-4948-8BC1-3F867488044B}</Project>
       <Name>OpenStory.Server.Auth</Name>
@@ -76,6 +93,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

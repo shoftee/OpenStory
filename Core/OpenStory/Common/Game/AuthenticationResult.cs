@@ -11,36 +11,43 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Client authenticated.
         /// </summary>
-        Success = 0x00,
+        [PacketValue(0x00)]
+        Success,
 
         /// <summary>
         /// The account has been deleted or is blocked.
         /// </summary>
-        AccountDeletedOrBlocked = 0x03,
+        [PacketValue(0x03)]
+        AccountDeletedOrBlocked,
 
         /// <summary>
         /// Incorrect password.
         /// </summary>
-        IncorrectPassword = 0x04,
+        [PacketValue(0x04)]
+        IncorrectPassword,
 
         /// <summary>
         /// The user name is not registered
         /// </summary>
-        NotRegistered = 0x05,
+        [PacketValue(0x05)]
+        NotRegistered,
 
         /// <summary>
         /// The account already has another session running.
         /// </summary>
-        AlreadyLoggedIn = 0x07,
+        [PacketValue(0x07)]
+        AlreadyLoggedIn,
 
         /// <summary>
         /// The server has too many active connections.
         /// </summary>
-        TooManyConnections = 0x0A,
+        [PacketValue(0x0A)]
+        TooManyConnections,
 
         /// <summary>
         /// This is the first time the account is logged into, show the License Agreement.
         /// </summary>
-        FirstRun = 0x17
+        [PacketValue(0x17)]
+        FirstRun,
     }
 }

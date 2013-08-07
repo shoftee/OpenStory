@@ -11,7 +11,7 @@ namespace OpenStory.Networking
         private bool isDisposed;
 
         /// <summary>
-        /// The event is raised when a connection error occurs.
+        /// Occurs when a connection error occurs.
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> Error;
 
@@ -26,7 +26,7 @@ namespace OpenStory.Networking
         protected SocketAsyncEventArgs SocketArgs { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DescriptorBase"/>.
+        /// Initializes a new instance of the <see cref="DescriptorBase"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor initializes the 
@@ -34,7 +34,7 @@ namespace OpenStory.Networking
         /// </remarks>
         /// <param name="container">The container of this descriptor.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="container" /> is <c>null</c>.
+        /// Thrown if <paramref name="container" /> is <see langword="null"/>.
         /// </exception>
         protected DescriptorBase(IDescriptorContainer container)
         {
@@ -61,7 +61,7 @@ namespace OpenStory.Networking
         /// A <see cref="SocketAsyncEventArgs"/> object for the operation that caused the error.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="args" /> is <c>null</c>.
+        /// Thrown if <paramref name="args" /> is <see langword="null"/>.
         /// </exception>
         protected void OnError(SocketAsyncEventArgs args)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Registry
@@ -13,7 +14,7 @@ namespace OpenStory.Services.Registry
         private readonly Dictionary<Guid, ServiceConfiguration> configurations;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RegistryService"/>.
+        /// Initializes a new instance of the <see cref="RegistryService"/> class.
         /// </summary>
         public RegistryService()
         {
@@ -42,7 +43,7 @@ namespace OpenStory.Services.Registry
         /// <inheritdoc />
         public ServiceOperationResult<Guid[]> GetRegistrations()
         {
-            var tokens = configurations.Keys.ToArray();
+            var tokens = this.configurations.Keys.ToArray();
 
             return new ServiceOperationResult<Guid[]>(tokens, ServiceState.Running);
         }

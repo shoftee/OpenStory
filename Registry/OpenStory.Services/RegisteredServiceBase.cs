@@ -40,7 +40,8 @@ namespace OpenStory.Services
         public ServiceOperationResult Initialize()
         {
             SubscribeForStates(
-                this.initializeSubscribers, this.serviceState,
+                this.initializeSubscribers, 
+                this.serviceState,
                 ServiceState.NotInitialized,
                 ServiceState.Initializing);
 
@@ -62,7 +63,8 @@ namespace OpenStory.Services
         public ServiceOperationResult Start()
         {
             SubscribeForStates(
-                this.startSubscribers, this.serviceState,
+                this.startSubscribers, 
+                this.serviceState,
                 ServiceState.Ready,
                 ServiceState.NotInitialized,
                 ServiceState.Initializing,
@@ -86,7 +88,8 @@ namespace OpenStory.Services
         public ServiceOperationResult Stop()
         {
             SubscribeForStates(
-                this.stopSubscribers, this.serviceState,
+                this.stopSubscribers, 
+                this.serviceState,
                 ServiceState.Running,
                 ServiceState.Stopping);
 
@@ -114,7 +117,7 @@ namespace OpenStory.Services
 
         private void CompleteInitialization(Task task)
         {
-            this.HandleStateChange(this.serviceState, ServiceState.Running);
+            this.HandleStateChange(this.serviceState, ServiceState.Ready);
         }
 
         private void CompleteStart(Task task)
@@ -141,6 +144,7 @@ namespace OpenStory.Services
                 case ServiceState.Initializing:
                     list = this.initializeSubscribers;
                     break;
+
                 case ServiceState.Ready:
                     if (enterState == ServiceState.Initializing)
                     {
@@ -150,15 +154,19 @@ namespace OpenStory.Services
                     {
                         list = this.stopSubscribers;
                     }
+
                     clear = true;
                     break;
+
                 case ServiceState.Starting:
                     list = this.startSubscribers;
                     break;
+
                 case ServiceState.Running:
                     list = this.startSubscribers;
                     clear = true;
                     break;
+
                 case ServiceState.Stopping:
                     list = this.stopSubscribers;
                     break;
@@ -192,13 +200,11 @@ namespace OpenStory.Services
                 var badSubscribers = new List<IServiceStateChanged>();
                 foreach (var subscriber in subscribers)
                 {
-
 // ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable PossibleInvalidCastException
                     var communcationObject = (ICommunicationObject)subscriber;
 // ReSharper restore PossibleInvalidCastException
 // ReSharper restore SuspiciousTypeConversion.Global
-
                     if (communcationObject.State == CommunicationState.Opened)
                     {
                         subscriber.OnServiceStateChanged(state);

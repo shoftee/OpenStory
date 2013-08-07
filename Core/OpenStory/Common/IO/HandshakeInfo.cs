@@ -31,12 +31,12 @@ namespace OpenStory.Common.IO
         public byte[] ServerIv { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the server identifier.
+        /// Gets or sets the server locale identifier.
         /// </summary>
-        public byte ServerId { get; protected set; }
+        public byte LocaleId { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HandshakeInfo"/>.
+        /// Initializes a new instance of the <see cref="HandshakeInfo"/> class.
         /// </summary>
         protected HandshakeInfo()
         {

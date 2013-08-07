@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using OpenStory.Common.Game;
 using OpenStory.Common.Tools;
-using OpenStory.Server.Auth.Data;
+using OpenStory.Framework.Model.Auth;
 
 namespace OpenStory.Server.Auth
 {
@@ -25,7 +25,7 @@ namespace OpenStory.Server.Auth
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ServerStatus"/> for the World.
+        /// Gets or sets the <see cref="ServerStatus"/> for the World.
         /// </summary>
         public ServerStatus Status { get; set; }
 
@@ -45,7 +45,7 @@ namespace OpenStory.Server.Auth
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ActiveWorld"/>.
+        /// Initializes a new instance of the <see cref="ActiveWorld"/> class.
         /// </summary>
         public ActiveWorld(WorldInfo worldInfo)
         {

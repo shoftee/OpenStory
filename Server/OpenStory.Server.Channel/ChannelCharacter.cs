@@ -1,5 +1,4 @@
-using System.Data;
-using OpenStory.Server.Data;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Channel
 {

@@ -12,7 +12,7 @@ namespace OpenStory.Synchronization
         /// <typeparam name="T">The type of the object to wrap.</typeparam>
         /// <param name="obj">The object to wrap.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="obj"/> is <c>null</c>.
+        /// Thrown if <paramref name="obj"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>a <see cref="ISynchronized{T}"/> wrapper around <paramref name="obj"/>.</returns>
         public static ISynchronized<T> Synchronize<T>(T obj)
@@ -34,7 +34,7 @@ namespace OpenStory.Synchronization
         /// </remarks>
         /// <param name="action">The action to schedule for execution.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="action"/> is <c>null</c>.
+        /// Thrown if <paramref name="action"/> is <see langword="null"/>.
         /// </exception>
         public static void ScheduleAction(Action action)
         {

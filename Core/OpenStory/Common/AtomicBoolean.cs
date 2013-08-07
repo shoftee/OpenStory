@@ -22,7 +22,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AtomicBoolean"/>.
+        /// Initializes a new instance of the <see cref="AtomicBoolean"/> class.
         /// </summary>
         /// <param name="initialValue">The initial value.</param>
         public AtomicBoolean(bool initialValue)
@@ -73,15 +73,16 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicBoolean" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public static explicit operator bool(AtomicBoolean atomicBoolean)
         {
             if (atomicBoolean == null)
             {
-                throw new ArgumentNullException("atomicBoolean");
+                throw new InvalidCastException();
             }
+
             return atomicBoolean.Value;
         }
 
@@ -99,14 +100,14 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicBoolean">The <see cref="AtomicBoolean"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicBoolean" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicBoolean" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public static bool ToBoolean(AtomicBoolean atomicBoolean)
         {
             if (atomicBoolean == null)
             {
-                throw new ArgumentNullException("atomicBoolean");
+                throw new InvalidCastException();
             }
 
             return atomicBoolean.Value;

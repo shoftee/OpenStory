@@ -27,11 +27,11 @@ namespace OpenStory.Common.Game
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="KeyLayout"/>.
+        /// Initializes a new instance of the <see cref="KeyLayout"/> class.
         /// </summary>
         /// <param name="bindings">The bindings to use for this instance.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="bindings"/> is <c>null</c>.
+        /// Thrown if <paramref name="bindings"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="bindings"/> does not have exactly <see cref="GameConstants.KeyCount"/> elements.
@@ -46,7 +46,7 @@ namespace OpenStory.Common.Game
 
             if (bindings.Count != GameConstants.KeyCount)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
+                var message = string.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
                 throw new ArgumentException(message);
             }
 

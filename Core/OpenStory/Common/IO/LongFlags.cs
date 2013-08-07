@@ -10,13 +10,19 @@ namespace OpenStory.Common.IO
         private const int LongBitCount = 64;
 
         /// <inheritdoc />
-        protected LongFlags(int capacity) : base(capacity) { }
+        protected LongFlags(int capacity)
+            : base(capacity)
+        {
+        }
 
         /// <inheritdoc />
-        protected LongFlags(LongFlags other) : base(other) { }
+        protected LongFlags(LongFlags other)
+            : base(other)
+        {
+        }
 
         /// <inheritdoc />
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
         public sealed override void Write(IPacketBuilder builder)
         {
             if (builder == null)
@@ -24,9 +30,7 @@ namespace OpenStory.Common.IO
                 throw new ArgumentNullException("builder");
             }
 
-            // TODO: Actually figure out if this is how they're packed.
-
-            var bitCount = base.Bits.Length;
+            var bitCount = this.Bits.Length;
             var numberCount = bitCount / LongBitCount;
             var numbers = new ulong[numberCount];
 
@@ -39,9 +43,11 @@ namespace OpenStory.Common.IO
                 }
                 else
                 {
+                    // TODO: Actually figure out if this is how they're packed.
                     numbers[numberIndex] <<= 1;
                 }
-                numbers[numberIndex] |= Convert.ToUInt32(base.Bits[i]);
+
+                numbers[numberIndex] |= Convert.ToUInt32(this.Bits[i]);
             }
 
             for (int i = 0; i < numberCount; i++)
@@ -50,7 +56,7 @@ namespace OpenStory.Common.IO
             }
         }
 
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <see langword="null"/>.</exception>
         /// <inheritdoc />
         public sealed override void Read(IUnsafePacketReader reader)
         {
@@ -58,7 +64,8 @@ namespace OpenStory.Common.IO
             {
                 throw new ArgumentNullException("reader");
             }
-            int bitCount = base.Bits.Length;
+
+            int bitCount = this.Bits.Length;
             int numberCount = bitCount / LongBitCount;
 
             for (int i = 0; i < numberCount; i++)
@@ -68,7 +75,7 @@ namespace OpenStory.Common.IO
                 int endIndex = Math.Min(startIndex + LongBitCount, bitCount);
                 for (int j = startIndex; j < endIndex; j++)
                 {
-                    base.Bits[j] = Convert.ToBoolean(number & 1);
+                    this.Bits[j] = Convert.ToBoolean(number & 1);
                     number >>= 1;
                 }
             }

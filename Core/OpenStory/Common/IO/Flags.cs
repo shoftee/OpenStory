@@ -25,7 +25,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Bits"/>.
+        /// Initializes a new instance of the <see cref="Flags"/> class.
         /// </summary>
         /// <param name="capacity">The length of the bit array.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="capacity"/> is non-positive.</exception>
@@ -40,10 +40,10 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Bits"/>.
+        /// Initializes a new instance of the <see cref="Flags"/> class.
         /// </summary>
         /// <param name="other">The instance to copy from.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <see langword="null"/>.</exception>
         protected Flags(Flags other)
         {
             if (other == null)

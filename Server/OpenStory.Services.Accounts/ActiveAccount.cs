@@ -28,7 +28,7 @@ namespace OpenStory.Services.Account
         public DateTime LastKeepAlive { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ActiveAccount"/>.
+        /// Initializes a new instance of the <see cref="ActiveAccount"/> class.
         /// </summary>
         /// <param name="accountId">The ID of the active account.</param>
         /// <param name="sessionId">The ID of the active session.</param>

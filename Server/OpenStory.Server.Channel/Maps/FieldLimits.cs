@@ -22,7 +22,7 @@ namespace OpenStory.Server.Channel.Maps
         {
             for (int i = 0; i < Count; i++)
             {
-                var offset = (1 << i);
+                var offset = 1 << i;
                 var value = flags & offset;
                 this[i] = value != 0;
             }

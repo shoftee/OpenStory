@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Channel
 {
@@ -45,6 +46,7 @@ namespace OpenStory.Server.Channel
         private struct Key : IEquatable<Key>
         {
             public Type FacetType { get; private set; }
+
             public int PlayerId { get; private set; }
 
             public Key(Type facetType, int playerId)
@@ -66,7 +68,7 @@ namespace OpenStory.Server.Channel
 
             public override bool Equals(object obj)
             {
-                return obj is Key && Equals((Key)obj);
+                return obj is Key && this.Equals((Key)obj);
             }
 
             #region Equality members
@@ -94,5 +96,4 @@ namespace OpenStory.Server.Channel
 
         #endregion
     }
-
 }

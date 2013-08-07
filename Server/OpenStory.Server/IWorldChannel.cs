@@ -1,3 +1,5 @@
+using OpenStory.Framework.Model.Common;
+
 namespace OpenStory.Server
 {
     /// <summary>
@@ -10,6 +12,6 @@ namespace OpenStory.Server
         /// </summary>
         /// <param name="targets">The targets to send the message to.</param>
         /// <param name="data">The message to send.</param>
-        void BroadcastIntoChannel(int[] targets, byte[] data);
+        void BroadcastIntoChannel(CharacterKey[] targets, byte[] data);
     }
 }

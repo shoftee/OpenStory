@@ -13,11 +13,11 @@ namespace OpenStory.Networking
         public byte[] Data { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DataArrivedEventArgs"/>.
+        /// Initializes a new instance of the <see cref="DataArrivedEventArgs"/> class.
         /// </summary>
         /// <param name="data">The data encapsulated in this instance.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data" /> is <c>null</c>.
+        /// Thrown if <paramref name="data" /> is <see langword="null"/>.
         /// </exception>
         internal DataArrivedEventArgs(byte[] data)
         {

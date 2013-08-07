@@ -11,29 +11,15 @@ namespace OpenStory.Common.Tools
     public static class Misc
     {
         /// <summary>
-        /// Sets the specified variable to the default for <typeparamref name="T"/> and returns <c>false</c>.
+        /// Sets the specified variable to the default for <typeparamref name="T"/> and returns <see langword="false"/>.
         /// </summary>
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="value">The variable to set to the default value.</param>
-        /// <returns>always <c>false</c>.</returns>
+        /// <returns>always <see langword="false"/>.</returns>
         public static bool Fail<T>(out T value)
         {
             value = default(T);
             return false;
-        }
-
-        /// <summary>
-        /// Sets the specified variable to the default for <typeparamref name="T"/> and returns <paramref name="result"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the variable.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="value">The variable to set to the default value.</param>
-        /// <param name="result">The value to return.</param>
-        /// <returns>always <paramref name="result"/>.</returns>
-        public static TResult FailWithResult<T, TResult>(out T value, TResult result)
-        {
-            value = default(T);
-            return result;
         }
 
         /// <summary>
@@ -42,7 +28,7 @@ namespace OpenStory.Common.Tools
         /// <typeparam name="T">The type of the elements of the list.</typeparam>
         /// <param name="list">The list to wrap.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="list"/> is <c>null</c>.
+        /// Thrown if <paramref name="list"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>an instance of <see cref="ReadOnlyCollection{T}"/>.</returns>
         public static ReadOnlyCollection<T> ToReadOnly<T>(this IList<T> list)
@@ -58,111 +44,118 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
-        /// <param name="rwLock">The lock to use.</param>
+        /// <param name="lock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="action"/> is <c>null</c>.</exception>
-        public static void ReadLock(this ReaderWriterLockSlim rwLock, Action action)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <see langword="null"/>.</exception>
+        public static void ReadLock(this ReaderWriterLockSlim @lock, Action action)
         {
-            if (rwLock == null)
+            if (@lock == null)
             {
-                throw new ArgumentNullException("rwLock");
+                throw new ArgumentNullException("lock");
             }
+
             if (action == null)
             {
                 throw new ArgumentNullException("action");
             }
 
-            rwLock.EnterReadLock();
+            @lock.EnterReadLock();
             try
             {
                 action();
             }
             finally
             {
-                rwLock.ExitReadLock();
+                @lock.ExitReadLock();
             }
         }
 
         /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
-        /// <param name="rwLock">The lock to use.</param>
+        /// <typeparam name="T">The return type of the callback.</typeparam>
+        /// <param name="lock">The lock to use.</param>
         /// <param name="func">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
-        public static T ReadLock<T>(this ReaderWriterLockSlim rwLock, Func<T> func)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="func"/> is <see langword="null"/>.</exception>
+        public static T ReadLock<T>(this ReaderWriterLockSlim @lock, Func<T> func)
         {
-            if (rwLock == null)
+            if (@lock == null)
             {
-                throw new ArgumentNullException("rwLock");
+                throw new ArgumentNullException("lock");
             }
+
             if (func == null)
             {
                 throw new ArgumentNullException("func");
             }
 
-            rwLock.EnterReadLock();
+            @lock.EnterReadLock();
             try
             {
                 return func();
             }
             finally
             {
-                rwLock.ExitReadLock();
+                @lock.ExitReadLock();
             }
         }
 
         /// <summary>
         /// Executes the provided action in a write-lock block.
         /// </summary>
-        /// <param name="rwLock">The lock to use.</param>
+        /// <param name="lock">The lock to use.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="action"/> is <c>null</c>.</exception>
-        public static void WriteLock(this ReaderWriterLockSlim rwLock, Action action)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <see langword="null"/>.</exception>
+        public static void WriteLock(this ReaderWriterLockSlim @lock, Action action)
         {
-            if (rwLock == null)
+            if (@lock == null)
             {
-                throw new ArgumentNullException("rwLock");
+                throw new ArgumentNullException("lock");
             }
+
             if (action == null)
             {
                 throw new ArgumentNullException("action");
             }
 
-            rwLock.EnterWriteLock();
+            @lock.EnterWriteLock();
             try
             {
                 action();
             }
             finally
             {
-                rwLock.ExitWriteLock();
+                @lock.ExitWriteLock();
             }
         }
+
         /// <summary>
         /// Executes the provided action in a write-lock block.
         /// </summary>
-        /// <param name="rwLock">The lock to use.</param>
+        /// <typeparam name="T">The return type of the callback.</typeparam>
+        /// <param name="lock">The lock to use.</param>
         /// <param name="func">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rwLock"/> or <paramref name="func"/> is <c>null</c>.</exception>
-        public static T WriteLock<T>(this ReaderWriterLockSlim rwLock, Func<T> func)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="func"/> is <see langword="null"/>.</exception>
+        public static T WriteLock<T>(this ReaderWriterLockSlim @lock, Func<T> func)
         {
-            if (rwLock == null)
+            if (@lock == null)
             {
-                throw new ArgumentNullException("rwLock");
+                throw new ArgumentNullException("lock");
             }
+
             if (func == null)
             {
                 throw new ArgumentNullException("func");
             }
 
-            rwLock.EnterWriteLock();
+            @lock.EnterWriteLock();
             try
             {
                 return func();
             }
             finally
             {
-                rwLock.ExitWriteLock();
+                @lock.ExitWriteLock();
             }
         }
     }

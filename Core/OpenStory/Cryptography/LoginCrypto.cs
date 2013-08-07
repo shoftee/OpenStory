@@ -23,7 +23,7 @@ namespace OpenStory.Cryptography
         /// Returns an MD5 hash string for a given string.
         /// </summary>
         /// <param name="str">The string to hash.</param>
-        /// <param name="lowercase">Whether to return lowercase hex digits or not. Default value is <c>false</c>.</param>
+        /// <param name="lowercase">Whether to return lowercase hex digits or not. Default value is <see langword="false"/>.</param>
         /// <returns>the MD5 hash of the provided string.</returns>
         public static string GetMd5HashString(string str, bool lowercase = false)
         {
@@ -61,12 +61,13 @@ namespace OpenStory.Cryptography
         {
             // Thanks to Diamondo25 for this.
             int location = 0;
-            location ^= (version & 0x7FFF);
+            location ^= version & 0x7FFF;
             if (remove)
             {
                 location ^= 0x8000;
             }
-            location ^= (subversion << 16);
+
+            location ^= subversion << 16;
             return location;
         }
     }

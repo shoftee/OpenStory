@@ -180,6 +180,7 @@ namespace OpenStory.Common.IO
                 newNumber |= oldNumber & 0xFF;
                 oldNumber >>= 8;
             }
+
             number = newNumber;
             return number;
         }

@@ -1,5 +1,7 @@
 using System;
+using System.Configuration;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services
@@ -10,11 +12,15 @@ namespace OpenStory.Services
     public abstract class GameServiceBase : RegisteredServiceBase, IGameService, IDisposable
     {
         private bool isDisposed;
-        private ServiceHost serviceHost;
         private Uri serviceUri;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="GameServiceBase"/>.
+        /// Gets the configuration data for this service.
+        /// </summary>
+        protected ServiceConfiguration ServiceConfiguration { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameServiceBase"/> class.
         /// </summary>
         protected GameServiceBase()
         {
@@ -23,12 +29,11 @@ namespace OpenStory.Services
         /// <summary>
         /// Gets the URI where this service is hosted.
         /// </summary>
-        protected Uri ServiceUri
+        public Uri ServiceUri
         {
             get
             {
-                ThrowIfDisposed();
-
+                this.ThrowIfDisposed();
                 return this.serviceUri;
             }
         }
@@ -37,89 +42,44 @@ namespace OpenStory.Services
         /// Configures the game service.
         /// </summary>
         /// <param name="configuration">The configuration information.</param>
-        /// <param name="error">A variable to hold a human-readable error message.</param>
-        /// <returns><c>true</c> if configuration was successful; otherwise, <c>false</c>.</returns>
-        public bool Configure(ServiceConfiguration configuration, out string error)
+        public void Configure(ServiceConfiguration configuration)
         {
-            ThrowIfDisposed();
+            this.ThrowIfDisposed();
 
+            this.ConfigureInternal(configuration);
+
+            this.OnConfiguring(configuration);
+
+            this.ServiceConfiguration = configuration;
+        }
+
+        private void ConfigureInternal(ServiceConfiguration configuration)
+        {
             var uri = configuration.Get<Uri>(ServiceSettings.Uri.Key);
             if (uri == null)
             {
-                error = "Service endpoint URI missing from configuration.";
-                return false;
-            }
-
-            if (!this.OnConfiguring(configuration, out error))
-            {
-                return false;
+                throw new ServiceConfigurationException("Service endpoint URI missing from configuration.");
             }
 
             this.serviceUri = uri;
-            return true;
         }
 
         /// <summary>
-        /// Called when the services is configuring itself.
+        /// Called when the service is being configured.
         /// </summary>
         /// <remarks>
-        /// When overriding this method in a derived class, please call the base implementation first 
-        /// and return <c>false</c> if it returns <c>false</c>, without changing the error variable.
+        /// When overriding this method in a derived class, please call the base implementation first.
         /// </remarks>
         /// <param name="configuration">The configuration information.</param>
-        /// <param name="error">A variable to hold a human-readable error message.</param>
-        /// <returns><c>true</c> if configuration was successful; otherwise, <c>false</c>.</returns>
-        protected virtual bool OnConfiguring(ServiceConfiguration configuration, out string error)
+        protected virtual void OnConfiguring(ServiceConfiguration configuration)
         {
-            error = null;
-            return true;
-        }
-
-        /// <summary>
-        /// Attempts to open a service host for this game service.
-        /// </summary>
-        /// <param name="error">A variable to hold a human-readable error message.</param>
-        public bool OpenServiceHost(out string error)
-        {
-            ThrowIfDisposed();
-
-            if (this.serviceHost != null)
-            {
-                error = "There was a previous attempt to host this service instance.";
-                return false;
-            }
-
-            bool success = true;
-            ServiceHost host = null;
-            try
-            {
-                host = new ServiceHost(this, this.ServiceUri);
-                host.Open();
-
-                this.serviceHost = host;
-                error = null;
-            }
-            catch (Exception exception)
-            {
-                error = exception.ToString();
-                success = false;
-            }
-            finally
-            {
-                if (!success && host != null)
-                {
-                    host.Close();
-                }
-            }
-
-            return success;
         }
 
         private void ThrowIfDisposed()
         {
             if (this.isDisposed)
             {
-                throw new ObjectDisposedException("serviceHost");
+                throw new ObjectDisposedException("GameServiceBase");
             }
         }
 
@@ -140,12 +100,6 @@ namespace OpenStory.Services
         {
             if (!this.isDisposed && disposing)
             {
-                var host = this.serviceHost;
-                if (host != null)
-                {
-                    host.Close();
-                }
-
                 this.isDisposed = true;
             }
         }

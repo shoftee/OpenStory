@@ -7,7 +7,7 @@ namespace OpenStory.Redirector.Connection
     internal sealed class ServerSession : EncryptedNetworkSession
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerSession"/>
+        /// Initializes a new instance of the <see cref="ServerSession"/> class.
         /// </summary>
         public ServerSession()
         {
@@ -22,7 +22,7 @@ namespace OpenStory.Redirector.Connection
         {
             this.ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = ServerCrypto.New(factory, info.ClientIv, info.ServerIv);
+            this.Crypto = EndpointCrypto.Server(factory, info.ClientIv, info.ServerIv);
 
             byte[] helloPacket = ConstructHandshakePacket(info);
             this.Session.Start();
@@ -33,7 +33,7 @@ namespace OpenStory.Redirector.Connection
 
         private static byte[] ConstructHandshakePacket(HandshakeInfo info)
         {
-            using (var builder = new PacketBuilder(16))
+            using (var builder = new PacketBuilder())
             {
                 builder.WriteInt16(info.Header);
                 builder.WriteInt16(info.Version);
@@ -41,8 +41,8 @@ namespace OpenStory.Redirector.Connection
                 builder.WriteBytes(info.ClientIv);
                 builder.WriteBytes(info.ServerIv);
 
-                // Server ID (used for localizations and test servers)
-                builder.WriteByte(info.ServerId);
+                // Locale ID (used for localizations and test servers)
+                builder.WriteByte(info.LocaleId);
 
                 return builder.ToByteArray();
             }

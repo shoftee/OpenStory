@@ -16,7 +16,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         protected byte[] Table
         {
-            get { return table; }
+            get { return this.table; }
         }
 
         /// <summary>
@@ -24,18 +24,18 @@ namespace OpenStory.Cryptography
         /// </summary>
         protected byte[] InitialValue
         {
-            get { return initialValue; }
+            get { return this.initialValue; }
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CryptoTransformBase"/>.
+        /// Initializes a new instance of the <see cref="CryptoTransformBase"/> class.
         /// </summary>
         /// <remarks>
         /// The provided arrays are copied into the <see cref="CryptoTransformBase"/> instance to avoid mutation.
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
         /// <param name="initialIv">The initial value for the shuffle transformation.</param>
-        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided arrays has an invalid number of elements.</exception>
         protected CryptoTransformBase(byte[] table, byte[] initialIv)
         {
@@ -43,6 +43,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("table");
             }
+
             if (initialIv == null)
             {
                 throw new ArgumentNullException("initialIv");
@@ -52,6 +53,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentException(Exceptions.ShuffleTableMustBe256Bytes, "table");
             }
+
             if (initialIv.Length != 4)
             {
                 throw new ArgumentException(Exceptions.IvMustBe4Bytes, "initialIv");
@@ -68,6 +70,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("iv");
             }
+
             if (iv.Length != 4)
             {
                 throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
@@ -79,8 +82,9 @@ namespace OpenStory.Cryptography
             {
                 byte ivInput = iv[i];
 
-                ShuffleIvStep(shuffled, ivInput);
+                this.ShuffleIvStep(shuffled, ivInput);
             }
+
             return shuffled;
         }
 
@@ -95,6 +99,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("shuffled");
             }
+
             if (shuffled.Length != 4)
             {
                 throw new ArgumentException(Exceptions.IvMustBe4Bytes, "shuffled");
@@ -112,7 +117,7 @@ namespace OpenStory.Cryptography
                 uint merged = (uint)((shuffled[3] << 24) | (shuffled[2] << 16) | (shuffled[1] << 8) | shuffled[0]);
                 uint shifted = (merged << 3) | (merged >> 29);
 
-                shuffled[0] = (byte)(shifted);
+                shuffled[0] = (byte)shifted;
                 shuffled[1] = (byte)(shifted >> 8);
                 shuffled[2] = (byte)(shifted >> 16);
                 shuffled[3] = (byte)(shifted >> 24);
@@ -129,6 +134,7 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("data");
             }
+
             if (iv == null)
             {
                 throw new ArgumentNullException("iv");

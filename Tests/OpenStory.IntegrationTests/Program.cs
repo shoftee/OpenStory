@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
+using Ninject;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server;
-using OpenStory.Server.Fluent;
-using OpenStory.Server.Modules.Logging;
 using OpenStory.Services.Account;
-using OpenStory.Services.Auth;
 using OpenStory.Services.Contracts;
-using OpenStory.Services.Management;
 using OpenStory.Services.Registry;
 
 namespace OpenStory.IntegrationTests
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            OS.Initialize().Logger(new ConsoleLogger());
+            var kernel = Initialize();
 
             var nexusUri = new Uri("net.tcp://localhost/OpenStory/Registry");
 
-            var registry = new RegistryService();
+            var registry = kernel.Get<RegistryService>();
             var host = new ServiceHost(registry, nexusUri);
             host.Open();
 
@@ -34,7 +29,7 @@ namespace OpenStory.IntegrationTests
             var accountInfo = new NexusConnectionInfo(accountGuid, nexusUri);
 
             string error;
-            Bootstrap.Service(() => new AccountService(), accountInfo, out error);
+            Bootstrap.Service<AccountService>(kernel, accountInfo, out error);
             if (error != null)
             {
                 Console.WriteLine(error);
@@ -43,6 +38,14 @@ namespace OpenStory.IntegrationTests
 
             Console.WriteLine("Woot!");
             Console.ReadLine();
+        }
+
+        private static IKernel Initialize()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IAccountService>().To<AccountService>().InSingletonScope();
+            kernel.Bind<IRegistryService>().To<RegistryService>().InSingletonScope();
+            return kernel;
         }
     }
 }

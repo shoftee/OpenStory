@@ -39,8 +39,9 @@
     <StartupObject>OpenStory.Services.Management.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NodaTime">
-      <HintPath>..\..\packages\NodaTime.1.0.1\lib\net35-Client\NodaTime.dll</HintPath>
+    <Reference Include="NodaTime, Version=1.1.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NodaTime.1.1.0\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,13 +52,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
       <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
       <Name>OpenStory.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

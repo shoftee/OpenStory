@@ -24,6 +24,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Reads a specified number of bytes.
         /// </summary>
+        /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="count"/> is negative.
         /// </exception>
@@ -81,6 +82,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Reads a null-terminated string and advances the position past the padding.
         /// </summary>
+        /// <param name="paddingLength">The expected padding length.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="paddingLength"/> is non-positive.
         /// </exception>
@@ -91,7 +93,7 @@ namespace OpenStory.Common.IO
         /// Reads a byte as a <see cref="System.Boolean"/>.
         /// </summary>
         /// <remarks>
-        /// The returned value is <c>true</c> if the read byte is not equal to <c>0</c>.
+        /// The returned value is <see langword="true"/> if the read byte is not equal to <c>0</c>.
         /// </remarks>
         /// <returns>the value that was read from the stream.</returns>
         bool ReadBoolean();

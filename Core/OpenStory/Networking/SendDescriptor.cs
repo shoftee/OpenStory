@@ -18,16 +18,16 @@ namespace OpenStory.Networking
         private int sentBytes;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SendDescriptor"/>.
+        /// Initializes a new instance of the <see cref="SendDescriptor"/> class.
         /// </summary>
         /// <param name="container">The <see cref="IDescriptorContainer"/> containing this instance.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="container" /> is <c>null</c>.
+        /// Thrown if <paramref name="container" /> is <see langword="null"/>.
         /// </exception>
         public SendDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            base.SocketArgs.Completed += this.EndSendAsynchronous;
+            this.SocketArgs.Completed += this.EndSendAsynchronous;
 
             this.isSending = new AtomicBoolean(false);
             this.queue = new ConcurrentQueue<byte[]>();
@@ -41,14 +41,15 @@ namespace OpenStory.Networking
         /// Thrown if this session is not open.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="data"/> is <c>null</c>.
+        /// Thrown if <paramref name="data"/> is <see langword="null"/>.
         /// </exception>
         public void Write(byte[] data)
         {
-            if (!base.Container.IsActive)
+            if (!this.Container.IsActive)
             {
                 throw new InvalidOperationException(Exceptions.SessionIsNotActive);
             }
+
             if (data == null)
             {
                 throw new ArgumentNullException("data");
@@ -92,9 +93,9 @@ namespace OpenStory.Networking
                 // if the operation completed synchronously.
                 // As long as the socket operation completes synchronously,
                 // this loop will handle the transfers synchronously too.
-                while (!base.Container.Socket.SendAsync(base.SocketArgs))
+                while (!this.Container.Socket.SendAsync(this.SocketArgs))
                 {
-                    if (!this.EndSendSynchronous(base.SocketArgs))
+                    if (!this.EndSendSynchronous(this.SocketArgs))
                     {
                         break;
                     }
@@ -118,19 +119,18 @@ namespace OpenStory.Networking
             this.queue.TryPeek(out segment);
 
             // Since we're sure segment is not null, we can dereference it.
-            base.SocketArgs.SetBuffer(segment, this.sentBytes,
-                                      segment.Length - this.sentBytes);
+            this.SocketArgs.SetBuffer(segment, this.sentBytes, segment.Length - this.sentBytes);
         }
 
         /// <summary>
-        /// Synchronous EndSend operation.
+        /// Synchronous EndSend.
         /// </summary>
         /// <remarks>
         /// This method will return true if there is more data to send.
         /// If there is no more data or if there was a connection error, it will return false.
         /// </remarks>
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
-        /// <returns><c>true</c> if there is more to send; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if there is more to send; otherwise, <see langword="false"/>.</returns>
         private bool EndSendSynchronous(SocketAsyncEventArgs args)
         {
             if (this.HandleTransferredData(args))
@@ -150,8 +150,6 @@ namespace OpenStory.Networking
         /// <remarks>
         /// If there is more data to send, this method will call <see cref="BeginSend()"/>.
         /// </remarks>
-        /// <param name="sender">The sender of the Completed event.</param>
-        /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
         private void EndSendAsynchronous(object sender, SocketAsyncEventArgs args)
         {
             if (this.HandleTransferredData(args))
@@ -168,12 +166,12 @@ namespace OpenStory.Networking
         /// and moves to the next segment in the queue if the current 
         /// has finished sending.
         /// </para><para>
-        /// If there was a connection error, this method will return <c>false</c>.
+        /// If there was a connection error, this method will return <see langword="false"/>.
         /// If all the queued data has been sent, this method will set <see cref="isSending"/>
-        /// to <c>false</c> and return <c>false</c>. Otherwise it will return <c>true</c>.
+        /// to <see langword="false"/> and return <see langword="false"/>. Otherwise it will return <see langword="true"/>.
         /// </para></remarks>
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
-        /// <returns><c>true</c> if there is more data to send; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
         private bool HandleTransferredData(SocketAsyncEventArgs args)
         {
             int transferred = args.BytesTransferred;
@@ -182,7 +180,7 @@ namespace OpenStory.Networking
                 // BytesTransferred is set to -1 if the socket was closed before the 
                 // last operation ended. This may happen because we requested it,
                 // or because of a network failure. OnError actually checks for this.
-                base.OnError(args);
+                this.OnError(args);
                 return false;
             }
 

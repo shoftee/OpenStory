@@ -14,7 +14,16 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// A delegate that returns a database connection.
         /// </summary>
-        public static Func<IDbConnection> GetConnection = GetConnectionDefault;
+        private static Func<IDbConnection> newConnection = GetConnectionDefault;
+
+        /// <summary>
+        /// Gets or sets the delegate that returns a database connection.
+        /// </summary>
+        public static Func<IDbConnection> NewConnection
+        {
+            get { return newConnection; }
+            set { newConnection = value; }
+        }
 
         /// <summary>
         /// Gets a <see cref="IDbConnection"/>.
@@ -22,29 +31,30 @@ namespace OpenStory.Common.Tools
         /// <returns>the <see cref="IDbConnection"/> instance.</returns>
         private static IDbConnection GetConnectionDefault()
         {
-            throw new NotImplementedException("You need to set Db.GetConnection to use the DB helpers.");
+            throw new NotImplementedException("You need to set Db.newConnection to use the DB helpers.");
         }
 
         /// <summary>
         /// Executes the provided <see cref="IDbCommand"/> and invokes a callback for the first row of the result set.
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
-        /// <param name="callback">The Action(IDataRecord) delegate to call for the first row of the result set.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <c>null</c>.</exception>
-        /// <returns><c>true</c> if there was a result; otherwise, <c>false</c>.</returns>
+        /// <param name="callback">The <see cref="Action{IDataRecord}"/> delegate to call for the first row of the result set.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <see langword="null"/>.</exception>
+        /// <returns><see langword="true"/> if there was a result; otherwise, <see langword="false"/>.</returns>
         public static bool InvokeForSingle(this IDbCommand command, Action<IDataRecord> callback)
         {
             if (command == null)
             {
                 throw new ArgumentNullException("command");
             }
+
             if (callback == null)
             {
                 throw new ArgumentNullException("callback");
             }
 
             // I actually feel quite awesome about this method, it saves me a lot of writing.
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -52,7 +62,7 @@ namespace OpenStory.Common.Tools
                 connection.Open();
                 using (var record = command.ExecuteReader(CommandBehavior.SingleRow))
                 {
-                    if (record.Read())
+                    if (record != null && record.Read())
                     {
                         callback(record);
                         result = true;
@@ -62,6 +72,7 @@ namespace OpenStory.Common.Tools
                         result = false;
                     }
                 }
+
                 connection.Close();
 
                 return result;
@@ -73,7 +84,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="commandBehavior">The <see cref="CommandBehavior"/> flags to pass when executing the data reader. Defaults to <see cref="CommandBehavior.Default"/>.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidEnumArgumentException">Thrown if <paramref name="commandBehavior"/> has an invalid value.</exception>
         /// <returns>an <see cref="IEnumerable{IDataRecord}"/> for the result set of the query.</returns>
         public static IEnumerable<IDataRecord> Enumerate(
@@ -84,23 +95,30 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("command");
             }
+
             if (!Enum.IsDefined(typeof(CommandBehavior), commandBehavior))
             {
                 throw new InvalidEnumArgumentException("commandBehavior", (int)commandBehavior, typeof(CommandBehavior));
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
                 connection.Open();
                 using (var record = command.ExecuteReader(commandBehavior))
                 {
+                    if (record == null)
+                    {
+                        yield break;
+                    }
+
                     while (record.Read())
                     {
                         yield return record;
                     }
                 }
+
                 connection.Close();
             }
         }
@@ -110,7 +128,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
         /// <param name="callback">The action to perform on each record.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> or <paramref name="callback"/> is <see langword="null"/>.</exception>
         /// <returns>the number of records in the result set.</returns>
         public static int InvokeForAll(this IDbCommand command, Action<IDataRecord> callback)
         {
@@ -118,6 +136,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("command");
             }
+
             if (callback == null)
             {
                 throw new ArgumentNullException("callback");
@@ -129,6 +148,7 @@ namespace OpenStory.Common.Tools
                 callback.Invoke(record);
                 count++;
             }
+
             return count;
         }
 
@@ -137,8 +157,8 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <typeparam name="TResult">The type to cast the result to.</typeparam>
         /// <param name="command">The <see cref="IDbCommand"/> to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
-        /// <returns> the result from the query, cast to <typeparamref name="TResult"/>. </returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
+        /// <returns> the result from the query, cast to <typeparamref name="TResult"/>.</returns>
         public static TResult GetScalar<TResult>(this IDbCommand command)
         {
             if (command == null)
@@ -146,7 +166,7 @@ namespace OpenStory.Common.Tools
                 throw new ArgumentNullException("command");
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -162,7 +182,7 @@ namespace OpenStory.Common.Tools
         /// Executes the provided <see cref="IDbCommand"/> as a non-query and returns the number of rows affected.
         /// </summary>
         /// <param name="command">The <see cref="IDbCommand"/> to execute as a non-query.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
         /// <returns>the number of rows affected by the <see cref="SqlCommand"/>.</returns>
         public static int InvokeNonQuery(this IDbCommand command)
         {
@@ -171,7 +191,7 @@ namespace OpenStory.Common.Tools
                 throw new ArgumentNullException("command");
             }
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 
@@ -187,7 +207,7 @@ namespace OpenStory.Common.Tools
         /// Executes the provided <see cref="IDbCommand"/> 
         /// </summary>
         /// <param name="command">The command to execute as a stored procedure.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
         public static void InvokeStoredProcedure(this IDbCommand command)
         {
             if (command == null)
@@ -198,7 +218,7 @@ namespace OpenStory.Common.Tools
             command.CommandType = CommandType.StoredProcedure;
             command.CommandTimeout = 60;
 
-            using (var connection = GetConnection())
+            using (var connection = newConnection())
             {
                 command.Connection = connection;
 

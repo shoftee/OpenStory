@@ -19,7 +19,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AtomicInteger"/> with the given value.
+        /// Initializes a new instance of the <see cref="AtomicInteger"/> class with the given value.
         /// </summary>
         /// <param name="initialValue">The initial value.</param>
         public AtomicInteger(int initialValue)
@@ -86,15 +86,16 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicInteger" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicInteger" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static explicit operator int(AtomicInteger atomicInteger)
         {
             if (atomicInteger == null)
             {
-                throw new ArgumentNullException("atomicInteger");
+                throw new InvalidCastException();
             }
+
             return atomicInteger.value;
         }
 
@@ -112,14 +113,14 @@ namespace OpenStory.Common
         /// </summary>
         /// <param name="atomicInteger">The <see cref="AtomicInteger"/> to extract the value of.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="atomicInteger" /> is <c>null</c>.
+        /// Thrown if <paramref name="atomicInteger" /> is <see langword="null"/>.
         /// </exception>
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public static int ToInt32(AtomicInteger atomicInteger)
         {
             if (atomicInteger == null)
             {
-                throw new ArgumentNullException("atomicInteger");
+                throw new InvalidCastException();
             }
 
             return atomicInteger.value;

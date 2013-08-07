@@ -12,7 +12,7 @@ namespace OpenStory.Common.Tools
         /// Constructs a byte array from a string of hexadecimal digits.
         /// </summary>
         /// <param name="hex">The string to translate to bytes.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="hex" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="hex" /> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="hex"/> is not of even length,
         /// OR, if <paramref name="hex"/> contains characters that don't correspond to hexadecimal digits.
         /// </exception>
@@ -23,6 +23,7 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("hex");
             }
+
             if ((hex.Length & 1) != 0)
             {
                 throw new ArgumentException(Exceptions.StringLengthMustBeEven, "hex");
@@ -41,6 +42,7 @@ namespace OpenStory.Common.Tools
                 {
                     throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
+
                 var b = (byte)(digit << 4);
 
                 digit = HexDigits.IndexOf(uppercase[index | 1]);
@@ -48,9 +50,11 @@ namespace OpenStory.Common.Tools
                 {
                     throw new ArgumentException(Exceptions.StringMustContainOnlyHexDigits, "hex");
                 }
+
                 b |= (byte)digit;
                 bytes[i] = b;
             }
+
             return bytes;
         }
 
@@ -59,7 +63,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="array">The byte array to translate to hexadecimal characters.</param>
         /// <param name="hyphenate">Whether to add hyphens between the byte hex.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array" /> is <see langword="null"/>.</exception>
         /// <returns>the byte array as a hex-digit string.</returns>
         public static string ToHex(this byte[] array, bool hyphenate = false)
         {
@@ -79,6 +83,7 @@ namespace OpenStory.Common.Tools
 
                 builder.AppendFormat("{0:X2}", array[i]);
             }
+
             return builder.ToString();
         }
     }

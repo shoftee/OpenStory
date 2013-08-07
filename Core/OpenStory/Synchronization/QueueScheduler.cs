@@ -14,7 +14,7 @@ namespace OpenStory.Synchronization
         private readonly ConcurrentQueue<Task> tasks;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="QueueScheduler"/>.
+        /// Initializes a new instance of the <see cref="QueueScheduler"/> class.
         /// </summary>
         public QueueScheduler()
         {
@@ -26,7 +26,7 @@ namespace OpenStory.Synchronization
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="runnable"/> is <c>null</c>.
+        /// Thrown if <paramref name="runnable"/> is <see langword="null"/>.
         /// </exception>
         public void Schedule(IRunnable runnable)
         {

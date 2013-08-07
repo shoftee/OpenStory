@@ -1,3 +1,6 @@
+using OpenStory.Framework.Model.Common;
+using OpenStory.Server.Processing;
+
 namespace OpenStory.Server
 {
     /// <summary>

@@ -44,13 +44,8 @@ namespace OpenStory.Cryptography
         /// <returns>an instance of<see cref="RollingIvFactory"/> that can be used to created IVs for the EMS crypto.</returns>
         public static RollingIvFactory GetEmsFactory(ushort version)
         {
-            var transform = GetEmsCrypto();
-            return new RollingIvFactory(transform, version);
-        }
-
-        private static ICryptoAlgorithm GetEmsCrypto()
-        {
-            return new AesTransform(EmsTable, EmsInitialValue, EmsAesKey);
+            var algorithm = new AesTransform(EmsTable, EmsInitialValue, EmsAesKey);
+            return new RollingIvFactory(algorithm, version);
         }
 
         #endregion
@@ -86,22 +81,10 @@ namespace OpenStory.Cryptography
         /// <returns>an instance of<see cref="RollingIvFactory"/> that can be used to created IVs for the KMST crypto.</returns>
         public static RollingIvFactory GetKmstFactory(ushort version)
         {
-            var encryption = GetKmstCrypto(true);
-            var decryption = GetKmstCrypto(false);
+            var encryption = new KmstEncryptor(KmstTable, KmstInitialValue);
+            var decryption = new KmstDecryptor(KmstTable, KmstInitialValue);
 
             return new RollingIvFactory(encryption, decryption, version);
-        }
-
-        private static ICryptoAlgorithm GetKmstCrypto(bool encryption)
-        {
-            if (encryption)
-            {
-                return new KmstEncryptor(KmstTable, KmstInitialValue);
-            }
-            else
-            {
-                return new KmstDecryptor(KmstTable, KmstInitialValue);
-            }
         }
 
         #endregion

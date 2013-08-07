@@ -1,31 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using OpenStory.Common;
-using OpenStory.Server.Modules;
+using OpenStory.Framework.Model.Common;
+using OpenStory.Server.Registry;
 
 namespace OpenStory.Server.Channel
 {
     /// <summary>
     /// Represents a server that handles the channel-side operations.
     /// </summary>
-    public sealed class ChannelServer : ServerBase, IChannelServer
+    internal sealed class ChannelServer : IChannelServer
     {
-        private const string ServerName = @"Channel";
-
-        private readonly List<ChannelClient> clients;
-
-        /// <inheritdoc />
-        public override string Name
-        {
-            get { return ServerName; }
-        }
-
-        /// <inheritdoc />
-        protected override IOpCodeTable OpCodes
-        {
-            get { throw new NotImplementedException(); }
-        }
+        private readonly IPlayerRegistry playerRegistry;
 
         /// <summary>
         /// Gets the channel identifier.
@@ -41,20 +26,14 @@ namespace OpenStory.Server.Channel
         public IChannelWorld World { get; private set; }
 
         /// <inheritdoc />
-        public ChannelServer(ChannelConfiguration configuration)
-            : base(configuration)
+        public ChannelServer(
+            ChannelConfiguration configuration,
+            IPlayerRegistry playerRegistry)
         {
             this.ChannelId = configuration.ChannelId;
             this.WorldId = configuration.WorldId;
 
-            this.clients = new List<ChannelClient>();
-        }
-
-        /// <inheritdoc />
-        protected override void OnConnectionOpen(IServerSession serverSession)
-        {
-            var newClient = new ChannelClient(this, serverSession);
-            this.clients.Add(newClient);
+            this.playerRegistry = playerRegistry;
         }
 
         /// <inheritdoc />
@@ -69,26 +48,23 @@ namespace OpenStory.Server.Channel
 
         private void BroadcastToWorld(IEnumerable<CharacterKey> targets, byte[] data)
         {
-            // Arrays are more efficient for remoting operations.
+            // Arrays are more efficient for remote operations.
             CharacterKey[] keys = targets.ToArray();
 
-            var playerRegistry = LookupManager.GetManager().Players;
-            this.BroadcastIntoChannel(playerRegistry.Scan(keys).Select(p => p.Key), data);
-
+            this.BroadcastIntoChannel(this.playerRegistry.Scan(keys).Select(p => p.Key), data);
             this.World.BroadcastFromChannel(this.ChannelId, keys, data);
         }
 
-        // This method will be part of the service contract.
         /// <summary>
         /// Broadcasts a packet to the targets that reside in the current channel.
         /// </summary>
-        /// <param name="targets"></param>
-        /// <param name="data"></param>
+        /// <param name="targets">The characters to broadcast to.</param>
+        /// <param name="data">The packet payload to broadcast.</param>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
-            var playerRegistry = LookupManager.GetManager().Players;
+            // This method will be part of the service contract.
             var targetPlayers = from target in playerRegistry.Scan(targets)
-                          select target;
+                                select target;
 
             foreach (var player in targetPlayers)
             {

@@ -21,7 +21,7 @@
         public ushort Version { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RollingIvFactory"/>.
+        /// Initializes a new instance of the <see cref="RollingIvFactory"/> class.
         /// </summary>
         /// <param name="symmetricAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for both encryption and decryption.</param>
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RollingIvFactory"/>.
+        /// Initializes a new instance of the <see cref="RollingIvFactory"/> class.
         /// </summary>
         /// <param name="encryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for encryption IVs.</param>
         /// <param name="decryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for decryption IVs.</param>

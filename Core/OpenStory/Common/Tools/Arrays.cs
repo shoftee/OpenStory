@@ -15,7 +15,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="array">The array to clone.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="array"/> is <c>null</c>.
+        /// Thrown if <paramref name="array"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>the new array.</returns>
         public static byte[] FastClone(this byte[] array)
@@ -37,7 +37,7 @@ namespace OpenStory.Common.Tools
         /// <param name="array">The source array.</param>
         /// <param name="offset">The start of the segment.</param>
         /// <param name="length">The length of the segment.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="offset"/> or <paramref name="length"/> are negative.
         /// </exception>
@@ -52,14 +52,17 @@ namespace OpenStory.Common.Tools
             {
                 throw new ArgumentNullException("array");
             }
+
             if (offset < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
             }
+
             if (length < 0)
             {
                 throw new ArgumentOutOfRangeException("length", length, Exceptions.LengthMustBeNonNegative);
             }
+
             if (array.Length <= offset || array.Length < offset + length)
             {
                 throw ArraySegmentException.GetByStartAndLength(offset, length);
@@ -74,7 +77,7 @@ namespace OpenStory.Common.Tools
         /// Concatenates the provided byte arrays.
         /// </summary>
         /// <param name="arrays">The arrays to concatenate.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <see langword="null"/>.</exception>
         /// <returns>the resulting array.</returns>
         public static byte[] FastJoin(params byte[][] arrays)
         {
@@ -90,7 +93,7 @@ namespace OpenStory.Common.Tools
         /// Concatenates the provided byte arrays.
         /// </summary>
         /// <param name="arrays">The arrays to concatenate.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="arrays"/> is <see langword="null"/>.</exception>
         /// <returns>the resulting array.</returns>
         public static byte[] FastJoin(IList<byte[]> arrays)
         {

@@ -11,6 +11,10 @@ namespace OpenStory.Server.Channel.Maps
         private readonly Dictionary<string, IPortal> portals;
         private readonly AtomicInteger rollingObjectId;
 
+        public int MapId { get; private set; }
+
+        public int ChannelId { get; private set; }
+
         private Map()
         {
             this.mapObjects = new Dictionary<int, IMapObject>();
@@ -25,14 +29,11 @@ namespace OpenStory.Server.Channel.Maps
             this.ChannelId = channelId;
         }
 
-        public int MapId { get; private set; }
-        public int ChannelId { get; private set; }
-
         /// <summary>
         /// Constructs a new object with the given constructor delegate, giving it a proper map object ID.
         /// </summary>
-        /// <param name="constructor">An (int) => (IMapObject) delegate used to construct the map object.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <c>null</c>.</exception>
+        /// <param name="constructor">An <see cref="Func{Int32, IMapObject}"/>-like delegate used to construct the map object.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="constructor"/> is <see langword="null"/>.</exception>
         public void AddMapObject(MapObjectConstructor constructor)
         {
             if (constructor == null)
@@ -58,6 +59,7 @@ namespace OpenStory.Server.Channel.Maps
             {
                 return null;
             }
+
             return mapObject;
         }
 
@@ -73,6 +75,7 @@ namespace OpenStory.Server.Channel.Maps
             {
                 return null;
             }
+
             return portal;
         }
 

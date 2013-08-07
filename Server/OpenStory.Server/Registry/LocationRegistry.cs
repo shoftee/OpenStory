@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Registry
 {
     /// <summary>
-    /// A registry for player locations.
+    /// Represents a registry for player locations.
     /// </summary>
-    public sealed class LocationRegistry : ILocationRegistry
+    internal sealed class LocationRegistry : ILocationRegistry
     {
         private readonly Dictionary<CharacterKey, PlayerLocation> locations;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="LocationRegistry"/>.
+        /// Initializes a new instance of the <see cref="LocationRegistry"/> class.
         /// </summary>
         public LocationRegistry()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Services.Contracts
 {
@@ -45,7 +46,7 @@ namespace OpenStory.Services.Contracts
         /// Attempts to retrieve the URI of the world service.
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
-        /// <param name="worldId">The identifier of the world instnace.</param>
+        /// <param name="worldId">The identifier of the world instance.</param>
         /// <returns>the result of the operation.</returns>
         [OperationContract]
         ServiceOperationResult<Uri> GetWorldUri(Guid token, int worldId);

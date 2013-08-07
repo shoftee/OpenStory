@@ -17,7 +17,7 @@ namespace OpenStory.Common.Tools
         /// Creates a reversed copy of the provided array.
         /// </summary>
         /// <param name="array">The array to reverse.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <returns>a reversed copy of the array.</returns>
         public static T[] Reverse(T[] array)
         {
@@ -43,7 +43,7 @@ namespace OpenStory.Common.Tools
         /// Reverses the provided array in-place.
         /// </summary>
         /// <param name="array">The array to reverse.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <returns>the same instance.</returns>
         public static T[] ReverseInPlace(T[] array)
         {
@@ -66,5 +66,4 @@ namespace OpenStory.Common.Tools
             return array;
         }
     }
-
 }

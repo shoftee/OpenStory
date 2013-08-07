@@ -15,7 +15,7 @@ namespace OpenStory.Common.Tools
         /// <remarks>
         /// This method should be equivalent to Java's System.currentTimeMillis().
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>the number of milliseconds since 1st January 1970.</returns>
         public static long GetMillisecondsSinceEpoch()
         {
             return (long)(Epoch - DateTimeOffset.UtcNow).TotalMilliseconds;
@@ -24,7 +24,7 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Gets <see cref="DateTimeOffset.UtcNow"/> as FileTime.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the number of 100ns intervals since 1st January 1600.</returns>
         public static long GetUtcNowAsFileTime()
         {
             return DateTimeOffset.UtcNow.ToFileTime();

@@ -1,6 +1,7 @@
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Clients
@@ -14,7 +15,7 @@ namespace OpenStory.Services.Clients
         private static readonly NetTcpBinding Binding = new NetTcpBinding(SecurityMode.Transport);
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NexusServiceClient"/>.
+        /// Initializes a new instance of the <see cref="NexusServiceClient"/> class.
         /// </summary>
         public NexusServiceClient(Uri uri)
             : base(new ServiceEndpoint(Contract, Binding, new EndpointAddress(uri)))
@@ -26,7 +27,8 @@ namespace OpenStory.Services.Clients
         /// <inheritdoc />
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            return base.Channel.GetServiceConfiguration(token);
+            var result = this.Call(() => this.Channel.GetServiceConfiguration(token));
+            return result;
         }
 
         #endregion

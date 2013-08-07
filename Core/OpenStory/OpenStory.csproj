@@ -37,8 +37,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NodaTime">
-      <HintPath>..\..\packages\NodaTime.1.0.1\lib\net35-Client\NodaTime.dll</HintPath>
+    <Reference Include="NodaTime, Version=1.1.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NodaTime.1.1.0\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="System">
     </Reference>
@@ -50,8 +51,9 @@
   <ItemGroup>
     <Compile Include="Common\AtomicBoolean.cs" />
     <Compile Include="Common\AtomicInteger.cs" />
-    <Compile Include="Common\IOpCodeTable.cs" />
-    <Compile Include="Common\OpCodeTable.cs" />
+    <Compile Include="Common\PacketValueAttribute.cs" />
+    <Compile Include="Common\IPacketCodeTable.cs" />
+    <Compile Include="Common\PacketCodeTable.cs" />
     <Compile Include="Common\Game\AuthenticationResult.cs" />
     <Compile Include="Common\Game\GameConstants.cs" />
     <Compile Include="Common\Game\Elements.cs" />
@@ -81,11 +83,11 @@
     <Compile Include="Common\IO\PacketBuilder.cs" />
     <Compile Include="Common\IO\PacketReadingException.cs" />
     <Compile Include="Common\IO\PacketReader.cs" />
+    <Compile Include="Common\PacketValueExtensions.cs" />
     <Compile Include="Common\Tools\Arrays.cs" />
     <Compile Include="Common\Tools\Arrays.Generic.cs" />
     <Compile Include="Common\Tools\HexExtensions.cs" />
     <Compile Include="Cryptography\AesTransform.cs" />
-    <Compile Include="Cryptography\ClientCrypto.cs" />
     <Compile Include="Cryptography\CryptoTransformBase.cs" />
     <Compile Include="Cryptography\CustomCrypto.cs" />
     <Compile Include="Cryptography\EndpointCrypto.cs" />
@@ -96,7 +98,6 @@
     <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RollingIv.cs" />
     <Compile Include="Cryptography\RollingIvFactory.cs" />
-    <Compile Include="Cryptography\ServerCrypto.cs" />
     <Compile Include="Cryptography\VersionMaskType.cs" />
     <Compile Include="Errors.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -108,7 +109,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Exceptions.resx</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Networking\DataArrivedEventArgs.cs" />
     <Compile Include="Networking\DescriptorBase.cs" />
     <Compile Include="Networking\EncryptedNetworkSession.cs" />

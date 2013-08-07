@@ -15,13 +15,13 @@ namespace OpenStory.Cryptography
         private byte[] iv;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RollingIv"/>.
+        /// Initializes a new instance of the <see cref="RollingIv"/> class.
         /// </summary>
         /// <param name="algorithm">The <see cref="ICryptoAlgorithm"/> instance for this session.</param>
         /// <param name="initialIv">The initial IV for this instance.</param>
         /// <param name="versionMask">The version mask used for header creation.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="algorithm"/> or <paramref name="initialIv"/> is <c>null</c>.
+        /// Thrown if <paramref name="algorithm"/> or <paramref name="initialIv"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="initialIv"/> does not have exactly 4 elements.
@@ -54,7 +54,7 @@ namespace OpenStory.Cryptography
         /// Transforms the specified data in-place.
         /// </summary>
         /// <param name="data">The array to transform. This array will be directly modified.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public void Transform(byte[] data)
         {
             if (data == null)
@@ -62,9 +62,9 @@ namespace OpenStory.Cryptography
                 throw new ArgumentNullException("data");
             }
 
-            algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
+            this.algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
 
-            this.iv = algorithm.ShuffleIv(this.iv);
+            this.iv = this.algorithm.ShuffleIv(this.iv);
         }
 
         /// <summary>
@@ -82,17 +82,18 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException("length", length, Exceptions.PacketLengthMustBeMoreThan2Bytes);
             }
 
-            int encodedVersion = (((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask);
+            int encodedVersion = ((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask;
             int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
 
             var header = new byte[4];
             unchecked
             {
                 header[0] = (byte)(encodedVersion >> 8);
-                header[1] = (byte)(encodedVersion);
+                header[1] = (byte)encodedVersion;
                 header[2] = (byte)(encodedLength >> 8);
-                header[3] = (byte)(encodedLength);
+                header[3] = (byte)encodedLength;
             }
+
             return header;
         }
 
@@ -101,7 +102,7 @@ namespace OpenStory.Cryptography
         /// </summary>
         /// <param name="header">The array to read from.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> is <c>null</c>.
+        /// Thrown if <paramref name="header"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements.
@@ -113,9 +114,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -126,16 +128,17 @@ namespace OpenStory.Cryptography
         /// Determines whether the start of an array is a valid packet header.
         /// </summary>
         /// <param name="header">The raw packet data to validate.</param>
-        /// <returns><c>true</c> if the header is valid; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the header is valid; otherwise, <see langword="false"/>.</returns>
         public bool ValidateHeader(byte[] header)
         {
             if (header == null)
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -152,21 +155,22 @@ namespace OpenStory.Cryptography
         /// <param name="header">The header byte array to process.</param>
         /// <param name="length">A variable to hold the result.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> is <c>null</c>.
+        /// Thrown if <paramref name="header"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements.
         /// </exception>
-        /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the extraction was successful; otherwise, <see langword="false"/>.</returns>
         public bool TryGetLength(byte[] header, out int length)
         {
             if (header == null)
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -189,7 +193,7 @@ namespace OpenStory.Cryptography
         /// <param name="iv">The IV to use for the decoding.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="header"/> 
-        /// or <paramref name="iv"/> are <c>null</c>.
+        /// or <paramref name="iv"/> are <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="header"/> has less than 4 elements or
@@ -202,9 +206,10 @@ namespace OpenStory.Cryptography
             {
                 throw new ArgumentNullException("header");
             }
+
             if (header.Length < 4)
             {
-                var message = String.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 

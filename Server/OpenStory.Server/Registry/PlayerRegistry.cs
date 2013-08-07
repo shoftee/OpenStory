@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using OpenStory.Common.Tools;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Registry
 {
+    /// <summary>
+    /// Represents a registry for players.
+    /// </summary>
     internal sealed class PlayerRegistry : IPlayerRegistry, IDisposable
     {
         private readonly Dictionary<int, CharacterKey> idLookup;
@@ -56,7 +60,7 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public IPlayer GetByName(string name)
         {
-            return this.l.ReadLock(() => GetPlayerOrNull(name));
+            return this.l.ReadLock(() => this.GetPlayerOrNull(name));
         }
 
         private IPlayer GetPlayerOrNull(int id)
@@ -68,7 +72,7 @@ namespace OpenStory.Server.Registry
             }
             else
             {
-                return GetPlayerOrNull(key);
+                return this.GetPlayerOrNull(key);
             }
         }
 
@@ -81,7 +85,7 @@ namespace OpenStory.Server.Registry
             }
             else
             {
-                return GetPlayerOrNull(key);
+                return this.GetPlayerOrNull(key);
             }
         }
 
@@ -98,6 +102,7 @@ namespace OpenStory.Server.Registry
             }
         }
 
+        /// <inheritdoc />
         public IEnumerable<IPlayer> Scan(IEnumerable<CharacterKey> whitelist)
         {
             return this.l.ReadLock(() => this.GetByKeys(whitelist).ToList());
@@ -124,6 +129,7 @@ namespace OpenStory.Server.Registry
 
         #region Implementation of IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             if (!this.isDisposed)

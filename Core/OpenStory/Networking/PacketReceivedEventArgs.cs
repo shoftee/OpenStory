@@ -15,15 +15,15 @@ namespace OpenStory.Networking
         /// </summary>
         public PacketReader Reader
         {
-            get { return new PacketReader(buffer); }
+            get { return new PacketReader(this.buffer); }
         }
         
         /// <summary>
-        /// Initializes a new instance of <see cref="PacketReceivedEventArgs"/>.
+        /// Initializes a new instance of the <see cref="PacketReceivedEventArgs"/> class.
         /// </summary>
         /// <param name="packet">The packet data.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="packet" /> is <c>null</c>.
+        /// Thrown if <paramref name="packet" /> is <see langword="null"/>.
         /// </exception>
         public PacketReceivedEventArgs(byte[] packet)
         {

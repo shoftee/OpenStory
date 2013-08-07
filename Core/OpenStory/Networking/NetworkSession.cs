@@ -15,7 +15,7 @@ namespace OpenStory.Networking
         #region Events
 
         /// <summary>
-        /// The event is raised when a data segment arrives.
+        /// Occurs when a data segment arrives.
         /// </summary>
         /// <remarks>
         /// This event doesn't support more than one subscriber.
@@ -29,12 +29,12 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// The event is raised when the <see cref="NetworkSession" /> begins closing.
+        /// Occurs when the <see cref="NetworkSession" /> begins closing.
         /// </summary>
         public event EventHandler Closing;
 
         /// <summary>
-        /// The event is raised when a connection error occurs.
+        /// Occurs when a connection error occurs.
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> SocketError
         {
@@ -94,7 +94,7 @@ namespace OpenStory.Networking
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NetworkSession"/>.
+        /// Initializes a new instance of the <see cref="NetworkSession"/> class.
         /// </summary>
         public NetworkSession()
         {
@@ -112,7 +112,7 @@ namespace OpenStory.Networking
         /// Thrown if the <see cref="NetworkSession"/> instance already has a socket attached to it.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket" /> is <c>null</c>.
+        /// Thrown if <paramref name="socket" /> is <see langword="null"/>.
         /// </exception>
         public void AttachSocket(Socket socket)
         {
@@ -120,6 +120,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(Exceptions.SessionSocketAlreadyAttached);
             }
+
             if (socket == null)
             {
                 throw new ArgumentNullException("socket");
@@ -145,6 +146,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(Exceptions.NoSocketAttached);
             }
+
             if (this.isActive.CompareExchange(comparand: false, newValue: true))
             {
                 throw new InvalidOperationException(Exceptions.SessionAlreadyActive);
@@ -186,8 +188,7 @@ namespace OpenStory.Networking
         }
 
         #endregion
-
-
+        
         #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />

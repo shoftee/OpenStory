@@ -6,46 +6,18 @@ namespace OpenStory.Cryptography
     /// <summary>
     /// Represents a base class for cryptographic packet transformation.
     /// </summary>
-    public abstract class EndpointCrypto
+    public sealed class EndpointCrypto
     {
         private readonly RollingIv encryptor;
         private readonly RollingIv decryptor;
 
         /// <summary>
-        /// Gets the <see cref="RollingIv"/> object used for the encryption transformations.
+        /// Initializes a new instance of the <see cref="EndpointCrypto"/> class.
         /// </summary>
-        protected RollingIv Encryptor
-        {
-            get { return this.encryptor; }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="RollingIv"/> object used for the decryption transformations.
-        /// </summary>
-        protected RollingIv Decryptor
-        {
-            get { return this.decryptor; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="EndpointCrypto"/>.
-        /// </summary>
-        /// <remarks>
-        /// This constructor initalizes the <see cref="Encryptor"/> and <see cref="Decryptor"/> properties.
-        /// </remarks>
         /// <param name="encryptor">The IV used for encryption.</param>
         /// <param name="decryptor">The IV used for decryption.</param>
-        protected EndpointCrypto(RollingIv encryptor, RollingIv decryptor)
+        private EndpointCrypto(RollingIv encryptor, RollingIv decryptor)
         {
-            if (encryptor == null)
-            {
-                throw new ArgumentNullException("encryptor");
-            }
-            if (decryptor == null)
-            {
-                throw new ArgumentNullException("decryptor");
-            }
-
             this.encryptor = encryptor;
             this.decryptor = decryptor;
         }
@@ -58,7 +30,7 @@ namespace OpenStory.Cryptography
         /// </remarks>
         /// <param name="packetData">The packet data to encrypt and pack.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="packetData"/> is <c>null</c>.
+        /// Thrown if <paramref name="packetData"/> is <see langword="null"/>.
         /// </exception>
         /// <returns>an array with the encrypted packet and its header.</returns>
         public byte[] EncryptAndPack(byte[] packetData)
@@ -70,13 +42,13 @@ namespace OpenStory.Cryptography
 
             int length = packetData.Length;
             var rawData = new byte[length + 4];
-            lock (this.Encryptor)
+            lock (this.encryptor)
             {
                 byte[] header = this.ConstructHeader(length);
                 Buffer.BlockCopy(header, 0, rawData, 0, 4);
 
                 CustomCrypto.Encrypt(packetData);
-                this.Encryptor.Transform(packetData);
+                this.encryptor.Transform(packetData);
             }
 
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);
@@ -92,9 +64,9 @@ namespace OpenStory.Cryptography
         /// <param name="packet">The data to decrypt.</param>
         public void Decrypt(byte[] packet)
         {
-            lock (this.Decryptor)
+            lock (this.decryptor)
             {
-                this.Decryptor.Transform(packet);
+                this.decryptor.Transform(packet);
                 CustomCrypto.Decrypt(packet);
             }
         }
@@ -103,12 +75,12 @@ namespace OpenStory.Cryptography
         /// Attempts to unpack the packet data from the given array and decrypt it.
         /// </summary>
         /// <remarks>
-        /// This method will return <c>false</c> if and only if the header was invalid.
+        /// This method will return <see langword="false"/> if and only if the header was invalid.
         /// </remarks>
         /// <param name="rawData">The raw packet data.</param>
         /// <param name="decryptedData">A reference to hold the decrypted data.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawData"/> is <c>null</c>.</exception>
-        /// <returns><c>true</c> if the operation was successful; if the header was invalid, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawData"/> is <see langword="null"/>.</exception>
+        /// <returns><see langword="true"/> if the operation was successful; if the header was invalid, <see langword="false"/>.</returns>
         public bool TryUnpackAndDecrypt(byte[] rawData, out byte[] decryptedData)
         {
             if (rawData == null)
@@ -139,9 +111,9 @@ namespace OpenStory.Cryptography
         /// </remarks>
         /// <param name="length">The length of the packet.</param>
         /// <returns>a 4-element byte array which should be prepended to the packet data.</returns>
-        protected virtual byte[] ConstructHeader(int length)
+        private byte[] ConstructHeader(int length)
         {
-            return this.Encryptor.ConstructHeader(length);
+            return this.encryptor.ConstructHeader(length);
         }
 
         /// <summary>
@@ -153,10 +125,10 @@ namespace OpenStory.Cryptography
         /// </remarks>
         /// <param name="header">The header byte array to process.</param>
         /// <param name="length">A variable to hold the result.</param>
-        /// <returns><c>true</c> if the extraction was successful; otherwise, <c>false</c>.</returns>
-        public virtual bool TryGetLength(byte[] header, out int length)
+        /// <returns><see langword="true"/> if the extraction was successful; otherwise, <see langword="false"/>.</returns>
+        public bool TryGetLength(byte[] header, out int length)
         {
-            if (this.Decryptor.ValidateHeader(header))
+            if (this.decryptor.ValidateHeader(header))
             {
                 length = RollingIv.GetPacketLength(header);
                 return true;
@@ -166,6 +138,74 @@ namespace OpenStory.Cryptography
                 length = default(int);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="EndpointCrypto"/> class used for client-side cryptography.
+        /// </summary>
+        /// <remarks>
+        /// Encryption uses the local IV, decryption uses the remote IV. 
+        /// Server's local IV has flipped version, Client's local IV has regular version.
+        /// </remarks>
+        /// <param name="factory">The <see cref="RollingIvFactory"/> instance to use.</param>
+        /// <param name="clientIv">The IV for the client.</param>
+        /// <param name="serverIv">The IV for the server.</param>
+        /// <returns>a new <see cref="EndpointCrypto"/> instance.</returns>
+        public static EndpointCrypto Client(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            if (clientIv == null)
+            {
+                throw new ArgumentNullException("clientIv");
+            }
+
+            if (serverIv == null)
+            {
+                throw new ArgumentNullException("serverIv");
+            }
+
+            var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.None);
+            var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.Complement);
+
+            return new EndpointCrypto(encryptor, decryptor);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="EndpointCrypto"/> class used for server-side cryptography.
+        /// </summary>
+        /// <remarks>
+        /// Encryption uses the local IV, decryption uses the remote IV.
+        /// Server's local IV has flipped version, Client's local IV has regular version.
+        /// </remarks>
+        /// <param name="factory">The <see cref="RollingIvFactory"/> instance to use.</param>
+        /// <param name="clientIv">The IV for the client.</param>
+        /// <param name="serverIv">The IV for the server.</param>
+        /// <returns>a new <see cref="EndpointCrypto"/> instance.</returns>
+        public static EndpointCrypto Server(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            if (clientIv == null)
+            {
+                throw new ArgumentNullException("clientIv");
+            }
+
+            if (serverIv == null)
+            {
+                throw new ArgumentNullException("serverIv");
+            }
+
+            var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.Complement);
+            var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.None);
+
+            return new EndpointCrypto(encryptor, decryptor);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         /// <param name="accountId">The account to register.</param>
         /// <param name="sessionId">A variable to hold the session identifier.</param>
-        /// <returns><c>true</c> if registration was successful; if the session is already active, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if registration was successful; if the session is already active, <see langword="false"/>.</returns>
         [OperationContract]
         bool TryRegisterSession(int accountId, out int sessionId);
 
@@ -23,7 +23,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         /// <param name="accountId">The account identifier onto which to register a character.</param>
         /// <param name="characterId">The character identifier to register.</param>
-        /// <returns><c>true</c> if registration was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if registration was successful; otherwise, <see langword="false"/>.</returns>
         [OperationContract]
         bool TryRegisterCharacter(int accountId, int characterId);
 
@@ -31,7 +31,7 @@ namespace OpenStory.Services.Contracts
         /// Attempts to remove the specified account from the list of active accounts.
         /// </summary>
         /// <param name="accountId">The identifier of the account to unregister.</param>
-        /// <returns><c>true</c> if unregistration was successful; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if unregistration was successful; otherwise, <see langword="false"/>.</returns>
         [OperationContract]
         bool TryUnregisterSession(int accountId);
 
@@ -41,8 +41,8 @@ namespace OpenStory.Services.Contracts
         /// <param name="accountId">The identifier of the account.</param>
         /// <param name="lag">A variable to hold the lag since the last keep alive attempt.</param>
         /// <returns>
-        /// <c>true</c> if the signal was received successfully and the account was active at that time; 
-        /// <c>false</c> if the connection was broken or the account was not active.
+        /// <see langword="true"/> if the signal was received successfully and the account was active at that time; 
+        /// <see langword="false"/> if the connection was broken or the account was not active.
         /// </returns>
         [OperationContract]
         bool TryKeepAlive(int accountId, out TimeSpan lag);

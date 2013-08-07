@@ -1,9 +1,9 @@
 using System;
 using System.ServiceModel;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
-using OpenStory.Services.Registry;
 
-namespace OpenStory.Services.Management
+namespace OpenStory.Services.Registry
 {
     /// <summary>
     /// Represents a client to a game nexus service.
@@ -11,7 +11,7 @@ namespace OpenStory.Services.Management
     public sealed class RegistryServiceClient : ClientBase<IRegistryService>, IRegistryService
     {
         /// <summary>
-        /// Initialized a new instance of <see cref="RegistryServiceClient"/> with the specified endpoint address.
+        /// Initializes a new instance of the <see cref="RegistryServiceClient"/> class with the specified endpoint address.
         /// </summary>
         /// <param name="uri">The URI of the service to connect to.</param>
         public RegistryServiceClient(Uri uri)
@@ -24,21 +24,21 @@ namespace OpenStory.Services.Management
         /// <inheritdoc />
         public ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration)
         {
-            var result = ServiceOperationResult<Guid>.Of(() => base.Channel.RegisterService(configuration));
+            var result = this.Call(() => this.Channel.RegisterService(configuration));
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult UnregisterService(Guid token)
         {
-            var result = ServiceOperationResult.Of(() => base.Channel.UnregisterService(token));
+            var result = this.Call(() => this.Channel.UnregisterService(token));
             return result;
         }
 
         /// <inheritdoc />
         public ServiceOperationResult<Guid[]> GetRegistrations()
         {
-            var result = ServiceOperationResult<Guid[]>.Of(() => base.Channel.GetRegistrations());
+            var result = this.Call(() => this.Channel.GetRegistrations());
             return result;
         }
 
@@ -49,7 +49,7 @@ namespace OpenStory.Services.Management
         /// <inheritdoc />
         public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
         {
-            var result = ServiceOperationResult<ServiceConfiguration>.Of(() => base.Channel.GetServiceConfiguration(token));
+            var result = this.Call(() => this.Channel.GetServiceConfiguration(token));
             return result;
         }
 

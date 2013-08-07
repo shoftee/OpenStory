@@ -13,7 +13,7 @@ namespace OpenStory.Common.Tools
     [Localizable(true)]
     public sealed class ParameterList
     {
-        private const char QuotationMark = '\"';
+        private const char DoubleQuotationMark = '\"';
         private const string ParameterRegexPattern = @"--(?<name>[A-Za-z][A-Za-z0-9\-]*)(=(?<value>""[^""]*""))?";
 
         private const RegexOptions ParamRegexOptions =
@@ -28,16 +28,18 @@ namespace OpenStory.Common.Tools
         /// Regular Expression pattern for matching parameter key-value pairs.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// This pattern will match strings that look like:
         /// * --some-flag-name
         /// * --some-key-name="some value"
-        /// 
+        /// </para><para>
         /// General rules:
         /// * Do not put spaces in the key name.
         /// * Do not put spaces around the equals sign.
         /// * Always put values in quotation marks, even if there are no spaces in the value.
         /// * Do not put a digit as the first character of a key name. After that it's fine.
         /// * Keys are case-sensitive.
+        /// </para>
         /// </remarks>
         private static readonly Regex ParamRegex = new Regex(ParameterRegexPattern, ParamRegexOptions);
 
@@ -48,7 +50,7 @@ namespace OpenStory.Common.Tools
         /// </summary>
         /// <param name="key">The name of the parameter.</param>
         /// <returns>
-        /// the value of the parameter, <see cref="string.Empty"/> if the parameter has no value, or <c>null</c> if there is no such parameter.
+        /// the value of the parameter, <see cref="string.Empty"/> if the parameter has no value, or <see langword="null"/> if there is no such parameter.
         /// </returns>
         public string this[string key]
         {
@@ -61,7 +63,7 @@ namespace OpenStory.Common.Tools
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ParameterList"/>.
+        /// Initializes a new instance of the <see cref="ParameterList"/> class.
         /// </summary>
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
         private ParameterList(IDictionary<string, string> parameters)
@@ -93,6 +95,7 @@ namespace OpenStory.Common.Tools
                 var value = groups[2].Value;
                 parsed.Add(key, value);
             }
+
             return parsed;
         }
 
@@ -114,15 +117,15 @@ namespace OpenStory.Common.Tools
             {
                 var name = entry.Key;
                 var value = entry.Value;
-                if (String.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     const string NoValueEntry = @"--{0}";
-                    args[index] = String.Format(InvariantCulture, NoValueEntry, name);
+                    args[index] = string.Format(InvariantCulture, NoValueEntry, name);
                 }
                 else
                 {
                     const string ValueEntry = @"--{0}=""{1}""";
-                    args[index] = String.Format(InvariantCulture, ValueEntry, name, value);
+                    args[index] = string.Format(InvariantCulture, ValueEntry, name, value);
                 }
 
                 index++;
@@ -134,7 +137,20 @@ namespace OpenStory.Common.Tools
         /// <summary>
         /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
         /// </summary>
+        /// <exception cref="FormatException">Thrown if the provided parameter list has an invalid format.</exception>
         /// <returns>an instance of <see cref="ParameterList"/>.</returns>
+        public static ParameterList FromEnvironment()
+        {
+            var parameters = ParseCommandLine(Environment.CommandLine);
+            var parsed = ParseParameters(parameters);
+            return new ParameterList(parsed);
+        }
+
+        /// <summary>
+        /// Gets the parameter list from the <see cref="Environment.CommandLine"/> variable.
+        /// </summary>
+        /// <param name="error">A variable to hold any error messages.</param>
+        /// <returns>an instance of <see cref="ParameterList"/>, or <see langword="null"/> if there were errors.</returns>
         public static ParameterList FromEnvironment(out string error)
         {
             var parameters = ParseCommandLine(Environment.CommandLine);
@@ -149,26 +165,55 @@ namespace OpenStory.Common.Tools
             }
         }
 
+        private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters)
+        {
+            var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
+            foreach (var entry in parameters)
+            {
+                string name = entry.Key.Trim();
+                string value = entry.Value.Trim().Trim(DoubleQuotationMark);
+                if (parsed.ContainsKey(name))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    throw new FormatException(error);
+                }
+                else if (name.Any(char.IsWhiteSpace))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    throw new FormatException(error);
+                }
+                else if (value.Any(c => c == DoubleQuotationMark))
+                {
+                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    throw new FormatException(error);
+                }
+
+                parsed.Add(name, value);
+            }
+
+            return parsed;
+        }
+
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)
         {
             var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
             foreach (var entry in parameters)
             {
                 string name = entry.Key.Trim();
-                string value = entry.Value.Trim().Trim(QuotationMark);
+                string value = entry.Value.Trim().Trim(DoubleQuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
                     return null;
                 }
-                else if (name.Any(Char.IsWhiteSpace))
+                else if (name.Any(char.IsWhiteSpace))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
                     return null;
                 }
-                else if (value.Any(c => c == QuotationMark))
+                else if (value.Any(c => c == DoubleQuotationMark))
                 {
-                    error = String.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
                     return null;
                 }
 

@@ -21,7 +21,7 @@ The classes derived from this one can contain custom cryptographic transformatio
 
 ### `RollingIv` class
 
-This class stores the rolling IV for a session. It spends most of its time hanging out, but when it's doing work, it's checking packet headers for validity. Otherwise, it lets a `ICryptoAlgorithm` instance do most of the work.
+This class stores a rolling IV for a session. It spends most of its time hanging out, but when it's doing work, it's checking packet headers for validity. Otherwise, it lets a `ICryptoAlgorithm` instance do most of the work.
 
 ### `RollingIvFactory` class
 
@@ -31,10 +31,10 @@ This class stores a pair of `ICryptoAlgorithm` instances and a version, so they 
 
 This class does the other half of the cryptography. It uses some bit magic to encrypt and decrypt packets. IT"S MAGIC!
 
-### `EndpointCrypto`, `ServerCrypto` and `ClientCrypto` classes
+### `EndpointCrypto` class
 
-These are useful for keeping the related encryption-decryption pair of `RollingIv` instances in one place, so they can be used to more easily handle packet encryption and decryption *depending on the endpoint*.
+These are useful for keeping the related encryption-decryption pair of `RollingIv` instances in one place, so they can be used to more easily handle packet encryption and decryption depending on the endpoint. You may call the `EndpointCrypto.Server` and `EndpointCrypto.Client` methods to get the appropriate instance for your scenario.
 
 ### `IvFactories` class
 
-This class contains `RollingIvFactory` factory methods. Mostly?
+This class contains `RollingIvFactory` factory methods. Mostly. If anyone wants to add more localizations into this one, I won't mind.
