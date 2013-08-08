@@ -12,7 +12,8 @@ namespace OpenStory.Services.Registry
 
             var service = new RegistryService();
             var uri = new Uri("net.tcp://localhost/OpenStory/Registry");
-            using (var host = new ServiceHost(service, uri))
+            
+            using (var host = new ServiceHost(service))
             {
                 host.Open();
 

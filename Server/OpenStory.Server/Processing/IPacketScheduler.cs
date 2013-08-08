@@ -2,8 +2,15 @@
 
 namespace OpenStory.Server.Processing
 {
-    internal interface IPacketScheduler
+    /// <summary>
+    /// Registers sessions for scheduling their packet processing.
+    /// </summary>
+    public interface IPacketScheduler
     {
+        /// <summary>
+        /// Registers a session for processing.
+        /// </summary>
+        /// <param name="session">The session to register.</param>
         void Register(IServerSession session);
     }
 }

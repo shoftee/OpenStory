@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
-using Ninject.Extensions.Logging;
-using OpenStory.Framework.Contracts;
-using OpenStory.Server.Processing;
-using OpenStory.Services.Clients;
-using OpenStory.Services.Contracts;
+
 using ServerErrors = OpenStory.Server.Errors;
+using OpenStory.Services.Contracts;
+
+using Ninject.Extensions.Logging;
 
 namespace OpenStory.Server
 {
@@ -14,41 +13,30 @@ namespace OpenStory.Server
     /// </summary>
     public sealed class Bootstrapper
     {
-        private readonly IGameServiceFactory gameServiceFactory;
-        private readonly INexusConnectionProvider nexusConnectionProvider;
+        private readonly IGenericServiceFactory serviceFactory;
         private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bootstrapper"/> class.
         /// </summary>
-        public Bootstrapper(
-            IGameServiceFactory gameServiceFactory, 
-            INexusConnectionProvider nexusConnectionProvider,
-            ILogger logger)
+        /// <param name="serviceFactory">The service factory used to created instances for bootstrapping.</param>
+        /// <param name="logger">The logger to use.</param>
+        public Bootstrapper(IGenericServiceFactory serviceFactory, ILogger logger)
         {
-            this.gameServiceFactory = gameServiceFactory;
-            this.nexusConnectionProvider = nexusConnectionProvider;
+            this.serviceFactory = serviceFactory;
             this.logger = logger;
         }
 
         /// <summary>
         /// Starts the whole thing.
         /// </summary>
-        /// <exception cref="BootstrapException">Thrown if there are any errors during the initialization process.</exception>
         public void Start()
         {
             try
             {
-                var nexusConnectionInfo = this.nexusConnectionProvider.GetConnectionInfo();
-                var result = GetServiceConfiguration(nexusConnectionInfo);
-                var configuration = CheckOperation(result).GetResult();
-
-                var service = this.gameServiceFactory.CreateService();
-                service.Configure(configuration);
-
-                using (service)
+                using (var host = serviceFactory.CreateServiceHost())
                 {
-                    service.Start();
+                    host.Open();
                     Thread.Sleep(Timeout.Infinite);
                 }
             }
@@ -56,36 +44,6 @@ namespace OpenStory.Server
             {
                 logger.Error(exception, ServerErrors.BootstrapGenericError);
             }
-        }
-
-        private static ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(NexusConnectionInfo nexusConnectionInfo)
-        {
-            using (var client = new NexusServiceClient(nexusConnectionInfo.NexusUri))
-            {
-                var result = client.GetServiceConfiguration(nexusConnectionInfo.AccessToken);
-                return result;
-            }
-        }
-
-        private static TServiceOperationResult CheckOperation<TServiceOperationResult>(TServiceOperationResult result)
-            where TServiceOperationResult : IServiceOperationResult
-        {
-            switch (result.OperationState)
-            {
-                case OperationState.FailedLocally:
-                    var couldNotConnectMessage = string.Format(ServerErrors.BootstrapCouldNotConnectToNexus);
-                    throw new BootstrapException(couldNotConnectMessage, result.Error);
-
-                case OperationState.Refused:
-                    var requestRefusedMessage = ServerErrors.BootstrapRequestRefused;
-                    throw new BootstrapException(requestRefusedMessage);
-
-                case OperationState.FailedRemotely:
-                    var genericErrorMessage = string.Format(ServerErrors.BootstrapNexusGenericError);
-                    throw new BootstrapException(genericErrorMessage, result.Error);
-            }
-
-            return result;
         }
     }
 }

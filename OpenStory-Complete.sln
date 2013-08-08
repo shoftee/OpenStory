@@ -62,6 +62,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.TestHelpers", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Tests", "Tests\OpenStory.Server.Tests\OpenStory.Server.Tests.csproj", "{97F77F11-3081-4088-AD82-68D84BC783F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.IntegrationTests", "Tests\OpenStory.Server.IntegrationTests\OpenStory.Server.IntegrationTests.csproj", "{8FCD5C90-7AAD-47EB-9259-0E076FB303CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,10 @@ Global
 		{97F77F11-3081-4088-AD82-68D84BC783F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97F77F11-3081-4088-AD82-68D84BC783F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97F77F11-3081-4088-AD82-68D84BC783F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FCD5C90-7AAD-47EB-9259-0E076FB303CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FCD5C90-7AAD-47EB-9259-0E076FB303CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FCD5C90-7AAD-47EB-9259-0E076FB303CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FCD5C90-7AAD-47EB-9259-0E076FB303CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,5 +172,6 @@ Global
 		{5B71DCEC-0934-4B47-90CA-2B506631D39B} = {D7CA7219-9161-4959-AD10-6C2239E28F97}
 		{5CBA0518-887C-49F2-849D-2A8C3DF0D100} = {5B71DCEC-0934-4B47-90CA-2B506631D39B}
 		{97F77F11-3081-4088-AD82-68D84BC783F5} = {8DE5C167-C52F-4B05-90E7-2A39175F9BF0}
+		{8FCD5C90-7AAD-47EB-9259-0E076FB303CF} = {8DE5C167-C52F-4B05-90E7-2A39175F9BF0}
 	EndGlobalSection
 EndGlobal

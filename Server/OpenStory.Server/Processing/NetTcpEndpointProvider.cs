@@ -9,10 +9,9 @@ namespace OpenStory.Server.Processing
     {
         #region Implementation of IEndpointProvider
 
-        public ServiceEndpoint GetEndpoint<TServiceInterface>(Uri uri) 
-            where TServiceInterface : class
+        public ServiceEndpoint GetEndpoint(Type serviceType, Uri uri)
         {
-            var contract = ContractDescription.GetContract(typeof(TServiceInterface));
+            var contract = ContractDescription.GetContract(serviceType);
             var binding = new NetTcpBinding(SecurityMode.Transport);
             var address = new EndpointAddress(uri);
 

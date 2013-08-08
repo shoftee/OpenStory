@@ -12,18 +12,27 @@ namespace OpenStory.Services
     public abstract class GameServiceBase : RegisteredServiceBase, IGameService, IDisposable
     {
         private bool isDisposed;
-        private Uri serviceUri;
 
-        /// <summary>
-        /// Gets the configuration data for this service.
-        /// </summary>
-        protected ServiceConfiguration ServiceConfiguration { get; private set; }
+        private Uri serviceUri;
+        private ServiceConfiguration serviceConfiguration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServiceBase"/> class.
         /// </summary>
         protected GameServiceBase()
         {
+        }
+
+        /// <summary>
+        /// Gets the configuration data for this service.
+        /// </summary>
+        protected ServiceConfiguration ServiceConfiguration
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.serviceConfiguration;
+            }
         }
 
         /// <summary>
@@ -50,7 +59,7 @@ namespace OpenStory.Services
 
             this.OnConfiguring(configuration);
 
-            this.ServiceConfiguration = configuration;
+            this.serviceConfiguration = configuration;
         }
 
         private void ConfigureInternal(ServiceConfiguration configuration)
