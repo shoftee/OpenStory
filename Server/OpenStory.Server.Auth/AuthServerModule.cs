@@ -19,7 +19,6 @@ namespace OpenStory.Server.Auth
             Bind<IAccountSession>().To<AccountSession>();
             Bind<IAuthenticator>().To<SimpleAuthenticator>();
 
-            Bind<IServerConfigurator>().To<AuthServerConfigurator>();
             Bind<IPacketCodeTable>().To<AuthServerPackets>();
 
             Bind<IClientFactory<AuthClient>>().ToFactory();

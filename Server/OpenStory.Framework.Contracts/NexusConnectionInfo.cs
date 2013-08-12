@@ -15,19 +15,11 @@ namespace OpenStory.Framework.Contracts
         public Guid AccessToken { get; private set; }
 
         /// <summary>
-        /// Gets the URI of the Nexus service.
-        /// </summary>
-        public Uri NexusUri { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="NexusConnectionInfo"/> class.
         /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="nexusUri">The URI of the nexus service.</param>
-        public NexusConnectionInfo(Guid accessToken, Uri nexusUri)
+        public NexusConnectionInfo(Guid accessToken)
         {
             this.AccessToken = accessToken;
-            this.NexusUri = nexusUri;
         }
     }
 }

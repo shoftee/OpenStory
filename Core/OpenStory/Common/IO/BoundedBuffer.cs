@@ -200,7 +200,7 @@ namespace OpenStory.Common.IO
         {
             if (this.isDisposed)
             {
-                throw new ObjectDisposedException("stream");
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 

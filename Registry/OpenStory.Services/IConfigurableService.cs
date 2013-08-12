@@ -1,4 +1,4 @@
-﻿namespace OpenStory.Framework.Contracts
+﻿namespace OpenStory.Services
 {
     /// <summary>
     /// Provides methods for configuring a service.

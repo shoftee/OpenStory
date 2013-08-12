@@ -1,6 +1,6 @@
 using System;
 using System.ServiceModel;
-using OpenStory.Framework.Contracts;
+using System.ServiceModel.Description;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Registry
@@ -11,11 +11,18 @@ namespace OpenStory.Services.Registry
     public sealed class RegistryServiceClient : ClientBase<IRegistryService>, IRegistryService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistryServiceClient"/> class with the specified endpoint address.
+        /// Initializes a new instance of the <see cref="RegistryServiceClient"/> class.
         /// </summary>
-        /// <param name="uri">The URI of the service to connect to.</param>
-        public RegistryServiceClient(Uri uri)
-            : base(new NetTcpBinding(SecurityMode.Transport), new EndpointAddress(uri))
+        public RegistryServiceClient()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegistryServiceClient"/> class with the specified endpoint.
+        /// </summary>
+        /// <param name="serviceEndpoint">The endpoint object for the service host.</param>
+        public RegistryServiceClient(ServiceEndpoint serviceEndpoint)
+            : base(serviceEndpoint)
         {
         }
 

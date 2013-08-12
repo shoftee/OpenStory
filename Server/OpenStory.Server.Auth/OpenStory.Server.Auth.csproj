@@ -71,7 +71,6 @@
     <Compile Include="AuthClientState.cs" />
     <Compile Include="AuthConfiguration.cs" />
     <Compile Include="AuthOperator.cs" />
-    <Compile Include="AuthServerConfigurator.cs" />
     <Compile Include="AuthServerModule.cs" />
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="ActiveChannel.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Services.Contracts
 {

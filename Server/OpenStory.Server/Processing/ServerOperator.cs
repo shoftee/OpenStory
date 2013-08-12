@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using OpenStory.Framework.Contracts;
-using OpenStory.Server.Processing;
+using OpenStory.Services;
 
-namespace OpenStory.Server
+namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// A base class for <see cref="IServerOperator"/> implementations.

@@ -1,7 +1,4 @@
 using System;
-using System.Configuration;
-using System.ServiceModel;
-using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services
@@ -88,7 +85,7 @@ namespace OpenStory.Services
         {
             if (this.isDisposed)
             {
-                throw new ObjectDisposedException("GameServiceBase");
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 

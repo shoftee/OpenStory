@@ -3,6 +3,7 @@ using System.Linq;
 using OpenStory.Common.Game;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
+using OpenStory.Services;
 
 namespace OpenStory.Server.Auth
 {

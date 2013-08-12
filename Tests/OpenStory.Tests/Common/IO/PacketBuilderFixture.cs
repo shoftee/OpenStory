@@ -316,7 +316,7 @@ namespace OpenStory.Tests.Common.IO
         }
 
         [Test]
-        public void WriteZeroes_Should_Zeroes()
+        public void WriteZeroes_Should_Write_Zeroes()
         {
             var builder = new PacketBuilder();
 

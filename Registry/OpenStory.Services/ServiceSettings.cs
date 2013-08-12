@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace OpenStory.Framework.Contracts
+namespace OpenStory.Services
 {
     /// <summary>
     /// Contains definitions for service settings.

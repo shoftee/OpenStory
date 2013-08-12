@@ -4,6 +4,7 @@ using Ninject.Extensions.Logging;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
+using OpenStory.Services;
 
 namespace OpenStory.Server.Processing
 {

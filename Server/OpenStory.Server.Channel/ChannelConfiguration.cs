@@ -1,5 +1,6 @@
 using System.Net;
 using OpenStory.Framework.Contracts;
+using OpenStory.Services;
 
 namespace OpenStory.Server.Channel
 {

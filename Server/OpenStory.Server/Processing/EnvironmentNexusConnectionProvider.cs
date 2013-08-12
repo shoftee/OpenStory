@@ -10,7 +10,6 @@ namespace OpenStory.Server.Processing
     public sealed class EnvironmentNexusConnectionProvider : INexusConnectionProvider
     {
         private const string AccessTokenKey = @"AccessToken";
-        private const string NexusUriKey = @"NexusUri";
 
         /// <summary>
         /// Creates a <see cref="NexusConnectionInfo"/> object from the command-line parameter list.
@@ -24,15 +23,6 @@ namespace OpenStory.Server.Processing
 
         private static NexusConnectionInfo FromParameterList(ParameterList parameters)
         {
-            var nexusUriString = parameters[NexusUriKey];
-
-            Uri uri;
-            if (nexusUriString == null || !Uri.TryCreate(nexusUriString, UriKind.Absolute, out uri))
-            {
-                var error = String.Format(Errors.BootstrapUriParseError, NexusUriKey);
-                throw new FormatException(error);
-            }
-
             var accessTokenString = parameters[AccessTokenKey];
 
             Guid token;
@@ -42,7 +32,7 @@ namespace OpenStory.Server.Processing
                 throw new FormatException(error);
             }
 
-            var result = new NexusConnectionInfo(token, uri);
+            var result = new NexusConnectionInfo(token);
             return result;
         }
     }

@@ -68,6 +68,7 @@
     <Reference Include="System.Runtime.Serialization">
     </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Discovery" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapException.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Processing\IPacketFactory.cs" />
     <Compile Include="IvGenerator.cs" />
     <Compile Include="Processing\IPacketScheduler.cs" />
-    <Compile Include="Processing\NetTcpEndpointProvider.cs" />
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\IServerOperator.cs" />
     <Compile Include="Processing\PacketScheduler.cs" />

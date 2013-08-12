@@ -8,19 +8,16 @@ namespace OpenStory.Server.Processing
     /// </summary>
     public class GameServer : GameServiceBase
     {
-        private readonly IServerConfigurator configurator;
         private readonly IServerProcess serverProcess;
         private readonly IServerOperator serverOperator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServer"/> type.
         /// </summary>
-        /// <param name="configurator">The <see cref="IServerConfigurator"/> to use for this server.</param>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
         /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        public GameServer(IServerConfigurator configurator, IServerProcess serverProcess, IServerOperator serverOperator)
+        public GameServer(IServerProcess serverProcess, IServerOperator serverOperator)
         {
-            this.configurator = configurator;
             this.serverProcess = serverProcess;
             this.serverOperator = serverOperator;
         }
@@ -28,8 +25,6 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         protected override void OnConfiguring(ServiceConfiguration configuration)
         {
-            this.configurator.ValidateConfiguration(configuration);
-
             this.serverProcess.Configure(this.ServiceConfiguration);
             this.serverOperator.Configure(this.ServiceConfiguration);
         }

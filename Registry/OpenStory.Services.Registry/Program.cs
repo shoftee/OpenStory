@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Discovery;
 using System.Threading;
 
 namespace OpenStory.Services.Registry
@@ -12,7 +13,7 @@ namespace OpenStory.Services.Registry
 
             var service = new RegistryService();
             var uri = new Uri("net.tcp://localhost/OpenStory/Registry");
-            
+
             using (var host = new ServiceHost(service))
             {
                 host.Open();

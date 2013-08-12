@@ -1,11 +1,11 @@
 ﻿using System.Security.Cryptography;
+using System.ServiceModel.Discovery;
 using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
 using OpenStory.Services;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {
@@ -21,28 +21,32 @@ namespace OpenStory.Server
             Bind<IPlayerRegistry>().To<PlayerRegistry>();
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
-
-            Bind<IEndpointProvider>().To<NetTcpEndpointProvider>();
             Bind<INexusConnectionProvider>().To<EnvironmentNexusConnectionProvider>();
 
-            // PacketFactory requires IPacketCodeTable
+            // PacketFactory <= IPacketCodeTable
             Bind<IPacketFactory>().To<PacketFactory>();
 
-            // ServerSession requires IPacketCodeTable, ILogger
-            Bind<IServerSession>().To<ServerSession>();
-            Bind<IServerSessionFactory>().ToFactory();
-
-            // IvGenerator requires RandomNumberGenerator.
+            // DiscoveryEndpointProvider <= DiscoveryEndpoint
+            // DefaultServiceConfigurationProvider <= DiscoveryEndpointProvider
+            Bind<DiscoveryEndpoint>().To<UdpDiscoveryEndpoint>();
+            Bind<DiscoveryEndpointProvider>().ToFactory();
+            Bind<IServiceConfigurationProvider>().To<DefaultServiceConfigurationProvider>();
+            
+            // IvGenerator <= RandomNumberGenerator.
             Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
             Bind<IvGenerator>().ToSelf();
-            
-            // ServerProcess requires IServerSessionFactory, IvGenerator, ILogger
+
+            // ServerSession <= IPacketCodeTable, ILogger
+            // IServerSessionFactory <= IServerSession
+            // ServerProcess <= IServerSessionFactory, IvGenerator, ILogger
+            Bind<IServerSession>().To<ServerSession>();
+            Bind<IServerSessionFactory>().ToFactory();
             Bind<IServerProcess>().To<ServerProcess>();
 
-            // GameServer requires IServerConfigurator, IServerProcess, IServerOperator
+            // GameServer <= IServerProcess, IServerOperator
             Bind<GameServiceBase>().To<GameServer>();
 
-            // Bootstrapper requires IGenericServiceFactory, ILogger.
+            // Bootstrapper <= IGenericServiceFactory, ILogger.
             Bind<Bootstrapper>().ToSelf().InSingletonScope();
         }
     }

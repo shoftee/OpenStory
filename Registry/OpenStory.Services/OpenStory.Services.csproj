@@ -42,6 +42,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel">
     </Reference>
+    <Reference Include="System.ServiceModel.Discovery" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\AccountServiceClient.cs" />
@@ -61,29 +62,26 @@
     <Compile Include="Contracts\IWorldService.cs" />
     <Compile Include="Clients\NexusServiceClient.cs" />
     <Compile Include="Contracts\OperationState.cs" />
-    <Compile Include="Contracts\ServiceExtensions.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
     <Compile Include="GameServiceBase.cs" />
     <Compile Include="Contracts\IGenericServiceFactory.cs" />
+    <Compile Include="IConfigurableService.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clients\WorldServiceClient.cs" />
     <Compile Include="Registry\IRegistryService.cs" />
     <Compile Include="Registry\RegisteredServiceClient.cs" />
     <Compile Include="Registry\RegistryServiceClient.cs" />
+    <Compile Include="ServiceConfiguration.cs" />
     <Compile Include="ServiceConfigurationException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceExtensions.ServiceOperationResult.cs" />
+    <Compile Include="ServiceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ServiceOperationResult.Generic.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Server\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
-      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
-      <Name>OpenStory.Framework.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

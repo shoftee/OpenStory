@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace OpenStory.Framework.Contracts
+namespace OpenStory.Services
 {
     /// <summary>
     /// Represents a configuration for a game service.

@@ -37,3 +37,4 @@ Database/*
 *.pidb
 *.userprefs
 *.ncrunchsolution
+**/test-results/*

@@ -1,5 +1,6 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.ServiceModel.Discovery;
 
 namespace OpenStory.Services.Clients
 {

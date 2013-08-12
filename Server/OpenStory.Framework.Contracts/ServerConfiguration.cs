@@ -1,5 +1,6 @@
 using System.Net;
 using System.Runtime.Serialization;
+using OpenStory.Services;
 
 namespace OpenStory.Framework.Contracts
 {

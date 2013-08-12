@@ -1,6 +1,5 @@
 using System;
 using System.ServiceModel;
-using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Registry

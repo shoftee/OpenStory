@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.ServiceModel.Discovery;
 using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
@@ -10,6 +11,7 @@ using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.IntegrationTests
 {
@@ -23,7 +25,9 @@ namespace OpenStory.Server.IntegrationTests
                 typeof(IPlayerRegistry),
                 typeof(ILocationRegistry),
                 typeof(IPacketScheduler),
-                typeof(IEndpointProvider),
+                typeof(DiscoveryEndpoint),
+                typeof(DiscoveryEndpointProvider),
+                typeof(IServiceConfigurationProvider),
                 typeof(INexusConnectionProvider),
                 typeof(IPacketFactory),
                 typeof(IServerSession),

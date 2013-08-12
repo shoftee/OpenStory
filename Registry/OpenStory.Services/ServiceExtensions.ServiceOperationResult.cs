@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ServiceModel;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Contracts
+namespace OpenStory.Services
 {
     /// <summary>
     /// Contains extensions methods for WCF functionality.
     /// </summary>
-    public static class ServiceExtensions
+    public static partial class ServiceExtensions
     {
         /// <summary>
         /// Calls a remote method and handles operation errors.
@@ -23,30 +24,34 @@ namespace OpenStory.Services.Contracts
             this ClientBase<TChannel> client, Func<ServiceOperationResult<TResult>> func)
             where TChannel : class
         {
+            bool success = false;
+
             ServiceOperationResult<TResult> result;
             try
             {
                 result = func().ToLocal();
+                success = true;
             }
             catch (EndpointNotFoundException unreachable)
             {
-                client.Abort();
                 result = LocalFailure<TResult>(unreachable);
             }
             catch (TimeoutException timeout)
             {
-                client.Abort();
                 result = LocalFailure<TResult>(timeout);
             }
             catch (AddressAccessDeniedException accessDenied)
             {
-                client.Abort();
                 result = new ServiceOperationResult<TResult>(default(TResult), OperationState.Refused, accessDenied, ServiceState.Unknown);
             }
             catch (CommunicationException communicationException)
             {
-                client.Abort();
                 result = RemoteFailure<TResult>(communicationException);
+            }
+
+            if (!success)
+            {
+                client.Abort();                
             }
 
             return result;
