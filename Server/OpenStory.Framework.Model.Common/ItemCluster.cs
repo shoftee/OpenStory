@@ -84,7 +84,7 @@ namespace OpenStory.Framework.Model.Common
             // we could go with just identity check.
             if (!this.Prototype.Equals(other.Prototype))
             {
-                throw new ArgumentException(Exceptions.DifferentItemClusterPrototype, "other");
+                throw new ArgumentException(ModelStrings.DifferentItemClusterPrototype, "other");
             }
 
             int freeSpace = this.ClusterCapacity - this.Quantity;

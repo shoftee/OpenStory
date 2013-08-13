@@ -124,7 +124,7 @@ namespace OpenStory.Server.Processing
         {
             if (!this.IsRunning)
             {
-                throw new InvalidOperationException(Framework.Model.Common.Exceptions.ServerNotRunning);
+                throw new InvalidOperationException(ServerStrings.ServerNotRunning);
             }
         }
 
@@ -138,7 +138,7 @@ namespace OpenStory.Server.Processing
         {
             if (this.IsRunning)
             {
-                throw new InvalidOperationException(Framework.Model.Common.Exceptions.ServerAlreadyRunning);
+                throw new InvalidOperationException(ServerStrings.ServerAlreadyRunning);
             }
         }
 

@@ -33,7 +33,7 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", capacity, Exceptions.CapacityMustBePositive);
+                throw new ArgumentOutOfRangeException("capacity", capacity, CommonStrings.CapacityMustBePositive);
             }
 
             this.Bits = new BitArray(capacity);

@@ -174,17 +174,17 @@ namespace OpenStory.Common.Tools
                 string value = entry.Value.Trim().Trim(DoubleQuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    var error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    var error = string.Format(CommonStrings.DuplicateParameterNamesError, name);
                     throw new FormatException(error);
                 }
                 else if (name.Any(char.IsWhiteSpace))
                 {
-                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    var error = string.Format(CommonStrings.NoWhiteSpaceInParameterNameError, name);
                     throw new FormatException(error);
                 }
                 else if (value.Any(c => c == DoubleQuotationMark))
                 {
-                    var error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    var error = string.Format(CommonStrings.NoQuotationMarksInParameterValueError, value);
                     throw new FormatException(error);
                 }
 
@@ -203,17 +203,17 @@ namespace OpenStory.Common.Tools
                 string value = entry.Value.Trim().Trim(DoubleQuotationMark);
                 if (parsed.ContainsKey(name))
                 {
-                    error = string.Format(CultureInfo.CurrentCulture, Errors.DuplicateParameterNames, name);
+                    error = string.Format(CommonStrings.DuplicateParameterNamesError, name);
                     return null;
                 }
                 else if (name.Any(char.IsWhiteSpace))
                 {
-                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoWhiteSpaceInParameterName, name);
+                    error = string.Format(CommonStrings.NoWhiteSpaceInParameterNameError, name);
                     return null;
                 }
                 else if (value.Any(c => c == DoubleQuotationMark))
                 {
-                    error = string.Format(CultureInfo.CurrentCulture, Errors.NoQuotationMarksInParameterValue, value);
+                    error = string.Format(CommonStrings.NoQuotationMarksInParameterValueError, value);
                     return null;
                 }
 

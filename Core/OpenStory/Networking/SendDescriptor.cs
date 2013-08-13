@@ -47,7 +47,7 @@ namespace OpenStory.Networking
         {
             if (!this.Container.IsActive)
             {
-                throw new InvalidOperationException(Exceptions.SessionIsNotActive);
+                throw new InvalidOperationException(CommonStrings.SessionIsNotActive);
             }
 
             if (data == null)

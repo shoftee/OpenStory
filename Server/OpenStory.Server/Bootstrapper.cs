@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 
-using ServerErrors = OpenStory.Server.Errors;
 using OpenStory.Services.Contracts;
 
 using Ninject.Extensions.Logging;
@@ -42,7 +41,7 @@ namespace OpenStory.Server
             }
             catch (Exception exception)
             {
-                logger.Error(exception, ServerErrors.BootstrapGenericError);
+                logger.Error(exception, ServerStrings.BootstrapGenericError);
             }
         }
     }

@@ -46,7 +46,7 @@ namespace OpenStory.Common.IO
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
             if (offset > buffer.Length || offset + count > buffer.Length)

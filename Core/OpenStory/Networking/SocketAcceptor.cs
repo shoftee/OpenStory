@@ -65,7 +65,7 @@ namespace OpenStory.Networking
         {
             if (this.SocketAccepted == null)
             {
-                throw new InvalidOperationException(Exceptions.AcceptEventHasNoSubscribers);
+                throw new InvalidOperationException(CommonStrings.AcceptEventHasNoSubscribers);
             }
 
             this.acceptSocket = this.GetAcceptSocket();

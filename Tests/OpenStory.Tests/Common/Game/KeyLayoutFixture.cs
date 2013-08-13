@@ -47,7 +47,7 @@ namespace OpenStory.Tests.Common.Game
         {
             Action construction = () => new KeyLayout(DummyBindingListIncorrect);
             construction.ShouldThrow<ArgumentException>()
-                        .WithMessage(string.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount));
+                        .WithMessage(string.Format(CommonStrings.WrongKeyBindingCount, GameConstants.KeyCount));
         }
 
         [Test]

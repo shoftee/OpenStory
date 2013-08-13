@@ -3,7 +3,6 @@ using System.ServiceModel.Discovery;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services;
 using OpenStory.Services.Contracts;
-using ServerErrors = OpenStory.Server.Errors;
 
 namespace OpenStory.Server
 {

@@ -7,7 +7,6 @@ using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
-using CommonExceptions = OpenStory.Framework.Model.Common.Exceptions;
 
 namespace OpenStory.Server.Processing
 {
@@ -113,7 +112,7 @@ namespace OpenStory.Server.Processing
         {
             if (this.PacketProcessing == null)
             {
-                throw new InvalidOperationException(CommonExceptions.PacketProcessingEventHasNoSubscriber);
+                throw new InvalidOperationException(ServerStrings.PacketProcessingEventHasNoSubscriber);
             }
 
             // CompareExchange returns the original value, hence:

@@ -23,7 +23,7 @@ namespace OpenStory.Tests.Common.Tools
         {
             @"1".Invoking(s => s.ToByte())
                .ShouldThrow<ArgumentException>()
-               .WithMessage(Exceptions.StringLengthMustBeEven, ComparisonMode.Substring);
+               .WithMessage(CommonStrings.StringLengthMustBeEven, ComparisonMode.Substring);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace OpenStory.Tests.Common.Tools
         {
             invalidHex.Invoking(s => s.ToByte())
                       .ShouldThrow<ArgumentException>()
-                      .WithMessage(Exceptions.StringMustContainOnlyHexDigits, ComparisonMode.Substring);
+                      .WithMessage(CommonStrings.StringMustContainOnlyHexDigits, ComparisonMode.Substring);
         }
 
         [Test]

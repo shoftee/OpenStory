@@ -206,22 +206,22 @@ namespace OpenStory.Common.IO
 
         private static ArgumentOutOfRangeException GetCapacityIsNonPositiveException(int capacity)
         {
-            return new ArgumentOutOfRangeException("capacity", capacity, Exceptions.CapacityMustBePositive);
+            return new ArgumentOutOfRangeException("capacity", capacity, CommonStrings.CapacityMustBePositive);
         }
 
         private static ArgumentOutOfRangeException GetNewCapacityIsNegativeException(int newCapacity)
         {
-            return new ArgumentOutOfRangeException("newCapacity", newCapacity, Exceptions.CapacityMustBeNonNegative);
+            return new ArgumentOutOfRangeException("newCapacity", newCapacity, CommonStrings.CapacityMustBeNonNegative);
         }
 
         private static ArgumentOutOfRangeException GetCountIsNonPositiveException(int count)
         {
-            return new ArgumentOutOfRangeException("count", count, Exceptions.CountMustBePositive);
+            return new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBePositive);
         }
 
         private static ArgumentOutOfRangeException GetOffsetIsNegativeException(int offset)
         {
-            return new ArgumentOutOfRangeException("offset", offset, Exceptions.OffsetMustBeNonNegative);
+            return new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
         }
 
         #endregion

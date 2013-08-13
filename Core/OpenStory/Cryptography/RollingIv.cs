@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
@@ -40,7 +39,7 @@ namespace OpenStory.Cryptography
 
             if (initialIv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "initialIv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "initialIv");
             }
 
             this.algorithm = algorithm;
@@ -79,7 +78,7 @@ namespace OpenStory.Cryptography
         {
             if (length < 2)
             {
-                throw new ArgumentOutOfRangeException("length", length, Exceptions.PacketLengthMustBeMoreThan2Bytes);
+                throw new ArgumentOutOfRangeException("length", length, CommonStrings.PacketLengthMustBeMoreThan2Bytes);
             }
 
             int encodedVersion = ((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask;
@@ -117,7 +116,7 @@ namespace OpenStory.Cryptography
 
             if (header.Length < 4)
             {
-                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CommonStrings.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -138,7 +137,7 @@ namespace OpenStory.Cryptography
 
             if (header.Length < 4)
             {
-                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CommonStrings.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -170,7 +169,7 @@ namespace OpenStory.Cryptography
 
             if (header.Length < 4)
             {
-                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CommonStrings.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -209,7 +208,7 @@ namespace OpenStory.Cryptography
 
             if (header.Length < 4)
             {
-                var message = string.Format(CultureInfo.CurrentCulture, Exceptions.SegmentTooShort, 4);
+                var message = string.Format(CommonStrings.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
             }
 
@@ -220,7 +219,7 @@ namespace OpenStory.Cryptography
 
             if (iv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
             }
 
             return GetVersionInternal(header, iv);
@@ -240,9 +239,5 @@ namespace OpenStory.Cryptography
 
             return (ushort)(encodedVersion ^ xorSegment);
         }
-
-        #region Exception methods
-
-        #endregion
     }
 }

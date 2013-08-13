@@ -22,14 +22,14 @@ namespace OpenStory.Server {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Errors {
+    public class ServerStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Errors() {
+        internal ServerStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace OpenStory.Server {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Server.Errors", typeof(Errors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Server.ServerStrings", typeof(ServerStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -147,6 +147,33 @@ namespace OpenStory.Server {
         public static string ChannelIdMustBeNonNegative {
             get {
                 return ResourceManager.GetString("ChannelIdMustBeNonNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The packet processing event must have a subscriber..
+        /// </summary>
+        public static string PacketProcessingEventHasNoSubscriber {
+            get {
+                return ResourceManager.GetString("PacketProcessingEventHasNoSubscriber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server is already running..
+        /// </summary>
+        public static string ServerAlreadyRunning {
+            get {
+                return ResourceManager.GetString("ServerAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server is not running. Start it before using it..
+        /// </summary>
+        public static string ServerNotRunning {
+            get {
+                return ResourceManager.GetString("ServerNotRunning", resourceCulture);
             }
         }
     }

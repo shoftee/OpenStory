@@ -51,12 +51,12 @@ namespace OpenStory.Cryptography
 
             if (table.Length != 256)
             {
-                throw new ArgumentException(Exceptions.ShuffleTableMustBe256Bytes, "table");
+                throw new ArgumentException(CommonStrings.ShuffleTableMustBe256Bytes, "table");
             }
 
             if (initialIv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "initialIv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "initialIv");
             }
 
             this.table = table.FastClone();
@@ -73,7 +73,7 @@ namespace OpenStory.Cryptography
 
             if (iv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
             }
 
             byte[] shuffled = this.initialValue.FastClone();
@@ -102,7 +102,7 @@ namespace OpenStory.Cryptography
 
             if (shuffled.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "shuffled");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "shuffled");
             }
 
             byte tableInput = this.table[ivInput];
@@ -141,7 +141,7 @@ namespace OpenStory.Cryptography
             }
             else if (iv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes);
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes);
             }
 
             var copy = data.FastClone();

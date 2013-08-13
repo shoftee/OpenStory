@@ -96,7 +96,7 @@ namespace OpenStory.Common.IO
 
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, Exceptions.CountMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBeNonNegative);
             }
 
             for (int i = 0; i < count; i++)
@@ -159,12 +159,12 @@ namespace OpenStory.Common.IO
 
             if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, Exceptions.PaddingLengthMustBePositive);
+                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
             if (@string.Length > paddingLength - 1)
             {
-                throw new ArgumentException(Exceptions.StringMustBeShorterThanPaddingLength);
+                throw new ArgumentException(CommonStrings.StringMustBeShorterThanPaddingLength);
             }
 
             var stringBytes = new byte[paddingLength];

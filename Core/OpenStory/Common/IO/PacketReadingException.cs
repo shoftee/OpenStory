@@ -34,7 +34,7 @@ namespace OpenStory.Common.IO
         /// </summary>
         public static PacketReadingException EndOfStream()
         {
-            return new PacketReadingException(Exceptions.EndOfStreamReached);
+            return new PacketReadingException(CommonStrings.EndOfStreamReached);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using OpenStory.Framework.Model.Common;
 
 namespace OpenStory.Server.Registry
 {
@@ -30,12 +31,12 @@ namespace OpenStory.Server.Registry
         {
             if (channelId < 0)
             {
-                throw new ArgumentOutOfRangeException("channelId", channelId, Framework.Model.Common.Exceptions.ChannelIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("channelId", channelId, ModelStrings.ChannelIdMustBeNonNegative);
             }
 
             if (mapId < 0)
             {
-                throw new ArgumentOutOfRangeException("mapId", mapId, Framework.Model.Common.Exceptions.MapIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("mapId", mapId, ModelStrings.MapIdMustBeNonNegative);
             }
 
             this.ChannelId = channelId;

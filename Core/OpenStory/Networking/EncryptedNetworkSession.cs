@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Net;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Common.Tools;
@@ -217,7 +216,7 @@ namespace OpenStory.Networking
         {
             if (this.PacketReceived == null)
             {
-                throw new InvalidOperationException(Exceptions.ReceiveEventHasNoSubscribers);
+                throw new InvalidOperationException(CommonStrings.ReceiveEventHasNoSubscribers);
             }
         }
 

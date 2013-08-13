@@ -46,8 +46,8 @@
     <Compile Include="Character.cs" />
     <Compile Include="CharacterExtensionComparer.cs" />
     <Compile Include="CharacterKey.cs" />
-    <Compile Include="Exceptions.Designer.cs">
-      <DependentUpon>Exceptions.resx</DependentUpon>
+    <Compile Include="ModelStrings.Designer.cs">
+      <DependentUpon>ModelStrings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -66,9 +66,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Exceptions.resx">
+    <EmbeddedResource Include="ModelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

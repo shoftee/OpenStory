@@ -118,7 +118,7 @@ namespace OpenStory.Networking
         {
             if (this.Socket != null)
             {
-                throw new InvalidOperationException(Exceptions.SessionSocketAlreadyAttached);
+                throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
 
             if (socket == null)
@@ -144,12 +144,12 @@ namespace OpenStory.Networking
         {
             if (this.Socket == null)
             {
-                throw new InvalidOperationException(Exceptions.NoSocketAttached);
+                throw new InvalidOperationException(CommonStrings.NoSocketAttached);
             }
 
             if (this.isActive.CompareExchange(comparand: false, newValue: true))
             {
-                throw new InvalidOperationException(Exceptions.SessionAlreadyActive);
+                throw new InvalidOperationException(CommonStrings.SessionAlreadyActive);
             }
 
             this.receiveDescriptor.StartReceive();

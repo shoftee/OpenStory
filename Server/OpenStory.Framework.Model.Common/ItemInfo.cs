@@ -31,7 +31,7 @@ namespace OpenStory.Framework.Model.Common
         {
             if (itemId <= 0)
             {
-                throw new ArgumentOutOfRangeException("itemId", itemId, Exceptions.ItemIdMustBePositive);
+                throw new ArgumentOutOfRangeException("itemId", itemId, ModelStrings.ItemIdMustBePositive);
             }
 
             this.ItemId = itemId;

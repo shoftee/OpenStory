@@ -32,7 +32,7 @@ namespace OpenStory.Cryptography
 
             if (iv.Length != 4)
             {
-                throw new ArgumentException(Exceptions.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
             }
 
             // Thanks to Diamondo25 for this.

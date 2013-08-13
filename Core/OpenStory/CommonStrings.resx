@@ -185,9 +185,6 @@
     <value>The provided string must consist only of hexadecimal digits.</value>
     <comment>Thrown when a string argument contains characters that are not hexadecimal digits.</comment>
   </data>
-  <data name="DuplicateParameterNames" xml:space="preserve">
-    <value>'{0}' : Parameter name duplicate after trimming white-space.</value>
-  </data>
   <data name="AesKeyMustBe32Bytes" xml:space="preserve">
     <value>The provided key array consist of exactly 32 bytes.</value>
     <comment>Thrown when the an AES key array is not 32 bytes long.</comment>
@@ -204,30 +201,39 @@
     <value>The segment must have at least {0} elements.</value>
     <comment>Thrown when a segment does not have enough elements.</comment>
   </data>
-  <data name="PacketLengthMustBeMoreThan2Bytes">
-    <value xml:space="preserve">The packet length must be a number larger than 2.</value>
+  <data name="PacketLengthMustBeMoreThan2Bytes" xml:space="preserve">
+    <value>The packet length must be a number larger than 2.</value>
     <comment>Thrown when a packet length less than 2 when constructing a header for the packet.</comment>
   </data>
-  <data name="ReceiveEventHasNoSubscribers">
-    <value xml:space="preserve">The receive event has no subscribers.</value>
+  <data name="ReceiveEventHasNoSubscribers" xml:space="preserve">
+    <value>The receive event has no subscribers.</value>
   </data>
-  <data name="NoSocketAttached">
-    <value xml:space="preserve">This instance does not have a socket attached to it.
+  <data name="NoSocketAttached" xml:space="preserve">
+    <value>This instance does not have a socket attached to it.
 Please attach one before starting it.</value>
   </data>
-  <data name="SessionAlreadyActive">
-    <value xml:space="preserve">This session is already active.</value>
+  <data name="SessionAlreadyActive" xml:space="preserve">
+    <value>This session is already active.</value>
   </data>
-  <data name="EventMustHaveOnlyOneSubscriber">
-    <value xml:space="preserve">The event cannot have more than one subscriber.</value>
+  <data name="EventMustHaveOnlyOneSubscriber" xml:space="preserve">
+    <value>The event cannot have more than one subscriber.</value>
   </data>
-  <data name="SessionIsNotActive">
-    <value xml:space="preserve">The network session is not open.</value>
+  <data name="SessionIsNotActive" xml:space="preserve">
+    <value>The network session is not open.</value>
   </data>
-  <data name="AcceptEventHasNoSubscribers">
-    <value xml:space="preserve">The accept event has no subscribers.</value>
+  <data name="AcceptEventHasNoSubscribers" xml:space="preserve">
+    <value>The accept event has no subscribers.</value>
   </data>
-  <data name="SessionSocketAlreadyAttached">
-    <value xml:space="preserve">The session already has a socket attached to it.</value>
+  <data name="SessionSocketAlreadyAttached" xml:space="preserve">
+    <value>The session already has a socket attached to it.</value>
+  </data>
+  <data name="DuplicateParameterNamesError" xml:space="preserve">
+    <value>'{0}' : Parameter name duplicate after trimming white-space.</value>
+  </data>
+  <data name="NoQuotationMarksInParameterValueError" xml:space="preserve">
+    <value>'{0}' : Parameter values cannot contain quotation marks.</value>
+  </data>
+  <data name="NoWhiteSpaceInParameterNameError" xml:space="preserve">
+    <value>'{0}' : Parameter names cannot contain white-space characters.</value>
   </data>
 </root>

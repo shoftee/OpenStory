@@ -35,7 +35,7 @@ namespace OpenStory.Networking
             {
                 if (this.DataArrivedInternal != null)
                 {
-                    throw new InvalidOperationException(Exceptions.EventMustHaveOnlyOneSubscriber);
+                    throw new InvalidOperationException(CommonStrings.EventMustHaveOnlyOneSubscriber);
                 }
 
                 this.DataArrivedInternal += value;
@@ -98,7 +98,7 @@ namespace OpenStory.Networking
         {
             if (this.DataArrivedInternal == null)
             {
-                throw new InvalidOperationException(Exceptions.ReceiveEventHasNoSubscribers);
+                throw new InvalidOperationException(CommonStrings.ReceiveEventHasNoSubscribers);
             }
 
             this.SetFreshBuffer();

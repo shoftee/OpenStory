@@ -49,7 +49,7 @@ namespace OpenStory.Cryptography
 
             if (key.Length != 32)
             {
-                throw new ArgumentException(Exceptions.AesKeyMustBe32Bytes, "key");
+                throw new ArgumentException(CommonStrings.AesKeyMustBe32Bytes, "key");
             }
 
             this.key = key.FastClone();

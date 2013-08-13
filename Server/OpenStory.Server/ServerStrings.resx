@@ -117,43 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DifferentItemClusterPrototype">
-    <value xml:space="preserve">The provided item cluster has a different prototype.</value>
+  <data name="BootstrapConfigurationError" xml:space="preserve">
+    <value>Configuration error: {0}</value>
   </data>
-  <data name="CannotExpandBeyondMaxCapacity">
-    <value xml:space="preserve">You cannot expand this container beyond its max capacity.</value>
+  <data name="BootstrapConnectionError" xml:space="preserve">
+    <value>Nexus connection error: {0}</value>
   </data>
-  <data name="ItemIdMustBePositive">
-    <value xml:space="preserve">The item identifier must be a positive integer.</value>
+  <data name="BootstrapCouldNotConnectToNexus" xml:space="preserve">
+    <value>Could not connect to the Nexus service.</value>
   </data>
-  <data name="ModuleNotInitialized">
-    <value xml:space="preserve">The module has not been initialized yet.</value>
+  <data name="BootstrapGenericError" xml:space="preserve">
+    <value>There was an error during the bootstrapping process.</value>
   </data>
-  <data name="CannotChangeInitializedModule">
-    <value xml:space="preserve">You cannot change this module because it has been initialized.</value>
+  <data name="BootstrapHostingError" xml:space="preserve">
+    <value>Service hosting error: {0}</value>
   </data>
-  <data name="ObjectNotAssignableToType">
-    <value xml:space="preserve">The provided object instance must be assignable to the type '{0}'</value>
+  <data name="BootstrapNexusGenericError" xml:space="preserve">
+    <value>The Nexus service encountered a problem when processing your request.</value>
   </data>
-  <data name="UnknownComponentName">
-    <value xml:space="preserve">The provided name must be the that of a required or allowed component.</value>
+  <data name="BootstrapRequestRefused" xml:space="preserve">
+    <value>The Nexus service refused the request. Are you sure your token is authorized?</value>
   </data>
-  <data name="PacketProcessingEventHasNoSubscriber">
-    <value xml:space="preserve">The packet processing event must have a subscriber.</value>
+  <data name="BootstrapTokenParseError" xml:space="preserve">
+    <value>Could not parse nexus access token. Make sure you've entered a valid GUID value under the parameter '{0}' (case-sensitive).</value>
   </data>
-  <data name="ChannelIdMustBeNonNegative">
-    <value xml:space="preserve">The channel identifier must be a non-negative integer.</value>
+  <data name="BootstrapUriParseError" xml:space="preserve">
+    <value>Could not parse nexus URI string. Make sure you've entered a valid service URI under the parameter '{0}' (case-sensitive).</value>
   </data>
-  <data name="MapIdMustBeNonNegative">
-    <value xml:space="preserve">The map identifier must be a non-negative integer.</value>
+  <data name="ChannelIdMustBeNonNegative" xml:space="preserve">
+    <value>The channel identifier must be a non-negative integer.</value>
   </data>
-  <data name="UnknownPacketLabel">
-    <value xml:space="preserve">The provided label does not correspond to a known packet.</value>
+  <data name="PacketProcessingEventHasNoSubscriber" xml:space="preserve">
+    <value>The packet processing event must have a subscriber.</value>
   </data>
-  <data name="ServerNotRunning">
-    <value xml:space="preserve">The server is not running. Start it before using it.</value>
+  <data name="ServerAlreadyRunning" xml:space="preserve">
+    <value>The server is already running.</value>
   </data>
-  <data name="ServerAlreadyRunning">
-    <value xml:space="preserve">The server is already running.</value>
+  <data name="ServerNotRunning" xml:space="preserve">
+    <value>The server is not running. Start it before using it.</value>
   </data>
 </root>

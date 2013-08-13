@@ -46,7 +46,7 @@ namespace OpenStory.Common.Game
 
             if (bindings.Count != GameConstants.KeyCount)
             {
-                var message = string.Format(Exceptions.WrongKeyBindingCount, GameConstants.KeyCount);
+                var message = string.Format(CommonStrings.WrongKeyBindingCount, GameConstants.KeyCount);
                 throw new ArgumentException(message);
             }
 
@@ -88,7 +88,7 @@ namespace OpenStory.Common.Game
         {
             if (GameConstants.KeyCount <= keyId)
             {
-                throw new ArgumentOutOfRangeException("keyId", keyId, Exceptions.InvalidKeyIdentifier);
+                throw new ArgumentOutOfRangeException("keyId", keyId, CommonStrings.InvalidKeyIdentifier);
             }
         }
     }

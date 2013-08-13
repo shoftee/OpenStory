@@ -81,7 +81,7 @@ namespace OpenStory.Common.Game
         {
             if (a.X == short.MinValue || a.Y == short.MinValue)
             {
-                throw new ArgumentException(Exceptions.PointComponentsMustBeLargerThanMinValue, "a");
+                throw new ArgumentException(CommonStrings.PointComponentsMustBeLargerThanMinValue, "a");
             }
 
             return new PointS((short)(-a.X), (short)(-a.Y));

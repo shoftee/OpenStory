@@ -26,9 +26,9 @@ namespace OpenStory.Server.Processing
             var accessTokenString = parameters[AccessTokenKey];
 
             Guid token;
-            if (accessTokenString == null || !Guid.TryParse(accessTokenString, out token))
+            if (!Guid.TryParse(accessTokenString, out token))
             {
-                var error = String.Format(Errors.BootstrapTokenParseError, AccessTokenKey);
+                var error = String.Format(ServerStrings.BootstrapTokenParseError, AccessTokenKey);
                 throw new FormatException(error);
             }
 
