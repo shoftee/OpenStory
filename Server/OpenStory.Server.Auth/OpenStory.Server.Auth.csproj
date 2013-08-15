@@ -75,6 +75,7 @@
     <Compile Include="AuthServerPackets.cs" />
     <Compile Include="ActiveChannel.cs" />
     <Compile Include="AuthService.cs" />
+    <Compile Include="AuthServiceFactory.cs" />
     <Compile Include="IAuthServer.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="IAuthenticator.cs" />

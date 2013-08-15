@@ -11,6 +11,8 @@ namespace OpenStory.Server.Processing
     public abstract class ServerOperator<TClient> : IServerOperator
         where TClient : ClientBase
     {
+        private readonly IClientFactory<TClient> clientFactory;
+
         /// <summary>
         /// Gets the list of registered clients.
         /// </summary>
@@ -19,9 +21,10 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Initializes a new instance of <see cref="ServerOperator{TClient}"/>.
         /// </summary>
-        protected ServerOperator()
+        protected ServerOperator(IClientFactory<TClient> clientFactory)
         {
             this.Clients = new List<TClient>();
+            this.clientFactory = clientFactory;
         }
 
         /// <inheritdoc />
@@ -30,15 +33,8 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
         {
-            var client = this.CreateClient(session);
+            var client = this.clientFactory.CreateClient(session);
             this.Clients.Add(client);
         }
-
-        /// <summary>
-        /// Creates a client of type <typeparamref name="TClient"/>.
-        /// </summary>
-        /// <param name="session">The session to create a client for.</param>
-        /// <returns>the constructed client for the session.</returns>
-        protected abstract TClient CreateClient(IServerSession session);
     }
 }
