@@ -34,6 +34,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject.Extensions.Logging">
+      <HintPath>..\OpenStory.Server\bin\Debug\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -41,16 +44,13 @@
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultServiceConfigurationProvider.cs" />
-    <Compile Include="DomainConfig.cs" />
     <Compile Include="IAccountProvider.cs" />
     <Compile Include="IBanProvider.cs" />
-    <Compile Include="IConfigDataProvider.cs" />
     <Compile Include="INexusConnectionProvider.cs" />
     <Compile Include="IServerProcess.cs" />
     <Compile Include="IServerSession.cs" />

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using OpenStory.Server.Auth;
+using log4net.Config;
 using Ninject;
-using OpenStory.Server;
-using OpenStory.Server.Auth;
 
 namespace OpenStory.Services.Auth
 {
@@ -10,6 +8,7 @@ namespace OpenStory.Services.Auth
     {
         private static void Main()
         {
+            XmlConfigurator.Configure();
             var bootstrapper = Initialize();
             bootstrapper.Start();
         }
