@@ -1,12 +1,10 @@
 using System;
-using System.ComponentModel;
 
 namespace OpenStory.Framework.Contracts
 {
     /// <summary>
     /// Represents connection information for a nexus service.
     /// </summary>
-    [Localizable(true)]
     public sealed class NexusConnectionInfo
     {
         /// <summary>

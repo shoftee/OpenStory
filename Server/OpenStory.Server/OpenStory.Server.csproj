@@ -71,8 +71,6 @@
     <Reference Include="System.ServiceModel.Discovery" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootstrapException.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Processing\IClientFactory.cs" />
     <Compile Include="Processing\ClientBase.cs" />
     <Compile Include="IllegalPacketException.cs" />

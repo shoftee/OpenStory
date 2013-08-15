@@ -1,11 +1,10 @@
-﻿using System;
+using System;
+using System.ServiceModel;
 using System.Threading;
-
+using Ninject.Extensions.Logging;
 using OpenStory.Services.Contracts;
 
-using Ninject.Extensions.Logging;
-
-namespace OpenStory.Server
+namespace OpenStory.Services
 {
     /// <summary>
     /// Bootstrapper.
@@ -31,17 +30,36 @@ namespace OpenStory.Server
         /// </summary>
         public void Start()
         {
+            ServiceHost host = null;
             try
             {
-                using (var host = serviceFactory.CreateServiceHost())
-                {
-                    host.Open();
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                host = this.serviceFactory.CreateServiceHost();
+
+                this.logger.Debug("Starting service...");
+                host.Open();
+
+                this.logger.Info("Service started.");
+                Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception exception)
             {
-                logger.Error(exception, ServerStrings.BootstrapGenericError);
+                this.logger.Error(exception, ServiceStrings.BootstrapGenericError);
+            }
+            finally
+            {
+                if (host != null)
+                {
+                    if (host.State == CommunicationState.Faulted)
+                    {
+                        host.Abort();
+                    }
+                    else
+                    {
+                        host.Close();
+                    }
+
+                    ((IDisposable)host).Dispose();
+                }
             }
         }
     }

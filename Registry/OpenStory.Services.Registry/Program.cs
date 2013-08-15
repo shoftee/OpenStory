@@ -1,7 +1,6 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Discovery;
-using System.Threading;
+﻿using OpenStory.Services.Contracts;
+using log4net.Config;
+using Ninject;
 
 namespace OpenStory.Services.Registry
 {
@@ -9,20 +8,16 @@ namespace OpenStory.Services.Registry
     {
         private static void Main()
         {
-            Console.Title = @"OpenStory - Registry Service";
+            XmlConfigurator.Configure();
+            var bootstrapper = Initialize();
+            bootstrapper.Start();
+        }
 
-            var service = new RegistryService();
-            var uri = new Uri("net.tcp://localhost/OpenStory/Registry");
-
-            using (var host = new ServiceHost(service))
-            {
-                host.Open();
-
-                Console.Title = @"OpenStory - Registry Service - Running";
-                Console.WriteLine("Registry hosted at: {0}", uri);
-
-                Thread.Sleep(Timeout.Infinite);
-            }
+        private static Bootstrapper Initialize()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IGenericServiceFactory>().To<RegistryServiceFactory>();
+            return kernel.Get<Bootstrapper>();
         }
     }
 }

@@ -42,7 +42,11 @@ namespace OpenStory.Services
             }
             catch (AddressAccessDeniedException accessDenied)
             {
-                result = new ServiceOperationResult<TResult>(default(TResult), OperationState.Refused, accessDenied, ServiceState.Unknown);
+                result = LocalFailure<TResult>(accessDenied);
+            }
+            catch (FaultException faultException)
+            {
+                result = RemoteFailure<TResult>(faultException);
             }
             catch (CommunicationException communicationException)
             {
@@ -116,7 +120,7 @@ namespace OpenStory.Services
             catch (AddressAccessDeniedException accessDenied)
             {
                 client.Abort();
-                result = new ServiceOperationResult(OperationState.Refused, accessDenied, ServiceState.Unknown);
+                result = LocalFailure(accessDenied);
             }
             catch (CommunicationException communicationException)
             {

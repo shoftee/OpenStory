@@ -3,6 +3,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Discovery;
+using Ninject.Extensions.Logging;
 using OpenStory.Services;
 using OpenStory.Services.Registry;
 
@@ -13,51 +14,46 @@ namespace OpenStory.Framework.Contracts
     /// </summary>
     public class DefaultServiceConfigurationProvider : IServiceConfigurationProvider
     {
-        private readonly DiscoveryEndpointProvider discoveryEndpointProvider;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultServiceConfigurationProvider"/> class.
         /// </summary>
-        public DefaultServiceConfigurationProvider(DiscoveryEndpointProvider discoveryEndpointProvider)
+        public DefaultServiceConfigurationProvider(ILogger logger)
         {
-            this.discoveryEndpointProvider = discoveryEndpointProvider;
+            this.logger = logger;
         }
 
         /// <inheritdoc/>
         public ServiceConfiguration GetConfiguration(NexusConnectionInfo nexusConnectionInfo)
         {
-            var criteria = GetDefaultFindCriteria<IRegistryService>();
-            var endpoint = GetEndpoint<IRegistryService>(criteria);
+            logger.Debug("Discovering registry service...");
+            var endpoint = this.GetRegistry();
+            logger.Debug("Resolved registry at '{0}'.", endpoint.Address);
 
             using (var registry = new RegistryServiceClient(endpoint))
             {
-                var configuration = registry.GetServiceConfiguration(nexusConnectionInfo.AccessToken).GetResult();
+                var response = registry.GetServiceConfiguration(nexusConnectionInfo.AccessToken);
+                var configuration = response.GetResult();
                 return configuration;
             }
         }
 
-        private ServiceEndpoint GetEndpoint<TContract>(FindCriteria criteria)
+        private ServiceEndpoint GetRegistry()
         {
-            var discoveryEndpoint = this.discoveryEndpointProvider.GetDiscoveryEndpoint();
-            var client = new DiscoveryClient(discoveryEndpoint);
-            var endpointMetadata = client.Find(criteria).Endpoints.First();
-
-            var contract = ContractDescription.GetContract(typeof(TContract));
-            var endpoint = new ServiceEndpoint(contract, new NetTcpBinding(SecurityMode.Transport), endpointMetadata.Address);
-            return endpoint;
-        }
-
-        private static FindCriteria GetDefaultFindCriteria<TContract>()
-        {
-            var criteria = new FindCriteria(typeof(TContract))
+            var client = new DiscoveryClient(new UdpDiscoveryEndpoint());
+            var criteria = new FindCriteria(typeof(IRegistryService))
                            {
-                               Duration = TimeSpan.FromSeconds(30),
+                               MaxResults = 1,
+                               Duration = TimeSpan.FromSeconds(5),
                            };
 
-            criteria.Scopes.Add(new Uri("net.tcp://OpenStory/"));
-            criteria.ScopeMatchBy = FindCriteria.ScopeMatchByPrefix;
+            var response = client.Find(criteria);
+            var endpointMetadata = response.Endpoints.First();
 
-            return criteria;
+            var contract = ContractDescription.GetContract(typeof(IRegistryService));
+            var endpoint = new ServiceEndpoint(contract, new NetTcpBinding(SecurityMode.Transport), endpointMetadata.Address);
+            return endpoint;
         }
     }
 }

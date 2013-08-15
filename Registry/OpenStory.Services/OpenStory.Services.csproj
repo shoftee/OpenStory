@@ -37,6 +37,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject.Extensions.Logging">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="System">
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -45,6 +48,7 @@
     <Reference Include="System.ServiceModel.Discovery" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Clients\AccountServiceClient.cs" />
     <Compile Include="Clients\AuthServiceClient.cs" />
     <Compile Include="Clients\ChannelServiceClient.cs" />
@@ -64,6 +68,7 @@
     <Compile Include="Contracts\OperationState.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
+    <Compile Include="DiscoverableServiceFactory.cs" />
     <Compile Include="GameServiceBase.cs" />
     <Compile Include="Contracts\IGenericServiceFactory.cs" />
     <Compile Include="IConfigurableService.cs" />
@@ -79,9 +84,20 @@
     </Compile>
     <Compile Include="ServiceExtensions.ServiceOperationResult.cs" />
     <Compile Include="ServiceSettings.cs" />
+    <Compile Include="ServiceStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceStrings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ServiceOperationResult.Generic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ServiceStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

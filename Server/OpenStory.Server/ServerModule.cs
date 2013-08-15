@@ -22,16 +22,11 @@ namespace OpenStory.Server
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
             Bind<INexusConnectionProvider>().To<EnvironmentNexusConnectionProvider>();
+            Bind<IServiceConfigurationProvider>().To<DefaultServiceConfigurationProvider>();
 
             // PacketFactory <= IPacketCodeTable
             Bind<IPacketFactory>().To<PacketFactory>();
 
-            // DiscoveryEndpointProvider <= DiscoveryEndpoint
-            // DefaultServiceConfigurationProvider <= DiscoveryEndpointProvider
-            Bind<DiscoveryEndpoint>().To<UdpDiscoveryEndpoint>();
-            Bind<DiscoveryEndpointProvider>().ToFactory();
-            Bind<IServiceConfigurationProvider>().To<DefaultServiceConfigurationProvider>();
-            
             // IvGenerator <= RandomNumberGenerator.
             Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
             Bind<IvGenerator>().ToSelf();

@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BootstrapTokenParseError" xml:space="preserve">
-    <value>Could not parse nexus access token. Make sure you've entered a valid GUID value under the parameter '{0}' (case-sensitive).</value>
-  </data>
-  <data name="ChannelIdMustBeNonNegative" xml:space="preserve">
-    <value>The channel identifier must be a non-negative integer.</value>
-  </data>
-  <data name="PacketProcessingEventHasNoSubscriber" xml:space="preserve">
-    <value>The packet processing event must have a subscriber.</value>
-  </data>
-  <data name="ServerAlreadyRunning" xml:space="preserve">
-    <value>The server is already running.</value>
-  </data>
-  <data name="ServerNotRunning" xml:space="preserve">
-    <value>The server is not running. Start it before using it.</value>
+  <data name="BootstrapGenericError" xml:space="preserve">
+    <value>There was an error during the bootstrapping process.</value>
   </data>
 </root>

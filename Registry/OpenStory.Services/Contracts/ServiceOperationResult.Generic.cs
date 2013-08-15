@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace OpenStory.Services.Contracts
 {
@@ -88,7 +89,7 @@ namespace OpenStory.Services.Contracts
         {
             if (this.Error != null && throwOnError)
             {
-                throw Error;
+                throw new CommunicationException("The remote service faulted.", this.Error);
             }
 
             return this.result;

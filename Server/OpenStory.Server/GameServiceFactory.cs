@@ -1,15 +1,14 @@
-﻿using System.ServiceModel;
-using System.ServiceModel.Discovery;
+﻿using System;
+using System.ServiceModel;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {
     /// <summary>
     /// Represents a class which creates game server instances.
     /// </summary>
-    public abstract class GameServiceFactory : IGenericServiceFactory
+    public abstract class GameServiceFactory : DiscoverableServiceFactory<GameServiceBase>
     {
         private readonly INexusConnectionProvider nexusConnectionProvider;
         private readonly IServiceConfigurationProvider serviceConfigurationProvider;
@@ -25,27 +24,6 @@ namespace OpenStory.Server
             this.serviceConfigurationProvider = serviceConfigurationProvider;
         }
 
-        /// <inheritdoc/>
-        public ServiceHost CreateServiceHost()
-        {
-            var service = this.CreateService();
-            var configuration = this.GetConfiguration();
-            service.Configure(configuration);
-
-            var host = new ServiceHost(service);
-            host.Description.Behaviors.Add(new ServiceDiscoveryBehavior());
-
-            host.Opened += (o, e) => service.Start();
-            host.Closing += (o, e) => service.Stop();
-
-            return host;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="GameServiceBase"/> instance.
-        /// </summary>
-        protected abstract GameServiceBase CreateService();
-
         /// <summary>
         /// Retrieves the <see cref="ServiceConfiguration"/>.
         /// </summary>
@@ -53,6 +31,36 @@ namespace OpenStory.Server
         {
             var nexusConnectionInfo = this.nexusConnectionProvider.GetConnectionInfo();
             return serviceConfigurationProvider.GetConfiguration(nexusConnectionInfo);
+        }
+
+        /// <inheritdoc/>
+        public override ServiceHost CreateServiceHost()
+        {
+            var host = base.CreateServiceHost();
+
+            var configuration = this.GetConfiguration();
+            this.Service.Configure(configuration);
+
+            return host;
+        }
+
+        /// <inheritdoc/>
+        protected override void ConfigureServiceHost(ServiceHost serviceHost)
+        {
+            base.ConfigureServiceHost(serviceHost);
+
+            serviceHost.Opened += this.OnOpened;
+            serviceHost.Closing += this.OnClosing;
+        }
+
+        private void OnOpened(object sender, EventArgs e)
+        {
+            this.Service.Start();
+        }
+
+        private void OnClosing(object sender, EventArgs e)
+        {
+            this.Service.Stop();
         }
     }
 }
