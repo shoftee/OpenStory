@@ -17,8 +17,10 @@ namespace OpenStory.Server
         /// Initializes a new instance of the <see cref="GameServiceFactory"/> class.
         /// </summary>
         protected GameServiceFactory(
-            INexusConnectionProvider nexusConnectionProvider, 
+            Func<GameServiceBase> serviceFactory,
+            INexusConnectionProvider nexusConnectionProvider,
             IServiceConfigurationProvider serviceConfigurationProvider)
+            : base(serviceFactory)
         {
             this.nexusConnectionProvider = nexusConnectionProvider;
             this.serviceConfigurationProvider = serviceConfigurationProvider;
@@ -27,27 +29,17 @@ namespace OpenStory.Server
         /// <summary>
         /// Retrieves the <see cref="ServiceConfiguration"/>.
         /// </summary>
-        private ServiceConfiguration GetConfiguration()
+        protected override ServiceConfiguration GetConfiguration()
         {
-            var nexusConnectionInfo = this.nexusConnectionProvider.GetConnectionInfo();
-            return serviceConfigurationProvider.GetConfiguration(nexusConnectionInfo);
-        }
-
-        /// <inheritdoc/>
-        public override ServiceHost CreateServiceHost()
-        {
-            var host = base.CreateServiceHost();
-
-            var configuration = this.GetConfiguration();
-            this.Service.Configure(configuration);
-
-            return host;
+            var info = this.nexusConnectionProvider.GetConnectionInfo();
+            return serviceConfigurationProvider.GetConfiguration(info);
         }
 
         /// <inheritdoc/>
         protected override void ConfigureServiceHost(ServiceHost serviceHost)
         {
             base.ConfigureServiceHost(serviceHost);
+            this.Service.Configure(this.Configuration);
 
             serviceHost.Opened += this.OnOpened;
             serviceHost.Closing += this.OnClosing;

@@ -1,4 +1,4 @@
-﻿using OpenStory.Services.Contracts;
+﻿using OpenStory.Server.Registry;
 using log4net.Config;
 using Ninject;
 
@@ -16,7 +16,7 @@ namespace OpenStory.Services.Registry
         private static Bootstrapper Initialize()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<IGenericServiceFactory>().To<RegistryServiceFactory>();
+            kernel.Load(new RegistryModule());
             return kernel.Get<Bootstrapper>();
         }
     }

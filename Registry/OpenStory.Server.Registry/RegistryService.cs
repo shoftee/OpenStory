@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Dispatcher;
+using OpenStory.Services;
 using OpenStory.Services.Contracts;
+using OpenStory.Services.Registry;
 
-namespace OpenStory.Services.Registry
+namespace OpenStory.Server.Registry
 {
     /// <inheritdoc />
     [ServiceBehavior(
-        ConcurrencyMode = ConcurrencyMode.Single, 
-        InstanceContextMode = InstanceContextMode.Single, 
+        ConcurrencyMode = ConcurrencyMode.Single,
+        InstanceContextMode = InstanceContextMode.Single,
         Namespace = null)]
-    public sealed class RegistryService : IRegistryService, IErrorHandler
+    internal sealed class RegistryService : IRegistryService
     {
         private readonly Dictionary<Guid, ServiceConfiguration> configurations;
 
@@ -64,22 +64,10 @@ namespace OpenStory.Services.Registry
             {
                 throw new InvalidOperationException("This service access token is not authorized.");
             }
-            
+
             return new ServiceOperationResult<ServiceConfiguration>(configuration, ServiceState.Running);
         }
 
         #endregion
-
-        public void ProvideFault(Exception error, MessageVersion version, ref Message fault)
-        {
-            var faultException = new FaultException(error.Message);
-            var messageFault = faultException.CreateMessageFault();
-            fault = Message.CreateMessage(version, messageFault, faultException.Action);
-        }
-
-        public bool HandleError(Exception error)
-        {
-            return false;
-        }
     }
 }

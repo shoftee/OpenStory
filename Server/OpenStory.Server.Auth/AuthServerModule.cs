@@ -1,6 +1,5 @@
 ﻿using Ninject.Extensions.Factory;
 using OpenStory.Common;
-using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Services;
 using OpenStory.Services.Contracts;
@@ -24,10 +23,9 @@ namespace OpenStory.Server.Auth
 
             Bind<IClientFactory<AuthClient>>().ToFactory();
 
-            Bind<ServerConfiguration>().To<AuthConfiguration>();
             Bind<IServerOperator, IAuthServer>().To<AuthOperator>();
             Bind<IAuthService, GameServiceBase>().To<AuthService>();
-            Bind<IGenericServiceFactory>().To<AuthServiceFactory>();
+            Bind<IGenericServiceFactory>().To<DiscoverableServiceFactory<IAuthService>>();
         }
     }
 }
