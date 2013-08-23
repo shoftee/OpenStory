@@ -16,7 +16,7 @@ namespace OpenStory.Services.Registry
         /// <param name="configuration">The configuration information for the service.</param>
         /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration);
+        Guid RegisterService(ServiceConfiguration configuration);
 
         /// <summary>
         /// Attempts to unregister the service with the specified token.
@@ -24,13 +24,13 @@ namespace OpenStory.Services.Registry
         /// <param name="token">The registration token issued when the service was registered.</param>
         /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult UnregisterService(Guid token);
+        void UnregisterService(Guid token);
 
         /// <summary>
         /// Attempts to retrieve all registered tokens.
         /// </summary>
         /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Guid[]> GetRegistrations();
+        Guid[] GetRegistrations();
     }
 }

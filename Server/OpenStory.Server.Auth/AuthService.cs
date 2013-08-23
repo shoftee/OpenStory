@@ -8,8 +8,9 @@ namespace OpenStory.Server.Auth
     /// Represents a WCF service that hosts the Authentication Server instance.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    internal sealed class AuthService : GameServiceBase, IAuthService
+    public sealed class AuthService : GameServiceBase, IAuthService
     {
+        /// <inheritdoc />
         public AuthService()
         {
         }

@@ -14,9 +14,9 @@ namespace OpenStory.Services.Contracts
         /// Attempts to retrieve the service configuration data for a service.
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
-        /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token);
+        [FaultContract(typeof(InvalidOperationException))]
+        ServiceConfiguration GetServiceConfiguration(Guid token);
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="channelId">The world-scoped identifier of the channel instance.</param>
-        /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Uri> GetChannelUri(Guid token, int channelId);
+        [FaultContract(typeof(InvalidOperationException))]
+        Uri GetChannelUri(Guid token, int channelId);
     }
 
     /// <summary>
@@ -46,18 +46,18 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="worldId">The identifier of the world instance.</param>
-        /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Uri> GetWorldUri(Guid token, int worldId);
+        [FaultContract(typeof(InvalidOperationException))]
+        Uri GetWorldUri(Guid token, int worldId);
 
         /// <summary>
         /// Attempts to retrieve the list of channel load values for a world.
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
         /// <param name="worldId">The world to query.</param>
-        /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Dictionary<int, Uri>> GetChannelUris(Guid token, int worldId);
+        [FaultContract(typeof(InvalidOperationException))]
+        Dictionary<int, Uri> GetChannelUris(Guid token, int worldId);
     }
 
     /// <summary>
@@ -70,8 +70,8 @@ namespace OpenStory.Services.Contracts
         /// Attempts to retrieve the URI of the auth service.
         /// </summary>
         /// <param name="token">An access token for the nexus operation.</param>
-        /// <returns>the result of the operation.</returns>
         [OperationContract]
-        ServiceOperationResult<Uri> GetAuthUri(Guid token);
+        [FaultContract(typeof(InvalidOperationException))]
+        Uri GetAuthUri(Guid token);
     }
 }

@@ -28,28 +28,25 @@ namespace OpenStory.Server.Registry
         #region Implementation of IRegistryService
 
         /// <inheritdoc />
-        public ServiceOperationResult<Guid> RegisterService(ServiceConfiguration configuration)
+        public Guid RegisterService(ServiceConfiguration configuration)
         {
             Guid guid = Guid.NewGuid();
             this.configurations.Add(guid, configuration);
 
-            return new ServiceOperationResult<Guid>(guid, ServiceState.Running);
+            return guid;
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult UnregisterService(Guid token)
+        public void UnregisterService(Guid token)
         {
             this.configurations.Remove(token);
-
-            return new ServiceOperationResult(ServiceState.Running);
         }
 
         /// <inheritdoc />
-        public ServiceOperationResult<Guid[]> GetRegistrations()
+        public Guid[] GetRegistrations()
         {
             var tokens = this.configurations.Keys.ToArray();
-
-            return new ServiceOperationResult<Guid[]>(tokens, ServiceState.Running);
+            return tokens;
         }
 
         #endregion
@@ -57,15 +54,16 @@ namespace OpenStory.Server.Registry
         #region Implementation of INexusService
 
         /// <inheritdoc />
-        public ServiceOperationResult<ServiceConfiguration> GetServiceConfiguration(Guid token)
+        public ServiceConfiguration GetServiceConfiguration(Guid token)
         {
             ServiceConfiguration configuration;
             if (!this.configurations.TryGetValue(token, out configuration))
             {
-                throw new InvalidOperationException("This service access token is not authorized.");
+                var exception = new InvalidOperationException("This service access token is not authorized.");
+                throw new FaultException<InvalidOperationException>(exception);
             }
 
-            return new ServiceOperationResult<ServiceConfiguration>(configuration, ServiceState.Running);
+            return configuration;
         }
 
         #endregion

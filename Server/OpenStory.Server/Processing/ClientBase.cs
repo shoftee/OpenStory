@@ -99,7 +99,7 @@ namespace OpenStory.Server.Processing
                 return;
             }
 
-            using (var ping = this.PacketFactory.NewPacket("Ping"))
+            using (var ping = this.PacketFactory.CreatePacket("Ping"))
             {
                 this.Session.WritePacket(ping.ToByteArray());
             }

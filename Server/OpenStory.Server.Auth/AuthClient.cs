@@ -118,7 +118,7 @@ namespace OpenStory.Server.Auth
             }
 
             byte[] packet;
-            using (var builder = this.PacketFactory.NewPacket("AuthenticationResponse"))
+            using (var builder = this.PacketFactory.CreatePacket("AuthenticationResponse"))
             {
                 builder.WriteInt32((int)result);
                 builder.WriteInt16(0x0000);

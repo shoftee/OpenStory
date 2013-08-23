@@ -12,6 +12,6 @@ namespace OpenStory.Server.Processing
         /// </summary>
         /// <param name="label">The label of the packet type.</param>
         /// <returns>a new <see cref="IPacketBuilder"/> initialized with the packet code for the specified label.</returns>
-        PacketBuilder NewPacket(string label);
+        PacketBuilder CreatePacket(string label);
     }
 }

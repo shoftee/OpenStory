@@ -25,7 +25,9 @@ namespace OpenStory.Server.Auth
 
             Bind<IServerOperator, IAuthServer>().To<AuthOperator>();
             Bind<IAuthService, GameServiceBase>().To<AuthService>();
-            Bind<IGenericServiceFactory>().To<DiscoverableServiceFactory<IAuthService>>();
+
+            Bind<IServiceFactory<AuthService>>().ToFactory();
+            Bind<IServiceHostFactory>().To<GameServiceHostFactory<AuthService>>();
         }
     }
 }

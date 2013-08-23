@@ -1,18 +1,17 @@
 using System;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.ServiceModel.Discovery;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services
 {
     /// <summary>
-    /// Represents a base class for <see cref="IGenericServiceFactory"/> implementations which create discovery-enabled services.
+    /// Represents a base class for <see cref="IServiceHostFactory"/> implementations which create discovery-enabled services.
     /// </summary>
     /// <typeparam name="TService">The type of the service.</typeparam>
-    public abstract class DiscoverableServiceFactory<TService> : IGenericServiceFactory
+    public abstract class DiscoverableServiceHostFactory<TService> : IServiceHostFactory
     {
-        private readonly Func<TService> serviceFactory;
+        private readonly IServiceFactory<TService> serviceFactory;
 
         /// <summary>
         /// Gets the created service.
@@ -25,10 +24,10 @@ namespace OpenStory.Services
         protected ServiceConfiguration Configuration { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DiscoverableServiceFactory{TService}"/> class.
+        /// Initializes a new instance of the <see cref="DiscoverableServiceHostFactory{TService}"/> class.
         /// </summary>
         /// <param name="serviceFactory">A delegate to use for creating the service objects.</param>
-        public DiscoverableServiceFactory(Func<TService> serviceFactory)
+        protected DiscoverableServiceHostFactory(IServiceFactory<TService> serviceFactory)
         {
             this.serviceFactory = serviceFactory;
         }
@@ -36,7 +35,7 @@ namespace OpenStory.Services
         /// <inheritdoc/>
         public virtual ServiceHost CreateServiceHost()
         {
-            var service = this.serviceFactory.Invoke();
+            var service = this.serviceFactory.CreateService();
             var host = new ServiceHost(service);
 
             this.Configuration = this.GetConfiguration();

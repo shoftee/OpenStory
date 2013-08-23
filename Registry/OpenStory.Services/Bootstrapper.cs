@@ -11,7 +11,7 @@ namespace OpenStory.Services
     /// </summary>
     public sealed class Bootstrapper
     {
-        private readonly IGenericServiceFactory serviceFactory;
+        private readonly IServiceHostFactory serviceFactory;
         private readonly ILogger logger;
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace OpenStory.Services
         /// </summary>
         /// <param name="serviceFactory">The service factory used to created instances for bootstrapping.</param>
         /// <param name="logger">The logger to use.</param>
-        public Bootstrapper(IGenericServiceFactory serviceFactory, ILogger logger)
+        public Bootstrapper(IServiceHostFactory serviceFactory, ILogger logger)
         {
             this.serviceFactory = serviceFactory;
             this.logger = logger;

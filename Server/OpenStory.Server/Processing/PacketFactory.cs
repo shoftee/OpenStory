@@ -12,7 +12,7 @@ namespace OpenStory.Server.Processing
             this.packets = packets;
         }
 
-        public PacketBuilder NewPacket(string label)
+        public PacketBuilder CreatePacket(string label)
         {
             ushort code;
             this.packets.TryGetOutgoingCode(label, out code);

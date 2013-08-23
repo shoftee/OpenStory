@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.ServiceModel.Discovery;
 using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using OpenStory.Framework.Contracts;
@@ -41,7 +40,7 @@ namespace OpenStory.Server
             // GameServer <= IServerProcess, IServerOperator
             Bind<GameServiceBase>().To<GameServer>();
 
-            // Bootstrapper <= IGenericServiceFactory, ILogger.
+            // Bootstrapper <= IServiceHostFactory, ILogger.
             Bind<Bootstrapper>().ToSelf().InSingletonScope();
         }
     }

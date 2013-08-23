@@ -1,6 +1,4 @@
-﻿using System.Net.Sockets;
-
-namespace OpenStory.Framework.Contracts
+﻿namespace OpenStory.Framework.Contracts
 {
     /// <summary>
     /// Provides methods for creating server sessions.

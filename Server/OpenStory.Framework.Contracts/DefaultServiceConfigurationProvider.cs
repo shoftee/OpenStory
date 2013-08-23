@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Discovery;
 using Ninject.Extensions.Logging;
@@ -14,27 +15,26 @@ namespace OpenStory.Framework.Contracts
     /// </summary>
     public class DefaultServiceConfigurationProvider : IServiceConfigurationProvider
     {
+        private readonly ServiceClientProvider<IRegistryService> provider;
         private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultServiceConfigurationProvider"/> class.
         /// </summary>
-        public DefaultServiceConfigurationProvider(ILogger logger)
+        public DefaultServiceConfigurationProvider(ServiceClientProvider<IRegistryService> provider, ILogger logger)
         {
+            this.provider = provider;
             this.logger = logger;
         }
 
         /// <inheritdoc/>
         public ServiceConfiguration GetConfiguration(NexusConnectionInfo nexusConnectionInfo)
         {
-            logger.Debug("Discovering registry service...");
-            var endpoint = this.GetRegistry();
-            logger.Debug("Resolved registry at '{0}'.", endpoint.Address);
+            var client = this.provider.GetClient();
 
-            using (var registry = new RegistryServiceClient(endpoint))
+            using ((IClientChannel)client)
             {
-                var response = registry.GetServiceConfiguration(nexusConnectionInfo.AccessToken);
-                var configuration = response.GetResult();
+                var configuration = client.GetServiceConfiguration(nexusConnectionInfo.AccessToken);
                 return configuration;
             }
         }

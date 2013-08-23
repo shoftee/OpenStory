@@ -135,5 +135,23 @@ namespace OpenStory.Services
                     { PlayerCapacity, -1 },
                 };
         }
+
+        /// <summary>
+        /// Contains definitions for registry service settings.
+        /// </summary>
+        public static class Registry
+        {
+            /// <summary>
+            /// The constant used as the channel service type setting value.
+            /// </summary>
+            public const string ServiceType = "Registry";
+
+            internal static readonly IDictionary<string, object> Template =
+                new Dictionary<string, object>()
+                {
+                    { ServiceTypeKey, ServiceType },
+                    { Uri.Key, string.Empty },
+                };
+        }
     }
 }

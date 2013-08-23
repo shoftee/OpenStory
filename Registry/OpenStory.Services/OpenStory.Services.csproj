@@ -37,6 +37,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Extensions.Logging">
       <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
     </Reference>
@@ -49,10 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Clients\AccountServiceClient.cs" />
-    <Compile Include="Clients\AuthServiceClient.cs" />
-    <Compile Include="Clients\ChannelServiceClient.cs" />
-    <Compile Include="Clients\GameServiceClientBase.cs" />
     <Compile Include="Contracts\IAccountSession.cs" />
     <Compile Include="Contracts\IGameService.cs" />
     <Compile Include="Clients\ServiceStateEventArgs.cs" />
@@ -64,20 +63,19 @@
     <Compile Include="Contracts\IServiceOperationResult.cs" />
     <Compile Include="Contracts\IServiceStateChanged.cs" />
     <Compile Include="Contracts\IWorldService.cs" />
-    <Compile Include="Clients\NexusServiceClient.cs" />
     <Compile Include="Contracts\OperationState.cs" />
     <Compile Include="Contracts\ServiceOperationResult.cs" />
     <Compile Include="Contracts\ServiceState.cs" />
-    <Compile Include="DiscoverableServiceFactory.cs" />
+    <Compile Include="DiscoverableServiceHostFactory.cs" />
     <Compile Include="GameServiceBase.cs" />
-    <Compile Include="Contracts\IGenericServiceFactory.cs" />
+    <Compile Include="Contracts\IServiceHostFactory.cs" />
     <Compile Include="IConfigurableService.cs" />
+    <Compile Include="IServiceFactory.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Clients\WorldServiceClient.cs" />
     <Compile Include="Registry\IRegistryService.cs" />
     <Compile Include="Registry\RegisteredServiceClient.cs" />
-    <Compile Include="Registry\RegistryServiceClient.cs" />
+    <Compile Include="ServiceClientProvider.cs" />
     <Compile Include="ServiceConfiguration.cs" />
     <Compile Include="ServiceConfigurationException.cs">
       <SubType>Code</SubType>
@@ -98,6 +96,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ServiceStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

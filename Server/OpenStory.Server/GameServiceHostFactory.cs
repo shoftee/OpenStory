@@ -8,16 +8,17 @@ namespace OpenStory.Server
     /// <summary>
     /// Represents a class which creates game server instances.
     /// </summary>
-    public abstract class GameServiceFactory : DiscoverableServiceFactory<GameServiceBase>
+    public class GameServiceHostFactory<TService> : DiscoverableServiceHostFactory<TService>
+        where TService : GameServiceBase
     {
         private readonly INexusConnectionProvider nexusConnectionProvider;
         private readonly IServiceConfigurationProvider serviceConfigurationProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameServiceFactory"/> class.
+        /// Initializes a new instance of the <see cref="GameServiceHostFactory{TService}"/> class.
         /// </summary>
-        protected GameServiceFactory(
-            Func<GameServiceBase> serviceFactory,
+        public GameServiceHostFactory(
+            IServiceFactory<TService> serviceFactory,
             INexusConnectionProvider nexusConnectionProvider,
             IServiceConfigurationProvider serviceConfigurationProvider)
             : base(serviceFactory)

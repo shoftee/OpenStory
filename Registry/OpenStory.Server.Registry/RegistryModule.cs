@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using Ninject.Extensions.Factory;
+using Ninject.Modules;
 using OpenStory.Services;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Registry;
@@ -14,7 +15,9 @@ namespace OpenStory.Server.Registry
         public override void Load()
         {
             Bind<IRegistryService>().To<RegistryService>();
-            Bind<IGenericServiceFactory>().To<DiscoverableServiceFactory<IRegistryService>>();
+            Bind<IServiceFactory<IRegistryService>>().ToFactory();
+
+            Bind<IServiceHostFactory>().To<RegistryServiceHostFactory>();
         }
     }
 }
