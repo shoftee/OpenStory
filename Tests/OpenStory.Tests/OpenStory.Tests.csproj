@@ -63,7 +63,6 @@
     <Compile Include="Common\Game\PointSFixture.cs" />
     <Compile Include="Common\IO\BoundedBufferFixture.cs" />
     <Compile Include="Common\IO\ByteOrderFixture.cs" />
-    <Compile Include="Common\IO\FlagsFixture.cs" />
     <Compile Include="Common\IO\PacketBuilderFixture.cs" />
     <Compile Include="Common\IO\PacketReaderFixtureBase.cs" />
     <Compile Include="Common\IO\SafePacketReadingFixture.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="Common\PacketValueAttributeFixture.cs" />
     <Compile Include="Common\Tools\ArraysFixture.cs" />
     <Compile Include="Common\Tools\HexExtensionsFixture.cs" />
+    <Compile Include="Cryptography\RollingIvFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

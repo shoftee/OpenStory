@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using System.Security.Cryptography;
 using Moq;
 using NUnit.Framework;
@@ -22,10 +20,12 @@ namespace OpenStory.Server.Tests
             generator.GetNewIv();
 
             // Assert
-            Expression<Func<byte[], bool>> anEmptyIvBuffer
-                = bytes => bytes.Length == 4 && bytes.All(b => b == 0);
+            rngMock.Verify(rng => rng.GetNonZeroBytes(ZeroByteArrayWithLength4()), Times.Once());
+        }
 
-            rngMock.Verify(rng => rng.GetNonZeroBytes(It.Is(anEmptyIvBuffer)), Times.Once());
+        private static byte[] ZeroByteArrayWithLength4()
+        {
+            return It.Is<byte[]>(bytes => bytes.Length == 4 && bytes.All(b => b == 0));
         }
     }
 }

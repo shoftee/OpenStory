@@ -25,7 +25,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="initialIv"/> does not have exactly 4 elements.
         /// </exception>
-        internal RollingIv(ICryptoAlgorithm algorithm, byte[] initialIv, ushort versionMask)
+        public RollingIv(ICryptoAlgorithm algorithm, byte[] initialIv, ushort versionMask)
         {
             if (algorithm == null)
             {
@@ -185,6 +185,12 @@ namespace OpenStory.Cryptography
             }
         }
 
+        private static bool ValidateHeaderInternal(byte[] header, byte[] iv, ushort versionMask)
+        {
+            ushort extractedVersion = GetVersionInternal(header, iv);
+            return extractedVersion == versionMask;
+        }
+
         /// <summary>
         /// Extracts a version from the header using a specified IV.
         /// </summary>
@@ -225,18 +231,10 @@ namespace OpenStory.Cryptography
             return GetVersionInternal(header, iv);
         }
 
-        private static bool ValidateHeaderInternal(byte[] header, byte[] iv, ushort versionMask)
-        {
-            ushort extractedVersion = GetVersionInternal(header, iv);
-
-            return extractedVersion == versionMask;
-        }
-
         private static ushort GetVersionInternal(byte[] header, byte[] iv)
         {
             var encodedVersion = (ushort)((header[0] << 8) | header[1]);
             var xorSegment = (ushort)((iv[2] << 8) | iv[3]);
-
             return (ushort)(encodedVersion ^ xorSegment);
         }
     }

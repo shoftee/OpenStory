@@ -11,7 +11,6 @@ namespace OpenStory.Cryptography
     {
         private const int IvLength = 16;
         private const int BlockLength = 1460;
-        private readonly byte[] key;
 
         private readonly ICryptoTransform aes;
 
@@ -52,9 +51,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.AesKeyMustBe32Bytes, "key");
             }
 
-            this.key = key.FastClone();
-
-            this.aes = GetTransformer(this.key);
+            this.aes = GetTransformer(key);
         }
 
         /// <inheritdoc />
