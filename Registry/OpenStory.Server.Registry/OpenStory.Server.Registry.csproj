@@ -33,12 +33,22 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Factory">
       <HintPath>..\..\packages\Ninject.Extensions.Factory.3.0.1.0\lib\net40\Ninject.Extensions.Factory.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging.Log4Net">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.Log4net.3.0.1.0\lib\net40\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

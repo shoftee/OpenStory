@@ -25,9 +25,7 @@
         /// </summary>
         /// <param name="symmetricAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for both encryption and decryption.</param>
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
-        public RollingIvFactory(
-            ICryptoAlgorithm symmetricAlgorithm, 
-            ushort version)
+        public RollingIvFactory(ICryptoAlgorithm symmetricAlgorithm, ushort version)
         {
             this.EncryptionAlgorithm = symmetricAlgorithm;
             this.DecryptionAlgorithm = symmetricAlgorithm;
@@ -41,10 +39,7 @@
         /// <param name="encryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for encryption IVs.</param>
         /// <param name="decryptionAlgorithm">The <see cref="ICryptoAlgorithm"/> instance to use for decryption IVs.</param>
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
-        public RollingIvFactory(
-            ICryptoAlgorithm encryptionAlgorithm, 
-            ICryptoAlgorithm decryptionAlgorithm,
-            ushort version)
+        public RollingIvFactory(ICryptoAlgorithm encryptionAlgorithm, ICryptoAlgorithm decryptionAlgorithm, ushort version)
         {
             this.EncryptionAlgorithm = encryptionAlgorithm;
             this.DecryptionAlgorithm = decryptionAlgorithm;
@@ -58,9 +53,7 @@
         /// <param name="initialIv">The initial IV for the new instance.</param>
         /// <param name="versionMaskType">The <see cref="VersionMaskType"/> for the new instance.</param>
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
-        public RollingIv CreateEncryptIv(
-            byte[] initialIv, 
-            VersionMaskType versionMaskType)
+        public RollingIv CreateEncryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
             ushort versionMask = this.Version;
             if (versionMaskType == VersionMaskType.Complement)
@@ -77,9 +70,7 @@
         /// <param name="initialIv">The initial IV for the new instance.</param>
         /// <param name="versionMaskType">The <see cref="VersionMaskType"/> for the new instance.</param>
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
-        public RollingIv CreateDecryptIv(
-            byte[] initialIv, 
-            VersionMaskType versionMaskType)
+        public RollingIv CreateDecryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
             ushort versionMask = this.Version;
             if (versionMaskType == VersionMaskType.Complement)

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Ninject.Extensions.Logging;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
-using OpenStory.Networking;
+using OpenStory.Server.Networking;
 using OpenStory.Services;
 
 namespace OpenStory.Server.Processing
@@ -15,6 +15,7 @@ namespace OpenStory.Server.Processing
     internal sealed class ServerProcess : IServerProcess, IDisposable
     {
         private readonly IServerSessionFactory sessionFactory;
+        private readonly ISocketAcceptorFactory socketAcceptorFactory;
         private readonly IPacketScheduler packetScheduler;
         private readonly IvGenerator ivGenerator;
         private readonly ILogger logger;
@@ -37,12 +38,14 @@ namespace OpenStory.Server.Processing
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
         /// </summary>
         /// <param name="sessionFactory">The <see cref="IServerSessionFactory"/> for this server.</param>
+        /// <param name="socketAcceptorFactory">The <see cref="ISocketAcceptorFactory"/> for this server.</param>
         /// <param name="packetScheduler">The <see cref="IPacketScheduler"/> for this server.</param>
         /// <param name="ivGenerator">The <see cref="IvGenerator"/> for this server.</param>
         /// <param name="logger">The logger to use for this server.</param>
-        public ServerProcess(IServerSessionFactory sessionFactory, IPacketScheduler packetScheduler, IvGenerator ivGenerator, ILogger logger)
+        public ServerProcess(IServerSessionFactory sessionFactory, ISocketAcceptorFactory socketAcceptorFactory, IPacketScheduler packetScheduler, IvGenerator ivGenerator, ILogger logger)
         {
             this.sessionFactory = sessionFactory;
+            this.socketAcceptorFactory = socketAcceptorFactory;
             this.packetScheduler = packetScheduler;
             this.ivGenerator = ivGenerator;
             this.logger = logger;
@@ -62,7 +65,7 @@ namespace OpenStory.Server.Processing
         {
             this.ivFactory = IvFactories.GetEmsFactory(this.serverConfiguration.Version);
 
-            this.acceptor = new SocketAcceptor(this.serverConfiguration.Endpoint);
+            this.acceptor = socketAcceptorFactory.CreateSocketAcceptor(this.serverConfiguration.Endpoint);
             this.acceptor.SocketAccepted += this.OnSocketAccepted;
         }
 

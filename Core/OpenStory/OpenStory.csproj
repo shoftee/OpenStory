@@ -112,9 +112,7 @@
     <Compile Include="Networking\PacketReceivedEventArgs.cs" />
     <Compile Include="Networking\ReceiveDescriptor.cs" />
     <Compile Include="Networking\SendDescriptor.cs" />
-    <Compile Include="Networking\SocketAcceptor.cs" />
     <Compile Include="Networking\SocketErrorEventArgs.cs" />
-    <Compile Include="Networking\SocketEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Tools\Db.cs" />
     <Compile Include="Common\Tools\Misc.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace OpenStory.Networking
+namespace OpenStory.Server.Networking
 {
     /// <summary>
     /// Represents an EventArgs wrapper around a Socket.

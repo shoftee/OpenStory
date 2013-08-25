@@ -68,6 +68,9 @@
     <Reference Include="System.ServiceModel.Discovery" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Networking\ISocketAcceptorFactory.cs" />
+    <Compile Include="Networking\SocketAcceptor.cs" />
+    <Compile Include="Networking\SocketEventArgs.cs" />
     <Compile Include="Processing\IClientFactory.cs" />
     <Compile Include="Processing\ClientBase.cs" />
     <Compile Include="IllegalPacketException.cs" />

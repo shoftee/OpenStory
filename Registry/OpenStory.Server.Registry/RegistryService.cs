@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using Ninject.Extensions.Logging;
 using OpenStory.Services;
-using OpenStory.Services.Contracts;
 using OpenStory.Services.Registry;
 
 namespace OpenStory.Server.Registry
@@ -15,13 +15,15 @@ namespace OpenStory.Server.Registry
         Namespace = null)]
     internal sealed class RegistryService : IRegistryService
     {
+        private readonly ILogger logger;
         private readonly Dictionary<Guid, ServiceConfiguration> configurations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistryService"/> class.
         /// </summary>
-        public RegistryService()
+        public RegistryService(ILogger logger)
         {
+            this.logger = logger;
             this.configurations = new Dictionary<Guid, ServiceConfiguration>();
         }
 
@@ -30,16 +32,19 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public Guid RegisterService(ServiceConfiguration configuration)
         {
-            Guid guid = Guid.NewGuid();
-            this.configurations.Add(guid, configuration);
+            Guid token = Guid.NewGuid();
 
-            return guid;
+            this.configurations.Add(token, configuration);
+            this.logger.Info("Service registered. Token '{0}' authorized.", token);
+            
+            return token;
         }
 
         /// <inheritdoc />
         public void UnregisterService(Guid token)
         {
             this.configurations.Remove(token);
+            this.logger.Info("Service unregistered. Token '{0}' no longer authorized.", token);
         }
 
         /// <inheritdoc />
@@ -59,6 +64,8 @@ namespace OpenStory.Server.Registry
             ServiceConfiguration configuration;
             if (!this.configurations.TryGetValue(token, out configuration))
             {
+                this.logger.Debug("Refused unauthorized token: '{0}'.", token);
+            
                 var exception = new InvalidOperationException("This service access token is not authorized.");
                 throw new FaultException<InvalidOperationException>(exception);
             }

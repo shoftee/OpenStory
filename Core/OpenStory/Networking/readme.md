@@ -10,7 +10,7 @@ This is roughly inspired by Astaelan's Chronicle project. People who have seen i
 
 ### `NetworkSession` and `EncryptedNetworkSession` classes
 
-These are the classes which handle the sending and receiving of packet data. `EncryptedNetworkSession` is a decorator over `NetworkSession`, which does the encryption and decryption along with the rest.
+These are the classes which handle the sending and receiving of packet data. `EncryptedNetworkSession` is a decorator around `NetworkSession`, which does the encryption and decryption along with the rest.
 
 ### `SendDescriptor` class
 
