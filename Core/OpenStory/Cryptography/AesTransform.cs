@@ -40,10 +40,7 @@ namespace OpenStory.Cryptography
         public AesTransform(byte[] table, byte[] initialIv, byte[] key)
             : base(table, initialIv)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException("key");
-            }
+            Guard.NotNull(() => key, key);
 
             if (key.Length != 32)
             {

@@ -72,10 +72,7 @@ namespace OpenStory.Common.IO
         {
             this.ThrowIfDisposed();
 
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("buffer");
-            }
+            Guard.NotNull(() => buffer, buffer);
 
             if (offset < 0)
             {

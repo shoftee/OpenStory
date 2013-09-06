@@ -5,7 +5,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// A container for <see cref="DescriptorBase"/> instances.
     /// </summary>
-    internal interface IDescriptorContainer
+    public interface IDescriptorContainer
     {
         /// <summary>
         /// Gets the network socket for the session.

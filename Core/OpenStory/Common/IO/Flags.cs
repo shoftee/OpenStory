@@ -46,10 +46,7 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is <see langword="null"/>.</exception>
         protected Flags(Flags other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
+            Guard.NotNull(() => other, other);
 
             this.Bits = new BitArray(other.Bits);
         }

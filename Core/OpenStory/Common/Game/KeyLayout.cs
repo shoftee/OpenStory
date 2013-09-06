@@ -39,10 +39,7 @@ namespace OpenStory.Common.Game
         public KeyLayout(ICollection<KeyBinding> bindings)
             : this()
         {
-            if (bindings == null)
-            {
-                throw new ArgumentNullException("bindings");
-            }
+            Guard.NotNull(() => bindings, bindings);
 
             if (bindings.Count != GameConstants.KeyCount)
             {

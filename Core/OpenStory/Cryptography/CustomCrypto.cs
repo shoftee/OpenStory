@@ -17,10 +17,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public static void Encrypt(byte[] data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
+            Guard.NotNull(() => data, data);
 
             int length = data.Length;
             var truncatedLength = unchecked((byte)length);
@@ -98,10 +95,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public static void Decrypt(byte[] data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
+            Guard.NotNull(() => data, data);
 
             int length = data.Length;
             var truncatedLength = unchecked((byte)length);

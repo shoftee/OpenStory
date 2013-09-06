@@ -19,10 +19,7 @@ namespace OpenStory.Common.IO
         /// <returns>a <see cref="PointS"/> that was read.</returns>
         public static PointS ReadVector(this IUnsafePacketReader reader)
         {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
+            Guard.NotNull(() => reader, reader);
 
             var x = reader.ReadInt16();
             var y = reader.ReadInt16();
@@ -37,10 +34,7 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static void WriteVector(this IPacketBuilder builder, PointS vector)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
+            Guard.NotNull(() => builder, builder);
 
             builder.WriteInt16(vector.X);
             builder.WriteInt16(vector.Y);
@@ -55,10 +49,7 @@ namespace OpenStory.Common.IO
         public static TFlags ReadFlags<TFlags>(this IUnsafePacketReader reader)
             where TFlags : Flags, new()
         {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
+            Guard.NotNull(() => reader, reader);
 
             var flags = new TFlags();
             flags.Read(reader);
@@ -75,15 +66,8 @@ namespace OpenStory.Common.IO
         public static void WriteFlags<TFlags>(this IPacketBuilder builder, TFlags flags)
             where TFlags : Flags
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            if (flags == null)
-            {
-                throw new ArgumentNullException("flags");
-            }
+            Guard.NotNull(() => builder, builder);
+            Guard.NotNull(() => flags, flags);
 
             flags.Write(builder);
         }

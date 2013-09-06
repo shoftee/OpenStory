@@ -21,10 +21,7 @@ namespace OpenStory.Networking
         /// </exception>
         internal DataArrivedEventArgs(byte[] data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
+            Guard.NotNull(() => data, data);
 
             this.Data = data;
         }

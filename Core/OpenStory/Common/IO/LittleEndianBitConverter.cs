@@ -39,10 +39,7 @@ namespace OpenStory.Common.IO
         /// <returns>an integer constructed by reading bytes in little-endian byte order.</returns>
         private static long FromBytes(byte[] buffer, int offset, int count)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("buffer");
-            }
+            Guard.NotNull(() => buffer, buffer);
 
             if (offset < 0)
             {

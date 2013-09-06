@@ -21,10 +21,7 @@ namespace OpenStory.Common.Tools
         /// <returns>a reversed copy of the array.</returns>
         public static T[] Reverse(T[] array)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            Guard.NotNull(() => array, array);
 
             int length = array.Length;
 
@@ -47,10 +44,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the same instance.</returns>
         public static T[] ReverseInPlace(T[] array)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            Guard.NotNull(() => array, array);
 
             int length = array.Length;
             int half = length / 2;

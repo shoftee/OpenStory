@@ -27,15 +27,8 @@ namespace OpenStory.Cryptography
         /// </exception>
         public RollingIv(ICryptoAlgorithm algorithm, byte[] initialIv, ushort versionMask)
         {
-            if (algorithm == null)
-            {
-                throw new ArgumentNullException("algorithm");
-            }
-
-            if (initialIv == null)
-            {
-                throw new ArgumentNullException("initialIv");
-            }
+            Guard.NotNull(() => algorithm, algorithm);
+            Guard.NotNull(() => initialIv, initialIv);
 
             if (initialIv.Length != 4)
             {
@@ -56,10 +49,7 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="data" /> is <see langword="null"/>.</exception>
         public void Transform(byte[] data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
+            Guard.NotNull(() => data, data);
 
             this.algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
 
@@ -109,10 +99,7 @@ namespace OpenStory.Cryptography
         /// <returns>the packet length extracted from the array.</returns>
         public static int GetPacketLength(byte[] header)
         {
-            if (header == null)
-            {
-                throw new ArgumentNullException("header");
-            }
+            Guard.NotNull(() => header, header);
 
             if (header.Length < 4)
             {
@@ -130,10 +117,7 @@ namespace OpenStory.Cryptography
         /// <returns><see langword="true"/> if the header is valid; otherwise, <see langword="false"/>.</returns>
         public bool ValidateHeader(byte[] header)
         {
-            if (header == null)
-            {
-                throw new ArgumentNullException("header");
-            }
+            Guard.NotNull(() => header, header);
 
             if (header.Length < 4)
             {
@@ -162,10 +146,7 @@ namespace OpenStory.Cryptography
         /// <returns><see langword="true"/> if the extraction was successful; otherwise, <see langword="false"/>.</returns>
         public bool TryGetLength(byte[] header, out int length)
         {
-            if (header == null)
-            {
-                throw new ArgumentNullException("header");
-            }
+            Guard.NotNull(() => header, header);
 
             if (header.Length < 4)
             {
@@ -207,20 +188,13 @@ namespace OpenStory.Cryptography
         /// <returns>the version mask encoded into the header.</returns>
         public static ushort GetVersion(byte[] header, byte[] iv)
         {
-            if (header == null)
-            {
-                throw new ArgumentNullException("header");
-            }
+            Guard.NotNull(() => header, header);
+            Guard.NotNull(() => iv, iv);
 
             if (header.Length < 4)
             {
                 var message = string.Format(CommonStrings.SegmentTooShort, 4);
                 throw new ArgumentException(message, "header");
-            }
-
-            if (iv == null)
-            {
-                throw new ArgumentNullException("iv");
             }
 
             if (iv.Length != 4)

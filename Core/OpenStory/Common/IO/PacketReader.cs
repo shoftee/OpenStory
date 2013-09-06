@@ -42,10 +42,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public PacketReader(byte[] buffer, int offset, int length)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("buffer");
-            }
+            Guard.NotNull(() => buffer, buffer);
 
             if (offset < 0)
             {
@@ -76,10 +73,7 @@ namespace OpenStory.Common.IO
         /// </exception>
         public PacketReader(byte[] buffer)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("buffer");
-            }
+            Guard.NotNull(() => buffer, buffer);
 
             this.buffer = buffer;
             this.currentOffset = this.segmentStart = 0;
@@ -92,10 +86,7 @@ namespace OpenStory.Common.IO
         /// <param name="other">The <see cref="PacketReader"/> instance to clone.</param>
         public PacketReader(PacketReader other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
+            Guard.NotNull(() => other, other);
 
             this.buffer = other.buffer;
             this.segmentStart = other.segmentStart;
@@ -589,10 +580,7 @@ namespace OpenStory.Common.IO
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback)
         {
-            if (readingCallback == null)
-            {
-                throw new ArgumentNullException("readingCallback");
-            }
+            Guard.NotNull(() => readingCallback, readingCallback);
 
             int start = this.currentOffset;
             bool success;
@@ -622,15 +610,8 @@ namespace OpenStory.Common.IO
         /// <returns>whether the reading completed successfully.</returns>
         public bool Safe(Action<IUnsafePacketReader> readingCallback, Action failureCallback)
         {
-            if (readingCallback == null)
-            {
-                throw new ArgumentNullException("readingCallback");
-            }
-
-            if (failureCallback == null)
-            {
-                throw new ArgumentNullException("failureCallback");
-            }
+            Guard.NotNull(() => readingCallback, readingCallback);
+            Guard.NotNull(() => failureCallback, failureCallback);
 
             int start = this.currentOffset;
             bool success;
@@ -666,15 +647,8 @@ namespace OpenStory.Common.IO
         /// <returns>on success, the value returned by the reading callback; otherwise, the value returned by the failure callback.</returns>
         public T Safe<T>(Func<IUnsafePacketReader, T> readingCallback, Func<T> failureCallback)
         {
-            if (readingCallback == null)
-            {
-                throw new ArgumentNullException("readingCallback");
-            }
-
-            if (failureCallback == null)
-            {
-                throw new ArgumentNullException("failureCallback");
-            }
+            Guard.NotNull(() => readingCallback, readingCallback);
+            Guard.NotNull(() => failureCallback, failureCallback);
 
             int start = this.currentOffset;
             var result = default(T);

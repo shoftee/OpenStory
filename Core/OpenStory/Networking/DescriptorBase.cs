@@ -6,7 +6,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    internal abstract class DescriptorBase : IDisposable
+    public abstract class DescriptorBase : IDisposable
     {
         private bool isDisposed;
 
@@ -38,10 +38,7 @@ namespace OpenStory.Networking
         /// </exception>
         protected DescriptorBase(IDescriptorContainer container)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
+            Guard.NotNull(() => container, container);
 
             this.isDisposed = false;
 
@@ -65,10 +62,7 @@ namespace OpenStory.Networking
         /// </exception>
         protected void OnError(SocketAsyncEventArgs args)
         {
-            if (args == null)
-            {
-                throw new ArgumentNullException("args");
-            }
+            Guard.NotNull(() => args, args);
 
             if (args.SocketError != SocketError.Success && this.Error != null)
             {
@@ -97,12 +91,17 @@ namespace OpenStory.Networking
 
         #region Implementation of IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Called when the instance is being released.
+        /// </summary>
+        /// <param name="disposing">Whether we are disposing or finalizing the instance.</param>
         protected virtual void Dispose(bool disposing)
         {
             this.Close();

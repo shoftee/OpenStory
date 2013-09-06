@@ -48,10 +48,7 @@ namespace OpenStory.Common
         /// </exception>
         public bool TryGetOutgoingCode(string label, out ushort code)
         {
-            if (label == null)
-            {
-                throw new ArgumentNullException("label");
-            }
+            Guard.NotNull(() => label, label);
 
             return this.outgoingTable.TryGetValue(label, out code);
         }
@@ -67,10 +64,7 @@ namespace OpenStory.Common
         /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddOutgoing(string label, ushort code)
         {
-            if (label == null)
-            {
-                throw new ArgumentNullException("label");
-            }
+            Guard.NotNull(() => label, label);
 
             if (this.outgoingTable.ContainsKey(label))
             {
@@ -92,10 +86,7 @@ namespace OpenStory.Common
         /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddIncoming(ushort code, string label)
         {
-            if (label == null)
-            {
-                throw new ArgumentNullException("label");
-            }
+            Guard.NotNull(() => label, label);
 
             if (this.incomingTable.ContainsKey(code))
             {

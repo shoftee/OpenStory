@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// Represents an asynchronous network receive buffer.
     /// </summary>
     [Localizable(true)]
-    internal sealed class ReceiveDescriptor : DescriptorBase
+    public sealed class ReceiveDescriptor : DescriptorBase
     {
         /// <summary>
         /// The default buffer size, set to match the RollingIv block size.
@@ -185,6 +185,7 @@ namespace OpenStory.Networking
 
         #endregion
 
+        /// <inheritdoc />
         protected override void OnClosed()
         {
             this.DataArrivedInternal = null;

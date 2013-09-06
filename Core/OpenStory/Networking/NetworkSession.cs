@@ -99,7 +99,7 @@ namespace OpenStory.Networking
         public NetworkSession()
         {
             this.isActive = false;
-
+             
             this.receiveDescriptor = new ReceiveDescriptor(this);
             this.sendDescriptor = new SendDescriptor(this);
         }
@@ -116,16 +116,13 @@ namespace OpenStory.Networking
         /// </exception>
         public void AttachSocket(Socket socket)
         {
+            Guard.NotNull(() => socket, socket);
+
             if (this.Socket != null)
             {
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
-
-            if (socket == null)
-            {
-                throw new ArgumentNullException("socket");
-            }
-
+            
             this.Socket = socket;
         }
 

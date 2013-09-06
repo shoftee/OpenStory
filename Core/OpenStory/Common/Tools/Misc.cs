@@ -33,10 +33,7 @@ namespace OpenStory.Common.Tools
         /// <returns>an instance of <see cref="ReadOnlyCollection{T}"/>.</returns>
         public static ReadOnlyCollection<T> ToReadOnly<T>(this IList<T> list)
         {
-            if (list == null)
-            {
-                throw new ArgumentNullException("list");
-            }
+            Guard.NotNull(() => list, list);
 
             return new ReadOnlyCollection<T>(list);
         }
@@ -49,15 +46,8 @@ namespace OpenStory.Common.Tools
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <see langword="null"/>.</exception>
         public static void ReadLock(this ReaderWriterLockSlim @lock, Action action)
         {
-            if (@lock == null)
-            {
-                throw new ArgumentNullException("lock");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
+            Guard.NotNull(() => @lock, @lock);
+            Guard.NotNull(() => action, action);
 
             @lock.EnterReadLock();
             try
@@ -79,15 +69,8 @@ namespace OpenStory.Common.Tools
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="func"/> is <see langword="null"/>.</exception>
         public static T ReadLock<T>(this ReaderWriterLockSlim @lock, Func<T> func)
         {
-            if (@lock == null)
-            {
-                throw new ArgumentNullException("lock");
-            }
-
-            if (func == null)
-            {
-                throw new ArgumentNullException("func");
-            }
+            Guard.NotNull(() => @lock, @lock);
+            Guard.NotNull(() => func, func);
 
             @lock.EnterReadLock();
             try
@@ -108,15 +91,8 @@ namespace OpenStory.Common.Tools
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="action"/> is <see langword="null"/>.</exception>
         public static void WriteLock(this ReaderWriterLockSlim @lock, Action action)
         {
-            if (@lock == null)
-            {
-                throw new ArgumentNullException("lock");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
+            Guard.NotNull(() => @lock, @lock);
+            Guard.NotNull(() => action, action);
 
             @lock.EnterWriteLock();
             try
@@ -138,15 +114,8 @@ namespace OpenStory.Common.Tools
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="lock"/> or <paramref name="func"/> is <see langword="null"/>.</exception>
         public static T WriteLock<T>(this ReaderWriterLockSlim @lock, Func<T> func)
         {
-            if (@lock == null)
-            {
-                throw new ArgumentNullException("lock");
-            }
-
-            if (func == null)
-            {
-                throw new ArgumentNullException("func");
-            }
+            Guard.NotNull(() => @lock, @lock);
+            Guard.NotNull(() => func, func);
 
             @lock.EnterWriteLock();
             try

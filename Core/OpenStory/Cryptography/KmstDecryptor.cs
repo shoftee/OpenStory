@@ -20,15 +20,8 @@ namespace OpenStory.Cryptography
         /// <inheritdoc />
         public override void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            if (iv == null)
-            {
-                throw new ArgumentNullException("iv");
-            }
+            Guard.NotNull(() => data, data);
+            Guard.NotNull(() => iv, iv);
 
             if (iv.Length != 4)
             {

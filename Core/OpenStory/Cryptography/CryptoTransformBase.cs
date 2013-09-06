@@ -39,15 +39,8 @@ namespace OpenStory.Cryptography
         /// <exception cref="ArgumentException">Thrown if any of the provided arrays has an invalid number of elements.</exception>
         protected CryptoTransformBase(byte[] table, byte[] initialIv)
         {
-            if (table == null)
-            {
-                throw new ArgumentNullException("table");
-            }
-
-            if (initialIv == null)
-            {
-                throw new ArgumentNullException("initialIv");
-            }
+            Guard.NotNull(() => table, table);
+            Guard.NotNull(() => initialIv, initialIv);
 
             if (table.Length != 256)
             {
@@ -66,10 +59,7 @@ namespace OpenStory.Cryptography
         /// <inheritdoc />
         public byte[] ShuffleIv(byte[] iv)
         {
-            if (iv == null)
-            {
-                throw new ArgumentNullException("iv");
-            }
+            Guard.NotNull(() => iv, iv);
 
             if (iv.Length != 4)
             {
@@ -95,10 +85,7 @@ namespace OpenStory.Cryptography
         /// <param name="ivInput">The IV input byte.</param>
         protected void ShuffleIvStep(byte[] shuffled, byte ivInput)
         {
-            if (shuffled == null)
-            {
-                throw new ArgumentNullException("shuffled");
-            }
+            Guard.NotNull(() => shuffled, shuffled);
 
             if (shuffled.Length != 4)
             {
@@ -130,16 +117,10 @@ namespace OpenStory.Cryptography
         /// <inheritdoc />
         public byte[] TransformWithIv(byte[] data, byte[] iv)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            if (iv == null)
-            {
-                throw new ArgumentNullException("iv");
-            }
-            else if (iv.Length != 4)
+            Guard.NotNull(() => data, data);
+            Guard.NotNull(() => iv, iv);
+            
+            if (iv.Length != 4)
             {
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes);
             }

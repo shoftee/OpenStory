@@ -35,10 +35,7 @@ namespace OpenStory.Cryptography
         /// <returns>an array with the encrypted packet and its header.</returns>
         public byte[] EncryptAndPack(byte[] packetData)
         {
-            if (packetData == null)
-            {
-                throw new ArgumentNullException("packetData");
-            }
+            Guard.NotNull(() => packetData, packetData);
 
             int length = packetData.Length;
             var rawData = new byte[length + 4];
@@ -83,10 +80,7 @@ namespace OpenStory.Cryptography
         /// <returns><see langword="true"/> if the operation was successful; if the header was invalid, <see langword="false"/>.</returns>
         public bool TryUnpackAndDecrypt(byte[] rawData, out byte[] decryptedData)
         {
-            if (rawData == null)
-            {
-                throw new ArgumentNullException("rawData");
-            }
+            Guard.NotNull(() => rawData, rawData);
 
             int length;
             if (this.TryGetLength(rawData, out length))
@@ -153,20 +147,9 @@ namespace OpenStory.Cryptography
         /// <returns>a new <see cref="EndpointCrypto"/> instance.</returns>
         public static EndpointCrypto Client(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            if (clientIv == null)
-            {
-                throw new ArgumentNullException("clientIv");
-            }
-
-            if (serverIv == null)
-            {
-                throw new ArgumentNullException("serverIv");
-            }
+            Guard.NotNull(() => factory, factory);
+            Guard.NotNull(() => clientIv, clientIv);
+            Guard.NotNull(() => serverIv, serverIv);
 
             var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.None);
             var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.Complement);
@@ -187,20 +170,9 @@ namespace OpenStory.Cryptography
         /// <returns>a new <see cref="EndpointCrypto"/> instance.</returns>
         public static EndpointCrypto Server(RollingIvFactory factory, byte[] clientIv, byte[] serverIv)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            if (clientIv == null)
-            {
-                throw new ArgumentNullException("clientIv");
-            }
-
-            if (serverIv == null)
-            {
-                throw new ArgumentNullException("serverIv");
-            }
+            Guard.NotNull(() => factory, factory);
+            Guard.NotNull(() => clientIv, clientIv);
+            Guard.NotNull(() => serverIv, serverIv);
 
             var encryptor = factory.CreateEncryptIv(clientIv, VersionMaskType.Complement);
             var decryptor = factory.CreateDecryptIv(serverIv, VersionMaskType.None);

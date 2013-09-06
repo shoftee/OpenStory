@@ -43,15 +43,8 @@ namespace OpenStory.Common.Tools
         /// <returns><see langword="true"/> if there was a result; otherwise, <see langword="false"/>.</returns>
         public static bool InvokeForSingle(this IDbCommand command, Action<IDataRecord> callback)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
-
-            if (callback == null)
-            {
-                throw new ArgumentNullException("callback");
-            }
+            Guard.NotNull(() => command, command);
+            Guard.NotNull(() => callback, callback);
 
             // I actually feel quite awesome about this method, it saves me a lot of writing.
             using (var connection = newConnection())
@@ -62,7 +55,7 @@ namespace OpenStory.Common.Tools
                 connection.Open();
                 using (var record = command.ExecuteReader(CommandBehavior.SingleRow))
                 {
-                    if (record != null && record.Read())
+                    if (record.Read())
                     {
                         callback(record);
                         result = true;
@@ -91,10 +84,7 @@ namespace OpenStory.Common.Tools
             this IDbCommand command,
             CommandBehavior commandBehavior = CommandBehavior.Default)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
+            Guard.NotNull(() => command, command);
 
             if (!Enum.IsDefined(typeof(CommandBehavior), commandBehavior))
             {
@@ -108,11 +98,6 @@ namespace OpenStory.Common.Tools
                 connection.Open();
                 using (var record = command.ExecuteReader(commandBehavior))
                 {
-                    if (record == null)
-                    {
-                        yield break;
-                    }
-
                     while (record.Read())
                     {
                         yield return record;
@@ -132,15 +117,8 @@ namespace OpenStory.Common.Tools
         /// <returns>the number of records in the result set.</returns>
         public static int InvokeForAll(this IDbCommand command, Action<IDataRecord> callback)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
-
-            if (callback == null)
-            {
-                throw new ArgumentNullException("callback");
-            }
+            Guard.NotNull(() => command, command);
+            Guard.NotNull(() => callback, callback);
 
             int count = 0;
             foreach (var record in command.Enumerate())
@@ -161,10 +139,7 @@ namespace OpenStory.Common.Tools
         /// <returns> the result from the query, cast to <typeparamref name="TResult"/>.</returns>
         public static TResult GetScalar<TResult>(this IDbCommand command)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
+            Guard.NotNull(() => command, command);
 
             using (var connection = newConnection())
             {
@@ -186,10 +161,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the number of rows affected by the <see cref="SqlCommand"/>.</returns>
         public static int InvokeNonQuery(this IDbCommand command)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
+            Guard.NotNull(() => command, command);
 
             using (var connection = newConnection())
             {
@@ -210,10 +182,7 @@ namespace OpenStory.Common.Tools
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
         public static void InvokeStoredProcedure(this IDbCommand command)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
+            Guard.NotNull(() => command, command);
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandTimeout = 60;

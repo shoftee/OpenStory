@@ -111,10 +111,7 @@ namespace OpenStory.Common.IO
         {
             this.ThrowIfDisposed();
 
-            if (bytes == null)
-            {
-                throw new ArgumentNullException("bytes");
-            }
+            Guard.NotNull(() => bytes, bytes);
 
             this.stream.Write(bytes, 0, bytes.Length);
         }
@@ -134,10 +131,7 @@ namespace OpenStory.Common.IO
         {
             this.ThrowIfDisposed();
 
-            if (@string == null)
-            {
-                throw new ArgumentNullException("string");
-            }
+            Guard.NotNull(() => @string, @string);
 
             this.WriteInt16((short)@string.Length);
             if (@string.Length > 0)
@@ -152,10 +146,7 @@ namespace OpenStory.Common.IO
         {
             this.ThrowIfDisposed();
 
-            if (@string == null)
-            {
-                throw new ArgumentNullException("string");
-            }
+            Guard.NotNull(() => @string, @string);
 
             if (paddingLength <= 0)
             {

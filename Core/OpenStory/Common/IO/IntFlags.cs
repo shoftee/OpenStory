@@ -25,10 +25,7 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
         public sealed override void Write(IPacketBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
+            Guard.NotNull(() => builder, builder);
 
             int bitCount = this.Bits.Length;
             int numberCount = bitCount / IntBitCount;
@@ -60,10 +57,7 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="reader"/> is <see langword="null"/>.</exception>
         public sealed override void Read(IUnsafePacketReader reader)
         {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
+            Guard.NotNull(() => reader, reader);
 
             int bitCount = this.Bits.Length;
             int numberCount = bitCount / IntBitCount;

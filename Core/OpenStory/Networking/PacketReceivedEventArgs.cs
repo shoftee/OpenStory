@@ -27,10 +27,7 @@ namespace OpenStory.Networking
         /// </exception>
         public PacketReceivedEventArgs(byte[] packet)
         {
-            if (packet == null)
-            {
-                throw new ArgumentNullException("packet");
-            }
+            Guard.NotNull(() => packet, packet);
 
             this.buffer = packet;
         }

@@ -19,10 +19,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the resulting byte array.</returns>
         public static byte[] ToByte(this string hex)
         {
-            if (hex == null)
-            {
-                throw new ArgumentNullException("hex");
-            }
+            Guard.NotNull(() => hex, hex);
 
             if ((hex.Length & 1) != 0)
             {
@@ -67,10 +64,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the byte array as a hex-digit string.</returns>
         public static string ToHex(this byte[] array, bool hyphenate = false)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            Guard.NotNull(() => array, array);
 
             var builder = new StringBuilder();
             int length = array.Length;

@@ -81,10 +81,7 @@ namespace OpenStory.Common.Tools
         /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
         private static Dictionary<string, string> ParseCommandLine(string commandLine)
         {
-            if (commandLine == null)
-            {
-                throw new ArgumentNullException("commandLine");
-            }
+            Guard.NotNull(() => commandLine, commandLine);
 
             var parsed = new Dictionary<string, string>();
             var matches = ParamRegex.Matches(commandLine);

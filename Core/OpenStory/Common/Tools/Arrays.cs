@@ -20,10 +20,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the new array.</returns>
         public static byte[] FastClone(this byte[] array)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            Guard.NotNull(() => array, array);
 
             int length = array.Length;
             var newArray = new byte[length];
@@ -48,10 +45,7 @@ namespace OpenStory.Common.Tools
         /// <returns>a copy of the segment.</returns>
         public static byte[] CopySegment(this byte[] array, int offset, int length)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            Guard.NotNull(() => array, array);
 
             if (offset < 0)
             {
@@ -81,10 +75,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the resulting array.</returns>
         public static byte[] FastJoin(params byte[][] arrays)
         {
-            if (arrays == null)
-            {
-                throw new ArgumentNullException("arrays");
-            }
+            Guard.NotNull(() => arrays, arrays);
 
             return FastJoinList(arrays);
         }
@@ -97,10 +88,7 @@ namespace OpenStory.Common.Tools
         /// <returns>the resulting array.</returns>
         public static byte[] FastJoin(IList<byte[]> arrays)
         {
-            if (arrays == null)
-            {
-                throw new ArgumentNullException("arrays");
-            }
+            Guard.NotNull(() => arrays, arrays);
 
             return FastJoinList(arrays);
         }

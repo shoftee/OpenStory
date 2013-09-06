@@ -85,10 +85,7 @@ namespace OpenStory.Networking
         /// </exception>
         public void AttachSocket(Socket socket)
         {
-            if (socket == null)
-            {
-                throw new ArgumentNullException("socket");
-            }
+            Guard.NotNull(() => socket, socket);
 
             this.Session.AttachSocket(socket);
         }
@@ -123,10 +120,7 @@ namespace OpenStory.Networking
         /// </exception>
         public void WritePacket(byte[] packet)
         {
-            if (packet == null)
-            {
-                throw new ArgumentNullException("packet");
-            }
+            Guard.NotNull(() => packet, packet);
 
             if (this.Session.Socket.Connected)
             {
@@ -146,10 +140,7 @@ namespace OpenStory.Networking
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="args"/> is <see langword="null"/>.</exception>
         protected virtual void OnDataArrived(object sender, DataArrivedEventArgs args)
         {
-            if (args == null)
-            {
-                throw new ArgumentNullException("args");
-            }
+            Guard.NotNull(() => args, args);
 
             byte[] data = args.Data;
             int position = 0, remaining = data.Length;

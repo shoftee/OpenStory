@@ -50,10 +50,7 @@ namespace OpenStory.Networking
                 throw new InvalidOperationException(CommonStrings.SessionIsNotActive);
             }
 
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
+            Guard.NotNull(() => data, data);
 
             this.queue.Enqueue(data);
 
