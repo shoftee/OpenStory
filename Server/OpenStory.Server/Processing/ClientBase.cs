@@ -77,7 +77,7 @@ namespace OpenStory.Server.Processing
             this.Session = session;
             this.Session.PacketProcessing += this.OnPacketProcessing;
 
-            this.AccountSession = null;
+            this.PacketFactory = packetFactory;
 
             this.keepAliveTimer = new Timer(PingInterval);
             this.keepAliveTimer.Elapsed += this.HandlePing;

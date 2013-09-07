@@ -5,6 +5,7 @@ using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Networking;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
 {
@@ -37,12 +38,12 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
         /// </summary>
-        /// <param name="sessionFactory">The <see cref="IServerSessionFactory"/> for this server.</param>
-        /// <param name="socketAcceptorFactory">The <see cref="ISocketAcceptorFactory"/> for this server.</param>
-        /// <param name="packetScheduler">The <see cref="IPacketScheduler"/> for this server.</param>
-        /// <param name="ivGenerator">The <see cref="IvGenerator"/> for this server.</param>
-        /// <param name="logger">The logger to use for this server.</param>
-        public ServerProcess(IServerSessionFactory sessionFactory, ISocketAcceptorFactory socketAcceptorFactory, IPacketScheduler packetScheduler, IvGenerator ivGenerator, ILogger logger)
+        public ServerProcess(
+            IServerSessionFactory sessionFactory, 
+            ISocketAcceptorFactory socketAcceptorFactory, 
+            IPacketScheduler packetScheduler, 
+            IvGenerator ivGenerator, 
+            ILogger logger)
         {
             this.sessionFactory = sessionFactory;
             this.socketAcceptorFactory = socketAcceptorFactory;

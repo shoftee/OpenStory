@@ -2,9 +2,9 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using OpenStory.Cryptography;
+using OpenStory.Tests;
 
-namespace OpenStory.Tests.Cryptography
+namespace OpenStory.Cryptography
 {
     [Category("OpenStory.Common.Cryptography")]
     [TestFixture]

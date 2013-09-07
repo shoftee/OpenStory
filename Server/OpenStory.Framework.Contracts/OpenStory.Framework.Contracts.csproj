@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,14 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultServiceConfigurationProvider.cs" />
     <Compile Include="IAccountProvider.cs" />
     <Compile Include="IBanProvider.cs" />
     <Compile Include="INexusConnectionProvider.cs" />
     <Compile Include="IServerProcess.cs" />
     <Compile Include="IServerSession.cs" />
     <Compile Include="IServerSessionFactory.cs" />
-    <Compile Include="IServiceConfigurationProvider.cs" />
     <Compile Include="NexusConnectionInfo.cs" />
     <Compile Include="PacketProcessingEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,13 +69,13 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
-      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
       <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>
       <Name>OpenStory.Framework.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
+      <Project>{93C606D9-CF3F-4747-88A4-10A6A723462A}</Project>
+      <Name>OpenStory.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

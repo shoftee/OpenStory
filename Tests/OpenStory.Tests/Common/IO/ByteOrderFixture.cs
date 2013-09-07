@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.IO;
 
-namespace OpenStory.Tests.Common.IO
+namespace OpenStory.Common.IO
 {
     [Category("OpenStory.Common.IO.ByteOrder")]
     [TestFixture]

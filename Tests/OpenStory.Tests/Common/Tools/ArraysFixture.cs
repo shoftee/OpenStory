@@ -2,16 +2,16 @@ using System;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.Tools;
+using OpenStory.Tests;
 
-namespace OpenStory.Tests.Common.Tools
+namespace OpenStory.Common.Tools
 {
     [TestFixture]
     public sealed class ArraysFixture
     {
         #region Arrays.FastClone
 
-        [Category("OpenStory.Common.IO.Tools.HexExtensions")]
+        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void FastClone_Should_Throw_On_Null_Source()
         {

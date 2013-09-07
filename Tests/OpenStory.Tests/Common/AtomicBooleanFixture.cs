@@ -1,9 +1,9 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common;
+using OpenStory.Tests;
 
-namespace OpenStory.Tests.Common
+namespace OpenStory.Common
 {
     [Category("OpenStory.Common.AtomicBoolean")]
     [TestFixture]

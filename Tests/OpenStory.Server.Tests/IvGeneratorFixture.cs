@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using Moq;
 using NUnit.Framework;
 
-namespace OpenStory.Server.Tests
+namespace OpenStory.Server
 {
     [Category("OpenStory.Server")]
     [TestFixture]

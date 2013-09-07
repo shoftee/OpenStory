@@ -2,9 +2,9 @@ using System;
 using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.IO;
+using OpenStory.Tests;
 
-namespace OpenStory.Tests.Common.IO
+namespace OpenStory.Common.IO
 {
     [TestFixture]
     internal sealed class SafePacketReadingFixture : PacketReaderFixtureBase

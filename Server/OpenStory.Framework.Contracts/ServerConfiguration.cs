@@ -1,43 +1,38 @@
 using System.Net;
 using System.Runtime.Serialization;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Framework.Contracts
 {
     /// <summary>
     /// Represents a set of server configuration settings.
     /// </summary>
-    [DataContract]
     public class ServerConfiguration
     {
         /// <summary>
         /// Gets the game version for the server.
         /// </summary>
-        [DataMember]
         public ushort Header { get; private set; }
 
         /// <summary>
         /// Gets the game version for the server.
         /// </summary>
-        [DataMember]
         public ushort Version { get; private set; }
 
         /// <summary>
         /// Gets the game sub-version for the server.
         /// </summary>
-        [DataMember]
         public string Subversion { get; private set; }
 
         /// <summary>
         /// Gets the locale ID for the server.
         /// </summary>
-        [DataMember]
         public byte LocaleId { get; private set; }
 
         /// <summary>
         /// Gets the entry point definition for the server.
         /// </summary>
-        [DataMember]
         public IPEndPoint Endpoint { get; private set; }
 
         /// <summary>

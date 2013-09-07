@@ -6,6 +6,7 @@ using OpenStory.Server.Networking;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {
@@ -22,7 +23,6 @@ namespace OpenStory.Server
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
             Bind<INexusConnectionProvider>().To<EnvironmentNexusConnectionProvider>();
-            Bind<IServiceConfigurationProvider>().To<DefaultServiceConfigurationProvider>();
 
             // PacketFactory <= IPacketCodeTable
             Bind<IPacketFactory>().To<PacketFactory>();
@@ -38,12 +38,6 @@ namespace OpenStory.Server
             Bind<ISocketAcceptorFactory>().ToFactory();
             Bind<IServerSessionFactory>().ToFactory();
             Bind<IServerProcess>().To<ServerProcess>();
-
-            // GameServer <= IServerProcess, IServerOperator
-            Bind<GameServiceBase>().To<GameServer>();
-
-            // Bootstrapper <= IServiceHostFactory, ILogger.
-            Bind<Bootstrapper>().ToSelf().InSingletonScope();
         }
     }
 }

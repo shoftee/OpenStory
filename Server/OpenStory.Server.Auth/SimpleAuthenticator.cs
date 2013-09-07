@@ -1,7 +1,6 @@
 using System;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
@@ -23,7 +22,7 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         public AuthenticationResult Authenticate(IUnsafePacketReader credentialsReader, out IAccountSession session)
         {
-            // Default value for failure scenarios;
+            // Default value for failure scenarios:
             session = null;
 
             // TODO: user name validation, throw IllegalPacketException if not valid

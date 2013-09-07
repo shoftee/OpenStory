@@ -6,9 +6,8 @@ using Ninject;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
-using OpenStory.Services;
 
-namespace OpenStory.Server.Tests
+namespace OpenStory.Server
 {
     [Category("OpenStory.Server.Integration")]
     [TestFixture]
@@ -20,16 +19,13 @@ namespace OpenStory.Server.Tests
                 typeof(IPlayerRegistry),
                 typeof(ILocationRegistry),
                 typeof(IPacketScheduler),
-                typeof(IServiceConfigurationProvider),
                 typeof(INexusConnectionProvider),
                 typeof(IPacketFactory),
                 typeof(IServerSession),
                 typeof(IServerSessionFactory),
                 typeof(RandomNumberGenerator),
                 typeof(IvGenerator),
-                typeof(IServerProcess),
-                typeof(GameServiceBase),
-                typeof(Bootstrapper)
+                typeof(IServerProcess)
                 )] Type type)
         {
             var kernel = GetServerKernel();

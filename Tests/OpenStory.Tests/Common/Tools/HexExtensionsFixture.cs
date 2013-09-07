@@ -1,9 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.Tools;
 
-namespace OpenStory.Tests.Common.Tools
+namespace OpenStory.Common.Tools
 {
     [Category("OpenStory.Common.IO.Tools.HexExtensions")]
     [TestFixture]

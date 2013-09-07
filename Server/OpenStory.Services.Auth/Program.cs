@@ -1,23 +1,38 @@
-﻿using OpenStory.Server.Auth;
-using log4net.Config;
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Discovery;
+using System.Threading;
 using Ninject;
+using OpenStory.Server.Auth;
+using OpenStory.Services.Contracts;
+using OpenStory.Services.Wcf;
 
 namespace OpenStory.Services.Auth
 {
-    internal static class Program
+    static class Program 
     {
-        private static void Main()
+        public static void Main()
         {
-            XmlConfigurator.Configure();
-            var bootstrapper = Initialize();
-            bootstrapper.Start();
+            var kernel = new StandardKernel(new AuthServerModule(), new WcfServiceModule());
+
+            kernel.Bind<IAuthService, RegisteredServiceBase>().To<AuthService>();
+            kernel.Bind<WcfConfiguration>().ToConstant(GetAuthConfiguration());
+            kernel.Get<IBootstrapper>().Start();
+
+            Thread.Sleep(Timeout.Infinite);
         }
 
-        private static Bootstrapper Initialize()
+        private static WcfConfiguration GetAuthConfiguration()
         {
-            var kernel = new StandardKernel();
-            kernel.Load(new AuthServerModule());
-            return kernel.Get<Bootstrapper>();
+            var uri = new Uri("net.tcp://localhost/OpenStory/Auth");
+            var configuration = WcfConfiguration.Create<AuthService>(uri, ConfigureAuthHost);
+            return configuration;
+        }
+
+        private static void ConfigureAuthHost(ServiceHost host)
+        {
+            host.Description.Behaviors.Add(new ServiceDiscoveryBehavior());
+            host.AddServiceEndpoint(new UdpDiscoveryEndpoint());
         }
     }
 }

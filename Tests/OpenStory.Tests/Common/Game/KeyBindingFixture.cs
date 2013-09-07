@@ -1,9 +1,8 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.Game;
 
-namespace OpenStory.Tests.Common.Game
+namespace OpenStory.Common.Game
 {
     [TestFixture]
     [Category("OpenStory.Common.Game.KeyBinding")]

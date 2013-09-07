@@ -19,15 +19,12 @@ namespace OpenStory.Server.Auth
             Bind<IAccountSession>().To<AccountSession>();
             Bind<IAuthenticator>().To<SimpleAuthenticator>();
 
-            Bind<IPacketCodeTable>().To<AuthServerPackets>();
+            Bind<IPacketCodeTable>().To<AuthPacketCodeTable>();
 
-            Bind<IClientFactory<AuthClient>>().ToFactory();
+            Bind<IGameClientFactory<AuthClient>>().ToFactory();
 
-            Bind<IServerOperator, IAuthServer>().To<AuthOperator>();
-            Bind<IAuthService, GameServiceBase>().To<AuthService>();
-
-            Bind<IServiceFactory<AuthService>>().ToFactory();
-            Bind<IServiceHostFactory>().To<GameServiceHostFactory<AuthService>>();
+            Bind<IServerOperator, IAuthOperator>().To<AuthOperator>();
+            Bind<IServiceFactory<IAuthService>>().ToFactory();
         }
     }
 }

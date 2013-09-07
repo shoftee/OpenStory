@@ -1,12 +1,13 @@
 ﻿using OpenStory.Framework.Contracts;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// Represents a server instance.
     /// </summary>
-    public class GameServer : GameServiceBase
+    public class GameServer : RegisteredServiceBase
     {
         private readonly IServerProcess serverProcess;
         private readonly IServerOperator serverOperator;
@@ -20,21 +21,17 @@ namespace OpenStory.Server.Processing
         {
             this.serverProcess = serverProcess;
             this.serverOperator = serverOperator;
-        }
-
-        /// <inheritdoc />
-        protected override void OnConfiguring(ServiceConfiguration configuration)
-        {
-            this.serverProcess.Configure(this.ServiceConfiguration);
-            this.serverOperator.Configure(this.ServiceConfiguration);
-        }
-
-        /// <inheritdoc />
-        protected override void OnInitializing()
-        {
-            base.OnInitializing();
 
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
+        }
+
+        /// <inheritdoc />
+        protected override void OnInitializing(ServiceConfiguration serviceConfiguration)
+        {
+            base.OnInitializing(serviceConfiguration);
+
+            this.serverProcess.Configure(serviceConfiguration);
+            this.serverOperator.Configure(serviceConfiguration);
         }
 
         /// <inheritdoc />
@@ -55,8 +52,7 @@ namespace OpenStory.Server.Processing
 
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
-            var session = args.ServerSession;
-            this.serverOperator.RegisterSession(session);
+            this.serverOperator.RegisterSession(args.ServerSession);
         }
     }
 }

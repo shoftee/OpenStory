@@ -15,7 +15,7 @@ namespace OpenStory.Server.Processing
     /// </summary>
     internal sealed class ServerSession : EncryptedNetworkSession, IServerSession
     {
-        private static readonly AtomicInteger RollingSessionId = new AtomicInteger(0);
+        private static readonly AtomicInteger RollingNetworkSessionId = new AtomicInteger(0);
 
         #region Fields and properties
 
@@ -45,7 +45,7 @@ namespace OpenStory.Server.Processing
             IPacketCodeTable packetCodeTable, 
             ILogger logger)
         {
-            this.NetworkSessionId = RollingSessionId.Increment();
+            this.NetworkSessionId = RollingNetworkSessionId.Increment();
 
             this.isPushing = false;
             this.packets = new ConcurrentQueue<byte[]>();
@@ -151,34 +151,26 @@ namespace OpenStory.Server.Processing
             }
         }
 
-        private string GetLabel(ushort packetCode)
-        {
-            string label;
-            this.packetCodeTable.TryGetIncomingLabel(packetCode, out label);
-            return label;
-        }
-
         private bool PushAsync(byte[] packet)
         {
             var reader = new PacketReader(packet);
+
             ushort packetCode;
             if (!reader.TryReadUInt16(out packetCode))
             {
-                LogPacketWithoutPacketCode();
-
+                this.logger.Debug(@"A packet without a packet code was received.");
                 this.Close();
 
                 // Bad packet. We kill the session and stop pushing.
                 return true;
             }
 
-            string label = this.GetLabel(packetCode);
-            if (label == null)
+            string label;
+            if (!this.packetCodeTable.TryGetIncomingLabel(packetCode, out label))
             {
-                // Bad server. Most likely. We don't know this packet.
-                LogUnknownPacket(packetCode, reader);
+                this.logger.Debug(@"Unknown Packet Code 0x{0:4X} - {1}", packetCode, reader.ReadFully().ToHex());
 
-                // Take the blame and try the next one! :<
+                // Bad server. Take the blame and try the next one! :<
                 return false;
             }
 
@@ -246,16 +238,6 @@ namespace OpenStory.Server.Processing
         #endregion
 
         #region Logging
-
-        private void LogPacketWithoutPacketCode()
-        {
-            logger.Debug(@"A packet without a packet code was received.");
-        }
-
-        private void LogUnknownPacket(ushort packetCode, PacketReader reader)
-        {
-            logger.Debug(@"Unknown Packet Code 0x{0:4X} - {1}", packetCode, reader.ReadFully().ToHex());
-        }
 
         #endregion
     }

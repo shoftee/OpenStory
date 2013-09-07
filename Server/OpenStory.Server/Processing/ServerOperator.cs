@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
 {
@@ -11,7 +12,7 @@ namespace OpenStory.Server.Processing
     public abstract class ServerOperator<TClient> : IServerOperator
         where TClient : ClientBase
     {
-        private readonly IClientFactory<TClient> clientFactory;
+        private readonly IGameClientFactory<TClient> gameClientFactory;
 
         /// <summary>
         /// Gets the list of registered clients.
@@ -21,10 +22,10 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Initializes a new instance of <see cref="ServerOperator{TClient}"/>.
         /// </summary>
-        protected ServerOperator(IClientFactory<TClient> clientFactory)
+        protected ServerOperator(IGameClientFactory<TClient> gameClientFactory)
         {
             this.Clients = new List<TClient>();
-            this.clientFactory = clientFactory;
+            this.gameClientFactory = gameClientFactory;
         }
 
         /// <inheritdoc />
@@ -33,7 +34,7 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
         {
-            var client = this.clientFactory.CreateClient(session);
+            var client = this.gameClientFactory.CreateClient(session);
             this.Clients.Add(client);
         }
     }

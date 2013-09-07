@@ -6,7 +6,7 @@
     <ProjectGuid>{00377B2D-2B42-4E62-9E71-3E8DB82DE7F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>ClassLibrary</AssemblyName>
+    <AssemblyName>OpenStory.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>OpenStory.Tests</RootNamespace>
+    <RootNamespace>OpenStory</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
@@ -72,6 +72,7 @@
     <Compile Include="Common\Tools\ArraysFixture.cs" />
     <Compile Include="Common\Tools\HexExtensionsFixture.cs" />
     <Compile Include="Cryptography\RollingIvFixture.cs" />
+    <Compile Include="Networking\ReceiveDescriptorFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
     <ProjectGuid>{772133AC-4C6E-4E72-8AFD-F52622C4D0BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Framework.Contracts.Tests</RootNamespace>
+    <RootNamespace>OpenStory.Framework.Contracts</RootNamespace>
     <AssemblyName>OpenStory.Framework.Contracts.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

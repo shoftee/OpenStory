@@ -2,9 +2,9 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.IO;
+using OpenStory.Tests;
 
-namespace OpenStory.Tests.Common.IO
+namespace OpenStory.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.BoundedBuffer")]

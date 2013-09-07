@@ -4,9 +4,8 @@ using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
-using OpenStory.Common.IO;
 
-namespace OpenStory.Tests.Common.IO
+namespace OpenStory.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.PacketBuilder")]

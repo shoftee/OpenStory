@@ -4,16 +4,21 @@ using OpenStory.Server.Processing;
 
 namespace OpenStory.Server.Channel
 {
-    internal sealed class ChannelClient : ClientBase
+    /// <summary>
+    /// Represents a network client for a channel server.
+    /// </summary>
+    public sealed class ChannelClient : ClientBase
     {
+        /// <inheritdoc/>
         public ChannelClient(IServerSession session, IPacketFactory packetFactory, ILogger logger)
             : base(session, packetFactory, logger)
         {
         }
 
+        /// <inheritdoc/>
         protected override void ProcessPacket(PacketProcessingEventArgs args)
         {
-            // TODO packet handling
+            // TODO: Channel packet handling, hello?
         }
     }
 }

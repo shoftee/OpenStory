@@ -1,9 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common;
 
-namespace OpenStory.Tests.Common
+namespace OpenStory.Common
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.PacketCodeTable")]

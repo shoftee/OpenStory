@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenStory.Services;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Framework.Contracts
 {

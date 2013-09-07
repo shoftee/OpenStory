@@ -1,5 +1,5 @@
-﻿using Ninject;
-using OpenStory.Server;
+﻿using log4net.Config;
+using Ninject;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
@@ -8,15 +8,14 @@ namespace OpenStory.Services.Account
     {
         private static void Main()
         {
-            var bootstrapper = Initialize();
-            bootstrapper.Start();
+            XmlConfigurator.Configure();
         }
 
-        private static Bootstrapper Initialize()
+        private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<IAccountService, GameServiceBase>().To<AccountService>().InSingletonScope();
-            return kernel.Get<Bootstrapper>();
+            kernel.Bind<IAccountService, RegisteredServiceBase>().To<AccountService>();
+            return kernel;
         }
     }
 }

@@ -39,6 +39,10 @@
     <StartupObject>OpenStory.Services.Account.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -60,8 +64,11 @@
     </Reference>
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data.Services" />
     <Reference Include="System.ServiceModel">
     </Reference>
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
@@ -74,13 +81,13 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Registry\OpenStory.Services\OpenStory.Services.csproj">
-      <Project>{A53768F4-B0EC-4873-A127-171A15B63663}</Project>
-      <Name>OpenStory.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
+      <Project>{93C606D9-CF3F-4747-88A4-10A6A723462A}</Project>
+      <Name>OpenStory.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

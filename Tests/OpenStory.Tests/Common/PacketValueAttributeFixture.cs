@@ -1,9 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common;
 
-namespace OpenStory.Tests.Common
+namespace OpenStory.Common
 {
     [TestFixture]
     public sealed class PacketValueAttributeFixture

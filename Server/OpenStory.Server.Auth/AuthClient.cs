@@ -14,8 +14,7 @@ namespace OpenStory.Server.Auth
     public sealed class AuthClient : ClientBase
     {
         /// <summary>
-        /// Denotes the maximum number of allowed failed 
-        /// login attempts before the client is disconnected.
+        /// Denotes the maximum number of allowed failed login attempts before the client is disconnected.
         /// </summary>
         private const int MaxLoginAttempts = 3;
 
@@ -40,26 +39,25 @@ namespace OpenStory.Server.Auth
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthClient"/> class and binds it with a network session.
         /// </summary>
-        /// <param name="session"><inheritdoc/></param>
         /// <param name="authenticator">The <see cref="IAuthenticator"/> to use for authenticating the user.</param>
+        /// <param name="session"><inheritdoc/></param>
         /// <param name="packetFactory"><inheritdoc/></param>
         /// <param name="logger"><inheritdoc/></param>
-        public AuthClient(IServerSession session, IAuthenticator authenticator, IPacketFactory packetFactory, ILogger logger)
+        public AuthClient(IAuthenticator authenticator, IServerSession session, IPacketFactory packetFactory, ILogger logger)
             : base(session, packetFactory, logger)
         {
+            this.authenticator = authenticator;
+
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
             this.State = AuthClientState.PreAuthentication;
-
-            this.authenticator = authenticator;
         }
 
         /// <inheritdoc/>
         protected override void ProcessPacket(PacketProcessingEventArgs args)
         {
-            string label = args.Label;
             var reader = args.Reader;
-            switch (label)
+            switch (args.Label)
             {
                 case "Authenticate":
                     this.HandleAuthentication(reader);
