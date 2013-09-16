@@ -30,11 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,13 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="IAccountService.cs" />
     <Compile Include="IAccountSession.cs" />
     <Compile Include="IAuthService.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IChannelService.cs" />
     <Compile Include="IConfigurableService.cs" />
-    <Compile Include="INexusService.cs" />
     <Compile Include="IRegisteredService.cs" />
     <Compile Include="IRegistryService.cs" />
     <Compile Include="IServiceClientProvider.cs" />

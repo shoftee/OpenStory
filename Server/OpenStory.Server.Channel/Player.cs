@@ -62,27 +62,5 @@ namespace OpenStory.Server.Channel
 
             // TODO: There are still more things to add to ChannelCharacter
         }
-
-        /// <summary>
-        /// Gets an facet object of this player instance.
-        /// </summary>
-        /// <typeparam name="TPlayerFacet">The type of the facet interface.</typeparam>
-        /// <returns>an instance of <typeparamref name="TPlayerFacet"/>.</returns>
-        private TPlayerFacet GetFacet<TPlayerFacet>()
-            where TPlayerFacet : IPlayerFacet
-        {
-            return PlayerFacetManager.Instance.Get<TPlayerFacet>(this.Key);
-        }
-
-        /// <summary>
-        /// Creates a new facet object for this player instance.
-        /// </summary>
-        /// <typeparam name="TPlayerFacet">The type of the facet interface.</typeparam>
-        /// <returns>an instance of <typeparamref name="TPlayerFacet"/>.</returns>
-        private TPlayerFacet CreateFacet<TPlayerFacet>()
-            where TPlayerFacet : IPlayerFacet
-        {
-            return PlayerFacetManager.Instance.Create<TPlayerFacet>(this.Key);
-        }
     }
 }

@@ -6,38 +6,32 @@ namespace OpenStory.Server.Channel
 {
     internal sealed class PlayerFacetManager
     {
-        public static readonly PlayerFacetManager Instance = new PlayerFacetManager();
+        private readonly IPlayerFacetFactory factory;
 
-        private readonly Dictionary<Type, object> factories;
         private readonly Dictionary<Key, IPlayerFacet> facets;
-        
-        private PlayerFacetManager()
+
+        public PlayerFacetManager(IPlayerFacetFactory playerFacetFactory)
         {
-            this.factories = new Dictionary<Type, object>();
+            this.factory = playerFacetFactory;
+
             this.facets = new Dictionary<Key, IPlayerFacet>();
         }
 
-        public void Register<TPlayerFacet>(Func<TPlayerFacet> factoryMethod)
+        public TPlayerFacet Create<TPlayerFacet>(CharacterKey characterKey)
             where TPlayerFacet : IPlayerFacet
         {
-            this.factories.Add(typeof(TPlayerFacet), factoryMethod);
-        }
+            var facet = this.factory.CreateFacet<TPlayerFacet>(characterKey);
 
-        public TPlayerFacet Create<TPlayerFacet>(CharacterKey key)
-            where TPlayerFacet : IPlayerFacet
-        {
-            var facetType = typeof(TPlayerFacet);
-            var method = (Func<TPlayerFacet>)this.factories[facetType];
-
-            var facet = method();
-            this.facets.Add(new Key(facetType, key.Id), facet);
+            var facetKey = new Key(typeof(TPlayerFacet), characterKey.Id);
+            this.facets.Add(facetKey, facet);
+            
             return facet;
         }
 
         public TPlayerFacet Get<TPlayerFacet>(CharacterKey key)
         {
-            var facetType = typeof(TPlayerFacet);
-            var facet = this.facets[new Key(facetType, key.Id)];
+            var facetKey = new Key(typeof(TPlayerFacet), key.Id);
+            var facet = this.facets[facetKey];
             return (TPlayerFacet)facet;
         }
 
@@ -46,7 +40,6 @@ namespace OpenStory.Server.Channel
         private struct Key : IEquatable<Key>
         {
             public Type FacetType { get; private set; }
-
             public int PlayerId { get; private set; }
 
             public Key(Type facetType, int playerId)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Ninject.Activation;
 using OpenStory.Common.Tools;
 using OpenStory.Framework.Contracts;
 
@@ -7,22 +8,14 @@ namespace OpenStory.Server.Processing
     /// <summary>
     /// Creates <see cref="NexusConnectionInfo"/> objects from data passed during command-line initialization.
     /// </summary>
-    public sealed class EnvironmentNexusConnectionProvider : INexusConnectionProvider
+    public sealed class EnvironmentNexusConnectionProvider : Provider<NexusConnectionInfo>
     {
         private const string AccessTokenKey = @"AccessToken";
 
-        /// <summary>
-        /// Creates a <see cref="NexusConnectionInfo"/> object from the command-line parameter list.
-        /// </summary>
-        public NexusConnectionInfo GetConnectionInfo()
+        /// <inheritdoc/>
+        protected override NexusConnectionInfo CreateInstance(IContext context)
         {
             var parameters = ParameterList.FromEnvironment();
-            var connection = FromParameterList(parameters);
-            return connection;
-        }
-
-        private static NexusConnectionInfo FromParameterList(ParameterList parameters)
-        {
             var accessTokenString = parameters[AccessTokenKey];
 
             Guid token;
@@ -32,8 +25,8 @@ namespace OpenStory.Server.Processing
                 throw new FormatException(error);
             }
 
-            var result = new NexusConnectionInfo(token);
-            return result;
+            var info = new NexusConnectionInfo(token);
+            return info;
         }
     }
 }

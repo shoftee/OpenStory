@@ -13,11 +13,11 @@ namespace OpenStory.Services.Wcf
 {
     class NinjectServiceBehavior : IServiceBehavior
     {
-        private readonly IResolutionRoot resolutionRoot;
+        private readonly IKernel kernel;
 
-        public NinjectServiceBehavior(IResolutionRoot resolutionRoot)
+        public NinjectServiceBehavior(IKernel kernel)
         {
-            this.resolutionRoot = resolutionRoot;
+            this.kernel = kernel;
         }
 
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
@@ -49,7 +49,7 @@ namespace OpenStory.Services.Wcf
         {
             // Get NinjectInstanceProvider by injection because we want to give it the kernel.
             var serviceTypeArgument = new ConstructorArgument("serviceType", serviceType);
-            var provider = this.resolutionRoot.Get<NinjectInstanceProvider>(serviceTypeArgument);
+            var provider = this.kernel.Get<NinjectInstanceProvider>(serviceTypeArgument);
             return provider;
         }
     }

@@ -19,13 +19,13 @@ namespace OpenStory.Server
                 typeof(IPlayerRegistry),
                 typeof(ILocationRegistry),
                 typeof(IPacketScheduler),
-                typeof(INexusConnectionProvider),
                 typeof(IPacketFactory),
                 typeof(IServerSession),
                 typeof(IServerSessionFactory),
                 typeof(RandomNumberGenerator),
                 typeof(IvGenerator),
-                typeof(IServerProcess)
+                typeof(IServerProcess),
+                typeof(NexusConnectionInfo)
                 )] Type type)
         {
             var kernel = GetServerKernel();

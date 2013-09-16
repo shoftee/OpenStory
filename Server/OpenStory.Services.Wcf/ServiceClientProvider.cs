@@ -36,9 +36,13 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets a service channel using discovery.
         /// </summary>
-        public virtual TChannel CreateClient()
+        public virtual TChannel CreateChannel()
         {
-            this.channelFactory.Open();
+            if (this.channelFactory.State == CommunicationState.Created)
+            {
+                this.channelFactory.Open();
+            }
+
             var channel = this.channelFactory.CreateChannel(this.Metadata.Address);
             return channel;
         }
@@ -51,7 +55,7 @@ namespace OpenStory.Services.Wcf
             var metadata = response.Endpoints.FirstOrDefault();
             if (metadata == null)
             {
-                var message = string.Format("No endpoint found for contract {0}", typeof(TChannel).FullName);
+                var message = string.Format("No endpoint found for contract '{0}'.", typeof(TChannel).FullName);
                 throw new InvalidOperationException(message);
             }
 

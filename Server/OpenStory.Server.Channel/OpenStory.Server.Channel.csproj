@@ -71,6 +71,7 @@
     <Compile Include="Data\BuddyListEntryStatus.cs" />
     <Compile Include="IChannelOperator.cs" />
     <Compile Include="IPlayerFacet.cs" />
+    <Compile Include="IPlayerFacetFactory.cs" />
     <Compile Include="Maps\FieldLimitLabel.cs" />
     <Compile Include="Maps\FieldLimits.cs" />
     <Compile Include="Maps\FootholdTree.cs" />

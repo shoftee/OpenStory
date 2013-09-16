@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="IAccountProvider.cs" />
     <Compile Include="IBanProvider.cs" />
-    <Compile Include="INexusConnectionProvider.cs" />
     <Compile Include="IServerProcess.cs" />
     <Compile Include="IServerSession.cs" />
     <Compile Include="IServerSessionFactory.cs" />

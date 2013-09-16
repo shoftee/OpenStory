@@ -37,8 +37,15 @@
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\..\packages\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +65,10 @@
     <Compile Include="WcfServiceModule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
       <Project>{93C606D9-CF3F-4747-88A4-10A6A723462A}</Project>
       <Name>OpenStory.Services.Contracts</Name>

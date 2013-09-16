@@ -32,7 +32,7 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets a service channel using discovery.
         /// </summary>
-        public override TChannel CreateClient()
+        public override TChannel CreateChannel()
         {
             this.channelFactory.Open();
             var channel = this.channelFactory.CreateChannel(this.Metadata.Address);

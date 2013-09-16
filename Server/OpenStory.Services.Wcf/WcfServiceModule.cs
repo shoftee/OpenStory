@@ -1,18 +1,18 @@
-﻿using Ninject.Modules;
+using Ninject.Activation.Strategies;
+using Ninject.Modules;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Wcf
 {
     /// <summary>
-    /// Adds WCF dependencies!
+    /// Represents a ninject module for WCF stuff.
     /// </summary>
     public class WcfServiceModule : NinjectModule
     {
         /// <inheritdoc/>
         public override void Load()
         {
-            Bind<IServiceClientProvider<IRegistryService>>().To<ServiceClientProvider<IRegistryService>>();
-            Bind<IBootstrapper>().To<WcfBootstrapper>().InSingletonScope();
+            Bind<IBootstrapper>().To<WcfBootstrapper>();
         }
     }
 }

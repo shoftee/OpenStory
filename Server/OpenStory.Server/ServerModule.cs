@@ -5,8 +5,6 @@ using OpenStory.Framework.Contracts;
 using OpenStory.Server.Networking;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
-using OpenStory.Services;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {
@@ -22,7 +20,6 @@ namespace OpenStory.Server
             Bind<IPlayerRegistry>().To<PlayerRegistry>();
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
-            Bind<INexusConnectionProvider>().To<EnvironmentNexusConnectionProvider>();
 
             // PacketFactory <= IPacketCodeTable
             Bind<IPacketFactory>().To<PacketFactory>();

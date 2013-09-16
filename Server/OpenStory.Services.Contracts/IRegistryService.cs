@@ -7,7 +7,7 @@ namespace OpenStory.Services.Contracts
     /// Provides methods for Game Service Registration
     /// </summary>
     [ServiceContract(Namespace = null, Name = "RegistryService")]
-    public interface IRegistryService : INexusService
+    public interface IRegistryService
     {
         /// <summary>
         /// Attempts to register a service with the specified configuration.

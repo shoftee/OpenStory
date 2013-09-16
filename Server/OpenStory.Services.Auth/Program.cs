@@ -1,8 +1,8 @@
 using System;
-using System.ServiceModel;
-using System.ServiceModel.Discovery;
 using System.Threading;
+using log4net.Config;
 using Ninject;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Auth;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
@@ -13,26 +13,30 @@ namespace OpenStory.Services.Auth
     {
         public static void Main()
         {
-            var kernel = new StandardKernel(new AuthServerModule(), new WcfServiceModule());
+            XmlConfigurator.Configure();
 
-            kernel.Bind<IAuthService, RegisteredServiceBase>().To<AuthService>();
-            kernel.Bind<WcfConfiguration>().ToConstant(GetAuthConfiguration());
+            var kernel = CreateKernel();
             kernel.Get<IBootstrapper>().Start();
-
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static WcfConfiguration GetAuthConfiguration()
+        private static IKernel CreateKernel()
         {
-            var uri = new Uri("net.tcp://localhost/OpenStory/Auth");
-            var configuration = WcfConfiguration.Create<AuthService>(uri, ConfigureAuthHost);
-            return configuration;
+            var kernel = new StandardKernel(new AuthServerModule(), new WcfServiceModule());
+
+            kernel.Bind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
+            kernel.Bind<RegisteredServiceBase>().To<AuthService>();
+
+            var baseUri = new Uri("net.tcp://localhost:0/OpenStory/Auth");
+            kernel.Bind<WcfConfiguration>().ToConstant(WcfConfiguration.For<AuthService>(baseUri));
+
+            return kernel;
         }
 
-        private static void ConfigureAuthHost(ServiceHost host)
+        private static NexusConnectionInfo GetNexusConnectionInfo()
         {
-            host.Description.Behaviors.Add(new ServiceDiscoveryBehavior());
-            host.AddServiceEndpoint(new UdpDiscoveryEndpoint());
+            var accessToken = new Guid("18B87A4B-E405-43F4-A1C2-A0AED35E3E15");
+            return new NexusConnectionInfo(accessToken);
         }
     }
 }
