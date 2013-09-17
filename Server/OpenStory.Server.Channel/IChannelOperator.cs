@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OpenStory.Framework.Model.Common;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Channel
 {
@@ -11,7 +12,7 @@ namespace OpenStory.Server.Channel
         /// <summary>
         /// Gets the World Server link object for this Channel Server.
         /// </summary>
-        IChannelWorld World { get; }
+        IChannelWorldRequestHandler World { get; }
 
         /// <summary>
         /// Broadcasts a message to the whole world server.

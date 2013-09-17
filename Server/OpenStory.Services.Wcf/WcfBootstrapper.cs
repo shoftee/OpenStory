@@ -29,7 +29,7 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets the list of configurations for the bootstrapper.
         /// </summary>
-        protected List<WcfConfiguration> Configurations { get; private set; }
+        protected List<OsWcfConfiguration> Configurations { get; private set; }
 
         private readonly List<ServiceHost> hosts;
         
@@ -38,7 +38,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public WcfBootstrapper(
             IResolutionRoot resolutionRoot, 
-            IEnumerable<WcfConfiguration> configurations,
+            IEnumerable<OsWcfConfiguration> configurations,
             ILogger logger)
         {
             this.ResolutionRoot = resolutionRoot;

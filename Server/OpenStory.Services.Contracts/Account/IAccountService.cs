@@ -6,7 +6,7 @@ namespace OpenStory.Services.Contracts
     /// <summary>
     /// Provides methods for accessing an account service.
     /// </summary>
-    [ServiceContract(Namespace = null, Name = "AccountService", CallbackContract = typeof(IServiceStateChanged))]
+    [ServiceContract(Namespace = null, Name = "AccountService")]
     public interface IAccountService
     {
         /// <summary>

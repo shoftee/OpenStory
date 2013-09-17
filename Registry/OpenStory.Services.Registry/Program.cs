@@ -58,7 +58,7 @@ namespace OpenStory.Services.Registry
             kernel.Bind<IRegistryService>().To<RegistryService>();
 
             var baseUri = new Uri("net.tcp://localhost:0/OpenStory/Registry");
-            kernel.Bind<WcfConfiguration>().ToConstant(WcfConfiguration.For<RegistryService>(baseUri));
+            kernel.Bind<OsWcfConfiguration>().ToConstant(OsWcfConfiguration.For<RegistryService>(baseUri));
 
             return kernel;
         }

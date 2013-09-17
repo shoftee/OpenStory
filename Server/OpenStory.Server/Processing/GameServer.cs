@@ -1,5 +1,4 @@
 ﻿using OpenStory.Framework.Contracts;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
@@ -10,17 +9,17 @@ namespace OpenStory.Server.Processing
     public class GameServer : RegisteredServiceBase
     {
         private readonly IServerProcess serverProcess;
-        private readonly IServerOperator serverOperator;
+        private readonly IServerOperator channelOperator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServer"/> type.
         /// </summary>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
-        /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        public GameServer(IServerProcess serverProcess, IServerOperator serverOperator)
+        /// <param name="channelOperator">The <see cref="IServerOperator"/> to use for this server.</param>
+        public GameServer(IServerProcess serverProcess, IServerOperator channelOperator)
         {
             this.serverProcess = serverProcess;
-            this.serverOperator = serverOperator;
+            this.channelOperator = channelOperator;
 
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
         }
@@ -31,7 +30,7 @@ namespace OpenStory.Server.Processing
             base.OnInitializing(serviceConfiguration);
 
             this.serverProcess.Configure(serviceConfiguration);
-            this.serverOperator.Configure(serviceConfiguration);
+            this.channelOperator.Configure(serviceConfiguration);
         }
 
         /// <inheritdoc />
@@ -52,7 +51,7 @@ namespace OpenStory.Server.Processing
 
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
-            this.serverOperator.RegisterSession(args.ServerSession);
+            this.channelOperator.RegisterSession(args.ServerSession);
         }
     }
 }

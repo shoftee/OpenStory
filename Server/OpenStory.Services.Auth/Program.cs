@@ -25,10 +25,7 @@ namespace OpenStory.Services.Auth
             var kernel = new StandardKernel(new AuthServerModule(), new WcfServiceModule());
 
             kernel.Bind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
-            kernel.Bind<RegisteredServiceBase>().To<AuthService>();
-
-            var baseUri = new Uri("net.tcp://localhost:0/OpenStory/Auth");
-            kernel.Bind<WcfConfiguration>().ToConstant(WcfConfiguration.For<AuthService>(baseUri));
+            kernel.Bind<OsWcfConfiguration>().ToConstant(GetWcfConfiguration());
 
             return kernel;
         }
@@ -37,6 +34,13 @@ namespace OpenStory.Services.Auth
         {
             var accessToken = new Guid("18B87A4B-E405-43F4-A1C2-A0AED35E3E15");
             return new NexusConnectionInfo(accessToken);
+        }
+
+        private static OsWcfConfiguration GetWcfConfiguration()
+        {
+            var baseUri = new Uri("net.tcp://localhost:0/OpenStory/Auth");
+            var configuration = OsWcfConfiguration.For<AuthService>(baseUri);
+            return configuration;
         }
     }
 }

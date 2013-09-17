@@ -80,6 +80,7 @@
     <Compile Include="AuthClientState.cs" />
     <Compile Include="AuthConfiguration.cs" />
     <Compile Include="AuthOperator.cs" />
+    <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerModule.cs" />
     <Compile Include="AuthPacketCodeTable.cs" />
     <Compile Include="ActiveChannel.cs" />

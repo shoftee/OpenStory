@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using OpenStory.Common;
+using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
@@ -13,17 +14,19 @@ namespace OpenStory.Services.Account
     public sealed class AccountService : RegisteredServiceBase, IAccountService
     {
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
-
         private readonly AtomicInteger currentSessionId;
+
+        private readonly NexusConnectionInfo nexusConnectionInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountService"/> class.
         /// </summary>
-        public AccountService()
+        public AccountService(NexusConnectionInfo nexusConnectionInfo)
         {
             this.activeAccounts = new Dictionary<int, ActiveAccount>(256);
-
             this.currentSessionId = new AtomicInteger(0);
+
+            this.nexusConnectionInfo = nexusConnectionInfo;
         }
 
         #region IAccountService Members

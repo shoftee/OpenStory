@@ -90,10 +90,8 @@
     <Compile Include="ServerModule.cs" />
     <Compile Include="Processing\ServerProcess.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />
-    <Compile Include="IChannelWorld.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Registry\IPlayerGroup.cs" />
-    <Compile Include="IWorldChannel.cs" />
     <Compile Include="Registry\LocationRegistry.cs" />
     <Compile Include="Registry\PlayerGroup.cs" />
     <Compile Include="Registry\PlayerLocation.cs" />

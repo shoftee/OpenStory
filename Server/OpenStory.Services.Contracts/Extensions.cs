@@ -14,5 +14,26 @@ namespace OpenStory.Services.Contracts
         {
             return obj as IDisposable;
         }
+
+        public static void Call<TChannel>(this IServiceClientProvider<TChannel> provider, Action<TChannel> action)
+            where TChannel : class
+        {
+            var channel = provider.CreateChannel();
+            using (channel.AsDisposable())
+            {
+                action(channel);
+            }
+        }
+
+        public static TResult Call<TChannel, TResult>(this IServiceClientProvider<TChannel> provider, Func<TChannel, TResult> func)
+            where TChannel : class
+        {
+            var channel = provider.CreateChannel();
+            using (channel.AsDisposable())
+            {
+                var result = func(channel);
+                return result;
+            }
+        }
     }
 }

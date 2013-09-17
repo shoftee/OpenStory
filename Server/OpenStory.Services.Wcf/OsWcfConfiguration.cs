@@ -13,7 +13,7 @@ namespace OpenStory.Services.Wcf
     /// <summary>
     /// Represents a configuration for a WCF service.
     /// </summary>
-    public class WcfConfiguration
+    public class OsWcfConfiguration
     {
         /// <summary>
         /// Gets the channel type of the service.
@@ -30,7 +30,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public Action<ServiceHost> ApplyTo { get; private set; }
 
-        private WcfConfiguration(Type serviceType, Uri baseUri, Action<ServiceHost> applyTo)
+        private OsWcfConfiguration(Type serviceType, Uri baseUri, Action<ServiceHost> applyTo)
         {
             this.ServiceType = serviceType;
             this.BaseUri = baseUri;
@@ -54,7 +54,7 @@ namespace OpenStory.Services.Wcf
             }
 
             var binding = new NetTcpBinding(SecurityMode.Transport);
-            var interfaces = this.GetPossibleContracts();
+            var interfaces = GetPossibleContracts(this.ServiceType);
             foreach (var @interface in interfaces)
             {
                 var attribute = GetContractAttribute(@interface);
@@ -74,25 +74,25 @@ namespace OpenStory.Services.Wcf
             return attribute;
         }
 
-        private IEnumerable<Type> GetPossibleContracts()
+        private static IEnumerable<Type> GetPossibleContracts(Type serviceType)
         {
-            return this.ServiceType
+            return serviceType
                 .GetAllBaseTypes()
                 .SelectMany(t => t.GetInterfaces())
                 .Distinct();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WcfConfiguration"/> class.
+        /// Initializes a new instance of the <see cref="OsWcfConfiguration"/> class.
         /// </summary>
-        public static WcfConfiguration For<TService>(Uri baseUri, Action<ServiceHost> applyConfiguration = null)
+        public static OsWcfConfiguration For<TService>(Uri baseUri, Action<ServiceHost> applyConfiguration = null)
             where TService : class
         {
             var serviceType = typeof(TService);
 
             ThrowIfNotClass(serviceType);
 
-            return new WcfConfiguration(typeof(TService), baseUri, applyConfiguration);
+            return new OsWcfConfiguration(typeof(TService), baseUri, applyConfiguration);
         }
 
         // ReSharper disable once UnusedParameter.Local

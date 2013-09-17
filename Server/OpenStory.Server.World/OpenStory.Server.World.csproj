@@ -52,7 +52,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IWorldServer.cs" />
     <Compile Include="WorldServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,6 +63,10 @@
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
       <Name>OpenStory.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
+      <Project>{93C606D9-CF3F-4747-88A4-10A6A723462A}</Project>
+      <Name>OpenStory.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

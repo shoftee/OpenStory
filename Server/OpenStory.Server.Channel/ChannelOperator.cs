@@ -3,7 +3,6 @@ using System.Linq;
 using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Channel
@@ -28,14 +27,16 @@ namespace OpenStory.Server.Channel
         public int WorldId { get; private set; }
 
         /// <inheritdoc />
-        public IChannelWorld World { get; private set; }
+        public IChannelWorldRequestHandler World { get; private set; }
 
         /// <inheritdoc />
         public ChannelOperator(
             IGameClientFactory<ChannelClient> clientFactory,
+            IChannelWorldRequestHandler worldRequestHandler, 
             IPlayerRegistry playerRegistry)
             : base(clientFactory)
         {
+            this.World = worldRequestHandler;
             this.playerRegistry = playerRegistry;
         }
 
@@ -56,11 +57,11 @@ namespace OpenStory.Server.Channel
         /// <inheritdoc />
         public void BroadcastToWorld(CharacterKey sourceKey, IEnumerable<CharacterKey> targets, byte[] data)
         {
-            var ids = from id in targets
-                      where id != sourceKey
-                      select id;
+            var keys = from key in targets
+                      where key != sourceKey
+                      select key;
 
-            this.BroadcastToWorld(ids, data);
+            this.BroadcastToWorld(keys, data);
         }
 
         private void BroadcastToWorld(IEnumerable<CharacterKey> targets, byte[] data)
@@ -68,7 +69,10 @@ namespace OpenStory.Server.Channel
             // Arrays are more efficient for remote operations.
             CharacterKey[] keys = targets.ToArray();
 
-            this.BroadcastIntoChannel(this.playerRegistry.Scan(keys).Select(p => p.Key), data);
+            var players = from target in this.playerRegistry.Scan(keys)
+                          select target.Key;
+
+            this.BroadcastIntoChannel(players, data);
             this.World.BroadcastFromChannel(this.ChannelId, keys, data);
         }
 
@@ -80,10 +84,10 @@ namespace OpenStory.Server.Channel
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
             // This method will be part of the service contract.
-            var targetPlayers = from target in playerRegistry.Scan(targets)
-                                select target;
+            var players = from target in playerRegistry.Scan(targets)
+                          select target;
 
-            foreach (var player in targetPlayers)
+            foreach (var player in players)
             {
                 player.Client.WritePacket(data);
             }

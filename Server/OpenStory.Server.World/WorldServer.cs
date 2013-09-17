@@ -1,34 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using OpenStory.Framework.Model.Common;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.World
 {
-    internal class WorldServer : IWorldServer, IChannelWorld
+    internal class WorldServer : IChannelWorldRequestHandler
     {
         /// <inheritdoc />
         public int WorldId { get; private set; }
 
-        private readonly Dictionary<int, IWorldChannel> channels;
+        private readonly Dictionary<int, IWorldChannelRequestHandler> channels;
 
         public WorldServer(int worldId)
         {
             this.WorldId = worldId;
 
-            this.channels = new Dictionary<int, IWorldChannel>();
+            this.channels = new Dictionary<int, IWorldChannelRequestHandler>();
         }
 
         /// <inheritdoc />
         public void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data)
         {
-            throw new NotImplementedException();
-        }
+            var handlers = from entry in this.channels
+                           where entry.Key != channelId
+                           select entry.Value;
 
-        public IWorldChannel GetChannelById(int channelId)
-        {
-            IWorldChannel channel;
-            bool success = this.channels.TryGetValue(channelId, out channel);
-            return success ? channel : null;
+            foreach (var handler in handlers.ToArray())
+            {
+                handler.BroadcastIntoChannel(targets, data);
+            }
         }
     }
 }

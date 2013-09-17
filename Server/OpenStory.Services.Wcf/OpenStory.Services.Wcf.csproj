@@ -61,7 +61,7 @@
     <Compile Include="RegisteredClientProvider.cs" />
     <Compile Include="ServiceClientProvider.cs" />
     <Compile Include="WcfBootstrapper.cs" />
-    <Compile Include="WcfConfiguration.cs" />
+    <Compile Include="OsWcfConfiguration.cs" />
     <Compile Include="WcfServiceModule.cs" />
   </ItemGroup>
   <ItemGroup>
