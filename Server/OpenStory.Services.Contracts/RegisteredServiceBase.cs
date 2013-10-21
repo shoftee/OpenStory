@@ -36,7 +36,7 @@ namespace OpenStory.Services.Contracts
         #region IRegisteredService members
 
         /// <inheritdoc />
-        public void Initialize(ServiceConfiguration serviceConfiguration)
+        public void Initialize(OsServiceConfiguration serviceConfiguration)
         {
             SubscribeForStates(
                 this.initializeSubscribers, 
@@ -226,7 +226,7 @@ namespace OpenStory.Services.Contracts
             }
         }
 
-        private Task GetInitializeTask(ServiceConfiguration serviceConfiguration)
+        private Task GetInitializeTask(OsServiceConfiguration serviceConfiguration)
         {
             return SetNewTaskIfNecessary(ref this.initializeTask, () => this.OnInitializing(serviceConfiguration), this.CompleteInitialization);
         }
@@ -263,7 +263,7 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Executed when the service enters the <see cref="OpenStory.Services.Contracts.ServiceState.Initializing"/> state.
         /// </summary>
-        protected virtual void OnInitializing(ServiceConfiguration serviceConfiguration)
+        protected virtual void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
         }
 

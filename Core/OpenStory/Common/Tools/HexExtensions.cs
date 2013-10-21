@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Common
 {
     /// <summary>
     /// Provides extension methods for manipulating hexadecimal data.

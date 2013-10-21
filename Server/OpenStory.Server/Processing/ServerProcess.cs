@@ -53,7 +53,7 @@ namespace OpenStory.Server.Processing
         }
 
         /// <inheritdoc/>
-        public void Configure(ServiceConfiguration configuration)
+        public void Configure(OsServiceConfiguration configuration)
         {
             this.ThrowIfRunning();
 

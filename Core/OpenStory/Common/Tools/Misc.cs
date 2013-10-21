@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Common
 {
     /// <summary>
     /// A static class containing a collection of utility methods that don't have a place to call home :(

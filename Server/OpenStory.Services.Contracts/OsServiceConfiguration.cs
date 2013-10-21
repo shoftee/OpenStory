@@ -8,7 +8,7 @@ namespace OpenStory.Services.Contracts
     /// Represents a configuration for a game service.
     /// </summary>
     [DataContract]
-    public sealed class ServiceConfiguration
+    public sealed class OsServiceConfiguration
     {
         [DataMember]
         private readonly Dictionary<string, object> data;
@@ -32,10 +32,10 @@ namespace OpenStory.Services.Contracts
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceConfiguration"/> class.
+        /// Initializes a new instance of the <see cref="OsServiceConfiguration"/> class.
         /// </summary>
         /// <param name="parameters">The configuration parameters to initialize the instance with.</param>
-        public ServiceConfiguration(IDictionary<string, object> parameters)
+        public OsServiceConfiguration(IDictionary<string, object> parameters)
         {
             this.data = new Dictionary<string, object>(parameters);
         }

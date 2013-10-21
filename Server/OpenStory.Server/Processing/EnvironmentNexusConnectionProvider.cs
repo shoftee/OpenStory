@@ -1,6 +1,6 @@
 ﻿using System;
 using Ninject.Activation;
-using OpenStory.Common.Tools;
+using OpenStory.Common;
 using OpenStory.Framework.Contracts;
 
 namespace OpenStory.Server.Processing

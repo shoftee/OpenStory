@@ -12,23 +12,23 @@ namespace OpenStory.Services.Registry
     sealed class RegistryService : IRegistryService
     {
         private readonly ILogger logger;
-        private readonly Dictionary<Guid, ServiceConfiguration> configurations;
+        private readonly Dictionary<Guid, OsServiceConfiguration> configurations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistryService"/> class.
         /// </summary>
-        public RegistryService(ILogger logger, IDictionary<Guid, ServiceConfiguration> configurations = null)
+        public RegistryService(ILogger logger, IDictionary<Guid, OsServiceConfiguration> configurations = null)
         {
             this.logger = logger;
             this.configurations = configurations != null
-                ? new Dictionary<Guid, ServiceConfiguration>(configurations)
-                : new Dictionary<Guid, ServiceConfiguration>();
+                ? new Dictionary<Guid, OsServiceConfiguration>(configurations)
+                : new Dictionary<Guid, OsServiceConfiguration>();
         }
 
         #region Implementation of IRegistryService
 
         /// <inheritdoc />
-        public Guid RegisterService(ServiceConfiguration configuration)
+        public Guid RegisterService(OsServiceConfiguration configuration)
         {
             var token = Guid.NewGuid();
 

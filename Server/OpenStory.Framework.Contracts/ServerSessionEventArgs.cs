@@ -16,8 +16,12 @@ namespace OpenStory.Framework.Contracts
         /// Initializes a new instance of the <see cref="ServerSessionEventArgs"/> class.
         /// </summary>
         /// <param name="serverSession">The <see cref="IServerSession"/> instance.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="serverSession"/> is <see langword="null"/>.
+        /// </exception>
         public ServerSessionEventArgs(IServerSession serverSession)
         {
+            Guard.NotNull(() => serverSession, serverSession);
             this.ServerSession = serverSession;
         }
     }

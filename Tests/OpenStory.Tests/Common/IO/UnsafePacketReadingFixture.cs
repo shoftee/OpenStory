@@ -225,7 +225,7 @@ namespace OpenStory.Common.IO
             var buffer = Helpers.GetRandomBytes(BufferSize);
             var reader = new PacketReader(buffer);
 
-            reader.ReadBytes(ReadCount).Should().ContainInOrder(buffer.CopySegment(0, ReadCount));
+            reader.ReadBytes(ReadCount).Should().ContainInOrder(ArrayExtensions.CopySegment(buffer, 0, ReadCount));
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Unsafe")]
@@ -247,7 +247,7 @@ namespace OpenStory.Common.IO
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer, 10, 80);
 
-            var expected = buffer.CopySegment(10, 80);
+            var expected = ArrayExtensions.CopySegment(buffer, 10, 80);
 
             reader.ReadFully().Should().ContainInOrder(expected);
         }
@@ -260,7 +260,7 @@ namespace OpenStory.Common.IO
             var reader = new PacketReader(buffer);
             reader.Skip(10);
 
-            var expected = buffer.CopySegment(10, 90);
+            var expected = ArrayExtensions.CopySegment(buffer, 10, 90);
 
             reader.ReadFully().Should().ContainInOrder(expected);
         }
@@ -274,7 +274,7 @@ namespace OpenStory.Common.IO
 
             reader.Skip(10);
 
-            var expected = buffer.CopySegment(20, 70);
+            var expected = ArrayExtensions.CopySegment(buffer, 20, 70);
 
             reader.ReadFully().Should().ContainInOrder(expected);
         }

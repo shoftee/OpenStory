@@ -59,7 +59,7 @@
     <Compile Include="Channel\IWorldChannelRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
-    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="OsServiceConfiguration.cs" />
     <Compile Include="ServiceState.cs" />
   </ItemGroup>
   <ItemGroup>

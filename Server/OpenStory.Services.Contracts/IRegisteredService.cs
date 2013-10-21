@@ -12,7 +12,7 @@ namespace OpenStory.Services.Contracts
         /// Initializes the service.
         /// </summary>
         [OperationContract]
-        void Initialize(ServiceConfiguration serviceConfiguration);
+        void Initialize(OsServiceConfiguration serviceConfiguration);
 
         /// <summary>
         /// Starts the service.

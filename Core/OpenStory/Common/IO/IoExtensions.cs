@@ -9,7 +9,17 @@ namespace OpenStory.Common.IO
     public static class IoExtensions
     {
         // You may use these as samples for writing custom readers/writers. 
-        // Just write an extension method to PacketReader or PacketBuilder (or one of their interfaces like below) and it works!
+        // Just write an extension method to PacketReader or PacketBuilder (or one of their interfaces like below) and it works! Magic!
+
+        /// <summary>
+        /// Writes a <see cref="ByteBuffer"/>.
+        /// </summary>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
+        /// <param name="buffer">The <see cref="ByteBuffer"/> to write.</param>
+        public static void WriteBuffer(this IPacketBuilder builder, ByteBuffer buffer)
+        {
+            buffer.Write(builder);
+        }
 
         /// <summary>
         /// Reads a <see cref="PointS"/>.
@@ -29,7 +39,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Writes a <see cref="PointS"/>.
         /// </summary>
-        /// <param name="builder">The <see cref="PacketBuilder">packet builder</see> to use.</param>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
         /// <param name="vector">The <see cref="PointS"/> to write.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
         public static void WriteVector(this IPacketBuilder builder, PointS vector)
@@ -60,8 +70,8 @@ namespace OpenStory.Common.IO
         /// Writes a flags instance.
         /// </summary>
         /// <typeparam name="TFlags">The <see cref="Flags"/>-derived type to read into.</typeparam>
-        /// <param name="builder">The builder to use.</param>
-        /// <param name="flags">The instance to write.</param>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
+        /// <param name="flags">The flags to write.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> or <paramref name="flags"/> is <see langword="null"/>.</exception>
         public static void WriteFlags<TFlags>(this IPacketBuilder builder, TFlags flags)
             where TFlags : Flags

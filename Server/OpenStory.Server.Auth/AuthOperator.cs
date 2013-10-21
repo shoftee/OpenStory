@@ -10,7 +10,7 @@ namespace OpenStory.Server.Auth
     /// <summary>
     /// Represents an authentication server operator.
     /// </summary>
-    public sealed class AuthOperator : ServerOperator<AuthClient>, IAuthOperator
+    public sealed class AuthOperator : ServerOperator<AuthClient>
     {
         private readonly List<IWorld> worlds;
 
@@ -24,7 +24,7 @@ namespace OpenStory.Server.Auth
         }
 
         /// <inheritdoc />
-        public override void Configure(ServiceConfiguration configuration)
+        public override void Configure(OsServiceConfiguration configuration)
         {
             this.authConfiguration = new AuthConfiguration(configuration);
             this.SetUp();
@@ -36,7 +36,11 @@ namespace OpenStory.Server.Auth
 
         #region IAuthOperator Members
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets a <see cref="IWorld"/> instance by the World's ID.
+        /// </summary>
+        /// <param name="worldId">The ID of the world.</param>
+        /// <returns>an <see cref="IWorld"/> object which represents the world with the given ID.</returns>
         public IWorld GetWorldById(int worldId)
         {
             return this.worlds.First(w => w.Id == worldId);

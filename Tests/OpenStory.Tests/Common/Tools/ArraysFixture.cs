@@ -15,7 +15,7 @@ namespace OpenStory.Common.Tools
         [Test]
         public void FastClone_Should_Throw_On_Null_Source()
         {
-            Action nullCloning = () => Arrays.FastClone(null);
+            Action nullCloning = () => ArrayExtensions.FastClone(null);
             nullCloning.ShouldThrow<ArgumentNullException>();
         }
 
@@ -24,7 +24,7 @@ namespace OpenStory.Common.Tools
         public void FastClone_Should_Return_Same_Values()
         {
             var buffer = Helpers.GetRandomBytes(128);
-            var clone = buffer.FastClone();
+            var clone = ArrayExtensions.FastClone(buffer);
 
             clone.Should().HaveSameCount(buffer);
             clone.Should().ContainInOrder(buffer);
@@ -35,7 +35,7 @@ namespace OpenStory.Common.Tools
         public void FastClone_Changing_Cloned_Bytes_Should_Not_Change_Source()
         {
             var buffer = Helpers.GetRandomBytes(128);
-            var clone = buffer.FastClone();
+            var clone = ArrayExtensions.FastClone(buffer);
 
             clone[0]++;
             clone[0].Should().NotBe(buffer[0]);
@@ -49,7 +49,7 @@ namespace OpenStory.Common.Tools
         [Test]
         public void CopySegment_Should_Throw_On_Null_Source()
         {
-            Action nullCloning = () => Arrays.CopySegment(null, 0, 0);
+            Action nullCloning = () => ArrayExtensions.CopySegment(null, 0, 0);
             nullCloning.ShouldThrow<ArgumentNullException>();
         }
 
@@ -58,7 +58,7 @@ namespace OpenStory.Common.Tools
         public void CopySegment_Should_Clone_Only_Bytes_In_Segment()
         {
             var buffer = Helpers.GetRandomBytes(128);
-            var segment = buffer.CopySegment(32, 64);
+            var segment = ArrayExtensions.CopySegment(buffer, 32, 64);
 
             segment.Should().HaveCount(64);
             segment.Should().ContainInOrder(buffer.Skip(32).Take(64));

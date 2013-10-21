@@ -41,8 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -55,7 +56,7 @@
     </Reference>
     <Reference Include="NodaTime, Version=1.1.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NodaTime.1.1.0\lib\net35-Client\NodaTime.dll</HintPath>
+      <HintPath>..\..\packages\NodaTime.1.1.1\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,7 +71,6 @@
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Data\BuddyListEntry.cs" />
     <Compile Include="Data\BuddyListEntryStatus.cs" />
-    <Compile Include="IChannelOperator.cs" />
     <Compile Include="IPlayerFacet.cs" />
     <Compile Include="IPlayerFacetFactory.cs" />
     <Compile Include="Maps\FieldLimitLabel.cs" />
@@ -113,6 +113,7 @@
     <Folder Include="Game\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

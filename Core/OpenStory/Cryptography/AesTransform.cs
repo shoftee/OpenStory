@@ -33,12 +33,12 @@ namespace OpenStory.Cryptography
         /// The provided arrays are copied into the <see cref="AesTransform"/> instance to avoid mutation.
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
-        /// <param name="initialIv">The initial value for the shuffle transformation.</param>
+        /// <param name="vector">The initial value for the shuffle transformation.</param>
         /// <param name="key">The AES key.</param>
         /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided parameters has an invalid number of elements.</exception>
-        public AesTransform(byte[] table, byte[] initialIv, byte[] key)
-            : base(table, initialIv)
+        public AesTransform(byte[] table, byte[] vector, byte[] key)
+            : base(table, vector)
         {
             Guard.NotNull(() => key, key);
 
@@ -51,7 +51,7 @@ namespace OpenStory.Cryptography
         }
 
         /// <inheritdoc />
-        public override void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
+        public override void TransformArraySegment(byte[] data, byte[] vector, int segmentStart, int segmentEnd)
         {
             var xorBlock = new byte[IvLength];
 
@@ -61,14 +61,14 @@ namespace OpenStory.Cryptography
             int blockStart = segmentStart;
             int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
 
-            this.TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
+            this.TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
 
             blockStart += FirstBlockLength;
             while (blockStart < segmentEnd)
             {
                 blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-                this.TransformBlock(data, iv, blockStart, blockEnd, xorBlock);
+                this.TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
 
                 blockStart += BlockLength;
             }

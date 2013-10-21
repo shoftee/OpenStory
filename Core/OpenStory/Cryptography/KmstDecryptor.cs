@@ -1,5 +1,5 @@
 using System;
-using OpenStory.Common.Tools;
+using OpenStory.Common;
 
 namespace OpenStory.Cryptography
 {
@@ -12,24 +12,24 @@ namespace OpenStory.Cryptography
         /// Initializes a new instance of <see cref="KmstDecryptor"/>.
         /// </summary>
         /// <inheritdoc />
-        public KmstDecryptor(byte[] table, byte[] initialIv)
-            : base(table, initialIv)
+        public KmstDecryptor(byte[] table, byte[] vector)
+            : base(table, vector)
         {
         }
 
         /// <inheritdoc />
-        public override void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd)
+        public override void TransformArraySegment(byte[] data, byte[] vector, int segmentStart, int segmentEnd)
         {
             Guard.NotNull(() => data, data);
-            Guard.NotNull(() => iv, iv);
+            Guard.NotNull(() => vector, vector);
 
-            if (iv.Length != 4)
+            if (vector.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "vector");
             }
 
             // Thanks to Diamondo25 for this.
-            byte[] stepIv = iv.FastClone();
+            byte[] stepIv = vector.FastClone();
             for (int i = segmentStart; i < segmentEnd; i++)
             {
                 byte initial = data[i];

@@ -22,7 +22,7 @@ namespace OpenStory.Common.Tools
         {
             @"1".Invoking(s => s.ToByte())
                .ShouldThrow<ArgumentException>()
-               .WithMessage(CommonStrings.StringLengthMustBeEven, ComparisonMode.Substring);
+               .WithMessage(CommonStrings.StringLengthMustBeEven);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace OpenStory.Common.Tools
         {
             invalidHex.Invoking(s => s.ToByte())
                       .ShouldThrow<ArgumentException>()
-                      .WithMessage(CommonStrings.StringMustContainOnlyHexDigits, ComparisonMode.Substring);
+                      .WithMessage(CommonStrings.StringMustContainOnlyHexDigits);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace OpenStory.Common.Tools
         {
             var bytes = new byte[] { 0x12, 0x34 };
 
-            bytes.ToHex(hyphenate: true).Should().Be("12-34");
+            bytes.ToHex().Should().Be("12-34");
         }
 
         [Test]

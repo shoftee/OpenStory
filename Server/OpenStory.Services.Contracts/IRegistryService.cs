@@ -15,7 +15,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="configuration">The configuration information for the service.</param>
         /// <returns>the result of the operation.</returns>
         [OperationContract]
-        Guid RegisterService(ServiceConfiguration configuration);
+        Guid RegisterService(OsServiceConfiguration configuration);
 
         /// <summary>
         /// Attempts to unregister the service with the specified token.

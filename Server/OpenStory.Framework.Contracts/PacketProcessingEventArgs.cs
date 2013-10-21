@@ -29,14 +29,12 @@ namespace OpenStory.Framework.Contracts
         /// <param name="label">The known label of the packet.</param>
         /// <param name="reader">The packet reader, after having read the label code.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="reader"/> is <see langword="null"/>.
+        /// Thrown if <paramref name="label"/> or <paramref name="reader"/> is <see langword="null"/>.
         /// </exception>
         public PacketProcessingEventArgs(string label, PacketReader reader)
         {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
+            Guard.NotNull(() => label, label);
+            Guard.NotNull(() => reader, reader);
 
             this.Label = label;
             this.reader = reader;

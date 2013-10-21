@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using OpenStory.Common.Tools;
 
 namespace OpenStory.Common.IO
 {

@@ -63,14 +63,8 @@ namespace OpenStory.Server.Processing
         /// </exception>
         protected ClientBase(IServerSession session, IPacketFactory packetFactory, ILogger logger)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
-            if (packetFactory == null)
-            {
-                throw new ArgumentNullException("packetFactory");
-            }
+            Guard.NotNull(() => session, session);
+            Guard.NotNull(() => packetFactory, packetFactory);
 
             this.isDisposed = false;
 

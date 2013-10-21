@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using Ninject.Extensions.Logging;
 using OpenStory.Common;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
@@ -62,15 +61,8 @@ namespace OpenStory.Server.Processing
         /// </exception>
         public void Start(EndpointCrypto crypto, HandshakeInfo info)
         {
-            if (crypto == null)
-            {
-                throw new ArgumentNullException("crypto");
-            }
-
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
+            Guard.NotNull(() => crypto, crypto);
+            Guard.NotNull(() => info, info);
 
             this.ThrowIfNoPacketReceivedSubscriber();
 

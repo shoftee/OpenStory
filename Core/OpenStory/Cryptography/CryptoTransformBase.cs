@@ -1,5 +1,5 @@
+using OpenStory.Common;
 using System;
-using OpenStory.Common.Tools;
 
 namespace OpenStory.Cryptography
 {
@@ -9,7 +9,7 @@ namespace OpenStory.Cryptography
     public abstract class CryptoTransformBase : ICryptoAlgorithm
     {
         private readonly byte[] table;
-        private readonly byte[] initialValue;
+        private readonly byte[] iv;
 
         /// <summary>
         /// Gets the translation table used for the IV shuffle.
@@ -22,9 +22,9 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// Gets the initial IV used for the IV shuffle.
         /// </summary>
-        protected byte[] InitialValue
+        protected byte[] Iv
         {
-            get { return this.initialValue; }
+            get { return this.iv; }
         }
 
         /// <summary>
@@ -34,45 +34,45 @@ namespace OpenStory.Cryptography
         /// The provided arrays are copied into the <see cref="CryptoTransformBase"/> instance to avoid mutation.
         /// </remarks>
         /// <param name="table">The shuffle transformation table.</param>
-        /// <param name="initialIv">The initial value for the shuffle transformation.</param>
+        /// <param name="vector">The initial value for the shuffle transformation.</param>
         /// <exception cref="ArgumentNullException">Thrown if any of the provided parameters is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if any of the provided arrays has an invalid number of elements.</exception>
-        protected CryptoTransformBase(byte[] table, byte[] initialIv)
+        protected CryptoTransformBase(byte[] table, byte[] vector)
         {
             Guard.NotNull(() => table, table);
-            Guard.NotNull(() => initialIv, initialIv);
+            Guard.NotNull(() => vector, vector);
 
             if (table.Length != 256)
             {
                 throw new ArgumentException(CommonStrings.ShuffleTableMustBe256Bytes, "table");
             }
 
-            if (initialIv.Length != 4)
+            if (vector.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "initialIv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "vector");
             }
 
             this.table = table.FastClone();
-            this.initialValue = initialIv.FastClone();
+            this.iv = vector.FastClone();
         }
 
         /// <inheritdoc />
-        public byte[] ShuffleIv(byte[] iv)
+        public byte[] ShuffleIv(byte[] vector)
         {
-            Guard.NotNull(() => iv, iv);
+            Guard.NotNull(() => vector, vector);
 
-            if (iv.Length != 4)
+            if (vector.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "vector");
             }
 
-            byte[] shuffled = this.initialValue.FastClone();
+            byte[] shuffled = this.iv.FastClone();
 
             for (int i = 0; i < 4; i++)
             {
-                byte ivInput = iv[i];
+                byte vectorByte = vector[i];
 
-                this.ShuffleIvStep(shuffled, ivInput);
+                this.ShuffleIvStep(shuffled, vectorByte);
             }
 
             return shuffled;
@@ -82,8 +82,8 @@ namespace OpenStory.Cryptography
         /// Executes a single shuffle step.
         /// </summary>
         /// <param name="shuffled">The array to shuffle.</param>
-        /// <param name="ivInput">The IV input byte.</param>
-        protected void ShuffleIvStep(byte[] shuffled, byte ivInput)
+        /// <param name="vectorByte">The IV input byte.</param>
+        protected void ShuffleIvStep(byte[] shuffled, byte vectorByte)
         {
             Guard.NotNull(() => shuffled, shuffled);
 
@@ -92,11 +92,11 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "shuffled");
             }
 
-            byte tableInput = this.table[ivInput];
+            byte tableInput = this.table[vectorByte];
 
-            shuffled[0] += (byte)(this.table[shuffled[1]] - ivInput);
+            shuffled[0] += (byte)(this.table[shuffled[1]] - vectorByte);
             shuffled[1] -= (byte)(shuffled[2] ^ tableInput);
-            shuffled[2] ^= (byte)(this.table[shuffled[3]] + ivInput);
+            shuffled[2] ^= (byte)(this.table[shuffled[3]] + vectorByte);
             shuffled[3] -= (byte)(shuffled[0] - tableInput);
 
             unchecked
@@ -112,21 +112,21 @@ namespace OpenStory.Cryptography
         }
 
         /// <inheritdoc />
-        public abstract void TransformArraySegment(byte[] data, byte[] iv, int segmentStart, int segmentEnd);
+        public abstract void TransformArraySegment(byte[] data, byte[] vector, int segmentStart, int segmentEnd);
 
         /// <inheritdoc />
-        public byte[] TransformWithIv(byte[] data, byte[] iv)
+        public byte[] TransformWithIv(byte[] data, byte[] vector)
         {
             Guard.NotNull(() => data, data);
-            Guard.NotNull(() => iv, iv);
+            Guard.NotNull(() => vector, vector);
             
-            if (iv.Length != 4)
+            if (vector.Length != 4)
             {
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes);
             }
 
             var copy = data.FastClone();
-            this.TransformArraySegment(copy, iv, 0, copy.Length);
+            this.TransformArraySegment(copy, vector, 0, copy.Length);
             return copy;
         }
     }

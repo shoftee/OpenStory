@@ -1,5 +1,5 @@
 ﻿using System;
-using OpenStory.Common.Tools;
+using OpenStory.Common;
 
 namespace OpenStory.Cryptography
 {

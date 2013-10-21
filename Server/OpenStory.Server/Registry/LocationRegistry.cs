@@ -23,10 +23,7 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public Dictionary<CharacterKey, PlayerLocation> GetLocationsForAll(IEnumerable<CharacterKey> keys)
         {
-            if (keys == null)
-            {
-                throw new ArgumentNullException("keys");
-            }
+            Guard.NotNull(() => keys, keys);
 
             return keys
                 .Distinct()

@@ -1,6 +1,4 @@
 using System.Net;
-using System.Runtime.Serialization;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Framework.Contracts
@@ -39,7 +37,7 @@ namespace OpenStory.Framework.Contracts
         /// Initializes a new instance of the <see cref="ServerConfiguration"/> class.
         /// </summary>
         /// <param name="configuration">The object containing the configuration values.</param>
-        public ServerConfiguration(ServiceConfiguration configuration)
+        public ServerConfiguration(OsServiceConfiguration configuration)
         {
             this.Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
 

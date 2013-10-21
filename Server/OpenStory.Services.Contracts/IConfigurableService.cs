@@ -9,6 +9,6 @@
         /// Configures the service.
         /// </summary>
         /// <param name="configuration">The configuration object.</param>
-        void Configure(ServiceConfiguration configuration);
+        void Configure(OsServiceConfiguration configuration);
     }
 }

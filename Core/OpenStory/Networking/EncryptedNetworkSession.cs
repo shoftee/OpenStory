@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Net.Sockets;
+using OpenStory.Common;
 using OpenStory.Common.IO;
-using OpenStory.Common.Tools;
 using OpenStory.Cryptography;
 
 namespace OpenStory.Networking

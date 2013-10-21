@@ -9,7 +9,7 @@ namespace OpenStory.Server.Auth
     public sealed class AuthConfiguration : ServerConfiguration
     {
         /// <inheritdoc />
-        public AuthConfiguration(ServiceConfiguration configuration)
+        public AuthConfiguration(OsServiceConfiguration configuration)
             : base(configuration)
         {
         }

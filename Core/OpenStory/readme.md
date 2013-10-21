@@ -17,8 +17,3 @@ This folder contains the endpoint-invariant components of the library. Or in wor
 ## `Networking`
 
 `OpenStory.Networking` contains network handling logic for the socket accept process, and packet sending and receiving. It is written using the asynchronous execution pattern (`BeginReceive`, `EndReceive`, `BeginSend`, `EndSend`, etc.), it is however *not* multi-threaded.
-
-## `Synchronization`
-
-`OpenStory.Synchronization` contains logic related to scheduling the execution of... stuff.
-

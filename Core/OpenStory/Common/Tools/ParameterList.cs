@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Common
 {
     /// <summary>
     /// Represents a command line parameter list.

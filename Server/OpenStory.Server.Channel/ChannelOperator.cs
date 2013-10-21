@@ -10,7 +10,7 @@ namespace OpenStory.Server.Channel
     /// <summary>
     /// Represents a server that handles the channel-side operations.
     /// </summary>
-    public sealed class ChannelOperator : ServerOperator<ChannelClient>, IChannelOperator
+    public sealed class ChannelOperator : ServerOperator<ChannelClient>
     {
         private readonly IPlayerRegistry playerRegistry;
 
@@ -26,7 +26,9 @@ namespace OpenStory.Server.Channel
         /// </summary>
         public int WorldId { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the World Server link object for this Channel Server.
+        /// </summary>
         public IChannelWorldRequestHandler World { get; private set; }
 
         /// <inheritdoc />
@@ -41,7 +43,7 @@ namespace OpenStory.Server.Channel
         }
 
         /// <inheritdoc />
-        public override void Configure(ServiceConfiguration configuration)
+        public override void Configure(OsServiceConfiguration configuration)
         {
             this.channelConfiguration = new ChannelConfiguration(configuration);
             this.SetUp();
@@ -54,12 +56,17 @@ namespace OpenStory.Server.Channel
             this.WorldId = c.WorldId;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Broadcasts a message to the whole world server.
+        /// </summary>
+        /// <param name="sourceKey">The ID of the sender.</param>
+        /// <param name="targets">The IDs of the recipients of the message.</param>
+        /// <param name="data">The message to broadcast.</param>
         public void BroadcastToWorld(CharacterKey sourceKey, IEnumerable<CharacterKey> targets, byte[] data)
         {
             var keys = from key in targets
-                      where key != sourceKey
-                      select key;
+                       where key != sourceKey
+                       select key;
 
             this.BroadcastToWorld(keys, data);
         }
@@ -67,7 +74,7 @@ namespace OpenStory.Server.Channel
         private void BroadcastToWorld(IEnumerable<CharacterKey> targets, byte[] data)
         {
             // Arrays are more efficient for remote operations.
-            CharacterKey[] keys = targets.ToArray();
+            var keys = targets.ToArray();
 
             var players = from target in this.playerRegistry.Scan(keys)
                           select target.Key;

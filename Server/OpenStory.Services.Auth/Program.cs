@@ -15,8 +15,7 @@ namespace OpenStory.Services.Auth
         {
             XmlConfigurator.Configure();
 
-            var kernel = CreateKernel();
-            kernel.Get<IBootstrapper>().Start();
+            CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }
 

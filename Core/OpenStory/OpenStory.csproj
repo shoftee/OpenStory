@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="NodaTime, Version=1.1.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NodaTime.1.1.0\lib\net35-Client\NodaTime.dll</HintPath>
+      <HintPath>..\..\packages\NodaTime.1.1.1\lib\net35-Client\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="System">
     </Reference>
@@ -49,8 +49,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AtomicBoolean.cs" />
-    <Compile Include="Common\AtomicInteger.cs" />
+    <Compile Include="Common\IO\ByteBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Tools\ArrayExtensions.cs" />
+    <Compile Include="Common\Tools\AtomicBoolean.cs" />
+    <Compile Include="Common\Tools\AtomicInteger.cs" />
     <Compile Include="Common\PacketValueAttribute.cs" />
     <Compile Include="Common\IPacketCodeTable.cs" />
     <Compile Include="Common\PacketCodeTable.cs" />
@@ -115,10 +119,8 @@
     <Compile Include="Networking\SendDescriptor.cs" />
     <Compile Include="Networking\SocketErrorEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\Tools\Db.cs" />
     <Compile Include="Common\Tools\Misc.cs" />
     <Compile Include="Common\Tools\ParameterList.cs" />
-    <Compile Include="Common\Tools\Time.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

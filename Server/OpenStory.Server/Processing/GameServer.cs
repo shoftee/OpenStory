@@ -25,7 +25,7 @@ namespace OpenStory.Server.Processing
         }
 
         /// <inheritdoc />
-        protected override void OnInitializing(ServiceConfiguration serviceConfiguration)
+        protected override void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
             base.OnInitializing(serviceConfiguration);
 

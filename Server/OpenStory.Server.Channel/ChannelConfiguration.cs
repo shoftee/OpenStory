@@ -21,7 +21,7 @@ namespace OpenStory.Server.Channel
         public int ChannelId { get; private set; }
 
         /// <inheritdoc />
-        public ChannelConfiguration(ServiceConfiguration configuration)
+        public ChannelConfiguration(OsServiceConfiguration configuration)
             : base(configuration)
         {
             this.WorldId = configuration.Get<int>("World");

@@ -20,10 +20,7 @@ namespace OpenStory.Server.Networking
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="socket"/> is <see langword="null"/>.</exception>
         public SocketEventArgs(Socket socket)
         {
-            if (socket == null)
-            {
-                throw new ArgumentNullException("socket");
-            }
+            Guard.NotNull(() => socket, socket);
 
             this.Socket = socket;
         }

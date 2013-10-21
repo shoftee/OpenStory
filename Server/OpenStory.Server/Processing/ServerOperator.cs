@@ -29,7 +29,7 @@ namespace OpenStory.Server.Processing
         }
 
         /// <inheritdoc />
-        public abstract void Configure(ServiceConfiguration configuration);
+        public abstract void Configure(OsServiceConfiguration configuration);
         
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
