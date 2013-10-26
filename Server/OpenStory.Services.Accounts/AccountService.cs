@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using NodaTime;
 using OpenStory.Common;
-using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Account
@@ -13,20 +13,20 @@ namespace OpenStory.Services.Account
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public sealed class AccountService : RegisteredServiceBase, IAccountService
     {
+        private readonly IClock clock;
+
         private readonly Dictionary<int, ActiveAccount> activeAccounts;
         private readonly AtomicInteger currentSessionId;
-
-        private readonly NexusConnectionInfo nexusConnectionInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountService"/> class.
         /// </summary>
-        public AccountService(NexusConnectionInfo nexusConnectionInfo)
+        public AccountService(IClock clock)
         {
+            this.clock = clock;
+
             this.activeAccounts = new Dictionary<int, ActiveAccount>(256);
             this.currentSessionId = new AtomicInteger(0);
-
-            this.nexusConnectionInfo = nexusConnectionInfo;
         }
 
         #region IAccountService Members
@@ -44,6 +44,8 @@ namespace OpenStory.Services.Account
                 sessionId = this.currentSessionId.Increment();
 
                 var account = new ActiveAccount(accountId, sessionId);
+                account.KeepAlive(clock.Now);
+
                 this.activeAccounts.Add(accountId, account);
                 return true;
             }
@@ -59,8 +61,13 @@ namespace OpenStory.Services.Account
             }
             else
             {
-                account.RegisterCharacter(characterId);
-                return true;
+                if (!account.CharacterId.HasValue)
+                {
+                    account.RegisterCharacter(characterId);
+                    return true;
+                }
+
+                return false;
             }
         }
 
@@ -95,7 +102,7 @@ namespace OpenStory.Services.Account
             }
             else
             {
-                lag = account.KeepAlive();
+                lag = account.KeepAlive(clock.Now).ToTimeSpan();
                 return true;
             }
         }

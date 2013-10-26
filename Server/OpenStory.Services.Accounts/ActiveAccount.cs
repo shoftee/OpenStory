@@ -1,4 +1,6 @@
 ﻿using System;
+using NodaTime;
+using Strings = OpenStory.Services.Account.AccountServiceStrings;
 
 namespace OpenStory.Services.Account
 {
@@ -25,7 +27,7 @@ namespace OpenStory.Services.Account
         /// <summary>
         /// Gets the last "keep-alive" timestamp for this active session.
         /// </summary>
-        public DateTime LastKeepAlive { get; private set; }
+        public Instant LastKeepAlive { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActiveAccount"/> class.
@@ -36,8 +38,6 @@ namespace OpenStory.Services.Account
         {
             this.AccountId = accountId;
             this.SessionId = sessionId;
-
-            this.LastKeepAlive = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenStory.Services.Account
         {
             if (this.CharacterId.HasValue)
             {
-                throw new InvalidOperationException("This session already has a character registered.");
+                throw new InvalidOperationException(Strings.SessionAlreadyHasCharacter);
             }
 
             this.CharacterId = characterId;
@@ -63,15 +63,15 @@ namespace OpenStory.Services.Account
         {
             if (!this.CharacterId.HasValue)
             {
-                throw new InvalidOperationException("This session has no character registered.");
+                throw new InvalidOperationException(Strings.SessionHasNoCharacter);
             }
 
             this.CharacterId = null;
         }
 
-        public TimeSpan KeepAlive()
+        public Duration KeepAlive(Instant now)
         {
-            var newTimestamp = DateTime.UtcNow;
+            var newTimestamp = now;
             var oldTimestamp = this.LastKeepAlive;
 
             this.LastKeepAlive = newTimestamp;

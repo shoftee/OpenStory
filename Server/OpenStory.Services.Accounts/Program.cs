@@ -2,6 +2,7 @@
 using System.Threading;
 using log4net.Config;
 using Ninject;
+using NodaTime;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
@@ -23,6 +24,7 @@ namespace OpenStory.Services.Account
         {
             var kernel = new StandardKernel(new WcfServiceModule());
 
+            kernel.Bind<IClock>().ToConstant(SystemClock.Instance);
             kernel.Bind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
             kernel.Bind<OsWcfConfiguration>().ToConstant(GetWcfConfiguration());
          
