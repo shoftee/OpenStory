@@ -56,8 +56,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AtomicBooleanFixture.cs" />
-    <Compile Include="Common\AtomicIntegerFixture.cs" />
+    <Compile Include="Common\Tools\AtomicBooleanFixture.cs" />
+    <Compile Include="Common\Tools\AtomicIntegerFixture.cs" />
     <Compile Include="Common\Game\KeyBindingFixture.cs" />
     <Compile Include="Common\Game\KeyLayoutFixture.cs" />
     <Compile Include="Common\Game\PointSFixture.cs" />

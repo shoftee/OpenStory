@@ -4,14 +4,14 @@ using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Tests;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Common
 {
+    [Category("OpenStory.Common.Tools.Arrays")]
     [TestFixture]
     public sealed class ArraysFixture
     {
         #region Arrays.FastClone
 
-        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void FastClone_Should_Throw_On_Null_Source()
         {
@@ -19,7 +19,6 @@ namespace OpenStory.Common.Tools
             nullCloning.ShouldThrow<ArgumentNullException>();
         }
 
-        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void FastClone_Should_Return_Same_Values()
         {
@@ -30,7 +29,6 @@ namespace OpenStory.Common.Tools
             clone.Should().ContainInOrder(buffer);
         }
 
-        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void FastClone_Changing_Cloned_Bytes_Should_Not_Change_Source()
         {
@@ -45,7 +43,6 @@ namespace OpenStory.Common.Tools
 
         #region Arrays.CopySegment
 
-        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void CopySegment_Should_Throw_On_Null_Source()
         {
@@ -53,7 +50,6 @@ namespace OpenStory.Common.Tools
             nullCloning.ShouldThrow<ArgumentNullException>();
         }
 
-        [Category("OpenStory.Common.IO.Tools.Arrays")]
         [Test]
         public void CopySegment_Should_Clone_Only_Bytes_In_Segment()
         {

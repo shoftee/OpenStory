@@ -23,22 +23,6 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Wraps the provided list in a <see cref="ReadOnlyCollection{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of the list.</typeparam>
-        /// <param name="list">The list to wrap.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="list"/> is <see langword="null"/>.
-        /// </exception>
-        /// <returns>an instance of <see cref="ReadOnlyCollection{T}"/>.</returns>
-        public static ReadOnlyCollection<T> ToReadOnly<T>(this IList<T> list)
-        {
-            Guard.NotNull(() => list, list);
-
-            return new ReadOnlyCollection<T>(list);
-        }
-
-        /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
         /// <param name="lock">The lock to use.</param>

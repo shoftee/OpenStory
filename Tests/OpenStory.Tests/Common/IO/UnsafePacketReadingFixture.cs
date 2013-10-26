@@ -2,7 +2,6 @@
 using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Common.Tools;
 using OpenStory.Tests;
 
 namespace OpenStory.Common.IO

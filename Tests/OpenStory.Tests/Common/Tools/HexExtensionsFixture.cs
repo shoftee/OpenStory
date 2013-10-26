@@ -2,9 +2,9 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace OpenStory.Common.Tools
+namespace OpenStory.Common
 {
-    [Category("OpenStory.Common.IO.Tools.HexExtensions")]
+    [Category("OpenStory.Common.Tools.HexExtensions")]
     [TestFixture]
     public sealed class HexExtensionsFixture
     {

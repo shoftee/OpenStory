@@ -16,7 +16,7 @@ namespace OpenStory.Common.Game
         /// </summary>
         public ReadOnlyCollection<KeyBinding> Bindings
         {
-            get { return this.bindings.ToReadOnly(); }
+            get { return this.bindings.AsReadOnly(); }
         }
 
         private KeyLayout()

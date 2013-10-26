@@ -39,7 +39,7 @@ namespace OpenStory.Server.Auth
         /// </summary>
         public IEnumerable<IChannel> Channels
         {
-            get { return this.channels.ToReadOnly(); }
+            get { return this.channels.AsReadOnly(); }
         }
 
         #endregion
