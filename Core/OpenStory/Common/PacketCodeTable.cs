@@ -37,6 +37,12 @@ namespace OpenStory.Common
         protected abstract void LoadPacketCodesInternal();
 
         /// <inheritdoc />
+        public string GetIncomingLabel(ushort code)
+        {
+            return this.incomingTable[code];
+        }
+
+        /// <inheritdoc />
         public bool TryGetIncomingLabel(ushort code, out string label)
         {
             return this.incomingTable.TryGetValue(code, out label);
@@ -46,9 +52,26 @@ namespace OpenStory.Common
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="label"/> is the empty string.
+        /// </exception>
+        public ushort GetOutgoingCode(string label)
+        {
+            Guard.NotNullOrEmpty(() => label, label);
+
+            return this.outgoingTable[label];
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="label"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="label"/> is the empty string.
+        /// </exception>
         public bool TryGetOutgoingCode(string label, out ushort code)
         {
-            Guard.NotNull(() => label, label);
+            Guard.NotNullOrEmpty(() => label, label);
 
             return this.outgoingTable.TryGetValue(label, out code);
         }
@@ -61,10 +84,13 @@ namespace OpenStory.Common
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="label"/> is the empty string.
+        /// </exception>
         /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddOutgoing(string label, ushort code)
         {
-            Guard.NotNull(() => label, label);
+            Guard.NotNullOrEmpty(() => label, label);
 
             if (this.outgoingTable.ContainsKey(label))
             {
@@ -83,10 +109,13 @@ namespace OpenStory.Common
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="label"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="label"/> is the empty string.
+        /// </exception>
         /// <returns><see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.</returns>
         protected bool AddIncoming(ushort code, string label)
         {
-            Guard.NotNull(() => label, label);
+            Guard.NotNullOrEmpty(() => label, label);
 
             if (this.incomingTable.ContainsKey(code))
             {

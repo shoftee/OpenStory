@@ -8,7 +8,7 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets the ID number of the channel.
         /// </summary>
-        byte Id { get; }
+        byte ChannelId { get; }
 
         /// <summary>
         /// Gets the ID of the world hosting the channel.

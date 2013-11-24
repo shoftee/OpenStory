@@ -13,7 +13,7 @@ namespace OpenStory.Server.Processing
     /// Represents a process which handles network communication.
     /// </summary>
     [Localizable(true)]
-    internal sealed class ServerProcess : IServerProcess, IDisposable
+    public sealed class ServerProcess : IServerProcess, IDisposable
     {
         private readonly IServerSessionFactory sessionFactory;
         private readonly ISocketAcceptorFactory socketAcceptorFactory;
@@ -74,6 +74,7 @@ namespace OpenStory.Server.Processing
         public void Start()
         {
             this.ThrowIfRunning();
+
             this.IsRunning = true;
 
             this.logger.Info(@"Now listening on port {0}.", this.acceptor.Endpoint.Port);
@@ -86,20 +87,25 @@ namespace OpenStory.Server.Processing
             this.ThrowIfNotRunning();
 
             this.logger.Info(@"Now shutting down...");
-
             this.acceptor.Stop();
+
             this.IsRunning = false;
         }
 
         private void OnSocketAccepted(object sender, SocketEventArgs e)
         {
-            byte[] clientIv = this.ivGenerator.GetNewIv();
-            byte[] serverIv = this.ivGenerator.GetNewIv();
-
             var session = this.sessionFactory.CreateSession();
             this.packetScheduler.Register(session);
             session.AttachSocket(e.Socket);
             this.OnConnectionOpened(session);
+
+            this.StartSession(session);
+        }
+
+        private void StartSession(IServerSession session)
+        {
+            byte[] clientIv = this.ivGenerator.GetNewIv();
+            byte[] serverIv = this.ivGenerator.GetNewIv();
 
             var info = new ConfiguredHandshakeInfo(this.serverConfiguration, clientIv, serverIv);
             var crypto = EndpointCrypto.Server(this.ivFactory, clientIv, serverIv);

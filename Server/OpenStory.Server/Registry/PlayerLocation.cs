@@ -91,7 +91,7 @@ namespace OpenStory.Server.Registry
         /// <returns><see langword="true"/> if the two objects are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(PlayerLocation location1, PlayerLocation location2)
         {
-            return object.Equals(location1, location2);
+            return Equals(location1, location2);
         }
 
         /// <summary>

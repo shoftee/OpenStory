@@ -61,7 +61,10 @@ namespace OpenStory.Server.Processing
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the parameters is <see langword="null"/>.
         /// </exception>
-        protected ClientBase(IServerSession session, IPacketFactory packetFactory, ILogger logger)
+        protected ClientBase(
+            IServerSession session, 
+            IPacketFactory packetFactory, 
+            ILogger logger)
         {
             Guard.NotNull(() => session, session);
             Guard.NotNull(() => packetFactory, packetFactory);
@@ -180,10 +183,10 @@ namespace OpenStory.Server.Processing
         {
             if (disposing && !this.isDisposed)
             {
-                var account = this.AccountSession;
-                if (account != null)
+                var accountSession = this.AccountSession;
+                if (accountSession != null)
                 {
-                    account.Dispose();
+                    accountSession.Dispose();
                     this.AccountSession = null;
                 }
 

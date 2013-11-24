@@ -228,9 +228,5 @@ namespace OpenStory.Server.Processing
         }
 
         #endregion
-
-        #region Logging
-
-        #endregion
     }
 }

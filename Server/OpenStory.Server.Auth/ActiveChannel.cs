@@ -7,7 +7,7 @@ namespace OpenStory.Server.Auth
     {
         private readonly AtomicInteger channelLoad;
 
-        public byte Id { get; private set; }
+        public byte ChannelId { get; private set; }
 
         public byte WorldId { get; private set; }
 

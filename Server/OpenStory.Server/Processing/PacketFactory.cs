@@ -14,8 +14,7 @@ namespace OpenStory.Server.Processing
 
         public PacketBuilder CreatePacket(string label)
         {
-            ushort code;
-            this.packets.TryGetOutgoingCode(label, out code);
+            ushort code = this.packets.GetOutgoingCode(label);
 
             var builder = new PacketBuilder();
             builder.WriteInt16(code);
