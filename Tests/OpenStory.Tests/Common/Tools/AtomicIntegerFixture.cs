@@ -7,7 +7,7 @@ namespace OpenStory.Common
 {
     [Category("OpenStory.Common.AtomicInteger")]
     [TestFixture]
-    public class AtomicIntegerFixture
+    public sealed class AtomicIntegerFixture
     {
         [Test]
         public void Constructor_Should_Set_Value()

@@ -7,7 +7,7 @@ namespace OpenStory.Common
 {
     [Category("OpenStory.Common.AtomicBoolean")]
     [TestFixture]
-    public class AtomicBooleanFixture
+    public sealed class AtomicBooleanFixture
     {
         [Test]
         public void Constructor_Should_Set_Value_To_True()

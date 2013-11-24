@@ -60,8 +60,9 @@ namespace OpenStory.Common.Game
         {
             var point = new PointS(short.MinValue, short.MinValue);
 
-            point.Invoking(a => (-a).Whatever())
-                 .ShouldThrow<ArgumentException>();
+            point
+                .Invoking(a => (-a).Whatever())
+                .ShouldThrow<ArgumentException>();
         }
 
         [Test]

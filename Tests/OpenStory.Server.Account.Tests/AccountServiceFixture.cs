@@ -11,7 +11,7 @@ namespace OpenStory.Server.Account.Tests
     [TestFixture]
     public class AccountServiceFixture
     {
-        #region Helpers 
+        #region TestClock stuff 
 
         class TestClock : IClock
         {

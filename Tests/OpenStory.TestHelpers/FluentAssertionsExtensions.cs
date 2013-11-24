@@ -1,4 +1,8 @@
-﻿namespace OpenStory.Tests
+﻿using System;
+using FluentAssertions;
+using FluentAssertions.Specialized;
+
+namespace OpenStory.Tests
 {
     public static class FluentAssertionsExtensions
     {
@@ -11,6 +15,12 @@
         /// <param name="object">Some object.</param>
         public static void Whatever(this object @object)
         {
+        }
+
+        public static ExceptionAssertions<TException> WithMessageSubstring<TException>(this ExceptionAssertions<TException> assertions, string substring, string reason = "", params object[] reasonArgs)
+            where TException : Exception
+        {
+            return assertions.WithMessage("*" + substring + "*", reason, reasonArgs);
         }
     }
 }

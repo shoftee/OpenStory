@@ -13,25 +13,28 @@ namespace OpenStory.Common
         [Test]
         public void ToByte_Should_Throw_On_Null_Input()
         {
-            ((string)null).Invoking(s => s.ToByte())
-                          .ShouldThrow<ArgumentNullException>();
+            ((string)null)
+                .Invoking(s => s.ToByte())
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
         public void ToByte_Should_Throw_On_Odd_Input_Length()
         {
-            @"1".Invoking(s => s.ToByte())
-               .ShouldThrow<ArgumentException>()
-               .WithMessage(CommonStrings.StringLengthMustBeEven);
+            @"12345"
+                .Invoking(s => s.ToByte())
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(CommonStrings.StringLengthMustBeEven);
         }
 
         [Test]
         public void ToByte_Should_Throw_On_Invalid_Digit_Characters(
             [Values(@"1LOLCATZ", @"11LMAOCATZ")]string invalidHex)
         {
-            invalidHex.Invoking(s => s.ToByte())
-                      .ShouldThrow<ArgumentException>()
-                      .WithMessage(CommonStrings.StringMustContainOnlyHexDigits);
+            invalidHex
+                .Invoking(s => s.ToByte())
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(CommonStrings.StringMustContainOnlyHexDigits);
         }
 
         [Test]
@@ -62,7 +65,7 @@ namespace OpenStory.Common
         {
             var bytes = new byte[] { 0x12, 0x34 };
 
-            bytes.ToHex().Should().Be("12-34");
+            bytes.ToHex(true).Should().Be("12-34");
         }
 
         [Test]

@@ -20,7 +20,9 @@ namespace OpenStory.Common
         public void ToPacketValue_Should_Throw_If_Member_Not_Defined()
         {
             const TestEnum Value = (TestEnum)20;
-            Value.Invoking(v => v.ToPacketValue()).ShouldThrow<ArgumentOutOfRangeException>();
+            Value
+                .Invoking(v => v.ToPacketValue())
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.PacketValueAttribute")]
@@ -28,7 +30,9 @@ namespace OpenStory.Common
         public void ToPacketValue_Should_Throw_If_Member_Not_Decorated()
         {
             const TestEnum Value = TestEnum.DefinedButNotDecorated;
-            Value.Invoking(v => v.ToPacketValue()).ShouldThrow<ArgumentException>();
+            Value
+                .Invoking(v => v.ToPacketValue())
+                .ShouldThrow<ArgumentException>();
         }
 
         [Category("OpenStory.Common.PacketValueAttribute")]

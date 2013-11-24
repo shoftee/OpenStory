@@ -12,14 +12,11 @@ namespace OpenStory.Server
         [Test]
         public void GetNewIv_Should_Call_GetNonZeroBytes_Once()
         {
-            // Arrange
             var rngMock = new Mock<RandomNumberGenerator>(MockBehavior.Loose);
             var generator = new IvGenerator(rngMock.Object);
 
-            // Act
             generator.GetNewIv();
 
-            // Assert
             rngMock.Verify(rng => rng.GetNonZeroBytes(ZeroByteArrayWithLength4()), Times.Once());
         }
 

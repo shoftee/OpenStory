@@ -14,7 +14,8 @@ namespace OpenStory.Cryptography
         public void Constructor_Throws_On_Null_Algorithm()
         {
             Action action = () => new RollingIv(null, new byte[0], 0x0000);
-            action.ShouldThrow<ArgumentNullException>();
+            action
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -22,7 +23,8 @@ namespace OpenStory.Cryptography
         {
             var algorithm = Mock.Of<ICryptoAlgorithm>();
             Action action = () => new RollingIv(algorithm, null, 0x0000);
-            action.ShouldThrow<ArgumentNullException>();
+            action
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -33,12 +35,12 @@ namespace OpenStory.Cryptography
             Action ivLength3 = () => new RollingIv(algorithm, new byte[3], 0x0000);
             ivLength3
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(CommonStrings.IvMustBe4Bytes);
+                .WithMessageSubstring(CommonStrings.IvMustBe4Bytes);
 
             Action ivLength5 = () => new RollingIv(algorithm, new byte[5], 0x0000);
             ivLength5
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(CommonStrings.IvMustBe4Bytes);
+                .WithMessageSubstring(CommonStrings.IvMustBe4Bytes);
         }
 
         [Test]
@@ -80,7 +82,7 @@ namespace OpenStory.Cryptography
             rollingIv
                 .Invoking(iv => iv.ConstructHeader(1).Whatever())
                 .ShouldThrow<ArgumentOutOfRangeException>()
-                .WithMessage(CommonStrings.PacketLengthMustBeMoreThan2Bytes);
+                .WithMessageSubstring(CommonStrings.PacketLengthMustBeMoreThan2Bytes);
         }
 
         [Test]
@@ -109,7 +111,7 @@ namespace OpenStory.Cryptography
             Action getPacketLength = () => RollingIv.GetPacketLength(new byte[] { 0x01, 0x02, 0x03 });
             getPacketLength
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(SegmentMustBeLongerThan4());
+                .WithMessageSubstring(SegmentMustBeLongerThan4());
         }
 
         [Test]
@@ -122,7 +124,7 @@ namespace OpenStory.Cryptography
             rollingIv
                 .Invoking(iv => iv.ValidateHeader(new byte[] { 0x01, 0x02, 0x03 }))
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(SegmentMustBeLongerThan4());
+                .WithMessageSubstring(SegmentMustBeLongerThan4());
         }
 
         private static string SegmentMustBeLongerThan4()

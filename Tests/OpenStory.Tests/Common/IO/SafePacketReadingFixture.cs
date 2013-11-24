@@ -86,8 +86,9 @@ namespace OpenStory.Common.IO
         [Test]
         public void TrySkip_Should_Throw_When_Count_Is_Negative()
         {
-            EmptyReader.Invoking(r => r.TrySkip(-1))
-                       .ShouldThrow<ArgumentOutOfRangeException>();
+            EmptyReader
+                .Invoking(r => r.TrySkip(-1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -99,8 +100,9 @@ namespace OpenStory.Common.IO
 
             reader.Skip(5);
 
-            reader.Invoking(r => r.TrySkipTo(1))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            reader
+                .Invoking(r => r.TrySkipTo(1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -110,8 +112,9 @@ namespace OpenStory.Common.IO
             var buffer = Helpers.GetRandomBytes(10);
             var reader = new PacketReader(buffer);
 
-            reader.Invoking(r => r.TrySkipTo(-1))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            reader
+                .Invoking(r => r.TrySkipTo(-1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -123,8 +126,9 @@ namespace OpenStory.Common.IO
 
             reader.Skip(5);
 
-            reader.Invoking(r => r.TrySkipTo(1))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            reader
+                .Invoking(r => r.TrySkipTo(1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -134,8 +138,9 @@ namespace OpenStory.Common.IO
             var buffer = Helpers.GetRandomBytes(20);
             var reader = new PacketReader(buffer, 10, 10);
 
-            reader.Invoking(r => r.TrySkipTo(-1))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            reader
+                .Invoking(r => r.TrySkipTo(-1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -180,40 +185,45 @@ namespace OpenStory.Common.IO
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_1()
         {
-            EmptyReader.Invoking(r => r.Safe(null))
-                       .ShouldThrow<ArgumentNullException>();
+            EmptyReader
+                .Invoking(r => r.Safe(null))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_2()
         {
-            EmptyReader.Invoking(r => r.Safe(null, () => { }))
-                       .ShouldThrow<ArgumentNullException>();
+            EmptyReader
+                .Invoking(r => r.Safe(null, () => { }))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Reading_Callback_Is_Null_3()
         {
-            EmptyReader.Invoking(r => r.Safe(null, () => 1))
-                       .ShouldThrow<ArgumentNullException>();
+            EmptyReader
+                .Invoking(r => r.Safe(null, () => 1))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_1()
         {
-            EmptyReader.Invoking(r1 => r1.Safe(r2 => { }, null))
-                       .ShouldThrow<ArgumentNullException>();
+            EmptyReader
+                .Invoking(r1 => r1.Safe(r2 => { }, null))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Throw_When_Failure_Callback_Is_Null_2()
         {
-            EmptyReader.Invoking(r1 => r1.Safe(r2 => 1, null))
-                       .ShouldThrow<ArgumentNullException>();
+            EmptyReader
+                .Invoking(r1 => r1.Safe(r2 => 1, null))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         #endregion
@@ -543,16 +553,14 @@ namespace OpenStory.Common.IO
         [Test]
         public void Safe_Handling_Should_Return_True_On_Success_2()
         {
-            EmptyReader.Safe(r => { }, () => { })
-                .Should().BeTrue();
+            EmptyReader.Safe(r => { }, () => { }).Should().BeTrue();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
         [Test]
         public void Safe_Handling_Should_Return_False_On_Failure()
         {
-            EmptyReader.Safe(r => r.Skip(1))
-                       .Should().BeFalse();
+            EmptyReader.Safe(r => r.Skip(1)).Should().BeFalse();
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -562,8 +570,7 @@ namespace OpenStory.Common.IO
             const int Success = 0;
             const int Failure = 1;
 
-            EmptyReader.Safe(r => Success, () => Failure)
-                       .Should().Be(Success);
+            EmptyReader.Safe(r => Success, () => Failure).Should().Be(Success);
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -575,8 +582,7 @@ namespace OpenStory.Common.IO
             var buffer = Helpers.GetRandomBytes(100);
             var reader = new PacketReader(buffer);
 
-            reader.Safe(FailingReturningRead, () => Failure)
-                  .Should().Be(Failure);
+            reader.Safe(FailingReturningRead, () => Failure).Should().Be(Failure);
         }
 
         [Category("OpenStory.Common.IO.PacketReader.Safe")]
@@ -588,8 +594,7 @@ namespace OpenStory.Common.IO
 
             int expected = reader.Remaining;
 
-            reader.Safe(FailingRead)
-                  .Should().BeFalse();
+            reader.Safe(FailingRead).Should().BeFalse();
 
             reader.Remaining.Should().Be(expected);
         }
@@ -603,8 +608,7 @@ namespace OpenStory.Common.IO
 
             int expected = reader.Remaining;
 
-            reader.Safe(FailingRead, () => { })
-                  .Should().BeFalse();
+            reader.Safe(FailingRead, () => { }).Should().BeFalse();
 
             reader.Remaining.Should().Be(expected);
         }
@@ -618,8 +622,7 @@ namespace OpenStory.Common.IO
 
             const int Failure = 2;
             int expected = reader.Remaining;
-            reader.Safe(FailingReturningRead, () => Failure)
-                  .Should().Be(Failure);
+            reader.Safe(FailingReturningRead, () => Failure).Should().Be(Failure);
 
             reader.Remaining.Should().Be(expected);
         }

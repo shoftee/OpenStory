@@ -81,7 +81,7 @@
       <Name>OpenStory</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.TestHelpers\OpenStory.TestHelpers.csproj">
-      <Project>{E4CB15FD-2BA9-47E9-84B5-8D7B18FF5B3F}</Project>
+      <Project>{e4cb15fd-2ba9-47e9-84b5-8d7b18ff5b3f}</Project>
       <Name>OpenStory.TestHelpers</Name>
     </ProjectReference>
   </ItemGroup>
