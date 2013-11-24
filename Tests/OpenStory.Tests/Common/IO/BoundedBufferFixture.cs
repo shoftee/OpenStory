@@ -2,7 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Tests;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.IO
 {
@@ -33,7 +33,7 @@ namespace OpenStory.Common.IO
         {
             var buffer = new BoundedBuffer();
 
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, -1, 0))
+            buffer.Invoking(b => b.AppendFill(Helpers.EmptyBuffer, -1, 0))
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
@@ -43,7 +43,7 @@ namespace OpenStory.Common.IO
         public void AppendFill_Should_Throw_On_Non_Positive_Count(int count)
         {
             var buffer = new BoundedBuffer();
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, count))
+            buffer.Invoking(b => b.AppendFill(Helpers.EmptyBuffer, 0, count))
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
@@ -51,7 +51,7 @@ namespace OpenStory.Common.IO
         public void AppendFill_Should_Throw_On_Bad_Segment_Offset()
         {
             var buffer = new BoundedBuffer();
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 1, 1))
+            buffer.Invoking(b => b.AppendFill(Helpers.EmptyBuffer, 1, 1))
                   .ShouldThrow<ArraySegmentException>();
         }
 
@@ -59,7 +59,7 @@ namespace OpenStory.Common.IO
         public void AppendFill_Should_Throw_On_Bad_Segment_Length()
         {
             var buffer = new BoundedBuffer();
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, 1))
+            buffer.Invoking(b => b.AppendFill(Helpers.EmptyBuffer, 0, 1))
                   .ShouldThrow<ArraySegmentException>();
         }
 
@@ -87,7 +87,7 @@ namespace OpenStory.Common.IO
             var buffer = new BoundedBuffer(32);
             buffer.Dispose();
 
-            buffer.Invoking(b => b.AppendFill(Helpers.Empty, 0, 0))
+            buffer.Invoking(b => b.AppendFill(Helpers.EmptyBuffer, 0, 0))
                   .ShouldThrow<ObjectDisposedException>();
         }
 

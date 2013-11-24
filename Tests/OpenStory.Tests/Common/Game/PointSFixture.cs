@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Tests;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.Game
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common
 {
@@ -24,7 +25,7 @@ namespace OpenStory.Common
             @"12345"
                 .Invoking(s => s.ToByte())
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(CommonStrings.StringLengthMustBeEven);
+                .WithMessagePrefix(CommonStrings.StringLengthMustBeEven);
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace OpenStory.Common
             invalidHex
                 .Invoking(s => s.ToByte())
                 .ShouldThrow<ArgumentException>()
-                .WithMessage(CommonStrings.StringMustContainOnlyHexDigits);
+                .WithMessagePrefix(CommonStrings.StringMustContainOnlyHexDigits);
         }
 
         [Test]

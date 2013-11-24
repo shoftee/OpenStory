@@ -7,8 +7,8 @@
     <ProjectGuid>{E4CB15FD-2BA9-47E9-84B5-8D7B18FF5B3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Tests</RootNamespace>
-    <AssemblyName>OpenStory.Tests</AssemblyName>
+    <RootNamespace>OpenStory.Tests.Helpers</RootNamespace>
+    <AssemblyName>OpenStory.Tests.Helpers</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Tests;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.IO
 {
@@ -643,7 +643,7 @@ namespace OpenStory.Common.IO
 
         private static PacketReader EmptyReader
         {
-            get { return new PacketReader(Helpers.Empty); }
+            get { return new PacketReader(Helpers.EmptyBuffer); }
         }
     }
 }

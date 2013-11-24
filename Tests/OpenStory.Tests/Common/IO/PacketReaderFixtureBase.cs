@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using OpenStory.Tests;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.IO
 {
@@ -98,7 +98,7 @@ namespace OpenStory.Common.IO
         [Test]
         public void Should_Not_Throw_On_Zero_Offset_And_Length_With_Empty_Buffer()
         {
-            Action construction = () => new PacketReader(Helpers.Empty, 0, 0);
+            Action construction = () => new PacketReader(Helpers.EmptyBuffer, 0, 0);
             construction.ShouldNotThrow();
         }
 

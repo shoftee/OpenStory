@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using OpenStory.Tests;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Cryptography
 {
@@ -35,12 +35,12 @@ namespace OpenStory.Cryptography
             Action ivLength3 = () => new RollingIv(algorithm, new byte[3], 0x0000);
             ivLength3
                 .ShouldThrow<ArgumentException>()
-                .WithMessageSubstring(CommonStrings.IvMustBe4Bytes);
+                .WithMessagePrefix(CommonStrings.IvMustBe4Bytes);
 
             Action ivLength5 = () => new RollingIv(algorithm, new byte[5], 0x0000);
             ivLength5
                 .ShouldThrow<ArgumentException>()
-                .WithMessageSubstring(CommonStrings.IvMustBe4Bytes);
+                .WithMessagePrefix(CommonStrings.IvMustBe4Bytes);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace OpenStory.Cryptography
             rollingIv
                 .Invoking(iv => iv.ConstructHeader(1).Whatever())
                 .ShouldThrow<ArgumentOutOfRangeException>()
-                .WithMessageSubstring(CommonStrings.PacketLengthMustBeMoreThan2Bytes);
+                .WithMessagePrefix(CommonStrings.PacketLengthMustBeMoreThan2Bytes);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace OpenStory.Cryptography
             Action getPacketLength = () => RollingIv.GetPacketLength(new byte[] { 0x01, 0x02, 0x03 });
             getPacketLength
                 .ShouldThrow<ArgumentException>()
-                .WithMessageSubstring(SegmentMustBeLongerThan4());
+                .WithMessagePrefix(SegmentMustBeLongerThan4());
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace OpenStory.Cryptography
             rollingIv
                 .Invoking(iv => iv.ValidateHeader(new byte[] { 0x01, 0x02, 0x03 }))
                 .ShouldThrow<ArgumentException>()
-                .WithMessageSubstring(SegmentMustBeLongerThan4());
+                .WithMessagePrefix(SegmentMustBeLongerThan4());
         }
 
         private static string SegmentMustBeLongerThan4()

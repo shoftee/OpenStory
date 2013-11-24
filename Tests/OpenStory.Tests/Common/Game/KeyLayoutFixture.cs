@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.Game
 {
@@ -45,15 +46,17 @@ namespace OpenStory.Common.Game
         public void Constructor_Should_Throw_On_Incorrect_Binding_Count()
         {
             Action construction = () => new KeyLayout(DummyBindingListIncorrect);
-            construction.ShouldThrow<ArgumentException>()
-                        .WithMessage(string.Format(CommonStrings.WrongKeyBindingCount, GameConstants.KeyCount));
+            construction
+                .ShouldThrow<ArgumentException>()
+                .WithMessageFormat(CommonStrings.WrongKeyBindingCount, GameConstants.KeyCount);
         }
 
         [Test]
         public void Constructor_Should_Throw_On_Null_Collection()
         {
             Action construction = () => new KeyLayout(null);
-            construction.ShouldThrow<ArgumentNullException>();
+            construction
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -73,8 +76,9 @@ namespace OpenStory.Common.Game
         {
             var layout = new KeyLayout(DummyBindingList);
 
-            layout.Invoking(l => l.GetKeyBinding(InvalidKeyId))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            layout
+                .Invoking(l => l.GetKeyBinding(InvalidKeyId))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
@@ -93,8 +97,9 @@ namespace OpenStory.Common.Game
         public void SetKeyBinding_Should_Throw_On_Invalid_Id()
         {
             var layout = new KeyLayout(DummyBindingList);
-            layout.Invoking(l => l.SetKeyBinding(InvalidKeyId, 0, 0))
-                  .ShouldThrow<ArgumentOutOfRangeException>();
+            layout
+                .Invoking(l => l.SetKeyBinding(InvalidKeyId, 0, 0))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]

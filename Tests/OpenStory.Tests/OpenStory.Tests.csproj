@@ -80,10 +80,6 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenStory.TestHelpers\OpenStory.TestHelpers.csproj">
-      <Project>{e4cb15fd-2ba9-47e9-84b5-8d7b18ff5b3f}</Project>
-      <Name>OpenStory.TestHelpers</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
