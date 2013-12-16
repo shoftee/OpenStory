@@ -1,12 +1,13 @@
 ﻿using System;
 using FluentAssertions;
+using FluentAssertions.Primitives;
 using NUnit.Framework;
 using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.Game
 {
-    [TestFixture]
     [Category("OpenStory.Common.Game.PointS")]
+    [TestFixture]
     public sealed class PointSFixture
     {
         [Test]
@@ -17,8 +18,7 @@ namespace OpenStory.Common.Game
 
             var c = PointS.MaxComponents(a, b);
 
-            c.X.Should().Be(10);
-            c.Y.Should().Be(30);
+            c.Should().HaveComponents(10, 30);
         }
 
         [Test]
@@ -29,8 +29,7 @@ namespace OpenStory.Common.Game
 
             var c = PointS.MinComponents(a, b);
 
-            c.X.Should().Be(-20);
-            c.Y.Should().Be(-40);
+            c.Should().HaveComponents(-20, -40);
         }
 
         [Test]
@@ -38,10 +37,10 @@ namespace OpenStory.Common.Game
         {
             var a = new PointS(-20, 20);
             var b = new PointS(20, -20);
+
             var c = a + b;
 
-            c.X.Should().Be(0);
-            c.Y.Should().Be(0);
+            c.Should().HaveComponents(0, 0);
         }
 
         [Test]
@@ -51,8 +50,7 @@ namespace OpenStory.Common.Game
 
             var b = -a;
 
-            b.X.Should().Be(-20);
-            b.Y.Should().Be(20);
+            b.Should().HaveComponents(-20, 20);
         }
 
         [Test]
@@ -106,15 +104,14 @@ namespace OpenStory.Common.Game
         {
             var point1 = new PointS(1, 2);
             var point2 = new PointS(1, 2);
-            object.Equals(point1, point2).Should().BeTrue();
+            
+            Equals(point1, point2).Should().BeTrue();
         }
 
         [Test]
         public void Equals_Should_Return_False_For_Different_PointS()
         {
-            var point1 = new PointS(1, 2);
-            var point2 = new PointS(2, 3);
-            object.Equals(point1, point2).Should().BeFalse();
+            Equals(new PointS(1, 2), new PointS(2, 3)).Should().BeFalse();
         }
 
         [Test]
@@ -122,6 +119,7 @@ namespace OpenStory.Common.Game
         {
             var point1 = new PointS(1, 2);
             var point2 = new PointS(1, 2);
+
             point1.Equals((object)point2).Should().BeTrue();
         }
 
@@ -130,6 +128,7 @@ namespace OpenStory.Common.Game
         {
             var point1 = new PointS(1, 2);
             var point2 = new PointS(2, 3);
+
             point1.Equals((object)point2).Should().BeFalse();
         }
 
@@ -137,6 +136,7 @@ namespace OpenStory.Common.Game
         public void Equals_Should_Return_False_For_New_Object()
         {
             var point1 = new PointS(1, 2);
+
             point1.Equals(new object()).Should().BeFalse();
         }
 
@@ -144,6 +144,7 @@ namespace OpenStory.Common.Game
         public void Equals_Should_Return_False_For_Null_Object()
         {
             var point1 = new PointS(1, 2);
+
             point1.Equals(null).Should().BeFalse();
         }
 

@@ -37,7 +37,7 @@ namespace OpenStory.Framework.Model.Common
                 return true;
             }
 
-            if (object.Equals(other, null))
+            if (Equals(other, null))
             {
                 return false;
             }
@@ -48,12 +48,12 @@ namespace OpenStory.Framework.Model.Common
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
-            if (object.Equals(obj, null))
+            if (Equals(obj, null))
             {
                 return false;
             }
@@ -73,7 +73,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         public static bool operator ==(CharacterKey left, CharacterKey right)
         {
-            return object.Equals(left, right);
+            return Equals(left, right);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         public static bool operator !=(CharacterKey left, CharacterKey right)
         {
-            return !object.Equals(left, right);
+            return !Equals(left, right);
         }
     }
 }

@@ -134,16 +134,6 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Synchronous EndReceive.
-        /// </summary>
-        /// <param name="args">The <see cref="SocketAsyncEventArgs"/> object for this operation.</param>
-        /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
-        private bool EndReceiveSynchronous(SocketAsyncEventArgs args)
-        {
-            return this.HandleTransferredData(args);
-        }
-
-        /// <summary>
         /// Asynchronous EndReceive, also the callback for the Completed event.
         /// </summary>
         /// <remarks>
@@ -151,10 +141,20 @@ namespace OpenStory.Networking
         /// </remarks>
         private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (this.HandleTransferredData(args))
+            if (this.EndReceiveSynchronous(args))
             {
                 this.BeginReceive();
             }
+        }
+
+        /// <summary>
+        /// Synchronous EndReceive.
+        /// </summary>
+        /// <param name="args">The <see cref="SocketAsyncEventArgs"/> object for this operation.</param>
+        /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
+        private bool EndReceiveSynchronous(SocketAsyncEventArgs args)
+        {
+            return this.HandleTransferredData(args);
         }
 
         /// <summary>

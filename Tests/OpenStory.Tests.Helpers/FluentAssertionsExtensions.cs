@@ -1,10 +1,39 @@
 ﻿using System;
+using FluentAssertions;
+using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
+using OpenStory.Common.Game;
 
 namespace OpenStory.Tests.Helpers
 {
+    public class PointSAssertions : ReferenceTypeAssertions<PointS, PointSAssertions>
+    {
+        protected override string Context
+        {
+            get { return "PointS"; }
+        }
+
+        public PointSAssertions(PointS subject)
+        {
+            this.Subject = subject;
+        }
+
+        public AndConstraint<PointSAssertions> HaveComponents(short x, short y)
+        {
+            this.Subject.X.Should().Be(x);
+            this.Subject.Y.Should().Be(y);
+
+            return new AndConstraint<PointSAssertions>(this);
+        }
+    }
+
     public static class FluentAssertionsExtensions
     {
+        public static PointSAssertions Should(this PointS subject)
+        {
+            return new PointSAssertions(subject);
+        }
+
         /// <summary>
         /// Does nothing.
         /// </summary>

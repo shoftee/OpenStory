@@ -10,12 +10,11 @@ namespace OpenStory.Common.IO
     [Category("OpenStory.Common.IO.BoundedBuffer")]
     internal sealed class BoundedBufferFixture
     {
-        [Test]
         [TestCase(-1)]
         [TestCase(0)]
         public void Constructor_Should_Throw_On_Non_Positive_Capacity(int capacity)
         {
-            Action action = () => new BoundedBuffer(-1);
+            Action action = () => new BoundedBuffer(capacity);
             action.ShouldThrow<ArgumentOutOfRangeException>();
         }
 
@@ -37,7 +36,6 @@ namespace OpenStory.Common.IO
                   .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
-        [Test]
         [TestCase(-1)]
         [TestCase(0)]
         public void AppendFill_Should_Throw_On_Non_Positive_Count(int count)

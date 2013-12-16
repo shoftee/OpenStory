@@ -15,27 +15,30 @@ namespace OpenStory.Common
             var table = new TestTable();
 
             table
-                .Invoking(
-                    t =>
-                    {
-                        ushort code;
-                        t.TryGetOutgoingCode(null, out code);
-                    })
+                .Invoking(TryGetNullCode)
                 .ShouldThrow<ArgumentNullException>();
         }
+
+        private static void TryGetNullCode(TestTable t)
+        {
+            ushort code;
+            t.TryGetOutgoingCode(null, out code);
+        }
+
         [Test]
         public void TryGetOutgoingCode_Should_Throw_On_Empty_Label()
         {
             var table = new TestTable();
 
             table
-                .Invoking(
-                    t =>
-                    {
-                        ushort code;
-                        t.TryGetOutgoingCode("", out code);
-                    })
+                .Invoking(TryGetEmptyCode)
                 .ShouldThrow<ArgumentException>();
+        }
+
+        private static void TryGetEmptyCode(TestTable t)
+        {
+            ushort code;
+            t.TryGetOutgoingCode("", out code);
         }
 
         [Test]
@@ -45,7 +48,7 @@ namespace OpenStory.Common
 
             table
                 .Invoking(t => t.LoadPacketCodes())
-                 .ShouldNotThrow();
+                .ShouldNotThrow();
         }
 
         [Test]

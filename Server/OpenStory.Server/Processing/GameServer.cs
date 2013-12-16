@@ -16,7 +16,7 @@ namespace OpenStory.Server.Processing
         /// </summary>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
         /// <param name="channelOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        public GameServer(
+        protected GameServer(
             IServerProcess serverProcess, 
             IServerOperator channelOperator)
         {

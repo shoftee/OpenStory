@@ -107,51 +107,58 @@ namespace OpenStory.Common.IO
             var builder = new PacketBuilder();
             builder.Dispose();
 
-            builder.Invoking(operation).ShouldThrow<ObjectDisposedException>();
+            builder
+                .Invoking(operation)
+                .ShouldThrow<ObjectDisposedException>();
         }
 
         [Test]
         public void WriteZero_Should_Throw_On_Negative_Zero_Count()
         {
-            DefaultBuilder.Invoking(b => b.WriteZeroes(-1))
-                          .ShouldThrow<ArgumentOutOfRangeException>();
+            DefaultBuilder
+                .Invoking(b => b.WriteZeroes(-1))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
-        [Test]
         [TestCase(-1)]
         [TestCase(0)]
         public void WritePaddedString_Should_Throw_On_Non_Positive_Padding(int padding)
         {
-            DefaultBuilder.Invoking(b => b.WritePaddedString("123", padding))
-                          .ShouldThrow<ArgumentOutOfRangeException>();
+            DefaultBuilder
+                .Invoking(b => b.WritePaddedString("123", padding))
+                .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
         [Test]
         public void WritePaddedString_Should_Throw_On_Insufficient_Padding()
         {
-            DefaultBuilder.Invoking(b => b.WritePaddedString("123", 3))
-                          .ShouldThrow<ArgumentException>();
+            DefaultBuilder
+                .Invoking(b => b.WritePaddedString("123", 3))
+                .ShouldThrow<ArgumentException>();
         }
 
         [Test]
         public void WritePaddedString_Should_Throw_On_Null_String()
         {
-            DefaultBuilder.Invoking(b => b.WritePaddedString(null, 13))
-                          .ShouldThrow<ArgumentNullException>();
+            DefaultBuilder
+                .Invoking(b => b.WritePaddedString(null, 13))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
         public void WriteLengthString_Should_Throw_On_Null_String()
         {
-            DefaultBuilder.Invoking(b => b.WriteLengthString(null))
-                          .ShouldThrow<ArgumentNullException>();
+            DefaultBuilder
+                .Invoking(b => b.WriteLengthString(null))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
         public void Default_Constructor_Should_Throw_On_Null_Buffer()
         {
-            DefaultBuilder.Invoking(b => b.WriteBytes(null))
-                          .ShouldThrow<ArgumentNullException>();
+            DefaultBuilder
+                .Invoking(b => b.WriteBytes(null))
+                .ShouldThrow<ArgumentNullException>();
         }
 
         #endregion
@@ -174,8 +181,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteByte(123);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 123 });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 123 });
         }
 
         [Test]
@@ -185,8 +192,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt16(0x7987);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x87, 0x79, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x87, 0x79, });
         }
 
         [Test]
@@ -196,8 +203,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt16(0x8987);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x87, 0x89, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x87, 0x89, });
         }
 
         [Test]
@@ -207,8 +214,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt32(0x79873412);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x79, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x79, });
         }
 
         [Test]
@@ -218,8 +225,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt32(0x89873412);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x89, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x87, 0x89, });
         }
 
         [Test]
@@ -229,8 +236,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt64(0x7987341278563412);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x79, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x79, });
         }
 
         [Test]
@@ -240,8 +247,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteInt64(0x8987341278563412);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x89, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x87, 0x89, });
         }
 
         [Test]
@@ -256,8 +263,8 @@ namespace OpenStory.Common.IO
             builder.WriteBoolean(true);
             builder.WriteBoolean(false);
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x1, 0x0, 0x1, 0x0, 0x1, 0x0 });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x1, 0x0, 0x1, 0x0, 0x1, 0x0 });
         }
 
         [Test]
@@ -267,9 +274,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteLengthString("01");
 
-            builder.ToByteArray()
-                   .Take(2)
-                   .Should().ContainInOrder(new byte[] { 0x02, 0x00 });
+            byte[] array = builder.ToByteArray();
+            array.Take(2).Should().ContainInOrder(new byte[] { 0x02, 0x00 });
         }
 
         [Test]
@@ -281,9 +287,8 @@ namespace OpenStory.Common.IO
             builder.WriteLengthString(TestString);
 
             var stringBytes = Encoding.UTF8.GetBytes(TestString);
-            builder.ToByteArray()
-                   .Skip(2)
-                   .Should().ContainInOrder(stringBytes);
+            byte[] array = builder.ToByteArray();
+            array.Skip(2).Should().ContainInOrder(stringBytes);
         }
 
         [Test]
@@ -295,9 +300,8 @@ namespace OpenStory.Common.IO
             const int Padding = 13;
             builder.WritePaddedString(TestString, Padding);
 
-            builder.ToByteArray()
-                   .Skip(TestString.Length).First()
-                   .Should().Be(0);
+            byte[] array = builder.ToByteArray();
+            array.Skip(TestString.Length).First().Should().Be(0);
         }
 
         [Test]
@@ -309,9 +313,8 @@ namespace OpenStory.Common.IO
             builder.WritePaddedString(TestString, 13);
 
             var stringBytes = Encoding.UTF8.GetBytes(TestString);
-            builder.ToByteArray()
-                   .Take(TestString.Length)
-                   .Should().ContainInOrder(stringBytes);
+            byte[] array = builder.ToByteArray();
+            array.Take(TestString.Length).Should().ContainInOrder(stringBytes);
         }
 
         [Test]
@@ -324,9 +327,8 @@ namespace OpenStory.Common.IO
             builder.WriteZeroes(5);
             builder.WriteByte(0x56);
 
-            builder.ToByteArray()
-                   .Skip(2).Take(5)
-                   .Should().OnlyContain(b => b == 0);
+            byte[] array = builder.ToByteArray();
+            array.Skip(2).Take(5).Should().OnlyContain(b => b == 0);
         }
 
         [Test]
@@ -336,8 +338,8 @@ namespace OpenStory.Common.IO
 
             builder.WriteBytes(new byte[] { 0x12, 0x34, 0x56, 0x78, });
 
-            builder.ToByteArray()
-                   .Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, });
+            byte[] array = builder.ToByteArray();
+            array.Should().ContainInOrder(new byte[] { 0x12, 0x34, 0x56, 0x78, });
         }
 
         #endregion
