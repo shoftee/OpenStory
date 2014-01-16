@@ -8,7 +8,7 @@ namespace OpenStory.Common.IO
 {
     [Category("OpenStory.Common.IO.PacketReader.Unsafe")]
     [TestFixture]
-    internal sealed class UnsafePacketReadingFixture : PacketReaderFixtureBase
+    public sealed class UnsafePacketReadingFixture : PacketReaderFixtureBase
     {
         #region Throws
 

@@ -6,7 +6,7 @@ using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Cryptography
 {
-    [Category("OpenStory.Common.Cryptography")]
+    [Category("OpenStory.Cryptography")]
     [TestFixture]
     public sealed class RollingIvFixture
     {

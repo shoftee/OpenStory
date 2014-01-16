@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace OpenStory.Common
 {
     [TestFixture]
-    [Category("OpenStory.Common.IO.PacketCodeTable")]
+    [Category("OpenStory.Common.PacketCodeTable")]
     public sealed class PacketCodeTableFixture
     {
         [Test]

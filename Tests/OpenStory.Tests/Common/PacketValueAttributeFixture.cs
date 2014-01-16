@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace OpenStory.Common
 {
+    [Category("OpenStory.Common.PacketValueAttribute")]
     [TestFixture]
     public sealed class PacketValueAttributeFixture
     {
@@ -15,7 +16,6 @@ namespace OpenStory.Common
             DefinedButNotDecorated,
         }
 
-        [Category("OpenStory.Common.PacketValueAttribute")]
         [Test]
         public void ToPacketValue_Should_Throw_If_Member_Not_Defined()
         {
@@ -25,7 +25,6 @@ namespace OpenStory.Common
                 .ShouldThrow<ArgumentOutOfRangeException>();
         }
 
-        [Category("OpenStory.Common.PacketValueAttribute")]
         [Test]
         public void ToPacketValue_Should_Throw_If_Member_Not_Decorated()
         {
@@ -35,7 +34,6 @@ namespace OpenStory.Common
                 .ShouldThrow<ArgumentException>();
         }
 
-        [Category("OpenStory.Common.PacketValueAttribute")]
         [Test]
         public void ToPacketValue_Should_Return_Decorating_Value()
         {

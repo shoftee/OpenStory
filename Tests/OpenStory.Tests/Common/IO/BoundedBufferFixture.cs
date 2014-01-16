@@ -8,7 +8,7 @@ namespace OpenStory.Common.IO
 {
     [TestFixture]
     [Category("OpenStory.Common.IO.BoundedBuffer")]
-    internal sealed class BoundedBufferFixture
+    public sealed class BoundedBufferFixture
     {
         [TestCase(-1)]
         [TestCase(0)]
