@@ -32,7 +32,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets the client's session object.
         /// </summary>
-        protected IServerSession Session { get; private set; }
+        protected IServerSession ServerSession { get; private set; }
 
         /// <summary>
         /// Gets or sets the account session object.
@@ -55,39 +55,47 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientBase"/> class.
         /// </summary>
-        /// <param name="session">The network session to bind the instance to.</param>
+        /// <param name="serverSession">The network session to bind the instance to.</param>
         /// <param name="packetFactory">The <see cref="IPacketFactory"/> to use for this client.</param>
         /// <param name="logger">The logger to use for this client.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the parameters is <see langword="null"/>.
         /// </exception>
         protected ClientBase(
-            IServerSession session, 
+            IServerSession serverSession, 
             IPacketFactory packetFactory, 
             ILogger logger)
         {
-            Guard.NotNull(() => session, session);
+            Guard.NotNull(() => serverSession, serverSession);
             Guard.NotNull(() => packetFactory, packetFactory);
 
             this.isDisposed = false;
-
-            this.Session = session;
-            this.Session.PacketProcessing += this.OnPacketProcessing;
-
-            this.PacketFactory = packetFactory;
-
-            this.keepAliveTimer = new Timer(PingInterval);
-            this.keepAliveTimer.Elapsed += this.HandlePing;
-
             this.sentPings = new AtomicInteger(0);
-            this.keepAliveTimer.Start();
 
+            this.ServerSession = this.InitializeSession(serverSession);
+            this.PacketFactory = packetFactory;
             this.Logger = logger;
+
+            this.keepAliveTimer = this.InitializeTimer();
+            this.keepAliveTimer.Start();
+        }
+
+        private IServerSession InitializeSession(IServerSession serverSession)
+        {
+            serverSession.PacketProcessing += this.OnPacketProcessing;
+            return serverSession;
+        }
+
+        private Timer InitializeTimer()
+        {
+            var timer = new Timer(PingInterval);
+            timer.Elapsed += this.SendPing;
+            return timer;
         }
 
         #region Packet handling
 
-        private void HandlePing(object sender, ElapsedEventArgs e)
+        private void SendPing(object sender, ElapsedEventArgs e)
         {
             this.Logger.Debug("PING {0}", this.sentPings.Value);
             if (this.sentPings.Increment() > MissedPingsAllowed)
@@ -98,7 +106,7 @@ namespace OpenStory.Server.Processing
 
             using (var ping = this.PacketFactory.CreatePacket("Ping"))
             {
-                this.Session.WritePacket(ping.ToByteArray());
+                this.ServerSession.WritePacket(ping.ToByteArray());
             }
         }
 
@@ -106,36 +114,46 @@ namespace OpenStory.Server.Processing
         {
             if (e.Label == "Pong")
             {
-                var session = this.AccountSession;
-                if (session != null)
-                {
-                    TimeSpan lag;
-                    if (!session.TryKeepAlive(out lag))
-                    {
-                        this.Disconnect("Session keep-alive failed.");
-                        return;
-                    }
-                }
-
-                this.sentPings.ExchangeWith(0);
+                this.HandlePong();
             }
             else
             {
-                try
+                this.HandlePacket(e);
+            }
+        }
+
+        private void HandlePong()
+        {
+            var session = this.AccountSession;
+            if (session != null)
+            {
+                TimeSpan lag;
+                if (!session.TryKeepAlive(out lag))
                 {
-                    this.ProcessPacket(e);
+                    this.Disconnect("Session keep-alive failed.");
+                    return;
                 }
-                catch (IllegalPacketException)
-                {
-                    // TODO: Use IllegalPacketException for penalizing naughty clients.
-                    this.Logger.Info("Received illegal packet. Client disconnected.");
-                    this.Disconnect("Illegal packet.");
-                }
-                catch (PacketReadingException)
-                {
-                    this.Logger.Info("Received incomplete packet. Client disconnected.");
-                    this.Disconnect("Incomplete packet.");
-                }
+            }
+
+            this.sentPings.ExchangeWith(0);
+        }
+
+        private void HandlePacket(PacketProcessingEventArgs e)
+        {
+            try
+            {
+                this.ProcessPacket(e);
+            }
+            catch (IllegalPacketException)
+            {
+                // TODO: Use IllegalPacketException for penalizing naughty clients.
+                this.Logger.Info("Received illegal packet. Client disconnected.");
+                this.Disconnect("Illegal packet.");
+            }
+            catch (PacketReadingException)
+            {
+                this.Logger.Info("Received incomplete packet. Client disconnected.");
+                this.Disconnect("Incomplete packet.");
             }
         }
 
@@ -153,7 +171,7 @@ namespace OpenStory.Server.Processing
         /// <param name="data">The data of the packet.</param>
         public void WritePacket(byte[] data)
         {
-            this.Session.WritePacket(data);
+            this.ServerSession.WritePacket(data);
         }
 
         /// <summary>
@@ -163,6 +181,7 @@ namespace OpenStory.Server.Processing
         public void Disconnect(string reason = null)
         {
             this.LogDisconnectReason(this.AccountSession, reason);
+            this.ServerSession.Close();
         }
 
         /// <inheritdoc />
@@ -192,7 +211,7 @@ namespace OpenStory.Server.Processing
 
                 this.keepAliveTimer.Dispose();
 
-                this.Session.Close();
+                this.ServerSession.Close();
 
                 this.isDisposed = true;
             }

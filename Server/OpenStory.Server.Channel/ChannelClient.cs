@@ -10,8 +10,8 @@ namespace OpenStory.Server.Channel
     public sealed class ChannelClient : ClientBase
     {
         /// <inheritdoc/>
-        public ChannelClient(IServerSession session, IPacketFactory packetFactory, ILogger logger)
-            : base(session, packetFactory, logger)
+        public ChannelClient(IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
+            : base(serverSession, packetFactory, logger)
         {
         }
 

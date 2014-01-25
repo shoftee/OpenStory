@@ -40,11 +40,11 @@ namespace OpenStory.Server.Auth
         /// Initializes a new instance of the <see cref="AuthClient"/> class and binds it with a network session.
         /// </summary>
         /// <param name="authenticator">The <see cref="IAuthenticator"/> to use for authenticating the user.</param>
-        /// <param name="session"><inheritdoc/></param>
+        /// <param name="serverSession"><inheritdoc/></param>
         /// <param name="packetFactory"><inheritdoc/></param>
         /// <param name="logger"><inheritdoc/></param>
-        public AuthClient(IAuthenticator authenticator, IServerSession session, IPacketFactory packetFactory, ILogger logger)
-            : base(session, packetFactory, logger)
+        public AuthClient(IAuthenticator authenticator, IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
+            : base(serverSession, packetFactory, logger)
         {
             this.authenticator = authenticator;
 
@@ -140,7 +140,7 @@ namespace OpenStory.Server.Auth
                 packet = builder.ToByteArray();
             }
 
-            this.Session.WritePacket(packet);
+            this.ServerSession.WritePacket(packet);
         }
 
         #endregion

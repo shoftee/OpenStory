@@ -69,11 +69,17 @@ namespace OpenStory.Networking
             this.PacketBuffer = new BoundedBuffer();
             this.HeaderBuffer = new BoundedBuffer(4);
 
-            this.Session = new NetworkSession();
-            this.Session.DataArrived += this.OnDataArrived;
-            this.Session.Closing += this.OnClosing;
+            this.Session = this.CreateInnerSession();
 
             this.isDisposed = false;
+        }
+
+        private NetworkSession CreateInnerSession()
+        {
+            var session = new NetworkSession();
+            session.DataArrived += this.OnDataArrived;
+            session.Closing += this.OnClosing;
+            return session;
         }
 
         /// <summary>
@@ -229,26 +235,25 @@ namespace OpenStory.Networking
             if (disposing && !this.isDisposed)
             {
                 var session = this.Session;
+                this.Session = null;
                 if (session != null)
                 {
                     session.Dispose();
                 }
 
                 var header = this.HeaderBuffer;
+                this.HeaderBuffer = null;
                 if (header != null)
                 {
                     header.Dispose();
                 }
 
                 var packet = this.PacketBuffer;
+                this.PacketBuffer = null;
                 if (packet != null)
                 {
                     packet.Dispose();
                 }
-
-                this.Session = null;
-                this.HeaderBuffer = null;
-                this.PacketBuffer = null;
 
                 this.isDisposed = true;
             }

@@ -52,7 +52,7 @@ namespace OpenStory.Server.Auth
             this.Id = worldInfo.WorldId;
             this.Name = worldInfo.WorldName;
             this.ChannelCount = worldInfo.ChannelCount;
-            this.channels = new List<ActiveChannel>(this.ChannelCount);
+            this.channels = new List<ActiveChannel>();
         }
     }
 }

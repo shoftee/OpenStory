@@ -99,7 +99,7 @@ namespace OpenStory.Networking
         public NetworkSession()
         {
             this.isActive = false;
-             
+
             this.receiveDescriptor = new ReceiveDescriptor(this);
             this.sendDescriptor = new SendDescriptor(this);
         }
@@ -122,7 +122,7 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
-            
+
             this.Socket = socket;
         }
 
@@ -185,7 +185,7 @@ namespace OpenStory.Networking
         }
 
         #endregion
-        
+
         #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />

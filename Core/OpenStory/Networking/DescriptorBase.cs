@@ -64,12 +64,14 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => args, args);
 
-            if (args.SocketError != SocketError.Success && this.Error != null)
+            var error = args.SocketError;
+            var errorHandler = this.Error;
+            if (error != SocketError.Success && errorHandler != null)
             {
-                this.Error(this, new SocketErrorEventArgs(args.SocketError));
+                errorHandler(this, new SocketErrorEventArgs(error));
             }
 
-            if (args.SocketError != SocketError.OperationAborted)
+            if (error != SocketError.OperationAborted)
             {
                 this.Container.Close();
             }

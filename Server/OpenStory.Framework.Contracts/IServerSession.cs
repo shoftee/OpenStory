@@ -36,9 +36,9 @@ namespace OpenStory.Framework.Contracts
         /// <summary>
         /// Initiates the session operations.
         /// </summary>
-        /// <param name="crypto">The <see cref="EndpointCrypto"/> for the session.</param>
-        /// <param name="info">The information for the handshake process.</param>
-        void Start(EndpointCrypto crypto, HandshakeInfo info);
+        /// <param name="endpointCrypto">The <see cref="EndpointCrypto"/> for the session.</param>
+        /// <param name="handshakeInfo">The information for the handshake process.</param>
+        void Start(EndpointCrypto endpointCrypto, HandshakeInfo handshakeInfo);
 
         /// <summary>
         /// Attaches a <see cref="Socket"/> to this session.
