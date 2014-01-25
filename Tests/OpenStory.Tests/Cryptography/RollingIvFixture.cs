@@ -27,18 +27,14 @@ namespace OpenStory.Cryptography
                 .ShouldThrow<ArgumentNullException>();
         }
 
-        [Test]
-        public void Constructor_Throws_When_InitialIv_Length_Is_Not_4()
+        [TestCase(3)]
+        [TestCase(5)]
+        public void Constructor_Throws_When_InitialIv_Length_Is_Not_4(int wrongLength)
         {
             var algorithm = Mock.Of<ICryptoAlgorithm>();
 
-            Action ivLength3 = () => new RollingIv(algorithm, new byte[3], 0x0000);
-            ivLength3
-                .ShouldThrow<ArgumentException>()
-                .WithMessagePrefix(CommonStrings.IvMustBe4Bytes);
-
-            Action ivLength5 = () => new RollingIv(algorithm, new byte[5], 0x0000);
-            ivLength5
+            Action wrongLengthAction = () => new RollingIv(algorithm, new byte[wrongLength], 0x0000);
+            wrongLengthAction
                 .ShouldThrow<ArgumentException>()
                 .WithMessagePrefix(CommonStrings.IvMustBe4Bytes);
         }
