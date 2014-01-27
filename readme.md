@@ -1,6 +1,6 @@
 # OpenStory
 
-Hello. This is, simply put, a project to make a reusable, pretty, open-source class lirary for [MapleStory](http://www.maplestory.com/ "MapleStory global home page") emulators, be it client or server ones. Feel free to use it.
+Hello. This is, simply put, a project to make a reusable, pretty, open-source class library for [MapleStory](http://www.maplestory.com/ "MapleStory global home page") emulators, be it client or server ones. Feel free to use it.
 
 # Contributing
 
