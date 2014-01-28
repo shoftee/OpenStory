@@ -50,6 +50,10 @@
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Factory, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.Extensions.Factory.3.0.1.0\lib\net40\Ninject.Extensions.Factory.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Extensions.Logging">
       <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
     </Reference>
@@ -70,7 +74,9 @@
     <Compile Include="ChannelClient.cs" />
     <Compile Include="ChannelOperator.cs" />
     <Compile Include="ChannelConfiguration.cs" />
+    <Compile Include="ChannelPacketCodeTable.cs" />
     <Compile Include="ChannelServer.cs" />
+    <Compile Include="ChannelServerModule.cs" />
     <Compile Include="Data\BuddyListEntry.cs" />
     <Compile Include="Data\BuddyListEntryStatus.cs" />
     <Compile Include="IPlayerFacet.cs" />

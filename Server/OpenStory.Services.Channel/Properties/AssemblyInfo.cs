@@ -6,12 +6,12 @@ using log4net.Config;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("OpenStory.Services.Registry")]
+[assembly: AssemblyTitle("OpenStory.Services.Channel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenStory.Services.Registry")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyProduct("OpenStory.Services.Channel")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using log4net.Config;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3fa425b4-8631-4d01-82b9-c1667e9d6fee")]
+[assembly: Guid("94a866b7-67de-4139-b309-f2029ccf1049")]
 
 // Version information for an assembly consists of the following four values:
 //

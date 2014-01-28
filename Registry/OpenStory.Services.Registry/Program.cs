@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using log4net.Config;
 using Ninject;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
 
 namespace OpenStory.Services.Registry
 {
-    class Program
+    internal static class Program
     {
         public static void Main()
         {
-            XmlConfigurator.Configure();
-
             CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }
@@ -46,16 +43,30 @@ namespace OpenStory.Services.Registry
             return new Dictionary<Guid, OsServiceConfiguration>()
                    {
                        {
+                           new Guid("24BBB937-49EE-422C-A040-A42432DAFB3C"), 
+                           new OsServiceConfiguration(
+                               new Dictionary<string, object>()
+                               {
+                                   { "Name", "Account-Server" },
+                               })
+                       },
+                       {
                            new Guid("18B87A4B-E405-43F4-A1C2-A0AED35E3E15"), 
                            new OsServiceConfiguration(
                                new Dictionary<string, object>()
                                {
-                                   { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484)}
+                                   { "Name", "Auth-Server" },
+                                   { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
                                })
                        },
                        {
-                           new Guid("24BBB937-49EE-422C-A040-A42432DAFB3C"), 
-                           new OsServiceConfiguration(new Dictionary<string, object>())
+                           new Guid("DEA61FBF-26F6-4F68-9E44-A34ABEEBDB93"),
+                           new OsServiceConfiguration(
+                               new Dictionary<string, object>()
+                               {
+                                   { "Name", "Channel-Server-1" },
+                                   { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8586) },
+                               })
                        },
                    };
         }
