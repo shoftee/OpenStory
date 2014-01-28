@@ -18,14 +18,14 @@ namespace OpenStory.Common.Game
         string Name { get; }
 
         /// <summary>
-        /// Gets the <see cref="ServerStatus"/> for the World.
-        /// </summary>
-        ServerStatus Status { get; }
-
-        /// <summary>
         /// Gets the number of channels in the World.
         /// </summary>
         int ChannelCount { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ServerStatus"/> for the World.
+        /// </summary>
+        ServerStatus Status { get; }
 
         /// <summary>
         /// Gets an enumerable list of channels for the World.

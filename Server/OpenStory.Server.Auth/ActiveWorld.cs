@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using OpenStory.Common;
 using OpenStory.Common.Game;
 using OpenStory.Framework.Model.Auth;
 
@@ -25,14 +24,14 @@ namespace OpenStory.Server.Auth
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="ServerStatus"/> for the World.
-        /// </summary>
-        public ServerStatus Status { get; set; }
-
-        /// <summary>
         /// Gets the number of channels in the World.
         /// </summary>
         public int ChannelCount { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="ServerStatus"/> for the World.
+        /// </summary>
+        public ServerStatus Status { get; set; }
 
         /// <summary>
         /// Gets an enumerable list of channels for the World.
