@@ -12,19 +12,9 @@ namespace OpenStory.Services.Wcf
     /// <summary>
     /// It's a bootstrapper. Yeah.
     /// </summary>
-    public class WcfBootstrapper : IDisposable, IBootstrapper
+    public class WcfBootstrapper : BootstrapperBase, IDisposable
     {
         private bool isDisposed;
-
-        /// <summary>
-        /// Gets the resolution root for the bootstrapper.
-        /// </summary>
-        protected IResolutionRoot ResolutionRoot { get; private set; }
-
-        /// <summary>
-        /// Gets the logger for this bootstrapper.
-        /// </summary>
-        protected ILogger Logger { get; private set; }
 
         /// <summary>
         /// Gets the list of configurations for the bootstrapper.
@@ -36,49 +26,34 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Initializes it all.
         /// </summary>
-        public WcfBootstrapper(
-            IResolutionRoot resolutionRoot, 
-            IEnumerable<OsWcfConfiguration> configurations,
-            ILogger logger)
+        public WcfBootstrapper(IEnumerable<OsWcfConfiguration> configurations, IResolutionRoot resolutionRoot, ILogger logger)
+            : base(resolutionRoot, logger)
         {
-            this.ResolutionRoot = resolutionRoot;
             this.Configurations = configurations.ToList();
-            this.Logger = logger;
-
             this.hosts = new List<ServiceHost>(this.Configurations.Count);
+
+            this.isDisposed = false;
         }
 
-        /// <inheritdoc/>
-        public void Start()
+        protected override void OnStarting()
         {
-            try
+            var sw = new Stopwatch();
+            foreach (var configuration in this.Configurations)
             {
-                this.Logger.Info("Starting services...");
-                var sw = new Stopwatch();
-                foreach (var configuration in this.Configurations)
-                {
-                    sw.Restart();
+                sw.Restart();
 
-                    var host = configuration.CreateHost(this.ResolutionRoot);
-                    this.hosts.Add(host);
+                var host = configuration.CreateHost(this.ResolutionRoot);
+                this.hosts.Add(host);
 
-                    var serviceName = host.Description.Name ?? host.Description.ServiceType.FullName;
-                    host.Open();
+                var serviceName = host.Description.Name ?? host.Description.ServiceType.FullName;
+                host.Open();
 
-                    this.Logger.Debug("'{0}' started ({1} ms)", serviceName, sw.ElapsedMilliseconds);
-                }
-
-                sw.Stop();
-
-                this.Logger.Info("All services started.");
+                this.Logger.Debug("'{0}' started ({1} ms)", serviceName, sw.ElapsedMilliseconds);
             }
-            catch (Exception ex)
-            {
-                this.Logger.Error(ex, null);
-            }
+
+            sw.Stop();
         }
 
-        /// <inheritdoc/>
         public void Dispose()
         {
             if (!this.isDisposed)
