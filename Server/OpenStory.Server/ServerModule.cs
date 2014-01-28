@@ -28,10 +28,11 @@ namespace OpenStory.Server
             Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
             Bind<IvGenerator>().ToSelf();
 
-            // ServerSession <= IPacketCodeTable, ILogger
+            // ServerSession <= IPacketCodeTable
+            Bind<IServerSession>().To<ServerSession>();
+            
             // IServerSessionFactory <= IServerSession
             // ServerProcess <= ISocketAcceptorFactory, IServerSessionFactory, IvGenerator, ILogger
-            Bind<IServerSession>().To<ServerSession>();
             Bind<ISocketAcceptorFactory>().ToFactory();
             Bind<IServerSessionFactory>().ToFactory();
             Bind<IServerProcess>().To<ServerProcess>();

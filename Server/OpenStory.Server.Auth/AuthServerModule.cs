@@ -1,7 +1,6 @@
 ﻿using Ninject.Extensions.Factory;
 using OpenStory.Common;
 using OpenStory.Server.Processing;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
@@ -17,9 +16,9 @@ namespace OpenStory.Server.Auth
             base.Load();
 
             Bind<IAccountSession>().To<AccountSession>();
-            Bind<IAuthenticator>().To<SimpleAuthenticator>();
+            Bind<IAuthenticator>().To<SimpleAuthenticator>().InSingletonScope();
 
-            Bind<IPacketCodeTable>().To<AuthPacketCodeTable>();
+            Bind<IPacketCodeTable>().To<AuthPacketCodeTable>().InSingletonScope();
 
             Bind<IGameClientFactory<AuthClient>>().ToFactory();
 

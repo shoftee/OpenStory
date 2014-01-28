@@ -3,7 +3,6 @@ using OpenStory.Common.Game;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
-using OpenStory.Framework.Model.Common;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth
@@ -28,7 +27,7 @@ namespace OpenStory.Server.Auth
             // TODO: user name validation, throw IllegalPacketException if not valid
             var userName = credentialsReader.ReadLengthString();
             // Attempt to load the account.
-            Account account = this.accountProvider.LoadByUserName(userName);
+            var account = this.accountProvider.LoadByUserName(userName);
             if (account == null)
             {
                 // Fail with 'NotRegistered' if no account matches.

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common.Game;
 using OpenStory.Server.Processing;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth

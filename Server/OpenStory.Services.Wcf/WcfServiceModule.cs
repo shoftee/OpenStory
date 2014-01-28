@@ -1,5 +1,4 @@
 using Ninject.Modules;
-using Ninject.Planning.Bindings;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Wcf

@@ -6,7 +6,7 @@ using OpenStory.Server.Processing;
 namespace OpenStory.Services.Auth
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    sealed class AuthService : GameServer//, IAuthService
+    sealed class AuthService : GameServer
     {
         private readonly NexusConnectionInfo nexusConnectionInfo;
 
