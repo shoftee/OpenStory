@@ -1,11 +1,10 @@
 using System;
 using System.Threading;
-using log4net.Config;
-using Ninject;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Auth;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
+using Ninject;
 
 namespace OpenStory.Services.Auth
 {
@@ -13,8 +12,6 @@ namespace OpenStory.Services.Auth
     {
         public static void Main()
         {
-            XmlConfigurator.Configure();
-
             CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }
