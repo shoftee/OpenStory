@@ -1,6 +1,4 @@
-using System.Net;
 using OpenStory.Framework.Contracts;
-using OpenStory.Services;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Channel
@@ -20,7 +18,10 @@ namespace OpenStory.Server.Channel
         /// </summary>
         public int ChannelId { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChannelConfiguration"/> class.
+        /// </summary>
+        /// <param name="configuration"><inheritdoc /></param>
         public ChannelConfiguration(OsServiceConfiguration configuration)
             : base(configuration)
         {

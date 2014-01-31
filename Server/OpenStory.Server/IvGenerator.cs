@@ -5,7 +5,7 @@ namespace OpenStory.Server
     /// <summary>
     /// Represents an object that generates IV byte arrays.
     /// </summary>
-    public class IvGenerator
+    public sealed class IvGenerator
     {
         private readonly RandomNumberGenerator randomNumberGenerator;
 

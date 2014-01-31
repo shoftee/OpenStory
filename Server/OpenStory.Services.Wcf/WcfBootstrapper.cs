@@ -35,6 +35,7 @@ namespace OpenStory.Services.Wcf
             this.isDisposed = false;
         }
 
+        /// <inheritdoc/>
         protected override void OnStarting()
         {
             var sw = new Stopwatch();
@@ -54,6 +55,7 @@ namespace OpenStory.Services.Wcf
             sw.Stop();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (!this.isDisposed)

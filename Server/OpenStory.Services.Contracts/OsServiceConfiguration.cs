@@ -14,24 +14,6 @@ namespace OpenStory.Services.Contracts
         private readonly Dictionary<string, object> data;
 
         /// <summary>
-        /// Gets configuration values by their key.
-        /// </summary>
-        /// <param name="key">The key for the configuration value.</param>
-        private object this[string key]
-        {
-            get
-            {
-                object value;
-                this.data.TryGetValue(key, out value);
-                return value;
-            }
-            set
-            {
-                this.data[key] = value;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="OsServiceConfiguration"/> class.
         /// </summary>
         /// <param name="parameters">The configuration parameters to initialize the instance with.</param>
