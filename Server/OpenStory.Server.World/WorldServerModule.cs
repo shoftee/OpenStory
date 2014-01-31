@@ -12,7 +12,7 @@ namespace OpenStory.Server.World
         /// <inheritdoc/>
         public override void Load()
         {
-            Bind<IWorldInfoProvider>().To<WorldInfoProvider>().InSingletonScope();
+            Bind<IWorldInfoProvider>().To<StubWorldInfoProvider>().InSingletonScope();
             Bind<IAuthToWorldRequestHandler, IChannelToWorldRequestHandler>().To<WorldServer>().InSingletonScope();
         }
     }
