@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using OpenStory.Framework.Contracts;
+using OpenStory.Server.Accounts;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
 using Ninject;
-using NodaTime;
 
 namespace OpenStory.Services.Account
 {
@@ -18,9 +18,8 @@ namespace OpenStory.Services.Account
 
         private static IKernel CreateKernel()
         {
-            var kernel = new StandardKernel(new WcfServiceModule());
+            var kernel = new StandardKernel(new AccountServerModule(), new WcfServiceModule());
 
-            kernel.Bind<IClock>().ToMethod(ctx => SystemClock.Instance).InSingletonScope();
             kernel.Bind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
             kernel.Bind<OsWcfConfiguration>().ToConstant(GetWcfConfiguration());
          

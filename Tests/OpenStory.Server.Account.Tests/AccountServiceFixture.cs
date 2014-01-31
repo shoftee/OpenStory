@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NodaTime;
 using NUnit.Framework;
+using OpenStory.Server.Accounts;
 using OpenStory.Services.Account;
 using OpenStory.Services.Contracts;
 

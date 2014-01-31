@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using NodaTime;
 using OpenStory.Common;
 using OpenStory.Services.Contracts;
+using NodaTime;
 
-namespace OpenStory.Services.Account
+namespace OpenStory.Server.Accounts
 {
     /// <summary>
     /// Represents an in-memory account activity service.
@@ -44,7 +44,7 @@ namespace OpenStory.Services.Account
                 sessionId = this.currentSessionId.Increment();
 
                 var account = new ActiveAccount(accountId, sessionId);
-                account.KeepAlive(clock.Now);
+                account.KeepAlive(this.clock.Now);
 
                 this.activeAccounts.Add(accountId, account);
                 return true;
@@ -102,7 +102,7 @@ namespace OpenStory.Services.Account
             }
             else
             {
-                lag = account.KeepAlive(clock.Now).ToTimeSpan();
+                lag = account.KeepAlive(this.clock.Now).ToTimeSpan();
                 return true;
             }
         }

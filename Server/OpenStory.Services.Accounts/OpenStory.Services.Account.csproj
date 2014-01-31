@@ -60,10 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Ninject.Extensions.Logging.Log4net.3.0.1.0\lib\net45-full\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NodaTime.1.2.0\lib\net35-Client\NodaTime.dll</HintPath>
-    </Reference>
     <Reference Include="System">
     </Reference>
     <Reference Include="System.Core">
@@ -76,13 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountService.cs" />
-    <Compile Include="AccountServiceStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountServiceStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ActiveAccount.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -94,6 +83,10 @@
     <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
       <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
       <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Server.Accounts\OpenStory.Server.Accounts.csproj">
+      <Project>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</Project>
+      <Name>OpenStory.Server.Accounts</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server\OpenStory.Server.csproj">
       <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
@@ -111,12 +104,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="AccountServiceStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AccountServiceStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,8 +1,7 @@
 ﻿using System;
 using NodaTime;
-using Strings = OpenStory.Services.Account.AccountServiceStrings;
 
-namespace OpenStory.Services.Account
+namespace OpenStory.Server.Accounts
 {
     /// <summary>
     /// Represents an active account session.
@@ -49,7 +48,7 @@ namespace OpenStory.Services.Account
         {
             if (this.CharacterId.HasValue)
             {
-                throw new InvalidOperationException(Strings.SessionAlreadyHasCharacter);
+                throw new InvalidOperationException(AccountServiceStrings.SessionAlreadyHasCharacter);
             }
 
             this.CharacterId = characterId;
@@ -63,7 +62,7 @@ namespace OpenStory.Services.Account
         {
             if (!this.CharacterId.HasValue)
             {
-                throw new InvalidOperationException(Strings.SessionHasNoCharacter);
+                throw new InvalidOperationException(AccountServiceStrings.SessionHasNoCharacter);
             }
 
             this.CharacterId = null;

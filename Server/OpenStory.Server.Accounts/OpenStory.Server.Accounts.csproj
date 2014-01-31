@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{92DABC4D-95B7-4869-ABB9-8B5D453575FB}</ProjectGuid>
+    <ProjectGuid>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenStory.Server.Account.Tests</RootNamespace>
-    <AssemblyName>OpenStory.Server.Account.Tests</AssemblyName>
+    <RootNamespace>OpenStory.Server.Accounts</RootNamespace>
+    <AssemblyName>OpenStory.Server.Accounts</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\OpenStory.Server.Accounts.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,22 +32,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\OpenStory.Server.Accounts.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NodaTime">
       <HintPath>..\..\packages\NodaTime.1.2.0\lib\net35-Client\NodaTime.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,22 +52,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountServiceFixture.cs" />
+    <Compile Include="AccountServerModule.cs" />
+    <Compile Include="AccountService.cs" />
+    <Compile Include="AccountServiceStrings.Designer.cs">
+      <DependentUpon>AccountServiceStrings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ActiveAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AccountServiceStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountServiceStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Server\OpenStory.Server.Accounts\OpenStory.Server.Accounts.csproj">
-      <Project>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</Project>
-      <Name>OpenStory.Server.Accounts</Name>
+    <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Server\OpenStory.Services.Accounts\OpenStory.Services.Account.csproj">
-      <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>
-      <Name>OpenStory.Services.Account</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Server\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
+    <ProjectReference Include="..\OpenStory.Services.Contracts\OpenStory.Services.Contracts.csproj">
       <Project>{93C606D9-CF3F-4747-88A4-10A6A723462A}</Project>
       <Name>OpenStory.Services.Contracts</Name>
     </ProjectReference>
