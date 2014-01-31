@@ -17,6 +17,7 @@ namespace OpenStory.Server.Channel
             // No dependencies
             Bind<IPacketCodeTable>().To<ChannelPacketCodeTable>().InSingletonScope();
 
+            // IGameClientFactory<ChannelClient> <= ChannelClient
             // ChannelClient <= IServerSession, IPacketFactory, ILogger (external)
             Bind<IGameClientFactory<ChannelClient>>().ToFactory();
 

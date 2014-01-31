@@ -24,6 +24,11 @@ namespace OpenStory.Server.Processing
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
         }
 
+        private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
+        {
+            this.channelOperator.RegisterSession(args.ServerSession);
+        }
+
         /// <inheritdoc />
         protected override void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
@@ -47,11 +52,6 @@ namespace OpenStory.Server.Processing
             this.serverProcess.Stop();
 
             base.OnStopping();
-        }
-
-        private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
-        {
-            this.channelOperator.RegisterSession(args.ServerSession);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using OpenStory.Common.Game;
 using OpenStory.Framework.Model.Common;
 
@@ -7,8 +8,10 @@ namespace OpenStory.Server.World
     /// <summary>
     /// Represents a game World.
     /// </summary>
+    [DataContract]
     internal sealed class ActiveWorld : IWorld
     {
+        [DataMember]
         private readonly List<ActiveChannel> channels;
 
         #region IWorld Members
@@ -16,32 +19,41 @@ namespace OpenStory.Server.World
         /// <summary>
         /// Gets the internal ID of the World.
         /// </summary>
+        [DataMember]
         public int Id { get; private set; }
 
         /// <summary>
         /// Gets the name of the World.
         /// </summary>
+        [DataMember]
         public string Name { get; private set; }
 
         /// <summary>
         /// Gets the number of channels in the World.
         /// </summary>
+        [DataMember]
         public int ChannelCount { get; private set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ServerStatus"/> for the World.
         /// </summary>
+        [DataMember]
         public ServerStatus Status { get; set; }
 
         /// <summary>
         /// Gets an enumerable list of channels for the World.
         /// </summary>
-        public IEnumerable<IChannel> Channels
+        IEnumerable<IChannel> IWorld.Channels
         {
             get { return this.channels.AsReadOnly(); }
         }
 
         #endregion
+
+        public List<ActiveChannel> Channels
+        {
+            get { return this.channels; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActiveWorld"/> class.

@@ -22,6 +22,7 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public Dictionary<CharacterKey, PlayerLocation> GetLocationsForAll(IEnumerable<CharacterKey> keys)
         {
+            // ReSharper disable once PossibleMultipleEnumeration
             Guard.NotNull(() => keys, keys);
 
             return keys
