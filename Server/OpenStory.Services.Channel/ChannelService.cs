@@ -2,6 +2,7 @@
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Channel;
 using OpenStory.Server.Processing;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Services.Channel
 {

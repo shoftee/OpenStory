@@ -1,5 +1,5 @@
 using OpenStory.Common.IO;
-using OpenStory.Framework.Contracts;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
 {

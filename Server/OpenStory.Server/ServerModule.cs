@@ -5,6 +5,7 @@ using OpenStory.Framework.Contracts;
 using OpenStory.Server.Networking;
 using OpenStory.Server.Processing;
 using OpenStory.Server.Registry;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server
 {

@@ -58,11 +58,14 @@
     <Compile Include="Account\IAccountSession.cs" />
     <Compile Include="Auth\IAuthService.cs" />
     <Compile Include="IBootstrapper.cs" />
+    <Compile Include="IRegisteredProcess.cs" />
+    <Compile Include="IServerProcess.cs" />
+    <Compile Include="ServerConfiguration.cs" />
     <Compile Include="World\IAuthToWorldRequestHandler.cs" />
     <Compile Include="World\IChannelToWorldRequestHandler.cs" />
     <Compile Include="IConfigurableService.cs" />
     <Compile Include="IRegisteredService.cs" />
-    <Compile Include="IRegistryService.cs" />
+    <Compile Include="Registry\IRegistryService.cs" />
     <Compile Include="IServiceClientProvider.cs" />
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="IServiceStateChanged.cs" />
@@ -79,6 +82,10 @@
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
       <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>

@@ -1,7 +1,6 @@
 using System.Net;
-using OpenStory.Services.Contracts;
 
-namespace OpenStory.Framework.Contracts
+namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Represents a set of server configuration settings.
