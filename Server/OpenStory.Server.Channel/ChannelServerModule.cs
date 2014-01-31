@@ -14,14 +14,17 @@ namespace OpenStory.Server.Channel
         /// <inheritdoc />
         public override void Load()
         {
+            // No dependencies
             Bind<IPacketCodeTable>().To<ChannelPacketCodeTable>().InSingletonScope();
 
+            // ChannelClient <= IServerSession, IPacketFactory, ILogger (external)
             Bind<IGameClientFactory<ChannelClient>>().ToFactory();
 
-            Bind<IServerOperator>().To<ChannelOperator>();
+            // ChannelOperator <= IGameClientFactory<ChannelClient>, IPlayerRegistry
+            Bind<IServerOperator, IWorldToChannelRequestHandler>().To<ChannelOperator>().InSingletonScope();
 
-            Bind<IWorldChannelRequestHandler>().To<ChannelServer>();
-            Bind<IServiceFactory<IWorldChannelRequestHandler>>().ToFactory();
+            // IServiceFactory<IWorldToChannelRequestHandler> <= IWorldToChannelRequestHandler
+            Bind<IServiceFactory<IWorldToChannelRequestHandler>>().ToFactory();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace OpenStory.Server.Channel
     /// <summary>
     /// Represents a server that handles the channel-side operations.
     /// </summary>
-    public sealed class ChannelOperator : ServerOperator<ChannelClient>
+    public sealed class ChannelOperator : ServerOperator<ChannelClient>, IWorldToChannelRequestHandler
     {
         private readonly IPlayerRegistry playerRegistry;
 
@@ -26,19 +26,16 @@ namespace OpenStory.Server.Channel
         /// </summary>
         public int WorldId { get; private set; }
 
-        /// <summary>
-        /// Gets the World Server link object for this Channel Server.
-        /// </summary>
-        public IChannelWorldRequestHandler World { get; private set; }
+        /// <inheritdoc />
+        public int Population
+        {
+            get { return this.playerRegistry.Population; }
+        }
 
         /// <inheritdoc />
-        public ChannelOperator(
-            IGameClientFactory<ChannelClient> clientFactory,
-            IChannelWorldRequestHandler worldRequestHandler, 
-            IPlayerRegistry playerRegistry)
+        public ChannelOperator(IGameClientFactory<ChannelClient> clientFactory, IPlayerRegistry playerRegistry)
             : base(clientFactory)
         {
-            this.World = worldRequestHandler;
             this.playerRegistry = playerRegistry;
         }
 
@@ -51,48 +48,17 @@ namespace OpenStory.Server.Channel
 
         private void SetUp()
         {
-            var c = this.channelConfiguration;
-            this.ChannelId = c.ChannelId;
-            this.WorldId = c.WorldId;
+            this.ChannelId = this.channelConfiguration.ChannelId;
+            this.WorldId = this.channelConfiguration.WorldId;
         }
 
-        /// <summary>
-        /// Broadcasts a message to the whole world server.
-        /// </summary>
-        /// <param name="sourceKey">The ID of the sender.</param>
-        /// <param name="targets">The IDs of the recipients of the message.</param>
-        /// <param name="data">The message to broadcast.</param>
-        public void BroadcastToWorld(CharacterKey sourceKey, IEnumerable<CharacterKey> targets, byte[] data)
-        {
-            var keys = from key in targets
-                       where key != sourceKey
-                       select key;
-
-            this.BroadcastToWorld(keys, data);
-        }
-
-        private void BroadcastToWorld(IEnumerable<CharacterKey> targets, byte[] data)
-        {
-            // Arrays are more efficient for remote operations.
-            var keys = targets.ToArray();
-
-            var players = from target in this.playerRegistry.Scan(keys)
-                          select target.Key;
-
-            this.BroadcastIntoChannel(players, data);
-            this.World.BroadcastFromChannel(this.ChannelId, keys, data);
-        }
-
-        /// <summary>
-        /// Broadcasts a packet to the targets that reside in the current channel.
-        /// </summary>
-        /// <param name="targets">The characters to broadcast to.</param>
-        /// <param name="data">The packet payload to broadcast.</param>
+        /// <inheritdoc/>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
             // This method will be part of the service contract.
-            var players = from target in playerRegistry.Scan(targets)
-                          select target;
+            var players =
+                from target in this.playerRegistry.Scan(targets)
+                select target;
 
             foreach (var player in players)
             {

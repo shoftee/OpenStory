@@ -7,7 +7,7 @@ namespace OpenStory.Services.Contracts
     /// Provides properties and methods which a World Server exposes to a Channel Server.
     /// </summary>
     [ServiceContract(Namespace = null, Name = "ChannelToWorldService")]
-    public interface IChannelWorldRequestHandler
+    public interface IChannelToWorldRequestHandler
     {
         /// <summary>
         /// Gets the ID of the World.
