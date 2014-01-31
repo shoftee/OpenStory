@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using OpenStory.Framework.Model.Common;
 
-namespace OpenStory.Framework.Model.Auth
+namespace OpenStory.Framework.Contracts
 {
     /// <summary>
     /// Provides methods for accessing world configuration data.

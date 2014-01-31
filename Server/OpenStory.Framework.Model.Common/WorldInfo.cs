@@ -1,4 +1,4 @@
-namespace OpenStory.Framework.Model.Auth
+namespace OpenStory.Framework.Model.Common
 {
     /// <summary>
     /// An object mapping for the World table.

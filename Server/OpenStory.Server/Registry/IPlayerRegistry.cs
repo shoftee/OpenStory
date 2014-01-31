@@ -9,6 +9,11 @@ namespace OpenStory.Server.Registry
     public interface IPlayerRegistry
     {
         /// <summary>
+        /// Gets the population of the registry.
+        /// </summary>
+        int Population { get; }
+
+        /// <summary>
         /// Adds a player to the registry.
         /// </summary>
         /// <param name="player">The player to add.</param>

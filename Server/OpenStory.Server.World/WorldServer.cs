@@ -1,35 +1,66 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using OpenStory.Common.Game;
+using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.World
 {
-    internal class WorldServer : IChannelWorldRequestHandler
+    /// <summary>
+    /// World server class! Handles world server stuff.
+    /// </summary>
+    internal sealed class WorldServer : IAuthToWorldRequestHandler, IChannelToWorldRequestHandler, IConfigurableService
     {
+        private readonly IWorldInfoProvider worldInfoProvider;
+        private readonly Dictionary<int, IWorldToChannelRequestHandler> channels;
+        
+        private WorldConfiguration worldConfiguration;
+        
+        private WorldInfo info;
+        private ActiveWorld activeWorld;
+
         /// <inheritdoc />
         public int WorldId { get; private set; }
 
-        private readonly Dictionary<int, IWorldChannelRequestHandler> channels;
-
-        public WorldServer(int worldId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorldServer"/> class.
+        /// </summary>
+        public WorldServer(IWorldInfoProvider worldInfoProvider)
         {
-            this.WorldId = worldId;
+            this.worldInfoProvider = worldInfoProvider;
+            this.channels = new Dictionary<int, IWorldToChannelRequestHandler>();
+        }
 
-            this.channels = new Dictionary<int, IWorldChannelRequestHandler>();
+        public void Configure(OsServiceConfiguration configuration)
+        {
+            this.worldConfiguration = new WorldConfiguration(configuration);
+            
+            this.WorldId = this.worldConfiguration.WorldId;
+
+            this.info = worldInfoProvider.GetWorldById(this.WorldId);
+            this.activeWorld = new ActiveWorld(this.info);
         }
 
         /// <inheritdoc />
         public void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data)
         {
-            var handlers = from entry in this.channels
-                           where entry.Key != channelId
-                           select entry.Value;
+            var handlers = 
+                from entry in this.channels
+                where entry.Key != channelId
+                select entry.Value;
 
             foreach (var handler in handlers.ToArray())
             {
                 handler.BroadcastIntoChannel(targets, data);
             }
+        }
+
+        /// <inheritdoc />
+        public IWorld GetWorldInfo()
+        {
+            return this.activeWorld;
         }
     }
 }

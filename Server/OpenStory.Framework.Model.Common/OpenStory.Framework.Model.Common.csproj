@@ -60,6 +60,7 @@
     <Compile Include="ItemInfo.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorldInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">

@@ -30,6 +30,11 @@ namespace OpenStory.Server.Registry
             get { return this.GetByName(name); }
         }
 
+        public int Population
+        {
+            get { return this.l.ReadLock(() => this.players.Count); }
+        }
+
         public PlayerRegistry()
         {
             this.idLookup = new Dictionary<int, CharacterKey>();

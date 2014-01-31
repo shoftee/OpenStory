@@ -14,14 +14,21 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         public override void Load()
         {
-            Bind<IAccountSession>().To<AccountSession>();
-            Bind<IAuthenticator>().To<SimpleAuthenticator>().InSingletonScope();
-
+            // No dependencies
             Bind<IPacketCodeTable>().To<AuthPacketCodeTable>().InSingletonScope();
 
+            // AccountSession <= IAccountService
+            Bind<IAccountSession>().To<AccountSession>();
+
+            // SimpleAuthenticator <= IAccountProvider, IAccountService
+            Bind<IAuthenticator>().To<SimpleAuthenticator>().InSingletonScope();
+
+            // AuthClient <= IAuthenticator, IServerSession, IPacketFactory, ILogger (external)
             Bind<IGameClientFactory<AuthClient>>().ToFactory();
 
-            Bind<IServerOperator>().To<AuthOperator>();
+            // AuthOperator <= IGameClientFactory<AuthClient>
+            Bind<IServerOperator>().To<AuthOperator>().InSingletonScope();
+
             Bind<IServiceFactory<IAuthService>>().ToFactory();
         }
     }

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using OpenStory.Common.Game;
-using OpenStory.Framework.Model.Auth;
+using OpenStory.Framework.Model.Common;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Server.World
 {
     /// <summary>
     /// Represents a game World.

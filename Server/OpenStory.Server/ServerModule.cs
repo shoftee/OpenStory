@@ -16,23 +16,23 @@ namespace OpenStory.Server
         /// <inheritdoc />
         public override void Load()
         {
-            // No dependencies:
+            // No dependencies
             Bind<IPlayerRegistry>().To<PlayerRegistry>();
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
 
-            // PacketFactory <= IPacketCodeTable
+            // PacketFactory <= IPacketCodeTable (external)
             Bind<IPacketFactory>().To<PacketFactory>();
 
-            // IvGenerator <= RandomNumberGenerator.
+            // IvGenerator <= RandomNumberGenerator
             Bind<RandomNumberGenerator>().To<RNGCryptoServiceProvider>().InSingletonScope();
             Bind<IvGenerator>().ToSelf();
 
-            // ServerSession <= IPacketCodeTable
+            // ServerSession <= IPacketCodeTable (external)
             Bind<IServerSession>().To<ServerSession>();
             
-            // IServerSessionFactory <= IServerSession
-            // ServerProcess <= ISocketAcceptorFactory, IServerSessionFactory, IvGenerator, ILogger
+            // IServerSessionFactory <= IServerSession (external)
+            // ServerProcess <= ISocketAcceptorFactory, IServerSessionFactory, IvGenerator, ILogger (external)
             Bind<ISocketAcceptorFactory>().ToFactory();
             Bind<IServerSessionFactory>().ToFactory();
             Bind<IServerProcess>().To<ServerProcess>();

@@ -59,6 +59,7 @@
     <Compile Include="IServerProcess.cs" />
     <Compile Include="IServerSession.cs" />
     <Compile Include="IServerSessionFactory.cs" />
+    <Compile Include="IWorldInfoProvider.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="NexusConnectionInfo.cs" />
     <Compile Include="PacketProcessingEventArgs.cs" />

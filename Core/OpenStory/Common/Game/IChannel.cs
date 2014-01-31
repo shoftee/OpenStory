@@ -6,12 +6,12 @@ namespace OpenStory.Common.Game
     public interface IChannel
     {
         /// <summary>
-        /// Gets the ID number of the channel.
+        /// Gets the numeric channel identifier.
         /// </summary>
         byte ChannelId { get; }
 
         /// <summary>
-        /// Gets the ID of the world hosting the channel.
+        /// Gets the numeric world identifier.
         /// </summary>
         byte WorldId { get; }
 
@@ -21,7 +21,7 @@ namespace OpenStory.Common.Game
         string Name { get; }
 
         /// <summary>
-        /// Gets a number between 0 and 1200 denoting how populated the channel is.
+        /// Gets a non-negative integer denoting how populated the channel is.
         /// </summary>
         int ChannelLoad { get; }
     }
