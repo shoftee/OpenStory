@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
 using NUnit.Framework;
 using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.Game
 {
-    [TestFixture]
     [Category("OpenStory.Common.Game.KeyLayout")]
+    [TestFixture]
     public sealed class KeyLayoutFixture
     {
         private static KeyBinding[] DummyBindingList
@@ -90,7 +91,15 @@ namespace OpenStory.Common.Game
 
         private static void VerifyKeyBinding(KeyBinding actual, KeyBinding expected)
         {
-            actual.ShouldHave().Properties(b => b.ActionTypeId, b => b.ActionId).EqualTo(expected);
+            actual.ShouldBeEquivalentTo(expected, SetUpKeyBindingEquivalency);
+        }
+
+        private static EquivalencyAssertionOptions<KeyBinding> SetUpKeyBindingEquivalency(EquivalencyAssertionOptions<KeyBinding> options)
+        {
+            return
+                options
+                    .Including(b => b.ActionTypeId)
+                    .Including(b => b.ActionId);
         }
 
         [Test]
