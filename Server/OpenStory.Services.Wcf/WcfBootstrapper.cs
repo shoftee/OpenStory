@@ -12,25 +12,22 @@ namespace OpenStory.Services.Wcf
     /// <summary>
     /// It's a bootstrapper. Yeah.
     /// </summary>
-    public class WcfBootstrapper : BootstrapperBase, IDisposable
+    public sealed class WcfBootstrapper : BootstrapperBase, IDisposable
     {
         private bool isDisposed;
-
-        /// <summary>
-        /// Gets the list of configurations for the bootstrapper.
-        /// </summary>
-        protected List<OsWcfConfiguration> Configurations { get; private set; }
-
-        private readonly List<ServiceHost> hosts;
         
+        private readonly List<OsWcfConfiguration> configurations;
+        
+        private readonly List<ServiceHost> hosts;
+
         /// <summary>
         /// Initializes it all.
         /// </summary>
         public WcfBootstrapper(IEnumerable<OsWcfConfiguration> configurations, IResolutionRoot resolutionRoot, ILogger logger)
             : base(resolutionRoot, logger)
         {
-            this.Configurations = configurations.ToList();
-            this.hosts = new List<ServiceHost>(this.Configurations.Count);
+            this.configurations = configurations.ToList();
+            this.hosts = new List<ServiceHost>(this.configurations.Count);
 
             this.isDisposed = false;
         }
@@ -39,7 +36,7 @@ namespace OpenStory.Services.Wcf
         protected override void OnStarting()
         {
             var sw = new Stopwatch();
-            foreach (var configuration in this.Configurations)
+            foreach (var configuration in this.configurations)
             {
                 sw.Restart();
 

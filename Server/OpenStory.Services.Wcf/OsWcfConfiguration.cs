@@ -90,18 +90,12 @@ namespace OpenStory.Services.Wcf
         {
             var serviceType = typeof(TService);
 
-            ThrowIfNotClass(serviceType);
-
-            return new OsWcfConfiguration(typeof(TService), baseUri, applyConfiguration);
-        }
-
-        // ReSharper disable once UnusedParameter.Local
-        private static void ThrowIfNotClass(Type serviceType)
-        {
             if (!serviceType.IsClass)
             {
                 throw new ArgumentException("The provided service type must be a class.");
             }
+
+            return new OsWcfConfiguration(typeof(TService), baseUri, applyConfiguration);
         }
     }
 }
