@@ -23,9 +23,6 @@ namespace OpenStory.Server.Channel
 
             // ChannelOperator <= IGameClientFactory<ChannelClient>, IPlayerRegistry
             Bind<IServerOperator, IWorldToChannelRequestHandler>().To<ChannelOperator>().InSingletonScope();
-
-            // IServiceFactory<IWorldToChannelRequestHandler> <= IWorldToChannelRequestHandler
-            Bind<IServiceFactory<IWorldToChannelRequestHandler>>().ToFactory();
         }
     }
 }

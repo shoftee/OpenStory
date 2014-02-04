@@ -4,7 +4,7 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Server.Processing
 {
     /// <summary>
-    /// Provides methods for operating with server sessions.
+    /// Provides methods for operating with server network sessions.
     /// </summary>
     public interface IServerOperator : IConfigurableService
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenStory.Framework.Contracts
+namespace OpenStory.Services.Wcf
 {
     /// <summary>
     /// Represents connection information for a nexus service.

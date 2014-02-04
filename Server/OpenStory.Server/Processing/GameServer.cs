@@ -9,24 +9,24 @@ namespace OpenStory.Server.Processing
     public class GameServer : RegisteredServiceBase
     {
         private readonly IServerProcess serverProcess;
-        private readonly IServerOperator channelOperator;
+        private readonly IServerOperator serverOperator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServer"/> type.
         /// </summary>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
-        /// <param name="channelOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        protected GameServer(IServerProcess serverProcess, IServerOperator channelOperator)
+        /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
+        protected GameServer(IServerProcess serverProcess, IServerOperator serverOperator)
         {
             this.serverProcess = serverProcess;
-            this.channelOperator = channelOperator;
+            this.serverOperator = serverOperator;
 
             this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
         }
 
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
-            this.channelOperator.RegisterSession(args.ServerSession);
+            this.serverOperator.RegisterSession(args.ServerSession);
         }
 
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace OpenStory.Server.Processing
             base.OnInitializing(serviceConfiguration);
 
             this.serverProcess.Configure(serviceConfiguration);
-            this.channelOperator.Configure(serviceConfiguration);
+            this.serverOperator.Configure(serviceConfiguration);
         }
 
         /// <inheritdoc />

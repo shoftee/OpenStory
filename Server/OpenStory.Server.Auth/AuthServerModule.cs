@@ -28,8 +28,6 @@ namespace OpenStory.Server.Auth
 
             // AuthOperator <= IGameClientFactory<AuthClient>
             Bind<IServerOperator>().To<AuthOperator>().InSingletonScope();
-
-            Bind<IServiceFactory<IAuthService>>().ToFactory();
         }
     }
 }

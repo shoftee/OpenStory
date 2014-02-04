@@ -11,6 +11,7 @@ namespace OpenStory.Services.Wcf
         /// <inheritdoc/>
         public override void Load()
         {
+            Bind<NexusConnectionInfo>().ToProvider<EnvironmentNexusConnectionProvider>();
             Bind<IBootstrapper>().To<WcfBootstrapper>();
         }
     }

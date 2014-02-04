@@ -1,9 +1,8 @@
 ﻿using System;
 using Ninject.Activation;
 using OpenStory.Common;
-using OpenStory.Framework.Contracts;
 
-namespace OpenStory.Server.Processing
+namespace OpenStory.Services.Wcf
 {
     /// <summary>
     /// Creates <see cref="NexusConnectionInfo"/> objects from data passed during command-line initialization.
@@ -21,7 +20,7 @@ namespace OpenStory.Server.Processing
             Guid token;
             if (!Guid.TryParse(accessTokenString, out token))
             {
-                var error = String.Format(ServerStrings.BootstrapTokenParseError, AccessTokenKey);
+                var error = String.Format(Strings.BootstrapTokenParseError, AccessTokenKey);
                 throw new FormatException(error);
             }
 

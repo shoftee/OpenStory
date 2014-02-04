@@ -1,13 +1,13 @@
 ﻿using System.ServiceModel;
-using OpenStory.Framework.Contracts;
 using OpenStory.Server.Channel;
 using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
+using OpenStory.Services.Wcf;
 
 namespace OpenStory.Services.Channel
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    sealed class ChannelService : GameServer
+    internal sealed class ChannelService : GameServer
     {
         private readonly NexusConnectionInfo nexusConnectionInfo;
 

@@ -84,7 +84,6 @@
     <Compile Include="Processing\ConfiguredHandshakeInfo.cs" />
     <Compile Include="Processing\IServerOperator.cs" />
     <Compile Include="Processing\PacketScheduler.cs" />
-    <Compile Include="Processing\EnvironmentNexusConnectionProvider.cs" />
     <Compile Include="Processing\PacketFactory.cs" />
     <Compile Include="Processing\ServerSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />

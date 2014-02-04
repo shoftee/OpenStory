@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OpenStory.Server {
+namespace OpenStory.Services.Wcf {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace OpenStory.Server {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ServerStrings {
+    internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ServerStrings() {
+        internal Strings() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Server.ServerStrings", typeof(ServerStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenStory.Services.Wcf.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace OpenStory.Server {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,38 +61,11 @@ namespace OpenStory.Server {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channel identifier must be a non-negative integer..
+        ///   Looks up a localized string similar to Could not parse nexus access token. Make sure you&apos;ve entered a valid GUID value under the parameter &apos;{0}&apos; (case-sensitive)..
         /// </summary>
-        public static string ChannelIdMustBeNonNegative {
+        internal static string BootstrapTokenParseError {
             get {
-                return ResourceManager.GetString("ChannelIdMustBeNonNegative", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The packet processing event must have a subscriber..
-        /// </summary>
-        public static string PacketProcessingEventHasNoSubscriber {
-            get {
-                return ResourceManager.GetString("PacketProcessingEventHasNoSubscriber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The server is already running..
-        /// </summary>
-        public static string ServerAlreadyRunning {
-            get {
-                return ResourceManager.GetString("ServerAlreadyRunning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The server is not running. Start it before using it..
-        /// </summary>
-        public static string ServerNotRunning {
-            get {
-                return ResourceManager.GetString("ServerNotRunning", resourceCulture);
+                return ResourceManager.GetString("BootstrapTokenParseError", resourceCulture);
             }
         }
     }

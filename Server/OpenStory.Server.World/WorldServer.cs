@@ -10,8 +10,7 @@ namespace OpenStory.Server.World
     /// <summary>
     /// World server class! Handles world server stuff.
     /// </summary>
-    internal sealed class WorldServer :
-        RegisteredServiceBase,
+    internal sealed class WorldServer : RegisteredServiceBase,
         IAuthToWorldRequestHandler,
         IChannelToWorldRequestHandler,
         IConfigurableService
