@@ -5,7 +5,7 @@ using System.Threading;
 using OpenStory.Common;
 using OpenStory.Framework.Model.Common;
 
-namespace OpenStory.Server.Registry
+namespace OpenStory.Server.Channel
 {
     /// <summary>
     /// Represents a registry for players.

@@ -18,7 +18,6 @@ namespace OpenStory.Server
         public override void Load()
         {
             // No dependencies
-            Bind<IPlayerRegistry>().To<PlayerRegistry>();
             Bind<ILocationRegistry>().To<LocationRegistry>();
             Bind<IPacketScheduler>().To<PacketScheduler>();
 

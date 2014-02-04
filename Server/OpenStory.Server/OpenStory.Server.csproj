@@ -87,8 +87,6 @@
     <Compile Include="Processing\PacketFactory.cs" />
     <Compile Include="Processing\ServerSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
-    <Compile Include="Registry\IPlayerRegistry.cs" />
-    <Compile Include="Registry\PlayerRegistry.cs" />
     <Compile Include="Processing\GameServer.cs" />
     <Compile Include="ServerModule.cs" />
     <Compile Include="Processing\ServerProcess.cs" />

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using OpenStory.Framework.Model.Common;
 
-namespace OpenStory.Server.Registry
+namespace OpenStory.Server.Channel
 {
     /// <summary>
     /// Provides methods for managing player objects and their identity.

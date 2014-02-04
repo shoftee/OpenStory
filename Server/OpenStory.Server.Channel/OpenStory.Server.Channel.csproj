@@ -80,6 +80,7 @@
     <Compile Include="Data\BuddyListEntryStatus.cs" />
     <Compile Include="IPlayerFacet.cs" />
     <Compile Include="IPlayerFacetFactory.cs" />
+    <Compile Include="IPlayerRegistry.cs" />
     <Compile Include="Maps\FieldLimitLabel.cs" />
     <Compile Include="Maps\FieldLimits.cs" />
     <Compile Include="Maps\FootholdTree.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Maps\MapObjectType.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerFacetManager.cs" />
+    <Compile Include="PlayerRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
