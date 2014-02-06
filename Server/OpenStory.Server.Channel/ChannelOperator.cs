@@ -2,7 +2,6 @@
 using System.Linq;
 using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Processing;
-using OpenStory.Server.Registry;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Channel
@@ -12,31 +11,20 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public sealed class ChannelOperator : ServerOperator<ChannelClient>, IWorldToChannelRequestHandler
     {
-        private readonly IPlayerRegistry playerRegistry;
-
         private ChannelConfiguration channelConfiguration;
 
         /// <summary>
-        /// Gets the channel identifier.
+        /// Gets the <see cref="IPlayerRegistry"/> for this operator.
         /// </summary>
-        public int ChannelId { get; private set; }
-
-        /// <summary>
-        /// Gets the world identifier.
-        /// </summary>
-        public int WorldId { get; private set; }
+        public IPlayerRegistry PlayerRegistry { get; private set; }
 
         /// <inheritdoc />
-        public int Population
-        {
-            get { return this.playerRegistry.Population; }
-        }
-
-        /// <inheritdoc />
-        public ChannelOperator(IGameClientFactory<ChannelClient> clientFactory, IPlayerRegistry playerRegistry)
+        public ChannelOperator(
+            IGameClientFactory<ChannelClient> clientFactory, 
+            IPlayerRegistry playerRegistry)
             : base(clientFactory)
         {
-            this.playerRegistry = playerRegistry;
+            this.PlayerRegistry = playerRegistry;
         }
 
         /// <inheritdoc />
@@ -49,7 +37,17 @@ namespace OpenStory.Server.Channel
         private void SetUp()
         {
             this.ChannelId = this.channelConfiguration.ChannelId;
-            this.WorldId = this.channelConfiguration.WorldId;
+        }
+
+        #region IWorldToChannelRequestHandler members
+
+        /// <inheritdoc />
+        public int ChannelId { get; private set; }
+
+        /// <inheritdoc />
+        int IWorldToChannelRequestHandler.Population
+        {
+            get { return this.PlayerRegistry.Population; }
         }
 
         /// <inheritdoc/>
@@ -57,7 +55,7 @@ namespace OpenStory.Server.Channel
         {
             // This method will be part of the service contract.
             var players =
-                from target in this.playerRegistry.Scan(targets)
+                from target in this.PlayerRegistry.Scan(targets)
                 select target;
 
             foreach (var player in players)
@@ -65,5 +63,7 @@ namespace OpenStory.Server.Channel
                 player.Client.WritePacket(data);
             }
         }
+
+        #endregion
     }
 }

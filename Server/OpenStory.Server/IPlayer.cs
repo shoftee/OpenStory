@@ -14,6 +14,11 @@ namespace OpenStory.Server
         CharacterKey Key { get; }
 
         /// <summary>
+        /// Gets the appearance information for the character of this player.
+        /// </summary>
+        CharacterAppearance Appearance { get; }
+
+        /// <summary>
         /// Gets the ID of the channel the player is currently in.
         /// </summary>
         int ChannelId { get; }

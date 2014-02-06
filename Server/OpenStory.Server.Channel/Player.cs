@@ -1,5 +1,4 @@
-﻿using OpenStory.Common.Game;
-using OpenStory.Framework.Model.Common;
+﻿using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Processing;
 
 namespace OpenStory.Server.Channel
@@ -10,23 +9,17 @@ namespace OpenStory.Server.Channel
 
         public CharacterKey Key { get; private set; }
 
+        public CharacterAppearance Appearance { get; private set; }
+
         public int JobId { get; private set; }
 
         public int Level { get; private set; }
 
+        public int WorldId { get; private set; }
+
         public int ChannelId { get; private set; }
 
         public int MapId { get; private set; }
-
-        public int WorldId { get; private set; }
-
-        public Gender Gender { get; private set; }
-
-        public int HairId { get; private set; }
-
-        public int FaceId { get; private set; }
-
-        public int SkinColorId { get; private set; }
 
         public int Fame { get; private set; }
 
@@ -36,25 +29,22 @@ namespace OpenStory.Server.Channel
 
         public int Experience { get; private set; }
 
-        private readonly ChannelClient client;
+        public ChannelClient Client { get; set; }
 
         ClientBase IPlayer.Client
         {
-            get { return this.client; }
+            get { return this.Client; }
         }
 
         private Player(ChannelClient client, ChannelCharacter character)
         {
-            this.client = client;
+            this.Client = client;
 
             // Get what we can from the transfer object.
             this.Key = character.Key;
             this.WorldId = character.WorldId;
 
-            this.Gender = character.Gender;
-            this.HairId = character.HairId;
-            this.FaceId = character.FaceId;
-            this.SkinColorId = character.SkinColorId;
+            this.Appearance = character.Appearance;
 
             this.JobId = character.JobId;
             this.Fame = character.Fame;

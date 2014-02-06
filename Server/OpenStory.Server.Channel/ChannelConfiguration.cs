@@ -1,4 +1,3 @@
-using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Channel
@@ -8,11 +7,6 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public sealed class ChannelConfiguration : ServerConfiguration
     {
-        /// <summary>
-        /// Gets the configured world identifier.
-        /// </summary>
-        public int WorldId { get; private set; }
-
         /// <summary>
         /// Gets the configured channel identifier.
         /// </summary>
@@ -25,7 +19,6 @@ namespace OpenStory.Server.Channel
         public ChannelConfiguration(OsServiceConfiguration configuration)
             : base(configuration)
         {
-            this.WorldId = configuration.Get<int>("World");
             this.ChannelId = configuration.Get<int>("Channel");
         }
     }
