@@ -2,6 +2,9 @@ using OpenStory.Common.Game;
 
 namespace OpenStory.Framework.Model.Common
 {
+    /// <summary>
+    /// Represents a game player's appearance characteristics.
+    /// </summary>
     public class CharacterAppearance
     {
         /// <summary>
