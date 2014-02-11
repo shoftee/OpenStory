@@ -79,6 +79,7 @@
     <Compile Include="AuthPacketCodeTable.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="IAuthenticator.cs" />
+    <Compile Include="Packets.cs" />
     <Compile Include="SimpleAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -19,6 +19,7 @@ namespace OpenStory.Server.Auth
         private const int MaxLoginAttempts = 3;
 
         private readonly IAuthenticator authenticator;
+        private readonly IAuthToNexusRequestHandler nexus;
 
         /// <summary>
         /// Gets the number of failed login attempts for this client.
@@ -40,13 +41,15 @@ namespace OpenStory.Server.Auth
         /// Initializes a new instance of the <see cref="AuthClient"/> class and binds it with a network session.
         /// </summary>
         /// <param name="authenticator">The <see cref="IAuthenticator"/> to use for authenticating the user.</param>
+        /// <param name="nexus">The <see cref="IAuthToNexusRequestHandler"/> to query for... world stuff.</param>
         /// <param name="serverSession"><inheritdoc/></param>
         /// <param name="packetFactory"><inheritdoc/></param>
         /// <param name="logger"><inheritdoc/></param>
-        public AuthClient(IAuthenticator authenticator, IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
+        public AuthClient(IAuthenticator authenticator, IAuthToNexusRequestHandler nexus, IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
             : base(serverSession, packetFactory, logger)
         {
             this.authenticator = authenticator;
+            this.nexus = nexus;
 
             this.LoginAttempts = 0;
             this.IsAuthenticated = false;
@@ -115,7 +118,6 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
-            byte[] packet;
             using (var builder = this.PacketFactory.CreatePacket("AuthenticationResponse"))
             {
                 builder.WriteInt32((int)result);
@@ -137,17 +139,27 @@ namespace OpenStory.Server.Auth
                     builder.WriteInt32(0);
                 }
 
-                packet = builder.ToByteArray();
+                var packet = builder.ToByteArray();
+                this.ServerSession.WritePacket(packet);
             }
-
-            this.ServerSession.WritePacket(packet);
         }
 
         #endregion
 
         private void HandleWorldListRequest(IUnsafePacketReader reader)
         {
-            throw new NotImplementedException();
+            var worlds = this.nexus.GetWorlds();
+
+            using (var builder = this.PacketFactory.CreatePacket("WorldListRequest"))
+            {
+                foreach (var world in worlds)
+                {
+                    builder.WriteWorld(world);
+                }
+
+                var packet = builder.ToByteArray();
+                this.ServerSession.WritePacket(packet);
+            }
         }
 
         private void HandleCharacterSelect(IUnsafePacketReader reader)

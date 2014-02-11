@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenStory.Common.Game;
 using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
 using OpenStory.Services.Contracts;
@@ -10,10 +9,7 @@ namespace OpenStory.Server.World
     /// <summary>
     /// World server class! Handles world server stuff.
     /// </summary>
-    internal sealed class WorldServer : RegisteredServiceBase,
-        IAuthToWorldRequestHandler,
-        IChannelToWorldRequestHandler,
-        IConfigurableService
+    internal sealed class WorldServer : RegisteredServiceBase, IChannelToWorldRequestHandler, IConfigurableService
     {
         private readonly IWorldInfoProvider worldInfoProvider;
         private readonly Dictionary<int, IWorldToChannelRequestHandler> channels;
@@ -21,7 +17,6 @@ namespace OpenStory.Server.World
         private WorldConfiguration worldConfiguration;
 
         private WorldInfo info;
-        private ActiveWorld activeWorld;
 
         /// <inheritdoc />
         public int WorldId { get; private set; }
@@ -47,7 +42,6 @@ namespace OpenStory.Server.World
             this.WorldId = this.worldConfiguration.WorldId;
 
             this.info = this.worldInfoProvider.GetWorldById(this.WorldId);
-            this.activeWorld = new ActiveWorld(this.info);
         }
 
         /// <inheritdoc />
@@ -62,12 +56,6 @@ namespace OpenStory.Server.World
             {
                 handler.BroadcastIntoChannel(targets, data);
             }
-        }
-
-        /// <inheritdoc />
-        public IWorld GetWorldInfo()
-        {
-            return this.activeWorld;
         }
     }
 }

@@ -60,8 +60,8 @@
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IRegisteredProcess.cs" />
     <Compile Include="IServerProcess.cs" />
+    <Compile Include="Registry\IAuthToNexusRequestHandler.cs" />
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="World\IAuthToWorldRequestHandler.cs" />
     <Compile Include="World\IChannelToWorldRequestHandler.cs" />
     <Compile Include="IConfigurableService.cs" />
     <Compile Include="IRegisteredService.cs" />
