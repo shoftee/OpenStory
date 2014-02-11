@@ -1,13 +1,13 @@
-﻿using FluentAssertions;
-using Ninject;
-using Ninject.Extensions.ChildKernel;
-using NUnit.Framework;
-using OpenStory.Server;
+﻿using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Channel;
 using OpenStory.Server.Processing;
 using OpenStory.Server.World;
+using FluentAssertions;
+using Ninject;
+using Ninject.Extensions.ChildKernel;
+using NUnit.Framework;
 
 namespace OpenStory.Tests.Integration
 {
@@ -23,11 +23,36 @@ namespace OpenStory.Tests.Integration
         [SetUp]
         public void SetUp()
         {
-            this.common = new StandardKernel(new ServerModule());
-            this.account = new ChildKernel(this.common, new AccountServerModule());
-            this.auth = new ChildKernel(this.common, new AuthServerModule());
-            this.world = new ChildKernel(this.common, new WorldServerModule());
-            this.channel = new ChildKernel(this.world, new ChannelServerModule());
+            this.common = GetCommonKernel();
+            this.account = this.GetAccountKernel();
+            this.auth = this.GetAuthKernel();
+            this.world = this.GetWorldKernel();
+            this.channel = this.GetChannelKernel();
+        }
+
+        private static IKernel GetCommonKernel()
+        {
+            return new StandardKernel(new ServerModule());
+        }
+
+        private IKernel GetAccountKernel()
+        {
+            return new ChildKernel(this.common, new AccountServerModule());
+        }
+
+        private IKernel GetAuthKernel()
+        {
+            return new ChildKernel(this.common, new AuthServerModule());
+        }
+
+        private IKernel GetWorldKernel()
+        {
+            return new ChildKernel(this.common, new WorldServerModule());
+        }
+
+        private IKernel GetChannelKernel()
+        {
+            return new ChildKernel(this.world, new ChannelServerModule());
         }
 
         [TearDown]
