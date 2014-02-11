@@ -60,16 +60,16 @@
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IRegisteredProcess.cs" />
     <Compile Include="IServerProcess.cs" />
-    <Compile Include="Registry\IAuthToNexusRequestHandler.cs" />
+    <Compile Include="Nexus\IAuthToNexusRequestHandler.cs" />
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="World\IChannelToWorldRequestHandler.cs" />
+    <Compile Include="Nexus\IChannelToWorldRequestHandler.cs" />
     <Compile Include="IConfigurableService.cs" />
     <Compile Include="IRegisteredService.cs" />
     <Compile Include="Registry\IRegistryService.cs" />
     <Compile Include="IServiceClientProvider.cs" />
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="IServiceStateChanged.cs" />
-    <Compile Include="Channel\IWorldToChannelRequestHandler.cs" />
+    <Compile Include="Nexus\IWorldToChannelRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredServiceBase.cs" />
     <Compile Include="OsServiceConfiguration.cs" />
@@ -92,7 +92,10 @@
       <Name>OpenStory.Framework.Model.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Channel\" />
+    <Folder Include="World\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
