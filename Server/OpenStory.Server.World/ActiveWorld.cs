@@ -50,6 +50,9 @@ namespace OpenStory.Server.World
 
         #endregion
 
+        /// <summary>
+        /// Gets the list of active channels.
+        /// </summary>
         public List<ActiveChannel> Channels
         {
             get { return this.channels; }

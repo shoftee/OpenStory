@@ -1,10 +1,10 @@
-﻿using OpenStory.Server;
+﻿using Ninject.Extensions.Logging.Log4net;
+using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Channel;
-using OpenStory.Server.Processing;
+using OpenStory.Server.Nexus;
 using OpenStory.Server.World;
-using FluentAssertions;
 using Ninject;
 using Ninject.Extensions.ChildKernel;
 using NUnit.Framework;
@@ -12,47 +12,24 @@ using NUnit.Framework;
 namespace OpenStory.Tests.Integration
 {
     [TestFixture]
-    public sealed class SingleProcessServerFixture
+    public sealed partial class SingleProcessServerFixture
     {
-        private IKernel common;
+        private IKernel nexus;
         private IKernel account;
         private IKernel auth;
         private IKernel world;
         private IKernel channel;
 
+        #region Fixture stuff
+
         [SetUp]
         public void SetUp()
         {
-            this.common = GetCommonKernel();
+            this.nexus = GetNexusKernel();
             this.account = this.GetAccountKernel();
             this.auth = this.GetAuthKernel();
             this.world = this.GetWorldKernel();
             this.channel = this.GetChannelKernel();
-        }
-
-        private static IKernel GetCommonKernel()
-        {
-            return new StandardKernel(new ServerModule());
-        }
-
-        private IKernel GetAccountKernel()
-        {
-            return new ChildKernel(this.common, new AccountServerModule());
-        }
-
-        private IKernel GetAuthKernel()
-        {
-            return new ChildKernel(this.common, new AuthServerModule());
-        }
-
-        private IKernel GetWorldKernel()
-        {
-            return new ChildKernel(this.common, new WorldServerModule());
-        }
-
-        private IKernel GetChannelKernel()
-        {
-            return new ChildKernel(this.world, new ChannelServerModule());
         }
 
         [TearDown]
@@ -70,20 +47,35 @@ namespace OpenStory.Tests.Integration
             this.account.Dispose();
             this.account = null;
 
-            this.common.Dispose();
-            this.common = null;
+            this.nexus.Dispose();
+            this.nexus = null;
         }
 
-        [Test]
-        public void Auth_Kernel_Should_Resolve_Auth_Operator()
+        private static IKernel GetNexusKernel()
         {
-            this.auth.Get<IServerOperator>().Should().BeAssignableTo<AuthOperator>();
+            return new StandardKernel(new NexusServerModule());
         }
 
-        [Test]
-        public void Channel_Kernel_Should_Resolve_Channel_Operator()
+        private IKernel GetAccountKernel()
         {
-            this.channel.Get<IServerOperator>().Should().BeAssignableTo<ChannelOperator>();
+            return new ChildKernel(this.nexus, new AccountServerModule());
         }
+
+        private IKernel GetAuthKernel()
+        {
+            return new ChildKernel(this.nexus, new ServerModule(), new AuthServerModule());
+        }
+
+        private IKernel GetWorldKernel()
+        {
+            return new ChildKernel(this.nexus, new WorldServerModule());
+        }
+
+        private IKernel GetChannelKernel()
+        {
+            return new ChildKernel(this.world, new ServerModule(), new ChannelServerModule());
+        }
+
+        #endregion
     }
 }

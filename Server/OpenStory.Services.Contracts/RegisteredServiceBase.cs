@@ -261,21 +261,21 @@ namespace OpenStory.Services.Contracts
         #endregion
 
         /// <summary>
-        /// Executed when the service enters the <see cref="OpenStory.Services.Contracts.ServiceState.Initializing"/> state.
+        /// Executed when the service enters the <see cref="ServiceState.Initializing"/> state.
         /// </summary>
         protected virtual void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
         }
 
         /// <summary>
-        /// Executed when the service enters the <see cref="OpenStory.Services.Contracts.ServiceState.Starting"/> state.
+        /// Executed when the service enters the <see cref="ServiceState.Starting"/> state.
         /// </summary>
         protected virtual void OnStarting()
         {
         }
 
         /// <summary>
-        /// Executed when the service enters the <see cref="OpenStory.Services.Contracts.ServiceState.Stopping"/> state.
+        /// Executed when the service enters the <see cref="ServiceState.Stopping"/> state.
         /// </summary>
         protected virtual void OnStopping()
         {

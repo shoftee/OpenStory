@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using OpenStory.Common.Game;
 using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
 using OpenStory.Services.Contracts;
@@ -9,10 +9,14 @@ namespace OpenStory.Server.World
     /// <summary>
     /// World server class! Handles world server stuff.
     /// </summary>
-    internal sealed class WorldServer : RegisteredServiceBase, IChannelToWorldRequestHandler, IConfigurableService
+    internal sealed class WorldServer : RegisteredServiceBase, 
+        IChannelToWorldRequestHandler, 
+        INexusToWorldRequestHandler, 
+        IConfigurableService
     {
+        private readonly IServiceContainer<INexusToWorldRequestHandler> nexus;
+        private readonly ChannelContainer channelContainer;
         private readonly IWorldInfoProvider worldInfoProvider;
-        private readonly Dictionary<int, IWorldToChannelRequestHandler> channels;
 
         private WorldConfiguration worldConfiguration;
 
@@ -24,10 +28,14 @@ namespace OpenStory.Server.World
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldServer"/> class.
         /// </summary>
-        public WorldServer(IWorldInfoProvider worldInfoProvider)
+        public WorldServer(
+            IServiceContainer<INexusToWorldRequestHandler> nexus, 
+            ChannelContainer channelContainer,
+            IWorldInfoProvider worldInfoProvider)
         {
+            this.nexus = nexus;
+            this.channelContainer = channelContainer;
             this.worldInfoProvider = worldInfoProvider;
-            this.channels = new Dictionary<int, IWorldToChannelRequestHandler>();
         }
 
         protected override void OnInitializing(OsServiceConfiguration serviceConfiguration)
@@ -35,6 +43,20 @@ namespace OpenStory.Server.World
             base.OnInitializing(serviceConfiguration);
 
             this.worldConfiguration = new WorldConfiguration(serviceConfiguration);
+        }
+
+        protected override void OnStarting()
+        {
+            base.OnStarting();
+
+            this.nexus.Register(this);
+        }
+
+        protected override void OnStopping()
+        {
+            this.nexus.Unregister(this);
+
+            base.OnStopping();
         }
 
         public void Configure(OsServiceConfiguration configuration)
@@ -45,17 +67,20 @@ namespace OpenStory.Server.World
         }
 
         /// <inheritdoc />
+        public IWorld GetDetails()
+        {
+            return new ActiveWorld(this.info);
+        }
+
+        /// <inheritdoc />
         public void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data)
         {
-            var handlers =
-                from entry in this.channels
-                where entry.Key != channelId
-                select entry.Value;
+            var channels =
+                from entry in this.channelContainer
+                where entry.ChannelId != channelId
+                select entry;
 
-            foreach (var handler in handlers.ToArray())
-            {
-                handler.BroadcastIntoChannel(targets, data);
-            }
+            channels.AsParallel().ForAll(c => c.BroadcastIntoChannel(targets, data));
         }
     }
 }

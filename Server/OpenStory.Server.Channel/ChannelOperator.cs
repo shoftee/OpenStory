@@ -63,7 +63,7 @@ namespace OpenStory.Server.Channel
                 player.Client.WritePacket(data);
             }
         }
-
+        
         #endregion
     }
 }

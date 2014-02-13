@@ -6,27 +6,35 @@ namespace OpenStory.Server.Processing
     /// <summary>
     /// Represents a server instance.
     /// </summary>
-    public class GameServer : RegisteredServiceBase
+    public class GameServer<TServerOperator> : RegisteredServiceBase
+        where TServerOperator : IServerOperator
     {
-        private readonly IServerProcess serverProcess;
-        private readonly IServerOperator serverOperator;
+        /// <summary>
+        /// Gets the <see cref="IServerProcess"/> for this server.
+        /// </summary>
+        protected IServerProcess Process { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameServer"/> type.
+        /// Gets the <see cref="IServerOperator"/> for this server.
+        /// </summary>
+        protected TServerOperator Operator { get; private set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameServer{TServerOperator}"/> type.
         /// </summary>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
         /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        protected GameServer(IServerProcess serverProcess, IServerOperator serverOperator)
+        protected GameServer(IServerProcess serverProcess, TServerOperator serverOperator)
         {
-            this.serverProcess = serverProcess;
-            this.serverOperator = serverOperator;
+            this.Process = serverProcess;
+            this.Operator = serverOperator;
 
-            this.serverProcess.ConnectionOpened += this.OnConnectionOpened;
+            this.Process.ConnectionOpened += this.OnConnectionOpened;
         }
 
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
-            this.serverOperator.RegisterSession(args.ServerSession);
+            this.Operator.RegisterSession(args.ServerSession);
         }
 
         /// <inheritdoc />
@@ -34,8 +42,8 @@ namespace OpenStory.Server.Processing
         {
             base.OnInitializing(serviceConfiguration);
 
-            this.serverProcess.Configure(serviceConfiguration);
-            this.serverOperator.Configure(serviceConfiguration);
+            this.Process.Configure(serviceConfiguration);
+            this.Operator.Configure(serviceConfiguration);
         }
 
         /// <inheritdoc />
@@ -43,13 +51,13 @@ namespace OpenStory.Server.Processing
         {
             base.OnStarting();
 
-            this.serverProcess.Start();
+            this.Process.Start();
         }
 
         /// <inheritdoc />
         protected override void OnStopping()
         {
-            this.serverProcess.Stop();
+            this.Process.Stop();
 
             base.OnStopping();
         }

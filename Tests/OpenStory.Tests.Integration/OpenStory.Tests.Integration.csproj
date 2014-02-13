@@ -39,6 +39,9 @@
     <Reference Include="FluentAssertions">
       <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -53,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Logging.Log4Net">
+      <HintPath>..\..\packages\Ninject.Extensions.Logging.Log4net.3.0.1.0\lib\net45-full\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -65,13 +71,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SingleProcessServerFixture.World.cs" />
+    <Compile Include="SingleProcessServerFixture.Channel.cs" />
+    <Compile Include="SingleProcessServerFixture.Auth.cs" />
     <Compile Include="SingleProcessServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleProcessServerFixture.Nexus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
+      <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
+      <Name>OpenStory.Framework.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Server\OpenStory.Server.Accounts\OpenStory.Server.Accounts.csproj">
       <Project>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</Project>
       <Name>OpenStory.Server.Accounts</Name>
@@ -83,6 +97,10 @@
     <ProjectReference Include="..\..\Server\OpenStory.Server.Channel\OpenStory.Server.Channel.csproj">
       <Project>{D98D189A-C0C1-4BC4-B79F-DC2E872C2763}</Project>
       <Name>OpenStory.Server.Channel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Server\OpenStory.Server.Nexus\OpenStory.Server.Nexus.csproj">
+      <Project>{EFDB7CF6-E75D-407D-9E47-1AABA9F91A2D}</Project>
+      <Name>OpenStory.Server.Nexus</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Server\OpenStory.Server.World\OpenStory.Server.World.csproj">
       <Project>{1AC44EC2-6C35-491E-9DCB-48E1AAA53BD9}</Project>

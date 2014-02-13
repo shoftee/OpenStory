@@ -68,6 +68,7 @@
     <Compile Include="ChannelOperator.cs" />
     <Compile Include="ChannelConfiguration.cs" />
     <Compile Include="ChannelPacketCodeTable.cs" />
+    <Compile Include="ChannelServer.cs" />
     <Compile Include="ChannelServerModule.cs" />
     <Compile Include="Data\BuddyListEntry.cs" />
     <Compile Include="Data\BuddyListEntryStatus.cs" />

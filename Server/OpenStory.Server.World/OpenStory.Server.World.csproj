@@ -51,6 +51,7 @@
     <Compile Include="ActiveWorld.cs" />
     <Compile Include="WorldConfiguration.cs" />
     <Compile Include="StubWorldInfoProvider.cs" />
+    <Compile Include="ChannelContainer.cs" />
     <Compile Include="WorldServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldServerModule.cs" />
