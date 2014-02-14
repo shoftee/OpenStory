@@ -17,6 +17,7 @@ namespace OpenStory.Server.Processing
         private readonly IServerSessionFactory sessionFactory;
         private readonly ISocketAcceptorFactory socketAcceptorFactory;
         private readonly IPacketScheduler packetScheduler;
+        private readonly IRollingIvFactoryProvider rollingIvFactoryProvider;
         private readonly IvGenerator ivGenerator;
         private readonly ILogger logger;
 
@@ -41,12 +42,14 @@ namespace OpenStory.Server.Processing
             IServerSessionFactory sessionFactory, 
             ISocketAcceptorFactory socketAcceptorFactory, 
             IPacketScheduler packetScheduler, 
+            IRollingIvFactoryProvider rollingIvFactoryProvider,
             IvGenerator ivGenerator, 
             ILogger logger)
         {
             this.sessionFactory = sessionFactory;
             this.socketAcceptorFactory = socketAcceptorFactory;
             this.packetScheduler = packetScheduler;
+            this.rollingIvFactoryProvider = rollingIvFactoryProvider;
             this.ivGenerator = ivGenerator;
             this.logger = logger;
         }
@@ -63,10 +66,27 @@ namespace OpenStory.Server.Processing
 
         private void ConfigureInternal()
         {
-            this.ivFactory = IvFactories.GetEmsFactory(this.serverConfiguration.Version);
+            this.ivFactory = this.CreateRollingIvFactory();
+            this.acceptor = this.CreateSocketAcceptor();
+        }
 
-            this.acceptor = socketAcceptorFactory.CreateSocketAcceptor(this.serverConfiguration.Endpoint);
-            this.acceptor.SocketAccepted += this.OnSocketAccepted;
+        private RollingIvFactory CreateRollingIvFactory()
+        {
+            var version = this.serverConfiguration.Version;
+
+            var rollingIvFactory = this.rollingIvFactoryProvider.CreateFactory(version);
+
+            return rollingIvFactory;
+        }
+
+        private SocketAcceptor CreateSocketAcceptor()
+        {
+            var endpoint = this.serverConfiguration.Endpoint;
+
+            var socketAcceptor = this.socketAcceptorFactory.CreateSocketAcceptor(endpoint);
+            socketAcceptor.SocketAccepted += this.OnSocketAccepted;
+
+            return socketAcceptor;
         }
 
         /// <inheritdoc/>
@@ -103,8 +123,8 @@ namespace OpenStory.Server.Processing
 
         private void StartSession(IServerSession session)
         {
-            byte[] clientIv = this.ivGenerator.GetNewIv();
-            byte[] serverIv = this.ivGenerator.GetNewIv();
+            var clientIv = this.ivGenerator.GetNewIv();
+            var serverIv = this.ivGenerator.GetNewIv();
 
             var info = new ConfiguredHandshakeInfo(this.serverConfiguration, clientIv, serverIv);
             var crypto = EndpointCrypto.Server(this.ivFactory, clientIv, serverIv);

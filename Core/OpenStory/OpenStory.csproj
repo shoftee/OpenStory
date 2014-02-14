@@ -96,11 +96,13 @@
     <Compile Include="Cryptography\AesTransform.cs" />
     <Compile Include="Cryptography\CryptoTransformBase.cs" />
     <Compile Include="Cryptography\CustomCrypto.cs" />
+    <Compile Include="Cryptography\EmsRollingIvFactoryProvider.cs" />
     <Compile Include="Cryptography\EndpointCrypto.cs" />
     <Compile Include="Cryptography\ICryptoAlgorithm.cs" />
-    <Compile Include="Cryptography\IvFactories.cs" />
+    <Compile Include="Cryptography\IRollingIvFactoryProvider.cs" />
     <Compile Include="Cryptography\KmstDecryptor.cs" />
     <Compile Include="Cryptography\KmstEncryptor.cs" />
+    <Compile Include="Cryptography\KmstRollingIvFactoryProvider.cs" />
     <Compile Include="Cryptography\LoginCrypto.cs" />
     <Compile Include="Cryptography\RollingIv.cs" />
     <Compile Include="Cryptography\RollingIvFactory.cs" />

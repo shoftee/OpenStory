@@ -5,20 +5,9 @@
     /// </summary>
     public sealed class RollingIvFactory
     {
-        /// <summary>
-        /// Gets the <see cref="ICryptoAlgorithm"/> for the encryption transformations.
-        /// </summary>
-        public ICryptoAlgorithm EncryptionAlgorithm { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="ICryptoAlgorithm"/> for the decryption transformations.
-        /// </summary>
-        public ICryptoAlgorithm DecryptionAlgorithm { get; private set; }
-
-        /// <summary>
-        /// Gets the version for the transformations.
-        /// </summary>
-        public ushort Version { get; private set; }
+        private readonly ICryptoAlgorithm encryptionAlgorithm;
+        private readonly ICryptoAlgorithm decryptionAlgorithm;
+        private readonly ushort version;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RollingIvFactory"/> class.
@@ -27,10 +16,10 @@
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
         public RollingIvFactory(ICryptoAlgorithm symmetricAlgorithm, ushort version)
         {
-            this.EncryptionAlgorithm = symmetricAlgorithm;
-            this.DecryptionAlgorithm = symmetricAlgorithm;
+            this.encryptionAlgorithm = symmetricAlgorithm;
+            this.decryptionAlgorithm = symmetricAlgorithm;
 
-            this.Version = version;
+            this.version = version;
         }
 
         /// <summary>
@@ -41,10 +30,10 @@
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
         public RollingIvFactory(ICryptoAlgorithm encryptionAlgorithm, ICryptoAlgorithm decryptionAlgorithm, ushort version)
         {
-            this.EncryptionAlgorithm = encryptionAlgorithm;
-            this.DecryptionAlgorithm = decryptionAlgorithm;
+            this.encryptionAlgorithm = encryptionAlgorithm;
+            this.decryptionAlgorithm = decryptionAlgorithm;
 
-            this.Version = version;
+            this.version = version;
         }
 
         /// <summary>
@@ -55,13 +44,8 @@
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
         public RollingIv CreateEncryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
-            ushort versionMask = this.Version;
-            if (versionMaskType == VersionMaskType.Complement)
-            {
-                versionMask = (ushort)(0xFFFF - versionMask);
-            }
-
-            return new RollingIv(this.EncryptionAlgorithm, initialIv, versionMask);
+            ushort versionMask = GetMaskedVersion(this.version, versionMaskType);
+            return new RollingIv(this.encryptionAlgorithm, initialIv, versionMask);
         }
 
         /// <summary>
@@ -72,13 +56,20 @@
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
         public RollingIv CreateDecryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
-            ushort versionMask = this.Version;
-            if (versionMaskType == VersionMaskType.Complement)
-            {
-                versionMask = (ushort)(0xFFFF - versionMask);
-            }
+            ushort versionMask = GetMaskedVersion(this.version, versionMaskType);
+            return new RollingIv(this.decryptionAlgorithm, initialIv, versionMask);
+        }
 
-            return new RollingIv(this.DecryptionAlgorithm, initialIv, versionMask);
+        private static ushort GetMaskedVersion(ushort version, VersionMaskType versionMaskType)
+        {
+            if (versionMaskType == VersionMaskType.None)
+            {
+                return version;
+            }
+            else
+            {
+                return (ushort)(0xFFFF - version);
+            }
         }
     }
 }
