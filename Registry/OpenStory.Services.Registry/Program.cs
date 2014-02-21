@@ -12,6 +12,8 @@ namespace OpenStory.Services.Registry
     {
         public static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }

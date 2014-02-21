@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using OpenStory.Framework.Contracts;
+using OpenStory.Server;
 using OpenStory.Server.Auth;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
@@ -12,15 +12,17 @@ namespace OpenStory.Services.Auth
     {
         public static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }
 
         private static IKernel CreateKernel()
         {
-            var kernel = new StandardKernel(new AuthServerModule(), new WcfServiceModule());
+            var kernel = new StandardKernel(new ServerModule(), new AuthServerModule(), new WcfServiceModule());
 
-            kernel.Bind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
+            kernel.Rebind<NexusConnectionInfo>().ToConstant(GetNexusConnectionInfo());
             kernel.Bind<OsWcfConfiguration>().ToConstant(GetWcfConfiguration());
 
             return kernel;

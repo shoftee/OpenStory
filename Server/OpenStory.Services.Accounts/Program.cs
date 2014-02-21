@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using OpenStory.Framework.Contracts;
 using OpenStory.Server.Accounts;
 using OpenStory.Services.Contracts;
 using OpenStory.Services.Wcf;
@@ -12,6 +11,8 @@ namespace OpenStory.Services.Account
     {
         public static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
+            
             CreateKernel().Get<IBootstrapper>().Start();
             Thread.Sleep(Timeout.Infinite);
         }
