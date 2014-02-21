@@ -86,5 +86,14 @@ namespace OpenStory.Server {
                 return ResourceManager.GetString("ServerAlreadyRunning", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server is not configured..
+        /// </summary>
+        public static string ServerIsNotConfigured {
+            get {
+                return ResourceManager.GetString("ServerIsNotConfigured", resourceCulture);
+            }
+        }
     }
 }

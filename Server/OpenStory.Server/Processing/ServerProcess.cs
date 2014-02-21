@@ -17,6 +17,7 @@ namespace OpenStory.Server.Processing
     {
         private readonly AtomicBoolean isRunning;
         private bool isDisposed;
+        private bool isConfigured;
 
         private readonly IServerSessionFactory sessionFactory;
         private readonly ISocketAcceptorFactory socketAcceptorFactory;
@@ -59,6 +60,8 @@ namespace OpenStory.Server.Processing
             this.ivGenerator = ivGenerator;
             this.logger = logger;
 
+            this.isConfigured = false;
+            this.isDisposed = false;
             this.isRunning = new AtomicBoolean(false);
         }
 
@@ -70,13 +73,15 @@ namespace OpenStory.Server.Processing
                 throw GetServerAlreadyRunningException();
             }
 
-            this.serverConfiguration = new ServerConfiguration(configuration);
+            this.ConfigureInternal(configuration);
 
-            this.ConfigureInternal();
+            this.isConfigured = true;
         }
 
-        private void ConfigureInternal()
+        private void ConfigureInternal(OsServiceConfiguration configuration)
         {
+            this.serverConfiguration = new ServerConfiguration(configuration);
+
             this.ivFactory = this.CreateRollingIvFactory();
             this.acceptor = this.CreateSocketAcceptor();
         }
@@ -103,6 +108,11 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc/>
         public void Start()
         {
+            if (!this.isConfigured)
+            {
+                throw GetServerIsNotConfiguredException();
+            }
+
             if (!this.isRunning.FlipIf(false))
             {
                 throw GetServerAlreadyRunningException();
@@ -153,6 +163,11 @@ namespace OpenStory.Server.Processing
         }
 
         #region Exception methods
+
+        private static InvalidOperationException GetServerIsNotConfiguredException()
+        {
+            return new InvalidOperationException(ServerStrings.ServerIsNotConfigured);
+        }
 
         private static InvalidOperationException GetServerAlreadyRunningException()
         {
