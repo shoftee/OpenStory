@@ -207,19 +207,12 @@ namespace OpenStory.Common.IO
         /// </remarks>
         public void Dispose()
         {
-            if (this.isDisposed)
+            if (!this.isDisposed)
             {
-                return;
-            }
+                Misc.AssignNullAndDispose(ref this.stream);
 
-            var localStream = this.stream;
-            if (localStream != null)
-            {
-                localStream.Dispose();
-                this.stream = null;
+                this.isDisposed = true;
             }
-
-            this.isDisposed = true;
         }
 
         #endregion

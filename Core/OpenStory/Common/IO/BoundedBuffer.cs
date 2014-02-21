@@ -171,12 +171,7 @@ namespace OpenStory.Common.IO
         {
             if (!this.isDisposed && disposing)
             {
-                var copy = this.stream;
-                if (copy != null)
-                {
-                    copy.Dispose();
-                    this.stream = null;
-                }
+                Misc.AssignNullAndDispose(ref this.stream);
 
                 this.isDisposed = true;
             }

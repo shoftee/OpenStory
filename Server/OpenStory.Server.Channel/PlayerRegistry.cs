@@ -18,7 +18,7 @@ namespace OpenStory.Server.Channel
         private readonly Dictionary<CharacterKey, IPlayer> players;
 
         private bool isDisposed;
-        private readonly ReaderWriterLockSlim l;
+        private ReaderWriterLockSlim l;
 
         public IPlayer this[int id]
         {
@@ -139,10 +139,7 @@ namespace OpenStory.Server.Channel
         {
             if (!this.isDisposed)
             {
-                if (this.l != null)
-                {
-                    this.l.Dispose();
-                }
+                Misc.AssignNullAndDispose(ref this.l);
 
                 this.isDisposed = true;
             }

@@ -32,23 +32,35 @@ namespace OpenStory.Networking
         #endregion
 
         private bool isDisposed;
+        private NetworkSession session;
+        private BoundedBuffer headerBuffer;
+        private BoundedBuffer packetBuffer;
 
         #region Properties
 
         /// <summary>
         /// Gets the buffer used to store packet headers.
         /// </summary>
-        protected BoundedBuffer HeaderBuffer { get; private set; }
+        protected BoundedBuffer HeaderBuffer
+        {
+            get { return this.headerBuffer; }
+        }
 
         /// <summary>
         /// Gets the buffer used to store packet data.
         /// </summary>
-        protected BoundedBuffer PacketBuffer { get; private set; }
+        protected BoundedBuffer PacketBuffer
+        {
+            get { return this.packetBuffer; }
+        }
 
         /// <summary>
         /// Gets or sets the internal NetworkSession instance.
         /// </summary>
-        protected NetworkSession Session { get; private set; }
+        protected NetworkSession Session
+        {
+            get { return this.session; }
+        }
 
         /// <summary>
         /// Gets or sets the cryptographic transformer for this session.
@@ -66,20 +78,20 @@ namespace OpenStory.Networking
         /// </remarks>
         protected EncryptedNetworkSession()
         {
-            this.PacketBuffer = new BoundedBuffer();
-            this.HeaderBuffer = new BoundedBuffer(4);
+            this.packetBuffer = new BoundedBuffer();
+            this.headerBuffer = new BoundedBuffer(4);
 
-            this.Session = this.CreateInnerSession();
+            this.session = this.CreateInnerSession();
 
             this.isDisposed = false;
         }
 
         private NetworkSession CreateInnerSession()
         {
-            var session = new NetworkSession();
-            session.DataArrived += this.OnDataArrived;
-            session.Closing += this.OnClosing;
-            return session;
+            var s = new NetworkSession();
+            s.DataArrived += this.OnDataArrived;
+            s.Closing += this.OnClosing;
+            return s;
         }
 
         /// <summary>
@@ -234,26 +246,9 @@ namespace OpenStory.Networking
         {
             if (disposing && !this.isDisposed)
             {
-                var session = this.Session;
-                this.Session = null;
-                if (session != null)
-                {
-                    session.Dispose();
-                }
-
-                var header = this.HeaderBuffer;
-                this.HeaderBuffer = null;
-                if (header != null)
-                {
-                    header.Dispose();
-                }
-
-                var packet = this.PacketBuffer;
-                this.PacketBuffer = null;
-                if (packet != null)
-                {
-                    packet.Dispose();
-                }
+                Misc.AssignNullAndDispose(ref this.session);
+                Misc.AssignNullAndDispose(ref this.headerBuffer);
+                Misc.AssignNullAndDispose(ref this.packetBuffer);
 
                 this.isDisposed = true;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using OpenStory.Common;
 
 namespace OpenStory.Networking
 {
@@ -9,6 +10,7 @@ namespace OpenStory.Networking
     public abstract class DescriptorBase : IDisposable
     {
         private bool isDisposed;
+        private SocketAsyncEventArgs socketArgs;
 
         /// <summary>
         /// Occurs when a connection error occurs.
@@ -23,7 +25,10 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this descriptor.
         /// </summary>
-        protected SocketAsyncEventArgs SocketArgs { get; private set; }
+        protected SocketAsyncEventArgs SocketArgs
+        {
+            get { return this.socketArgs; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DescriptorBase"/> class.
@@ -42,7 +47,7 @@ namespace OpenStory.Networking
 
             this.isDisposed = false;
 
-            this.SocketArgs = new SocketAsyncEventArgs();
+            this.socketArgs = new SocketAsyncEventArgs();
             this.Container = container;
         }
 
@@ -110,12 +115,7 @@ namespace OpenStory.Networking
 
             if (disposing && !this.isDisposed)
             {
-                var args = this.SocketArgs;
-                if (args != null)
-                {
-                    args.Dispose();
-                    this.SocketArgs = null;
-                }
+                Misc.AssignNullAndDispose(ref this.socketArgs);
 
                 this.isDisposed = true;
             }

@@ -23,6 +23,19 @@ namespace OpenStory.Common
         }
 
         /// <summary>
+        /// Exchanges the provided reference with <see langword="null"/> and then disposes the previously referenced object.
+        /// </summary>
+        public static void AssignNullAndDispose<TDisposable>(ref TDisposable disposable)
+            where TDisposable : class, IDisposable
+        {
+            var value = Interlocked.Exchange(ref disposable, null);
+            if (value != null)
+            {
+                value.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Executes the provided action in a read-lock block.
         /// </summary>
         /// <param name="lock">The lock to use.</param>
