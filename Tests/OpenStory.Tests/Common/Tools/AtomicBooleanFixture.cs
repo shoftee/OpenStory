@@ -60,23 +60,13 @@ namespace OpenStory.Common
         }
 
         [Test]
-        public void Exchange_Should_Set_New_Value()
+        public void Set_Should_Set_New_Value()
         {
             var b = new AtomicBoolean(false);
 
-            b.Exchange(true);
+            b.Set(true);
 
             b.Value.Should().BeTrue();
-        }
-
-        [Test]
-        public void Exchange_Should_Return_Old_Value()
-        {
-            var b = new AtomicBoolean(false);
-
-            var old = b.Exchange(true);
-
-            old.Should().BeFalse();
         }
 
         [Test]
@@ -108,43 +98,33 @@ namespace OpenStory.Common
         }
 
         [Test]
-        public void CompareExchange_Should_Set_New_Value_When_Comparand_Matches()
+        public void FlipIf_Should_Set_New_Value_When_Comparand_Matches()
         {
             var b = new AtomicBoolean(true);
 
-            b.CompareExchange(true, false);
+            b.FlipIf(true);
 
             b.Value.Should().BeFalse();
         }
 
         [Test]
-        public void CompareExchange_Should_Return_Old_Value_When_Comparand_Matches()
+        public void FlipIf_Should_Return_True_When_Flip_Is_Successful()
         {
             var b = new AtomicBoolean(true);
 
-            var old = b.CompareExchange(true, false);
+            var flipped = b.FlipIf(true);
 
-            old.Should().BeTrue();
+            flipped.Should().BeTrue();
         }
 
         [Test]
-        public void CompareExchange_Should_Not_Set_New_Value_When_Comparand_Does_Not_Match()
+        public void FlipIf_Should_Return_False_When_Flip_Is_Not_Successful()
         {
             var b = new AtomicBoolean(true);
 
-            b.CompareExchange(false, false);
+            var flipped = b.FlipIf(false);
 
-            b.Value.Should().BeTrue();
-        }
-
-        [Test]
-        public void CompareExchange_Should_Return_Current_Value_When_Comparand_Does_Not_Match()
-        {
-            var b = new AtomicBoolean(true);
-
-            var current = b.CompareExchange(false, false);
-
-            current.Should().BeTrue();
+            flipped.Should().BeFalse();
         }
 
         [Test]

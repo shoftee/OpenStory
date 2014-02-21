@@ -1,5 +1,4 @@
-﻿using Ninject.Extensions.Logging.Log4net;
-using OpenStory.Server;
+﻿using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Channel;

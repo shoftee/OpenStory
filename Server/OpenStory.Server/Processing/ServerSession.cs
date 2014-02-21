@@ -101,10 +101,7 @@ namespace OpenStory.Server.Processing
                 throw new InvalidOperationException(ServerStrings.PacketProcessingEventHasNoSubscriber);
             }
 
-            // CompareExchange returns the original value, hence:
-            // => true means we were already pushing, don't start a second one.
-            // => false means we were not pushing and we just toggled it, so we should start now.
-            if (!this.isPushing.CompareExchange(comparand: false, newValue: true))
+            if (this.isPushing.FlipIf(false))
             {
                 this.StartPushing();
             }
@@ -133,7 +130,7 @@ namespace OpenStory.Server.Processing
             }
             else
             {
-                this.isPushing.Exchange(newValue: false);
+                this.isPushing.Set(false);
             }
         }
 
@@ -189,7 +186,7 @@ namespace OpenStory.Server.Processing
             bool hasNext = this.packets.TryDequeue(out packet);
             if (!hasNext)
             {
-                this.isPushing.Exchange(newValue: false);
+                this.isPushing.Set(false);
             }
 
             return hasNext;

@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IvGeneratorFixture.cs" />
+    <Compile Include="Processing\ServerProcessFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +76,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">
+      <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
+      <Name>OpenStory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Server\OpenStory.Framework.Contracts\OpenStory.Framework.Contracts.csproj">
       <Project>{FC8261B2-7829-4496-8441-9EA004B950A8}</Project>
       <Name>OpenStory.Framework.Contracts</Name>

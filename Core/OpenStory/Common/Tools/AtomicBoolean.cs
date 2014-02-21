@@ -31,29 +31,27 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Assigns a new value to the <see cref="AtomicBoolean"/> and returns the original one.
+        /// Flips the value of the <see cref="AtomicBoolean"/> if it is equal to the specified boolean value.
         /// </summary>
-        /// <param name="newValue">The value to assign.</param>
-        /// <returns>the original value.</returns>
-        public bool Exchange(bool newValue)
+        /// <param name="comparand">The value to compare with.</param>
+        /// <returns><see langword="true" /> if the flip took place; otherwise, <see langword="false" />.</returns>
+        public bool FlipIf(bool comparand)
         {
-            int newValueAsInt = Convert.ToInt32(newValue);
-            int result = Interlocked.Exchange(ref this.value, newValueAsInt);
-            return Convert.ToBoolean(result);
+            int comparandAsInt = Convert.ToInt32(comparand);
+            int newValueAsInt = Convert.ToInt32(!comparand);
+            int originalValueAsInt = Interlocked.CompareExchange(ref this.value, newValueAsInt, comparandAsInt);
+
+            return originalValueAsInt == comparandAsInt;
         }
 
         /// <summary>
-        /// Assigns a new value to the <see cref="AtomicBoolean"/> if the current value is equal to a specified one, and returns the original value.
+        /// Sets the value of the <see cref="AtomicBoolean"/> to the provided value.
         /// </summary>
-        /// <param name="comparand">The value to compare for equality with.</param>
-        /// <param name="newValue">The new value.</param>
-        /// <returns>the original value.</returns>
-        public bool CompareExchange(bool comparand, bool newValue)
+        /// <param name="newValue">The new value to assign.</param>
+        public void Set(bool newValue)
         {
             int newValueAsInt = Convert.ToInt32(newValue);
-            int comparandAsInt = Convert.ToInt32(comparand);
-            int result = Interlocked.CompareExchange(ref this.value, newValueAsInt, comparandAsInt);
-            return Convert.ToBoolean(result);
+            Interlocked.Exchange(ref this.value, newValueAsInt);
         }
 
         #region Cast methods

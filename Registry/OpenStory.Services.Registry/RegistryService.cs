@@ -53,6 +53,5 @@ namespace OpenStory.Services.Registry
         }
 
         #endregion
-
     }
 }

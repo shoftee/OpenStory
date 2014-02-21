@@ -126,7 +126,4 @@
   <data name="ServerAlreadyRunning" xml:space="preserve">
     <value>The server is already running.</value>
   </data>
-  <data name="ServerNotRunning" xml:space="preserve">
-    <value>The server is not running. Start it before using it.</value>
-  </data>
 </root>

@@ -59,11 +59,15 @@ namespace OpenStory.Networking
         /// </summary>
         private readonly AtomicBoolean isActive;
 
-        private readonly ReceiveDescriptor receiveDescriptor;
-        private readonly SendDescriptor sendDescriptor;
+        private ReceiveDescriptor receiveDescriptor;
+        private SendDescriptor sendDescriptor;
+        private Socket socket;
 
         /// <inheritdoc />
-        public Socket Socket { get; private set; }
+        public Socket Socket
+        {
+            get { return this.socket; }
+        }
 
         /// <summary>
         /// Gets the remote endpoint of the session.
@@ -123,7 +127,7 @@ namespace OpenStory.Networking
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
 
-            this.Socket = socket;
+            this.socket = socket;
         }
 
         #endregion
@@ -144,7 +148,7 @@ namespace OpenStory.Networking
                 throw new InvalidOperationException(CommonStrings.NoSocketAttached);
             }
 
-            if (this.isActive.CompareExchange(comparand: false, newValue: true))
+            if (!this.isActive.FlipIf(false))
             {
                 throw new InvalidOperationException(CommonStrings.SessionAlreadyActive);
             }
@@ -161,7 +165,7 @@ namespace OpenStory.Networking
             }
 
             this.Closing = null;
-            if (!this.isActive.CompareExchange(comparand: true, newValue: false))
+            if (!this.isActive.FlipIf(true))
             {
                 return;
             }
@@ -207,21 +211,9 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Dispose()
         {
-            if (this.Socket != null)
-            {
-                this.Socket.Dispose();
-                this.Socket = null;
-            }
-
-            if (this.sendDescriptor != null)
-            {
-                this.sendDescriptor.Dispose();
-            }
-
-            if (this.receiveDescriptor != null)
-            {
-                this.receiveDescriptor.Dispose();
-            }
+            Misc.AssignNullAndDispose(ref this.socket);
+            Misc.AssignNullAndDispose(ref this.sendDescriptor);
+            Misc.AssignNullAndDispose(ref this.receiveDescriptor);
         }
 
         #endregion

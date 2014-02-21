@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Ninject.Extensions.Logging;
+using OpenStory.Common;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
 using OpenStory.Server.Networking;
@@ -14,6 +15,9 @@ namespace OpenStory.Server.Processing
     [Localizable(true)]
     public sealed class ServerProcess : IServerProcess, IDisposable
     {
+        private readonly AtomicBoolean isRunning;
+        private bool isDisposed;
+
         private readonly IServerSessionFactory sessionFactory;
         private readonly ISocketAcceptorFactory socketAcceptorFactory;
         private readonly IPacketScheduler packetScheduler;
@@ -25,7 +29,6 @@ namespace OpenStory.Server.Processing
 
         private SocketAcceptor acceptor;
         private RollingIvFactory ivFactory;
-        private bool isDisposed;
 
         /// <inheritdoc/>
         public event EventHandler<ServerSessionEventArgs> ConnectionOpened;
@@ -33,17 +36,20 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets whether the server is running or not.
         /// </summary>
-        public bool IsRunning { get; private set; }
+        public bool IsRunning
+        {
+            get { return this.isRunning.Value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
         /// </summary>
         public ServerProcess(
-            IServerSessionFactory sessionFactory, 
-            ISocketAcceptorFactory socketAcceptorFactory, 
-            IPacketScheduler packetScheduler, 
+            IServerSessionFactory sessionFactory,
+            ISocketAcceptorFactory socketAcceptorFactory,
+            IPacketScheduler packetScheduler,
             IRollingIvFactoryProvider rollingIvFactoryProvider,
-            IvGenerator ivGenerator, 
+            IvGenerator ivGenerator,
             ILogger logger)
         {
             this.sessionFactory = sessionFactory;
@@ -52,12 +58,17 @@ namespace OpenStory.Server.Processing
             this.rollingIvFactoryProvider = rollingIvFactoryProvider;
             this.ivGenerator = ivGenerator;
             this.logger = logger;
+
+            this.isRunning = new AtomicBoolean(false);
         }
 
         /// <inheritdoc/>
         public void Configure(OsServiceConfiguration configuration)
         {
-            this.ThrowIfRunning();
+            if (this.IsRunning)
+            {
+                throw GetServerAlreadyRunningException();
+            }
 
             this.serverConfiguration = new ServerConfiguration(configuration);
 
@@ -92,23 +103,23 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc/>
         public void Start()
         {
-            this.ThrowIfRunning();
+            if (!this.isRunning.FlipIf(false))
+            {
+                throw GetServerAlreadyRunningException();
+            }
 
-            this.IsRunning = true;
-
-            this.logger.Info(@"Now listening on port {0}.", this.acceptor.Endpoint.Port);
             this.acceptor.Start();
+            this.logger.Info(@"Now listening on port {0}.", this.acceptor.Endpoint.Port);
         }
 
         /// <inheritdoc/>
         public void Stop()
         {
-            this.ThrowIfNotRunning();
-
-            this.logger.Info(@"Now shutting down...");
-            this.acceptor.Stop();
-
-            this.IsRunning = false;
+            if (this.isRunning.FlipIf(true))
+            {
+                this.logger.Info(@"Now shutting down...");
+                this.acceptor.Stop();
+            }
         }
 
         private void OnSocketAccepted(object sender, SocketEventArgs e)
@@ -143,32 +154,9 @@ namespace OpenStory.Server.Processing
 
         #region Exception methods
 
-        /// <summary>
-        /// Checks if the <see cref="IsRunning"/> property is true and throws an exception if it is not.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the server is not running.
-        /// </exception>
-        private void ThrowIfNotRunning()
+        private static InvalidOperationException GetServerAlreadyRunningException()
         {
-            if (!this.IsRunning)
-            {
-                throw new InvalidOperationException(ServerStrings.ServerNotRunning);
-            }
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="IsRunning"/> property is true and throws and exception if it is.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the server is running.
-        /// </exception>
-        private void ThrowIfRunning()
-        {
-            if (this.IsRunning)
-            {
-                throw new InvalidOperationException(ServerStrings.ServerAlreadyRunning);
-            }
+            return new InvalidOperationException(ServerStrings.ServerAlreadyRunning);
         }
 
         #endregion

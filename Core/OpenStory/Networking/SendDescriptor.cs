@@ -54,17 +54,14 @@ namespace OpenStory.Networking
 
             this.queue.Enqueue(data);
 
-            // For the confused: isSending.CompareExchange 
-            // will return true if we're currently sending
-            if (this.isSending.CompareExchange(comparand: false, newValue: true))
+            // If the sending operations are already in progress, 
+            // they'll get to the packet we just queued eventually...
+            if (this.isSending.FlipIf(false))
             {
-                // If so, leave it to the other thread to send our packet too.
-                return;
+                // Otherwise, we do it ourselves.
+                this.sentBytes = 0;
+                this.BeginSend();
             }
-
-            // We're not sending. Start doing so now.
-            this.sentBytes = 0;
-            this.BeginSend();
         }
 
         protected override void OnClosed()
@@ -184,7 +181,7 @@ namespace OpenStory.Networking
             // We adjust the number of sent bytes.
             this.sentBytes += transferred;
 
-            // As in ResetBuffer, this method will be called only when we have
+            // As with ResetBuffer(), this method will be called only when we have
             // a packet waiting to be sent still in the queue.
             // Since we don't do concurrent dequeuing, there is also no race condition.
             // Hence, the TryPeek and TryDequeue will not set segment to null,
@@ -210,7 +207,7 @@ namespace OpenStory.Networking
             // We /do/ need to worry about this one, because it's the barrier
             // for the start of the sending process, and any thread can request 
             // a packet to be sent.
-            this.isSending.Exchange(newValue: false);
+            this.isSending.Set(false);
             return false;
         }
 
