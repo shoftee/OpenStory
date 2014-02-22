@@ -111,23 +111,23 @@ namespace OpenStory.Networking
         /// <summary>
         /// Attaches a socket to this <see cref="NetworkSession"/>.
         /// </summary>
-        /// <param name="socket">The underlying socket to use.</param>
+        /// <param name="sessionSocket">The underlying socket to use for this session.</param>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the <see cref="NetworkSession"/> instance already has a socket attached to it.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket" /> is <see langword="null"/>.
+        /// Thrown if <paramref name="sessionSocket" /> is <see langword="null"/>.
         /// </exception>
-        public void AttachSocket(Socket socket)
+        public void AttachSocket(Socket sessionSocket)
         {
-            Guard.NotNull(() => socket, socket);
+            Guard.NotNull(() => sessionSocket, sessionSocket);
 
             if (this.Socket != null)
             {
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
 
-            this.socket = socket;
+            this.socket = sessionSocket;
         }
 
         #endregion
@@ -217,5 +217,13 @@ namespace OpenStory.Networking
         }
 
         #endregion
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var endpoint = this.RemoteEndpoint;
+            var endpointString = endpoint == null ? @"None" : endpoint.ToString();
+            return String.Format(@"Endpoint: {0}", endpointString);
+        }
     }
 }

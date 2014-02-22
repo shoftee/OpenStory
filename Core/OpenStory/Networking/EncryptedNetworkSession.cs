@@ -97,15 +97,10 @@ namespace OpenStory.Networking
         /// <summary>
         /// Attaches a <see cref="Socket"/> to this session.
         /// </summary>
-        /// <param name="socket">The <see cref="Socket"/> to attach. </param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="socket"/> is <see langword="null"/>.
-        /// </exception>
-        public void AttachSocket(Socket socket)
+        /// <param name="sessionSocket">The <see cref="Socket"/> to attach. </param>
+        public void AttachSocket(Socket sessionSocket)
         {
-            Guard.NotNull(() => socket, socket);
-
-            this.Session.AttachSocket(socket);
+            this.Session.AttachSocket(sessionSocket);
         }
 
         private void OnClosing(object sender, EventArgs e)
@@ -227,6 +222,13 @@ namespace OpenStory.Networking
             {
                 throw new InvalidOperationException(CommonStrings.ReceiveEventHasNoSubscribers);
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var networkSession = this.session;
+            return networkSession == null? @"No session" : networkSession.ToString();
         }
 
         #region Implementation of IDisposable

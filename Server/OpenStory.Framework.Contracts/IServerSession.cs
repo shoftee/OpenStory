@@ -43,8 +43,8 @@ namespace OpenStory.Framework.Contracts
         /// <summary>
         /// Attaches a <see cref="Socket"/> to this session.
         /// </summary>
-        /// <param name="socket">The <see cref="Socket"/> to attach. </param>
-        void AttachSocket(Socket socket);
+        /// <param name="sessionSocket">The <see cref="Socket"/> to attach. </param>
+        void AttachSocket(Socket sessionSocket);
 
         /// <summary>
         /// Encrypts the given data as a packet 
