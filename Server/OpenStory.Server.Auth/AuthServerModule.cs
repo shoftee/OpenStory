@@ -1,5 +1,4 @@
-﻿using Ninject.Activation;
-using Ninject.Extensions.Factory;
+﻿using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using OpenStory.Common;
 using OpenStory.Framework.Contracts;
