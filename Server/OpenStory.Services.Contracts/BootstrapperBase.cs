@@ -39,7 +39,7 @@ namespace OpenStory.Services.Contracts
             }
             catch (Exception ex)
             {
-                this.Logger.Error(ex, null);
+                this.Logger.Error(ex, "Encountered an error while bootstrapping.");
             }
         }
 
