@@ -5,7 +5,7 @@ using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common
 {
-    [Category("OpenStory.Common.Tools.HexExtensions")]
+    [Category("OpenStory.Common.HexExtensions")]
     [TestFixture]
     public sealed class HexExtensionsFixture
     {

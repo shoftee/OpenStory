@@ -9,7 +9,7 @@ using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common
 {
-    [Category("OpenStory.Common.Tools.ArrayExtensions")]
+    [Category("OpenStory.Common.ArrayExtensions")]
     [TestFixture]
     public sealed class ArrayExtensionsFixture
     {
