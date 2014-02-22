@@ -66,6 +66,7 @@
     <Compile Include="Networking\ISocketAcceptorFactory.cs" />
     <Compile Include="Networking\SocketAcceptor.cs" />
     <Compile Include="Networking\SocketEventArgs.cs" />
+    <Compile Include="Processing\GameServerBase.cs" />
     <Compile Include="Processing\IGameClientFactory.cs" />
     <Compile Include="Processing\ClientBase.cs" />
     <Compile Include="IllegalPacketException.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Processing\PacketFactory.cs" />
     <Compile Include="Processing\ServerSession.cs" />
     <Compile Include="Registry\ILocationRegistry.cs" />
-    <Compile Include="Processing\GameServer.cs" />
+    <Compile Include="Processing\NetworkServer.cs" />
     <Compile Include="ServerModule.cs" />
     <Compile Include="Processing\ServerProcess.cs" />
     <Compile Include="Registry\IPlayerGroup.TUpdateInfo.cs" />

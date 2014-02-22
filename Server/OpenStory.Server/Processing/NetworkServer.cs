@@ -4,9 +4,9 @@ using OpenStory.Services.Contracts;
 namespace OpenStory.Server.Processing
 {
     /// <summary>
-    /// Represents a server instance.
+    /// Represents a game server that also handles network sessions.
     /// </summary>
-    public class GameServer<TServerOperator> : RegisteredServiceBase
+    public class NetworkServer<TServerOperator> : GameServerBase
         where TServerOperator : IServerOperator
     {
         /// <summary>
@@ -20,11 +20,11 @@ namespace OpenStory.Server.Processing
         protected TServerOperator Operator { get; private set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameServer{TServerOperator}"/> type.
+        /// Initializes a new instance of the <see cref="NetworkServer{TServerOperator}"/> type.
         /// </summary>
         /// <param name="serverProcess">The <see cref="IServerProcess"/> to use for this server.</param>
         /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
-        protected GameServer(IServerProcess serverProcess, TServerOperator serverOperator)
+        protected NetworkServer(IServerProcess serverProcess, TServerOperator serverOperator)
         {
             this.Process = serverProcess;
             this.Operator = serverOperator;

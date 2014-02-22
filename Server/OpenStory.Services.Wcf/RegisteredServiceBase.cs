@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using OpenStory.Services.Contracts;
 
-namespace OpenStory.Services.Contracts
+namespace OpenStory.Services.Wcf
 {
     /// <summary>
     /// Represents a base class for registered services.
     /// </summary>
-    public abstract class RegisteredServiceBase : IRegisteredService
+    public abstract class RegisteredServiceBase<TRegisteredService> : IRegisteredService
+        where TRegisteredService : IRegisteredService
     {
         private ServiceState serviceState;
 
@@ -22,10 +24,17 @@ namespace OpenStory.Services.Contracts
         private readonly List<IServiceStateChanged> stopSubscribers;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RegisteredServiceBase"/>.
+        /// Gets the underlying service.
         /// </summary>
-        protected RegisteredServiceBase()
+        public TRegisteredService Service { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisteredServiceBase{TRegisteredService}"/> class.
+        /// </summary>
+        protected RegisteredServiceBase(TRegisteredService service)
         {
+            this.Service = service;
+
             this.serviceState = ServiceState.NotInitialized;
 
             this.initializeSubscribers = new List<IServiceStateChanged>();
@@ -265,6 +274,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         protected virtual void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
+            this.Service.Initialize(serviceConfiguration);
         }
 
         /// <summary>
@@ -272,6 +282,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         protected virtual void OnStarting()
         {
+            this.Service.Start();
         }
 
         /// <summary>
@@ -279,6 +290,7 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         protected virtual void OnStopping()
         {
+            this.Service.Stop();
         }
 
         private static void SubscribeForStates(List<IServiceStateChanged> subscribers, ServiceState currentState, params ServiceState[] states)

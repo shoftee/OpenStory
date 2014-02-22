@@ -2,6 +2,7 @@
 using OpenStory.Common.Game;
 using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
+using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.World
@@ -9,7 +10,7 @@ namespace OpenStory.Server.World
     /// <summary>
     /// World server class! Handles world server stuff.
     /// </summary>
-    internal sealed class WorldServer : RegisteredServiceBase, 
+    internal sealed class WorldServer : GameServerBase, 
         IChannelToWorldRequestHandler, 
         INexusToWorldRequestHandler, 
         IConfigurableService

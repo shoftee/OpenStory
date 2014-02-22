@@ -1,5 +1,6 @@
 ﻿using Ninject.Modules;
 using NodaTime;
+using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Accounts
 {
@@ -12,6 +13,7 @@ namespace OpenStory.Server.Accounts
         public override void Load()
         {
             Bind<IClock>().ToMethod(ctx => SystemClock.Instance).InSingletonScope();
+            Bind<IAccountService, IRegisteredService>().To<AccountServer>();
         }
     }
 }

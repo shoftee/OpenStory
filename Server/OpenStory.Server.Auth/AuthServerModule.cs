@@ -21,13 +21,16 @@ namespace OpenStory.Server.Auth
             Bind<IAccountSession>().To<AccountSession>();
 
             // SimpleAuthenticator <= IAccountProvider, IAccountService
-            Bind<IAuthenticator>().To<SimpleAuthenticator>().InSingletonScope();
+            Bind<IAuthenticator>().To<SimpleAuthenticator>();
 
             // AuthClient <= IAuthenticator, IServerSession, IPacketFactory, ILogger (external)
             Bind<IGameClientFactory<AuthClient>>().ToFactory();
 
             // AuthOperator <= IGameClientFactory<AuthClient>
-            Bind<IServerOperator>().To<AuthOperator>().InSingletonScope();
+            Bind<IServerOperator>().To<AuthOperator>();
+
+            // AuthServer <= IServerProcess, AuthOperator
+            Bind<IRegisteredService>().To<AuthServer>().InSingletonScope();
         }
     }
 }

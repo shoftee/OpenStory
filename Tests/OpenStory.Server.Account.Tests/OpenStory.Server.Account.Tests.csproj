@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountServiceFixture.cs" />
+    <Compile Include="AccountServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +64,10 @@
     <ProjectReference Include="..\..\Server\OpenStory.Server.Accounts\OpenStory.Server.Accounts.csproj">
       <Project>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</Project>
       <Name>OpenStory.Server.Accounts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Server\OpenStory.Server\OpenStory.Server.csproj">
+      <Project>{3721A66E-426F-4EC8-A360-4F97C95D6A03}</Project>
+      <Name>OpenStory.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Server\OpenStory.Services.Accounts\OpenStory.Services.Account.csproj">
       <Project>{B6D886F5-9107-445C-BCF5-D3E8D8E5AE25}</Project>

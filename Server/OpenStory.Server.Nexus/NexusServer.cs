@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Common.Game;
+using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Nexus
 {
-    internal sealed class NexusServer : RegisteredServiceBase, IAuthToNexusRequestHandler
+    internal sealed class NexusServer : GameServerBase, IAuthToNexusRequestHandler
     {
         private readonly WorldContainer worldContainer;
 

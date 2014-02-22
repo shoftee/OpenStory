@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using OpenStory.Common;
+using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 using NodaTime;
 
 namespace OpenStory.Server.Accounts
 {
     /// <summary>
-    /// Represents an in-memory account activity service.
+    /// Represents an in-memory account activity server.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    public sealed class AccountService : RegisteredServiceBase, IAccountService
+    public class AccountServer : GameServerBase, IAccountService
     {
         private readonly IClock clock;
 
@@ -19,9 +18,9 @@ namespace OpenStory.Server.Accounts
         private readonly AtomicInteger currentSessionId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountService"/> class.
+        /// Initializes a new instance of the <see cref="AccountServer"/> class.
         /// </summary>
-        public AccountService(IClock clock)
+        public AccountServer(IClock clock)
         {
             this.clock = clock;
 

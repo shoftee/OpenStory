@@ -1,16 +1,15 @@
 ﻿using System;
+using OpenStory.Server.Accounts;
+using OpenStory.Services.Contracts;
 using FluentAssertions;
 using NodaTime;
 using NUnit.Framework;
-using OpenStory.Server.Accounts;
-using OpenStory.Services.Account;
-using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Account.Tests
 {
-    [Category("OpenStory.Services.Account")]
+    [Category("OpenStory.Server.Account")]
     [TestFixture]
-    public class AccountServiceFixture
+    public class AccountServerFixture
     {
         #region TestClock
 
@@ -26,12 +25,12 @@ namespace OpenStory.Server.Account.Tests
 
         private static IAccountService CreateAccountService()
         {
-            return new AccountService(SystemClock.Instance);
+            return new AccountServer(SystemClock.Instance);
         }
 
         private static IAccountService CreateAccountService(IClock clock)
         {
-            return new AccountService(clock);
+            return new AccountServer(clock);
         }
 
         #endregion

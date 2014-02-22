@@ -6,18 +6,15 @@ namespace OpenStory.Server.Channel
     /// <summary>
     /// Represents a channel server.
     /// </summary>
-    public class ChannelServer : GameServer<ChannelOperator>
+    public class ChannelServer : NetworkServer<ChannelOperator>
     {
         private readonly IServiceContainer<IWorldToChannelRequestHandler> world;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChannelServer"/> class.
         /// </summary>
-        /// <param name="process"><inheritdoc /></param>
-        /// <param name="channelOperator">The <see cref="ChannelOperator"/> to use for this server.</param>
-        /// <param name="world">The channel container.</param>
-        public ChannelServer(IServerProcess process, ChannelOperator channelOperator, IServiceContainer<IWorldToChannelRequestHandler> world)
-            : base(process, channelOperator)
+        public ChannelServer(IServerProcess process, ChannelOperator @operator, IServiceContainer<IWorldToChannelRequestHandler> world)
+            : base(process, @operator)
         {
             this.world = world;
         }
