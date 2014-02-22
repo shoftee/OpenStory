@@ -12,7 +12,7 @@ namespace OpenStory.Server.Accounts
         /// <inheritdoc/>
         public override void Load()
         {
-            Bind<IClock>().ToMethod(ctx => SystemClock.Instance).InSingletonScope();
+            Bind<IClock>().ToConstant(SystemClock.Instance).InSingletonScope();
             Bind<IAccountService, IRegisteredService>().To<AccountServer>();
         }
     }
