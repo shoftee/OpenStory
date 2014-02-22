@@ -68,32 +68,7 @@ namespace OpenStory.Common
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
         private ParameterList(IDictionary<string, string> parameters)
         {
-            this.parameters = new Dictionary<string, string>(parameters);
-        }
-
-        /// <summary>
-        /// Parses the parameters from a provided command line.
-        /// </summary>
-        /// <remarks>
-        /// The <see cref="Environment.CommandLine"/> property is useful for this.
-        /// </remarks>
-        /// <param name="commandLine">The command line to parse.</param>
-        /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
-        private static Dictionary<string, string> ParseCommandLine(string commandLine)
-        {
-            Guard.NotNull(() => commandLine, commandLine);
-
-            var parsed = new Dictionary<string, string>();
-            var matches = ParamRegex.Matches(commandLine);
-            foreach (Match match in matches)
-            {
-                var groups = match.Groups;
-                var key = groups[1].Value;
-                var value = groups[2].Value;
-                parsed.Add(key, value);
-            }
-
-            return parsed;
+            this.parameters = new Dictionary<string, string>(parameters, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -138,7 +113,21 @@ namespace OpenStory.Common
         /// <returns>an instance of <see cref="ParameterList"/>.</returns>
         public static ParameterList FromEnvironment()
         {
-            var parameters = ParseCommandLine(Environment.CommandLine);
+            var commandLine = Environment.CommandLine;
+            return Parse(commandLine);
+        }
+
+        /// <summary>
+        /// Gets the parameter list from the provided string.
+        /// </summary>
+        /// <param name="parameterString">The string that contains the parameter information.</param>
+        /// <exception cref="FormatException">Thrown if the provided parameter list has an invalid format.</exception>
+        /// <returns>an instance of <see cref="ParameterList"/>.</returns>
+        public static ParameterList Parse(string parameterString)
+        {
+            Guard.NotNull(() => parameterString, parameterString);
+
+            var parameters = ParseInitial(parameterString);
             var parsed = ParseParameters(parameters);
             return new ParameterList(parsed);
         }
@@ -150,7 +139,21 @@ namespace OpenStory.Common
         /// <returns>an instance of <see cref="ParameterList"/>, or <see langword="null"/> if there were errors.</returns>
         public static ParameterList FromEnvironment(out string error)
         {
-            var parameters = ParseCommandLine(Environment.CommandLine);
+            var commandLine = Environment.CommandLine;
+            return Parse(commandLine, out error);
+        }
+
+        /// <summary>
+        /// Gets the parameter list from the provided string.
+        /// </summary>
+        /// <param name="parameterString">The string that contains the parameter information.</param>
+        /// <param name="error">A variable to hold any error messages.</param>
+        /// <returns>an instance of <see cref="ParameterList"/>, or <see langword="null"/> if there were errors.</returns>
+        public static ParameterList Parse(string parameterString, out string error)
+        {
+            Guard.NotNull(() => parameterString, parameterString);
+
+            var parameters = ParseInitial(parameterString);
             var parsed = ParseParameters(parameters, out error);
             if (error == null)
             {
@@ -162,33 +165,41 @@ namespace OpenStory.Common
             }
         }
 
-        private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters)
+        /// <summary>
+        /// Parses the parameters from a provided parameter string.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="Environment.CommandLine"/> property is useful for this.
+        /// </remarks>
+        /// <param name="parameterString">The parameter string to parse.</param>
+        /// <returns>a <see cref="Dictionary{String,String}"/> of the parameter entries.</returns>
+        private static Dictionary<string, string> ParseInitial(string parameterString)
         {
-            var parsed = new Dictionary<string, string>(parameters.Count, StringComparer.OrdinalIgnoreCase);
-            foreach (var entry in parameters)
+            var parsed = new Dictionary<string, string>();
+            var matches = ParamRegex.Matches(parameterString);
+            foreach (Match match in matches)
             {
-                string name = entry.Key.Trim();
-                string value = entry.Value.Trim().Trim(DoubleQuotationMark);
-                if (parsed.ContainsKey(name))
-                {
-                    var error = string.Format(CommonStrings.DuplicateParameterNamesError, name);
-                    throw new FormatException(error);
-                }
-                else if (name.Any(char.IsWhiteSpace))
-                {
-                    var error = string.Format(CommonStrings.NoWhiteSpaceInParameterNameError, name);
-                    throw new FormatException(error);
-                }
-                else if (value.Any(c => c == DoubleQuotationMark))
-                {
-                    var error = string.Format(CommonStrings.NoQuotationMarksInParameterValueError, value);
-                    throw new FormatException(error);
-                }
-
-                parsed.Add(name, value);
+                var groups = match.Groups;
+                var key = groups["name"].Value;
+                var value = groups["value"].Value;
+                parsed.Add(key, value);
             }
 
             return parsed;
+        }
+
+        private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters)
+        {
+            string error;
+            var parsed = ParseParameters(parameters, out error);
+            if (error != null)
+            {
+                throw new FormatException(error);
+            }
+            else
+            {
+                return parsed;
+            }
         }
 
         private static Dictionary<string, string> ParseParameters(IDictionary<string, string> parameters, out string error)

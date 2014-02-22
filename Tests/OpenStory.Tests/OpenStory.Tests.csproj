@@ -73,6 +73,7 @@
     <Compile Include="Common\PacketCodeTableFixture.cs" />
     <Compile Include="Common\PacketValueAttributeFixture.cs" />
     <Compile Include="Common\Tools\HexExtensionsFixture.cs" />
+    <Compile Include="Common\Tools\ParameterListFixture.cs" />
     <Compile Include="Cryptography\RollingIvFixture.cs" />
     <Compile Include="Networking\ReceiveDescriptorFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
