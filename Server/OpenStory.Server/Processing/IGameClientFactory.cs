@@ -12,8 +12,8 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Creates a new game client.
         /// </summary>
-        /// <param name="session">The underlying session for the new client.</param>
+        /// <param name="serverSession">The underlying session for the new client.</param>
         /// <returns>the new <typeparamref name="TClient"/> instance.</returns>
-        TClient CreateClient(IServerSession session);
+        TClient CreateClient(IServerSession serverSession);
     }
 }
