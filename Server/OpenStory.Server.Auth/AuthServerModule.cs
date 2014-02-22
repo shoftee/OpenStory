@@ -17,7 +17,7 @@ namespace OpenStory.Server.Auth
         public override void Load()
         {
             // No dependencies
-            Bind<IPacketCodeTable>().To<AuthPacketCodeTable>().InSingletonScope();
+            Bind<IPacketCodeTable>().To<StubAuthPacketCodeTable>().InSingletonScope();
             Bind<IAccountProvider>().To<StubAccountProvider>().InSingletonScope();
 
             // AccountSession 

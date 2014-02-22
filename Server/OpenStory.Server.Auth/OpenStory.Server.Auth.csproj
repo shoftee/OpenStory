@@ -77,7 +77,7 @@
     <Compile Include="AuthOperator.cs" />
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerModule.cs" />
-    <Compile Include="AuthPacketCodeTable.cs" />
+    <Compile Include="StubAuthPacketCodeTable.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="IAuthenticator.cs" />
     <Compile Include="Packets.cs" />
