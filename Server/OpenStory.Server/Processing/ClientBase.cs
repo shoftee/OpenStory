@@ -26,8 +26,14 @@ namespace OpenStory.Server.Processing
 
         private readonly Timer keepAliveTimer;
         private readonly AtomicInteger sentPings;
+        private IAccountSession accountSession;
 
         private bool isDisposed;
+
+        /// <summary>
+        /// Occurs when the client's session is being closed.
+        /// </summary>
+        public event EventHandler Closing;
 
         /// <summary>
         /// Gets the client's session object.
@@ -40,7 +46,11 @@ namespace OpenStory.Server.Processing
         /// <remarks>
         /// This object is null if the client has not logged in.
         /// </remarks>
-        protected IAccountSession AccountSession { get; set; }
+        protected IAccountSession AccountSession
+        {
+            get { return this.accountSession; }
+            set { this.accountSession = value; }
+        }
 
         /// <summary>
         /// Gets the packet factory that the client uses to create new packets.
@@ -61,10 +71,7 @@ namespace OpenStory.Server.Processing
         /// <exception cref="ArgumentNullException">
         /// Thrown if any of the parameters is <see langword="null"/>.
         /// </exception>
-        protected ClientBase(
-            IServerSession serverSession, 
-            IPacketFactory packetFactory, 
-            ILogger logger)
+        protected ClientBase(IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
         {
             Guard.NotNull(() => serverSession, serverSession);
             Guard.NotNull(() => packetFactory, packetFactory);
@@ -83,7 +90,24 @@ namespace OpenStory.Server.Processing
         private IServerSession InitializeSession(IServerSession serverSession)
         {
             serverSession.PacketProcessing += this.OnPacketProcessing;
+            serverSession.Closing += this.OnSessionClosing;
             return serverSession;
+        }
+
+        private void OnSessionClosing(object sender, EventArgs e)
+        {
+            this.OnClosing();
+
+            var handler = this.Closing;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        private void OnClosing()
+        {
+            this.keepAliveTimer.Close();
         }
 
         private Timer InitializeTimer()
@@ -97,7 +121,6 @@ namespace OpenStory.Server.Processing
 
         private void SendPing(object sender, ElapsedEventArgs e)
         {
-            this.Logger.Debug("PING {0}", this.sentPings.Value);
             if (this.sentPings.Increment() > MissedPingsAllowed)
             {
                 this.Disconnect("No ping response.");
@@ -106,6 +129,7 @@ namespace OpenStory.Server.Processing
 
             using (var ping = this.PacketFactory.CreatePacket("Ping"))
             {
+                this.Logger.Debug("PING {0}", this.sentPings.Value);
                 this.ServerSession.WritePacket(ping.ToByteArray());
             }
         }
@@ -187,29 +211,11 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Called when the object is being freed from usage.
-        /// </summary>
-        /// <remarks>
-        /// When overriding in a derived class, please call the base implementation after your code.
-        /// </remarks>
-        /// <param name="disposing">Whether the method is being called during disposal or finalization of the object.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing && !this.isDisposed)
+            if (!this.isDisposed)
             {
-                var accountSession = this.AccountSession;
-                if (accountSession != null)
-                {
-                    accountSession.Dispose();
-                    this.AccountSession = null;
-                }
+                Misc.AssignNullAndDispose(ref this.accountSession);
 
-                this.keepAliveTimer.Dispose();
+                this.keepAliveTimer.Close();
 
                 this.ServerSession.Close();
 

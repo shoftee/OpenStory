@@ -140,6 +140,8 @@ namespace OpenStory.Server.Processing
             this.OnConnectionOpened(session);
 
             this.StartSession(session);
+
+            this.logger.Debug(@"Accepted session #{0}: {1}", session.NetworkSessionId, session);
         }
 
         private void StartSession(IServerSession session)

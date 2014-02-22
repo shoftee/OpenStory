@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 
@@ -33,8 +34,17 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
         {
-            var client = this.gameClientFactory.CreateClient(session);
+            var client = this.InitializeClient(session);
             this.Clients.Add(client);
+        }
+
+        private TClient InitializeClient(IServerSession session)
+        {
+            var client = this.gameClientFactory.CreateClient(session);
+            
+            client.Closing += (s, e) => this.Clients.Remove(client);
+            
+            return client;
         }
     }
 }

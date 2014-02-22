@@ -12,8 +12,7 @@ namespace OpenStory.Server.World
     /// </summary>
     internal sealed class WorldServer : GameServerBase, 
         IChannelToWorldRequestHandler, 
-        INexusToWorldRequestHandler, 
-        IConfigurableService
+        INexusToWorldRequestHandler
     {
         private readonly IServiceContainer<INexusToWorldRequestHandler> nexus;
         private readonly ChannelContainer channelContainer;
@@ -44,6 +43,9 @@ namespace OpenStory.Server.World
             base.OnInitializing(serviceConfiguration);
 
             this.worldConfiguration = new WorldConfiguration(serviceConfiguration);
+
+            this.WorldId = this.worldConfiguration.WorldId;
+            this.info = this.worldInfoProvider.GetWorldById(this.WorldId);
         }
 
         protected override void OnStarting()
@@ -58,13 +60,6 @@ namespace OpenStory.Server.World
             this.nexus.Unregister(this);
 
             base.OnStopping();
-        }
-
-        public void Configure(OsServiceConfiguration configuration)
-        {
-            this.WorldId = this.worldConfiguration.WorldId;
-
-            this.info = this.worldInfoProvider.GetWorldById(this.WorldId);
         }
 
         /// <inheritdoc />

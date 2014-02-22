@@ -66,7 +66,7 @@ namespace OpenStory.Networking
 
         protected override void OnClosed()
         {
-            this.queue = null;
+            this.queue = new ConcurrentQueue<byte[]>();
         }
 
         #region Async send methods

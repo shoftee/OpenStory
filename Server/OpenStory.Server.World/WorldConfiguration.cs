@@ -1,12 +1,11 @@
-﻿using OpenStory.Framework.Contracts;
-using OpenStory.Services.Contracts;
+﻿using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.World
 {
     /// <summary>
     /// Represents a configuration for a world server.
     /// </summary>
-    public sealed class WorldConfiguration : ServerConfiguration
+    public sealed class WorldConfiguration
     {
         /// <summary>
         /// Gets the configured world identifier.
@@ -18,7 +17,6 @@ namespace OpenStory.Server.World
         /// </summary>
         /// <param name="configuration"><inheritdoc /></param>
         public WorldConfiguration(OsServiceConfiguration configuration)
-            : base(configuration)
         {
             this.WorldId = configuration.Get<int>("World");
         }
