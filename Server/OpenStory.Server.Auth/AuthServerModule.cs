@@ -1,6 +1,8 @@
-﻿using Ninject.Extensions.Factory;
+﻿using Ninject.Activation;
+using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using OpenStory.Common;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
@@ -16,20 +18,27 @@ namespace OpenStory.Server.Auth
         {
             // No dependencies
             Bind<IPacketCodeTable>().To<AuthPacketCodeTable>().InSingletonScope();
+            Bind<IAccountProvider>().To<StubAccountProvider>().InSingletonScope();
 
-            // AccountSession <= IAccountService
+            // AccountSession 
+            // ^ IAccountService
             Bind<IAccountSession>().To<AccountSession>();
+            
+            // SimpleAuthenticator 
+            // ^ IAccountProvider, IAccountService
+            Bind<IAuthenticator>().To<SimpleAuthenticator>().InSingletonScope();
 
-            // SimpleAuthenticator <= IAccountProvider, IAccountService
-            Bind<IAuthenticator>().To<SimpleAuthenticator>();
-
-            // AuthClient <= IAuthenticator, IServerSession, IPacketFactory, ILogger (external)
+            // IGameClientFactory<AuthClient> 
+            // ^ AuthClient 
+            // ^ IAuthenticator, IServerSession, IPacketFactory, ILogger (external)
             Bind<IGameClientFactory<AuthClient>>().ToFactory();
 
-            // AuthOperator <= IGameClientFactory<AuthClient>
+            // AuthOperator 
+            // ^ IGameClientFactory<AuthClient>
             Bind<IServerOperator>().To<AuthOperator>();
 
-            // AuthServer <= IServerProcess, AuthOperator
+            // AuthServer 
+            // ^ IServerProcess, AuthOperator
             Bind<IRegisteredService>().To<AuthServer>().InSingletonScope();
         }
     }

@@ -11,7 +11,11 @@ namespace OpenStory.Server.Nexus
         /// <inheritdoc />
         public override void Load()
         {
+            // No dependencies
             Bind<IServiceContainer<INexusToWorldRequestHandler>>().To<WorldContainer>().InSingletonScope();
+
+            // NexusServer
+            // ^ WorldContainer
             Bind<IAuthToNexusRequestHandler>().To<NexusServer>().InSingletonScope();
         }
     }

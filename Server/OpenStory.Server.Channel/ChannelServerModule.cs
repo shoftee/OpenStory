@@ -16,14 +16,20 @@ namespace OpenStory.Server.Channel
         {
             // No dependencies
             Bind<IPacketCodeTable>().To<ChannelPacketCodeTable>().InSingletonScope();
-            Bind<IPlayerRegistry>().To<PlayerRegistry>().InSingletonScope();
+            Bind<IPlayerRegistry>().To<PlayerRegistry>();
 
-            // IGameClientFactory<ChannelClient> <= ChannelClient
-            // ChannelClient <= IServerSession, IPacketFactory, ILogger (external)
-            Bind<IGameClientFactory<ChannelClient>>().ToFactory().InSingletonScope();
+            // IGameClientFactory<ChannelClient> 
+            // ^ ChannelClient
+            // ^ IServerSession, IPacketFactory, ILogger (external)
+            Bind<IGameClientFactory<ChannelClient>>().ToFactory();
 
-            // ChannelOperator <= IGameClientFactory<ChannelClient>, IPlayerRegistry
-            Bind<IServerOperator, IWorldToChannelRequestHandler>().To<ChannelOperator>().InSingletonScope();
+            // ChannelOperator 
+            // ^ IGameClientFactory<ChannelClient>, IPlayerRegistry
+            Bind<IServerOperator, IWorldToChannelRequestHandler>().To<ChannelOperator>();
+
+            // ChannelServer
+            // ^ IServerProcess, ChannelOperator, IServiceContainer<IWorldToChannelRequestHandler>
+            Bind<IRegisteredService>().To<ChannelServer>().InSingletonScope();
         }
     }
 }
