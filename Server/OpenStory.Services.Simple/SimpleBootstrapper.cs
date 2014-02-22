@@ -1,4 +1,6 @@
-﻿using OpenStory.Server;
+﻿using System.Collections.Generic;
+using System.Net;
+using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
 using OpenStory.Server.Channel;
@@ -14,7 +16,6 @@ namespace OpenStory.Services.Simple
 {
     public class SimpleBootstrapper : BootstrapperBase
     {
-        private readonly IKernel nexus;
         private readonly IKernel account;
         private readonly IKernel auth;
         private readonly IKernel world;
@@ -23,11 +24,15 @@ namespace OpenStory.Services.Simple
         public SimpleBootstrapper(IResolutionRoot resolutionRoot, ILogger logger)
             : base(resolutionRoot, logger)
         {
-            this.nexus = new ChildKernel(this.ResolutionRoot, new NexusServerModule());
-            this.account = new ChildKernel(this.nexus, new AccountServerModule());
-            this.auth = new ChildKernel(this.nexus, new ServerModule(), new AuthServerModule());
-            this.world = new ChildKernel(this.nexus, new WorldServerModule());
+            var nexus = new ChildKernel(this.ResolutionRoot, new NexusServerModule());
+
+            this.account = new ChildKernel(nexus, new AccountServerModule());
+            this.auth = new ChildKernel(nexus, new ServerModule(), new AuthServerModule());
+            this.world = new ChildKernel(nexus, new WorldServerModule());
             this.channel = new ChildKernel(this.world, new ServerModule(), new ChannelServerModule());
+
+            // HACK :(
+            nexus.Bind<IAccountService>().ToMethod(ctx => this.account.Get<IAccountService>());
         }
 
         protected override void OnStarting()
@@ -36,13 +41,13 @@ namespace OpenStory.Services.Simple
             this.account.Get<IRegisteredService>().Initialize(null);
 
             this.Logger.Info("Preparing auth service...");
-            this.auth.Get<IRegisteredService>().Initialize(null);
+            this.auth.Get<IRegisteredService>().Initialize(this.GetAuthConfiguration());
 
             this.Logger.Info("Preparing world service...");
-            this.world.Get<IRegisteredService>().Initialize(null);
+            this.world.Get<IRegisteredService>().Initialize(this.GetWorldConfiguration());
 
             this.Logger.Info("Preparing channel service...");
-            this.channel.Get<IRegisteredService>().Initialize(null);
+            this.channel.Get<IRegisteredService>().Initialize(this.GetChannelConfiguration());
 
             this.Logger.Info("Starting world service...");
             this.world.Get<IRegisteredService>().Start();
@@ -55,6 +60,47 @@ namespace OpenStory.Services.Simple
 
             this.Logger.Info("Starting auth service...");
             this.auth.Get<IRegisteredService>().Start();
+        }
+
+        private OsServiceConfiguration GetAuthConfiguration()
+        {
+            var parameters =
+                new Dictionary<string, object>
+                {
+                    { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
+                    { "Header", (ushort)14 },
+                    { "Version", (ushort)75 },
+                    { "Subversion", "" },
+                    { "LocaleId", (byte) 9 }
+                };
+
+            return new OsServiceConfiguration(parameters);
+        }
+
+        private OsServiceConfiguration GetWorldConfiguration()
+        {
+            var parameters =
+                new Dictionary<string, object>
+                {
+                    { "World", 1 }
+                };
+
+            return new OsServiceConfiguration(parameters);
+        }
+
+        private OsServiceConfiguration GetChannelConfiguration()
+        {
+            var parameters =
+                new Dictionary<string, object>
+                {
+                    { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8585) },
+                    { "Header", (ushort)14 },
+                    { "Version", (ushort)75 },
+                    { "Subversion", "" },
+                    { "LocaleId", (byte) 9 }
+                };
+
+            return new OsServiceConfiguration(parameters);
         }
     }
 }
