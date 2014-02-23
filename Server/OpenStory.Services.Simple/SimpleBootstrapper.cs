@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using OpenStory.Common;
 using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
@@ -27,7 +28,7 @@ namespace OpenStory.Services.Simple
             var nexus = new ChildKernel(this.ResolutionRoot, new NexusServerModule());
 
             this.account = new ChildKernel(nexus, new AccountServerModule());
-            this.auth = new ChildKernel(nexus, new ServerModule(), new AuthServerModule());
+            this.auth = CreateAuthKernel(nexus);
             this.world = new ChildKernel(nexus, new WorldServerModule());
             this.channel = new ChildKernel(this.world, new ServerModule(), new ChannelServerModule());
 
@@ -35,18 +36,18 @@ namespace OpenStory.Services.Simple
             nexus.Bind<IAccountService>().ToMethod(ctx => this.account.Get<IAccountService>());
         }
 
+        private static ChildKernel CreateAuthKernel(IResolutionRoot parent)
+        {
+            var kernel = new ChildKernel(parent, new ServerModule(), new AuthServerModule());
+            kernel.Rebind<IPacketCodeTable>().To<AuthPacketCodeTableV75>();
+            return kernel;
+        }
+
         protected override void OnStarting()
         {
-            this.Logger.Info("Preparing account service...");
             this.account.Get<IRegisteredService>().Initialize(null);
-
-            this.Logger.Info("Preparing auth service...");
             this.auth.Get<IRegisteredService>().Initialize(this.GetAuthConfiguration());
-
-            this.Logger.Info("Preparing world service...");
             this.world.Get<IRegisteredService>().Initialize(this.GetWorldConfiguration());
-
-            this.Logger.Info("Preparing channel service...");
             this.channel.Get<IRegisteredService>().Initialize(this.GetChannelConfiguration());
 
             this.Logger.Info("Starting world service...");
@@ -62,6 +63,8 @@ namespace OpenStory.Services.Simple
             this.auth.Get<IRegisteredService>().Start();
         }
 
+        #region Server configuration
+
         private OsServiceConfiguration GetAuthConfiguration()
         {
             var parameters =
@@ -70,8 +73,8 @@ namespace OpenStory.Services.Simple
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
                     { "Header", (ushort)14 },
                     { "Version", (ushort)75 },
-                    { "Subversion", "" },
-                    { "LocaleId", (byte) 9 }
+                    { "PatchLocation", "0" },
+                    { "LocaleId", (byte)8 }
                 };
 
             return new OsServiceConfiguration(parameters);
@@ -96,11 +99,13 @@ namespace OpenStory.Services.Simple
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8585) },
                     { "Header", (ushort)14 },
                     { "Version", (ushort)75 },
-                    { "Subversion", "" },
-                    { "LocaleId", (byte) 9 }
+                    { "PatchLocation", "0" },
+                    { "LocaleId", (byte)8 }
                 };
 
             return new OsServiceConfiguration(parameters);
         }
+
+        #endregion
     }
 }

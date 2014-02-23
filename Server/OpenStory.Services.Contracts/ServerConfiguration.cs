@@ -20,7 +20,7 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Gets the game sub-version for the server.
         /// </summary>
-        public string Subversion { get; private set; }
+        public string PatchLocation { get; private set; }
 
         /// <summary>
         /// Gets the locale ID for the server.
@@ -42,7 +42,7 @@ namespace OpenStory.Services.Contracts
 
             this.Header = configuration.Get<ushort>("Header", true);
             this.Version = configuration.Get<ushort>("Version", true);
-            this.Subversion = configuration.Get<string>("Subversion", true);
+            this.PatchLocation = configuration.Get<string>("PatchLocation", true);
             this.LocaleId = configuration.Get<byte>("LocaleId", true);
         }
     }

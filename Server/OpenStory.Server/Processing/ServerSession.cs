@@ -72,11 +72,24 @@ namespace OpenStory.Server.Processing
 
         private static byte[] ConstructHandshakePacket(HandshakeInfo handshakeInfo)
         {
+            var content = ConstructHandshakePacketContent(handshakeInfo);
+
             using (var builder = new PacketBuilder())
             {
-                builder.WriteInt16(handshakeInfo.Header);
+                //packet.WriteInt16(handshakeInfo.Header);
+                builder.WriteInt16((ushort)content.Length); // GMS?
+                builder.WriteBytes(content);
+
+                return builder.ToByteArray();
+            }
+        }
+
+        private static byte[] ConstructHandshakePacketContent(HandshakeInfo handshakeInfo)
+        {
+            using (var builder = new PacketBuilder())
+            {
                 builder.WriteInt16(handshakeInfo.Version);
-                builder.WriteLengthString(handshakeInfo.Subversion);
+                builder.WriteLengthString(handshakeInfo.PatchLocation);
                 builder.WriteBytes(handshakeInfo.ClientIv);
                 builder.WriteBytes(handshakeInfo.ServerIv);
 

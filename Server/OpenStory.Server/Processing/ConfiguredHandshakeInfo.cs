@@ -15,7 +15,7 @@ namespace OpenStory.Server.Processing
         {
             this.Header = configuration.Header;
             this.Version = configuration.Version;
-            this.Subversion = configuration.Subversion;
+            this.PatchLocation = configuration.PatchLocation;
             this.LocaleId = configuration.LocaleId;
 
             this.ClientIv = clientIv;

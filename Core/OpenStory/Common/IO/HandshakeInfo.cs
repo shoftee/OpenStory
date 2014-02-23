@@ -18,7 +18,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Gets or sets the game sub-version.
         /// </summary>
-        public string Subversion { get; protected set; }
+        public string PatchLocation { get; protected set; }
 
         /// <summary>
         /// Gets or sets the Client IV to be used.
