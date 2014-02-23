@@ -96,7 +96,7 @@ namespace OpenStory.Server.Processing
             using (var builder = new PacketBuilder())
             {
                 builder.WriteInt16(handshakeInfo.Version);
-                builder.WriteLengthString(handshakeInfo.PatchLocation);
+                builder.WriteLengthString(handshakeInfo.Subversion);
                 builder.WriteBytes(handshakeInfo.ServerIv);
                 builder.WriteBytes(handshakeInfo.ClientIv);
 

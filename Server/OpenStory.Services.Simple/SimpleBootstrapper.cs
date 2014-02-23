@@ -45,10 +45,15 @@ namespace OpenStory.Services.Simple
 
         protected override void OnStarting()
         {
-            this.Logger.Info("Configuring...");
             this.account.Get<IRegisteredService>().Initialize(null);
+
+            this.Logger.Info("Preparing auth service...");
             this.auth.Get<IRegisteredService>().Initialize(this.GetAuthConfiguration());
+
+            this.Logger.Info("Preparing world service...");
             this.world.Get<IRegisteredService>().Initialize(this.GetWorldConfiguration());
+
+            this.Logger.Info("Preparing channel service...");
             this.channel.Get<IRegisteredService>().Initialize(this.GetChannelConfiguration());
 
             this.Logger.Info("Starting world service...");
@@ -73,8 +78,8 @@ namespace OpenStory.Services.Simple
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
                     { "Version", (ushort)75 },
-                    { "PatchLocation", "0" },
-                    { "LocaleId", (byte)8 }
+                    { "Subversion", "0" },
+                    { "LocaleId", (byte)8 },
                 };
 
             return new OsServiceConfiguration(parameters);
@@ -98,8 +103,8 @@ namespace OpenStory.Services.Simple
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8585) },
                     { "Version", (ushort)75 },
-                    { "PatchLocation", "0" },
-                    { "LocaleId", (byte)8 }
+                    { "Subversion", "0" },
+                    { "LocaleId", (byte)8 },
                 };
 
             return new OsServiceConfiguration(parameters);
