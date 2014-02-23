@@ -90,8 +90,8 @@ namespace OpenStory.Server.Processing
             {
                 builder.WriteInt16(handshakeInfo.Version);
                 builder.WriteLengthString(handshakeInfo.PatchLocation);
-                builder.WriteBytes(handshakeInfo.ClientIv);
                 builder.WriteBytes(handshakeInfo.ServerIv);
+                builder.WriteBytes(handshakeInfo.ClientIv);
 
                 // Locale ID (used for localizations and test servers)
                 builder.WriteByte(handshakeInfo.LocaleId);
