@@ -64,8 +64,8 @@ namespace OpenStory.Server.Processing
             this.Crypto = endpointCrypto;
 
             byte[] handshake = ConstructHandshakePacket(handshakeInfo);
-            this.Session.Start();
-            this.Session.Write(handshake);
+            this.BaseSession.Start();
+            this.BaseSession.Write(handshake);
         }
 
         #region Outgoing logic

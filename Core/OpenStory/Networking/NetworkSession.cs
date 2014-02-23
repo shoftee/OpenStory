@@ -63,10 +63,10 @@ namespace OpenStory.Networking
         private SendDescriptor sendDescriptor;
         private Socket socket;
 
-        /// <inheritdoc />
-        public Socket Socket
+        /// <inheritdoc/>
+        public bool IsActive
         {
-            get { return this.socket; }
+            get { return this.isActive.Value; }
         }
 
         /// <summary>
@@ -76,14 +76,14 @@ namespace OpenStory.Networking
         {
             get
             {
-                if (this.Socket == null)
+                if (this.socket == null)
                 {
                     return null;
                 }
 
                 try
                 {
-                    var endpoint = this.Socket.RemoteEndPoint as IPEndPoint;
+                    var endpoint = this.socket.RemoteEndPoint as IPEndPoint;
                     return endpoint;
                 }
                 catch (ObjectDisposedException)
@@ -122,7 +122,7 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => sessionSocket, sessionSocket);
 
-            if (this.Socket != null)
+            if (this.socket != null)
             {
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
@@ -143,7 +143,7 @@ namespace OpenStory.Networking
         /// </exception>
         public void Start()
         {
-            if (this.Socket == null)
+            if (this.socket == null)
             {
                 throw new InvalidOperationException(CommonStrings.NoSocketAttached);
             }
@@ -170,7 +170,7 @@ namespace OpenStory.Networking
                 return;
             }
 
-            this.Socket.Close();
+            this.socket.Close();
 
             this.receiveDescriptor.Close();
             this.sendDescriptor.Close();
@@ -191,6 +191,12 @@ namespace OpenStory.Networking
         #endregion
 
         #region Explicitly implemented members of IDescriptorContainer
+
+        /// <inheritdoc />
+        Socket IDescriptorContainer.Socket
+        {
+            get { return this.socket; }
+        }
 
         /// <inheritdoc />
         bool IDescriptorContainer.IsActive

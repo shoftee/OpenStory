@@ -2,13 +2,14 @@ using System;
 using System.Net.Sockets;
 using OpenStory.Common.IO;
 using OpenStory.Cryptography;
+using OpenStory.Networking;
 
 namespace OpenStory.Framework.Contracts
 {
     /// <summary>
     /// Provides methods for operating with a server session.
     /// </summary>
-    public interface IServerSession
+    public interface IServerSession : INetworkSession
     {
         /// <summary>
         /// Occurs when a packet requires processing.
@@ -19,11 +20,6 @@ namespace OpenStory.Framework.Contracts
         /// Occurs when the session has pending packets waiting to be processed.
         /// </summary>
         event EventHandler ReadyForPush;
-
-        /// <summary>
-        /// Occurs right before the session is closed.
-        /// </summary>
-        event EventHandler Closing;
 
         /// <summary>
         /// A unique 32-bit network session identifier.
@@ -55,11 +51,6 @@ namespace OpenStory.Framework.Contracts
         /// Thrown if <paramref name="packet" /> is <see langword="null"/>.
         /// </exception>
         void WritePacket(byte[] packet);
-
-        /// <summary>
-        /// Closes the session.
-        /// </summary>
-        void Close();
 
         /// <summary>
         /// Starts the asynchronous packet sending process.

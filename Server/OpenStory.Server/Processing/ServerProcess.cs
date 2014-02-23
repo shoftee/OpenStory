@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net.Sockets;
 using Ninject.Extensions.Logging;
 using OpenStory.Common;
 using OpenStory.Cryptography;
 using OpenStory.Framework.Contracts;
+using OpenStory.Networking;
 using OpenStory.Server.Networking;
 using OpenStory.Services.Contracts;
 
@@ -134,14 +136,36 @@ namespace OpenStory.Server.Processing
 
         private void OnSocketAccepted(object sender, SocketEventArgs e)
         {
-            var session = this.sessionFactory.CreateSession();
+            var sessionSocket = e.Socket;
+            var session = this.CreateServerSession(sessionSocket);
+
             this.packetScheduler.Register(session);
-            session.AttachSocket(e.Socket);
             this.OnConnectionOpened(session);
 
             this.StartSession(session);
 
             this.logger.Debug(@"Accepted session #{0}: {1}", session.NetworkSessionId, session);
+        }
+
+        private IServerSession CreateServerSession(Socket sessionSocket)
+        {
+            var session = this.sessionFactory.CreateSession();
+            session.SocketError += this.OnSessionSocketError;
+            session.Closing += OnSessionClosing;
+            session.AttachSocket(sessionSocket);
+            return session;
+        }
+
+        private void OnSessionClosing(object sender, EventArgs args)
+        {
+            var session = (IServerSession)sender;
+            this.logger.Debug(@"Session #{0} closing...", session.NetworkSessionId);
+        }
+
+        private void OnSessionSocketError(object sender, SocketErrorEventArgs args)
+        {
+            var session = (IServerSession)sender;
+            this.logger.Debug(@"Session #{0} error: {1}", session.NetworkSessionId, args.Error);
         }
 
         private void StartSession(IServerSession session)

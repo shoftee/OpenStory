@@ -15,7 +15,7 @@ namespace OpenStory.Networking
     /// as well as the logic to write outbound packets.
     /// </remarks>
     [Localizable(true)]
-    public abstract class EncryptedNetworkSession : IDisposable
+    public abstract class EncryptedNetworkSession : INetworkSession, IDisposable
     {
         #region Events
 
@@ -29,10 +29,15 @@ namespace OpenStory.Networking
         /// </summary>
         public event EventHandler Closing;
 
+        /// <summary>
+        /// Occurs when there's a connection error.
+        /// </summary>
+        public event EventHandler<SocketErrorEventArgs> SocketError;
+
         #endregion
 
         private bool isDisposed;
-        private NetworkSession session;
+        private NetworkSession baseSession;
         private BoundedBuffer headerBuffer;
         private BoundedBuffer packetBuffer;
 
@@ -55,11 +60,11 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
-        /// Gets or sets the internal NetworkSession instance.
+        /// Gets the underlying network session.
         /// </summary>
-        protected NetworkSession Session
+        protected NetworkSession BaseSession
         {
-            get { return this.session; }
+            get { return this.baseSession; }
         }
 
         /// <summary>
@@ -73,7 +78,6 @@ namespace OpenStory.Networking
         /// Initializes a new instance of the <see cref="EncryptedNetworkSession"/> class with no specified socket.
         /// </summary>
         /// <remarks>
-        /// Initializes the internal fields and <see cref="Session"/> with no specified socket.
         /// Call <see cref="AttachSocket(Socket)"/> before starting the network operations.
         /// </remarks>
         protected EncryptedNetworkSession()
@@ -81,7 +85,7 @@ namespace OpenStory.Networking
             this.packetBuffer = new BoundedBuffer();
             this.headerBuffer = new BoundedBuffer(4);
 
-            this.session = this.CreateInnerSession();
+            this.baseSession = this.CreateInnerSession();
 
             this.isDisposed = false;
         }
@@ -91,16 +95,17 @@ namespace OpenStory.Networking
             var s = new NetworkSession();
             s.DataArrived += this.OnDataArrived;
             s.Closing += this.OnClosing;
+            s.SocketError += this.OnSocketError;
             return s;
         }
 
-        /// <summary>
-        /// Attaches a <see cref="Socket"/> to this session.
-        /// </summary>
-        /// <param name="sessionSocket">The <see cref="Socket"/> to attach. </param>
-        public void AttachSocket(Socket sessionSocket)
+        private void OnSocketError(object sender, SocketErrorEventArgs e)
         {
-            this.Session.AttachSocket(sessionSocket);
+            var handler = this.SocketError;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         private void OnClosing(object sender, EventArgs e)
@@ -113,13 +118,24 @@ namespace OpenStory.Networking
         }
 
         /// <summary>
+        /// Attaches a <see cref="Socket"/> to this session.
+        /// </summary>
+        /// <param name="sessionSocket">The <see cref="Socket"/> to attach. </param>
+        public void AttachSocket(Socket sessionSocket)
+        {
+            this.baseSession.AttachSocket(sessionSocket);
+        }
+
+        /// <summary>
         /// Closes the session.
         /// </summary>
         public void Close()
         {
             this.PacketReceived = null;
 
-            this.Session.Close();
+            this.baseSession.Close();
+
+            this.SocketError = null;
             this.Closing = null;
         }
 
@@ -135,10 +151,10 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => packet, packet);
 
-            if (this.Session.Socket.Connected)
+            if (this.baseSession.IsActive)
             {
                 byte[] rawData = this.Crypto.EncryptAndPack(packet.FastClone());
-                this.Session.Write(rawData);
+                this.baseSession.Write(rawData);
             }
         }
 
@@ -227,7 +243,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public override string ToString()
         {
-            var networkSession = this.session;
+            var networkSession = this.baseSession;
             return networkSession == null? @"No session" : networkSession.ToString();
         }
 
@@ -248,7 +264,7 @@ namespace OpenStory.Networking
         {
             if (disposing && !this.isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.session);
+                Misc.AssignNullAndDispose(ref this.baseSession);
                 Misc.AssignNullAndDispose(ref this.headerBuffer);
                 Misc.AssignNullAndDispose(ref this.packetBuffer);
 

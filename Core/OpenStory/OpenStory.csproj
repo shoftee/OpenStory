@@ -117,6 +117,7 @@
     <Compile Include="Networking\DescriptorBase.cs" />
     <Compile Include="Networking\EncryptedNetworkSession.cs" />
     <Compile Include="Networking\IDescriptorContainer.cs" />
+    <Compile Include="Networking\INetworkSession.cs" />
     <Compile Include="Networking\NetworkSession.cs" />
     <Compile Include="Networking\PacketReceivedEventArgs.cs" />
     <Compile Include="Networking\ReceiveDescriptor.cs" />
