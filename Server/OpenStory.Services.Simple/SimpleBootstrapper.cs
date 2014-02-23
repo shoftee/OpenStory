@@ -45,6 +45,7 @@ namespace OpenStory.Services.Simple
 
         protected override void OnStarting()
         {
+            this.Logger.Info("Configuring...");
             this.account.Get<IRegisteredService>().Initialize(null);
             this.auth.Get<IRegisteredService>().Initialize(this.GetAuthConfiguration());
             this.world.Get<IRegisteredService>().Initialize(this.GetWorldConfiguration());
@@ -71,7 +72,6 @@ namespace OpenStory.Services.Simple
                 new Dictionary<string, object>
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
-                    { "Header", (ushort)14 },
                     { "Version", (ushort)75 },
                     { "PatchLocation", "0" },
                     { "LocaleId", (byte)8 }
@@ -97,7 +97,6 @@ namespace OpenStory.Services.Simple
                 new Dictionary<string, object>
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8585) },
-                    { "Header", (ushort)14 },
                     { "Version", (ushort)75 },
                     { "PatchLocation", "0" },
                     { "LocaleId", (byte)8 }

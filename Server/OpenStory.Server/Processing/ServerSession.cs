@@ -76,8 +76,15 @@ namespace OpenStory.Server.Processing
 
             using (var builder = new PacketBuilder())
             {
-                //packet.WriteInt16(handshakeInfo.Header);
-                builder.WriteInt16((ushort)content.Length); // GMS?
+                if (handshakeInfo.Header.HasValue)
+                {
+                    builder.WriteInt16(handshakeInfo.Header.Value);
+                }
+                else
+                {
+                    builder.WriteInt16((ushort)content.Length);
+                }
+
                 builder.WriteBytes(content);
 
                 return builder.ToByteArray();

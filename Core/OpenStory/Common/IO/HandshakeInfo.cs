@@ -8,7 +8,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Gets or sets the 16-bit header for the handshake.
         /// </summary>
-        public ushort Header { get; protected set; }
+        public ushort? Header { get; protected set; }
 
         /// <summary>
         /// Gets or sets the game version.

@@ -10,7 +10,7 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Gets the game version for the server.
         /// </summary>
-        public ushort Header { get; private set; }
+        public ushort? Header { get; private set; }
 
         /// <summary>
         /// Gets the game version for the server.
@@ -40,7 +40,7 @@ namespace OpenStory.Services.Contracts
         {
             this.Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
 
-            this.Header = configuration.Get<ushort>("Header", true);
+            this.Header = configuration.GetValue<ushort>("Header");
             this.Version = configuration.Get<ushort>("Version", true);
             this.PatchLocation = configuration.Get<string>("PatchLocation", true);
             this.LocaleId = configuration.Get<byte>("LocaleId", true);
