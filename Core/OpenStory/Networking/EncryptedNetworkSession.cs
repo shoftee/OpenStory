@@ -27,7 +27,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Occurs when the session begins closing.
         /// </summary>
-        public event EventHandler Closing;
+        public event EventHandler<ConnectionClosingEventArgs> Closing;
 
         /// <summary>
         /// Occurs when there's a connection error.
@@ -108,7 +108,7 @@ namespace OpenStory.Networking
             }
         }
 
-        private void OnClosing(object sender, EventArgs e)
+        private void OnClosing(object sender, ConnectionClosingEventArgs e)
         {
             var handler = this.Closing;
             if (handler != null)
@@ -129,11 +129,11 @@ namespace OpenStory.Networking
         /// <summary>
         /// Closes the session.
         /// </summary>
-        public void Close()
+        public void Close(string reason)
         {
             this.PacketReceived = null;
 
-            this.baseSession.Close();
+            this.baseSession.Close(reason);
 
             this.SocketError = null;
             this.Closing = null;
@@ -211,7 +211,7 @@ namespace OpenStory.Networking
                 int length;
                 if (!this.Crypto.TryGetLength(header, out length))
                 {
-                    this.Close();
+                    this.Close(@"Could not decode packet length.");
                     return;
                 }
 

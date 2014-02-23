@@ -157,10 +157,10 @@ namespace OpenStory.Server.Processing
             return session;
         }
 
-        private void OnSessionClosing(object sender, EventArgs args)
+        private void OnSessionClosing(object sender, ConnectionClosingEventArgs args)
         {
             var session = (IServerSession)sender;
-            this.logger.Debug(@"Session #{0} closing...", session.NetworkSessionId);
+            this.logger.Debug(@"Session #{0} closing: {1}", session.NetworkSessionId, args.Reason);
         }
 
         private void OnSessionSocketError(object sender, SocketErrorEventArgs args)

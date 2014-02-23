@@ -167,7 +167,7 @@ namespace OpenStory.Server.Processing
             ushort packetCode;
             if (!reader.TryReadUInt16(out packetCode))
             {
-                this.Close();
+                this.Close(@"Could not read packet code.");
 
                 // Bad packet. We kill the session and stop pushing.
                 return true;

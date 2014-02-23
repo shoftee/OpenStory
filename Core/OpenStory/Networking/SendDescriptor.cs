@@ -97,7 +97,7 @@ namespace OpenStory.Networking
             }
             catch (ObjectDisposedException)
             {
-                this.Container.Close();
+                this.Container.Close(@"Socket disposed.");
             }
         }
 

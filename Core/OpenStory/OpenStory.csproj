@@ -113,6 +113,7 @@
       <DependentUpon>CommonStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="netfx\System\Guard.cs" />
+    <Compile Include="Networking\ConnectionClosingEventArgs.cs" />
     <Compile Include="Networking\DataArrivedEventArgs.cs" />
     <Compile Include="Networking\DescriptorBase.cs" />
     <Compile Include="Networking\EncryptedNetworkSession.cs" />

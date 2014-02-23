@@ -7,7 +7,7 @@ namespace OpenStory.Networking
     /// <summary>
     /// Represents an abstract asynchronous network operation buffer.
     /// </summary>
-    public abstract class DescriptorBase : IDisposable
+    internal abstract class DescriptorBase : IDisposable
     {
         private bool isDisposed;
         private SocketAsyncEventArgs socketArgs;
@@ -69,16 +69,19 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => args, args);
 
-            var error = args.SocketError;
-            var errorHandler = this.Error;
-            if (error != SocketError.Success && errorHandler != null)
+            if (args.BytesTransferred < 0)
             {
-                errorHandler(this, new SocketErrorEventArgs(error));
-            }
+                var error = args.SocketError;
 
-            if (error != SocketError.OperationAborted)
+                var errorHandler = this.Error;
+                if (error != SocketError.Success && errorHandler != null)
+                {
+                    errorHandler(this, new SocketErrorEventArgs(error));
+                }
+            }
+            else
             {
-                this.Container.Close();
+                this.Container.Close(@"Remote end closed the connection.");
             }
         }
 

@@ -10,7 +10,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Occurs when the session begins closing.
         /// </summary>
-        event EventHandler Closing;
+        event EventHandler<ConnectionClosingEventArgs> Closing;
 
         /// <summary>
         /// Occurs when there's a connection error.
@@ -20,6 +20,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Closes the session.
         /// </summary>
-        void Close();
+        /// <param name="reason">The reason for closing the session.</param>
+        void Close(string reason);
     }
 }

@@ -20,6 +20,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Closes the session.
         /// </summary>
-        void Close();
+        /// <param name="reason">The reason for closing the connection.</param>
+        void Close(string reason);
     }
 }

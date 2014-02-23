@@ -8,7 +8,7 @@ namespace OpenStory.Networking
     /// Represents an asynchronous network receive buffer.
     /// </summary>
     [Localizable(true)]
-    public sealed class ReceiveDescriptor : DescriptorBase
+    internal sealed class ReceiveDescriptor : DescriptorBase
     {
         /// <summary>
         /// The default buffer size, set to match the RollingIv block size.
@@ -129,7 +129,7 @@ namespace OpenStory.Networking
             }
             catch (ObjectDisposedException)
             {
-                this.Container.Close();
+                this.Container.Close(@"Socket disposed.");
             }
         }
 

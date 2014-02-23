@@ -4,6 +4,7 @@ using Ninject.Extensions.Logging;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Framework.Contracts;
+using OpenStory.Networking;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Processing
@@ -33,7 +34,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Occurs when the client's session is being closed.
         /// </summary>
-        public event EventHandler Closing;
+        public event EventHandler<ConnectionClosingEventArgs> Closing;
 
         /// <summary>
         /// Gets the client's session object.
@@ -94,7 +95,7 @@ namespace OpenStory.Server.Processing
             return serverSession;
         }
 
-        private void OnSessionClosing(object sender, EventArgs e)
+        private void OnSessionClosing(object sender, ConnectionClosingEventArgs e)
         {
             this.OnClosing();
 
@@ -204,8 +205,10 @@ namespace OpenStory.Server.Processing
         /// <param name="reason">The reason for the disconnection.</param>
         public void Disconnect(string reason = null)
         {
-            this.LogDisconnectReason(this.AccountSession, reason);
-            this.ServerSession.Close();
+            var reasonString = string.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
+
+            this.LogDisconnectReason(this.AccountSession, reasonString);
+            this.ServerSession.Close("Server forced disconnection: " + reasonString);
         }
 
         /// <inheritdoc />
@@ -217,7 +220,7 @@ namespace OpenStory.Server.Processing
 
                 this.keepAliveTimer.Close();
 
-                this.ServerSession.Close();
+                this.ServerSession.Close("Client disposed.");
 
                 this.isDisposed = true;
             }
@@ -225,15 +228,13 @@ namespace OpenStory.Server.Processing
 
         private void LogDisconnectReason(IAccountSession session, string reason)
         {
-            var reasonString = string.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
-
             if (session != null)
             {
-                this.Logger.Debug("Account session #{0} was closed: {1}", session.SessionId, reasonString);
+                this.Logger.Debug("Account session #{0} was closed: {1}", session.SessionId, reason);
             }
             else
             {
-                this.Logger.Debug("Session was closed: {0}", reasonString);
+                this.Logger.Debug("Session was closed: {0}", reason);
             }
         }
     }

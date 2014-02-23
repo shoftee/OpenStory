@@ -31,7 +31,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Occurs when the <see cref="NetworkSession" /> begins closing.
         /// </summary>
-        public event EventHandler Closing;
+        public event EventHandler<ConnectionClosingEventArgs> Closing;
 
         /// <summary>
         /// Occurs when a connection error occurs.
@@ -157,11 +157,12 @@ namespace OpenStory.Networking
         }
 
         /// <inheritdoc />
-        public void Close()
+        public void Close(string reason)
         {
-            if (this.Closing != null)
+            var handler = this.Closing;
+            if (handler != null)
             {
-                this.Closing(this, EventArgs.Empty);
+                handler(this, new ConnectionClosingEventArgs(reason));
             }
 
             this.Closing = null;
@@ -205,9 +206,9 @@ namespace OpenStory.Networking
         }
 
         /// <inheritdoc />
-        void IDescriptorContainer.Close()
+        void IDescriptorContainer.Close(string reason)
         {
-            this.Close();
+            this.Close(reason);
         }
 
         #endregion
