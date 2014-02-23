@@ -78,6 +78,7 @@ namespace OpenStory.Server.Processing
             this.ConfigureInternal(configuration);
 
             this.isConfigured = true;
+            this.logger.Info(@"Configured as version {0}, locale {1}.", this.serverConfiguration.Version, this.serverConfiguration.LocaleId);
         }
 
         private void ConfigureInternal(OsServiceConfiguration configuration)
@@ -142,9 +143,9 @@ namespace OpenStory.Server.Processing
             this.packetScheduler.Register(session);
             this.OnConnectionOpened(session);
 
-            this.StartSession(session);
-
             this.logger.Debug(@"Accepted session #{0}: {1}", session.NetworkSessionId, session);
+
+            this.StartSession(session);
         }
 
         private IServerSession CreateServerSession(Socket sessionSocket)

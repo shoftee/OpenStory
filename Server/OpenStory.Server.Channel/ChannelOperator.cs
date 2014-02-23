@@ -19,9 +19,7 @@ namespace OpenStory.Server.Channel
         public IPlayerRegistry PlayerRegistry { get; private set; }
 
         /// <inheritdoc />
-        public ChannelOperator(
-            IGameClientFactory<ChannelClient> clientFactory, 
-            IPlayerRegistry playerRegistry)
+        public ChannelOperator(IGameClientFactory<ChannelClient> clientFactory, IPlayerRegistry playerRegistry)
             : base(clientFactory)
         {
             this.PlayerRegistry = playerRegistry;
