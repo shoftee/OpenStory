@@ -78,7 +78,21 @@ namespace OpenStory.Server.Processing
             this.ConfigureInternal(configuration);
 
             this.isConfigured = true;
-            this.logger.Info(@"Configured as version {0}, locale {1}.", this.serverConfiguration.Version, this.serverConfiguration.LocaleId);
+            if (this.serverConfiguration.Subversion == "")
+            {
+                this.logger.Info(
+                    @"Configured as version {0}, locale {1}.", 
+                    this.serverConfiguration.Version,
+                    this.serverConfiguration.LocaleId);
+            }
+            else
+            {
+                this.logger.Info(
+                    @"Configured as version {0}.{1}, locale {2}.", 
+                    this.serverConfiguration.Version,
+                    this.serverConfiguration.Subversion,
+                    this.serverConfiguration.LocaleId);
+            }
         }
 
         private void ConfigureInternal(OsServiceConfiguration configuration)
