@@ -62,14 +62,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Server.Account.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Tests.Helpers", "Tests\OpenStory.Tests.Helpers\OpenStory.Tests.Helpers.csproj", "{E4CB15FD-2BA9-47E9-84B5-8D7B18FF5B3F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9375CB45-3A92-4A95-8559-2B3B6D7F9EB7}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		packages\repositories.config = packages\repositories.config
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{253F4716-AFB9-4FE0-8E4E-278978C292BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStory.Tests.Integration", "Tests\OpenStory.Tests.Integration\OpenStory.Tests.Integration.csproj", "{8E94FAF8-D9D4-47E2-A98A-7EB04643C6F1}"
