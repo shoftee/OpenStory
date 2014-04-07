@@ -39,7 +39,8 @@ namespace OpenStory.Services.Simple
         private static ChildKernel CreateAuthKernel(IResolutionRoot parent)
         {
             var kernel = new ChildKernel(parent, new ServerModule(), new AuthServerModule());
-            kernel.Rebind<IPacketCodeTable>().To<AuthPacketCodeTableV75>();
+            kernel.Rebind<IPacketCodeTable>().To<AuthPacketCodeTableV75>().InSingletonScope();
+            kernel.Rebind<IAuthenticator>().To<StubAuthenticator>().InSingletonScope();
             return kernel;
         }
 
@@ -78,7 +79,7 @@ namespace OpenStory.Services.Simple
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8484) },
                     { "Version", (ushort)75 },
-                    { "Subversion", "0" },
+                    { "Subversion", "" },
                     { "LocaleId", (byte)8 },
                 };
 
@@ -103,7 +104,7 @@ namespace OpenStory.Services.Simple
                 {
                     { "Endpoint", new IPEndPoint(IPAddress.Loopback, 8585) },
                     { "Version", (ushort)75 },
-                    { "Subversion", "0" },
+                    { "Subversion", "" },
                     { "LocaleId", (byte)8 },
                 };
 

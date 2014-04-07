@@ -21,7 +21,7 @@ namespace OpenStory.Services.Simple
         private void AddIncoming()
         {
             // CMSG_AUTHENTICATION 0x01
-            //this.AddIncoming(0x01, "Authenticate");
+            this.AddIncoming(0x01, "Authenticate");
 
             // CMSG_WORLD_LIST_REFRESH 0x04 // Click back after select channel
             //this.AddIncoming(0x04, "WorldListRefresh");
@@ -41,6 +41,7 @@ namespace OpenStory.Services.Simple
             // CMSG_PLAYER_NAME_CHECK 0x15
             // CMSG_PLAYER_CREATE 0x16
             // CMSG_PLAYER_DELETE 0x18
+
             // CMSG_PONG 0x19
             this.AddIncoming(0x19, "Pong");
 
@@ -53,7 +54,7 @@ namespace OpenStory.Services.Simple
         private void AddOutgoing()
         {
             // SMSG_AUTHENTICATION 0x00
-            //this.AddOutgoing("Authentication", 0x00);
+            this.AddOutgoing("Authentication", 0x00);
 
             // SMSG_WORLD_STATUS 0x03
             //this.AddOutgoing("WorldStatus", 0x03);

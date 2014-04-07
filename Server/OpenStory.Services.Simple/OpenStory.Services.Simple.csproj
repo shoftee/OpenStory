@@ -68,6 +68,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBootstrapper.cs" />
+    <Compile Include="StubAuthenticator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
