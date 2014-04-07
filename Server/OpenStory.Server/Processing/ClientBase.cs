@@ -27,6 +27,7 @@ namespace OpenStory.Server.Processing
 
         private readonly Timer keepAliveTimer;
         private readonly AtomicInteger sentPings;
+
         private IAccountSession accountSession;
 
         private bool isDisposed;
@@ -95,6 +96,13 @@ namespace OpenStory.Server.Processing
             return serverSession;
         }
 
+        private Timer InitializeTimer()
+        {
+            var timer = new Timer(PingInterval);
+            timer.Elapsed += this.SendPing;
+            return timer;
+        }
+
         private void OnSessionClosing(object sender, ConnectionClosingEventArgs e)
         {
             this.OnClosing();
@@ -109,13 +117,6 @@ namespace OpenStory.Server.Processing
         private void OnClosing()
         {
             this.keepAliveTimer.Close();
-        }
-
-        private Timer InitializeTimer()
-        {
-            var timer = new Timer(PingInterval);
-            timer.Elapsed += this.SendPing;
-            return timer;
         }
 
         #region Packet handling
