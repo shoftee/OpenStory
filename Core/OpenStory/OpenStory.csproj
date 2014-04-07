@@ -98,6 +98,7 @@
     <Compile Include="Cryptography\CustomCrypto.cs" />
     <Compile Include="Cryptography\EmsRollingIvFactoryProvider.cs" />
     <Compile Include="Cryptography\EndpointCrypto.cs" />
+    <Compile Include="Cryptography\HeartbeatCrypto.cs" />
     <Compile Include="Cryptography\ICryptoAlgorithm.cs" />
     <Compile Include="Cryptography\IRollingIvFactoryProvider.cs" />
     <Compile Include="Cryptography\KmstDecryptor.cs" />
