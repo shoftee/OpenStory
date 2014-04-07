@@ -38,3 +38,4 @@ Database/*
 *.userprefs
 *.ncrunchsolution
 **/test-results/*
+OpenStory-Complete.sln.ide/*
