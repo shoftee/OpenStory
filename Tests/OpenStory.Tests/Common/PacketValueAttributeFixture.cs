@@ -8,19 +8,17 @@ namespace OpenStory.Common
     [TestFixture]
     public sealed class PacketValueAttributeFixture
     {
-        private enum TestEnum
+        [Test]
+        public void ToPacketValue_Should_Return_Decorating_Value()
         {
-            [PacketValue(0x1234)]
-            Defined,
-
-            DefinedButNotDecorated,
+            var packetValue = DefinedEnumValue.ToPacketValue();
+            packetValue.Should().Be(DefinedPacketValue);
         }
 
         [Test]
         public void ToPacketValue_Should_Throw_If_Member_Not_Defined()
         {
-            const TestEnum Value = (TestEnum)20;
-            Value
+            UndefinedEnumValue
                 .Invoking(v => v.ToPacketValue())
                 .ShouldThrow<ArgumentOutOfRangeException>();
         }
@@ -28,16 +26,53 @@ namespace OpenStory.Common
         [Test]
         public void ToPacketValue_Should_Throw_If_Member_Not_Decorated()
         {
-            const TestEnum Value = TestEnum.DefinedButNotDecorated;
-            Value
+            DefinedButNotDecorated
                 .Invoking(v => v.ToPacketValue())
                 .ShouldThrow<ArgumentException>();
         }
 
         [Test]
-        public void ToPacketValue_Should_Return_Decorating_Value()
+        public void ToEnumValue_Should_Return_Decorated_Named_Value()
         {
-            TestEnum.Defined.ToPacketValue().Should().Be(0x1234);
+            var enumValue = DefinedPacketValue.ToEnumValue<TestEnum>();
+            enumValue.Should().Be(TestEnum.Defined);
         }
+
+        [Test]
+        public void ToEnumValue_Should_Throw_If_No_Decorated_Match_Exists()
+        {
+            1234
+                .Invoking(v => v.ToEnumValue<TestEnum>())
+                .ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
+        #region Helpful things!
+
+        private const int DefinedPacketValue = 0x1234;
+
+        private enum TestEnum
+        {
+            [PacketValue(DefinedPacketValue)]
+            Defined,
+
+            DefinedButNotDecorated,
+        }
+
+        private static TestEnum DefinedEnumValue
+        {
+            get { return TestEnum.Defined; }
+        }
+
+        private static TestEnum UndefinedEnumValue
+        {
+            get { return (TestEnum)20; }
+        }
+
+        private static TestEnum DefinedButNotDecorated
+        {
+            get { return TestEnum.DefinedButNotDecorated; }
+        }
+
+        #endregion
     }
 }
