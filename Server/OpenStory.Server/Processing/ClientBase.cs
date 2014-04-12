@@ -23,7 +23,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// The period between pings, in milliseconds.
         /// </summary>
-        private const int PingInterval = 15000;
+        private const int PingInterval = 30000;
 
         private readonly Timer keepAliveTimer;
         private readonly AtomicInteger sentPings;
@@ -129,7 +129,6 @@ namespace OpenStory.Server.Processing
 
             using (var ping = this.PacketFactory.CreatePacket("Ping"))
             {
-                this.Logger.Debug("PING {0}", this.sentPings.Value);
                 this.ServerSession.WritePacket(ping.ToByteArray());
             }
         }
@@ -214,7 +213,7 @@ namespace OpenStory.Server.Processing
             var reasonString = string.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
 
             this.LogDisconnectReason(this.AccountSession, reasonString);
-            this.ServerSession.Close("Server forced disconnection: " + reasonString);
+            this.ServerSession.Close(reasonString);
         }
 
         /// <inheritdoc />
