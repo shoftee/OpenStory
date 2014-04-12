@@ -29,8 +29,13 @@ namespace OpenStory.Services.Simple
             // CMSG_PLAYER_LIST 0x05
             // CMSG_WORLD_STATUS 0x06
             // CMSG_ACCOUNT_GENDER 0x08
+            
             // CMSG_PIN 0x09
+            this.AddIncoming(0x09, "ValidatePin");
+
             // CMSG_REGISTER_PIN 0x0a
+            this.AddIncoming(0x0A, "AssignPin");
+
             // CMSG_WORLD_LIST 0x0b
             // CMSG_PLAYER_GLOBAL_LIST 0x0d
             // CMSG_PLAYER_GLOBAL_LIST_CHANNEL_CONNECT 0x0e
@@ -66,10 +71,10 @@ namespace OpenStory.Services.Simple
             //this.AddOutgoing("MessageTryAgain", 0x05);
 
             // SMSG_PIN 0x06
-            //this.AddOutgoing("Pin", 0x06);
+            this.AddOutgoing("PinResponse", 0x06);
 
             // SMSG_PIN_ASSIGNED 0x07
-            //this.AddOutgoing("PinAssigned", 0x07);
+            this.AddOutgoing("PinAssigned", 0x07);
 
             // SMSG_PLAYER_GLOBAL_LIST 0x08
             //this.AddOutgoing("PlayerGlobalList", 0x08);

@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthClient.cs" />
+    <Compile Include="AuthClient.Helpers.cs" />
     <Compile Include="AuthClientState.cs" />
     <Compile Include="AuthConfiguration.cs" />
     <Compile Include="AuthOperator.cs" />

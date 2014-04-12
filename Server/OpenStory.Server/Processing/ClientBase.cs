@@ -12,8 +12,10 @@ namespace OpenStory.Server.Processing
 {
     /// <summary>
     /// Represents a base class for all server clients.
-    /// This class is abstract.
     /// </summary>
+    /// <remarks>
+    /// This class is abstract.
+    /// </remarks>
     public abstract class ClientBase : IDisposable
     {
         /// <summary>

@@ -129,6 +129,7 @@ namespace OpenStory.Server.Auth
             }
 
             this.ServerSession.WritePacket(this.AuthResponse(result, account));
+            this.ServerSession.WritePacket(this.InvalidPinResponse());
         }
 
         private void HandleWorldListRequest(IUnsafePacketReader reader)
@@ -158,7 +159,46 @@ namespace OpenStory.Server.Auth
 
         private void HandlePinValidation(IUnsafePacketReader reader)
         {
-            throw new NotImplementedException();
+            // TODO: Configuring the server to not require PINs.
+
+            var action = reader.ReadEnumByte<PinRequestType>();
+
+            reader.Skip(5);
+
+            switch (action)
+            {
+                case PinRequestType.PinNotSet:
+                    this.State = AuthClientState.AskPin;
+
+                    this.ServerSession.WritePacket(this.SetPinResponse());
+                    break;
+
+                case PinRequestType.CheckPin:
+                    if (this.CheckPin(reader))
+                    {
+                        this.State = AuthClientState.LoggedIn;
+
+                        this.ServerSession.WritePacket(this.PinAcceptedResponse());
+                    }
+                    else
+                    {
+                        this.ServerSession.WritePacket(this.InvalidPinResponse());
+                    }
+                    break;
+
+                case PinRequestType.AssignPin:
+                    if (this.CheckPin(reader))
+                    {
+                        this.State = AuthClientState.LoggedIn;
+
+                        this.ServerSession.WritePacket(this.SetPinResponse());
+                    }
+                    else
+                    {
+                        this.ServerSession.WritePacket(this.InvalidPinResponse());
+                    }
+                    break;
+            }
         }
     }
 }

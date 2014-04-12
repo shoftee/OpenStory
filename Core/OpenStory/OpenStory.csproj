@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Game\PinRequestType.cs" />
+    <Compile Include="Common\Game\PinResponseType.cs" />
     <Compile Include="Common\IO\ByteBuffer.cs">
       <SubType>Code</SubType>
     </Compile>

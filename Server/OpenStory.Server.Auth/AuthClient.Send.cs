@@ -59,6 +59,31 @@ namespace OpenStory.Server.Auth
             }
         }
 
+        private byte[] SetPinResponse()
+        {
+            return this.PinResponse(PinResponseType.SetPin);
+        }
+
+        private byte[] InvalidPinResponse()
+        {
+            return this.PinResponse(PinResponseType.InvalidPin);
+        }
+
+        private byte[] PinAcceptedResponse()
+        {
+            return this.PinResponse(PinResponseType.PinAccepted);
+        }
+
+        private byte[] PinResponse(PinResponseType result)
+        {
+            using (var builder = PacketFactory.CreatePacket("PinResponse"))
+            {
+                builder.WriteEnumByte(result);
+
+                return builder.ToByteArray();
+            }
+        }
+
         private byte[] WorldListResponse()
         {
             var worlds = this.nexus.GetWorlds();
