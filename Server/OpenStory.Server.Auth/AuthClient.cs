@@ -3,6 +3,7 @@ using Ninject.Extensions.Logging;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
 using OpenStory.Framework.Contracts;
+using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
@@ -27,11 +28,6 @@ namespace OpenStory.Server.Auth
         public int LoginAttempts { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the client has authenticated.
-        /// </summary>
-        public bool IsAuthenticated { get; private set; }
-
-        /// <summary>
         /// Gets the current state of the client.
         /// </summary>
         public AuthClientState State { get; private set; }
@@ -52,8 +48,7 @@ namespace OpenStory.Server.Auth
             this.nexus = nexus;
 
             this.LoginAttempts = 0;
-            this.IsAuthenticated = false;
-            this.State = AuthClientState.PreAuthentication;
+            this.State = AuthClientState.NotLoggedIn;
         }
 
         /// <inheritdoc/>
@@ -93,11 +88,9 @@ namespace OpenStory.Server.Auth
             }
         }
 
-        #region Authentication
-
         private void HandleAuthentication(IUnsafePacketReader reader)
         {
-            if (this.State != AuthClientState.PreAuthentication)
+            if (this.State != AuthClientState.NotLoggedIn)
             {
                 this.Disconnect("Invalid client authentication state.");
                 return;
@@ -109,10 +102,25 @@ namespace OpenStory.Server.Auth
             var result = this.authenticator.Authenticate(reader, out accountSession, out account);
             if (result == AuthenticationResult.Success)
             {
-                this.IsAuthenticated = true;
                 this.AccountSession = accountSession;
-                this.State = AuthClientState.PostAuthentication;
                 this.Account = account;
+
+                if (!account.Gender.HasValue)
+                {
+                    this.State = AuthClientState.SetGender;
+                }
+                else
+                {
+                    // TODO: cover cases where further authentication is not required and this should be set to LoggedIn.
+                    if (account.AccountPin == null)
+                    {
+                        this.State = AuthClientState.SetPin;
+                    }
+                    else
+                    {
+                        this.State = AuthClientState.AskPin;
+                    }
+                }
             }
             else if (this.LoginAttempts++ > MaxLoginAttempts)
             {
@@ -120,48 +128,12 @@ namespace OpenStory.Server.Auth
                 return;
             }
 
-            using (var builder = this.PacketFactory.CreatePacket("Authentication"))
-            {
-                builder.WriteInt32((int)result);
-                builder.WriteInt16(0x0000);
-
-                if (this.IsAuthenticated)
-                {
-                    builder.WriteInt32(accountSession.AccountId);
-                    builder.WriteZeroes(5);
-                    builder.WriteLengthString(accountSession.AccountName);
-                    builder.WriteByte(2);
-                    builder.WriteByte(0);
-                    builder.WriteInt64(0);
-                    builder.WriteByte(0);
-                    builder.WriteInt64(0);
-                    builder.WriteInt32(0);
-                    builder.WriteInt16(257);
-                    builder.WriteInt32(0);
-                    builder.WriteInt32(0);
-                }
-
-                var packet = builder.ToByteArray();
-                this.ServerSession.WritePacket(packet);
-            }
+            this.ServerSession.WritePacket(this.AuthResponse(result, account));
         }
-
-        #endregion
 
         private void HandleWorldListRequest(IUnsafePacketReader reader)
         {
-            var worlds = this.nexus.GetWorlds();
-
-            using (var builder = this.PacketFactory.CreatePacket("WorldListRequest"))
-            {
-                foreach (var world in worlds)
-                {
-                    builder.WriteWorld(world);
-                }
-
-                var packet = builder.ToByteArray();
-                this.ServerSession.WritePacket(packet);
-            }
+            this.ServerSession.WritePacket(this.WorldListResponse());
         }
 
         private void HandleCharacterSelect(IUnsafePacketReader reader)
@@ -178,7 +150,7 @@ namespace OpenStory.Server.Auth
         {
             throw new NotImplementedException();
         }
-        
+
         private void HandlePinAssignment(IUnsafePacketReader reader)
         {
             throw new NotImplementedException();

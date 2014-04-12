@@ -6,19 +6,29 @@ namespace OpenStory.Server.Auth
     public enum AuthClientState
     {
         /// <summary>
-        /// Default value, not to be used.
+        /// The client has yet to authenticate. Default value.
         /// </summary>
-        None = 0,
+        NotLoggedIn = 0,
 
         /// <summary>
-        /// The client has yet to authenticate.
+        /// The client has yet to provide the gender for their account.
         /// </summary>
-        PreAuthentication,
+        SetGender,
+
+        /// <summary>
+        /// The client has yet to enter their registered PIN.
+        /// </summary>
+        AskPin,
+
+        /// <summary>
+        /// The client has yet to register a PIN.
+        /// </summary>
+        SetPin,
 
         /// <summary>
         /// The client has authenticated, but hasn't reached World Select yet.
         /// </summary>
-        PostAuthentication,
+        LoggedIn,
 
         /// <summary>
         /// The client is in the world selection screen.

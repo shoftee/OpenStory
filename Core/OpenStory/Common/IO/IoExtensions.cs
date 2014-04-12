@@ -42,6 +42,7 @@ namespace OpenStory.Common.IO
         /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
         /// <param name="vector">The <see cref="PointS"/> to write.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="builder"/> is <see langword="null"/>.</exception>
+        /// <inheritdoc cref="PacketBuilder.WriteInt16(short)" select="exception[@cref='ObjectDisposedException']" />
         public static void WriteVector(this IPacketBuilder builder, PointS vector)
         {
             Guard.NotNull(() => builder, builder);
@@ -80,6 +81,66 @@ namespace OpenStory.Common.IO
             Guard.NotNull(() => flags, flags);
 
             flags.Write(builder);
+        }
+
+        /// <summary>
+        /// Writes a FILETIME timestamp.
+        /// </summary>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
+        /// <param name="instant">An <see cref="DateTimeOffset"/> value.</param>
+        /// <inheritdoc cref="PacketBuilder.WriteInt64(long)" select="exception[@cref='ObjectDisposedException']" />
+        public static void WriteTimestamp(this IPacketBuilder builder, DateTimeOffset instant)
+        {
+            Guard.NotNull(() => builder, builder);
+            
+            var timestamp = instant.ToFileTime();
+
+            builder.WriteInt64(timestamp);
+        }
+
+        /// <summary>
+        /// Reads a byte corresponding to a <typeparamref name="TEnum" /> value decorated with <see cref="PacketValueAttribute"/>.
+        /// </summary>
+        /// <typeparam name="TEnum">The target <see langword="enum" /> type.</typeparam>
+        /// <param name="reader">The reader to use.</param>
+        /// <inheritdoc cref="PacketReader.ReadByte()" select="exception[@cref='PacketReadingException']" />
+        /// <returns>the corresponding <typeparamref name="TEnum" /> value.</returns>
+        public static TEnum ReadEnumByte<TEnum>(this IUnsafePacketReader reader)
+            where TEnum : struct
+        {
+            Guard.NotNull(() => reader, reader);
+            
+            return reader.ReadByte().ToEnumValue<TEnum>();
+        }
+
+        /// <summary>
+        /// Writes a byte from the <see cref="PacketValueAttribute" /> value of the specified enum value.
+        /// </summary>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
+        /// <param name="enumValue">An enum value decorated with <see cref="PacketValueAttribute" />.</param>
+        /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentException']" />
+        /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentOutOfRangeException']" />
+        /// <inheritdoc cref="PacketBuilder.WriteByte(int)" select="exception[@cref='ObjectDisposedException']" />
+        public static void WriteEnumByte(this IPacketBuilder builder, Enum enumValue)
+        {
+            Guard.NotNull(() => builder, builder);
+            
+            builder.WriteByte(enumValue.ToPacketValue());
+        }
+
+        /// <summary>
+        /// Writes an <see cref="Int32" /> from the <see cref="PacketValueAttribute" /> value of the specified enum value.
+        /// </summary>
+        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
+        /// <param name="enumValue">An enum value decorated with <see cref="PacketValueAttribute" />.</param>
+        /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentException']" />
+        /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentOutOfRangeException']" />
+        /// <inheritdoc cref="PacketBuilder.WriteInt32(int)" select="exception[@cref='ObjectDisposedException']" />
+        public static void WriteEnumInt32(this IPacketBuilder builder, Enum enumValue)
+        {
+            Guard.NotNull(() => builder, builder);
+            
+            builder.WriteInt32(enumValue.ToPacketValue());
         }
     }
 }

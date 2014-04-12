@@ -31,7 +31,7 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the gender for the account.
         /// </summary>
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         /// <summary>
         /// Gets the account-bound PIN.
