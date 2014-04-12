@@ -65,14 +65,12 @@ namespace OpenStory.Server.Processing
         protected ILogger Logger { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientBase"/> class.
+        /// Initializes a new instance of the <see cref="ClientBase" /> class.
         /// </summary>
         /// <param name="serverSession">The network session to bind the instance to.</param>
-        /// <param name="packetFactory">The <see cref="IPacketFactory"/> to use for this client.</param>
+        /// <param name="packetFactory">The <see cref="IPacketFactory" /> to use for this client.</param>
         /// <param name="logger">The logger to use for this client.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the parameters is <see langword="null"/>.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <see langword="null" />.</exception>
         protected ClientBase(IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
         {
             Guard.NotNull(() => serverSession, serverSession);
@@ -142,9 +140,16 @@ namespace OpenStory.Server.Processing
             {
                 this.HandlePong();
             }
+            else if (e.Label != null)
+            {
+                this.Logger.Debug("Received packet '{0}'", e.Label);
+                this.HandlePacket(e);
+            }
             else
             {
-                this.HandlePacket(e);
+                var packetCode = e.PacketCode;
+                var packetData = e.Reader.ReadFully().ToHex(true);
+                this.Logger.Debug(@"Unrecognized packet code: 0x{0:X4}. Packet buffer: {1}", packetCode, packetData);
             }
         }
 

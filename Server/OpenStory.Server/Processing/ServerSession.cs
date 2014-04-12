@@ -173,15 +173,12 @@ namespace OpenStory.Server.Processing
                 return true;
             }
 
+            // If this returns null, it's an unknown code and has no label.
             string label;
-            if (!this.packetCodeTable.TryGetIncomingLabel(packetCode, out label))
-            {
-                // Bad server. Take the blame and try the next one! :<
-                return false;
-            }
+            this.packetCodeTable.TryGetIncomingLabel(packetCode, out label);
 
             // Invoke event asynchronously.
-            var args = new PacketProcessingEventArgs(label, reader);
+            var args = new PacketProcessingEventArgs(packetCode, label, reader);
             var handler = this.PacketProcessing;
             AsyncCallback callback = this.ContinuePushAsynchronous;
             var asyncResult = handler.BeginInvoke(this, args, callback, null);
