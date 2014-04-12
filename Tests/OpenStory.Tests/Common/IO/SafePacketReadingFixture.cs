@@ -10,6 +10,11 @@ namespace OpenStory.Common.IO
     [TestFixture]
     public sealed class SafePacketReadingFixture : PacketReaderFixtureBase
     {
+        private static PacketReader EmptyReader
+        {
+            get { return new PacketReader(Helpers.EmptyBuffer); }
+        }
+
         #region Failure
 
         [Test]
@@ -589,10 +594,5 @@ namespace OpenStory.Common.IO
         }
 
         #endregion
-
-        private static PacketReader EmptyReader
-        {
-            get { return new PacketReader(Helpers.EmptyBuffer); }
-        }
     }
 }
