@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenStory.Services.Contracts
+﻿namespace OpenStory.Services.Contracts
 {
     /// <summary>
     /// Provides methods for creating client channels to services.

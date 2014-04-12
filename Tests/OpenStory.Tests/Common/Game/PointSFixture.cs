@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using FluentAssertions.Primitives;
 using NUnit.Framework;
 using OpenStory.Tests.Helpers;
 

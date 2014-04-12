@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenStory.Common.IO
+﻿namespace OpenStory.Common.IO
 {
     /// <summary>
     /// Represents a buffer of bytes... what did you expect?

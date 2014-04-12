@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OpenStory.Framework.Contracts;
 using OpenStory.Services.Contracts;
 

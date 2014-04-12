@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenStory.Cryptography
+﻿namespace OpenStory.Cryptography
 {
     /// <summary>
     /// Some kinda magic used to please the HackShield gods.

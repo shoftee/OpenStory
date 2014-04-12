@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenStory.Server.Processing;
+﻿using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
 namespace OpenStory.Server.Auth

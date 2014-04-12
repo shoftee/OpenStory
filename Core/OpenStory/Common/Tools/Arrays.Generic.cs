@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenStory.Common
+﻿namespace OpenStory.Common
 {
     /// <summary>
     /// Generic array helpers!
