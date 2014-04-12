@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Timers;
-using Ninject.Extensions.Logging;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Framework.Contracts;
