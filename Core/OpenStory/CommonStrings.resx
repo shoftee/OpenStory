@@ -236,4 +236,17 @@ Please attach one before starting it.</value>
   <data name="NoWhiteSpaceInParameterNameError" xml:space="preserve">
     <value>'{0}' : Parameter names cannot contain white-space characters.</value>
   </data>
+  <data name="EnumValueMustBeNamedMember" xml:space="preserve">
+    <value>The provided enum value must be a named enum member.</value>
+    <comment>Thrown when a provided enum value is not a named member.</comment>
+  </data>
+  <data name="EnumMember_0_MustBeDecoratedWithPacketValue" xml:space="preserve">
+    <value>The enum member '{0}' must be decorated with 'PacketValueAttribute'.</value>
+  </data>
+  <data name="PacketValueDoesNotMatchAnyMemberOfType_0" xml:space="preserve">
+    <value>The provided packet value did not match any member of type '{0}'.</value>
+  </data>
+  <data name="TypeArgument_0_MustBeEnum" xml:space="preserve">
+    <value>The provided type argument '{0}' must be an Enum type.</value>
+  </data>
 </root>
