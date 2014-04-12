@@ -93,9 +93,9 @@ namespace OpenStory.Common.IO
         {
             this.ThrowIfDisposed();
 
-            if (count < 0)
+            if (count <= 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBeNonNegative);
+                throw new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBePositive);
             }
 
             for (int i = 0; i < count; i++)

@@ -4,6 +4,7 @@ using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using OpenStory.Common.Game;
+using OpenStory.Tests.Helpers;
 
 namespace OpenStory.Common.IO
 {
@@ -126,12 +127,14 @@ namespace OpenStory.Common.IO
                 .ShouldThrow<ObjectDisposedException>();
         }
 
-        [Test]
-        public void WriteZero_Should_Throw_On_Negative_Zero_Count()
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void WriteZero_Should_Throw_On_Non_Positive_Zero_Count(int count)
         {
             DefaultBuilder
-                .Invoking(b => b.WriteZeroes(-1))
-                .ShouldThrow<ArgumentOutOfRangeException>();
+                .Invoking(b => b.WriteZeroes(count))
+                .ShouldThrow<ArgumentOutOfRangeException>()
+                .WithMessagePrefix(CommonStrings.CountMustBePositive);
         }
 
         [TestCase(-1)]
