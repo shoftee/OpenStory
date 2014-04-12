@@ -117,6 +117,10 @@
       <Project>{5BEF25E3-9B8F-4E67-8B95-5DD39520D60E}</Project>
       <Name>OpenStory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenStory.Framework.Model.Common\OpenStory.Framework.Model.Common.csproj">
+      <Project>{5CBA0518-887C-49F2-849D-2A8C3DF0D100}</Project>
+      <Name>OpenStory.Framework.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenStory.Server.Accounts\OpenStory.Server.Accounts.csproj">
       <Project>{52F6F826-316F-40E1-883A-CCA7CCFAFEED}</Project>
       <Name>OpenStory.Server.Accounts</Name>
