@@ -80,11 +80,32 @@ namespace OpenStory.Common.IO
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        public void WriteInt16(int number)
+        {
+            this.WriteInt16((short)number);
+        }
+
+        /// <inheritdoc />
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        public void WriteInt16(uint number)
+        {
+            this.WriteInt16((ushort)number);
+        }
+
+        /// <inheritdoc />
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteByte(byte number)
         {
             this.ThrowIfDisposed();
 
             this.stream.WriteByte(number);
+        }
+
+        /// <inheritdoc />
+        /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
+        public void WriteByte(int number)
+        {
+            this.WriteByte((byte)number);
         }
 
         /// <inheritdoc />

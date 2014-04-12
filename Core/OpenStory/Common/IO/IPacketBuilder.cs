@@ -13,6 +13,9 @@ namespace OpenStory.Common.IO
         /// <param name="number">The value to write.</param>
         void WriteByte(byte number);
 
+        /// <inheritdoc cref="WriteByte(byte)" />
+        void WriteByte(int number);
+
         /// <summary>
         /// Writes a <see cref="Int16"/> to the end of the packet.
         /// </summary>
@@ -24,6 +27,12 @@ namespace OpenStory.Common.IO
         /// </summary>
         /// <param name="number">The value to write.</param>
         void WriteInt16(ushort number);
+
+        /// <inheritdoc cref="WriteInt16(short)" />
+        void WriteInt16(int number);
+
+        /// <inheritdoc cref="WriteInt16(ushort)" />
+        void WriteInt16(uint number);
 
         /// <summary>
         /// Writes a <see cref="Int32"/> to the end of the packet.
