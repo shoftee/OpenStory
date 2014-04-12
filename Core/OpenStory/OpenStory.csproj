@@ -54,6 +54,7 @@
     <Compile Include="Common\IO\ByteBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\IO\IPacketReader.cs" />
     <Compile Include="Common\Tools\ArrayExtensions.cs" />
     <Compile Include="Common\Tools\AtomicBoolean.cs" />
     <Compile Include="Common\Tools\AtomicInteger.cs" />

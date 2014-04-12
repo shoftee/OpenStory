@@ -5,13 +5,8 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Provides methods for unsafe packet reading.
     /// </summary>
-    public interface IUnsafePacketReader
+    public interface IUnsafePacketReader : IPacketReader
     {
-        /// <summary>
-        /// Gets the number of remaining bytes until the end of the buffer segment.
-        /// </summary>
-        int Remaining { get; }
-
         /// <summary>
         /// Advances the stream position by a number of bytes.
         /// </summary>

@@ -501,11 +501,7 @@ namespace OpenStory.Common.IO
 
         #endregion
 
-        /// <summary>
-        /// Returns a byte array of the remaining data in the 
-        /// stream and advances to the end of the stream.
-        /// </summary>
-        /// <returns>an array with the buffer's remaining data.</returns>
+        /// <inheritdoc />
         public byte[] ReadFully()
         {
             int remaining = this.Remaining;

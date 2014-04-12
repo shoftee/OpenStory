@@ -5,13 +5,8 @@ namespace OpenStory.Common.IO
     /// <summary>
     /// Provides methods for safe packet reading.
     /// </summary>
-    public interface ISafePacketReader
+    public interface ISafePacketReader : IPacketReader
     {
-        /// <summary>
-        /// Gets the number of remaining bytes until the end of the buffer segment.
-        /// </summary>
-        int Remaining { get; }
-
         /// <summary>Attempts to advance the stream position by a specified number of bytes.</summary>
         /// <param name="count">The number of bytes to skip.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="count"/> is negative.</exception>
