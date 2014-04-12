@@ -6,6 +6,7 @@ using OpenStory.Common.IO;
 using OpenStory.Framework.Contracts;
 using OpenStory.Networking;
 using OpenStory.Services.Contracts;
+using Ninject.Extensions.Logging;
 
 namespace OpenStory.Server.Processing
 {
