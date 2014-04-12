@@ -105,12 +105,14 @@ namespace OpenStory.Server.Auth
 
             // TODO: more stuff to read, later.
             IAccountSession accountSession;
-            var result = this.authenticator.Authenticate(reader, out accountSession);
+            Account account;
+            var result = this.authenticator.Authenticate(reader, out accountSession, out account);
             if (result == AuthenticationResult.Success)
             {
                 this.IsAuthenticated = true;
                 this.AccountSession = accountSession;
                 this.State = AuthClientState.PostAuthentication;
+                this.Account = account;
             }
             else if (this.LoginAttempts++ > MaxLoginAttempts)
             {

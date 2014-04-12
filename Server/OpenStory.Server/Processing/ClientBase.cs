@@ -3,6 +3,7 @@ using System.Timers;
 using OpenStory.Common;
 using OpenStory.Common.IO;
 using OpenStory.Framework.Contracts;
+using OpenStory.Framework.Model.Common;
 using OpenStory.Networking;
 using OpenStory.Services.Contracts;
 using Ninject.Extensions.Logging;
@@ -53,6 +54,14 @@ namespace OpenStory.Server.Processing
             get { return this.accountSession; }
             set { this.accountSession = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the account for the current session.
+        /// </summary>
+        /// <remarks>
+        /// This object is null if the client has not logged in.
+        /// </remarks>
+        protected Account Account { get; set; }
 
         /// <summary>
         /// Gets the packet factory that the client uses to create new packets.

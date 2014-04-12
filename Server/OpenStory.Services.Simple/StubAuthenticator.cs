@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenStory.Common.Game;
 using OpenStory.Common.IO;
+using OpenStory.Framework.Model.Common;
 using OpenStory.Server.Auth;
 using OpenStory.Services.Contracts;
 
@@ -8,9 +9,10 @@ namespace OpenStory.Services.Simple
 {
     internal sealed class StubAuthenticator : IAuthenticator
     {
-        public AuthenticationResult Authenticate(IUnsafePacketReader credentialsReader, out IAccountSession session)
+        public AuthenticationResult Authenticate(IUnsafePacketReader credentialsReader, out IAccountSession session, out Account account)
         {
             session = null;
+            account = null;
 
             var username = credentialsReader.ReadLengthString();
             if (username != "admin")
@@ -25,6 +27,15 @@ namespace OpenStory.Services.Simple
             }
 
             session = new StubAccountSession();
+            account = new Account()
+                      {
+                          AccountId = 1,
+                          UserName = "admin",
+                          Password = "admin",
+                          Gender = Gender.Male,
+                          GameMasterLevel = GameMasterLevel.GameMaster,
+                          Status = AccountStatus.Active
+                      };
             return AuthenticationResult.Success;
         }
 
