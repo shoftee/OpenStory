@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using OpenStory.Common;
+using OpenStory.Framework.Contracts;
 using OpenStory.Server;
 using OpenStory.Server.Accounts;
 using OpenStory.Server.Auth;
@@ -41,6 +42,7 @@ namespace OpenStory.Services.Simple
             var kernel = new ChildKernel(parent, new ServerModule(), new AuthServerModule());
             kernel.Rebind<IPacketCodeTable>().To<AuthPacketCodeTableV75>().InSingletonScope();
             kernel.Rebind<IAuthenticator>().To<StubAuthenticator>().InSingletonScope();
+            kernel.Rebind<IAccountProvider>().To<StubAccountProvider>().InSingletonScope();
             return kernel;
         }
 

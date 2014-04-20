@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenStory.Common.IO;
+﻿using OpenStory.Common.IO;
 
 namespace OpenStory.Server.Auth
 {

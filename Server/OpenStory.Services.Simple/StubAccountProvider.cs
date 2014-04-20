@@ -1,7 +1,7 @@
 ﻿using OpenStory.Framework.Contracts;
 using OpenStory.Framework.Model.Common;
 
-namespace OpenStory.Server.Auth
+namespace OpenStory.Services.Simple
 {
     class StubAccountProvider : IAccountProvider
     {

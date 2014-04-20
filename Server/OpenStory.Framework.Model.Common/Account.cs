@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Runtime.Serialization;
 using OpenStory.Common.Game;
 
@@ -59,7 +58,7 @@ namespace OpenStory.Framework.Model.Common
         /// </summary>
         public DateTimeOffset QuietBanTime
         {
-            get { return DateTimeOffset.MinValue; }
+            get { return DateTimeOffset.FromFileTime(0); }
         }
 
         /// <summary>

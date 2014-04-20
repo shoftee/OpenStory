@@ -78,13 +78,11 @@
     <Compile Include="AuthOperator.cs" />
     <Compile Include="AuthServer.cs" />
     <Compile Include="AuthServerModule.cs" />
-    <Compile Include="StubAuthPacketCodeTable.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="IAuthenticator.cs" />
     <Compile Include="Packets.cs" />
     <Compile Include="SimpleAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StubAccountProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\OpenStory\OpenStory.csproj">

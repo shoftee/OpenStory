@@ -129,7 +129,7 @@ namespace OpenStory.Server.Auth
             }
 
             this.ServerSession.WritePacket(this.AuthResponse(result, account));
-            this.ServerSession.WritePacket(this.InvalidPinResponse());
+            this.ServerSession.WritePacket(this.CheckPinResponse());
         }
 
         private void HandleWorldListRequest(IUnsafePacketReader reader)
@@ -161,7 +161,7 @@ namespace OpenStory.Server.Auth
         {
             // TODO: Configuring the server to not require PINs.
 
-            var action = reader.ReadEnumByte<PinRequestType>();
+            var action = reader.ReadByte<PinRequestType>();
 
             reader.Skip(5);
 

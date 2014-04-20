@@ -1,7 +1,5 @@
 ﻿using Ninject.Extensions.Factory;
 using Ninject.Modules;
-using OpenStory.Common;
-using OpenStory.Framework.Contracts;
 using OpenStory.Server.Processing;
 using OpenStory.Services.Contracts;
 
@@ -15,10 +13,6 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         public override void Load()
         {
-            // No dependencies
-            Bind<IPacketCodeTable>().To<StubAuthPacketCodeTable>().InSingletonScope();
-            Bind<IAccountProvider>().To<StubAccountProvider>().InSingletonScope();
-
             // AccountSession 
             // ^ IAccountService
             Bind<IAccountSession>().To<AccountSession>();

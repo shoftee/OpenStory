@@ -10,7 +10,7 @@ namespace OpenStory.Server.Auth
         {
             using (var builder = this.PacketFactory.CreatePacket("Authentication"))
             {
-                builder.WriteEnumInt32(result);
+                builder.WriteInt32(result);
 
                 builder.WriteInt16(0x0000);
 
@@ -20,15 +20,15 @@ namespace OpenStory.Server.Auth
 
                     if (this.State == AuthClientState.SetGender)
                     {
-                        builder.WriteEnumByte(AuthOperationType.GenderSelect);
+                        builder.WriteByte(AuthOperationType.GenderSelect);
                     }
                     else if (this.State == AuthClientState.SetPin)
                     {
-                        builder.WriteEnumByte(AuthOperationType.PinSelect);
+                        builder.WriteByte(AuthOperationType.PinSelect);
                     }
                     else
                     {
-                        builder.WriteEnumByte(account.Gender);
+                        builder.WriteByte(account.Gender);
                     }
 
                     // Enables commands like /c, /ch, /m, /h (etc.), but disables trading
@@ -46,8 +46,10 @@ namespace OpenStory.Server.Auth
                     builder.WriteByte(2);
 
                     // TODO: quiet ban support?
-                    builder.WriteByte(account.QuietBanReason);
-                    builder.WriteTimestamp(account.QuietBanTime);
+                    //builder.WriteByte(account.QuietBanReason);
+                    builder.WriteByte(0);
+                    //builder.WriteTimestamp(account.QuietBanTime);
+                    builder.WriteInt64(0);
 
                     // TODO: Creation time
                     builder.WriteTimestamp(account.CreationTime);
@@ -74,11 +76,16 @@ namespace OpenStory.Server.Auth
             return this.PinResponse(PinResponseType.PinAccepted);
         }
 
+        private byte[] CheckPinResponse()
+        {
+            return this.PinResponse(PinResponseType.CheckPin);
+        }
+
         private byte[] PinResponse(PinResponseType result)
         {
             using (var builder = PacketFactory.CreatePacket("PinResponse"))
             {
-                builder.WriteEnumByte(result);
+                builder.WriteByte(result);
 
                 return builder.ToByteArray();
             }

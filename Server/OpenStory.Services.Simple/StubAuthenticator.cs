@@ -34,7 +34,8 @@ namespace OpenStory.Services.Simple
                           Password = "admin",
                           Gender = Gender.Male,
                           GameMasterLevel = GameMasterLevel.GameMaster,
-                          Status = AccountStatus.Active
+                          Status = AccountStatus.Active,
+                          AccountPin = "0000",
                       };
             return AuthenticationResult.Success;
         }

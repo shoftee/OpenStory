@@ -105,7 +105,7 @@ namespace OpenStory.Common.IO
         /// <param name="reader">The reader to use.</param>
         /// <inheritdoc cref="PacketReader.ReadByte()" select="exception[@cref='PacketReadingException']" />
         /// <returns>the corresponding <typeparamref name="TEnum" /> value.</returns>
-        public static TEnum ReadEnumByte<TEnum>(this IUnsafePacketReader reader)
+        public static TEnum ReadByte<TEnum>(this IUnsafePacketReader reader)
             where TEnum : struct
         {
             Guard.NotNull(() => reader, reader);
@@ -121,7 +121,7 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentException']" />
         /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentOutOfRangeException']" />
         /// <inheritdoc cref="PacketBuilder.WriteByte(int)" select="exception[@cref='ObjectDisposedException']" />
-        public static void WriteEnumByte(this IPacketBuilder builder, Enum enumValue)
+        public static void WriteByte(this IPacketBuilder builder, Enum enumValue)
         {
             Guard.NotNull(() => builder, builder);
             
@@ -136,7 +136,7 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentException']" />
         /// <inheritdoc cref="PacketValueExtensions.ToPacketValue(Enum)" select="exception[@cref='ArgumentOutOfRangeException']" />
         /// <inheritdoc cref="PacketBuilder.WriteInt32(int)" select="exception[@cref='ObjectDisposedException']" />
-        public static void WriteEnumInt32(this IPacketBuilder builder, Enum enumValue)
+        public static void WriteInt32(this IPacketBuilder builder, Enum enumValue)
         {
             Guard.NotNull(() => builder, builder);
             
