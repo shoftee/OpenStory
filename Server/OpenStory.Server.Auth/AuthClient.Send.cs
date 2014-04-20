@@ -63,32 +63,22 @@ namespace OpenStory.Server.Auth
 
         private byte[] SetPinResponse()
         {
-            return this.PinResponse(PinResponseType.SetPin);
+            return this.PacketFactory.PinResponse(PinResponseType.SetPin);
         }
 
         private byte[] InvalidPinResponse()
         {
-            return this.PinResponse(PinResponseType.InvalidPin);
+            return this.PacketFactory.PinResponse(PinResponseType.InvalidPin);
         }
 
         private byte[] PinAcceptedResponse()
         {
-            return this.PinResponse(PinResponseType.PinAccepted);
+            return this.PacketFactory.PinResponse(PinResponseType.PinAccepted);
         }
 
         private byte[] CheckPinResponse()
         {
-            return this.PinResponse(PinResponseType.CheckPin);
-        }
-
-        private byte[] PinResponse(PinResponseType result)
-        {
-            using (var builder = PacketFactory.CreatePacket("PinResponse"))
-            {
-                builder.WriteByte(result);
-
-                return builder.ToByteArray();
-            }
+            return this.PacketFactory.PinResponse(PinResponseType.CheckPin);
         }
 
         private byte[] WorldListResponse()

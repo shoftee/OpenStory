@@ -80,6 +80,7 @@
     <Compile Include="AuthServerModule.cs" />
     <Compile Include="AccountSession.cs" />
     <Compile Include="IAuthenticator.cs" />
+    <Compile Include="PacketHelpers.cs" />
     <Compile Include="Packets.cs" />
     <Compile Include="SimpleAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
