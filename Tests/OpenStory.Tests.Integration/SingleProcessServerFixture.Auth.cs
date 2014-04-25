@@ -9,14 +9,9 @@ namespace OpenStory.Tests.Integration
 {
     public sealed partial class SingleProcessServerFixture
     {
-        private static readonly Type[] AuthResolutions =
-        {
-            typeof(IServerOperator),
-            typeof(IServerProcess),
-        };
-
-        [Test]
-        public void Auth_Should_Resolve([ValueSource("AuthResolutions")] Type type)
+        [TestCase(typeof(IServerOperator))]
+        [TestCase(typeof(IServerProcess))]
+        public void Auth_Should_Resolve(Type type)
         {
             this.auth.TryGet(type).Should().NotBeNull();
         }

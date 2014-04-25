@@ -15,6 +15,5 @@ namespace OpenStory.Server.Auth
                 return builder.ToByteArray();
             }
         }
-
     }
 }
