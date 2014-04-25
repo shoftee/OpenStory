@@ -1,4 +1,5 @@
 ﻿using System;
+using NodaTime.Testing;
 using OpenStory.Server.Accounts;
 using OpenStory.Services.Contracts;
 using FluentAssertions;
@@ -12,16 +13,6 @@ namespace OpenStory.Server.Account.Tests
     public class AccountServerFixture
     {
         #region TestClock
-
-        class TestClock : IClock
-        {
-            public Instant Now { get; set; }
-
-            public TestClock()
-            {
-                this.Now = SystemClock.Instance.Now;
-            }
-        }
 
         private static IAccountService CreateAccountService()
         {
@@ -212,7 +203,7 @@ namespace OpenStory.Server.Account.Tests
         public void TryRegisterSession_Should_Initialize_Session_KeepAlive_Correctly()
         {
             const int AccountId = 1;
-            var clock = new TestClock();
+            var clock = new FakeClock(SystemClock.Instance.Now);
             var service = CreateAccountService(clock);
 
             int sessionId;
@@ -228,7 +219,7 @@ namespace OpenStory.Server.Account.Tests
         public void TryKeepAlive_Should_Return_Correct_Lag_Value()
         {
             const int AccountId = 1;
-            var clock = new TestClock();
+            var clock = new FakeClock(SystemClock.Instance.Now);
             var service = CreateAccountService(clock);
 
             int sessionId;
@@ -236,7 +227,7 @@ namespace OpenStory.Server.Account.Tests
 
             TimeSpan lag;
             service.TryKeepAlive(AccountId, out lag);
-            clock.Now = clock.Now.Plus(Duration.FromSeconds(15));
+            clock.AdvanceSeconds(15);
             service.TryKeepAlive(AccountId, out lag);
 
             lag.Duration().Should().Be(TimeSpan.FromSeconds(15));
