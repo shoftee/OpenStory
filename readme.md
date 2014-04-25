@@ -13,4 +13,4 @@ Credits are written out in individual readme files like this one, and also in th
 
 # License
 
-This thing is supposedly licensed under GPLv3. Although nobody's gonna honor that anyways, so the hell with it?
+This thing is supposedly licensed under the Apache 2 license. Although nobody's gonna honor that anyways, so the hell with it?
