@@ -158,7 +158,10 @@ namespace OpenStory.Common
         [Test]
         public void Explicit_Cast_From_Int32_Should_Throw_On_Null()
         {
-            Action action = () => ((int)(AtomicInteger)null).Whatever();
+            var nullAtomicInteger = (AtomicInteger)null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull because that's the point.
+            Action action = () => ((int)nullAtomicInteger).Whatever();
 
             action.ShouldThrow<InvalidCastException>();
         }

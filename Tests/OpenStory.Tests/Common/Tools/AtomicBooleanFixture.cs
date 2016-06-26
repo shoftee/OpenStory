@@ -146,7 +146,10 @@ namespace OpenStory.Common
         [Test]
         public void Explicit_Cast_Should_Throw_On_Casting_Null()
         {
-            Action action = () => ((bool)(AtomicBoolean)null).Whatever();
+            var nullAtomicBoolean = (AtomicBoolean)null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull because that's the point.
+            Action action = () => ((bool)nullAtomicBoolean).Whatever();
 
             action.ShouldThrow<InvalidCastException>();
         }
