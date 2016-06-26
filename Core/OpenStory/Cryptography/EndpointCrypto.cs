@@ -100,7 +100,7 @@ namespace OpenStory.Cryptography
         /// Constructs a packet header and encodes the given length in it.
         /// </summary>
         /// <remarks>
-        /// When overriding this method in a derived class, 
+        /// When overriding this method in a derived class,
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="length">The length of the packet.</param>
@@ -114,7 +114,7 @@ namespace OpenStory.Cryptography
         /// Attempts to extract the length of a packet from its header.
         /// </summary>
         /// <remarks>
-        /// When overriding this method in a derived class, 
+        /// When overriding this method in a derived class,
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="header">The header byte array to process.</param>
@@ -138,7 +138,7 @@ namespace OpenStory.Cryptography
         /// Creates a new instance of the <see cref="EndpointCrypto"/> class used for client-side cryptography.
         /// </summary>
         /// <remarks>
-        /// Encryption uses the local IV, decryption uses the remote IV. 
+        /// Encryption uses the local IV, decryption uses the remote IV.
         /// Server's local IV has flipped version, Client's local IV has regular version.
         /// </remarks>
         /// <param name="factory">The <see cref="RollingIvFactory"/> instance to use.</param>

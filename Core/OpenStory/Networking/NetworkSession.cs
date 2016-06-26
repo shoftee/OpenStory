@@ -19,7 +19,7 @@ namespace OpenStory.Networking
         /// </summary>
         /// <remarks>
         /// This event doesn't support more than one subscriber.
-        /// Attempts to subscribe more than one method to this event 
+        /// Attempts to subscribe more than one method to this event
         /// will throw an <see cref="InvalidOperationException"/>.
         /// </remarks>
         public event EventHandler<DataArrivedEventArgs> DataArrived
@@ -138,7 +138,7 @@ namespace OpenStory.Networking
         /// Starts the receive process.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the <see cref="NetworkSession"/> instance does not have a socket attached to it or 
+        /// Thrown if the <see cref="NetworkSession"/> instance does not have a socket attached to it or
         /// if the instance is already active.
         /// </exception>
         public void Start()
@@ -159,11 +159,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Close(string reason)
         {
-            var handler = this.Closing;
-            if (handler != null)
-            {
-                handler(this, new ConnectionClosingEventArgs(reason));
-            }
+            this.Closing?.Invoke(this, new ConnectionClosingEventArgs(reason));
 
             this.Closing = null;
             if (!this.isActive.FlipIf(true))
@@ -229,7 +225,7 @@ namespace OpenStory.Networking
         public override string ToString()
         {
             var endpoint = this.RemoteEndpoint;
-            var endpointString = endpoint == null ? @"None" : endpoint.ToString();
+            var endpointString = endpoint?.ToString() ?? @"None";
             return String.Format(@"Endpoint: {0}", endpointString);
         }
     }

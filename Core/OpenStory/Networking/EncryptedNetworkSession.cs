@@ -101,20 +101,12 @@ namespace OpenStory.Networking
 
         private void OnSocketError(object sender, SocketErrorEventArgs e)
         {
-            var handler = this.SocketError;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.SocketError?.Invoke(this, e);
         }
 
         private void OnClosing(object sender, ConnectionClosingEventArgs e)
         {
-            var handler = this.Closing;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.Closing?.Invoke(this, e);
         }
 
         /// <summary>

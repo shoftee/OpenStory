@@ -113,7 +113,7 @@ namespace OpenStory.Server.Networking
         }
 
         /// <summary>
-        /// Handles a synchronous socket accept operation. 
+        /// Handles a synchronous socket accept operation.
         /// </summary>
         /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>
         /// <returns><see langword="true"/> if the socket was handled successfully; otherwise, <see langword="false"/>.</returns>
@@ -152,11 +152,7 @@ namespace OpenStory.Server.Networking
 
         private void OnSocketError(SocketError error)
         {
-            var handler = this.SocketError;
-            if (handler != null)
-            {
-                handler(this, new SocketErrorEventArgs(error));
-            }
+            this.SocketError?.Invoke(this, new SocketErrorEventArgs(error));
 
             // OperationAborted comes up when we closed the socket manually.
             if (error != System.Net.Sockets.SocketError.OperationAborted)
@@ -167,15 +163,8 @@ namespace OpenStory.Server.Networking
 
         private void DisposeSocketIfNotNull()
         {
-            if (this.acceptSocket != null)
-            {
-                this.acceptSocket.Dispose();
-            }
-
-            if (this.socketArgs != null)
-            {
-                this.socketArgs.Dispose();
-            }
+            this.acceptSocket?.Dispose();
+            this.socketArgs?.Dispose();
         }
     }
 }

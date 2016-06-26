@@ -116,11 +116,7 @@ namespace OpenStory.Server.Processing
         {
             this.OnClosing();
 
-            var handler = this.Closing;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.Closing?.Invoke(this, e);
         }
 
         private void OnClosing()
