@@ -9,15 +9,10 @@ namespace OpenStory.Tests.Integration
 {
     public sealed partial class SingleProcessServerFixture
     {
-        private static readonly Type[] NexusResolutions =
-        {
-            typeof(IServerOperator),
-            typeof(IServiceContainer<INexusToWorldRequestHandler>),
-            typeof(IAuthToNexusRequestHandler),
-        };
-
-        [Test]
-        public void Nexus_Should_Resolve([ValueSource("NexusResolutions")] Type type)
+        [TestCase(typeof(IServerOperator))]
+        [TestCase(typeof(IServiceContainer<INexusToWorldRequestHandler>))]
+        [TestCase(typeof(IAuthToNexusRequestHandler))]
+        public void Nexus_Should_Resolve(Type type)
         {
             this.auth.TryGet(type).Should().NotBeNull();
         }

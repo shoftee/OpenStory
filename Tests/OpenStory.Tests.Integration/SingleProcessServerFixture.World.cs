@@ -9,14 +9,9 @@ namespace OpenStory.Tests.Integration
 {
     public sealed partial class SingleProcessServerFixture
     {
-        private static readonly Type[] WorldResolutions =
-        {
-            typeof(IServiceContainer<INexusToWorldRequestHandler>),
-            typeof(IWorldInfoProvider),
-        };
-
-        [Test]
-        public void World_Should_Resolve([ValueSource("WorldResolutions")] Type type)
+        [TestCase(typeof(IServiceContainer<INexusToWorldRequestHandler>))]
+        [TestCase(typeof(IWorldInfoProvider))]
+        public void World_Should_Resolve(Type type)
         {
             this.world.TryGet(type).Should().NotBeNull();
         }
