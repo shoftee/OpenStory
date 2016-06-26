@@ -77,6 +77,7 @@ namespace OpenStory.Common.Game
         /// </summary>
         /// <param name="a">A point.</param>
         /// <returns>a <see cref="PointS"/> with negated components.</returns>
+        /// <exception cref="ArgumentException">Thrown if any of the components of <paramref name="a"/> are equal to <see cref="short.MinValue"/>.</exception>
         public static PointS Negate(PointS a)
         {
             if (a.X == short.MinValue || a.Y == short.MinValue)
