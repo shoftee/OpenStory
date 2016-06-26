@@ -12,7 +12,7 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the prototype of the items in this cluster.
         /// </summary>
-        public TItemInfo Prototype { get; private set; }
+        public TItemInfo Prototype { get; }
 
         /// <summary>
         /// Gets the number of items in this cluster.
@@ -73,12 +73,12 @@ namespace OpenStory.Framework.Model.Common
         {
             Guard.NotNull(() => other, other);
 
-            // Note: This is actually not quite necessary, 
-            // since Prototypes are immutable and only supplied from the cache, 
+            // Note: This is actually not quite necessary,
+            // since Prototypes are immutable and only supplied from the cache,
             // we could go with just identity check.
             if (!this.Prototype.Equals(other.Prototype))
             {
-                throw new ArgumentException(ModelStrings.DifferentItemClusterPrototype, "other");
+                throw new ArgumentException(ModelStrings.DifferentItemClusterPrototype, nameof(other));
             }
 
             int freeSpace = this.ClusterCapacity - this.Quantity;

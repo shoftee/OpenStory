@@ -8,12 +8,12 @@
         /// <summary>
         /// Gets the type of the action type identifier for the <see cref="KeyBinding"/>.
         /// </summary>
-        public byte ActionTypeId { get; private set; }
+        public byte ActionTypeId { get; }
 
         /// <summary>
         /// Gets the action identifier for the <see cref="KeyBinding"/>.
         /// </summary>
-        public int ActionId { get; private set; }
+        public int ActionId { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyBinding"/> class.

@@ -23,7 +23,7 @@ namespace OpenStory.Common
 
             if ((hex.Length & 1) != 0)
             {
-                throw new ArgumentException(CommonStrings.StringLengthMustBeEven, "hex");
+                throw new ArgumentException(CommonStrings.StringLengthMustBeEven, nameof(hex));
             }
 
             const string HexDigits = @"0123456789ABCDEF";
@@ -37,7 +37,7 @@ namespace OpenStory.Common
                 int digit = HexDigits.IndexOf(uppercase[index]);
                 if (digit == -1)
                 {
-                    throw new ArgumentException(CommonStrings.StringMustContainOnlyHexDigits, "hex");
+                    throw new ArgumentException(CommonStrings.StringMustContainOnlyHexDigits, nameof(hex));
                 }
 
                 var b = (byte)(digit << 4);
@@ -45,7 +45,7 @@ namespace OpenStory.Common
                 digit = HexDigits.IndexOf(uppercase[index | 1]);
                 if (digit == -1)
                 {
-                    throw new ArgumentException(CommonStrings.StringMustContainOnlyHexDigits, "hex");
+                    throw new ArgumentException(CommonStrings.StringMustContainOnlyHexDigits, nameof(hex));
                 }
 
                 b |= (byte)digit;

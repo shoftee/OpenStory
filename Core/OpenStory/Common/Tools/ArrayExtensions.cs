@@ -27,7 +27,7 @@ namespace OpenStory.Common
         }
 
         /// <summary>
-        /// Extracts a segment from a given array.
+        /// Clones a segment from a given array.
         /// </summary>
         /// <param name="array">The source array.</param>
         /// <param name="offset">The start of the segment.</param>
@@ -47,12 +47,12 @@ namespace OpenStory.Common
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, CommonStrings.LengthMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), length, CommonStrings.LengthMustBeNonNegative);
             }
 
             if (array.Length <= offset || array.Length < offset + length)

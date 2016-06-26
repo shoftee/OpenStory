@@ -26,7 +26,7 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets the underlying service.
         /// </summary>
-        public TRegisteredService Service { get; private set; }
+        public TRegisteredService Service { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisteredServiceBase{TRegisteredService}"/> class.
@@ -48,7 +48,7 @@ namespace OpenStory.Services.Wcf
         public void Initialize(OsServiceConfiguration serviceConfiguration)
         {
             SubscribeForStates(
-                this.initializeSubscribers, 
+                this.initializeSubscribers,
                 this.serviceState,
                 ServiceState.NotInitialized,
                 ServiceState.Initializing);
@@ -71,7 +71,7 @@ namespace OpenStory.Services.Wcf
         public void Start()
         {
             SubscribeForStates(
-                this.startSubscribers, 
+                this.startSubscribers,
                 this.serviceState,
                 ServiceState.Ready,
                 ServiceState.NotInitialized,
@@ -96,7 +96,7 @@ namespace OpenStory.Services.Wcf
         public void Stop()
         {
             SubscribeForStates(
-                this.stopSubscribers, 
+                this.stopSubscribers,
                 this.serviceState,
                 ServiceState.Running,
                 ServiceState.Stopping);

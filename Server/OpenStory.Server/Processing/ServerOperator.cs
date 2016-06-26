@@ -16,7 +16,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets the list of registered clients.
         /// </summary>
-        protected List<TClient> Clients { get; private set; }
+        protected List<TClient> Clients { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ServerOperator{TClient}"/>.
@@ -29,7 +29,7 @@ namespace OpenStory.Server.Processing
 
         /// <inheritdoc />
         public abstract void Configure(OsServiceConfiguration configuration);
-        
+
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
         {
@@ -40,9 +40,9 @@ namespace OpenStory.Server.Processing
         private TClient InitializeClient(IServerSession session)
         {
             var client = this.gameClientFactory.CreateClient(session);
-            
+
             client.Closing += (s, e) => this.Clients.Remove(client);
-            
+
             return client;
         }
     }

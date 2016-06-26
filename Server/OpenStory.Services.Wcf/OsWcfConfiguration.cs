@@ -18,17 +18,17 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets the channel type of the service.
         /// </summary>
-        public Type ServiceType { get; private set; }
+        public Type ServiceType { get; }
 
         /// <summary>
         /// Gets the list of base addresses for the service.
         /// </summary>
-        public Uri BaseUri { get; private set; }
+        public Uri BaseUri { get; }
 
         /// <summary>
         /// Gets the configuration callback for the service.
         /// </summary>
-        public Action<ServiceHost> ApplyTo { get; private set; }
+        public Action<ServiceHost> ApplyTo { get; }
 
         private OsWcfConfiguration(Type serviceType, Uri baseUri, Action<ServiceHost> applyTo)
         {

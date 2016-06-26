@@ -43,7 +43,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets the client's session object.
         /// </summary>
-        protected IServerSession ServerSession { get; private set; }
+        protected IServerSession ServerSession { get; }
 
         /// <summary>
         /// Gets or sets the account session object.
@@ -68,12 +68,12 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets the packet factory that the client uses to create new packets.
         /// </summary>
-        protected IPacketFactory PacketFactory { get; private set; }
+        protected IPacketFactory PacketFactory { get; }
 
         /// <summary>
         /// Gets the logger that the client uses to log events.
         /// </summary>
-        protected ILogger Logger { get; private set; }
+        protected ILogger Logger { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientBase" /> class.

@@ -45,7 +45,7 @@ namespace OpenStory.Framework.Model.Common
             if (slotCapacity < 0)
             {
                 throw new ArgumentOutOfRangeException(
-                    "slotCapacity", slotCapacity, CommonStrings.CapacityMustBeNonNegative);
+                    nameof(slotCapacity), slotCapacity, CommonStrings.CapacityMustBeNonNegative);
             }
 
             this.SlotCapacity = slotCapacity;
@@ -64,13 +64,13 @@ namespace OpenStory.Framework.Model.Common
             if (count < 0)
             {
                 throw new ArgumentOutOfRangeException(
-                    "count", count, CommonStrings.CountMustBeNonNegative);
+                    nameof(count), count, CommonStrings.CountMustBeNonNegative);
             }
 
             int newCapacity = this.SlotCapacity + count;
             if (newCapacity > this.MaxCapacity)
             {
-                throw new ArgumentException(ModelStrings.CannotExpandBeyondMaxCapacity, "count");
+                throw new ArgumentException(ModelStrings.CannotExpandBeyondMaxCapacity, nameof(count));
             }
 
             this.SlotCapacity = newCapacity;

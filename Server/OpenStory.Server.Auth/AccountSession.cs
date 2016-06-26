@@ -12,13 +12,13 @@ namespace OpenStory.Server.Auth
         private readonly IAccountService service;
 
         /// <inheritdoc />
-        public int SessionId { get; private set; }
+        public int SessionId { get; }
 
         /// <inheritdoc />
-        public int AccountId { get; private set; }
+        public int AccountId { get; }
 
         /// <inheritdoc />
-        public string AccountName { get; private set; }
+        public string AccountName { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountSession"/> class.

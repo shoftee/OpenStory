@@ -32,7 +32,7 @@ namespace OpenStory.Cryptography
 
             if (initialIv.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "initialIv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(initialIv));
             }
 
             this.algorithm = algorithm;
@@ -68,7 +68,7 @@ namespace OpenStory.Cryptography
         {
             if (length < 2)
             {
-                throw new ArgumentOutOfRangeException("length", length, CommonStrings.PacketLengthMustBeMoreThan2Bytes);
+                throw new ArgumentOutOfRangeException(nameof(length), length, CommonStrings.PacketLengthMustBeMoreThan2Bytes);
             }
 
             int encodedVersion = ((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask;
@@ -104,7 +104,7 @@ namespace OpenStory.Cryptography
             if (header.Length < 4)
             {
                 var message = string.Format(CommonStrings.SegmentTooShort, 4);
-                throw new ArgumentException(message, "header");
+                throw new ArgumentException(message, nameof(header));
             }
 
             return ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
@@ -122,7 +122,7 @@ namespace OpenStory.Cryptography
             if (header.Length < 4)
             {
                 var message = string.Format(CommonStrings.SegmentTooShort, 4);
-                throw new ArgumentException(message, "header");
+                throw new ArgumentException(message, nameof(header));
             }
 
             return ValidateHeaderInternal(header, this.iv, this.versionMask);
@@ -132,7 +132,7 @@ namespace OpenStory.Cryptography
         /// Attempts to extract the length of a packet from its header.
         /// </summary>
         /// <remarks>
-        /// When overriding this method in a derived class, 
+        /// When overriding this method in a derived class,
         /// do not call the base implementation.
         /// </remarks>
         /// <param name="header">The header byte array to process.</param>
@@ -151,7 +151,7 @@ namespace OpenStory.Cryptography
             if (header.Length < 4)
             {
                 var message = string.Format(CommonStrings.SegmentTooShort, 4);
-                throw new ArgumentException(message, "header");
+                throw new ArgumentException(message, nameof(header));
             }
 
             if (ValidateHeaderInternal(header, this.iv, this.versionMask))
@@ -178,7 +178,7 @@ namespace OpenStory.Cryptography
         /// <param name="header">The header byte array.</param>
         /// <param name="iv">The IV to use for the decoding.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="header"/> 
+        /// Thrown if <paramref name="header"/>
         /// or <paramref name="iv"/> are <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
@@ -194,12 +194,12 @@ namespace OpenStory.Cryptography
             if (header.Length < 4)
             {
                 var message = string.Format(CommonStrings.SegmentTooShort, 4);
-                throw new ArgumentException(message, "header");
+                throw new ArgumentException(message, nameof(header));
             }
 
             if (iv.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "iv");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(iv));
             }
 
             return GetVersionInternal(header, iv);

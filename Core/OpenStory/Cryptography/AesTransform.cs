@@ -44,7 +44,7 @@ namespace OpenStory.Cryptography
 
             if (key.Length != 32)
             {
-                throw new ArgumentException(CommonStrings.AesKeyMustBe32Bytes, "key");
+                throw new ArgumentException(CommonStrings.AesKeyMustBe32Bytes, nameof(key));
             }
 
             this.aes = GetTransformer(key);
@@ -78,9 +78,9 @@ namespace OpenStory.Cryptography
         /// Performs the AES transformation on a single block of the data.
         /// </summary>
         /// <remarks><para>
-        /// The parameter <paramref name="xorBlock"/> is used only for performance 
-        /// considerations, to avoid instantiating a new array every time a transformation has 
-        /// to be done. It should not be shorter than 16 elements, and it's unnecessary for 
+        /// The parameter <paramref name="xorBlock"/> is used only for performance
+        /// considerations, to avoid instantiating a new array every time a transformation has
+        /// to be done. It should not be shorter than 16 elements, and it's unnecessary for
         /// it to be longer. Its contents will be overwritten.
         /// </para></remarks>
         /// <param name="data">The array containing the block.</param>

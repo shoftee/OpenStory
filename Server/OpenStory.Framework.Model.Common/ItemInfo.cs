@@ -13,7 +13,7 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the identifier for this prototype.
         /// </summary>
-        public int ItemId { get; private set; }
+        public int ItemId { get; }
 
         /// <summary>
         /// Gets how many items of this prototype you can put in one cluster.
@@ -31,7 +31,7 @@ namespace OpenStory.Framework.Model.Common
         {
             if (itemId <= 0)
             {
-                throw new ArgumentOutOfRangeException("itemId", itemId, ModelStrings.ItemIdMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(itemId), itemId, ModelStrings.ItemIdMustBePositive);
             }
 
             this.ItemId = itemId;

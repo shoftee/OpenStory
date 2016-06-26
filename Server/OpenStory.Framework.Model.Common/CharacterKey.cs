@@ -11,15 +11,15 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the unique numeric identifier.
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets the unique string identifier.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
-        /// Initializes a new instance ofthe  <see cref="CharacterKey"/> class.
+        /// Initializes a new instance of the <see cref="CharacterKey"/> type.
         /// </summary>
         /// <param name="id">The numeric identifier.</param>
         /// <param name="name">The string identifier.</param>

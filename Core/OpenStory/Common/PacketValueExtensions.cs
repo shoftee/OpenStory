@@ -24,7 +24,7 @@ namespace OpenStory.Common
             var type = enumValue.GetType();
             if (!Enum.IsDefined(type, enumValue))
             {
-                throw new ArgumentOutOfRangeException("enumValue", enumValue, R.EnumValueMustBeNamedMember);
+                throw new ArgumentOutOfRangeException(nameof(enumValue), enumValue, R.EnumValueMustBeNamedMember);
             }
 
             var cache = EnsureCache(type).EnumToNumeric;
@@ -37,7 +37,7 @@ namespace OpenStory.Common
             else
             {
                 var message = string.Format(R.EnumMember_0_MustBeDecoratedWithPacketValue, enumValue);
-                throw new ArgumentException(message, "enumValue");
+                throw new ArgumentException(message, nameof(enumValue));
             }
         }
 
@@ -68,7 +68,7 @@ namespace OpenStory.Common
             else
             {
                 var message = string.Format(R.PacketValueDoesNotMatchAnyMemberOfType_0, type.FullName);
-                throw new ArgumentOutOfRangeException("packetValue", packetValue, message);
+                throw new ArgumentOutOfRangeException(nameof(packetValue), packetValue, message);
             }
         }
 
@@ -83,7 +83,7 @@ namespace OpenStory.Common
 
         private static PacketValueCache EnsureCache(Type type)
         {
-            var cache = PacketValueCaches.GetOrAdd(type, t => new PacketValueCache(t));            
+            var cache = PacketValueCaches.GetOrAdd(type, t => new PacketValueCache(t));
             return cache;
         }
 
@@ -91,9 +91,9 @@ namespace OpenStory.Common
         {
             private const BindingFlags PublicStaticFields = BindingFlags.Public | BindingFlags.Static;
 
-            public Dictionary<object, int> EnumToNumeric { get; private set; }
+            public Dictionary<object, int> EnumToNumeric { get; }
 
-            public Dictionary<int, object> NumericToEnum { get; private set; }
+            public Dictionary<int, object> NumericToEnum { get; }
 
             public PacketValueCache(Type enumType)
             {

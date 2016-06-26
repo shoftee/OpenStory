@@ -116,7 +116,7 @@ namespace OpenStory.Common.IO
 
             if (count <= 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(count), count, CommonStrings.CountMustBePositive);
             }
 
             for (int i = 0; i < count; i++)
@@ -170,7 +170,7 @@ namespace OpenStory.Common.IO
 
             if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, CommonStrings.PaddingLengthMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(paddingLength), paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
             if (@string.Length > paddingLength - 1)

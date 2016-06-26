@@ -12,12 +12,12 @@ namespace OpenStory.Server.Registry
         /// <summary>
         /// Gets the ID of the channel the player is currently in.
         /// </summary>
-        public int ChannelId { get; private set; }
+        public int ChannelId { get; }
 
         /// <summary>
         /// Gets the ID of the map the player is currently in.
         /// </summary>
-        public int MapId { get; private set; }
+        public int MapId { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerLocation"/> class.
@@ -31,12 +31,12 @@ namespace OpenStory.Server.Registry
         {
             if (channelId < 0)
             {
-                throw new ArgumentOutOfRangeException("channelId", channelId, ModelStrings.ChannelIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(channelId), channelId, ModelStrings.ChannelIdMustBeNonNegative);
             }
 
             if (mapId < 0)
             {
-                throw new ArgumentOutOfRangeException("mapId", mapId, ModelStrings.MapIdMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(mapId), mapId, ModelStrings.MapIdMustBeNonNegative);
             }
 
             this.ChannelId = channelId;

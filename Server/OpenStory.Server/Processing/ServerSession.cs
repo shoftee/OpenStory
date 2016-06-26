@@ -31,7 +31,7 @@ namespace OpenStory.Server.Processing
         /// <remarks>
         /// This session identifier and the account session identifier are different things.
         /// </remarks>
-        public int NetworkSessionId { get; private set; }
+        public int NetworkSessionId { get; }
 
         #endregion
 

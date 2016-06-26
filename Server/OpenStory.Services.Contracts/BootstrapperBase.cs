@@ -17,7 +17,7 @@ namespace OpenStory.Services.Contracts
         /// <summary>
         /// Gets the logger for this bootstrapper.
         /// </summary>
-        protected ILogger Logger { get; private set; }
+        protected ILogger Logger { get; }
 
         /// <summary>
         /// Initializes it all.

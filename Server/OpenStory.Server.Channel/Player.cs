@@ -7,9 +7,9 @@ namespace OpenStory.Server.Channel
     {
         #region Visible info
 
-        public CharacterKey Key { get; private set; }
+        public CharacterKey Key { get; }
 
-        public CharacterAppearance Appearance { get; private set; }
+        public CharacterAppearance Appearance { get; }
 
         public int JobId { get; private set; }
 

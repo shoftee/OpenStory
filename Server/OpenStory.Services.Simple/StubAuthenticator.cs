@@ -42,9 +42,9 @@ namespace OpenStory.Services.Simple
 
         private sealed class StubAccountSession : IAccountSession
         {
-            public int SessionId { get; private set; }
-            public int AccountId { get; private set; }
-            public string AccountName { get; private set; }
+            public int SessionId { get; }
+            public int AccountId { get; }
+            public string AccountName { get; }
 
             public StubAccountSession()
             {

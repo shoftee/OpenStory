@@ -16,7 +16,7 @@ namespace OpenStory.Server.Channel
         /// <summary>
         /// Gets the <see cref="IPlayerRegistry"/> for this operator.
         /// </summary>
-        public IPlayerRegistry PlayerRegistry { get; private set; }
+        public IPlayerRegistry PlayerRegistry { get; }
 
         /// <inheritdoc />
         public ChannelOperator(IGameClientFactory<ChannelClient> clientFactory, IPlayerRegistry playerRegistry)
@@ -61,7 +61,7 @@ namespace OpenStory.Server.Channel
                 player.Client.WritePacket(data);
             }
         }
-        
+
         #endregion
     }
 }

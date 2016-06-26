@@ -29,7 +29,7 @@ namespace OpenStory.Server.Networking
         /// <summary>
         /// Gets the bound endpoint for the acceptor.
         /// </summary>
-        public IPEndPoint Endpoint { get; private set; }
+        public IPEndPoint Endpoint { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketAcceptor"/> class.
@@ -138,7 +138,7 @@ namespace OpenStory.Server.Networking
         /// Handles an asynchronous socket accept operation.
         /// </summary>
         /// <remarks>
-        /// The only difference between this and <see cref="EndAcceptSynchronous"/> is 
+        /// The only difference between this and <see cref="EndAcceptSynchronous"/> is
         /// that this calls <see cref="BeginAccept"/> if the socket was handled successfully.
         /// </remarks>
         /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>

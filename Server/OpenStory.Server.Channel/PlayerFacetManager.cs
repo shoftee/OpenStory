@@ -24,7 +24,7 @@ namespace OpenStory.Server.Channel
 
             var facetKey = new Key(typeof(TPlayerFacet), characterKey.Id);
             this.facets.Add(facetKey, facet);
-            
+
             return facet;
         }
 
@@ -39,8 +39,8 @@ namespace OpenStory.Server.Channel
 
         private struct Key : IEquatable<Key>
         {
-            public Type FacetType { get; private set; }
-            public int PlayerId { get; private set; }
+            public Type FacetType { get; }
+            public int PlayerId { get; }
 
             public Key(Type facetType, int playerId)
                 : this()

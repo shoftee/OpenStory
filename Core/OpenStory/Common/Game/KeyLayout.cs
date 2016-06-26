@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace OpenStory.Common.Game
 {
@@ -14,7 +13,7 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets a read-only list of the key bindings.
         /// </summary>
-        public ReadOnlyCollection<KeyBinding> Bindings
+        public IReadOnlyList<KeyBinding> Bindings
         {
             get { return this.bindings.AsReadOnly(); }
         }
@@ -83,7 +82,7 @@ namespace OpenStory.Common.Game
         {
             if (GameConstants.KeyCount <= keyId)
             {
-                throw new ArgumentOutOfRangeException("keyId", keyId, CommonStrings.InvalidKeyIdentifier);
+                throw new ArgumentOutOfRangeException(nameof(keyId), keyId, CommonStrings.InvalidKeyIdentifier);
             }
         }
     }

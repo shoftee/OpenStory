@@ -12,12 +12,12 @@ namespace OpenStory.Server.Registry
         where TGroupMember : IEquatable<TGroupMember>
     {
         /// <inheritdoc />
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets a HashSet of the members of this player group.
         /// </summary>
-        protected HashSet<TGroupMember> Members { get; private set; }
+        protected HashSet<TGroupMember> Members { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerGroup{TGroupMember,TUpdateInfo}"/> class with the specified identifier.

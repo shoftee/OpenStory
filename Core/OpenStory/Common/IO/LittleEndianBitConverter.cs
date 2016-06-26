@@ -43,7 +43,7 @@ namespace OpenStory.Common.IO
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
             if (offset > buffer.Length || offset + count > buffer.Length)
@@ -64,7 +64,7 @@ namespace OpenStory.Common.IO
         #region Conversion to primitive types
 
         /// <summary>
-        /// Constructs a <see cref="System.UInt64"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="ulong"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -75,7 +75,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.Int64"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="long"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -86,7 +86,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.Double"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="double"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -97,7 +97,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.UInt32"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="uint"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -108,7 +108,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.Int32"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="int"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -119,7 +119,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.UInt16"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="ushort"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -130,7 +130,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.Int16"/> from bytes at a given offset in a byte array.
+        /// Constructs a <see cref="short"/> from bytes at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the bytes to use.</param>
         /// <param name="startIndex">The offset at which the number starts.</param>
@@ -141,7 +141,7 @@ namespace OpenStory.Common.IO
         }
 
         /// <summary>
-        /// Constructs a <see cref="System.Boolean"/> from a byte at a given offset in a byte array.
+        /// Constructs a <see cref="bool"/> from a byte at a given offset in a byte array.
         /// </summary>
         /// <param name="array">The array with the byte to use.</param>
         /// <param name="startIndex">The offset of the byte.</param>

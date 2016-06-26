@@ -25,7 +25,7 @@ namespace OpenStory.Cryptography
 
             if (vector.Length != 4)
             {
-                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, "vector");
+                throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(vector));
             }
 
             // Thanks to Diamondo25 for this.

@@ -20,7 +20,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the <see cref="IDescriptorContainer">Container</see> of this descriptor.
         /// </summary>
-        protected IDescriptorContainer Container { get; private set; }
+        protected IDescriptorContainer Container { get; }
 
         /// <summary>
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this descriptor.
@@ -34,8 +34,7 @@ namespace OpenStory.Networking
         /// Initializes a new instance of the <see cref="DescriptorBase"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor initializes the 
-        /// <see cref="Container"/> and <see cref="SocketArgs"/> properties.
+        /// This constructor initializes the <see cref="Container"/> and <see cref="SocketArgs"/> properties.
         /// </remarks>
         /// <param name="container">The container of this descriptor.</param>
         /// <exception cref="ArgumentNullException">
@@ -55,8 +54,8 @@ namespace OpenStory.Networking
         /// Raises the <see cref="Error"/> event and closes the connection.
         /// </summary>
         /// <remarks>
-        /// The event will be raised only if it has subscribers and the 
-        /// <see cref="SocketAsyncEventArgs.SocketError"/> property of 
+        /// The event will be raised only if it has subscribers and the
+        /// <see cref="SocketAsyncEventArgs.SocketError"/> property of
         /// <paramref name="args"/> is not <see cref="SocketError.Success"/>.
         /// </remarks>
         /// <param name="args">

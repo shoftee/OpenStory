@@ -11,7 +11,7 @@ namespace OpenStory.Common.IO
         /// <summary>
         /// Gets the bit array for this instance.
         /// </summary>
-        protected BitArray Bits { get; private set; }
+        protected BitArray Bits { get; }
 
         /// <summary>
         /// Gets or sets the flag value at an index.
@@ -33,7 +33,7 @@ namespace OpenStory.Common.IO
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException("capacity", capacity, CommonStrings.CapacityMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(capacity), capacity, CommonStrings.CapacityMustBePositive);
             }
 
             this.Bits = new BitArray(capacity);

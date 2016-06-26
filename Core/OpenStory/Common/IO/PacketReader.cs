@@ -36,7 +36,7 @@ namespace OpenStory.Common.IO
         /// Thrown if <paramref name="offset"/> or <paramref name="length"/> are negative.
         /// </exception>
         /// <exception cref="ArraySegmentException">
-        /// Thrown if the array segment given by the <paramref name="offset"/> and 
+        /// Thrown if the array segment given by the <paramref name="offset"/> and
         /// <paramref name="length"/> parameters falls outside of the array's bounds.
         /// </exception>
         public PacketReader(byte[] buffer, int offset, int length)
@@ -45,12 +45,12 @@ namespace OpenStory.Common.IO
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length", length, CommonStrings.LengthMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), length, CommonStrings.LengthMustBeNonNegative);
             }
 
             if (buffer.Length < offset || offset + length > buffer.Length)
@@ -148,13 +148,13 @@ namespace OpenStory.Common.IO
         {
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
             int bufferOffset = this.segmentStart + offset;
             if (bufferOffset < this.currentOffset)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, CommonStrings.OffsetMustBeAheadOfCurrentPosition);
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeAheadOfCurrentPosition);
             }
 
             int remaining = this.segmentEnd - bufferOffset;
@@ -328,7 +328,7 @@ namespace OpenStory.Common.IO
         {
             if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, CommonStrings.PaddingLengthMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(paddingLength), paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
             if (this.CanAdvance(paddingLength))
@@ -484,7 +484,7 @@ namespace OpenStory.Common.IO
         {
             if (paddingLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("paddingLength", paddingLength, CommonStrings.PaddingLengthMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(paddingLength), paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
             int start = this.CheckedAdvance(paddingLength);
@@ -558,7 +558,7 @@ namespace OpenStory.Common.IO
         {
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, CommonStrings.CountMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(count), count, CommonStrings.CountMustBeNonNegative);
             }
         }
 

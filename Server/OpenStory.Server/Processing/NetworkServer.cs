@@ -12,13 +12,13 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets the <see cref="IServerProcess"/> for this server.
         /// </summary>
-        protected IServerProcess Process { get; private set; }
+        protected IServerProcess Process { get; }
 
         /// <summary>
         /// Gets the <see cref="IServerOperator"/> for this server.
         /// </summary>
-        protected TServerOperator Operator { get; private set; }
-        
+        protected TServerOperator Operator { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkServer{TServerOperator}"/> type.
         /// </summary>
