@@ -10,18 +10,18 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets the X component of the point.
         /// </summary>
-        public short X { get; private set; }
+        public short X { get; }
 
         /// <summary>
         /// Gets the Y component of the point.
         /// </summary>
-        public short Y { get; private set; }
+        public short Y { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointS"/> struct.
+        /// Initializes a new instance of the <see cref="PointS"/> type.
         /// </summary>
-        /// <param name="x">The value to initialize the X component with.</param>
-        /// <param name="y">The value to initialize the Y component with.</param>
+        /// <param name="x">The value with which to initialize the X component.</param>
+        /// <param name="y">The value with which to initialize the Y component.</param>
         public PointS(short x, short y)
             : this()
         {
@@ -81,7 +81,7 @@ namespace OpenStory.Common.Game
         {
             if (a.X == short.MinValue || a.Y == short.MinValue)
             {
-                throw new ArgumentException(CommonStrings.PointComponentsMustBeLargerThanMinValue, "a");
+                throw new ArgumentException(CommonStrings.PointComponentsMustBeLargerThanMinValue, nameof(a));
             }
 
             return new PointS((short)(-a.X), (short)(-a.Y));
