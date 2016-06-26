@@ -26,7 +26,7 @@ namespace OpenStory.Common.IO
         [Test]
         public void Should_Return_False_On_Reading_In_Offset_Zero_Length_Segment()
         {
-            var buffer = new byte[] { 1, };
+            var buffer = new byte[] { 1 };
             var reader = new PacketReader(buffer, buffer.Length, 0);
 
             GracefullyFailsOnReadOperations(reader, 1, 2, 13, 10);

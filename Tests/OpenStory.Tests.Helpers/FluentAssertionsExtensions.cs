@@ -64,17 +64,17 @@ namespace OpenStory.Tests.Helpers
         }
 
         public static ExceptionAssertions<TException> WithMessageSubstring<TException>(
-            this ExceptionAssertions<TException> assertions, 
-            string substring, 
-            string reason = "", 
+            this ExceptionAssertions<TException> assertions,
+            string substring,
+            string reason = "",
             params object[] reasonArgs) where TException : Exception
         {
             return assertions.WithMessage("*" + substring + "*", reason, reasonArgs);
         }
 
         public static ExceptionAssertions<TException> WithMessageFormat<TException>(
-            this ExceptionAssertions<TException> assertions, 
-            string format, 
+            this ExceptionAssertions<TException> assertions,
+            string format,
             params object[] formatArgs) where TException : Exception
         {
             return assertions.WithMessage(string.Format(format, formatArgs));

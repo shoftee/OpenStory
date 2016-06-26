@@ -204,7 +204,7 @@ namespace OpenStory.Services.Wcf
         {
             lock (subscribers)
             {
-                var badSubscribers = new List<IServiceStateChanged>();
+                var unusableSubscribers = new List<IServiceStateChanged>();
                 foreach (var subscriber in subscribers)
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
@@ -215,8 +215,7 @@ namespace OpenStory.Services.Wcf
                     }
                     else
                     {
-                        // Keep a list of unusable subscribers.
-                        badSubscribers.Add(subscriber);
+                        unusableSubscribers.Add(subscriber);
                     }
                 }
 
@@ -224,10 +223,10 @@ namespace OpenStory.Services.Wcf
                 {
                     subscribers.Clear();
                 }
-                else if (badSubscribers.Count > 0)
+                else if (unusableSubscribers.Count > 0)
                 {
-                    // If we're not gonna clear all of 'em out, clear out just the bad ones.
-                    foreach (var badSubscriber in badSubscribers)
+                    // If we're not gonna clear all of 'em out, clear out just the unusable ones.
+                    foreach (var badSubscriber in unusableSubscribers)
                     {
                         subscribers.Remove(badSubscriber);
                     }
