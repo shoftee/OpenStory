@@ -16,10 +16,7 @@ namespace OpenStory.Common
         /// <summary>
         /// Gets the current value of the <see cref="AtomicBoolean"/>.
         /// </summary>
-        public bool Value
-        {
-            get { return Convert.ToBoolean(this.value); }
-        }
+        public bool Value => Convert.ToBoolean(this.value);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicBoolean"/> class.

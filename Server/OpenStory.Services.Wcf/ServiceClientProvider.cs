@@ -19,10 +19,7 @@ namespace OpenStory.Services.Wcf
         /// <summary>
         /// Gets the discovered metadata information.
         /// </summary>
-        protected EndpointDiscoveryMetadata Metadata
-        {
-            get { return this.metadata.Value; }
-        }
+        protected EndpointDiscoveryMetadata Metadata => this.metadata.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceClientProvider{TContract}"/> class.
@@ -55,7 +52,7 @@ namespace OpenStory.Services.Wcf
             var metadata = response.Endpoints.FirstOrDefault();
             if (metadata == null)
             {
-                var message = string.Format("No endpoint found for contract '{0}'.", typeof(TChannel).FullName);
+                var message = $"No endpoint found for contract '{typeof(TChannel).FullName}'.";
                 throw new InvalidOperationException(message);
             }
 

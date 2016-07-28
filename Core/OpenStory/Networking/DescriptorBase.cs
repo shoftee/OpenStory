@@ -25,10 +25,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this descriptor.
         /// </summary>
-        protected SocketAsyncEventArgs SocketArgs
-        {
-            get { return this.socketArgs; }
-        }
+        protected SocketAsyncEventArgs SocketArgs => this.socketArgs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DescriptorBase"/> class.

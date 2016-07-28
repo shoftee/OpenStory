@@ -429,9 +429,6 @@ namespace OpenStory.Common.IO
             actual.Should().Be(expected);
         }
 
-        private static PacketReader EmptyReader
-        {
-            get { return new PacketReader(Helpers.EmptyBuffer); }
-        }
+        private static PacketReader EmptyReader => new PacketReader(Helpers.EmptyBuffer);
     }
 }

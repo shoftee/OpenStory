@@ -46,26 +46,17 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the buffer used to store packet headers.
         /// </summary>
-        protected BoundedBuffer HeaderBuffer
-        {
-            get { return this.headerBuffer; }
-        }
+        protected BoundedBuffer HeaderBuffer => this.headerBuffer;
 
         /// <summary>
         /// Gets the buffer used to store packet data.
         /// </summary>
-        protected BoundedBuffer PacketBuffer
-        {
-            get { return this.packetBuffer; }
-        }
+        protected BoundedBuffer PacketBuffer => this.packetBuffer;
 
         /// <summary>
         /// Gets the underlying network session.
         /// </summary>
-        protected NetworkSession BaseSession
-        {
-            get { return this.baseSession; }
-        }
+        protected NetworkSession BaseSession => this.baseSession;
 
         /// <summary>
         /// Gets or sets the cryptographic transformer for this session.

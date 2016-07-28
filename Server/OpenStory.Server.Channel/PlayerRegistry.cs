@@ -20,15 +20,9 @@ namespace OpenStory.Server.Channel
         private bool isDisposed;
         private ReaderWriterLockSlim l;
 
-        public IPlayer this[int id]
-        {
-            get { return this.GetById(id); }
-        }
+        public IPlayer this[int id] => this.GetById(id);
 
-        public IPlayer this[string name]
-        {
-            get { return this.GetByName(name); }
-        }
+        public IPlayer this[string name] => this.GetByName(name);
 
         public int Population
         {

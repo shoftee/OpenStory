@@ -12,7 +12,7 @@ namespace OpenStory.Server.Processing
         {
             this.OnInitializing(serviceConfiguration);
         }
-        
+
         /// <inheritdoc />
         public void Start()
         {

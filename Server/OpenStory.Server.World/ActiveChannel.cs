@@ -28,20 +28,14 @@ namespace OpenStory.Server.World
         public string Name { get; private set; }
 
         /// <inheritdoc/>
-        int IChannel.ChannelLoad
-        {
-            get { return this.channelLoad.Value; }
-        }
+        int IChannel.ChannelLoad => this.channelLoad.Value;
 
         #endregion
 
         /// <summary>
         /// Gets the channel load value holder.
         /// </summary>
-        public AtomicInteger ChannelLoad
-        {
-            get { return this.channelLoad; }
-        }
+        public AtomicInteger ChannelLoad => this.channelLoad;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActiveChannel"/> class.

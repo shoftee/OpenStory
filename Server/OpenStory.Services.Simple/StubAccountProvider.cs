@@ -12,7 +12,7 @@ namespace OpenStory.Services.Simple
 
         public void Save(Account account)
         {
-            
+
         }
     }
 }

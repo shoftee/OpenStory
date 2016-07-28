@@ -43,20 +43,14 @@ namespace OpenStory.Server.World
         /// <summary>
         /// Gets an enumerable list of channels for the World.
         /// </summary>
-        IEnumerable<IChannel> IWorld.Channels
-        {
-            get { return this.channels.AsReadOnly(); }
-        }
+        IEnumerable<IChannel> IWorld.Channels => this.channels.AsReadOnly();
 
         #endregion
 
         /// <summary>
         /// Gets the list of active channels.
         /// </summary>
-        public List<ActiveChannel> Channels
-        {
-            get { return this.channels; }
-        }
+        public List<ActiveChannel> Channels => this.channels;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActiveWorld"/> class.

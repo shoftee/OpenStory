@@ -31,10 +31,7 @@ namespace OpenStory.Common.Game
             }
         }
 
-        private static byte InvalidKeyId
-        {
-            get { return (byte)(GameConstants.KeyCount + 1); }
-        }
+        private static byte InvalidKeyId => (byte)(GameConstants.KeyCount + 1);
 
         [Test]
         public void Constructor_Should_Not_Throw_On_Correct_Binding_Count()

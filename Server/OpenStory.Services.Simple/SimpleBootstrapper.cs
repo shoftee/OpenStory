@@ -65,7 +65,7 @@ namespace OpenStory.Services.Simple
             this.Logger.Info("Starting channel service...");
             this.channel.Get<IRegisteredService>().Start();
 
-            this.Logger.Info("Starting account serivce...");
+            this.Logger.Info("Starting account service...");
             this.account.Get<IRegisteredService>().Start();
 
             this.Logger.Info("Starting auth service...");

@@ -13,10 +13,7 @@ namespace OpenStory.Common.Game
         /// <summary>
         /// Gets a read-only list of the key bindings.
         /// </summary>
-        public IReadOnlyList<KeyBinding> Bindings
-        {
-            get { return this.bindings.AsReadOnly(); }
-        }
+        public IReadOnlyList<KeyBinding> Bindings => this.bindings.AsReadOnly();
 
         private KeyLayout()
         {

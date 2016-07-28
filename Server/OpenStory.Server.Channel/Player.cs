@@ -31,10 +31,7 @@ namespace OpenStory.Server.Channel
 
         public ChannelClient Client { get; set; }
 
-        ClientBase IPlayer.Client
-        {
-            get { return this.Client; }
-        }
+        ClientBase IPlayer.Client => this.Client;
 
         private Player(ChannelClient client, ChannelCharacter character)
         {

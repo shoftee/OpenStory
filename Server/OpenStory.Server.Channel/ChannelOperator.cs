@@ -43,10 +43,7 @@ namespace OpenStory.Server.Channel
         public int ChannelId { get; private set; }
 
         /// <inheritdoc />
-        int IWorldToChannelRequestHandler.Population
-        {
-            get { return this.PlayerRegistry.Population; }
-        }
+        int IWorldToChannelRequestHandler.Population => this.PlayerRegistry.Population;
 
         /// <inheritdoc/>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)

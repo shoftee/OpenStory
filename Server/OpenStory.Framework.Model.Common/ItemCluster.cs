@@ -22,26 +22,17 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets whether the cluster is empty.
         /// </summary>
-        public bool IsEmpty
-        {
-            get { return this.Quantity == 0; }
-        }
+        public bool IsEmpty => this.Quantity == 0;
 
         /// <summary>
         /// Gets the identifier for the prototype of this cluster.
         /// </summary>
-        public int ItemId
-        {
-            get { return this.Prototype.ItemId; }
-        }
+        public int ItemId => this.Prototype.ItemId;
 
         /// <summary>
         /// Gets the item capacity of this cluster.
         /// </summary>
-        public virtual int ClusterCapacity
-        {
-            get { return this.Prototype.ClusterCapacity; }
-        }
+        public virtual int ClusterCapacity => this.Prototype.ClusterCapacity;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemCluster{TItemInfo}"/> class.

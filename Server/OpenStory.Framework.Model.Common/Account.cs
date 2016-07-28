@@ -40,26 +40,17 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the creation time of the account.
         /// </summary>
-        public DateTimeOffset CreationTime
-        {
-            get { return DateTimeOffset.UtcNow; }
-        }
+        public DateTimeOffset CreationTime => DateTimeOffset.UtcNow;
 
         /// <summary>
         /// Gets the 'quiet ban' reason code.
         /// </summary>
-        public byte QuietBanReason
-        {
-            get { return 0; }
-        }
+        public byte QuietBanReason => 0;
 
         /// <summary>
         /// Gets the 'quiet ban' time for the account.
         /// </summary>
-        public DateTimeOffset QuietBanTime
-        {
-            get { return DateTimeOffset.FromFileTime(0); }
-        }
+        public DateTimeOffset QuietBanTime => DateTimeOffset.FromFileTime(0);
 
         /// <summary>
         /// Gets the game master access level for the account.
@@ -69,18 +60,12 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets whether the account is a game master account.
         /// </summary>
-        public bool IsGameMaster
-        {
-            get { return this.GameMasterLevel == GameMasterLevel.GameMaster; }
-        }
+        public bool IsGameMaster => this.GameMasterLevel == GameMasterLevel.GameMaster;
 
         /// <summary>
         /// Gets whether the account is a game master helper account.
         /// </summary>
-        public bool IsGameMasterHelper
-        {
-            get { return this.GameMasterLevel == GameMasterLevel.GameMasterHelper; }
-        }
+        public bool IsGameMasterHelper => this.GameMasterLevel == GameMasterLevel.GameMasterHelper;
 
         /// <summary>
         /// Gets the account's status.

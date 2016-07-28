@@ -10,10 +10,7 @@
         /// <summary>
         /// Gets the length of the buffer.
         /// </summary>
-        public int Length
-        {
-            get { return this.bytes.Length; }
-        }
+        public int Length => this.bytes.Length;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteBuffer"/> class.

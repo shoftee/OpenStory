@@ -18,10 +18,7 @@ namespace OpenStory.Common.IO
         private int currentOffset;
 
         /// <inheritdoc />
-        public int Remaining
-        {
-            get { return this.segmentEnd - this.currentOffset; }
-        }
+        public int Remaining => this.segmentEnd - this.currentOffset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketReader"/> class using the given byte array segment as a buffer.

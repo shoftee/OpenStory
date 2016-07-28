@@ -39,10 +39,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets whether the server is running or not.
         /// </summary>
-        public bool IsRunning
-        {
-            get { return this.isRunning.Value; }
-        }
+        public bool IsRunning => this.isRunning.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.

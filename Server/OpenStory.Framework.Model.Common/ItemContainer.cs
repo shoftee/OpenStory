@@ -28,10 +28,7 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the number of free slots in this container.
         /// </summary>
-        public int FreeSlots
-        {
-            get { return this.SlotCapacity - this.slots.Count; }
-        }
+        public int FreeSlots => this.SlotCapacity - this.slots.Count;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemContainer{TItemInfo}"/> class.

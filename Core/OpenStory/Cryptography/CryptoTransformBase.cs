@@ -14,18 +14,12 @@ namespace OpenStory.Cryptography
         /// <summary>
         /// Gets the translation table used for the IV shuffle.
         /// </summary>
-        protected byte[] Table
-        {
-            get { return this.table; }
-        }
+        protected byte[] Table => this.table;
 
         /// <summary>
         /// Gets the initial IV used for the IV shuffle.
         /// </summary>
-        protected byte[] Iv
-        {
-            get { return this.iv; }
-        }
+        protected byte[] Iv => this.iv;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoTransformBase"/> class.

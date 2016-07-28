@@ -8,10 +8,7 @@ namespace OpenStory.Tests.Helpers
 {
     public class PointSAssertions : ReferenceTypeAssertions<PointS, PointSAssertions>
     {
-        protected override string Context
-        {
-            get { return "PointS"; }
-        }
+        protected override string Context => "PointS";
 
         public PointSAssertions(PointS subject)
         {

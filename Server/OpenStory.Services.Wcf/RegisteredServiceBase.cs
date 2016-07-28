@@ -251,7 +251,8 @@ namespace OpenStory.Services.Wcf
 
         private static Task SetNewTaskIfNecessary(ref Task task, Action action, Action<Task> completion)
         {
-            bool createNew = task == null
+            bool createNew =
+                task == null
                 || task.Status == TaskStatus.Faulted
                 || task.Status == TaskStatus.Canceled
                 || task.Status == TaskStatus.RanToCompletion;

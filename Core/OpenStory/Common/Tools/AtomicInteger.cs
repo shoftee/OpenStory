@@ -13,10 +13,7 @@ namespace OpenStory.Common
         /// <summary>
         /// Gets the current value of the <see cref="AtomicInteger"/>.
         /// </summary>
-        public int Value
-        {
-            get { return this.value; }
-        }
+        public int Value => this.value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicInteger"/> class with the given value.

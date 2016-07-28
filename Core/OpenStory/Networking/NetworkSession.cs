@@ -64,10 +64,7 @@ namespace OpenStory.Networking
         private Socket socket;
 
         /// <inheritdoc/>
-        public bool IsActive
-        {
-            get { return this.isActive.Value; }
-        }
+        public bool IsActive => this.isActive.Value;
 
         /// <summary>
         /// Gets the remote endpoint of the session.
@@ -190,16 +187,10 @@ namespace OpenStory.Networking
         #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />
-        Socket IDescriptorContainer.Socket
-        {
-            get { return this.socket; }
-        }
+        Socket IDescriptorContainer.Socket => this.socket;
 
         /// <inheritdoc />
-        bool IDescriptorContainer.IsActive
-        {
-            get { return this.isActive.Value; }
-        }
+        bool IDescriptorContainer.IsActive => this.isActive.Value;
 
         /// <inheritdoc />
         void IDescriptorContainer.Close(string reason)
@@ -226,7 +217,7 @@ namespace OpenStory.Networking
         {
             var endpoint = this.RemoteEndpoint;
             var endpointString = endpoint?.ToString() ?? @"None";
-            return String.Format(@"Endpoint: {0}", endpointString);
+            return $"Endpoint: {endpointString}";
         }
     }
 }

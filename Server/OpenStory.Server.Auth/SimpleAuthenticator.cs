@@ -24,7 +24,7 @@ namespace OpenStory.Server.Auth
         {
             // Default value for failure scenarios:
             session = null;
-            
+
             // TODO: user name validation, throw IllegalPacketException if not valid
             var userName = credentialsReader.ReadLengthString();
             // Attempt to load the account.

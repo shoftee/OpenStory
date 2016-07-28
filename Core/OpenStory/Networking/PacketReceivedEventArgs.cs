@@ -13,11 +13,8 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets a new <see cref="PacketReader"/> for the packet.
         /// </summary>
-        public PacketReader Reader
-        {
-            get { return new PacketReader(this.buffer); }
-        }
-        
+        public PacketReader Reader => new PacketReader(this.buffer);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketReceivedEventArgs"/> class.
         /// </summary>

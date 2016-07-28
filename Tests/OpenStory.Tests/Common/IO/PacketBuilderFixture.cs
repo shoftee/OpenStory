@@ -14,10 +14,7 @@ namespace OpenStory.Common.IO
     {
         private PacketBuilder builder;
 
-        private PacketBuilder DefaultBuilder
-        {
-            get { return this.builder; }
-        }
+        private PacketBuilder DefaultBuilder => this.builder;
 
         [SetUp]
         public void SetUp()

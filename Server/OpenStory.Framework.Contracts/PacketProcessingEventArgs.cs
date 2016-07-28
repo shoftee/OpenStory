@@ -23,10 +23,7 @@ namespace OpenStory.Framework.Contracts
         /// <summary>
         /// Gets a fresh reader over the packet's content.
         /// </summary>
-        public IUnsafePacketReader Reader
-        {
-            get { return new PacketReader(this.reader); }
-        }
+        public IUnsafePacketReader Reader => new PacketReader(this.reader);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketProcessingEventArgs"/> class.

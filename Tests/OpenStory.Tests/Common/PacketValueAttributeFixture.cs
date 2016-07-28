@@ -58,20 +58,11 @@ namespace OpenStory.Common
             DefinedButNotDecorated,
         }
 
-        private static TestEnum DefinedEnumValue
-        {
-            get { return TestEnum.Defined; }
-        }
+        private static TestEnum DefinedEnumValue => TestEnum.Defined;
 
-        private static TestEnum UndefinedEnumValue
-        {
-            get { return (TestEnum)20; }
-        }
+        private static TestEnum UndefinedEnumValue => (TestEnum)20;
 
-        private static TestEnum DefinedButNotDecorated
-        {
-            get { return TestEnum.DefinedButNotDecorated; }
-        }
+        private static TestEnum DefinedButNotDecorated => TestEnum.DefinedButNotDecorated;
 
         #endregion
     }
