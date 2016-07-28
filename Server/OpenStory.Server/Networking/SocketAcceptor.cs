@@ -40,7 +40,10 @@ namespace OpenStory.Server.Networking
         /// </exception>
         public SocketAcceptor(IPEndPoint endpoint)
         {
-            Guard.NotNull(() => endpoint, endpoint);
+            if (endpoint == null)
+            {
+                throw new ArgumentNullException(nameof(endpoint));
+            }
 
             this.isDisposed = false;
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenStory.Framework.Model.Common;
@@ -22,8 +23,10 @@ namespace OpenStory.Server.Registry
         /// <inheritdoc />
         public Dictionary<CharacterKey, PlayerLocation> GetLocationsForAll(IEnumerable<CharacterKey> keys)
         {
-            // ReSharper disable once PossibleMultipleEnumeration
-            Guard.NotNull(() => keys, keys);
+            if (keys == null)
+            {
+                throw new ArgumentNullException(nameof(keys));
+            }
 
             return keys
                 .Distinct()

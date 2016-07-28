@@ -56,8 +56,14 @@ namespace OpenStory.Server.Processing
         /// </exception>
         public void Start(EndpointCrypto endpointCrypto, HandshakeInfo handshakeInfo)
         {
-            Guard.NotNull(() => endpointCrypto, endpointCrypto);
-            Guard.NotNull(() => handshakeInfo, handshakeInfo);
+            if (endpointCrypto == null)
+            {
+                throw new ArgumentNullException(nameof(endpointCrypto));
+            }
+            if (handshakeInfo == null)
+            {
+                throw new ArgumentNullException(nameof(handshakeInfo));
+            }
 
             this.ThrowIfNoPacketReceivedSubscriber();
 

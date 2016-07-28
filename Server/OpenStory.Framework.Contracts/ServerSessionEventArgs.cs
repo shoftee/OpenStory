@@ -21,7 +21,11 @@ namespace OpenStory.Framework.Contracts
         /// </exception>
         public ServerSessionEventArgs(IServerSession serverSession)
         {
-            Guard.NotNull(() => serverSession, serverSession);
+            if (serverSession == null)
+            {
+                throw new ArgumentNullException(nameof(serverSession));
+            }
+
             this.ServerSession = serverSession;
         }
     }

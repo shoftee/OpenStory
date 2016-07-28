@@ -36,7 +36,10 @@ namespace OpenStory.Framework.Contracts
         /// </exception>
         public PacketProcessingEventArgs(ushort packetCode, string label, PacketReader reader)
         {
-            Guard.NotNull(() => reader, reader);
+            if (reader == null)
+            {
+                throw new ArgumentNullException(nameof(reader));
+            }
 
             this.PacketCode = packetCode;
             this.Label = label;

@@ -43,7 +43,10 @@ namespace OpenStory.Framework.Model.Common
         /// </exception>
         protected ItemCluster(TItemInfo prototype)
         {
-            Guard.NotNull(() => prototype, prototype);
+            if (prototype == null)
+            {
+                throw new ArgumentNullException(nameof(prototype));
+            }
 
             this.Prototype = prototype;
             this.Quantity = 0;
@@ -62,7 +65,10 @@ namespace OpenStory.Framework.Model.Common
         /// <returns>the number of items that were carried over to the current cluster.</returns>
         public int MergeWith(ItemCluster<TItemInfo> other)
         {
-            Guard.NotNull(() => other, other);
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
 
             // Note: This is actually not quite necessary,
             // since Prototypes are immutable and only supplied from the cache,
@@ -92,7 +98,10 @@ namespace OpenStory.Framework.Model.Common
         /// </returns>
         public bool CanMergeWith(ItemCluster<TItemInfo> other)
         {
-            Guard.NotNull(() => other, other);
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
 
             if (!this.Prototype.Equals(other.Prototype))
             {

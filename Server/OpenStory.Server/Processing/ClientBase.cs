@@ -84,8 +84,14 @@ namespace OpenStory.Server.Processing
         /// <exception cref="ArgumentNullException">Thrown if any of the parameters is <see langword="null" />.</exception>
         protected ClientBase(IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
         {
-            Guard.NotNull(() => serverSession, serverSession);
-            Guard.NotNull(() => packetFactory, packetFactory);
+            if (serverSession == null)
+            {
+                throw new ArgumentNullException(nameof(serverSession));
+            }
+            if (packetFactory == null)
+            {
+                throw new ArgumentNullException(nameof(packetFactory));
+            }
 
             this.isDisposed = false;
             this.sentPings = new AtomicInteger(0);
