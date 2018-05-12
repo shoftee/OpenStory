@@ -39,3 +39,4 @@ Database/*
 *.ncrunchsolution
 **/test-results/*
 OpenStory-Complete.sln.ide/*
+.vs/
