@@ -17,21 +17,21 @@ namespace OpenStory.Server.Processing
     [Localizable(true)]
     public sealed class ServerProcess : IServerProcess, IDisposable
     {
-        private readonly AtomicBoolean isRunning;
-        private bool isDisposed;
-        private bool isConfigured;
+        private readonly AtomicBoolean _isRunning;
+        private bool _isDisposed;
+        private bool _isConfigured;
 
-        private readonly IServerSessionFactory sessionFactory;
-        private readonly ISocketAcceptorFactory socketAcceptorFactory;
-        private readonly IPacketScheduler packetScheduler;
-        private readonly IRollingIvFactoryProvider rollingIvFactoryProvider;
-        private readonly IvGenerator ivGenerator;
-        private readonly ILogger logger;
+        private readonly IServerSessionFactory _sessionFactory;
+        private readonly ISocketAcceptorFactory _socketAcceptorFactory;
+        private readonly IPacketScheduler _packetScheduler;
+        private readonly IRollingIvFactoryProvider _rollingIvFactoryProvider;
+        private readonly IvGenerator _ivGenerator;
+        private readonly ILogger _logger;
 
-        private ServerConfiguration serverConfiguration;
+        private ServerConfiguration _serverConfiguration;
 
-        private SocketAcceptor acceptor;
-        private RollingIvFactory ivFactory;
+        private SocketAcceptor _acceptor;
+        private RollingIvFactory _ivFactory;
 
         /// <inheritdoc/>
         public event EventHandler<ServerSessionEventArgs> ConnectionOpened;
@@ -39,7 +39,7 @@ namespace OpenStory.Server.Processing
         /// <summary>
         /// Gets whether the server is running or not.
         /// </summary>
-        public bool IsRunning => this.isRunning.Value;
+        public bool IsRunning => _isRunning.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerProcess"/> class.
@@ -52,69 +52,69 @@ namespace OpenStory.Server.Processing
             IvGenerator ivGenerator,
             ILogger logger)
         {
-            this.sessionFactory = sessionFactory;
-            this.socketAcceptorFactory = socketAcceptorFactory;
-            this.packetScheduler = packetScheduler;
-            this.rollingIvFactoryProvider = rollingIvFactoryProvider;
-            this.ivGenerator = ivGenerator;
-            this.logger = logger;
+            _sessionFactory = sessionFactory;
+            _socketAcceptorFactory = socketAcceptorFactory;
+            _packetScheduler = packetScheduler;
+            _rollingIvFactoryProvider = rollingIvFactoryProvider;
+            _ivGenerator = ivGenerator;
+            _logger = logger;
 
-            this.isConfigured = false;
-            this.isDisposed = false;
-            this.isRunning = new AtomicBoolean(false);
+            _isConfigured = false;
+            _isDisposed = false;
+            _isRunning = new AtomicBoolean(false);
         }
 
         /// <inheritdoc/>
         public void Configure(OsServiceConfiguration configuration)
         {
-            if (this.IsRunning)
+            if (IsRunning)
             {
                 throw GetServerAlreadyRunningException();
             }
 
-            this.ConfigureInternal(configuration);
+            ConfigureInternal(configuration);
 
-            this.isConfigured = true;
-            if (this.serverConfiguration.Subversion == "")
+            _isConfigured = true;
+            if (_serverConfiguration.Subversion == "")
             {
-                this.logger.Info(
-                    @"Configured as version {0}, locale {1}.", 
-                    this.serverConfiguration.Version,
-                    this.serverConfiguration.LocaleId);
+                _logger.Info(
+                    @"Configured as version {0}, locale {1}.",
+                    _serverConfiguration.Version,
+                    _serverConfiguration.LocaleId);
             }
             else
             {
-                this.logger.Info(
-                    @"Configured as version {0}.{1}, locale {2}.", 
-                    this.serverConfiguration.Version,
-                    this.serverConfiguration.Subversion,
-                    this.serverConfiguration.LocaleId);
+                _logger.Info(
+                    @"Configured as version {0}.{1}, locale {2}.",
+                    _serverConfiguration.Version,
+                    _serverConfiguration.Subversion,
+                    _serverConfiguration.LocaleId);
             }
         }
 
         private void ConfigureInternal(OsServiceConfiguration configuration)
         {
-            this.serverConfiguration = new ServerConfiguration(configuration);
+            _serverConfiguration = new ServerConfiguration(configuration);
 
-            this.ivFactory = this.CreateRollingIvFactory();
-            this.acceptor = this.CreateSocketAcceptor();
+            _ivFactory = CreateRollingIvFactory();
+            _acceptor = CreateSocketAcceptor();
         }
 
         private RollingIvFactory CreateRollingIvFactory()
         {
-            var version = this.serverConfiguration.Version;
+            var version = _serverConfiguration.Version;
 
-            var rollingIvFactory = this.rollingIvFactoryProvider.CreateFactory(version);
+            var rollingIvFactory = _rollingIvFactoryProvider.CreateFactory(version);
 
             return rollingIvFactory;
         }
 
         private SocketAcceptor CreateSocketAcceptor()
         {
-            var endpoint = this.serverConfiguration.Endpoint;
+            var endpoint = _serverConfiguration.Endpoint;
 
-            var socketAcceptor = this.socketAcceptorFactory.CreateSocketAcceptor(endpoint);
-            socketAcceptor.SocketAccepted += this.OnSocketAccepted;
+            var socketAcceptor = _socketAcceptorFactory.CreateSocketAcceptor(endpoint);
+            socketAcceptor.SocketAccepted += OnSocketAccepted;
 
             return socketAcceptor;
         }
@@ -122,47 +122,47 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc/>
         public void Start()
         {
-            if (!this.isConfigured)
+            if (!_isConfigured)
             {
                 throw GetServerIsNotConfiguredException();
             }
 
-            if (!this.isRunning.FlipIf(false))
+            if (!_isRunning.FlipIf(false))
             {
                 throw GetServerAlreadyRunningException();
             }
 
-            this.acceptor.Start();
-            this.logger.Info(@"Now listening on port {0}.", this.acceptor.Endpoint.Port);
+            _acceptor.Start();
+            _logger.Info(@"Now listening on port {0}.", _acceptor.Endpoint.Port);
         }
 
         /// <inheritdoc/>
         public void Stop()
         {
-            if (this.isRunning.FlipIf(true))
+            if (_isRunning.FlipIf(true))
             {
-                this.logger.Info(@"Now shutting down...");
-                this.acceptor.Stop();
+                _logger.Info(@"Now shutting down...");
+                _acceptor.Stop();
             }
         }
 
         private void OnSocketAccepted(object sender, SocketEventArgs e)
         {
             var sessionSocket = e.Socket;
-            var session = this.CreateServerSession(sessionSocket);
+            var session = CreateServerSession(sessionSocket);
 
-            this.packetScheduler.Register(session);
-            this.OnConnectionOpened(session);
+            _packetScheduler.Register(session);
+            OnConnectionOpened(session);
 
-            this.logger.Debug(@"Accepted session #{0}: {1}", session.NetworkSessionId, session);
+            _logger.Debug(@"Accepted session #{0}: {1}", session.NetworkSessionId, session);
 
-            this.StartSession(session);
+            StartSession(session);
         }
 
         private IServerSession CreateServerSession(Socket sessionSocket)
         {
-            var session = this.sessionFactory.CreateSession();
-            session.SocketError += this.OnSessionSocketError;
+            var session = _sessionFactory.CreateSession();
+            session.SocketError += OnSessionSocketError;
             session.Closing += OnSessionClosing;
             session.AttachSocket(sessionSocket);
             return session;
@@ -171,28 +171,28 @@ namespace OpenStory.Server.Processing
         private void OnSessionClosing(object sender, ConnectionClosingEventArgs args)
         {
             var session = (IServerSession)sender;
-            this.logger.Debug(@"Session #{0} closing: {1}", session.NetworkSessionId, args.Reason);
+            _logger.Debug(@"Session #{0} closing: {1}", session.NetworkSessionId, args.Reason);
         }
 
         private void OnSessionSocketError(object sender, SocketErrorEventArgs args)
         {
             var session = (IServerSession)sender;
-            this.logger.Debug(@"Session #{0} error: {1}", session.NetworkSessionId, args.Error);
+            _logger.Debug(@"Session #{0} error: {1}", session.NetworkSessionId, args.Error);
         }
 
         private void StartSession(IServerSession session)
         {
-            var clientIv = this.ivGenerator.GetNewIv();
-            var serverIv = this.ivGenerator.GetNewIv();
+            var clientIv = _ivGenerator.GetNewIv();
+            var serverIv = _ivGenerator.GetNewIv();
 
-            var info = new ConfiguredHandshakeInfo(this.serverConfiguration, clientIv, serverIv);
-            var crypto = EndpointCrypto.Server(this.ivFactory, clientIv, serverIv);
+            var info = new ConfiguredHandshakeInfo(_serverConfiguration, clientIv, serverIv);
+            var crypto = EndpointCrypto.Server(_ivFactory, clientIv, serverIv);
             session.Start(crypto, info);
         }
 
         private void OnConnectionOpened(IServerSession session)
         {
-            var handler = this.ConnectionOpened;
+            var handler = ConnectionOpened;
             if (handler != null)
             {
                 var args = new ServerSessionEventArgs(session);
@@ -219,14 +219,14 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                if (this.acceptor != null)
+                if (_acceptor != null)
                 {
-                    this.acceptor.Dispose();
+                    _acceptor.Dispose();
                 }
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 

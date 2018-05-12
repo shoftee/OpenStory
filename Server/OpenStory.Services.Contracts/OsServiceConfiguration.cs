@@ -11,7 +11,7 @@ namespace OpenStory.Services.Contracts
     public sealed class OsServiceConfiguration
     {
         [DataMember]
-        private readonly Dictionary<string, object> data;
+        private readonly Dictionary<string, object> _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OsServiceConfiguration"/> class.
@@ -19,7 +19,7 @@ namespace OpenStory.Services.Contracts
         /// <param name="parameters">The configuration parameters to initialize the instance with.</param>
         public OsServiceConfiguration(IDictionary<string, object> parameters)
         {
-            this.data = new Dictionary<string, object>(parameters);
+            _data = new Dictionary<string, object>(parameters);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace OpenStory.Services.Contracts
         public T Get<T>(string key, bool throwIfMissing = false)
         {
             object value;
-            if (this.data.TryGetValue(key, out value))
+            if (_data.TryGetValue(key, out value))
             {
                 return (T)value;
             }
@@ -64,7 +64,7 @@ namespace OpenStory.Services.Contracts
             where T : struct
         {
             object value;
-            if (this.data.TryGetValue(key, out value))
+            if (_data.TryGetValue(key, out value))
             {
                 return (T)value;
             }

@@ -10,14 +10,14 @@ namespace OpenStory.Services.Wcf
     public class RegisteredClientProvider<TChannel> : ServiceClientProvider<TChannel>
         where TChannel : class, IRegisteredService
     {
-        private readonly DuplexChannelFactory<TChannel> channelFactory;
+        private readonly DuplexChannelFactory<TChannel> _channelFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisteredClientProvider{TChannel}"/> class.
         /// </summary>
         public RegisteredClientProvider()
         {
-            this.channelFactory = new DuplexChannelFactory<TChannel>(typeof(IServiceStateChanged), new NetTcpBinding(SecurityMode.Transport));
+            _channelFactory = new DuplexChannelFactory<TChannel>(typeof(IServiceStateChanged), new NetTcpBinding(SecurityMode.Transport));
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace OpenStory.Services.Wcf
         /// <param name="handler">The object to use for service callbacks.</param>
         public RegisteredClientProvider(IServiceStateChanged handler)
         {
-            this.channelFactory = new DuplexChannelFactory<TChannel>(handler, new NetTcpBinding(SecurityMode.Transport));
+            _channelFactory = new DuplexChannelFactory<TChannel>(handler, new NetTcpBinding(SecurityMode.Transport));
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public override TChannel CreateChannel()
         {
-            this.channelFactory.Open();
-            var channel = this.channelFactory.CreateChannel(this.Metadata.Address);
+            _channelFactory.Open();
+            var channel = _channelFactory.CreateChannel(Metadata.Address);
             return channel;
         }
     }

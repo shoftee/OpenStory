@@ -280,19 +280,19 @@ namespace OpenStory.Common
 
             public bool AddIn(ushort code, string label)
             {
-                return this.AddIncoming(code, label);
+                return AddIncoming(code, label);
             }
 
             public bool AddOut(string label, ushort code)
             {
-                return this.AddOutgoing(label, code);
+                return AddOutgoing(label, code);
             }
 
             #region Overrides of PacketCodeTable
 
             protected override void LoadPacketCodesInternal()
             {
-                this.LoadPacketCodesCallCount++;
+                LoadPacketCodesCallCount++;
             }
 
             #endregion

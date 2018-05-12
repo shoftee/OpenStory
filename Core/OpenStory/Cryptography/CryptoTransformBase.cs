@@ -8,18 +8,18 @@ namespace OpenStory.Cryptography
     /// </summary>
     public abstract class CryptoTransformBase : ICryptoAlgorithm
     {
-        private readonly byte[] table;
-        private readonly byte[] iv;
+        private readonly byte[] _table;
+        private readonly byte[] _iv;
 
         /// <summary>
         /// Gets the translation table used for the IV shuffle.
         /// </summary>
-        protected byte[] Table => this.table;
+        protected byte[] Table => _table;
 
         /// <summary>
         /// Gets the initial IV used for the IV shuffle.
         /// </summary>
-        protected byte[] Iv => this.iv;
+        protected byte[] Iv => _iv;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoTransformBase"/> class.
@@ -46,8 +46,8 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(vector));
             }
 
-            this.table = table.FastClone();
-            this.iv = vector.FastClone();
+            _table = table.FastClone();
+            _iv = vector.FastClone();
         }
 
         /// <inheritdoc />
@@ -60,13 +60,13 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(vector));
             }
 
-            byte[] shuffled = this.iv.FastClone();
+            byte[] shuffled = _iv.FastClone();
 
             for (int i = 0; i < 4; i++)
             {
                 byte vectorByte = vector[i];
 
-                this.ShuffleIvStep(shuffled, vectorByte);
+                ShuffleIvStep(shuffled, vectorByte);
             }
 
             return shuffled;
@@ -86,11 +86,11 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(shuffled));
             }
 
-            byte tableInput = this.table[vectorByte];
+            byte tableInput = _table[vectorByte];
 
-            shuffled[0] += (byte)(this.table[shuffled[1]] - vectorByte);
+            shuffled[0] += (byte)(_table[shuffled[1]] - vectorByte);
             shuffled[1] -= (byte)(shuffled[2] ^ tableInput);
-            shuffled[2] ^= (byte)(this.table[shuffled[3]] + vectorByte);
+            shuffled[2] ^= (byte)(_table[shuffled[3]] + vectorByte);
             shuffled[3] -= (byte)(shuffled[0] - tableInput);
 
             unchecked
@@ -120,7 +120,7 @@ namespace OpenStory.Cryptography
             }
 
             var copy = data.FastClone();
-            this.TransformArraySegment(copy, vector, 0, copy.Length);
+            TransformArraySegment(copy, vector, 0, copy.Length);
             return copy;
         }
     }

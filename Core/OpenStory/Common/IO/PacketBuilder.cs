@@ -12,107 +12,107 @@ namespace OpenStory.Common.IO
     /// </remarks>
     public sealed class PacketBuilder : IPacketBuilder, IDisposable
     {
-        private bool isDisposed;
+        private bool _isDisposed;
 
-        private MemoryStream stream;
+        private MemoryStream _stream;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketBuilder"/> class with the default capacity.
         /// </summary>
         public PacketBuilder()
         {
-            this.stream = new MemoryStream();
+            _stream = new MemoryStream();
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt64(long number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt64(ulong number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt32(int number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt32(uint number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(short number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(ushort number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(number));
+            WriteDirect(LittleEndianBitConverter.GetBytes(number));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(int number)
         {
-            this.WriteInt16((short)number);
+            WriteInt16((short)number);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteInt16(uint number)
         {
-            this.WriteInt16((ushort)number);
+            WriteInt16((ushort)number);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteByte(byte number)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.stream.WriteByte(number);
+            _stream.WriteByte(number);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteByte(int number)
         {
-            this.WriteByte((byte)number);
+            WriteByte((byte)number);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteZeroes(int count)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             if (count <= 0)
             {
@@ -121,7 +121,7 @@ namespace OpenStory.Common.IO
 
             for (int i = 0; i < count; i++)
             {
-                this.stream.WriteByte(0);
+                _stream.WriteByte(0);
             }
         }
 
@@ -129,34 +129,34 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteBytes(byte[] bytes)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             Guard.NotNull(() => bytes, bytes);
 
-            this.stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteBoolean(bool boolean)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            this.WriteDirect(LittleEndianBitConverter.GetBytes(boolean));
+            WriteDirect(LittleEndianBitConverter.GetBytes(boolean));
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WriteLengthString(string @string)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             Guard.NotNull(() => @string, @string);
 
-            this.WriteInt16((short)@string.Length);
+            WriteInt16((short)@string.Length);
             if (@string.Length > 0)
             {
-                this.WriteDirect(Encoding.UTF8.GetBytes(@string));
+                WriteDirect(Encoding.UTF8.GetBytes(@string));
             }
         }
 
@@ -164,7 +164,7 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="ThrowIfDisposed()" select="exception[@cref='ObjectDisposedException']" />
         public void WritePaddedString(string @string, int paddingLength)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             Guard.NotNull(() => @string, @string);
 
@@ -182,7 +182,7 @@ namespace OpenStory.Common.IO
             Encoding.UTF8.GetBytes(@string, 0, @string.Length, stringBytes, 0);
             stringBytes[@string.Length] = 0;
 
-            this.WriteDirect(stringBytes);
+            WriteDirect(stringBytes);
         }
 
         /// <summary>
@@ -192,17 +192,17 @@ namespace OpenStory.Common.IO
         /// <returns>the copy of the byte buffer.</returns>
         public byte[] ToByteArray()
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            byte[] buffer = this.stream.GetBuffer();
-            var length = (int)this.stream.Position;
+            byte[] buffer = _stream.GetBuffer();
+            var length = (int)_stream.Position;
             var array = buffer.CopySegment(0, length);
             return array;
         }
 
         private void WriteDirect(byte[] bytes)
         {
-            this.stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -213,9 +213,9 @@ namespace OpenStory.Common.IO
         /// </exception>
         private void ThrowIfDisposed()
         {
-            if (this.isDisposed)
+            if (_isDisposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
 
@@ -228,11 +228,11 @@ namespace OpenStory.Common.IO
         /// </remarks>
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.stream);
+                Misc.AssignNullAndDispose(ref _stream);
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 

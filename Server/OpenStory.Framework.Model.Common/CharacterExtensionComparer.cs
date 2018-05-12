@@ -7,7 +7,7 @@ namespace OpenStory.Framework.Model.Common
     /// </summary>
     public class CharacterExtensionComparer : EqualityComparer<ICharacterExtension>
     {
-        private readonly IEqualityComparer<CharacterKey> keyComparer;
+        private readonly IEqualityComparer<CharacterKey> _keyComparer;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterExtensionComparer"/> class.
@@ -15,19 +15,19 @@ namespace OpenStory.Framework.Model.Common
         /// <param name="keyComparer">The <see cref="IEqualityComparer{CharacterKey}" /> to use internally.</param>
         public CharacterExtensionComparer(IEqualityComparer<CharacterKey> keyComparer)
         {
-            this.keyComparer = keyComparer;
+            _keyComparer = keyComparer;
         }
 
         /// <inheritdoc />
         public override bool Equals(ICharacterExtension x, ICharacterExtension y)
         {
-            return this.keyComparer.Equals(x.Key, y.Key);
+            return _keyComparer.Equals(x.Key, y.Key);
         }
 
         /// <inheritdoc />
         public override int GetHashCode(ICharacterExtension obj)
         {
-            return obj != null ? this.keyComparer.GetHashCode(obj.Key) : 0;
+            return obj != null ? _keyComparer.GetHashCode(obj.Key) : 0;
         }
     }
 }

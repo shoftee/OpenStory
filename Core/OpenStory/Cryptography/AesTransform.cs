@@ -11,7 +11,7 @@ namespace OpenStory.Cryptography
         private const int IvLength = 16;
         private const int BlockLength = 1460;
 
-        private readonly ICryptoTransform aes;
+        private readonly ICryptoTransform _aes;
 
         private static ICryptoTransform GetTransformer(byte[] key)
         {
@@ -47,7 +47,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.AesKeyMustBe32Bytes, nameof(key));
             }
 
-            this.aes = GetTransformer(key);
+            _aes = GetTransformer(key);
         }
 
         /// <inheritdoc />
@@ -61,14 +61,14 @@ namespace OpenStory.Cryptography
             int blockStart = segmentStart;
             int blockEnd = Math.Min(blockStart + FirstBlockLength, segmentEnd);
 
-            this.TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
+            TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
 
             blockStart += FirstBlockLength;
             while (blockStart < segmentEnd)
             {
                 blockEnd = Math.Min(blockStart + BlockLength, segmentEnd);
 
-                this.TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
+                TransformBlock(data, vector, blockStart, blockEnd, xorBlock);
 
                 blockStart += BlockLength;
             }
@@ -97,7 +97,7 @@ namespace OpenStory.Cryptography
             {
                 if (xorBlockPosition == 0)
                 {
-                    xorBlock = this.aes.TransformFinalBlock(xorBlock, 0, IvLength);
+                    xorBlock = _aes.TransformFinalBlock(xorBlock, 0, IvLength);
                 }
 
                 data[position] ^= xorBlock[xorBlockPosition];

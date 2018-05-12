@@ -14,7 +14,7 @@ namespace OpenStory.Tests.Integration
         [TestCase(typeof(IAuthToNexusRequestHandler))]
         public void Nexus_Should_Resolve(Type type)
         {
-            this.auth.TryGet(type).Should().NotBeNull();
+            _auth.TryGet(type).Should().NotBeNull();
         }
     }
 }

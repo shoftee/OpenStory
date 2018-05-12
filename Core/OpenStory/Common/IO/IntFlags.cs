@@ -27,7 +27,7 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => builder, builder);
 
-            int bitCount = this.Bits.Length;
+            int bitCount = Bits.Length;
             int numberCount = bitCount / IntBitCount;
             var numbers = new uint[numberCount];
 
@@ -44,7 +44,7 @@ namespace OpenStory.Common.IO
                     numbers[numberIndex] <<= 1;
                 }
 
-                numbers[numberIndex] |= Convert.ToUInt32(this.Bits[i]);
+                numbers[numberIndex] |= Convert.ToUInt32(Bits[i]);
             }
 
             for (int i = 0; i < numberCount; i++)
@@ -59,7 +59,7 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => reader, reader);
 
-            int bitCount = this.Bits.Length;
+            int bitCount = Bits.Length;
             int numberCount = bitCount / IntBitCount;
 
             for (int i = 0; i < numberCount; i++)
@@ -69,7 +69,7 @@ namespace OpenStory.Common.IO
                 int endIndex = Math.Min(startIndex + IntBitCount, bitCount);
                 for (int j = startIndex; j < endIndex; j++)
                 {
-                    this.Bits[j] = Convert.ToBoolean(number & 1);
+                    Bits[j] = Convert.ToBoolean(number & 1);
                     number >>= 1;
                 }
             }

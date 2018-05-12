@@ -17,56 +17,56 @@ namespace OpenStory.Server.Processing
     [TestFixture]
     public sealed class ServerProcessFixture
     {
-        private IServerSessionFactory serverSessionFactory;
-        private ISocketAcceptorFactory socketAcceptorFactory;
-        private IPacketScheduler packetScheduler;
-        private IRollingIvFactoryProvider rollingIvFactoryProvider;
-        private IvGenerator ivGenerator;
-        private ILogger logger;
+        private IServerSessionFactory _serverSessionFactory;
+        private ISocketAcceptorFactory _socketAcceptorFactory;
+        private IPacketScheduler _packetScheduler;
+        private IRollingIvFactoryProvider _rollingIvFactoryProvider;
+        private IvGenerator _ivGenerator;
+        private ILogger _logger;
 
         [SetUp]
         public void SetUp()
         {
-            this.serverSessionFactory = Mock.Of<IServerSessionFactory>();
+            _serverSessionFactory = Mock.Of<IServerSessionFactory>();
 
             var socketAcceptorFactoryMock = new Mock<ISocketAcceptorFactory>();
             socketAcceptorFactoryMock
                 .Setup(saf => saf.CreateSocketAcceptor(It.IsAny<IPEndPoint>()))
                 .Returns<IPEndPoint>(endpoint => new SocketAcceptor(endpoint));
-            this.socketAcceptorFactory = socketAcceptorFactoryMock.Object;
-            
-            this.packetScheduler = Mock.Of<IPacketScheduler>();
-            this.rollingIvFactoryProvider = Mock.Of<IRollingIvFactoryProvider>();
-            this.ivGenerator = new IvGenerator(new RNGCryptoServiceProvider());
-            this.logger = Mock.Of<ILogger>();
+            _socketAcceptorFactory = socketAcceptorFactoryMock.Object;
+
+            _packetScheduler = Mock.Of<IPacketScheduler>();
+            _rollingIvFactoryProvider = Mock.Of<IRollingIvFactoryProvider>();
+            _ivGenerator = new IvGenerator(new RNGCryptoServiceProvider());
+            _logger = Mock.Of<ILogger>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            this.serverSessionFactory = null;
-            this.socketAcceptorFactory = null;
-            this.packetScheduler = null;
-            this.rollingIvFactoryProvider = null;
-            this.ivGenerator = null;
-            this.logger = null;
+            _serverSessionFactory = null;
+            _socketAcceptorFactory = null;
+            _packetScheduler = null;
+            _rollingIvFactoryProvider = null;
+            _ivGenerator = null;
+            _logger = null;
         }
 
         [Test]
         public void Configure_Should_Create_Acceptor_And_RollingIvFactory()
         {
-            var process = this.CreateServerProcess();
+            var process = CreateServerProcess();
 
-            process.Configure(this.CreateOsServiceConfiguration());
+            process.Configure(CreateOsServiceConfiguration());
 
-            Mock.Get(this.socketAcceptorFactory).Verify(ThatSocketAcceptorIsCreatedCorrectly(), Times.Once);
-            Mock.Get(this.rollingIvFactoryProvider).Verify(ThatRollingIvFactoryIsCreatedCorrectly(), Times.Once);
+            Mock.Get(_socketAcceptorFactory).Verify(ThatSocketAcceptorIsCreatedCorrectly(), Times.Once);
+            Mock.Get(_rollingIvFactoryProvider).Verify(ThatRollingIvFactoryIsCreatedCorrectly(), Times.Once);
         }
 
         [Test]
         public void Start_Should_Throw_When_Not_Configured()
         {
-            var process = this.CreateServerProcess();
+            var process = CreateServerProcess();
 
             process
                 .Invoking(p => p.Start())
@@ -76,9 +76,9 @@ namespace OpenStory.Server.Processing
         [Test]
         public void Start_Should_Throw_When_Already_Running()
         {
-            var process = this.CreateServerProcess();
+            var process = CreateServerProcess();
 
-            var osServiceConfiguration = this.CreateOsServiceConfiguration();
+            var osServiceConfiguration = CreateOsServiceConfiguration();
             process.Configure(osServiceConfiguration);
 
             process
@@ -94,9 +94,9 @@ namespace OpenStory.Server.Processing
         [Test]
         public void Configure_Should_Throw_When_Already_Running()
         {
-            var process = this.CreateServerProcess();
+            var process = CreateServerProcess();
             
-            var osServiceConfiguration = this.CreateOsServiceConfiguration();
+            var osServiceConfiguration = CreateOsServiceConfiguration();
             process
                 .Invoking(p => p.Configure(osServiceConfiguration))
                 .ShouldNotThrow();
@@ -123,12 +123,12 @@ namespace OpenStory.Server.Processing
         private IServerProcess CreateServerProcess()
         {
             var process = new ServerProcess(
-                this.serverSessionFactory, 
-                this.socketAcceptorFactory, 
-                this.packetScheduler,
-                this.rollingIvFactoryProvider, 
-                this.ivGenerator, 
-                this.logger);
+                _serverSessionFactory,
+                _socketAcceptorFactory,
+                _packetScheduler,
+                _rollingIvFactoryProvider,
+                _ivGenerator,
+                _logger);
             return process;
         }
 

@@ -60,12 +60,12 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets whether the account is a game master account.
         /// </summary>
-        public bool IsGameMaster => this.GameMasterLevel == GameMasterLevel.GameMaster;
+        public bool IsGameMaster => GameMasterLevel == GameMasterLevel.GameMaster;
 
         /// <summary>
         /// Gets whether the account is a game master helper account.
         /// </summary>
-        public bool IsGameMasterHelper => this.GameMasterLevel == GameMasterLevel.GameMasterHelper;
+        public bool IsGameMasterHelper => GameMasterLevel == GameMasterLevel.GameMasterHelper;
 
         /// <summary>
         /// Gets the account's status.

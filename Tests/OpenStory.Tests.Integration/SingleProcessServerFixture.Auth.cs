@@ -13,7 +13,7 @@ namespace OpenStory.Tests.Integration
         [TestCase(typeof(IServerProcess))]
         public void Auth_Should_Resolve(Type type)
         {
-            this.auth.TryGet(type).Should().NotBeNull();
+            _auth.TryGet(type).Should().NotBeNull();
         }
     }
 }

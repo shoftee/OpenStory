@@ -10,19 +10,19 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void Initialize(OsServiceConfiguration serviceConfiguration)
         {
-            this.OnInitializing(serviceConfiguration);
+            OnInitializing(serviceConfiguration);
         }
 
         /// <inheritdoc />
         public void Start()
         {
-            this.OnStarting();
+            OnStarting();
         }
 
         /// <inheritdoc />
         public void Stop()
         {
-            this.OnStopping();
+            OnStopping();
         }
 
         /// <inheritdoc />

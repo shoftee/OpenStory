@@ -31,21 +31,21 @@ namespace OpenStory.Server.Channel
 
         public ChannelClient Client { get; set; }
 
-        ClientBase IPlayer.Client => this.Client;
+        ClientBase IPlayer.Client => Client;
 
         private Player(ChannelClient client, ChannelCharacter character)
         {
-            this.Client = client;
+            Client = client;
 
             // Get what we can from the transfer object.
-            this.Key = character.Key;
-            this.WorldId = character.WorldId;
+            Key = character.Key;
+            WorldId = character.WorldId;
 
-            this.Appearance = character.Appearance;
+            Appearance = character.Appearance;
 
-            this.JobId = character.JobId;
-            this.Fame = character.Fame;
-            this.Level = character.Level;
+            JobId = character.JobId;
+            Fame = character.Fame;
+            Level = character.Level;
 
             // TODO: There are still more things to add to ChannelCharacter
         }

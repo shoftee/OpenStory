@@ -11,14 +11,14 @@ namespace OpenStory.Common.IO
     /// </remarks>
     public sealed class PacketReader : ISafePacketReader, IUnsafePacketReader
     {
-        private readonly byte[] buffer;
-        private readonly int segmentStart;
-        private readonly int segmentEnd;
+        private readonly byte[] _buffer;
+        private readonly int _segmentStart;
+        private readonly int _segmentEnd;
 
-        private int currentOffset;
+        private int _currentOffset;
 
         /// <inheritdoc />
-        public int Remaining => this.segmentEnd - this.currentOffset;
+        public int Remaining => _segmentEnd - _currentOffset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketReader"/> class using the given byte array segment as a buffer.
@@ -55,9 +55,9 @@ namespace OpenStory.Common.IO
                 throw ArraySegmentException.GetByStartAndLength(offset, length);
             }
 
-            this.buffer = buffer;
-            this.currentOffset = this.segmentStart = offset;
-            this.segmentEnd = offset + length;
+            _buffer = buffer;
+            _currentOffset = _segmentStart = offset;
+            _segmentEnd = offset + length;
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => buffer, buffer);
 
-            this.buffer = buffer;
-            this.currentOffset = this.segmentStart = 0;
-            this.segmentEnd = buffer.Length;
+            _buffer = buffer;
+            _currentOffset = _segmentStart = 0;
+            _segmentEnd = buffer.Length;
         }
 
         /// <summary>
@@ -84,10 +84,10 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => other, other);
 
-            this.buffer = other.buffer;
-            this.segmentStart = other.segmentStart;
-            this.segmentEnd = other.segmentEnd;
-            this.currentOffset = other.currentOffset;
+            _buffer = other._buffer;
+            _segmentStart = other._segmentStart;
+            _segmentEnd = other._segmentEnd;
+            _currentOffset = other._currentOffset;
         }
 
         #region Private methods
@@ -100,13 +100,13 @@ namespace OpenStory.Common.IO
         {
             int count = 0;
             int currentPosition = start;
-            while (this.buffer[currentPosition] != 0 && count < padLength - 1)
+            while (_buffer[currentPosition] != 0 && count < padLength - 1)
             {
                 count++;
                 currentPosition++;
             }
 
-            return this.ReadString(start, count);
+            return ReadString(start, count);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OpenStory.Common.IO
         /// <returns>the string that was read.</returns>
         private string ReadString(int start, int length)
         {
-            return Encoding.UTF8.GetString(this.buffer, start, length);
+            return Encoding.UTF8.GetString(_buffer, start, length);
         }
 
         #endregion
@@ -129,9 +129,9 @@ namespace OpenStory.Common.IO
         {
             ThrowIfCountIsNegative(count);
 
-            if (this.CanAdvance(count))
+            if (CanAdvance(count))
             {
-                this.UncheckedAdvance(count);
+                UncheckedAdvance(count);
                 return true;
             }
             else
@@ -148,20 +148,20 @@ namespace OpenStory.Common.IO
                 throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeNonNegative);
             }
 
-            int bufferOffset = this.segmentStart + offset;
-            if (bufferOffset < this.currentOffset)
+            int bufferOffset = _segmentStart + offset;
+            if (bufferOffset < _currentOffset)
             {
                 throw new ArgumentOutOfRangeException(nameof(offset), offset, CommonStrings.OffsetMustBeAheadOfCurrentPosition);
             }
 
-            int remaining = this.segmentEnd - bufferOffset;
+            int remaining = _segmentEnd - bufferOffset;
             if (remaining < 0)
             {
                 return false;
             }
             else
             {
-                this.currentOffset = bufferOffset;
+                _currentOffset = bufferOffset;
                 return true;
             }
         }
@@ -171,11 +171,11 @@ namespace OpenStory.Common.IO
         {
             ThrowIfCountIsNegative(count);
 
-            if (this.CanAdvance(count))
+            if (CanAdvance(count))
             {
                 array = new byte[count];
-                int start = this.UncheckedAdvance(count);
-                Buffer.BlockCopy(this.buffer, start, array, 0, count);
+                int start = UncheckedAdvance(count);
+                Buffer.BlockCopy(_buffer, start, array, 0, count);
                 return true;
             }
             else
@@ -187,10 +187,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadByte(out byte value)
         {
-            if (this.CanAdvance(1))
+            if (CanAdvance(1))
             {
-                int index = this.UncheckedAdvance(1);
-                value = this.buffer[index];
+                int index = UncheckedAdvance(1);
+                value = _buffer[index];
                 return true;
             }
             else
@@ -202,10 +202,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadUInt32(out uint value)
         {
-            if (this.CanAdvance(4))
+            if (CanAdvance(4))
             {
-                int start = this.UncheckedAdvance(4);
-                value = LittleEndianBitConverter.ToUInt32(this.buffer, start);
+                int start = UncheckedAdvance(4);
+                value = LittleEndianBitConverter.ToUInt32(_buffer, start);
                 return true;
             }
             else
@@ -217,10 +217,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadInt32(out int value)
         {
-            if (this.CanAdvance(4))
+            if (CanAdvance(4))
             {
-                int start = this.UncheckedAdvance(4);
-                value = LittleEndianBitConverter.ToInt32(this.buffer, start);
+                int start = UncheckedAdvance(4);
+                value = LittleEndianBitConverter.ToInt32(_buffer, start);
                 return true;
             }
             else
@@ -232,10 +232,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadUInt16(out ushort value)
         {
-            if (this.CanAdvance(2))
+            if (CanAdvance(2))
             {
-                int start = this.UncheckedAdvance(2);
-                value = LittleEndianBitConverter.ToUInt16(this.buffer, start);
+                int start = UncheckedAdvance(2);
+                value = LittleEndianBitConverter.ToUInt16(_buffer, start);
                 return true;
             }
             else
@@ -247,20 +247,20 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadInt16(out short value)
         {
-            return this.TryReadInt16(out value, false);
+            return TryReadInt16(out value, false);
         }
 
         private bool TryReadInt16(out short value, bool peek)
         {
-            if (this.CanAdvance(2))
+            if (CanAdvance(2))
             {
-                int start = this.currentOffset;
+                int start = _currentOffset;
                 if (!peek)
                 {
-                    this.UncheckedAdvance(2);
+                    UncheckedAdvance(2);
                 }
 
-                value = LittleEndianBitConverter.ToInt16(this.buffer, start);
+                value = LittleEndianBitConverter.ToInt16(_buffer, start);
                 return true;
             }
             else
@@ -272,10 +272,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadInt64(out long value)
         {
-            if (this.CanAdvance(8))
+            if (CanAdvance(8))
             {
-                int start = this.UncheckedAdvance(8);
-                value = LittleEndianBitConverter.ToInt64(this.buffer, start);
+                int start = UncheckedAdvance(8);
+                value = LittleEndianBitConverter.ToInt64(_buffer, start);
                 return true;
             }
             else
@@ -287,10 +287,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadUInt64(out ulong value)
         {
-            if (this.CanAdvance(8))
+            if (CanAdvance(8))
             {
-                int start = this.UncheckedAdvance(8);
-                value = LittleEndianBitConverter.ToUInt64(this.buffer, start);
+                int start = UncheckedAdvance(8);
+                value = LittleEndianBitConverter.ToUInt64(_buffer, start);
                 return true;
             }
             else
@@ -303,20 +303,20 @@ namespace OpenStory.Common.IO
         public bool TryReadLengthString(out string result)
         {
             short length;
-            if (!this.TryReadInt16(out length, peek: true))
+            if (!TryReadInt16(out length, peek: true))
             {
                 return Misc.Fail(out result);
             }
 
-            if (!this.CanAdvance(2 + length))
+            if (!CanAdvance(2 + length))
             {
                 return Misc.Fail(out result);
             }
 
-            this.UncheckedAdvance(2);
+            UncheckedAdvance(2);
 
-            int start = this.UncheckedAdvance(length);
-            result = this.ReadString(start, length);
+            int start = UncheckedAdvance(length);
+            result = ReadString(start, length);
             return true;
         }
 
@@ -328,10 +328,10 @@ namespace OpenStory.Common.IO
                 throw new ArgumentOutOfRangeException(nameof(paddingLength), paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
-            if (this.CanAdvance(paddingLength))
+            if (CanAdvance(paddingLength))
             {
-                int start = this.UncheckedAdvance(paddingLength);
-                result = this.ReadNullTerminatedString(start, paddingLength);
+                int start = UncheckedAdvance(paddingLength);
+                result = ReadNullTerminatedString(start, paddingLength);
                 return true;
             }
             else
@@ -343,10 +343,10 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public bool TryReadBoolean(out bool value)
         {
-            if (this.CanAdvance(1))
+            if (CanAdvance(1))
             {
-                int index = this.UncheckedAdvance(1);
-                value = this.buffer[index] != 0;
+                int index = UncheckedAdvance(1);
+                value = _buffer[index] != 0;
                 return true;
             }
             else
@@ -365,7 +365,7 @@ namespace OpenStory.Common.IO
         {
             ThrowIfCountIsNegative(count);
 
-            this.CheckedAdvance(count);
+            CheckedAdvance(count);
         }
 
         /// <inheritdoc />
@@ -374,9 +374,9 @@ namespace OpenStory.Common.IO
         {
             ThrowIfCountIsNegative(count);
 
-            int start = this.CheckedAdvance(count);
+            int start = CheckedAdvance(count);
             var bytes = new byte[count];
-            Buffer.BlockCopy(this.buffer, start, bytes, 0, count);
+            Buffer.BlockCopy(_buffer, start, bytes, 0, count);
             return bytes;
         }
 
@@ -384,15 +384,15 @@ namespace OpenStory.Common.IO
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public byte ReadByte()
         {
-            int index = this.CheckedAdvance(1);
-            return this.buffer[index];
+            int index = CheckedAdvance(1);
+            return _buffer[index];
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public short ReadInt16()
         {
-            return this.ReadInt16(false);
+            return ReadInt16(false);
         }
 
         private short ReadInt16(bool peek)
@@ -401,60 +401,60 @@ namespace OpenStory.Common.IO
             if (peek)
             {
                 // If we just wanna peek, don't advance.
-                if (!this.CanAdvance(2))
+                if (!CanAdvance(2))
                 {
                     throw PacketReadingException.EndOfStream();
                 }
 
-                start = this.currentOffset;
+                start = _currentOffset;
             }
             else
             {
                 // Otherwise do advance.
-                start = this.CheckedAdvance(2);
+                start = CheckedAdvance(2);
             }
 
-            return LittleEndianBitConverter.ToInt16(this.buffer, start);
+            return LittleEndianBitConverter.ToInt16(_buffer, start);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public ushort ReadUInt16()
         {
-            int start = this.CheckedAdvance(2);
-            return LittleEndianBitConverter.ToUInt16(this.buffer, start);
+            int start = CheckedAdvance(2);
+            return LittleEndianBitConverter.ToUInt16(_buffer, start);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public int ReadInt32()
         {
-            int start = this.CheckedAdvance(4);
-            return LittleEndianBitConverter.ToInt32(this.buffer, start);
+            int start = CheckedAdvance(4);
+            return LittleEndianBitConverter.ToInt32(_buffer, start);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public uint ReadUInt32()
         {
-            int start = this.CheckedAdvance(4);
-            return LittleEndianBitConverter.ToUInt32(this.buffer, start);
+            int start = CheckedAdvance(4);
+            return LittleEndianBitConverter.ToUInt32(_buffer, start);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public long ReadInt64()
         {
-            int start = this.CheckedAdvance(8);
-            return LittleEndianBitConverter.ToInt64(this.buffer, start);
+            int start = CheckedAdvance(8);
+            return LittleEndianBitConverter.ToInt64(_buffer, start);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public ulong ReadUInt64()
         {
-            int start = this.CheckedAdvance(8);
-            return LittleEndianBitConverter.ToUInt64(this.buffer, start);
+            int start = CheckedAdvance(8);
+            return LittleEndianBitConverter.ToUInt64(_buffer, start);
         }
 
         /// <inheritdoc />
@@ -462,15 +462,15 @@ namespace OpenStory.Common.IO
         public string ReadLengthString()
         {
             // We do this in a convoluted fashion to avoid moving the position forward if we're gonna fail.
-            short length = this.ReadInt16(true);
+            short length = ReadInt16(true);
 
-            if (!this.CanAdvance(2 + length))
+            if (!CanAdvance(2 + length))
             {
                 throw PacketReadingException.EndOfStream();
             }
 
-            string s = this.ReadString(this.currentOffset + 2, length);
-            this.currentOffset += 2 + length;
+            string s = ReadString(_currentOffset + 2, length);
+            _currentOffset += 2 + length;
 
             return s;
         }
@@ -484,16 +484,16 @@ namespace OpenStory.Common.IO
                 throw new ArgumentOutOfRangeException(nameof(paddingLength), paddingLength, CommonStrings.PaddingLengthMustBePositive);
             }
 
-            int start = this.CheckedAdvance(paddingLength);
-            return this.ReadNullTerminatedString(start, paddingLength);
+            int start = CheckedAdvance(paddingLength);
+            return ReadNullTerminatedString(start, paddingLength);
         }
 
         /// <inheritdoc />
         /// <inheritdoc cref="CheckedAdvance" select="exception[@cref='PacketReadingException']" />
         public bool ReadBoolean()
         {
-            int index = this.CheckedAdvance(1);
-            return this.buffer[index] != 0;
+            int index = CheckedAdvance(1);
+            return _buffer[index] != 0;
         }
 
         #endregion
@@ -501,11 +501,11 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public byte[] ReadFully()
         {
-            int remaining = this.Remaining;
+            int remaining = Remaining;
             var remainingBytes = new byte[remaining];
 
-            int start = this.UncheckedAdvance(remaining);
-            Buffer.BlockCopy(this.buffer, start, remainingBytes, 0, remaining);
+            int start = UncheckedAdvance(remaining);
+            Buffer.BlockCopy(_buffer, start, remainingBytes, 0, remaining);
             return remainingBytes;
         }
 
@@ -518,7 +518,7 @@ namespace OpenStory.Common.IO
         /// <returns><see langword="true"/> if advancing is safe; otherwise, <see langword="false"/>.</returns>
         private bool CanAdvance(int count)
         {
-            return this.currentOffset + count <= this.segmentEnd;
+            return _currentOffset + count <= _segmentEnd;
         }
 
         /// <summary>Advances the stream by a number of positions and returns the original position.</summary>
@@ -526,8 +526,8 @@ namespace OpenStory.Common.IO
         /// <returns>the position of the stream before advancing.</returns>
         private int UncheckedAdvance(int count)
         {
-            int old = this.currentOffset;
-            this.currentOffset += count;
+            int old = _currentOffset;
+            _currentOffset += count;
             return old;
         }
 
@@ -541,13 +541,13 @@ namespace OpenStory.Common.IO
         /// <returns>the position of the stream before advancing.</returns>
         private int CheckedAdvance(int count)
         {
-            if (this.currentOffset + count > this.segmentEnd)
+            if (_currentOffset + count > _segmentEnd)
             {
                 throw PacketReadingException.EndOfStream();
             }
 
-            int old = this.currentOffset;
-            this.currentOffset += count;
+            int old = _currentOffset;
+            _currentOffset += count;
             return old;
         }
 
@@ -574,7 +574,7 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => readingCallback, readingCallback);
 
-            int start = this.currentOffset;
+            int start = _currentOffset;
             bool success;
             try
             {
@@ -583,7 +583,7 @@ namespace OpenStory.Common.IO
             }
             catch (PacketReadingException)
             {
-                this.currentOffset = start;
+                _currentOffset = start;
                 success = false;
             }
 
@@ -605,7 +605,7 @@ namespace OpenStory.Common.IO
             Guard.NotNull(() => readingCallback, readingCallback);
             Guard.NotNull(() => failureCallback, failureCallback);
 
-            int start = this.currentOffset;
+            int start = _currentOffset;
             bool success;
             try
             {
@@ -614,7 +614,7 @@ namespace OpenStory.Common.IO
             }
             catch (PacketReadingException)
             {
-                this.currentOffset = start;
+                _currentOffset = start;
                 success = false;
             }
 
@@ -642,7 +642,7 @@ namespace OpenStory.Common.IO
             Guard.NotNull(() => readingCallback, readingCallback);
             Guard.NotNull(() => failureCallback, failureCallback);
 
-            int start = this.currentOffset;
+            int start = _currentOffset;
             var result = default(T);
             bool success;
             try
@@ -652,7 +652,7 @@ namespace OpenStory.Common.IO
             }
             catch (PacketReadingException)
             {
-                this.currentOffset = start;
+                _currentOffset = start;
                 success = false;
             }
 

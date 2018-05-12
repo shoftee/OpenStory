@@ -8,7 +8,7 @@ namespace OpenStory.Server.Auth
     /// </summary>
     public sealed class AuthOperator : ServerOperator<AuthClient>
     {
-        private AuthConfiguration authConfiguration;
+        private AuthConfiguration _authConfiguration;
 
         /// <inheritdoc />
         public AuthOperator(IGameClientFactory<AuthClient> gameClientFactory)
@@ -19,7 +19,7 @@ namespace OpenStory.Server.Auth
         /// <inheritdoc />
         public override void Configure(OsServiceConfiguration configuration)
         {
-            this.authConfiguration = new AuthConfiguration(configuration);
+            _authConfiguration = new AuthConfiguration(configuration);
         }
     }
 }

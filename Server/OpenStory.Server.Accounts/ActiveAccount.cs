@@ -35,8 +35,8 @@ namespace OpenStory.Server.Accounts
         /// <param name="sessionId">The ID of the active session.</param>
         public ActiveAccount(int accountId, int sessionId)
         {
-            this.AccountId = accountId;
-            this.SessionId = sessionId;
+            AccountId = accountId;
+            SessionId = sessionId;
         }
 
         /// <summary>
@@ -46,12 +46,12 @@ namespace OpenStory.Server.Accounts
         /// <exception cref="InvalidOperationException">Thrown if <see cref="CharacterId"/> is already assigned a value.</exception>
         public void RegisterCharacter(int characterId)
         {
-            if (this.CharacterId.HasValue)
+            if (CharacterId.HasValue)
             {
                 throw new InvalidOperationException(AccountServiceStrings.SessionAlreadyHasCharacter);
             }
 
-            this.CharacterId = characterId;
+            CharacterId = characterId;
         }
 
         /// <summary>
@@ -60,20 +60,20 @@ namespace OpenStory.Server.Accounts
         /// <exception cref="InvalidOperationException">Thrown if <see cref="CharacterId"/> has no value assigned.</exception>
         public void UnregisterCharacter()
         {
-            if (!this.CharacterId.HasValue)
+            if (!CharacterId.HasValue)
             {
                 throw new InvalidOperationException(AccountServiceStrings.SessionHasNoCharacter);
             }
 
-            this.CharacterId = null;
+            CharacterId = null;
         }
 
         public Duration KeepAlive(Instant now)
         {
             var newTimestamp = now;
-            var oldTimestamp = this.LastKeepAlive;
+            var oldTimestamp = LastKeepAlive;
 
-            this.LastKeepAlive = newTimestamp;
+            LastKeepAlive = newTimestamp;
 
             var lag = newTimestamp - oldTimestamp;
             return lag;

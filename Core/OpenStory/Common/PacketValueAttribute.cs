@@ -14,7 +14,7 @@ namespace OpenStory.Common
         /// <param name="value">The packet value to set.</param>
         public PacketValueAttribute(int value)
         {
-            this.Value = value;
+            Value = value;
         }
 
         /// <summary>

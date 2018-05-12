@@ -14,7 +14,7 @@ namespace OpenStory.Tests.Integration
         [TestCase(typeof(IServiceContainer<IWorldToChannelRequestHandler>))]
         public void Channel_Should_Resolve(Type type)
         {
-            this.channel.TryGet(type).Should().NotBeNull();
+            _channel.TryGet(type).Should().NotBeNull();
         }
     }
 }

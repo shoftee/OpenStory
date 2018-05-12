@@ -26,7 +26,7 @@ namespace OpenStory.Framework.Contracts
                 throw new ArgumentNullException(nameof(serverSession));
             }
 
-            this.ServerSession = serverSession;
+            ServerSession = serverSession;
         }
     }
 }

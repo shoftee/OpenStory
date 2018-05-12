@@ -25,7 +25,7 @@ namespace OpenStory.Server.Networking
                 throw new ArgumentNullException(nameof(socket));
             }
 
-            this.Socket = socket;
+            Socket = socket;
         }
     }
 }

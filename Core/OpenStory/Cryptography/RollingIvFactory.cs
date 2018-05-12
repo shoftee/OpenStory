@@ -5,9 +5,9 @@
     /// </summary>
     public sealed class RollingIvFactory
     {
-        private readonly ICryptoAlgorithm encryptionAlgorithm;
-        private readonly ICryptoAlgorithm decryptionAlgorithm;
-        private readonly ushort version;
+        private readonly ICryptoAlgorithm _encryptionAlgorithm;
+        private readonly ICryptoAlgorithm _decryptionAlgorithm;
+        private readonly ushort _version;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RollingIvFactory"/> class.
@@ -16,10 +16,10 @@
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
         public RollingIvFactory(ICryptoAlgorithm symmetricAlgorithm, ushort version)
         {
-            this.encryptionAlgorithm = symmetricAlgorithm;
-            this.decryptionAlgorithm = symmetricAlgorithm;
+            _encryptionAlgorithm = symmetricAlgorithm;
+            _decryptionAlgorithm = symmetricAlgorithm;
 
-            this.version = version;
+            _version = version;
         }
 
         /// <summary>
@@ -30,10 +30,10 @@
         /// <param name="version">The version number to assign to created <see cref="RollingIv"/> instances.</param>
         public RollingIvFactory(ICryptoAlgorithm encryptionAlgorithm, ICryptoAlgorithm decryptionAlgorithm, ushort version)
         {
-            this.encryptionAlgorithm = encryptionAlgorithm;
-            this.decryptionAlgorithm = decryptionAlgorithm;
+            _encryptionAlgorithm = encryptionAlgorithm;
+            _decryptionAlgorithm = decryptionAlgorithm;
 
-            this.version = version;
+            _version = version;
         }
 
         /// <summary>
@@ -44,8 +44,8 @@
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
         public RollingIv CreateEncryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
-            ushort versionMask = GetMaskedVersion(this.version, versionMaskType);
-            return new RollingIv(this.encryptionAlgorithm, initialIv, versionMask);
+            ushort versionMask = GetMaskedVersion(_version, versionMaskType);
+            return new RollingIv(_encryptionAlgorithm, initialIv, versionMask);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@
         /// <returns>a new instance of <see cref="RollingIv"/>.</returns>
         public RollingIv CreateDecryptIv(byte[] initialIv, VersionMaskType versionMaskType)
         {
-            ushort versionMask = GetMaskedVersion(this.version, versionMaskType);
-            return new RollingIv(this.decryptionAlgorithm, initialIv, versionMask);
+            ushort versionMask = GetMaskedVersion(_version, versionMaskType);
+            return new RollingIv(_decryptionAlgorithm, initialIv, versionMask);
         }
 
         private static ushort GetMaskedVersion(ushort version, VersionMaskType versionMaskType)

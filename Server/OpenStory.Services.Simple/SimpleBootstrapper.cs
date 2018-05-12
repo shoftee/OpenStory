@@ -18,23 +18,23 @@ namespace OpenStory.Services.Simple
 {
     public class SimpleBootstrapper : BootstrapperBase
     {
-        private readonly IKernel account;
-        private readonly IKernel auth;
-        private readonly IKernel world;
-        private readonly IKernel channel;
+        private readonly IKernel _account;
+        private readonly IKernel _auth;
+        private readonly IKernel _world;
+        private readonly IKernel _channel;
 
         public SimpleBootstrapper(IResolutionRoot resolutionRoot, ILogger logger)
             : base(resolutionRoot, logger)
         {
-            var nexus = new ChildKernel(this.ResolutionRoot, new NexusServerModule());
+            var nexus = new ChildKernel(ResolutionRoot, new NexusServerModule());
 
-            this.account = new ChildKernel(nexus, new AccountServerModule());
-            this.auth = CreateAuthKernel(nexus);
-            this.world = new ChildKernel(nexus, new WorldServerModule());
-            this.channel = new ChildKernel(this.world, new ServerModule(), new ChannelServerModule());
+            _account = new ChildKernel(nexus, new AccountServerModule());
+            _auth = CreateAuthKernel(nexus);
+            _world = new ChildKernel(nexus, new WorldServerModule());
+            _channel = new ChildKernel(_world, new ServerModule(), new ChannelServerModule());
 
             // HACK :(
-            nexus.Bind<IAccountService>().ToMethod(ctx => this.account.Get<IAccountService>());
+            nexus.Bind<IAccountService>().ToMethod(ctx => _account.Get<IAccountService>());
         }
 
         private static ChildKernel CreateAuthKernel(IResolutionRoot parent)
@@ -48,28 +48,28 @@ namespace OpenStory.Services.Simple
 
         protected override void OnStarting()
         {
-            this.account.Get<IRegisteredService>().Initialize(null);
+            _account.Get<IRegisteredService>().Initialize(null);
 
-            this.Logger.Info("Preparing auth service...");
-            this.auth.Get<IRegisteredService>().Initialize(this.GetAuthConfiguration());
+            Logger.Info("Preparing auth service...");
+            _auth.Get<IRegisteredService>().Initialize(GetAuthConfiguration());
 
-            this.Logger.Info("Preparing world service...");
-            this.world.Get<IRegisteredService>().Initialize(this.GetWorldConfiguration());
+            Logger.Info("Preparing world service...");
+            _world.Get<IRegisteredService>().Initialize(GetWorldConfiguration());
 
-            this.Logger.Info("Preparing channel service...");
-            this.channel.Get<IRegisteredService>().Initialize(this.GetChannelConfiguration());
+            Logger.Info("Preparing channel service...");
+            _channel.Get<IRegisteredService>().Initialize(GetChannelConfiguration());
 
-            this.Logger.Info("Starting world service...");
-            this.world.Get<IRegisteredService>().Start();
+            Logger.Info("Starting world service...");
+            _world.Get<IRegisteredService>().Start();
 
-            this.Logger.Info("Starting channel service...");
-            this.channel.Get<IRegisteredService>().Start();
+            Logger.Info("Starting channel service...");
+            _channel.Get<IRegisteredService>().Start();
 
-            this.Logger.Info("Starting account service...");
-            this.account.Get<IRegisteredService>().Start();
+            Logger.Info("Starting account service...");
+            _account.Get<IRegisteredService>().Start();
 
-            this.Logger.Info("Starting auth service...");
-            this.auth.Get<IRegisteredService>().Start();
+            Logger.Info("Starting auth service...");
+            _auth.Get<IRegisteredService>().Start();
         }
 
         #region Server configuration

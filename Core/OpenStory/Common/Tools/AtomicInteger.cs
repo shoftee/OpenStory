@@ -8,12 +8,12 @@ namespace OpenStory.Common
     /// </summary>
     public sealed class AtomicInteger
     {
-        private int value;
+        private int _value;
 
         /// <summary>
         /// Gets the current value of the <see cref="AtomicInteger"/>.
         /// </summary>
-        public int Value => this.value;
+        public int Value => _value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicInteger"/> class with the given value.
@@ -21,7 +21,7 @@ namespace OpenStory.Common
         /// <param name="initialValue">The initial value.</param>
         public AtomicInteger(int initialValue)
         {
-            this.value = initialValue;
+            _value = initialValue;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace OpenStory.Common
         /// <returns>the value after being incremented.</returns>
         public int Increment()
         {
-            return Interlocked.Increment(ref this.value);
+            return Interlocked.Increment(ref _value);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace OpenStory.Common
         /// <returns>the value after being decremented.</returns>
         public int Decrement()
         {
-            return Interlocked.Decrement(ref this.value);
+            return Interlocked.Decrement(ref _value);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenStory.Common
         /// <returns>the original value of the <see cref="AtomicInteger"/>.</returns>
         public int ExchangeWith(int newValue)
         {
-            return Interlocked.Exchange(ref this.value, newValue);
+            return Interlocked.Exchange(ref _value, newValue);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace OpenStory.Common
         /// <returns>the original value of the <see cref="AtomicInteger"/>.</returns>
         public int CompareExchange(int comparand, int newValue)
         {
-            return Interlocked.CompareExchange(ref this.value, newValue, comparand);
+            return Interlocked.CompareExchange(ref _value, newValue, comparand);
         }
 
         #region Cast methods
@@ -93,7 +93,7 @@ namespace OpenStory.Common
                 throw new InvalidCastException();
             }
 
-            return atomicInteger.value;
+            return atomicInteger._value;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace OpenStory.Common
         /// <returns>the value of the <see cref="AtomicInteger"/>.</returns>
         public int ToInt32()
         {
-            return this.value;
+            return _value;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace OpenStory.Common
                 throw new InvalidCastException();
             }
 
-            return atomicInteger.value;
+            return atomicInteger._value;
         }
 
         #endregion

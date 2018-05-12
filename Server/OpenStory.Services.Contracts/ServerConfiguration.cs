@@ -38,12 +38,12 @@ namespace OpenStory.Services.Contracts
         /// <param name="configuration">The object containing the configuration values.</param>
         public ServerConfiguration(OsServiceConfiguration configuration)
         {
-            this.Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
+            Endpoint = configuration.Get<IPEndPoint>("Endpoint", true);
 
-            this.Header = configuration.GetValue<ushort>("Header");
-            this.Version = configuration.Get<ushort>("Version", true);
-            this.Subversion = configuration.Get<string>("Subversion", true);
-            this.LocaleId = configuration.Get<byte>("LocaleId", true);
+            Header = configuration.GetValue<ushort>("Header");
+            Version = configuration.Get<ushort>("Version", true);
+            Subversion = configuration.Get<string>("Subversion", true);
+            LocaleId = configuration.Get<byte>("LocaleId", true);
         }
     }
 }

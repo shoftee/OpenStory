@@ -34,7 +34,7 @@ namespace OpenStory.Framework.Model.Common
                 throw new ArgumentOutOfRangeException(nameof(itemId), itemId, ModelStrings.ItemIdMustBePositive);
             }
 
-            this.ItemId = itemId;
+            ItemId = itemId;
         }
 
         /// <inheritdoc />
@@ -50,13 +50,13 @@ namespace OpenStory.Framework.Model.Common
                 return false;
             }
 
-            return this.Equals(obj as ItemInfo);
+            return Equals(obj as ItemInfo);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return this.ItemId;
+            return ItemId;
         }
 
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace OpenStory.Framework.Model.Common
                 return false;
             }
 
-            return this.ItemId == other.ItemId;
+            return ItemId == other.ItemId;
         }
     }
 }

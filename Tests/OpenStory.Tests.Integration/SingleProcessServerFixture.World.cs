@@ -13,7 +13,7 @@ namespace OpenStory.Tests.Integration
         [TestCase(typeof(IWorldInfoProvider))]
         public void World_Should_Resolve(Type type)
         {
-            this.world.TryGet(type).Should().NotBeNull();
+            _world.TryGet(type).Should().NotBeNull();
         }
     }
 }

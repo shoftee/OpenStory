@@ -12,20 +12,20 @@ namespace OpenStory.Common.IO
     [Category("OpenStory.Common.IO.PacketBuilder")]
     public sealed class PacketBuilderFixture
     {
-        private PacketBuilder builder;
+        private PacketBuilder _builder;
 
-        private PacketBuilder DefaultBuilder => this.builder;
+        private PacketBuilder DefaultBuilder => _builder;
 
         [SetUp]
         public void SetUp()
         {
-            this.builder = new PacketBuilder();
+            _builder = new PacketBuilder();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Misc.AssignNullAndDispose(ref this.builder);
+            Misc.AssignNullAndDispose(ref _builder);
         }
 
         #region Failure

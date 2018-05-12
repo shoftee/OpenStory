@@ -14,11 +14,11 @@ namespace OpenStory.Services.Wcf
     /// </summary>
     public sealed class WcfBootstrapper : BootstrapperBase, IDisposable
     {
-        private bool isDisposed;
+        private bool _isDisposed;
         
-        private readonly List<OsWcfConfiguration> configurations;
+        private readonly List<OsWcfConfiguration> _configurations;
         
-        private readonly List<ServiceHost> hosts;
+        private readonly List<ServiceHost> _hosts;
 
         /// <summary>
         /// Initializes it all.
@@ -26,27 +26,27 @@ namespace OpenStory.Services.Wcf
         public WcfBootstrapper(IEnumerable<OsWcfConfiguration> configurations, IResolutionRoot resolutionRoot, ILogger logger)
             : base(resolutionRoot, logger)
         {
-            this.configurations = configurations.ToList();
-            this.hosts = new List<ServiceHost>(this.configurations.Count);
+            _configurations = configurations.ToList();
+            _hosts = new List<ServiceHost>(_configurations.Count);
 
-            this.isDisposed = false;
+            _isDisposed = false;
         }
 
         /// <inheritdoc/>
         protected override void OnStarting()
         {
             var sw = new Stopwatch();
-            foreach (var configuration in this.configurations)
+            foreach (var configuration in _configurations)
             {
                 sw.Restart();
 
-                var host = configuration.CreateHost(this.ResolutionRoot);
-                this.hosts.Add(host);
+                var host = configuration.CreateHost(ResolutionRoot);
+                _hosts.Add(host);
 
                 var serviceName = host.Description.Name ?? host.Description.ServiceType.FullName;
                 host.Open();
 
-                this.Logger.Debug("'{0}' started ({1} ms)", serviceName, sw.ElapsedMilliseconds);
+                Logger.Debug("'{0}' started ({1} ms)", serviceName, sw.ElapsedMilliseconds);
             }
 
             sw.Stop();
@@ -55,9 +55,9 @@ namespace OpenStory.Services.Wcf
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                foreach (var host in this.hosts)
+                foreach (var host in _hosts)
                 {
                     if (host.State != CommunicationState.Faulted)
                     {
@@ -68,10 +68,10 @@ namespace OpenStory.Services.Wcf
                         host.Abort();
                     }
                 }
-                
-                this.hosts.Clear();
 
-                this.isDisposed = true;
+                _hosts.Clear();
+
+                _isDisposed = true;
             }
         }
     }

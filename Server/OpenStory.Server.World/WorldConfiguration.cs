@@ -18,7 +18,7 @@ namespace OpenStory.Server.World
         /// <param name="configuration"><inheritdoc /></param>
         public WorldConfiguration(OsServiceConfiguration configuration)
         {
-            this.WorldId = configuration.Get<int>("World");
+            WorldId = configuration.Get<int>("World");
         }
     }
 }

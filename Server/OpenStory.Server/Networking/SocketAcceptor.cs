@@ -22,9 +22,9 @@ namespace OpenStory.Server.Networking
         /// </summary>
         public event EventHandler<SocketErrorEventArgs> SocketError;
 
-        private SocketAsyncEventArgs socketArgs;
-        private Socket acceptSocket;
-        private bool isDisposed;
+        private SocketAsyncEventArgs _socketArgs;
+        private Socket _acceptSocket;
+        private bool _isDisposed;
 
         /// <summary>
         /// Gets the bound endpoint for the acceptor.
@@ -45,18 +45,18 @@ namespace OpenStory.Server.Networking
                 throw new ArgumentNullException(nameof(endpoint));
             }
 
-            this.isDisposed = false;
+            _isDisposed = false;
 
-            this.Endpoint = endpoint;
+            Endpoint = endpoint;
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                this.DisposeSocketIfNotNull();
-                this.isDisposed = true;
+                DisposeSocketIfNotNull();
+                _isDisposed = true;
             }
         }
 
@@ -68,14 +68,14 @@ namespace OpenStory.Server.Networking
         /// </exception>
         public void Start()
         {
-            if (this.SocketAccepted == null)
+            if (SocketAccepted == null)
             {
                 throw new InvalidOperationException(CommonStrings.AcceptEventHasNoSubscribers);
             }
 
-            this.acceptSocket = this.GetAcceptSocket();
+            _acceptSocket = GetAcceptSocket();
 
-            this.BeginAccept();
+            BeginAccept();
         }
 
         /// <summary>
@@ -83,18 +83,18 @@ namespace OpenStory.Server.Networking
         /// </summary>
         public void Stop()
         {
-            this.DisposeSocketIfNotNull();
+            DisposeSocketIfNotNull();
         }
 
         private Socket GetAcceptSocket()
         {
-            this.DisposeSocketIfNotNull();
+            DisposeSocketIfNotNull();
 
-            this.socketArgs = new SocketAsyncEventArgs();
-            this.socketArgs.Completed += (o, e) => this.EndAcceptAsynchronous(e);
+            _socketArgs = new SocketAsyncEventArgs();
+            _socketArgs.Completed += (o, e) => EndAcceptAsynchronous(e);
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(this.Endpoint);
+            socket.Bind(Endpoint);
             socket.Listen(100);
 
             return socket;
@@ -102,13 +102,13 @@ namespace OpenStory.Server.Networking
 
         private void BeginAccept()
         {
-            this.socketArgs.AcceptSocket = null;
+            _socketArgs.AcceptSocket = null;
 
             // For the confused: AcceptAsync returns false if the operation completed synchronously.
             // As long as the operation completes synchronously, we can handle the socket synchronously too.
-            while (!this.acceptSocket.AcceptAsync(this.socketArgs))
+            while (!_acceptSocket.AcceptAsync(_socketArgs))
             {
-                if (!this.EndAcceptSynchronous(this.socketArgs))
+                if (!EndAcceptSynchronous(_socketArgs))
                 {
                     break;
                 }
@@ -124,17 +124,17 @@ namespace OpenStory.Server.Networking
         {
             if (eventArgs.SocketError != System.Net.Sockets.SocketError.Success)
             {
-                this.OnSocketError(eventArgs.SocketError);
+                OnSocketError(eventArgs.SocketError);
                 return false;
             }
 
-            this.OnSocketAccepted(eventArgs.AcceptSocket);
+            OnSocketAccepted(eventArgs.AcceptSocket);
             return true;
         }
 
         private void OnSocketAccepted(Socket acceptedSocket)
         {
-            this.SocketAccepted(this, new SocketEventArgs(acceptedSocket));
+            SocketAccepted(this, new SocketEventArgs(acceptedSocket));
         }
 
         /// <summary>
@@ -147,27 +147,27 @@ namespace OpenStory.Server.Networking
         /// <param name="eventArgs">The <see cref="SocketAsyncEventArgs"/> instance containing the accepted socket.</param>
         private void EndAcceptAsynchronous(SocketAsyncEventArgs eventArgs)
         {
-            if (this.EndAcceptSynchronous(eventArgs))
+            if (EndAcceptSynchronous(eventArgs))
             {
-                this.BeginAccept();
+                BeginAccept();
             }
         }
 
         private void OnSocketError(SocketError error)
         {
-            this.SocketError?.Invoke(this, new SocketErrorEventArgs(error));
+            SocketError?.Invoke(this, new SocketErrorEventArgs(error));
 
             // OperationAborted comes up when we closed the socket manually.
             if (error != System.Net.Sockets.SocketError.OperationAborted)
             {
-                this.Stop();
+                Stop();
             }
         }
 
         private void DisposeSocketIfNotNull()
         {
-            this.acceptSocket?.Dispose();
-            this.socketArgs?.Dispose();
+            _acceptSocket?.Dispose();
+            _socketArgs?.Dispose();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public NexusConnectionInfo(Guid accessToken)
         {
-            this.AccessToken = accessToken;
+            AccessToken = accessToken;
         }
     }
 }

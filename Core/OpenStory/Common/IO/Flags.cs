@@ -20,8 +20,8 @@ namespace OpenStory.Common.IO
         /// <returns>the value of the flag.</returns>
         protected bool this[int index]
         {
-            get { return this.Bits[index]; }
-            set { this.Bits[index] = value; }
+            get { return Bits[index]; }
+            set { Bits[index] = value; }
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace OpenStory.Common.IO
                 throw new ArgumentOutOfRangeException(nameof(capacity), capacity, CommonStrings.CapacityMustBePositive);
             }
 
-            this.Bits = new BitArray(capacity);
+            Bits = new BitArray(capacity);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace OpenStory.Common.IO
         {
             Guard.NotNull(() => other, other);
 
-            this.Bits = new BitArray(other.Bits);
+            Bits = new BitArray(other.Bits);
         }
 
         /// <summary>

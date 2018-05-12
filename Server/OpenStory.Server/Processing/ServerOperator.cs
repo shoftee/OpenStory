@@ -11,7 +11,7 @@ namespace OpenStory.Server.Processing
     public abstract class ServerOperator<TClient> : IServerOperator
         where TClient : ClientBase
     {
-        private readonly IGameClientFactory<TClient> gameClientFactory;
+        private readonly IGameClientFactory<TClient> _gameClientFactory;
 
         /// <summary>
         /// Gets the list of registered clients.
@@ -23,8 +23,8 @@ namespace OpenStory.Server.Processing
         /// </summary>
         protected ServerOperator(IGameClientFactory<TClient> gameClientFactory)
         {
-            this.Clients = new List<TClient>();
-            this.gameClientFactory = gameClientFactory;
+            Clients = new List<TClient>();
+            _gameClientFactory = gameClientFactory;
         }
 
         /// <inheritdoc />
@@ -33,15 +33,15 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public void RegisterSession(IServerSession session)
         {
-            var client = this.InitializeClient(session);
-            this.Clients.Add(client);
+            var client = InitializeClient(session);
+            Clients.Add(client);
         }
 
         private TClient InitializeClient(IServerSession session)
         {
-            var client = this.gameClientFactory.CreateClient(session);
+            var client = _gameClientFactory.CreateClient(session);
 
-            client.Closing += (s, e) => this.Clients.Remove(client);
+            client.Closing += (s, e) => Clients.Remove(client);
 
             return client;
         }

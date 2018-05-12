@@ -8,16 +8,16 @@ namespace OpenStory.Common
     /// </summary>
     public abstract class PacketCodeTable : IPacketCodeTable
     {
-        private readonly Dictionary<ushort, string> incomingTable;
-        private readonly Dictionary<string, ushort> outgoingTable;
+        private readonly Dictionary<ushort, string> _incomingTable;
+        private readonly Dictionary<string, ushort> _outgoingTable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketCodeTable"/> class.
         /// </summary>
         protected PacketCodeTable()
         {
-            this.incomingTable = new Dictionary<ushort, string>(256);
-            this.outgoingTable = new Dictionary<string, ushort>(256);
+            _incomingTable = new Dictionary<ushort, string>(256);
+            _outgoingTable = new Dictionary<string, ushort>(256);
         }
 
         /// <summary>
@@ -25,10 +25,10 @@ namespace OpenStory.Common
         /// </summary>
         public void LoadPacketCodes()
         {
-            this.incomingTable.Clear();
-            this.outgoingTable.Clear();
+            _incomingTable.Clear();
+            _outgoingTable.Clear();
 
-            this.LoadPacketCodesInternal();
+            LoadPacketCodesInternal();
         }
 
         /// <summary>
@@ -39,13 +39,13 @@ namespace OpenStory.Common
         /// <inheritdoc />
         public string GetIncomingLabel(ushort code)
         {
-            return this.incomingTable[code];
+            return _incomingTable[code];
         }
 
         /// <inheritdoc />
         public bool TryGetIncomingLabel(ushort code, out string label)
         {
-            return this.incomingTable.TryGetValue(code, out label);
+            return _incomingTable.TryGetValue(code, out label);
         }
 
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace OpenStory.Common
         {
             Guard.NotNullOrEmpty(() => label, label);
 
-            return this.outgoingTable[label];
+            return _outgoingTable[label];
         }
 
         /// <inheritdoc />
@@ -73,7 +73,7 @@ namespace OpenStory.Common
         {
             Guard.NotNullOrEmpty(() => label, label);
 
-            return this.outgoingTable.TryGetValue(label, out code);
+            return _outgoingTable.TryGetValue(label, out code);
         }
 
         /// <summary>
@@ -92,12 +92,12 @@ namespace OpenStory.Common
         {
             Guard.NotNullOrEmpty(() => label, label);
 
-            if (this.outgoingTable.ContainsKey(label))
+            if (_outgoingTable.ContainsKey(label))
             {
                 return false;
             }
 
-            this.outgoingTable.Add(label, code);
+            _outgoingTable.Add(label, code);
             return true;
         }
 
@@ -117,12 +117,12 @@ namespace OpenStory.Common
         {
             Guard.NotNullOrEmpty(() => label, label);
 
-            if (this.incomingTable.ContainsKey(code))
+            if (_incomingTable.ContainsKey(code))
             {
                 return false;
             }
 
-            this.incomingTable.Add(code, label);
+            _incomingTable.Add(code, label);
             return true;
         }
     }

@@ -24,8 +24,8 @@ namespace OpenStory.Networking
         /// </remarks>
         public event EventHandler<DataArrivedEventArgs> DataArrived
         {
-            add { this.receiveDescriptor.DataArrived += value; }
-            remove { this.receiveDescriptor.DataArrived -= value; }
+            add { _receiveDescriptor.DataArrived += value; }
+            remove { _receiveDescriptor.DataArrived -= value; }
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace OpenStory.Networking
         {
             add
             {
-                this.sendDescriptor.Error += value;
-                this.receiveDescriptor.Error += value;
+                _sendDescriptor.Error += value;
+                _receiveDescriptor.Error += value;
             }
             remove
             {
-                this.sendDescriptor.Error -= value;
-                this.receiveDescriptor.Error -= value;
+                _sendDescriptor.Error -= value;
+                _receiveDescriptor.Error -= value;
             }
         }
 
@@ -57,14 +57,14 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets whether the socket is currently disconnected or not.
         /// </summary>
-        private readonly AtomicBoolean isActive;
+        private readonly AtomicBoolean _isActive;
 
-        private ReceiveDescriptor receiveDescriptor;
-        private SendDescriptor sendDescriptor;
-        private Socket socket;
+        private ReceiveDescriptor _receiveDescriptor;
+        private SendDescriptor _sendDescriptor;
+        private Socket _socket;
 
         /// <inheritdoc/>
-        public bool IsActive => this.isActive.Value;
+        public bool IsActive => _isActive.Value;
 
         /// <summary>
         /// Gets the remote endpoint of the session.
@@ -73,14 +73,14 @@ namespace OpenStory.Networking
         {
             get
             {
-                if (this.socket == null)
+                if (_socket == null)
                 {
                     return null;
                 }
 
                 try
                 {
-                    var endpoint = this.socket.RemoteEndPoint as IPEndPoint;
+                    var endpoint = _socket.RemoteEndPoint as IPEndPoint;
                     return endpoint;
                 }
                 catch (ObjectDisposedException)
@@ -99,10 +99,10 @@ namespace OpenStory.Networking
         /// </summary>
         public NetworkSession()
         {
-            this.isActive = false;
+            _isActive = false;
 
-            this.receiveDescriptor = new ReceiveDescriptor(this);
-            this.sendDescriptor = new SendDescriptor(this);
+            _receiveDescriptor = new ReceiveDescriptor(this);
+            _sendDescriptor = new SendDescriptor(this);
         }
 
         /// <summary>
@@ -119,12 +119,12 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => sessionSocket, sessionSocket);
 
-            if (this.socket != null)
+            if (_socket != null)
             {
                 throw new InvalidOperationException(CommonStrings.SessionSocketAlreadyAttached);
             }
 
-            this.socket = sessionSocket;
+            _socket = sessionSocket;
         }
 
         #endregion
@@ -140,34 +140,34 @@ namespace OpenStory.Networking
         /// </exception>
         public void Start()
         {
-            if (this.socket == null)
+            if (_socket == null)
             {
                 throw new InvalidOperationException(CommonStrings.NoSocketAttached);
             }
 
-            if (!this.isActive.FlipIf(false))
+            if (!_isActive.FlipIf(false))
             {
                 throw new InvalidOperationException(CommonStrings.SessionAlreadyActive);
             }
 
-            this.receiveDescriptor.StartReceive();
+            _receiveDescriptor.StartReceive();
         }
 
         /// <inheritdoc />
         public void Close(string reason)
         {
-            this.Closing?.Invoke(this, new ConnectionClosingEventArgs(reason));
+            Closing?.Invoke(this, new ConnectionClosingEventArgs(reason));
 
-            this.Closing = null;
-            if (!this.isActive.FlipIf(true))
+            Closing = null;
+            if (!_isActive.FlipIf(true))
             {
                 return;
             }
 
-            this.socket.Close();
+            _socket.Close();
 
-            this.receiveDescriptor.Close();
-            this.sendDescriptor.Close();
+            _receiveDescriptor.Close();
+            _sendDescriptor.Close();
         }
 
         /// <summary>
@@ -176,9 +176,9 @@ namespace OpenStory.Networking
         /// <param name="data">The data to write.</param>
         public void Write(byte[] data)
         {
-            lock (this.sendDescriptor)
+            lock (_sendDescriptor)
             {
-                this.sendDescriptor.Write(data);
+                _sendDescriptor.Write(data);
             }
         }
 
@@ -187,15 +187,15 @@ namespace OpenStory.Networking
         #region Explicitly implemented members of IDescriptorContainer
 
         /// <inheritdoc />
-        Socket IDescriptorContainer.Socket => this.socket;
+        Socket IDescriptorContainer.Socket => _socket;
 
         /// <inheritdoc />
-        bool IDescriptorContainer.IsActive => this.isActive.Value;
+        bool IDescriptorContainer.IsActive => _isActive.Value;
 
         /// <inheritdoc />
         void IDescriptorContainer.Close(string reason)
         {
-            this.Close(reason);
+            Close(reason);
         }
 
         #endregion
@@ -205,9 +205,9 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Dispose()
         {
-            Misc.AssignNullAndDispose(ref this.socket);
-            Misc.AssignNullAndDispose(ref this.sendDescriptor);
-            Misc.AssignNullAndDispose(ref this.receiveDescriptor);
+            Misc.AssignNullAndDispose(ref _socket);
+            Misc.AssignNullAndDispose(ref _sendDescriptor);
+            Misc.AssignNullAndDispose(ref _receiveDescriptor);
         }
 
         #endregion
@@ -215,7 +215,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public override string ToString()
         {
-            var endpoint = this.RemoteEndpoint;
+            var endpoint = RemoteEndpoint;
             var endpointString = endpoint?.ToString() ?? @"None";
             return $"Endpoint: {endpointString}";
         }

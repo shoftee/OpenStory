@@ -6,24 +6,24 @@ namespace OpenStory.Server.Channel
 {
     internal sealed class PlayerFacetManager
     {
-        private readonly IPlayerFacetFactory factory;
+        private readonly IPlayerFacetFactory _factory;
 
-        private readonly Dictionary<Key, IPlayerFacet> facets;
+        private readonly Dictionary<Key, IPlayerFacet> _facets;
 
         public PlayerFacetManager(IPlayerFacetFactory playerFacetFactory)
         {
-            this.factory = playerFacetFactory;
+            _factory = playerFacetFactory;
 
-            this.facets = new Dictionary<Key, IPlayerFacet>();
+            _facets = new Dictionary<Key, IPlayerFacet>();
         }
 
         public TPlayerFacet Create<TPlayerFacet>(CharacterKey characterKey)
             where TPlayerFacet : IPlayerFacet
         {
-            var facet = this.factory.CreateFacet<TPlayerFacet>(characterKey);
+            var facet = _factory.CreateFacet<TPlayerFacet>(characterKey);
 
             var facetKey = new Key(typeof(TPlayerFacet), characterKey.Id);
-            this.facets.Add(facetKey, facet);
+            _facets.Add(facetKey, facet);
 
             return facet;
         }
@@ -31,7 +31,7 @@ namespace OpenStory.Server.Channel
         public TPlayerFacet Get<TPlayerFacet>(CharacterKey key)
         {
             var facetKey = new Key(typeof(TPlayerFacet), key.Id);
-            var facet = this.facets[facetKey];
+            var facet = _facets[facetKey];
             return (TPlayerFacet)facet;
         }
 
@@ -45,23 +45,23 @@ namespace OpenStory.Server.Channel
             public Key(Type facetType, int playerId)
                 : this()
             {
-                this.FacetType = facetType;
-                this.PlayerId = playerId;
+                FacetType = facetType;
+                PlayerId = playerId;
             }
 
             #region Implementation of IEquatable<Key>
 
             public bool Equals(Key other)
             {
-                return this.FacetType == other.FacetType
-                    && this.PlayerId == other.PlayerId;
+                return FacetType == other.FacetType
+                    && PlayerId == other.PlayerId;
             }
 
             #endregion
 
             public override bool Equals(object obj)
             {
-                return obj is Key && this.Equals((Key)obj);
+                return obj is Key && Equals((Key)obj);
             }
 
             #region Equality members
@@ -70,7 +70,7 @@ namespace OpenStory.Server.Channel
             {
                 unchecked
                 {
-                    return ((this.FacetType != null ? this.FacetType.GetHashCode() : 0) * 397) ^ this.PlayerId;
+                    return ((FacetType != null ? FacetType.GetHashCode() : 0) * 397) ^ PlayerId;
                 }
             }
 

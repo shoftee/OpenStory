@@ -19,7 +19,7 @@ namespace OpenStory.Networking
         /// <param name="error">The <see cref="SocketError"/> to wrap.</param>
         public SocketErrorEventArgs(SocketError error)
         {
-            this.Error = error;
+            Error = error;
         }
     }
 }

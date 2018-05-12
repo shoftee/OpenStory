@@ -10,13 +10,13 @@ namespace OpenStory.Server.Auth
 {
     internal sealed class SimpleAuthenticator : IAuthenticator
     {
-        private readonly IAccountProvider accountProvider;
-        private readonly IAccountService accountService;
+        private readonly IAccountProvider _accountProvider;
+        private readonly IAccountService _accountService;
 
         public SimpleAuthenticator(IAccountProvider accountProvider, IAccountService accountService)
         {
-            this.accountProvider = accountProvider;
-            this.accountService = accountService;
+            _accountProvider = accountProvider;
+            _accountService = accountService;
         }
 
         /// <inheritdoc />
@@ -28,7 +28,7 @@ namespace OpenStory.Server.Auth
             // TODO: user name validation, throw IllegalPacketException if not valid
             var userName = credentialsReader.ReadLengthString();
             // Attempt to load the account.
-            account = this.accountProvider.LoadByUserName(userName);
+            account = _accountProvider.LoadByUserName(userName);
             if (account == null)
             {
                 // Fail with 'NotRegistered' if no account matches.
@@ -48,14 +48,14 @@ namespace OpenStory.Server.Auth
             // TODO: read other stuff from packet
 
             int sessionId;
-            if (!this.accountService.TryRegisterSession(account.AccountId, out sessionId))
+            if (!_accountService.TryRegisterSession(account.AccountId, out sessionId))
             {
                 // Fail with 'AlreadyLoggedIn' if there is another session running on this account.
                 return AuthenticationResult.AlreadyLoggedIn;
             }
 
             // Create the session.
-            session = new AccountSession(this.accountService, sessionId, account);
+            session = new AccountSession(_accountService, sessionId, account);
             return AuthenticationResult.Success;
         }
     }

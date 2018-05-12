@@ -25,8 +25,8 @@ namespace OpenStory.Common.Game
         public PointS(short x, short y)
             : this()
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace OpenStory.Common.Game
         /// <inheritdoc />
         public bool Equals(PointS other)
         {
-            return this.X == other.X && this.Y == other.Y;
+            return X == other.X && Y == other.Y;
         }
 
         #endregion
@@ -124,7 +124,7 @@ namespace OpenStory.Common.Game
                 return false;
             }
 
-            return obj is PointS && this.Equals((PointS)obj);
+            return obj is PointS && Equals((PointS)obj);
         }
 
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace OpenStory.Common.Game
         {
             unchecked
             {
-                return (this.X.GetHashCode() * 397) ^ this.Y.GetHashCode();
+                return (X.GetHashCode() * 397) ^ Y.GetHashCode();
             }
         }
 

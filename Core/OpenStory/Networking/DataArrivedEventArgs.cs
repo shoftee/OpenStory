@@ -23,7 +23,7 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => data, data);
 
-            this.Data = data;
+            Data = data;
         }
     }
 }

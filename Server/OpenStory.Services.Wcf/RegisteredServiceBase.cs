@@ -13,15 +13,15 @@ namespace OpenStory.Services.Wcf
     public abstract class RegisteredServiceBase<TRegisteredService> : IRegisteredService
         where TRegisteredService : IRegisteredService
     {
-        private ServiceState serviceState;
+        private ServiceState _serviceState;
 
-        private Task initializeTask;
-        private Task startTask;
-        private Task stopTask;
+        private Task _initializeTask;
+        private Task _startTask;
+        private Task _stopTask;
 
-        private readonly List<IServiceStateChanged> initializeSubscribers;
-        private readonly List<IServiceStateChanged> startSubscribers;
-        private readonly List<IServiceStateChanged> stopSubscribers;
+        private readonly List<IServiceStateChanged> _initializeSubscribers;
+        private readonly List<IServiceStateChanged> _startSubscribers;
+        private readonly List<IServiceStateChanged> _stopSubscribers;
 
         /// <summary>
         /// Gets the underlying service.
@@ -33,13 +33,13 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         protected RegisteredServiceBase(TRegisteredService service)
         {
-            this.Service = service;
+            Service = service;
 
-            this.serviceState = ServiceState.NotInitialized;
+            _serviceState = ServiceState.NotInitialized;
 
-            this.initializeSubscribers = new List<IServiceStateChanged>();
-            this.startSubscribers = new List<IServiceStateChanged>();
-            this.stopSubscribers = new List<IServiceStateChanged>();
+            _initializeSubscribers = new List<IServiceStateChanged>();
+            _startSubscribers = new List<IServiceStateChanged>();
+            _stopSubscribers = new List<IServiceStateChanged>();
         }
 
         #region IRegisteredService members
@@ -48,19 +48,19 @@ namespace OpenStory.Services.Wcf
         public void Initialize(OsServiceConfiguration serviceConfiguration)
         {
             SubscribeForStates(
-                this.initializeSubscribers,
-                this.serviceState,
+                _initializeSubscribers,
+                _serviceState,
                 ServiceState.NotInitialized,
                 ServiceState.Initializing);
 
-            if (this.serviceState != ServiceState.NotInitialized)
+            if (_serviceState != ServiceState.NotInitialized)
             {
                 return;
             }
 
-            this.HandleStateChange(this.serviceState, ServiceState.Initializing);
+            HandleStateChange(_serviceState, ServiceState.Initializing);
 
-            var task = this.GetInitializeTask(serviceConfiguration);
+            var task = GetInitializeTask(serviceConfiguration);
             if (task.Status == TaskStatus.Created)
             {
                 task.Start();
@@ -71,21 +71,21 @@ namespace OpenStory.Services.Wcf
         public void Start()
         {
             SubscribeForStates(
-                this.startSubscribers,
-                this.serviceState,
+                _startSubscribers,
+                _serviceState,
                 ServiceState.Ready,
                 ServiceState.NotInitialized,
                 ServiceState.Initializing,
                 ServiceState.Starting);
 
-            if (this.serviceState != ServiceState.Ready)
+            if (_serviceState != ServiceState.Ready)
             {
                 return;
             }
 
-            this.HandleStateChange(this.serviceState, ServiceState.Starting);
+            HandleStateChange(_serviceState, ServiceState.Starting);
 
-            var task = this.GetStartTask();
+            var task = GetStartTask();
             if (task.Status == TaskStatus.Created)
             {
                 task.Start();
@@ -96,19 +96,19 @@ namespace OpenStory.Services.Wcf
         public void Stop()
         {
             SubscribeForStates(
-                this.stopSubscribers,
-                this.serviceState,
+                _stopSubscribers,
+                _serviceState,
                 ServiceState.Running,
                 ServiceState.Stopping);
 
-            if (this.serviceState != ServiceState.Running)
+            if (_serviceState != ServiceState.Running)
             {
                 return;
             }
 
-            this.HandleStateChange(this.serviceState, ServiceState.Stopping);
+            HandleStateChange(_serviceState, ServiceState.Stopping);
 
-            var task = this.GetStopTask();
+            var task = GetStopTask();
             if (task.Status == TaskStatus.Created)
             {
                 task.Start();
@@ -124,17 +124,17 @@ namespace OpenStory.Services.Wcf
 
         private void CompleteInitialization(Task task)
         {
-            this.HandleStateChange(this.serviceState, ServiceState.Ready);
+            HandleStateChange(_serviceState, ServiceState.Ready);
         }
 
         private void CompleteStart(Task task)
         {
-            this.HandleStateChange(this.serviceState, ServiceState.Running);
+            HandleStateChange(_serviceState, ServiceState.Running);
         }
 
         private void CompleteStop(Task task)
         {
-            this.HandleStateChange(this.serviceState, ServiceState.Ready);
+            HandleStateChange(_serviceState, ServiceState.Ready);
         }
 
         private void HandleStateChange(ServiceState enterState, ServiceState exitState)
@@ -149,37 +149,37 @@ namespace OpenStory.Services.Wcf
             switch (exitState)
             {
                 case ServiceState.Initializing:
-                    list = this.initializeSubscribers;
+                    list = _initializeSubscribers;
                     break;
 
                 case ServiceState.Ready:
                     if (enterState == ServiceState.Initializing)
                     {
-                        list = this.initializeSubscribers;
+                        list = _initializeSubscribers;
                     }
                     else if (enterState == ServiceState.Stopping)
                     {
-                        list = this.stopSubscribers;
+                        list = _stopSubscribers;
                     }
 
                     clear = true;
                     break;
 
                 case ServiceState.Starting:
-                    list = this.startSubscribers;
+                    list = _startSubscribers;
                     break;
 
                 case ServiceState.Running:
-                    list = this.startSubscribers;
+                    list = _startSubscribers;
                     clear = true;
                     break;
 
                 case ServiceState.Stopping:
-                    list = this.stopSubscribers;
+                    list = _stopSubscribers;
                     break;
             }
 
-            this.serviceState = exitState;
+            _serviceState = exitState;
             if (list.Count > 0)
             {
                 Notify(list, enterState, exitState, clear);
@@ -236,17 +236,17 @@ namespace OpenStory.Services.Wcf
 
         private Task GetInitializeTask(OsServiceConfiguration serviceConfiguration)
         {
-            return SetNewTaskIfNecessary(ref this.initializeTask, () => this.OnInitializing(serviceConfiguration), this.CompleteInitialization);
+            return SetNewTaskIfNecessary(ref _initializeTask, () => OnInitializing(serviceConfiguration), CompleteInitialization);
         }
 
         private Task GetStartTask()
         {
-            return SetNewTaskIfNecessary(ref this.startTask, this.OnStarting, this.CompleteStart);
+            return SetNewTaskIfNecessary(ref _startTask, OnStarting, CompleteStart);
         }
 
         private Task GetStopTask()
         {
-            return SetNewTaskIfNecessary(ref this.stopTask, this.OnStopping, this.CompleteStop);
+            return SetNewTaskIfNecessary(ref _stopTask, OnStopping, CompleteStop);
         }
 
         private static Task SetNewTaskIfNecessary(ref Task task, Action action, Action<Task> completion)
@@ -274,7 +274,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         protected virtual void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
-            this.Service.Initialize(serviceConfiguration);
+            Service.Initialize(serviceConfiguration);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         protected virtual void OnStarting()
         {
-            this.Service.Start();
+            Service.Start();
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         protected virtual void OnStopping()
         {
-            this.Service.Stop();
+            Service.Stop();
         }
 
         private static void SubscribeForStates(List<IServiceStateChanged> subscribers, ServiceState currentState, params ServiceState[] states)

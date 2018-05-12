@@ -8,7 +8,7 @@ namespace OpenStory.Server.Auth
     {
         private byte[] AuthResponse(AuthenticationResult result, Account account)
         {
-            using (var builder = this.PacketFactory.CreatePacket("Authentication"))
+            using (var builder = PacketFactory.CreatePacket("Authentication"))
             {
                 builder.WriteInt32(result);
 
@@ -18,11 +18,11 @@ namespace OpenStory.Server.Auth
                 {
                     builder.WriteInt32(account.AccountId);
 
-                    if (this.State == AuthClientState.SetGender)
+                    if (State == AuthClientState.SetGender)
                     {
                         builder.WriteByte(AuthOperationType.GenderSelect);
                     }
-                    else if (this.State == AuthClientState.SetPin)
+                    else if (State == AuthClientState.SetPin)
                     {
                         builder.WriteByte(AuthOperationType.PinSelect);
                     }
@@ -63,29 +63,29 @@ namespace OpenStory.Server.Auth
 
         private byte[] SetPinResponse()
         {
-            return this.PacketFactory.PinResponse(PinResponseType.SetPin);
+            return PacketFactory.PinResponse(PinResponseType.SetPin);
         }
 
         private byte[] InvalidPinResponse()
         {
-            return this.PacketFactory.PinResponse(PinResponseType.InvalidPin);
+            return PacketFactory.PinResponse(PinResponseType.InvalidPin);
         }
 
         private byte[] PinAcceptedResponse()
         {
-            return this.PacketFactory.PinResponse(PinResponseType.PinAccepted);
+            return PacketFactory.PinResponse(PinResponseType.PinAccepted);
         }
 
         private byte[] CheckPinResponse()
         {
-            return this.PacketFactory.PinResponse(PinResponseType.CheckPin);
+            return PacketFactory.PinResponse(PinResponseType.CheckPin);
         }
 
         private byte[] WorldListResponse()
         {
-            var worlds = this.nexus.GetWorlds();
+            var worlds = _nexus.GetWorlds();
 
-            using (var builder = this.PacketFactory.CreatePacket("WorldListRequest"))
+            using (var builder = PacketFactory.CreatePacket("WorldListRequest"))
             {
                 foreach (var world in worlds)
                 {

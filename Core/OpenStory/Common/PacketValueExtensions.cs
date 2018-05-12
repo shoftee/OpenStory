@@ -108,8 +108,8 @@ namespace OpenStory.Common
                             })
                         .ToList();
 
-                this.EnumToNumeric = mappings.ToDictionary(c => c.EnumValue, c => c.PacketValue);
-                this.NumericToEnum = mappings.ToDictionary(c => c.PacketValue, c => c.EnumValue);
+                EnumToNumeric = mappings.ToDictionary(c => c.EnumValue, c => c.PacketValue);
+                NumericToEnum = mappings.ToDictionary(c => c.PacketValue, c => c.EnumValue);
             }
         }
     }

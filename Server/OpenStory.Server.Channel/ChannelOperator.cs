@@ -11,7 +11,7 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public sealed class ChannelOperator : ServerOperator<ChannelClient>, IWorldToChannelRequestHandler
     {
-        private ChannelConfiguration channelConfiguration;
+        private ChannelConfiguration _channelConfiguration;
 
         /// <summary>
         /// Gets the <see cref="IPlayerRegistry"/> for this operator.
@@ -22,19 +22,19 @@ namespace OpenStory.Server.Channel
         public ChannelOperator(IGameClientFactory<ChannelClient> clientFactory, IPlayerRegistry playerRegistry)
             : base(clientFactory)
         {
-            this.PlayerRegistry = playerRegistry;
+            PlayerRegistry = playerRegistry;
         }
 
         /// <inheritdoc />
         public override void Configure(OsServiceConfiguration configuration)
         {
-            this.channelConfiguration = new ChannelConfiguration(configuration);
-            this.SetUp();
+            _channelConfiguration = new ChannelConfiguration(configuration);
+            SetUp();
         }
 
         private void SetUp()
         {
-            this.ChannelId = this.channelConfiguration.ChannelId;
+            ChannelId = _channelConfiguration.ChannelId;
         }
 
         #region IWorldToChannelRequestHandler members
@@ -43,14 +43,14 @@ namespace OpenStory.Server.Channel
         public int ChannelId { get; private set; }
 
         /// <inheritdoc />
-        int IWorldToChannelRequestHandler.Population => this.PlayerRegistry.Population;
+        int IWorldToChannelRequestHandler.Population => PlayerRegistry.Population;
 
         /// <inheritdoc/>
         public void BroadcastIntoChannel(IEnumerable<CharacterKey> targets, byte[] data)
         {
             // This method will be part of the service contract.
             var players =
-                from target in this.PlayerRegistry.Scan(targets)
+                from target in PlayerRegistry.Scan(targets)
                 select target;
 
             foreach (var player in players)

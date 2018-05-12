@@ -20,7 +20,7 @@ namespace OpenStory.Networking
         internal ConnectionClosingEventArgs(string reason)
         {
             Guard.NotNullOrEmpty(() => reason, reason);
-            this.Reason = reason;
+            Reason = reason;
         }
     }
 }

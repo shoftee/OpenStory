@@ -12,10 +12,10 @@ namespace OpenStory.Networking
     [Localizable(true)]
     internal sealed class SendDescriptor : DescriptorBase
     {
-        private readonly AtomicBoolean isSending;
+        private readonly AtomicBoolean _isSending;
 
-        private ConcurrentQueue<byte[]> queue;
-        private int sentBytes;
+        private ConcurrentQueue<byte[]> _queue;
+        private int _sentBytes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SendDescriptor"/> class.
@@ -27,10 +27,10 @@ namespace OpenStory.Networking
         public SendDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            this.SocketArgs.Completed += this.EndSendAsynchronous;
+            SocketArgs.Completed += EndSendAsynchronous;
 
-            this.isSending = new AtomicBoolean(false);
-            this.queue = new ConcurrentQueue<byte[]>();
+            _isSending = new AtomicBoolean(false);
+            _queue = new ConcurrentQueue<byte[]>();
         }
 
         /// <summary>
@@ -45,28 +45,28 @@ namespace OpenStory.Networking
         /// </exception>
         public void Write(byte[] data)
         {
-            if (!this.Container.IsActive)
+            if (!Container.IsActive)
             {
                 throw new InvalidOperationException(CommonStrings.SessionIsNotActive);
             }
 
             Guard.NotNull(() => data, data);
 
-            this.queue.Enqueue(data);
+            _queue.Enqueue(data);
 
             // If the sending operations are already in progress, 
             // they'll get to the packet we just queued eventually...
-            if (this.isSending.FlipIf(false))
+            if (_isSending.FlipIf(false))
             {
                 // Otherwise, we do it ourselves.
-                this.sentBytes = 0;
-                this.BeginSend();
+                _sentBytes = 0;
+                BeginSend();
             }
         }
 
         protected override void OnClosed()
         {
-            this.queue = new ConcurrentQueue<byte[]>();
+            _queue = new ConcurrentQueue<byte[]>();
         }
 
         #region Async send methods
@@ -79,7 +79,7 @@ namespace OpenStory.Networking
             // We never actually do concurrent dequeuing of items.
             // This allows us to do a few things that we should otherwise
             // be wary of, as explained in the methods around here.
-            this.ResetBuffer();
+            ResetBuffer();
 
             try
             {
@@ -87,9 +87,9 @@ namespace OpenStory.Networking
                 // if the operation completed synchronously.
                 // As long as the socket operation completes synchronously,
                 // this loop will handle the transfers synchronously too.
-                while (!this.Container.Socket.SendAsync(this.SocketArgs))
+                while (!Container.Socket.SendAsync(SocketArgs))
                 {
-                    if (!this.EndSendSynchronous(this.SocketArgs))
+                    if (!EndSendSynchronous(SocketArgs))
                     {
                         break;
                     }
@@ -97,7 +97,7 @@ namespace OpenStory.Networking
             }
             catch (ObjectDisposedException)
             {
-                this.Container.Close(@"Socket disposed.");
+                Container.Close(@"Socket disposed.");
             }
         }
 
@@ -110,10 +110,10 @@ namespace OpenStory.Networking
             // waiting to be sent. Otherwise, segment may be null after the 
             // TryPeek call below.
             byte[] segment;
-            this.queue.TryPeek(out segment);
+            _queue.TryPeek(out segment);
 
             // Since we're sure segment is not null, we can dereference it.
-            this.SocketArgs.SetBuffer(segment, this.sentBytes, segment.Length - this.sentBytes);
+            SocketArgs.SetBuffer(segment, _sentBytes, segment.Length - _sentBytes);
         }
 
         /// <summary>
@@ -127,9 +127,9 @@ namespace OpenStory.Networking
         /// <returns><see langword="true"/> if there is more to send; otherwise, <see langword="false"/>.</returns>
         private bool EndSendSynchronous(SocketAsyncEventArgs args)
         {
-            if (this.HandleTransferredData(args))
+            if (HandleTransferredData(args))
             {
-                this.ResetBuffer();
+                ResetBuffer();
                 return true;
             }
             else
@@ -146,9 +146,9 @@ namespace OpenStory.Networking
         /// </remarks>
         private void EndSendAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (this.HandleTransferredData(args))
+            if (HandleTransferredData(args))
             {
-                this.BeginSend();
+                BeginSend();
             }
         }
 
@@ -156,12 +156,12 @@ namespace OpenStory.Networking
         /// Handles the data which was transferred using the given SocketAsyncEventArgs object.
         /// </summary>
         /// <remarks><para>
-        /// This method advances the <see cref="sentBytes"/> field forward 
+        /// This method advances the <see cref="_sentBytes"/> field forward 
         /// and moves to the next segment in the queue if the current 
         /// has finished sending.
         /// </para><para>
         /// If there was a connection error, this method will return <see langword="false"/>.
-        /// If all the queued data has been sent, this method will set <see cref="isSending"/>
+        /// If all the queued data has been sent, this method will set <see cref="_isSending"/>
         /// to <see langword="false"/> and return <see langword="false"/>. Otherwise it will return <see langword="true"/>.
         /// </para></remarks>
         /// <param name="args">The SocketAsyncEventArgs object for this operation.</param>
@@ -174,12 +174,12 @@ namespace OpenStory.Networking
                 // BytesTransferred is set to -1 if the socket was closed before the 
                 // last operation ended. This may happen because we requested it,
                 // or because of a network failure. OnError actually checks for this.
-                this.OnError(args);
+                OnError(args);
                 return false;
             }
 
             // We adjust the number of sent bytes.
-            this.sentBytes += transferred;
+            _sentBytes += transferred;
 
             // As with ResetBuffer(), this method will be called only when we have
             // a packet waiting to be sent still in the queue.
@@ -187,18 +187,18 @@ namespace OpenStory.Networking
             // Hence, the TryPeek and TryDequeue will not set segment to null,
             // and are guaranteed to use the same element.
             byte[] segment;
-            if (this.queue.TryPeek(out segment) && segment.Length == this.sentBytes)
+            if (_queue.TryPeek(out segment) && segment.Length == _sentBytes)
             {
                 // All of the bytes in the segment were sent.
                 // Thus here we can safely take it out.
-                this.queue.TryDequeue(out segment);
-                this.sentBytes = 0;
+                _queue.TryDequeue(out segment);
+                _sentBytes = 0;
             }
 
             // Again, no race condition here. We can be sure that when we return true
             // and we start another send operation, the queue will have at least one 
             // waiting packet.
-            if (!this.queue.IsEmpty)
+            if (!_queue.IsEmpty)
             {
                 return true;
             }
@@ -207,7 +207,7 @@ namespace OpenStory.Networking
             // We /do/ need to worry about this one, because it's the barrier
             // for the start of the sending process, and any thread can request 
             // a packet to be sent.
-            this.isSending.Set(false);
+            _isSending.Set(false);
             return false;
         }
 

@@ -11,7 +11,7 @@ namespace OpenStory.Server.World
     internal sealed class ActiveChannel : IChannel
     {
         [DataMember]
-        private readonly AtomicInteger channelLoad;
+        private readonly AtomicInteger _channelLoad;
 
         #region IChannel Members
 
@@ -28,21 +28,21 @@ namespace OpenStory.Server.World
         public string Name { get; private set; }
 
         /// <inheritdoc/>
-        int IChannel.ChannelLoad => this.channelLoad.Value;
+        int IChannel.ChannelLoad => _channelLoad.Value;
 
         #endregion
 
         /// <summary>
         /// Gets the channel load value holder.
         /// </summary>
-        public AtomicInteger ChannelLoad => this.channelLoad;
+        public AtomicInteger ChannelLoad => _channelLoad;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActiveChannel"/> class.
         /// </summary>
         public ActiveChannel()
         {
-            this.channelLoad = 0;
+            _channelLoad = 0;
         }
     }
 }

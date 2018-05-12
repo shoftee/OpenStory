@@ -11,12 +11,12 @@ namespace OpenStory.Common
         /// <summary>
         /// Since bleeping <see cref="Interlocked"/> doesn't work with Boolean.
         /// </summary>
-        private int value;
+        private int _value;
 
         /// <summary>
         /// Gets the current value of the <see cref="AtomicBoolean"/>.
         /// </summary>
-        public bool Value => Convert.ToBoolean(this.value);
+        public bool Value => Convert.ToBoolean(_value);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicBoolean"/> class.
@@ -24,7 +24,7 @@ namespace OpenStory.Common
         /// <param name="initialValue">The initial value.</param>
         public AtomicBoolean(bool initialValue)
         {
-            this.value = Convert.ToInt32(initialValue);
+            _value = Convert.ToInt32(initialValue);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace OpenStory.Common
         {
             int comparandAsInt = Convert.ToInt32(comparand);
             int newValueAsInt = Convert.ToInt32(!comparand);
-            int originalValueAsInt = Interlocked.CompareExchange(ref this.value, newValueAsInt, comparandAsInt);
+            int originalValueAsInt = Interlocked.CompareExchange(ref _value, newValueAsInt, comparandAsInt);
 
             return originalValueAsInt == comparandAsInt;
         }
@@ -48,7 +48,7 @@ namespace OpenStory.Common
         public void Set(bool newValue)
         {
             int newValueAsInt = Convert.ToInt32(newValue);
-            Interlocked.Exchange(ref this.value, newValueAsInt);
+            Interlocked.Exchange(ref _value, newValueAsInt);
         }
 
         #region Cast methods
@@ -87,7 +87,7 @@ namespace OpenStory.Common
         /// <returns>the value of the <see cref="AtomicBoolean"/>.</returns>
         public bool ToBoolean()
         {
-            return this.Value;
+            return Value;
         }
 
         /// <summary>

@@ -36,27 +36,27 @@ namespace OpenStory.Networking
 
         #endregion
 
-        private bool isDisposed;
-        private NetworkSession baseSession;
-        private BoundedBuffer headerBuffer;
-        private BoundedBuffer packetBuffer;
+        private bool _isDisposed;
+        private NetworkSession _baseSession;
+        private BoundedBuffer _headerBuffer;
+        private BoundedBuffer _packetBuffer;
 
         #region Properties
 
         /// <summary>
         /// Gets the buffer used to store packet headers.
         /// </summary>
-        protected BoundedBuffer HeaderBuffer => this.headerBuffer;
+        protected BoundedBuffer HeaderBuffer => _headerBuffer;
 
         /// <summary>
         /// Gets the buffer used to store packet data.
         /// </summary>
-        protected BoundedBuffer PacketBuffer => this.packetBuffer;
+        protected BoundedBuffer PacketBuffer => _packetBuffer;
 
         /// <summary>
         /// Gets the underlying network session.
         /// </summary>
-        protected NetworkSession BaseSession => this.baseSession;
+        protected NetworkSession BaseSession => _baseSession;
 
         /// <summary>
         /// Gets or sets the cryptographic transformer for this session.
@@ -73,31 +73,31 @@ namespace OpenStory.Networking
         /// </remarks>
         protected EncryptedNetworkSession()
         {
-            this.packetBuffer = new BoundedBuffer();
-            this.headerBuffer = new BoundedBuffer(4);
+            _packetBuffer = new BoundedBuffer();
+            _headerBuffer = new BoundedBuffer(4);
 
-            this.baseSession = this.CreateInnerSession();
+            _baseSession = CreateInnerSession();
 
-            this.isDisposed = false;
+            _isDisposed = false;
         }
 
         private NetworkSession CreateInnerSession()
         {
             var s = new NetworkSession();
-            s.DataArrived += this.OnDataArrived;
-            s.Closing += this.OnClosing;
-            s.SocketError += this.OnSocketError;
+            s.DataArrived += OnDataArrived;
+            s.Closing += OnClosing;
+            s.SocketError += OnSocketError;
             return s;
         }
 
         private void OnSocketError(object sender, SocketErrorEventArgs e)
         {
-            this.SocketError?.Invoke(this, e);
+            SocketError?.Invoke(this, e);
         }
 
         private void OnClosing(object sender, ConnectionClosingEventArgs e)
         {
-            this.Closing?.Invoke(this, e);
+            Closing?.Invoke(this, e);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace OpenStory.Networking
         /// <param name="sessionSocket">The <see cref="Socket"/> to attach. </param>
         public void AttachSocket(Socket sessionSocket)
         {
-            this.baseSession.AttachSocket(sessionSocket);
+            _baseSession.AttachSocket(sessionSocket);
         }
 
         /// <summary>
@@ -114,12 +114,12 @@ namespace OpenStory.Networking
         /// </summary>
         public void Close(string reason)
         {
-            this.PacketReceived = null;
+            PacketReceived = null;
 
-            this.baseSession.Close(reason);
+            _baseSession.Close(reason);
 
-            this.SocketError = null;
-            this.Closing = null;
+            SocketError = null;
+            Closing = null;
         }
 
         /// <summary>
@@ -134,10 +134,10 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => packet, packet);
 
-            if (this.baseSession.IsActive)
+            if (_baseSession.IsActive)
             {
-                byte[] rawData = this.Crypto.EncryptAndPack(packet.FastClone());
-                this.baseSession.Write(rawData);
+                byte[] rawData = Crypto.EncryptAndPack(packet.FastClone());
+                _baseSession.Write(rawData);
             }
         }
 
@@ -156,15 +156,15 @@ namespace OpenStory.Networking
 
             byte[] data = args.Data;
             int position = 0, remaining = data.Length;
-            while (this.PacketBuffer.FreeSpace == 0)
+            while (PacketBuffer.FreeSpace == 0)
             {
-                byte[] rawData = this.PacketBuffer.ExtractAndReset(0);
+                byte[] rawData = PacketBuffer.ExtractAndReset(0);
                 if (rawData.Length > 0)
                 {
-                    this.Crypto.Decrypt(rawData);
+                    Crypto.Decrypt(rawData);
 
                     var incomingPacketArgs = new PacketReceivedEventArgs(rawData);
-                    this.OnPacketReceived(incomingPacketArgs);
+                    OnPacketReceived(incomingPacketArgs);
                 }
 
                 if (remaining == 0)
@@ -173,10 +173,10 @@ namespace OpenStory.Networking
                 }
 
                 int bufferred;
-                int headerRemaining = this.HeaderBuffer.FreeSpace;
+                int headerRemaining = HeaderBuffer.FreeSpace;
                 if (headerRemaining > 0)
                 {
-                    bufferred = this.HeaderBuffer.AppendFill(data, position, headerRemaining);
+                    bufferred = HeaderBuffer.AppendFill(data, position, headerRemaining);
 
                     // For the confused: if we didn't fill the header, it 
                     // means the data array didn't have enough elements.
@@ -190,17 +190,17 @@ namespace OpenStory.Networking
                     remaining -= bufferred;
                 }
 
-                byte[] header = this.HeaderBuffer.ExtractAndReset(4);
+                byte[] header = HeaderBuffer.ExtractAndReset(4);
                 int length;
-                if (!this.Crypto.TryGetLength(header, out length))
+                if (!Crypto.TryGetLength(header, out length))
                 {
-                    this.Close(@"Could not decode packet length.");
+                    Close(@"Could not decode packet length.");
                     return;
                 }
 
-                this.PacketBuffer.Reset(length);
+                PacketBuffer.Reset(length);
 
-                bufferred = this.PacketBuffer.AppendFill(data, position, remaining);
+                bufferred = PacketBuffer.AppendFill(data, position, remaining);
                 position += bufferred;
                 remaining -= bufferred;
             }
@@ -208,7 +208,7 @@ namespace OpenStory.Networking
 
         private void OnPacketReceived(PacketReceivedEventArgs args)
         {
-            this.PacketReceived.Invoke(this, args);
+            PacketReceived.Invoke(this, args);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace OpenStory.Networking
         /// </summary>
         protected void ThrowIfNoPacketReceivedSubscriber()
         {
-            if (this.PacketReceived == null)
+            if (PacketReceived == null)
             {
                 throw new InvalidOperationException(CommonStrings.ReceiveEventHasNoSubscribers);
             }
@@ -226,7 +226,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public override string ToString()
         {
-            var networkSession = this.baseSession;
+            var networkSession = _baseSession;
             return networkSession == null? @"No session" : networkSession.ToString();
         }
 
@@ -235,7 +235,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -245,13 +245,13 @@ namespace OpenStory.Networking
         /// <param name="disposing">Whether the method is being called for disposal or finalization.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !this.isDisposed)
+            if (disposing && !_isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.baseSession);
-                Misc.AssignNullAndDispose(ref this.headerBuffer);
-                Misc.AssignNullAndDispose(ref this.packetBuffer);
+                Misc.AssignNullAndDispose(ref _baseSession);
+                Misc.AssignNullAndDispose(ref _headerBuffer);
+                Misc.AssignNullAndDispose(ref _packetBuffer);
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 

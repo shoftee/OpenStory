@@ -8,8 +8,8 @@ namespace OpenStory.Cryptography
     /// </summary>
     public sealed class EndpointCrypto
     {
-        private readonly RollingIv encryptor;
-        private readonly RollingIv decryptor;
+        private readonly RollingIv _encryptor;
+        private readonly RollingIv _decryptor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EndpointCrypto"/> class.
@@ -18,8 +18,8 @@ namespace OpenStory.Cryptography
         /// <param name="decryptor">The IV used for decryption.</param>
         private EndpointCrypto(RollingIv encryptor, RollingIv decryptor)
         {
-            this.encryptor = encryptor;
-            this.decryptor = decryptor;
+            _encryptor = encryptor;
+            _decryptor = decryptor;
         }
 
         /// <summary>
@@ -39,13 +39,13 @@ namespace OpenStory.Cryptography
 
             int length = packetData.Length;
             var rawData = new byte[length + 4];
-            lock (this.encryptor)
+            lock (_encryptor)
             {
-                byte[] header = this.ConstructHeader(length);
+                byte[] header = ConstructHeader(length);
                 Buffer.BlockCopy(header, 0, rawData, 0, 4);
 
                 CustomCrypto.Encrypt(packetData);
-                this.encryptor.Transform(packetData);
+                _encryptor.Transform(packetData);
             }
 
             Buffer.BlockCopy(packetData, 0, rawData, 4, length);
@@ -61,9 +61,9 @@ namespace OpenStory.Cryptography
         /// <param name="packet">The data to decrypt.</param>
         public void Decrypt(byte[] packet)
         {
-            lock (this.decryptor)
+            lock (_decryptor)
             {
-                this.decryptor.Transform(packet);
+                _decryptor.Transform(packet);
                 CustomCrypto.Decrypt(packet);
             }
         }
@@ -83,10 +83,10 @@ namespace OpenStory.Cryptography
             Guard.NotNull(() => rawData, rawData);
 
             int length;
-            if (this.TryGetLength(rawData, out length))
+            if (TryGetLength(rawData, out length))
             {
                 decryptedData = rawData.CopySegment(4, length);
-                this.Decrypt(decryptedData);
+                Decrypt(decryptedData);
                 return true;
             }
             else
@@ -107,7 +107,7 @@ namespace OpenStory.Cryptography
         /// <returns>a 4-element byte array which should be prepended to the packet data.</returns>
         private byte[] ConstructHeader(int length)
         {
-            return this.encryptor.ConstructHeader(length);
+            return _encryptor.ConstructHeader(length);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace OpenStory.Cryptography
         /// <returns><see langword="true"/> if the extraction was successful; otherwise, <see langword="false"/>.</returns>
         public bool TryGetLength(byte[] header, out int length)
         {
-            if (this.decryptor.ValidateHeader(header))
+            if (_decryptor.ValidateHeader(header))
             {
                 length = RollingIv.GetPacketLength(header);
                 return true;

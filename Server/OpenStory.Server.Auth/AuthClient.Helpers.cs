@@ -7,7 +7,7 @@ namespace OpenStory.Server.Auth
         private bool CheckPin(IUnsafePacketReader reader)
         {
             string suggested = reader.ReadLengthString();
-            string expected = this.Account.AccountPin;
+            string expected = Account.AccountPin;
             var isValid = suggested == expected;
             return isValid;
         }

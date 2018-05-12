@@ -5,12 +5,12 @@
     /// </summary>
     public sealed class ByteBuffer
     {
-        private readonly byte[] bytes;
+        private readonly byte[] _bytes;
 
         /// <summary>
         /// Gets the length of the buffer.
         /// </summary>
-        public int Length => this.bytes.Length;
+        public int Length => _bytes.Length;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteBuffer"/> class.
@@ -19,7 +19,7 @@
         {
             Guard.NotNull(() => bytes, bytes);
 
-            this.bytes = bytes.FastClone();
+            _bytes = bytes.FastClone();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@
         {
             Guard.NotNull(() => builder, builder);
 
-            builder.WriteBytes(this.bytes);
+            builder.WriteBytes(_bytes);
         }
     }
 }

@@ -39,10 +39,10 @@ namespace OpenStory.Cryptography
                 byte b = (byte)((r & 0xD5) << 1);
                 byte x = (byte)(a | b);
 
-                data[i] = (byte)(this.Table[stepIv[0]] ^ x);
+                data[i] = (byte)(Table[stepIv[0]] ^ x);
 
                 // NOTE: passing the initial value is CORRECT.
-                this.ShuffleIvStep(stepIv, initial);
+                ShuffleIvStep(stepIv, initial);
             }
         }
     }

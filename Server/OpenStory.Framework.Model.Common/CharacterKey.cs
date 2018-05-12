@@ -25,8 +25,8 @@ namespace OpenStory.Framework.Model.Common
         /// <param name="name">The string identifier.</param>
         public CharacterKey(int id, string name)
         {
-            this.Id = id;
-            this.Name = name;
+            Id = id;
+            Name = name;
         }
 
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace OpenStory.Framework.Model.Common
                 return false;
             }
 
-            return this.Id == other.Id;
+            return Id == other.Id;
         }
 
         /// <inheritdoc />
@@ -59,13 +59,13 @@ namespace OpenStory.Framework.Model.Common
             }
 
             var key = obj as CharacterKey;
-            return key != null && this.Id == key.Id;
+            return key != null && Id == key.Id;
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return this.Id;
+            return Id;
         }
 
         /// <summary>

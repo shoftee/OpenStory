@@ -8,17 +8,17 @@ namespace OpenStory.Server.Nexus
 {
     internal sealed class NexusServer : GameServerBase, IAuthToNexusRequestHandler
     {
-        private readonly WorldContainer worldContainer;
+        private readonly WorldContainer _worldContainer;
 
         public NexusServer(WorldContainer worldContainer)
         {
-            this.worldContainer = worldContainer;
+            _worldContainer = worldContainer;
         }
 
         /// <inheritdoc />
         public IEnumerable<IWorld> GetWorlds()
         {
-            var services = this.worldContainer.ToList();
+            var services = _worldContainer.ToList();
             var details = services.Select(w => w.GetDetails()).AsParallel();
             return details.ToList();
         }

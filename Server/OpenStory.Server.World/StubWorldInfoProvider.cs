@@ -9,7 +9,7 @@ namespace OpenStory.Server.World
     /// </summary>
     internal sealed class StubWorldInfoProvider : IWorldInfoProvider
     {
-        private readonly Dictionary<int, WorldInfo> worlds =
+        private readonly Dictionary<int, WorldInfo> _worlds =
             new Dictionary<int, WorldInfo>()
             {
                 { 1, new WorldInfo() { WorldId = 1, WorldName = "Tespia", ChannelCount = 1, } }
@@ -19,14 +19,14 @@ namespace OpenStory.Server.World
         public WorldInfo GetWorldById(int id)
         {
             WorldInfo worldInfo;
-            worlds.TryGetValue(id, out worldInfo);
+            _worlds.TryGetValue(id, out worldInfo);
             return worldInfo;
         }
 
         /// <inheritdoc/>
         public IEnumerable<WorldInfo> GetAllWorlds()
         {
-            return worlds.Values;
+            return _worlds.Values;
         }
     }
 }

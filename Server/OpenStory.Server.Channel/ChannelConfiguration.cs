@@ -19,7 +19,7 @@ namespace OpenStory.Server.Channel
         public ChannelConfiguration(OsServiceConfiguration configuration)
             : base(configuration)
         {
-            this.ChannelId = configuration.Get<int>("Channel");
+            ChannelId = configuration.Get<int>("Channel");
         }
     }
 }

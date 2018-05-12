@@ -13,21 +13,21 @@ namespace OpenStory.Services.Wcf
     public class ServiceClientProvider<TChannel> : IServiceClientProvider<TChannel>
         where TChannel : class
     {
-        private readonly ChannelFactory<TChannel> channelFactory;
-        private readonly Lazy<EndpointDiscoveryMetadata> metadata;
+        private readonly ChannelFactory<TChannel> _channelFactory;
+        private readonly Lazy<EndpointDiscoveryMetadata> _metadata;
 
         /// <summary>
         /// Gets the discovered metadata information.
         /// </summary>
-        protected EndpointDiscoveryMetadata Metadata => this.metadata.Value;
+        protected EndpointDiscoveryMetadata Metadata => _metadata.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceClientProvider{TContract}"/> class.
         /// </summary>
         public ServiceClientProvider()
         {
-            this.channelFactory = new ChannelFactory<TChannel>(new NetTcpBinding(SecurityMode.Transport));
-            this.metadata = new Lazy<EndpointDiscoveryMetadata>(GetEndpointMetadata);
+            _channelFactory = new ChannelFactory<TChannel>(new NetTcpBinding(SecurityMode.Transport));
+            _metadata = new Lazy<EndpointDiscoveryMetadata>(GetEndpointMetadata);
         }
 
         /// <summary>
@@ -35,12 +35,12 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public virtual TChannel CreateChannel()
         {
-            if (this.channelFactory.State == CommunicationState.Created)
+            if (_channelFactory.State == CommunicationState.Created)
             {
-                this.channelFactory.Open();
+                _channelFactory.Open();
             }
 
-            var channel = this.channelFactory.CreateChannel(this.Metadata.Address);
+            var channel = _channelFactory.CreateChannel(Metadata.Address);
             return channel;
         }
 

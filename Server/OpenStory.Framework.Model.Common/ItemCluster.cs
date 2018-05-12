@@ -22,17 +22,17 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets whether the cluster is empty.
         /// </summary>
-        public bool IsEmpty => this.Quantity == 0;
+        public bool IsEmpty => Quantity == 0;
 
         /// <summary>
         /// Gets the identifier for the prototype of this cluster.
         /// </summary>
-        public int ItemId => this.Prototype.ItemId;
+        public int ItemId => Prototype.ItemId;
 
         /// <summary>
         /// Gets the item capacity of this cluster.
         /// </summary>
-        public virtual int ClusterCapacity => this.Prototype.ClusterCapacity;
+        public virtual int ClusterCapacity => Prototype.ClusterCapacity;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemCluster{TItemInfo}"/> class.
@@ -48,8 +48,8 @@ namespace OpenStory.Framework.Model.Common
                 throw new ArgumentNullException(nameof(prototype));
             }
 
-            this.Prototype = prototype;
-            this.Quantity = 0;
+            Prototype = prototype;
+            Quantity = 0;
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace OpenStory.Framework.Model.Common
             // Note: This is actually not quite necessary,
             // since Prototypes are immutable and only supplied from the cache,
             // we could go with just identity check.
-            if (!this.Prototype.Equals(other.Prototype))
+            if (!Prototype.Equals(other.Prototype))
             {
                 throw new ArgumentException(ModelStrings.DifferentItemClusterPrototype, nameof(other));
             }
 
-            int freeSpace = this.ClusterCapacity - this.Quantity;
+            int freeSpace = ClusterCapacity - Quantity;
             int availableQuantity = Math.Min(freeSpace, other.Quantity);
-            this.Quantity += availableQuantity;
+            Quantity += availableQuantity;
             other.Quantity -= availableQuantity;
 
             return availableQuantity;
@@ -103,12 +103,12 @@ namespace OpenStory.Framework.Model.Common
                 throw new ArgumentNullException(nameof(other));
             }
 
-            if (!this.Prototype.Equals(other.Prototype))
+            if (!Prototype.Equals(other.Prototype))
             {
                 return false;
             }
 
-            if (this.Quantity == this.ClusterCapacity)
+            if (Quantity == ClusterCapacity)
             {
                 return false;
             }

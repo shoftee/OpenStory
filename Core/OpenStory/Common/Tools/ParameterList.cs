@@ -43,7 +43,7 @@ namespace OpenStory.Common
         /// </remarks>
         private static readonly Regex ParamRegex = new Regex(ParameterRegexPattern, ParamRegexOptions);
 
-        private readonly Dictionary<string, string> parameters;
+        private readonly Dictionary<string, string> _parameters;
 
         /// <summary>
         /// Gets the value of a parameter.
@@ -57,7 +57,7 @@ namespace OpenStory.Common
             get
             {
                 string value;
-                this.parameters.TryGetValue(key, out value);
+                _parameters.TryGetValue(key, out value);
                 return value;
             }
         }
@@ -68,7 +68,7 @@ namespace OpenStory.Common
         /// <param name="parameters">The parameter entries to initialize this list with.</param>
         private ParameterList(IDictionary<string, string> parameters)
         {
-            this.parameters = new Dictionary<string, string>(parameters, StringComparer.OrdinalIgnoreCase);
+            _parameters = new Dictionary<string, string>(parameters, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace OpenStory.Common
         /// <returns>an array of <see cref="string"/> with each parameter entry corresponding to an array element.</returns>
         public string[] ToArgumentList()
         {
-            var count = this.parameters.Count;
+            var count = _parameters.Count;
             var args = new string[count];
             int index = 0;
 
-            var entries = this.parameters.OrderBy(item => item.Key, StringComparer.OrdinalIgnoreCase);
+            var entries = _parameters.OrderBy(item => item.Key, StringComparer.OrdinalIgnoreCase);
             foreach (var entry in entries)
             {
                 var name = entry.Key;

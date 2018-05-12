@@ -14,13 +14,13 @@ namespace OpenStory.Server.World
         IChannelToWorldRequestHandler, 
         INexusToWorldRequestHandler
     {
-        private readonly IServiceContainer<INexusToWorldRequestHandler> nexus;
-        private readonly ChannelContainer channelContainer;
-        private readonly IWorldInfoProvider worldInfoProvider;
+        private readonly IServiceContainer<INexusToWorldRequestHandler> _nexus;
+        private readonly ChannelContainer _channelContainer;
+        private readonly IWorldInfoProvider _worldInfoProvider;
 
-        private WorldConfiguration worldConfiguration;
+        private WorldConfiguration _worldConfiguration;
 
-        private WorldInfo info;
+        private WorldInfo _info;
 
         /// <inheritdoc />
         public int WorldId { get; private set; }
@@ -33,31 +33,31 @@ namespace OpenStory.Server.World
             ChannelContainer channelContainer,
             IWorldInfoProvider worldInfoProvider)
         {
-            this.nexus = nexus;
-            this.channelContainer = channelContainer;
-            this.worldInfoProvider = worldInfoProvider;
+            _nexus = nexus;
+            _channelContainer = channelContainer;
+            _worldInfoProvider = worldInfoProvider;
         }
 
         protected override void OnInitializing(OsServiceConfiguration serviceConfiguration)
         {
             base.OnInitializing(serviceConfiguration);
 
-            this.worldConfiguration = new WorldConfiguration(serviceConfiguration);
+            _worldConfiguration = new WorldConfiguration(serviceConfiguration);
 
-            this.WorldId = this.worldConfiguration.WorldId;
-            this.info = this.worldInfoProvider.GetWorldById(this.WorldId);
+            WorldId = _worldConfiguration.WorldId;
+            _info = _worldInfoProvider.GetWorldById(WorldId);
         }
 
         protected override void OnStarting()
         {
             base.OnStarting();
 
-            this.nexus.Register(this);
+            _nexus.Register(this);
         }
 
         protected override void OnStopping()
         {
-            this.nexus.Unregister(this);
+            _nexus.Unregister(this);
 
             base.OnStopping();
         }
@@ -65,14 +65,14 @@ namespace OpenStory.Server.World
         /// <inheritdoc />
         public IWorld GetDetails()
         {
-            return new ActiveWorld(this.info);
+            return new ActiveWorld(_info);
         }
 
         /// <inheritdoc />
         public void BroadcastFromChannel(int channelId, CharacterKey[] targets, byte[] data)
         {
             var channels =
-                from entry in this.channelContainer
+                from entry in _channelContainer
                 where entry.ChannelId != channelId
                 select entry;
 

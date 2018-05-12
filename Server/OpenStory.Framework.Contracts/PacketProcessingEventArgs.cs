@@ -8,7 +8,7 @@ namespace OpenStory.Framework.Contracts
     /// </summary>
     public sealed class PacketProcessingEventArgs : EventArgs
     {
-        private readonly PacketReader reader;
+        private readonly PacketReader _reader;
 
         /// <summary>
         /// Gets the packet code of the packet.
@@ -23,7 +23,7 @@ namespace OpenStory.Framework.Contracts
         /// <summary>
         /// Gets a fresh reader over the packet's content.
         /// </summary>
-        public IUnsafePacketReader Reader => new PacketReader(this.reader);
+        public IUnsafePacketReader Reader => new PacketReader(_reader);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketProcessingEventArgs"/> class.
@@ -41,9 +41,9 @@ namespace OpenStory.Framework.Contracts
                 throw new ArgumentNullException(nameof(reader));
             }
 
-            this.PacketCode = packetCode;
-            this.Label = label;
-            this.reader = reader;
+            PacketCode = packetCode;
+            Label = label;
+            _reader = reader;
         }
     }
 }

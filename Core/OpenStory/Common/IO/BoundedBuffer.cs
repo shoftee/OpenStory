@@ -8,10 +8,10 @@ namespace OpenStory.Common.IO
     /// </summary>
     public sealed class BoundedBuffer : IDisposable
     {
-        private bool isDisposed;
+        private bool _isDisposed;
 
-        private MemoryStream stream;
-        private int freeSpace;
+        private MemoryStream _stream;
+        private int _freeSpace;
 
         /// <summary>
         /// Gets the number of remaining useable bytes in the buffer.
@@ -21,8 +21,8 @@ namespace OpenStory.Common.IO
         {
             get
             {
-                this.ThrowIfDisposed();
-                return this.freeSpace;
+                ThrowIfDisposed();
+                return _freeSpace;
             }
         }
 
@@ -34,7 +34,7 @@ namespace OpenStory.Common.IO
         /// </remarks>
         public BoundedBuffer()
         {
-            this.freeSpace = 0;
+            _freeSpace = 0;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenStory.Common.IO
                 throw GetCapacityIsNonPositiveException(capacity);
             }
 
-            this.ResetInternal(capacity);
+            ResetInternal(capacity);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OpenStory.Common.IO
         /// <returns>the number of bytes that were stored.</returns>
         public int AppendFill(byte[] buffer, int offset, int count)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             Guard.NotNull(() => buffer, buffer);
 
@@ -88,16 +88,16 @@ namespace OpenStory.Common.IO
                 throw ArraySegmentException.GetByStartAndLength(offset, count);
             }
 
-            int stored = this.AppendInternal(buffer, offset, count);
+            int stored = AppendInternal(buffer, offset, count);
             return stored;
         }
 
         private int AppendInternal(byte[] buffer, int offset, int requested)
         {
-            int stored = Math.Min(this.FreeSpace, requested);
+            int stored = Math.Min(FreeSpace, requested);
 
-            this.stream.Write(buffer, offset, stored);
-            this.freeSpace -= stored;
+            _stream.Write(buffer, offset, stored);
+            _freeSpace -= stored;
 
             return stored;
         }
@@ -110,14 +110,14 @@ namespace OpenStory.Common.IO
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="newCapacity"/> is negative.</exception>
         public void Reset(int newCapacity)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             if (newCapacity < 0)
             {
                 throw GetNewCapacityIsNegativeException(newCapacity);
             }
 
-            this.ResetInternal(newCapacity);
+            ResetInternal(newCapacity);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace OpenStory.Common.IO
         /// <returns>the data that was in the <see cref="BoundedBuffer"/>.</returns>
         public byte[] ExtractAndReset(int newCapacity)
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             if (newCapacity < 0)
             {
@@ -137,20 +137,20 @@ namespace OpenStory.Common.IO
             }
 
             byte[] data = Arrays<byte>.Empty;
-            if (this.stream != null)
+            if (_stream != null)
             {
-                data = this.stream.GetBuffer();
+                data = _stream.GetBuffer();
             }
 
-            this.ResetInternal(newCapacity);
+            ResetInternal(newCapacity);
 
             return data;
         }
 
         private void ResetInternal(int newCapacity)
         {
-            this.stream = new MemoryStream(newCapacity);
-            this.freeSpace = newCapacity;
+            _stream = new MemoryStream(newCapacity);
+            _freeSpace = newCapacity;
         }
 
         #region IDisposable Members
@@ -158,7 +158,7 @@ namespace OpenStory.Common.IO
         /// <inheritdoc />
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
         }
 
         /// <summary>
@@ -169,11 +169,11 @@ namespace OpenStory.Common.IO
         /// </param>
         private void Dispose(bool disposing)
         {
-            if (!this.isDisposed && disposing)
+            if (!_isDisposed && disposing)
             {
-                Misc.AssignNullAndDispose(ref this.stream);
+                Misc.AssignNullAndDispose(ref _stream);
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 
@@ -189,9 +189,9 @@ namespace OpenStory.Common.IO
         /// </exception>
         private void ThrowIfDisposed()
         {
-            if (this.isDisposed)
+            if (_isDisposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
 

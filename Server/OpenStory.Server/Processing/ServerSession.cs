@@ -23,9 +23,9 @@ namespace OpenStory.Server.Processing
         /// <inheritdoc />
         public event EventHandler<PacketProcessingEventArgs> PacketProcessing;
 
-        private readonly ConcurrentQueue<byte[]> packets;
-        private readonly AtomicBoolean isPushing;
-        private readonly IPacketCodeTable packetCodeTable;
+        private readonly ConcurrentQueue<byte[]> _packets;
+        private readonly AtomicBoolean _isPushing;
+        private readonly IPacketCodeTable _packetCodeTable;
 
         /// <inheritdoc />
         /// <remarks>
@@ -40,14 +40,14 @@ namespace OpenStory.Server.Processing
         /// </summary>
         public ServerSession(IPacketCodeTable packetCodeTable)
         {
-            this.NetworkSessionId = RollingNetworkSessionId.Increment();
+            NetworkSessionId = RollingNetworkSessionId.Increment();
 
-            this.isPushing = false;
-            this.packets = new ConcurrentQueue<byte[]>();
+            _isPushing = false;
+            _packets = new ConcurrentQueue<byte[]>();
 
-            this.packetCodeTable = packetCodeTable;
+            _packetCodeTable = packetCodeTable;
 
-            this.PacketReceived += this.HandlePacketReceived;
+            PacketReceived += HandlePacketReceived;
         }
 
         /// <inheritdoc />
@@ -65,13 +65,13 @@ namespace OpenStory.Server.Processing
                 throw new ArgumentNullException(nameof(handshakeInfo));
             }
 
-            this.ThrowIfNoPacketReceivedSubscriber();
+            ThrowIfNoPacketReceivedSubscriber();
 
-            this.Crypto = endpointCrypto;
+            Crypto = endpointCrypto;
 
             byte[] handshake = ConstructHandshakePacket(handshakeInfo);
-            this.BaseSession.Start();
-            this.BaseSession.Write(handshake);
+            BaseSession.Start();
+            BaseSession.Write(handshake);
         }
 
         #region Outgoing logic
@@ -122,21 +122,21 @@ namespace OpenStory.Server.Processing
         /// </summary>
         public void Push()
         {
-            if (this.PacketProcessing == null)
+            if (PacketProcessing == null)
             {
                 throw new InvalidOperationException(ServerStrings.PacketProcessingEventHasNoSubscriber);
             }
 
-            if (this.isPushing.FlipIf(false))
+            if (_isPushing.FlipIf(false))
             {
-                this.StartPushing();
+                StartPushing();
             }
         }
 
         private void StartPushing()
         {
             byte[] packet;
-            bool hasPacket = this.packets.TryDequeue(out packet);
+            bool hasPacket = _packets.TryDequeue(out packet);
 
             // This can only be false when we are called by the asynchronous continuation,
             // which doesn't have a good way of communicating its results to us,
@@ -145,10 +145,10 @@ namespace OpenStory.Server.Processing
             {
                 // TryPushAsync will return false if we completed synchronously
                 // and we would therefore like to try pushing another packet right away.
-                while (!this.TryPushAsync(packet))
+                while (!TryPushAsync(packet))
                 {
                     // TryContinuePushSynchronous will return false if there are no more packets to push.
-                    if (!this.TryContinuePushSynchronous(out packet))
+                    if (!TryContinuePushSynchronous(out packet))
                     {
                         break;
                     }
@@ -156,7 +156,7 @@ namespace OpenStory.Server.Processing
             }
             else
             {
-                this.isPushing.Set(false);
+                _isPushing.Set(false);
             }
         }
 
@@ -173,7 +173,7 @@ namespace OpenStory.Server.Processing
             ushort packetCode;
             if (!reader.TryReadUInt16(out packetCode))
             {
-                this.Close(@"Could not read packet code.");
+                Close(@"Could not read packet code.");
 
                 // Bad packet. We kill the session and stop pushing.
                 return true;
@@ -181,12 +181,12 @@ namespace OpenStory.Server.Processing
 
             // If this returns null, it's an unknown code and has no label.
             string label;
-            this.packetCodeTable.TryGetIncomingLabel(packetCode, out label);
+            _packetCodeTable.TryGetIncomingLabel(packetCode, out label);
 
             // Invoke event asynchronously.
             var args = new PacketProcessingEventArgs(packetCode, label, reader);
-            var handler = this.PacketProcessing;
-            AsyncCallback callback = this.ContinuePushAsynchronous;
+            var handler = PacketProcessing;
+            AsyncCallback callback = ContinuePushAsynchronous;
             var asyncResult = handler.BeginInvoke(this, args, callback, null);
 
             // If we completed synchronously, we'll take another one right away.
@@ -198,7 +198,7 @@ namespace OpenStory.Server.Processing
         /// Attempts to retrieve another packet for processing.
         /// </summary>
         /// <remarks>
-        /// If there were no packets to process, <paramref name="packet"/> will be <see langword="null"/> and <see cref="isPushing"/> will be set to false.
+        /// If there were no packets to process, <paramref name="packet"/> will be <see langword="null"/> and <see cref="_isPushing"/> will be set to false.
         /// </remarks>
         /// <param name="packet">A variable to hold the retrieved packet data.</param>
         /// <returns>
@@ -206,10 +206,10 @@ namespace OpenStory.Server.Processing
         /// </returns>
         private bool TryContinuePushSynchronous(out byte[] packet)
         {
-            bool hasNext = this.packets.TryDequeue(out packet);
+            bool hasNext = _packets.TryDequeue(out packet);
             if (!hasNext)
             {
-                this.isPushing.Set(false);
+                _isPushing.Set(false);
             }
 
             return hasNext;
@@ -223,7 +223,7 @@ namespace OpenStory.Server.Processing
         {
             if (result.IsCompleted)
             {
-                this.StartPushing();
+                StartPushing();
             }
         }
 
@@ -235,17 +235,17 @@ namespace OpenStory.Server.Processing
         {
             var bytes = e.Reader.ReadFully();
 
-            this.packets.Enqueue(bytes);
+            _packets.Enqueue(bytes);
 
-            if (!this.isPushing.Value)
+            if (!_isPushing.Value)
             {
-                this.OnReadyForPush();
+                OnReadyForPush();
             }
         }
 
         private void OnReadyForPush()
         {
-            var handler = this.ReadyForPush;
+            var handler = ReadyForPush;
             if (handler != null)
             {
                 handler.Invoke(this, EventArgs.Empty);

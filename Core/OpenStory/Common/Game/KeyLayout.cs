@@ -8,16 +8,16 @@ namespace OpenStory.Common.Game
     /// </summary>
     public sealed class KeyLayout
     {
-        private readonly List<KeyBinding> bindings;
+        private readonly List<KeyBinding> _bindings;
 
         /// <summary>
         /// Gets a read-only list of the key bindings.
         /// </summary>
-        public IReadOnlyList<KeyBinding> Bindings => this.bindings.AsReadOnly();
+        public IReadOnlyList<KeyBinding> Bindings => _bindings.AsReadOnly();
 
         private KeyLayout()
         {
-            this.bindings = new List<KeyBinding>(GameConstants.KeyCount);
+            _bindings = new List<KeyBinding>(GameConstants.KeyCount);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace OpenStory.Common.Game
                 throw new ArgumentException(message);
             }
 
-            this.bindings.AddRange(bindings);
+            _bindings.AddRange(bindings);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace OpenStory.Common.Game
         {
             ThrowIfInvalidId(keyId);
 
-            return this.bindings[keyId];
+            return _bindings[keyId];
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenStory.Common.Game
         {
             ThrowIfInvalidId(keyId);
 
-            this.bindings[keyId] = new KeyBinding(type, action);
+            _bindings[keyId] = new KeyBinding(type, action);
         }
 
         private static void ThrowIfInvalidId(byte keyId)

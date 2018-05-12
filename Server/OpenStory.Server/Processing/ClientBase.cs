@@ -28,12 +28,12 @@ namespace OpenStory.Server.Processing
         /// </summary>
         private const int PingInterval = 30000;
 
-        private readonly Timer keepAliveTimer;
-        private readonly AtomicInteger sentPings;
+        private readonly Timer _keepAliveTimer;
+        private readonly AtomicInteger _sentPings;
 
-        private IAccountSession accountSession;
+        private IAccountSession _accountSession;
 
-        private bool isDisposed;
+        private bool _isDisposed;
 
         /// <summary>
         /// Occurs when the client's session is being closed.
@@ -53,8 +53,8 @@ namespace OpenStory.Server.Processing
         /// </remarks>
         protected IAccountSession AccountSession
         {
-            get { return this.accountSession; }
-            set { this.accountSession = value; }
+            get { return _accountSession; }
+            set { _accountSession = value; }
         }
 
         /// <summary>
@@ -93,56 +93,56 @@ namespace OpenStory.Server.Processing
                 throw new ArgumentNullException(nameof(packetFactory));
             }
 
-            this.isDisposed = false;
-            this.sentPings = new AtomicInteger(0);
+            _isDisposed = false;
+            _sentPings = new AtomicInteger(0);
 
-            this.ServerSession = this.InitializeSession(serverSession);
-            this.PacketFactory = packetFactory;
-            this.Logger = logger;
+            ServerSession = InitializeSession(serverSession);
+            PacketFactory = packetFactory;
+            Logger = logger;
 
-            this.keepAliveTimer = this.InitializeTimer();
-            this.keepAliveTimer.Start();
+            _keepAliveTimer = InitializeTimer();
+            _keepAliveTimer.Start();
         }
 
         private IServerSession InitializeSession(IServerSession serverSession)
         {
-            serverSession.PacketProcessing += this.OnPacketProcessing;
-            serverSession.Closing += this.OnSessionClosing;
+            serverSession.PacketProcessing += OnPacketProcessing;
+            serverSession.Closing += OnSessionClosing;
             return serverSession;
         }
 
         private Timer InitializeTimer()
         {
             var timer = new Timer(PingInterval);
-            timer.Elapsed += this.SendPing;
+            timer.Elapsed += SendPing;
             return timer;
         }
 
         private void OnSessionClosing(object sender, ConnectionClosingEventArgs e)
         {
-            this.OnClosing();
+            OnClosing();
 
-            this.Closing?.Invoke(this, e);
+            Closing?.Invoke(this, e);
         }
 
         private void OnClosing()
         {
-            this.keepAliveTimer.Close();
+            _keepAliveTimer.Close();
         }
 
         #region Packet handling
 
         private void SendPing(object sender, ElapsedEventArgs e)
         {
-            if (this.sentPings.Increment() > MissedPingsAllowed)
+            if (_sentPings.Increment() > MissedPingsAllowed)
             {
-                this.Disconnect("No ping response.");
+                Disconnect("No ping response.");
                 return;
             }
 
-            using (var ping = this.PacketFactory.CreatePacket("Ping"))
+            using (var ping = PacketFactory.CreatePacket("Ping"))
             {
-                this.ServerSession.WritePacket(ping.ToByteArray());
+                ServerSession.WritePacket(ping.ToByteArray());
             }
         }
 
@@ -150,53 +150,53 @@ namespace OpenStory.Server.Processing
         {
             if (e.Label == "Pong")
             {
-                this.HandlePong();
+                HandlePong();
             }
             else if (e.Label != null)
             {
-                this.Logger.Debug("Received packet '{0}'", e.Label);
-                this.HandlePacket(e);
+                Logger.Debug("Received packet '{0}'", e.Label);
+                HandlePacket(e);
             }
             else
             {
                 var packetCode = e.PacketCode;
                 var packetData = e.Reader.ReadFully().ToHex(true);
-                this.Logger.Debug(@"Unrecognized packet code: 0x{0:X4}. Packet buffer: {1}", packetCode, packetData);
+                Logger.Debug(@"Unrecognized packet code: 0x{0:X4}. Packet buffer: {1}", packetCode, packetData);
             }
         }
 
         private void HandlePong()
         {
-            var session = this.AccountSession;
+            var session = AccountSession;
             if (session != null)
             {
                 TimeSpan lag;
                 if (!session.TryKeepAlive(out lag))
                 {
-                    this.Disconnect("Session keep-alive failed.");
+                    Disconnect("Session keep-alive failed.");
                     return;
                 }
             }
 
-            this.sentPings.ExchangeWith(0);
+            _sentPings.ExchangeWith(0);
         }
 
         private void HandlePacket(PacketProcessingEventArgs e)
         {
             try
             {
-                this.ProcessPacket(e);
+                ProcessPacket(e);
             }
             catch (IllegalPacketException)
             {
                 // TODO: Use IllegalPacketException for penalizing naughty clients.
-                this.Logger.Info("Received illegal packet. Client disconnected.");
-                this.Disconnect("Illegal packet.");
+                Logger.Info("Received illegal packet. Client disconnected.");
+                Disconnect("Illegal packet.");
             }
             catch (PacketReadingException)
             {
-                this.Logger.Info("Received incomplete packet. Client disconnected.");
-                this.Disconnect("Incomplete packet.");
+                Logger.Info("Received incomplete packet. Client disconnected.");
+                Disconnect("Incomplete packet.");
             }
         }
 
@@ -214,7 +214,7 @@ namespace OpenStory.Server.Processing
         /// <param name="data">The data of the packet.</param>
         public void WritePacket(byte[] data)
         {
-            this.ServerSession.WritePacket(data);
+            ServerSession.WritePacket(data);
         }
 
         /// <summary>
@@ -225,22 +225,22 @@ namespace OpenStory.Server.Processing
         {
             var reasonString = string.IsNullOrWhiteSpace(reason) ? "(no reason supplied)" : reason;
 
-            this.LogDisconnectReason(this.AccountSession, reasonString);
-            this.ServerSession.Close(reasonString);
+            LogDisconnectReason(AccountSession, reasonString);
+            ServerSession.Close(reasonString);
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.accountSession);
+                Misc.AssignNullAndDispose(ref _accountSession);
 
-                this.keepAliveTimer.Close();
+                _keepAliveTimer.Close();
 
-                this.ServerSession.Close("Client disposed.");
+                ServerSession.Close("Client disposed.");
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 
@@ -248,11 +248,11 @@ namespace OpenStory.Server.Processing
         {
             if (session != null)
             {
-                this.Logger.Debug("Account session #{0} was closed: {1}", session.SessionId, reason);
+                Logger.Debug("Account session #{0} was closed: {1}", session.SessionId, reason);
             }
             else
             {
-                this.Logger.Debug("Session was closed: {0}", reason);
+                Logger.Debug("Session was closed: {0}", reason);
             }
         }
     }

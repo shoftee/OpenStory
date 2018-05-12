@@ -19,8 +19,8 @@ namespace OpenStory.Server.Auth
         /// </summary>
         private const int MaxLoginAttempts = 3;
 
-        private readonly IAuthenticator authenticator;
-        private readonly IAuthToNexusRequestHandler nexus;
+        private readonly IAuthenticator _authenticator;
+        private readonly IAuthToNexusRequestHandler _nexus;
 
         /// <summary>
         /// Gets the number of failed login attempts for this client.
@@ -44,11 +44,11 @@ namespace OpenStory.Server.Auth
         public AuthClient(IAuthenticator authenticator, IAuthToNexusRequestHandler nexus, IServerSession serverSession, IPacketFactory packetFactory, ILogger logger)
             : base(serverSession, packetFactory, logger)
         {
-            this.authenticator = authenticator;
-            this.nexus = nexus;
+            _authenticator = authenticator;
+            _nexus = nexus;
 
-            this.LoginAttempts = 0;
-            this.State = AuthClientState.NotLoggedIn;
+            LoginAttempts = 0;
+            State = AuthClientState.NotLoggedIn;
         }
 
         /// <inheritdoc/>
@@ -58,83 +58,83 @@ namespace OpenStory.Server.Auth
             switch (args.Label)
             {
                 case "Authenticate":
-                    this.HandleAuthentication(reader);
+                    HandleAuthentication(reader);
                     break;
 
                 case "ValidatePin":
-                    this.HandlePinValidation(reader);
+                    HandlePinValidation(reader);
                     break;
 
                 case "AssignPin":
-                    this.HandlePinAssignment(reader);
+                    HandlePinAssignment(reader);
                     break;
 
                 case "WorldListRequest":
                 case "WorldListRefresh":
-                    this.HandleWorldListRequest(reader);
+                    HandleWorldListRequest(reader);
                     break;
 
                 case "ChannelSelect":
-                    this.HandleChannelSelect(reader);
+                    HandleChannelSelect(reader);
                     break;
 
                 case "CharacterListRequest":
-                    this.HandleCharacterListRequest(reader);
+                    HandleCharacterListRequest(reader);
                     break;
 
                 case "CharacterSelect":
-                    this.HandleCharacterSelect(reader);
+                    HandleCharacterSelect(reader);
                     break;
             }
         }
 
         private void HandleAuthentication(IUnsafePacketReader reader)
         {
-            if (this.State != AuthClientState.NotLoggedIn)
+            if (State != AuthClientState.NotLoggedIn)
             {
-                this.Disconnect("Invalid client authentication state.");
+                Disconnect("Invalid client authentication state.");
                 return;
             }
 
             // TODO: more stuff to read, later.
             IAccountSession accountSession;
             Account account;
-            var result = this.authenticator.Authenticate(reader, out accountSession, out account);
+            var result = _authenticator.Authenticate(reader, out accountSession, out account);
             if (result == AuthenticationResult.Success)
             {
-                this.AccountSession = accountSession;
-                this.Account = account;
+                AccountSession = accountSession;
+                Account = account;
 
                 if (!account.Gender.HasValue)
                 {
-                    this.State = AuthClientState.SetGender;
+                    State = AuthClientState.SetGender;
                 }
                 else
                 {
                     // TODO: cover cases where further authentication is not required and this should be set to LoggedIn.
                     if (account.AccountPin == null)
                     {
-                        this.State = AuthClientState.SetPin;
+                        State = AuthClientState.SetPin;
                     }
                     else
                     {
-                        this.State = AuthClientState.AskPin;
+                        State = AuthClientState.AskPin;
                     }
                 }
             }
-            else if (this.LoginAttempts++ > MaxLoginAttempts)
+            else if (LoginAttempts++ > MaxLoginAttempts)
             {
-                this.Disconnect("Too many login attempts.");
+                Disconnect("Too many login attempts.");
                 return;
             }
 
-            this.ServerSession.WritePacket(this.AuthResponse(result, account));
-            this.ServerSession.WritePacket(this.CheckPinResponse());
+            ServerSession.WritePacket(AuthResponse(result, account));
+            ServerSession.WritePacket(CheckPinResponse());
         }
 
         private void HandleWorldListRequest(IUnsafePacketReader reader)
         {
-            this.ServerSession.WritePacket(this.WorldListResponse());
+            ServerSession.WritePacket(WorldListResponse());
         }
 
         private void HandleCharacterSelect(IUnsafePacketReader reader)
@@ -168,34 +168,34 @@ namespace OpenStory.Server.Auth
             switch (action)
             {
                 case PinRequestType.PinNotSet:
-                    this.State = AuthClientState.AskPin;
+                    State = AuthClientState.AskPin;
 
-                    this.ServerSession.WritePacket(this.SetPinResponse());
+                    ServerSession.WritePacket(SetPinResponse());
                     break;
 
                 case PinRequestType.CheckPin:
-                    if (this.CheckPin(reader))
+                    if (CheckPin(reader))
                     {
-                        this.State = AuthClientState.LoggedIn;
+                        State = AuthClientState.LoggedIn;
 
-                        this.ServerSession.WritePacket(this.PinAcceptedResponse());
+                        ServerSession.WritePacket(PinAcceptedResponse());
                     }
                     else
                     {
-                        this.ServerSession.WritePacket(this.InvalidPinResponse());
+                        ServerSession.WritePacket(InvalidPinResponse());
                     }
                     break;
 
                 case PinRequestType.AssignPin:
-                    if (this.CheckPin(reader))
+                    if (CheckPin(reader))
                     {
-                        this.State = AuthClientState.LoggedIn;
+                        State = AuthClientState.LoggedIn;
 
-                        this.ServerSession.WritePacket(this.SetPinResponse());
+                        ServerSession.WritePacket(SetPinResponse());
                     }
                     else
                     {
-                        this.ServerSession.WritePacket(this.InvalidPinResponse());
+                        ServerSession.WritePacket(InvalidPinResponse());
                     }
                     break;
             }

@@ -9,19 +9,19 @@ namespace OpenStory.Services.Simple
     {
         public AuthPacketCodeTableV75()
         {
-            this.LoadPacketCodes();
+            LoadPacketCodes();
         }
 
         protected override void LoadPacketCodesInternal()
         {
-            this.AddIncoming();
-            this.AddOutgoing();
+            AddIncoming();
+            AddOutgoing();
         }
 
         private void AddIncoming()
         {
             // CMSG_AUTHENTICATION 0x01
-            this.AddIncoming(0x01, "Authenticate");
+            AddIncoming(0x01, "Authenticate");
 
             // CMSG_WORLD_LIST_REFRESH 0x04 // Click back after select channel
             //this.AddIncoming(0x04, "WorldListRefresh");
@@ -29,12 +29,12 @@ namespace OpenStory.Services.Simple
             // CMSG_PLAYER_LIST 0x05
             // CMSG_WORLD_STATUS 0x06
             // CMSG_ACCOUNT_GENDER 0x08
-            
+
             // CMSG_PIN 0x09
-            this.AddIncoming(0x09, "ValidatePin");
+            AddIncoming(0x09, "ValidatePin");
 
             // CMSG_REGISTER_PIN 0x0a
-            this.AddIncoming(0x0A, "AssignPin");
+            AddIncoming(0x0A, "AssignPin");
 
             // CMSG_WORLD_LIST 0x0b
             // CMSG_PLAYER_GLOBAL_LIST 0x0d
@@ -48,10 +48,10 @@ namespace OpenStory.Services.Simple
             // CMSG_PLAYER_DELETE 0x18
 
             // CMSG_PONG 0x19
-            this.AddIncoming(0x19, "Pong");
+            AddIncoming(0x19, "Pong");
 
             // CMSG_CLIENT_ERROR 0x1a
-            this.AddIncoming(0x1a, "ClientError");
+            AddIncoming(0x1a, "ClientError");
 
             // CMSG_LOGIN_RETURN 0x1d
         }
@@ -59,7 +59,7 @@ namespace OpenStory.Services.Simple
         private void AddOutgoing()
         {
             // SMSG_AUTHENTICATION 0x00
-            this.AddOutgoing("Authentication", 0x00);
+            AddOutgoing("Authentication", 0x00);
 
             // SMSG_WORLD_STATUS 0x03
             //this.AddOutgoing("WorldStatus", 0x03);
@@ -71,10 +71,10 @@ namespace OpenStory.Services.Simple
             //this.AddOutgoing("MessageTryAgain", 0x05);
 
             // SMSG_PIN 0x06
-            this.AddOutgoing("PinResponse", 0x06);
+            AddOutgoing("PinResponse", 0x06);
 
             // SMSG_PIN_ASSIGNED 0x07
-            this.AddOutgoing("PinAssigned", 0x07);
+            AddOutgoing("PinAssigned", 0x07);
 
             // SMSG_PLAYER_GLOBAL_LIST 0x08
             //this.AddOutgoing("PlayerGlobalList", 0x08);
@@ -101,7 +101,7 @@ namespace OpenStory.Services.Simple
             //this.AddOutgoing("ChannelChange", 0x10);
 
             // SMSG_PING 0x11
-            this.AddOutgoing("Ping", 0x11);
+            AddOutgoing("Ping", 0x11);
 
             // SMSG_CHANNEL_SELECT 0x14
             //this.AddOutgoing("ChannelSelect", 0x014);

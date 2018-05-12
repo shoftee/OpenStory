@@ -6,7 +6,7 @@ namespace OpenStory.Server.Channel
     {
         public ChannelPacketCodeTable()
         {
-            this.LoadPacketCodes();
+            LoadPacketCodes();
         }
 
         #region Overrides of PacketCodeTable

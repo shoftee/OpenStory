@@ -22,8 +22,8 @@
         /// <param name="actionId">The action identifier for the binding.</param>
         public KeyBinding(byte actionTypeId, int actionId)
         {
-            this.ActionTypeId = actionTypeId;
-            this.ActionId = actionId;
+            ActionTypeId = actionTypeId;
+            ActionId = actionId;
         }
     }
 }

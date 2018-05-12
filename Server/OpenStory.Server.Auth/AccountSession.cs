@@ -9,7 +9,7 @@ namespace OpenStory.Server.Auth
     /// </summary>
     internal sealed class AccountSession : IAccountSession
     {
-        private readonly IAccountService service;
+        private readonly IAccountService _service;
 
         /// <inheritdoc />
         public int SessionId { get; }
@@ -28,23 +28,23 @@ namespace OpenStory.Server.Auth
         /// <param name="data">The loaded session data.</param>
         public AccountSession(IAccountService service, int sessionId, Account data)
         {
-            this.SessionId = sessionId;
-            this.AccountId = data.AccountId;
-            this.AccountName = data.UserName;
+            SessionId = sessionId;
+            AccountId = data.AccountId;
+            AccountName = data.UserName;
 
-            this.service = service;
+            _service = service;
         }
 
         /// <inheritdoc />
         public bool TryKeepAlive(out TimeSpan lag)
         {
-            return this.service.TryKeepAlive(this.AccountId, out lag);
+            return _service.TryKeepAlive(AccountId, out lag);
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            this.service.TryUnregisterSession(this.AccountId);
+            _service.TryUnregisterSession(AccountId);
         }
     }
 }

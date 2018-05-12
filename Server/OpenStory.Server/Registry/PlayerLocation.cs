@@ -39,8 +39,8 @@ namespace OpenStory.Server.Registry
                 throw new ArgumentOutOfRangeException(nameof(mapId), mapId, ModelStrings.MapIdMustBeNonNegative);
             }
 
-            this.ChannelId = channelId;
-            this.MapId = mapId;
+            ChannelId = channelId;
+            MapId = mapId;
         }
 
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace OpenStory.Server.Registry
                 return false;
             }
 
-            return this.EqualsInternal(other);
+            return EqualsInternal(other);
         }
 
         /// <inheritdoc />
@@ -68,19 +68,19 @@ namespace OpenStory.Server.Registry
                 return false;
             }
 
-            return this.EqualsInternal(other);
+            return EqualsInternal(other);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return unchecked((this.ChannelId * 397) ^ this.MapId);
+            return unchecked((ChannelId * 397) ^ MapId);
         }
 
         private bool EqualsInternal(PlayerLocation other)
         {
-            return this.ChannelId.Equals(other.ChannelId)
-                   && this.MapId.Equals(other.MapId);
+            return ChannelId.Equals(other.ChannelId)
+                   && MapId.Equals(other.MapId);
         }
 
         /// <summary>

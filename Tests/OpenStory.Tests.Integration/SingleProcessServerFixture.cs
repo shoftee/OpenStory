@@ -13,41 +13,41 @@ namespace OpenStory.Tests.Integration
     [TestFixture]
     public sealed partial class SingleProcessServerFixture
     {
-        private IKernel nexus;
-        private IKernel account;
-        private IKernel auth;
-        private IKernel world;
-        private IKernel channel;
+        private IKernel _nexus;
+        private IKernel _account;
+        private IKernel _auth;
+        private IKernel _world;
+        private IKernel _channel;
 
         #region Fixture stuff
 
         [SetUp]
         public void SetUp()
         {
-            this.nexus = GetNexusKernel();
-            this.account = this.GetAccountKernel();
-            this.auth = this.GetAuthKernel();
-            this.world = this.GetWorldKernel();
-            this.channel = this.GetChannelKernel();
+            _nexus = GetNexusKernel();
+            _account = GetAccountKernel();
+            _auth = GetAuthKernel();
+            _world = GetWorldKernel();
+            _channel = GetChannelKernel();
         }
 
         [TearDown]
         public void TearDown()
         {
-            this.channel.Dispose();
-            this.channel = null;
+            _channel.Dispose();
+            _channel = null;
 
-            this.world.Dispose();
-            this.world = null;
+            _world.Dispose();
+            _world = null;
 
-            this.auth.Dispose();
-            this.auth = null;
+            _auth.Dispose();
+            _auth = null;
 
-            this.account.Dispose();
-            this.account = null;
+            _account.Dispose();
+            _account = null;
 
-            this.nexus.Dispose();
-            this.nexus = null;
+            _nexus.Dispose();
+            _nexus = null;
         }
 
         private static IKernel GetNexusKernel()
@@ -57,22 +57,22 @@ namespace OpenStory.Tests.Integration
 
         private IKernel GetAccountKernel()
         {
-            return new ChildKernel(this.nexus, new AccountServerModule());
+            return new ChildKernel(_nexus, new AccountServerModule());
         }
 
         private IKernel GetAuthKernel()
         {
-            return new ChildKernel(this.nexus, new ServerModule(), new AuthServerModule());
+            return new ChildKernel(_nexus, new ServerModule(), new AuthServerModule());
         }
 
         private IKernel GetWorldKernel()
         {
-            return new ChildKernel(this.nexus, new WorldServerModule());
+            return new ChildKernel(_nexus, new WorldServerModule());
         }
 
         private IKernel GetChannelKernel()
         {
-            return new ChildKernel(this.world, new ServerModule(), new ChannelServerModule());
+            return new ChildKernel(_world, new ServerModule(), new ChannelServerModule());
         }
 
         #endregion

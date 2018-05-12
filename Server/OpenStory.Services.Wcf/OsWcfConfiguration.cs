@@ -32,9 +32,9 @@ namespace OpenStory.Services.Wcf
 
         private OsWcfConfiguration(Type serviceType, Uri baseUri, Action<ServiceHost> applyTo)
         {
-            this.ServiceType = serviceType;
-            this.BaseUri = baseUri;
-            this.ApplyTo = applyTo ?? (host => { });
+            ServiceType = serviceType;
+            BaseUri = baseUri;
+            ApplyTo = applyTo ?? (host => { });
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace OpenStory.Services.Wcf
         /// </summary>
         public ServiceHost CreateHost(IResolutionRoot resolutionRoot)
         {
-            var service = resolutionRoot.Get(this.ServiceType);
-            var host = new ServiceHost(service, this.BaseUri);
-            this.ApplyTo(host);
+            var service = resolutionRoot.Get(ServiceType);
+            var host = new ServiceHost(service, BaseUri);
+            ApplyTo(host);
 
             var description = host.Description;
             if (!(service is IRegisteredService))
@@ -54,7 +54,7 @@ namespace OpenStory.Services.Wcf
             }
 
             var binding = new NetTcpBinding(SecurityMode.Transport);
-            var interfaces = GetPossibleContracts(this.ServiceType);
+            var interfaces = GetPossibleContracts(ServiceType);
             foreach (var @interface in interfaces)
             {
                 var attribute = GetContractAttribute(@interface);

@@ -8,7 +8,7 @@ namespace OpenStory.Server.Processing
     {
         public void Register(IServerSession session)
         {
-            session.ReadyForPush += this.OnReadyForPush;
+            session.ReadyForPush += OnReadyForPush;
         }
 
         private void OnReadyForPush(object sender, EventArgs e)

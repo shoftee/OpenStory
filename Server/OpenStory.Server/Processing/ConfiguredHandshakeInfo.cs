@@ -13,13 +13,13 @@ namespace OpenStory.Server.Processing
         /// <param name="serverIv">The server cryptographic IV.</param>
         public ConfiguredHandshakeInfo(ServerConfiguration configuration, byte[] clientIv, byte[] serverIv)
         {
-            this.Header = configuration.Header;
-            this.Version = configuration.Version;
-            this.Subversion = configuration.Subversion;
-            this.LocaleId = configuration.LocaleId;
+            Header = configuration.Header;
+            Version = configuration.Version;
+            Subversion = configuration.Subversion;
+            LocaleId = configuration.LocaleId;
 
-            this.ClientIv = clientIv;
-            this.ServerIv = serverIv;
+            ClientIv = clientIv;
+            ServerIv = serverIv;
         }
     }
 }

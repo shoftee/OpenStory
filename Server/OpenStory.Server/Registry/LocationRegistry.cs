@@ -10,14 +10,14 @@ namespace OpenStory.Server.Registry
     /// </summary>
     internal sealed class LocationRegistry : ILocationRegistry
     {
-        private readonly Dictionary<CharacterKey, PlayerLocation> locations;
+        private readonly Dictionary<CharacterKey, PlayerLocation> _locations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LocationRegistry"/> class.
         /// </summary>
         public LocationRegistry()
         {
-            this.locations = new Dictionary<CharacterKey, PlayerLocation>();
+            _locations = new Dictionary<CharacterKey, PlayerLocation>();
         }
 
         /// <inheritdoc />
@@ -30,14 +30,14 @@ namespace OpenStory.Server.Registry
 
             return keys
                 .Distinct()
-                .ToDictionary(key => key, this.GetLocation);
+                .ToDictionary(key => key, GetLocation);
         }
 
         /// <inheritdoc />
         public PlayerLocation GetLocation(CharacterKey key)
         {
             PlayerLocation location;
-            this.locations.TryGetValue(key, out location);
+            _locations.TryGetValue(key, out location);
             return location;
         }
 
@@ -45,20 +45,20 @@ namespace OpenStory.Server.Registry
         public void SetLocation(CharacterKey key, int channelId, int mapId)
         {
             var location = new PlayerLocation(channelId, mapId);
-            if (this.locations.ContainsKey(key))
+            if (_locations.ContainsKey(key))
             {
-                this.locations[key] = location;
+                _locations[key] = location;
             }
             else
             {
-                this.locations.Add(key, location);
+                _locations.Add(key, location);
             }
         }
 
         /// <inheritdoc />
         public void RemoveLocation(CharacterKey key)
         {
-            this.locations.Remove(key);
+            _locations.Remove(key);
         }
     }
 }

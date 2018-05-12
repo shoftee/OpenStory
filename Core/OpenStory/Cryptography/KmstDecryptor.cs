@@ -34,7 +34,7 @@ namespace OpenStory.Cryptography
             {
                 byte initial = data[i];
 
-                byte x = (byte)(initial ^ this.Table[stepIv[0]]);
+                byte x = (byte)(initial ^ Table[stepIv[0]]);
                 byte b = (byte)((x >> 1) & 0x55);
                 byte a = (byte)((x & 0xD5) << 1);
                 byte r = (byte)(a | b);
@@ -42,7 +42,7 @@ namespace OpenStory.Cryptography
                 data[i] = (byte)((r >> 4) | (r << 4));
 
                 // NOTE: passing the new value is CORRECT.
-                this.ShuffleIvStep(stepIv, data[i]);
+                ShuffleIvStep(stepIv, data[i]);
             }
         }
     }

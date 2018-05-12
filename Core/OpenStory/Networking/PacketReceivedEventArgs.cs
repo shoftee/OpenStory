@@ -8,12 +8,12 @@ namespace OpenStory.Networking
     /// </summary>
     public sealed class PacketReceivedEventArgs : EventArgs
     {
-        private readonly byte[] buffer;
+        private readonly byte[] _buffer;
 
         /// <summary>
         /// Gets a new <see cref="PacketReader"/> for the packet.
         /// </summary>
-        public PacketReader Reader => new PacketReader(this.buffer);
+        public PacketReader Reader => new PacketReader(_buffer);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketReceivedEventArgs"/> class.
@@ -26,7 +26,7 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => packet, packet);
 
-            this.buffer = packet;
+            _buffer = packet;
         }
     }
 }

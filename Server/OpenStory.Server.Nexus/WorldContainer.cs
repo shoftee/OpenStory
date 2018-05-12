@@ -6,33 +6,33 @@ namespace OpenStory.Server.Nexus
 {
     internal sealed class WorldContainer : IServiceContainer<INexusToWorldRequestHandler>, IEnumerable<INexusToWorldRequestHandler>
     {
-        private readonly Dictionary<int, INexusToWorldRequestHandler> worlds;
+        private readonly Dictionary<int, INexusToWorldRequestHandler> _worlds;
 
         public WorldContainer()
         {
-            this.worlds = new Dictionary<int, INexusToWorldRequestHandler>();
+            _worlds = new Dictionary<int, INexusToWorldRequestHandler>();
         }
 
         /// <inheritdoc />
         public void Register(INexusToWorldRequestHandler world)
         {
-            this.worlds.Add(world.WorldId, world);
+            _worlds.Add(world.WorldId, world);
         }
 
         /// <inheritdoc />
         public void Unregister(INexusToWorldRequestHandler world)
         {
-            this.worlds.Remove(world.WorldId);
+            _worlds.Remove(world.WorldId);
         }
 
         public IEnumerator<INexusToWorldRequestHandler> GetEnumerator()
         {
-            return this.worlds.Values.GetEnumerator();
+            return _worlds.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace OpenStory.Services.Channel
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     internal sealed class ChannelService : RegisteredServiceBase<ChannelServer>
     {
-        private readonly NexusConnectionInfo nexusConnectionInfo;
+        private readonly NexusConnectionInfo _nexusConnectionInfo;
 
         public ChannelService(ChannelServer channelServer, NexusConnectionInfo nexusConnectionInfo)
             : base(channelServer)
         {
-            this.nexusConnectionInfo = nexusConnectionInfo;
+            _nexusConnectionInfo = nexusConnectionInfo;
         }
     }
 }

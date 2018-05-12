@@ -8,10 +8,10 @@ namespace OpenStory.Cryptography
     /// </summary>
     public sealed class RollingIv
     {
-        private readonly ICryptoAlgorithm algorithm;
-        private readonly ushort versionMask;
+        private readonly ICryptoAlgorithm _algorithm;
+        private readonly ushort _versionMask;
 
-        private byte[] iv;
+        private byte[] _iv;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RollingIv"/> class.
@@ -35,11 +35,11 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(CommonStrings.IvMustBe4Bytes, nameof(initialIv));
             }
 
-            this.algorithm = algorithm;
-            this.iv = initialIv.FastClone();
+            _algorithm = algorithm;
+            _iv = initialIv.FastClone();
 
             // Flip the version mask.
-            this.versionMask = (ushort)((versionMask >> 8) | ((versionMask & 0xFF) << 8));
+            _versionMask = (ushort)((versionMask >> 8) | ((versionMask & 0xFF) << 8));
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace OpenStory.Cryptography
         {
             Guard.NotNull(() => data, data);
 
-            this.algorithm.TransformArraySegment(data, this.iv, 0, data.Length);
+            _algorithm.TransformArraySegment(data, _iv, 0, data.Length);
 
-            this.iv = this.algorithm.ShuffleIv(this.iv);
+            _iv = _algorithm.ShuffleIv(_iv);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentOutOfRangeException(nameof(length), length, CommonStrings.PacketLengthMustBeMoreThan2Bytes);
             }
 
-            int encodedVersion = ((this.iv[2] << 8) | this.iv[3]) ^ this.versionMask;
+            int encodedVersion = ((_iv[2] << 8) | _iv[3]) ^ _versionMask;
             int encodedLength = encodedVersion ^ (((length & 0xFF) << 8) | (length >> 8));
 
             var header = new byte[4];
@@ -125,7 +125,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(message, nameof(header));
             }
 
-            return ValidateHeaderInternal(header, this.iv, this.versionMask);
+            return ValidateHeaderInternal(header, _iv, _versionMask);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace OpenStory.Cryptography
                 throw new ArgumentException(message, nameof(header));
             }
 
-            if (ValidateHeaderInternal(header, this.iv, this.versionMask))
+            if (ValidateHeaderInternal(header, _iv, _versionMask))
             {
                 length = ((header[1] ^ header[3]) << 8) | (header[0] ^ header[2]);
                 return true;

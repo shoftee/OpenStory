@@ -8,7 +8,7 @@ namespace OpenStory.Server.Channel
     /// </summary>
     public class ChannelServer : NetworkServer<ChannelOperator>
     {
-        private readonly IServiceContainer<IWorldToChannelRequestHandler> world;
+        private readonly IServiceContainer<IWorldToChannelRequestHandler> _world;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChannelServer"/> class.
@@ -16,7 +16,7 @@ namespace OpenStory.Server.Channel
         public ChannelServer(IServerProcess process, ChannelOperator @operator, IServiceContainer<IWorldToChannelRequestHandler> world)
             : base(process, @operator)
         {
-            this.world = world;
+            _world = world;
         }
 
         /// <inheritdoc />
@@ -24,13 +24,13 @@ namespace OpenStory.Server.Channel
         {
             base.OnStarting();
 
-            this.world.Register(this.Operator);
+            _world.Register(Operator);
         }
 
         /// <inheritdoc />
         protected override void OnStopping()
         {
-            this.world.Unregister(this.Operator);
+            _world.Unregister(Operator);
 
             base.OnStopping();
         }

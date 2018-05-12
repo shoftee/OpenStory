@@ -11,16 +11,16 @@ namespace OpenStory.Services.Registry
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     sealed class RegistryService : IRegistryService
     {
-        private readonly ILogger logger;
-        private readonly Dictionary<Guid, OsServiceConfiguration> configurations;
+        private readonly ILogger _logger;
+        private readonly Dictionary<Guid, OsServiceConfiguration> _configurations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistryService"/> class.
         /// </summary>
         public RegistryService(ILogger logger, IDictionary<Guid, OsServiceConfiguration> configurations = null)
         {
-            this.logger = logger;
-            this.configurations = configurations != null
+            _logger = logger;
+            _configurations = configurations != null
                 ? new Dictionary<Guid, OsServiceConfiguration>(configurations)
                 : new Dictionary<Guid, OsServiceConfiguration>();
         }
@@ -32,8 +32,8 @@ namespace OpenStory.Services.Registry
         {
             var token = Guid.NewGuid();
 
-            this.configurations.Add(token, configuration);
-            this.logger.Info("Service registered. Token authorized: {0:N}", token);
+            _configurations.Add(token, configuration);
+            _logger.Info("Service registered. Token authorized: {0:N}", token);
 
             return token;
         }
@@ -41,14 +41,14 @@ namespace OpenStory.Services.Registry
         /// <inheritdoc />
         public void UnregisterService(Guid token)
         {
-            this.configurations.Remove(token);
-            this.logger.Info("Service unregistered. Token no longer authorized: {0:N}", token);
+            _configurations.Remove(token);
+            _logger.Info("Service unregistered. Token no longer authorized: {0:N}", token);
         }
 
         /// <inheritdoc />
         public Guid[] GetRegistrations()
         {
-            var tokens = this.configurations.Keys.ToArray();
+            var tokens = _configurations.Keys.ToArray();
             return tokens;
         }
 

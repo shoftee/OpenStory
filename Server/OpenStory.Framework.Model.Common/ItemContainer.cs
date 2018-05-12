@@ -13,7 +13,7 @@ namespace OpenStory.Framework.Model.Common
     public abstract class ItemContainer<TItemInfo>
         where TItemInfo : ItemInfo
     {
-        private readonly Dictionary<int, ItemCluster<TItemInfo>> slots;
+        private readonly Dictionary<int, ItemCluster<TItemInfo>> _slots;
 
         /// <summary>
         /// Gets the maximum capacity for this container.
@@ -28,7 +28,7 @@ namespace OpenStory.Framework.Model.Common
         /// <summary>
         /// Gets the number of free slots in this container.
         /// </summary>
-        public int FreeSlots => this.SlotCapacity - this.slots.Count;
+        public int FreeSlots => SlotCapacity - _slots.Count;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemContainer{TItemInfo}"/> class.
@@ -45,9 +45,9 @@ namespace OpenStory.Framework.Model.Common
                     nameof(slotCapacity), slotCapacity, CommonStrings.CapacityMustBeNonNegative);
             }
 
-            this.SlotCapacity = slotCapacity;
+            SlotCapacity = slotCapacity;
 
-            this.slots = new Dictionary<int, ItemCluster<TItemInfo>>(slotCapacity);
+            _slots = new Dictionary<int, ItemCluster<TItemInfo>>(slotCapacity);
         }
 
         /// <summary>
@@ -64,13 +64,13 @@ namespace OpenStory.Framework.Model.Common
                     nameof(count), count, CommonStrings.CountMustBeNonNegative);
             }
 
-            int newCapacity = this.SlotCapacity + count;
-            if (newCapacity > this.MaxCapacity)
+            int newCapacity = SlotCapacity + count;
+            if (newCapacity > MaxCapacity)
             {
                 throw new ArgumentException(ModelStrings.CannotExpandBeyondMaxCapacity, nameof(count));
             }
 
-            this.SlotCapacity = newCapacity;
+            SlotCapacity = newCapacity;
         }
     }
 }

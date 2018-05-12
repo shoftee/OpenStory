@@ -26,15 +26,15 @@ namespace OpenStory.Server.Processing
         /// <param name="serverOperator">The <see cref="IServerOperator"/> to use for this server.</param>
         protected NetworkServer(IServerProcess serverProcess, TServerOperator serverOperator)
         {
-            this.Process = serverProcess;
-            this.Operator = serverOperator;
+            Process = serverProcess;
+            Operator = serverOperator;
 
-            this.Process.ConnectionOpened += this.OnConnectionOpened;
+            Process.ConnectionOpened += OnConnectionOpened;
         }
 
         private void OnConnectionOpened(object sender, ServerSessionEventArgs args)
         {
-            this.Operator.RegisterSession(args.ServerSession);
+            Operator.RegisterSession(args.ServerSession);
         }
 
         /// <inheritdoc />
@@ -42,8 +42,8 @@ namespace OpenStory.Server.Processing
         {
             base.OnInitializing(serviceConfiguration);
 
-            this.Process.Configure(serviceConfiguration);
-            this.Operator.Configure(serviceConfiguration);
+            Process.Configure(serviceConfiguration);
+            Operator.Configure(serviceConfiguration);
         }
 
         /// <inheritdoc />
@@ -51,13 +51,13 @@ namespace OpenStory.Server.Processing
         {
             base.OnStarting();
 
-            this.Process.Start();
+            Process.Start();
         }
 
         /// <inheritdoc />
         protected override void OnStopping()
         {
-            this.Process.Stop();
+            Process.Stop();
 
             base.OnStopping();
         }

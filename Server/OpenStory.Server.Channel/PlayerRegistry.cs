@@ -12,86 +12,86 @@ namespace OpenStory.Server.Channel
     /// </summary>
     internal sealed class PlayerRegistry : IPlayerRegistry, IDisposable
     {
-        private readonly Dictionary<int, CharacterKey> idLookup;
-        private readonly Dictionary<string, CharacterKey> nameLookup;
+        private readonly Dictionary<int, CharacterKey> _idLookup;
+        private readonly Dictionary<string, CharacterKey> _nameLookup;
 
-        private readonly Dictionary<CharacterKey, IPlayer> players;
+        private readonly Dictionary<CharacterKey, IPlayer> _players;
 
-        private bool isDisposed;
-        private ReaderWriterLockSlim l;
+        private bool _isDisposed;
+        private ReaderWriterLockSlim _l;
 
-        public IPlayer this[int id] => this.GetById(id);
+        public IPlayer this[int id] => GetById(id);
 
-        public IPlayer this[string name] => this.GetByName(name);
+        public IPlayer this[string name] => GetByName(name);
 
         public int Population
         {
-            get { return this.l.ReadLock(() => this.players.Count); }
+            get { return _l.ReadLock(() => _players.Count); }
         }
 
         public PlayerRegistry()
         {
-            this.idLookup = new Dictionary<int, CharacterKey>();
-            this.nameLookup = new Dictionary<string, CharacterKey>();
-            this.players = new Dictionary<CharacterKey, IPlayer>();
+            _idLookup = new Dictionary<int, CharacterKey>();
+            _nameLookup = new Dictionary<string, CharacterKey>();
+            _players = new Dictionary<CharacterKey, IPlayer>();
 
-            this.l = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            _l = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         }
 
         /// <inheritdoc />
         public void RegisterPlayer(IPlayer player)
         {
-            this.l.WriteLock(() => this.AddPlayer(player));
+            _l.WriteLock(() => AddPlayer(player));
         }
 
         /// <inheritdoc />
         public void UnregisterPlayer(IPlayer player)
         {
-            this.l.WriteLock(() => this.RemovePlayer(player));
+            _l.WriteLock(() => RemovePlayer(player));
         }
 
         /// <inheritdoc />
         public IPlayer GetById(int id)
         {
-            return this.l.ReadLock(() => this.GetPlayerOrNull(id));
+            return _l.ReadLock(() => GetPlayerOrNull(id));
         }
 
         /// <inheritdoc />
         public IPlayer GetByName(string name)
         {
-            return this.l.ReadLock(() => this.GetPlayerOrNull(name));
+            return _l.ReadLock(() => GetPlayerOrNull(name));
         }
 
         private IPlayer GetPlayerOrNull(int id)
         {
             CharacterKey key;
-            if (!this.idLookup.TryGetValue(id, out key))
+            if (!_idLookup.TryGetValue(id, out key))
             {
                 return default(IPlayer);
             }
             else
             {
-                return this.GetPlayerOrNull(key);
+                return GetPlayerOrNull(key);
             }
         }
 
         private IPlayer GetPlayerOrNull(string name)
         {
             CharacterKey key;
-            if (!this.nameLookup.TryGetValue(name, out key))
+            if (!_nameLookup.TryGetValue(name, out key))
             {
                 return default(IPlayer);
             }
             else
             {
-                return this.GetPlayerOrNull(key);
+                return GetPlayerOrNull(key);
             }
         }
 
         private IPlayer GetPlayerOrNull(CharacterKey key)
         {
             IPlayer player;
-            if (this.players.TryGetValue(key, out player))
+            if (_players.TryGetValue(key, out player))
             {
                 return player;
             }
@@ -104,26 +104,26 @@ namespace OpenStory.Server.Channel
         /// <inheritdoc />
         public IEnumerable<IPlayer> Scan(IEnumerable<CharacterKey> whitelist)
         {
-            return this.l.ReadLock(() => this.GetByKeys(whitelist).ToList());
+            return _l.ReadLock(() => GetByKeys(whitelist).ToList());
         }
 
         private IEnumerable<IPlayer> GetByKeys(IEnumerable<CharacterKey> ids)
         {
-            return ids.Select(this.GetPlayerOrNull).Where(player => player != null);
+            return ids.Select(GetPlayerOrNull).Where(player => player != null);
         }
 
         private void AddPlayer(IPlayer player)
         {
             var key = player.Key;
-            this.idLookup.Add(key.Id, key);
-            this.nameLookup.Add(key.Name, key);
+            _idLookup.Add(key.Id, key);
+            _nameLookup.Add(key.Name, key);
         }
 
         private void RemovePlayer(IPlayer player)
         {
             var key = player.Key;
-            this.idLookup.Remove(key.Id);
-            this.nameLookup.Remove(key.Name);
+            _idLookup.Remove(key.Id);
+            _nameLookup.Remove(key.Name);
         }
 
         #region Implementation of IDisposable
@@ -131,11 +131,11 @@ namespace OpenStory.Server.Channel
         /// <inheritdoc />
         public void Dispose()
         {
-            if (!this.isDisposed)
+            if (!_isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.l);
+                Misc.AssignNullAndDispose(ref _l);
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 

@@ -24,8 +24,8 @@ namespace OpenStory.Services.Contracts
         /// </summary>
         protected BootstrapperBase(IResolutionRoot resolutionRoot, ILogger logger)
         {
-            this.ResolutionRoot = resolutionRoot;
-            this.Logger = logger;
+            ResolutionRoot = resolutionRoot;
+            Logger = logger;
         }
 
         /// <inheritdoc/>
@@ -33,13 +33,13 @@ namespace OpenStory.Services.Contracts
         {
             try
             {
-                this.Logger.Info("Starting services...");
-                this.OnStarting();
-                this.Logger.Info("All services started.");
+                Logger.Info("Starting services...");
+                OnStarting();
+                Logger.Info("All services started.");
             }
             catch (Exception ex)
             {
-                this.Logger.Error(ex, "Encountered an error while bootstrapping.");
+                Logger.Error(ex, "Encountered an error while bootstrapping.");
             }
         }
 

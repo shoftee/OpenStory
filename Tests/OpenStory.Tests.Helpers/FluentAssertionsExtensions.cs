@@ -12,13 +12,13 @@ namespace OpenStory.Tests.Helpers
 
         public PointSAssertions(PointS subject)
         {
-            this.Subject = subject;
+            Subject = subject;
         }
 
         public AndConstraint<PointSAssertions> HaveComponents(short x, short y)
         {
-            this.Subject.X.Should().Be(x);
-            this.Subject.Y.Should().Be(y);
+            Subject.X.Should().Be(x);
+            Subject.Y.Should().Be(y);
 
             return new AndConstraint<PointSAssertions>(this);
         }

@@ -33,22 +33,22 @@ namespace OpenStory.Networking
         {
             add
             {
-                if (this.DataArrivedInternal != null)
+                if (DataArrivedInternal != null)
                 {
                     throw new InvalidOperationException(CommonStrings.EventMustHaveOnlyOneSubscriber);
                 }
 
-                this.DataArrivedInternal += value;
+                DataArrivedInternal += value;
             }
             remove
             {
-                this.DataArrivedInternal -= value;
+                DataArrivedInternal -= value;
             }
         }
 
         private event EventHandler<DataArrivedEventArgs> DataArrivedInternal;
 
-        private byte[] receiveBuffer;
+        private byte[] _receiveBuffer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiveDescriptor"/> class.
@@ -60,28 +60,28 @@ namespace OpenStory.Networking
         public ReceiveDescriptor(IDescriptorContainer container)
             : base(container)
         {
-            this.SocketArgs.Completed += this.EndReceiveAsynchronous;
+            SocketArgs.Completed += EndReceiveAsynchronous;
 
-            this.ClearBuffer();
+            ClearBuffer();
         }
 
         #region Buffer methods
 
         private void SetFreshBuffer()
         {
-            this.receiveBuffer = new byte[BufferSize];
-            this.ResetPositions();
+            _receiveBuffer = new byte[BufferSize];
+            ResetPositions();
         }
 
         private void ClearBuffer()
         {
-            this.receiveBuffer = null;
-            this.SocketArgs.SetBuffer(null, 0, 0);
+            _receiveBuffer = null;
+            SocketArgs.SetBuffer(null, 0, 0);
         }
 
         private void ResetPositions()
         {
-            this.SocketArgs.SetBuffer(this.receiveBuffer, 0, BufferSize);
+            SocketArgs.SetBuffer(_receiveBuffer, 0, BufferSize);
         }
 
         #endregion
@@ -96,19 +96,19 @@ namespace OpenStory.Networking
         /// </exception>
         public void StartReceive()
         {
-            if (this.DataArrivedInternal == null)
+            if (DataArrivedInternal == null)
             {
                 throw new InvalidOperationException(CommonStrings.ReceiveEventHasNoSubscribers);
             }
 
-            this.SetFreshBuffer();
+            SetFreshBuffer();
 
-            this.BeginReceive();
+            BeginReceive();
         }
 
         private void BeginReceive()
         {
-            if (!this.Container.IsActive)
+            if (!Container.IsActive)
             {
                 return;
             }
@@ -119,9 +119,9 @@ namespace OpenStory.Networking
                 // the operation completed synchronously.
                 // As long as that is happening, this loop will handle
                 // the data transfer synchronously as well.
-                while (!this.Container.Socket.ReceiveAsync(this.SocketArgs))
+                while (!Container.Socket.ReceiveAsync(SocketArgs))
                 {
-                    if (!this.EndReceiveSynchronous(this.SocketArgs))
+                    if (!EndReceiveSynchronous(SocketArgs))
                     {
                         break;
                     }
@@ -129,7 +129,7 @@ namespace OpenStory.Networking
             }
             catch (ObjectDisposedException)
             {
-                this.Container.Close(@"Socket disposed.");
+                Container.Close(@"Socket disposed.");
             }
         }
 
@@ -141,9 +141,9 @@ namespace OpenStory.Networking
         /// </remarks>
         private void EndReceiveAsynchronous(object sender, SocketAsyncEventArgs args)
         {
-            if (this.EndReceiveSynchronous(args))
+            if (EndReceiveSynchronous(args))
             {
-                this.BeginReceive();
+                BeginReceive();
             }
         }
 
@@ -154,7 +154,7 @@ namespace OpenStory.Networking
         /// <returns><see langword="true"/> if there is more data to send; otherwise, <see langword="false"/>.</returns>
         private bool EndReceiveSynchronous(SocketAsyncEventArgs args)
         {
-            return this.HandleTransferredData(args);
+            return HandleTransferredData(args);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace OpenStory.Networking
             int transferred = args.BytesTransferred;
             if (transferred <= 0)
             {
-                this.OnError(args);
+                OnError(args);
                 return false;
             }
 
@@ -178,7 +178,7 @@ namespace OpenStory.Networking
             Buffer.BlockCopy(args.Buffer, 0, dataCopy, 0, transferred);
             var eventArgs = new DataArrivedEventArgs(dataCopy);
 
-            this.DataArrivedInternal.Invoke(this, eventArgs);
+            DataArrivedInternal.Invoke(this, eventArgs);
 
             return true;
         }
@@ -188,8 +188,8 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         protected override void OnClosed()
         {
-            this.DataArrivedInternal = null;
-            this.ClearBuffer();
+            DataArrivedInternal = null;
+            ClearBuffer();
         }
     }
 }

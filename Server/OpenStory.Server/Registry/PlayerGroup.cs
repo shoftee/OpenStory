@@ -25,8 +25,8 @@ namespace OpenStory.Server.Registry
         /// <param name="id">The identifier for the new group.</param>
         protected PlayerGroup(int id)
         {
-            this.Id = id;
-            this.Members = new HashSet<TGroupMember>();
+            Id = id;
+            Members = new HashSet<TGroupMember>();
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace OpenStory.Server.Registry
         /// <param name="members">The initial member list of this group.</param>
         protected PlayerGroup(int id, IEnumerable<TGroupMember> members)
         {
-            this.Id = id;
-            this.Members = new HashSet<TGroupMember>(members);
+            Id = id;
+            Members = new HashSet<TGroupMember>(members);
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace OpenStory.Server.Registry
         /// <returns><see langword="true"/> if the member was added successfully; otherwise, <see langword="false"/>.</returns>
         public bool AddMember(TGroupMember member)
         {
-            var success = this.Members.Add(member);
+            var success = Members.Add(member);
             if (success)
             {
-                this.OnMemberAdded(member);
+                OnMemberAdded(member);
             }
 
             return success;
@@ -71,10 +71,10 @@ namespace OpenStory.Server.Registry
         /// <returns><see langword="true"/> if the member was successfully found and removed from the group; otherwise, <see langword="false"/>.</returns>
         public bool RemoveMember(TGroupMember member)
         {
-            var success = this.Members.Remove(member);
+            var success = Members.Remove(member);
             if (success)
             {
-                this.OnMemberRemoved(member);
+                OnMemberRemoved(member);
             }
 
             return success;

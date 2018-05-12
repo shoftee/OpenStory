@@ -9,8 +9,8 @@ namespace OpenStory.Networking
     /// </summary>
     internal abstract class DescriptorBase : IDisposable
     {
-        private bool isDisposed;
-        private SocketAsyncEventArgs socketArgs;
+        private bool _isDisposed;
+        private SocketAsyncEventArgs _socketArgs;
 
         /// <summary>
         /// Occurs when a connection error occurs.
@@ -25,7 +25,7 @@ namespace OpenStory.Networking
         /// <summary>
         /// Gets the <see cref="SocketAsyncEventArgs"/> object for this descriptor.
         /// </summary>
-        protected SocketAsyncEventArgs SocketArgs => this.socketArgs;
+        protected SocketAsyncEventArgs SocketArgs => _socketArgs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DescriptorBase"/> class.
@@ -41,10 +41,10 @@ namespace OpenStory.Networking
         {
             Guard.NotNull(() => container, container);
 
-            this.isDisposed = false;
+            _isDisposed = false;
 
-            this.socketArgs = new SocketAsyncEventArgs();
-            this.Container = container;
+            _socketArgs = new SocketAsyncEventArgs();
+            Container = container;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OpenStory.Networking
             {
                 var error = args.SocketError;
 
-                var errorHandler = this.Error;
+                var errorHandler = Error;
                 if (error != SocketError.Success && errorHandler != null)
                 {
                     errorHandler(this, new SocketErrorEventArgs(error));
@@ -77,7 +77,7 @@ namespace OpenStory.Networking
             }
             else
             {
-                this.Container.Close(@"Remote end closed the connection.");
+                Container.Close(@"Remote end closed the connection.");
             }
         }
 
@@ -86,8 +86,8 @@ namespace OpenStory.Networking
         /// </summary>
         public void Close()
         {
-            this.Error = null;
-            this.OnClosed();
+            Error = null;
+            OnClosed();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace OpenStory.Networking
         /// <inheritdoc />
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -110,13 +110,13 @@ namespace OpenStory.Networking
         /// <param name="disposing">Whether we are disposing or finalizing the instance.</param>
         protected virtual void Dispose(bool disposing)
         {
-            this.Close();
+            Close();
 
-            if (disposing && !this.isDisposed)
+            if (disposing && !_isDisposed)
             {
-                Misc.AssignNullAndDispose(ref this.socketArgs);
+                Misc.AssignNullAndDispose(ref _socketArgs);
 
-                this.isDisposed = true;
+                _isDisposed = true;
             }
         }
 

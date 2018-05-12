@@ -12,20 +12,20 @@ namespace OpenStory.Server.Accounts
     /// </summary>
     public class AccountServer : GameServerBase, IAccountService
     {
-        private readonly IClock clock;
+        private readonly IClock _clock;
 
-        private readonly Dictionary<int, ActiveAccount> activeAccounts;
-        private readonly AtomicInteger currentSessionId;
+        private readonly Dictionary<int, ActiveAccount> _activeAccounts;
+        private readonly AtomicInteger _currentSessionId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountServer"/> class.
         /// </summary>
         public AccountServer(IClock clock)
         {
-            this.clock = clock;
+            _clock = clock;
 
-            this.activeAccounts = new Dictionary<int, ActiveAccount>(256);
-            this.currentSessionId = new AtomicInteger(0);
+            _activeAccounts = new Dictionary<int, ActiveAccount>(256);
+            _currentSessionId = new AtomicInteger(0);
         }
 
         #region IAccountService Members
@@ -33,19 +33,19 @@ namespace OpenStory.Server.Accounts
         /// <inheritdoc />
         public bool TryRegisterSession(int accountId, out int sessionId)
         {
-            if (this.activeAccounts.ContainsKey(accountId))
+            if (_activeAccounts.ContainsKey(accountId))
             {
                 sessionId = 0;
                 return false;
             }
             else
             {
-                sessionId = this.currentSessionId.Increment();
+                sessionId = _currentSessionId.Increment();
 
                 var account = new ActiveAccount(accountId, sessionId);
-                account.KeepAlive(this.clock.Now);
+                account.KeepAlive(_clock.Now);
 
-                this.activeAccounts.Add(accountId, account);
+                _activeAccounts.Add(accountId, account);
                 return true;
             }
         }
@@ -54,7 +54,7 @@ namespace OpenStory.Server.Accounts
         public bool TryRegisterCharacter(int accountId, int characterId)
         {
             ActiveAccount account;
-            if (!this.activeAccounts.TryGetValue(accountId, out account))
+            if (!_activeAccounts.TryGetValue(accountId, out account))
             {
                 return false;
             }
@@ -74,13 +74,13 @@ namespace OpenStory.Server.Accounts
         public bool TryUnregisterSession(int accountId)
         {
             ActiveAccount account;
-            if (!this.activeAccounts.TryGetValue(accountId, out account))
+            if (!_activeAccounts.TryGetValue(accountId, out account))
             {
                 return false;
             }
             else
             {
-                this.activeAccounts.Remove(accountId);
+                _activeAccounts.Remove(accountId);
                 if (account.CharacterId.HasValue)
                 {
                     account.UnregisterCharacter();
@@ -94,14 +94,14 @@ namespace OpenStory.Server.Accounts
         public bool TryKeepAlive(int accountId, out TimeSpan lag)
         {
             ActiveAccount account;
-            if (!this.activeAccounts.TryGetValue(accountId, out account))
+            if (!_activeAccounts.TryGetValue(accountId, out account))
             {
                 lag = default(TimeSpan);
                 return false;
             }
             else
             {
-                lag = account.KeepAlive(this.clock.Now).ToTimeSpan();
+                lag = account.KeepAlive(_clock.Now).ToTimeSpan();
                 return true;
             }
         }
