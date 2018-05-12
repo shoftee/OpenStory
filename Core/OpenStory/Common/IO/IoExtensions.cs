@@ -8,18 +8,8 @@ namespace OpenStory.Common.IO
     /// </summary>
     public static class IoExtensions
     {
-        // You may use these as samples for writing custom readers/writers. 
+        // You may use these as samples for writing custom readers/writers.
         // Just write an extension method to PacketReader or PacketBuilder (or one of their interfaces like below) and it works! Magic!
-
-        /// <summary>
-        /// Writes a <see cref="ByteBuffer"/>.
-        /// </summary>
-        /// <param name="builder">The <see cref="IPacketBuilder">packet builder</see> to use.</param>
-        /// <param name="buffer">The <see cref="ByteBuffer"/> to write.</param>
-        public static void WriteBuffer(this IPacketBuilder builder, ByteBuffer buffer)
-        {
-            buffer.Write(builder);
-        }
 
         /// <summary>
         /// Reads a <see cref="PointS"/>.
@@ -92,7 +82,7 @@ namespace OpenStory.Common.IO
         public static void WriteTimestamp(this IPacketBuilder builder, DateTimeOffset instant)
         {
             Guard.NotNull(() => builder, builder);
-            
+
             var timestamp = instant.ToFileTime();
 
             builder.WriteInt64(timestamp);
@@ -109,7 +99,7 @@ namespace OpenStory.Common.IO
             where TEnum : struct
         {
             Guard.NotNull(() => reader, reader);
-            
+
             return reader.ReadByte().ToEnumValue<TEnum>();
         }
 
@@ -124,7 +114,7 @@ namespace OpenStory.Common.IO
         public static void WriteByte(this IPacketBuilder builder, Enum enumValue)
         {
             Guard.NotNull(() => builder, builder);
-            
+
             builder.WriteByte(enumValue.ToPacketValue());
         }
 
@@ -139,7 +129,7 @@ namespace OpenStory.Common.IO
         public static void WriteInt32(this IPacketBuilder builder, Enum enumValue)
         {
             Guard.NotNull(() => builder, builder);
-            
+
             builder.WriteInt32(enumValue.ToPacketValue());
         }
     }

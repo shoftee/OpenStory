@@ -57,9 +57,6 @@
     <Compile Include="Common\Game\AuthOperationType.cs" />
     <Compile Include="Common\Game\PinRequestType.cs" />
     <Compile Include="Common\Game\PinResponseType.cs" />
-    <Compile Include="Common\IO\ByteBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Common\IO\IPacketReader.cs" />
     <Compile Include="Common\Tools\ArrayExtensions.cs" />
     <Compile Include="Common\Tools\AtomicBoolean.cs" />
